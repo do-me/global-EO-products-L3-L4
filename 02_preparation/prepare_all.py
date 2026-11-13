@@ -262,7 +262,7 @@ EXPLICIT_L0_L1_L2_TOKEN_RE = re.compile(
 )
 
 SWATH_L1_L2_ID_PATTERNS = re.compile(
-    r"(^|:|/|_|-)(l0b?|l1|l1c|l1b|l1a|l1d|l1g|l1r|l1t|l1gt|l1gst|l2|l2a|l2b|l2c|l2g|l2p|l2t|level-1|level-2|"
+    r"(^|:|/|_|-)(l0b?|l1|l1c|l1b|l1a|l1d|l1g|l1r|l1t|l1gt|l1gst|l2|l2a|l2b|l2c|l2g|l2p|l2t|level[-_]1|level[-_]2|"
     r"ol_1_efr|ol_1_err|ol_2_wfr|ol_2_wrr|sl_1_rbt|sl_2_wst|sl_2_lst|sr_1_sra|sr_2_wat|sr_2_lan|"
     r"s1_sar_grd|s1_sar_slc|s1_sar_raw|s2_msi_l1c|s2_msi_l2a|s5p_l1b|s5p_l2|l2__no2|l2__o3|l2__ch4|l2__co_|l2__so2|l2__hcho|"
     r"l2__aer|l2__cloud|l2__np_bd|amsul1|avhrrl1|mhsl1|hirsl1|iasil2|iassnd02|"
@@ -291,18 +291,33 @@ AERIAL_ORTHOPHOTO_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# Multi-temporal composites or combined L2/L3 collections that mention L1C/L2 in their provenance
+# Multi-temporal composites, gridded syntheses, or L2-tagged CDRs that represent spatially gridded/composited EO products
 COMPOSITE_OR_L3_OVERRIDE_PATTERNS = re.compile(
-    r"\b(level[- ]?[34][abc]?\b|l3[abc]?\b|l4[abc]?\b|l2 and l3\b|l2/3\b|"
+    r"(\b(?:level[- ]?[34][abc]?\b|l3[abc]?\b|l4[abc]?\b|l2 and l3\b|l2/3\b|"
     r"global mosaic|cloudless mosaic|monthly mosaic|quarterly mosaic|annual mosaic|"
-    r"cloud-free annual composite|pixel based image composite|8-day.*composite|32-day.*composite|"
-    r"annual.*composite|harmonized landsat sentinel|hlsl30|hlss30)\b",
+    r"cloud-free annual composites?|s2mosaic|pixel based image composite|"
+    r"8-day.*composite|32-day.*composite|annual.*composite|"
+    r"harmonized landsat sentinel|hlsl30|hlss30|"
+    r"daily synthesis|10-daily synthesis|1-day surface reflectance|10-day surface reflectance|"
+    r"l2 statistics|gridded user friendly product|gravity field models and grids|"
+    r"ghrsst level 2p gridded|data cube.*lcf \d+ days|"
+    r"daily surface albedo|gsa level 2|10-day surface albedo|"
+    r"fire radiative power grid|gridded fire radiative power|"
+    r"daily shortwave solar irradiance|daily downward longwave irradiance|daily surface solar irradiance|"
+    r"reference evapotranspiration|normalized difference vegetation index cdr|"
+    r"downward surface solar radiation.*daily mean)\b|"
+    r"(?:syn-2-v10|syn-2-vg1|s3-syn-vgt|sentinel-3-synergy-v10|l2c-ndvi|l2-smos-sss-daily|gomos_ufp_gridded|goce_global_gravity_field_models_and_grids))",
     re.IGNORECASE,
 )
 
-# Non-sensor domain uses of "Level 1/2" (FAO WaPOR spatial scale tiers, GADM/NUTS admin levels, IUCN habitat hierarchy)
+SWATH_OR_UNGRIDDED_GUARD_RE = re.compile(
+    r"\b(swath grid|swath level|on the satellite swath|along[- ]track|ungridded|/pixel\b|radiance|bending angle|sounder|sounding profiles?)\b",
+    re.IGNORECASE,
+)
+
+# Non-sensor domain uses of "Level 1/2" (FAO WaPOR spatial scale tiers, TransCom 3 project tiers, GADM/NUTS admin levels, IUCN hierarchy)
 NON_SENSOR_HIERARCHY_PATTERNS = re.compile(
-    r"(^FAO_GISMGR:WAPOR|administrative level [0123]|global administrative unit|iucn_habitat|water resources zones: l[12]|river water level|lake water level)",
+    r"(^FAO_GISMGR:WAPOR|^FAO/WAPOR/|transcom 3:|administrative level [0123]|global administrative unit|iucn_habitat|water resources zones: l[12]|river water level|lake water level)",
     re.IGNORECASE,
 )
 
@@ -321,6 +336,12 @@ def check_l3_l4_eligibility(
     rid = (raw_id or "").strip()
     ttl = (title or "").strip()
     lvl = (level_raw or "").strip()
+    combined_id_title = f"{rid} {ttl}"
+    is_non_sensor_hier = bool(NON_SENSOR_HIERARCHY_PATTERNS.search(combined_id_title))
+    is_composite_override = bool(
+        COMPOSITE_OR_L3_OVERRIDE_PATTERNS.search(combined_id_title)
+        and not SWATH_OR_UNGRIDDED_GUARD_RE.search(combined_id_title)
+    )
 
     # 1. Check explicit processing_level_raw field
     if lvl:
@@ -332,8 +353,15 @@ def check_l3_l4_eligibility(
             for t in lvl_tokens
         )
         has_only_l0_l1_l2 = all(EXPLICIT_L0_L1_L2_TOKEN_RE.match(t) for t in lvl_tokens) and len(lvl_tokens) > 0
+        has_l0_or_l1_or_vis = any(
+            re.match(r"^(?:visuali[sz]ation|(?:level[- ]?|l)?(?:0|1|1\.5)(?:[abcdgrt]+|\.\d+)?)$", t)
+            for t in lvl_tokens
+        )
         if has_only_l0_l1_l2 and not has_l3_l4:
-            return False, f"explicit_non_l3_l4_level:{lvl}"
+            # Allow explicit L2-only records when overridden by non-sensor hierarchy or verified gridded/composited CDR patterns
+            # Never override explicit L0/L1/L1.5/Visualisation radiances or quicklooks.
+            if has_l0_or_l1_or_vis or (not is_non_sensor_hier and not is_composite_override):
+                return False, f"explicit_non_l3_l4_level:{lvl}"
 
     # 2. Check sandbox/test placeholder records and pure in-situ discrete station/buoy/gauge/borehole logs or Eurostat tables
     if re.match(r"^this is (a )?test$", ttl, re.IGNORECASE):
@@ -355,8 +383,7 @@ def check_l3_l4_eligibility(
         return False, "aerial_orthophoto_imagery"
 
     # 4. Check swath/granule L1/L2 IDs or titles unless it is a non-sensor hierarchy or multi-temporal L3 composite
-    combined_id_title = f"{rid} {ttl}"
-    if not NON_SENSOR_HIERARCHY_PATTERNS.search(combined_id_title) and not COMPOSITE_OR_L3_OVERRIDE_PATTERNS.search(combined_id_title):
+    if not is_non_sensor_hier and not is_composite_override:
         if SWATH_L1_L2_ID_PATTERNS.search(rid):
             return False, "swath_or_tile_l1_l2_id"
         if SWATH_L1_L2_TITLE_PATTERNS.search(ttl):
@@ -368,6 +395,59 @@ def check_l3_l4_eligibility(
 # ---------------------------------------------------------------------------
 # Source-Specific Parsers (28 product sources + 1 taxonomy source)
 # ---------------------------------------------------------------------------
+def _extract_geojson_bbox(geom_obj: Any, primary_only: bool = False) -> list[float] | None:
+    """Recursively extracts a validated WGS84 [west, south, east, north] bbox from GeoJSON geometries."""
+    if not geom_obj:
+        return None
+    if primary_only and isinstance(geom_obj, list) and len(geom_obj) > 1:
+        sub_boxes = [b for b in (_extract_geojson_bbox(g, primary_only=False) for g in geom_obj) if b is not None]
+        if sub_boxes:
+            eu_boxes = [b for b in sub_boxes if b[0] >= -46.0 and b[1] >= 24.0 and b[2] <= 70.0 and b[3] <= 85.0]
+            target = eu_boxes if eu_boxes else sub_boxes
+            return [
+                round(min(b[0] for b in target), 6),
+                round(min(b[1] for b in target), 6),
+                round(max(b[2] for b in target), 6),
+                round(max(b[3] for b in target), 6),
+            ]
+        return None
+    xs: list[float] = []
+    ys: list[float] = []
+
+    def _walk(c: Any) -> None:
+        if isinstance(c, (list, tuple)):
+            if len(c) >= 2 and isinstance(c[0], (int, float)) and isinstance(c[1], (int, float)) and not isinstance(c[0], bool) and not isinstance(c[1], bool):
+                xs.append(float(c[0]))
+                ys.append(float(c[1]))
+            else:
+                for item in c:
+                    _walk(item)
+        elif isinstance(c, dict) and "coordinates" in c:
+            _walk(c["coordinates"])
+
+    _walk(geom_obj)
+    if xs and ys:
+        w, s, e, n = min(xs), min(ys), max(xs), max(ys)
+        if -180.0 <= w <= 180.0 and -90.0 <= s <= 90.0 and -180.0 <= e <= 180.0 and -90.0 <= n <= 90.0 and s <= n:
+            return [round(w, 6), round(s, 6), round(e, 6), round(n, 6)]
+    return None
+
+
+def _split_date_range_str(val: Any) -> tuple[str | None, str | None]:
+    """Splits free-text date spans (e.g. '1950-2100', '1901-present') into (start, end)."""
+    s = clean_str(val)
+    if not s:
+        return None, None
+    years = [int(y) for y in re.findall(r"\b(19\d\d|20[0-3]\d|2100)\b", s)]
+    if not years:
+        return None, None
+    has_ongoing = bool(re.search(r"\b(present|ongoing|current|now|near[- ]real[- ]time|nrt)\b", s, re.IGNORECASE))
+    if len(years) == 1:
+        y0 = str(years[0])
+        return y0, None if has_ongoing else y0
+    return str(min(years)), None if has_ongoing else str(max(years))
+
+
 def parse_01_cmems() -> list[dict[str, Any]]:
     rows = []
     for p in sorted((RAW_DIR / "01_copernicus_cmems/data").glob("*.jsonl")):
@@ -377,15 +457,33 @@ def parse_01_cmems() -> list[dict[str, Any]]:
                 pm = d.get("providerMetadata", {}) or {}
                 ext = d.get("geoExtent", {}) or {}
                 bbox = None
-                if isinstance(ext, dict) and "bbox" in ext and isinstance(ext["bbox"], list) and len(ext["bbox"]) == 4:
+                sb = d.get("stacOrCswBbox")
+                if isinstance(sb, list) and len(sb) == 4:
+                    try:
+                        w, s, e, n = float(sb[0]), float(sb[1]), float(sb[2]), float(sb[3])
+                        if -180.0 <= w <= 180.0 and -90.0 <= s <= 90.0 and -180.0 <= e <= 180.0 and -90.0 <= n <= 90.0 and s <= n:
+                            bbox = [w, s, e, n]
+                    except Exception:
+                        bbox = None
+                if bbox is None and isinstance(ext, dict) and "bbox" in ext and isinstance(ext["bbox"], list) and len(ext["bbox"]) == 4:
                     bbox = [float(x) for x in ext["bbox"]]
+                if bbox is None:
+                    bbox = _extract_geojson_bbox(ext)
+                gr = d.get("geoResolution")
+                spat_raw = None
+                if isinstance(gr, dict):
+                    rc = gr.get("row") or gr.get("column") or {}
+                    if isinstance(rc, dict) and rc.get("magnitude") is not None:
+                        spat_raw = clean_str(f"{rc['magnitude']} {rc.get('units') or ''}")
+                if not spat_raw and not isinstance(gr, dict):
+                    spat_raw = clean_str(gr)
                 rows.append({
                     "source_id": "01_copernicus_cmems",
                     "raw_id": clean_str(d.get("id")),
                     "title": clean_str(d.get("title")),
                     "description": clean_str(d.get("abstract")),
                     "processing_level_raw": clean_str(d.get("processingLevel") or pm.get("processingLevel")),
-                    "spatial_resolution_raw": clean_str(d.get("geoResolution")),
+                    "spatial_resolution_raw": spat_raw,
                     "temporal_resolution_raw": clean_str(d.get("tempResolutions")),
                     "temporal_start_raw": clean_str(d.get("tempExtentBegin")),
                     "temporal_end_raw": clean_str(d.get("tempExtentEnd")),
@@ -408,13 +506,28 @@ def parse_02_clms() -> list[dict[str, Any]]:
         for line in f:
             d = json.loads(line)
             bbox = None
-            gbox = d.get("geographicBoundingBox", [])
-            if isinstance(gbox, list) and gbox and isinstance(gbox[0], dict):
-                b0 = gbox[0]
-                try:
-                    bbox = [float(b0["west"]), float(b0["south"]), float(b0["east"]), float(b0["north"])]
-                except Exception:
-                    bbox = None
+            gbox = d.get("geographicBoundingBox")
+            items = gbox.get("items") if isinstance(gbox, dict) else (gbox if isinstance(gbox, list) else None)
+            if isinstance(items, list) and items:
+                valid_boxes: list[list[float]] = []
+                for b_it in items:
+                    if not isinstance(b_it, dict):
+                        continue
+                    try:
+                        w, s, e, n = float(b_it["west"]), float(b_it["south"]), float(b_it["east"]), float(b_it["north"])
+                        if -180.0 <= w <= 180.0 and -90.0 <= s <= 90.0 and -180.0 <= e <= 180.0 and -90.0 <= n <= 90.0 and s <= n:
+                            valid_boxes.append([w, s, e, n])
+                    except Exception:
+                        continue
+                if valid_boxes:
+                    eu_boxes = [b for b in valid_boxes if b[0] >= -46.0 and b[1] >= 24.0 and b[2] <= 70.0 and b[3] <= 85.0]
+                    target_boxes = eu_boxes if eu_boxes else valid_boxes
+                    bbox = [
+                        min(b[0] for b in target_boxes),
+                        min(b[1] for b in target_boxes),
+                        max(b[2] for b in target_boxes),
+                        max(b[3] for b in target_boxes),
+                    ]
             spat_res = clean_str(
                 d.get("characteristics_spatial_resolution")
                 or d.get("qualitySpatialResolution_line")
@@ -429,6 +542,10 @@ def parse_02_clms() -> list[dict[str, Any]]:
                     t_start = years[0]
                     if "present" not in temp_ext.lower() and len(years) > 1:
                         t_end = years[-1]
+            if any(k in f"{temp_ext or ''} {d.get('title') or ''} {t_end or ''}".lower() for k in ("present", "ongoing")):
+                t_end = None
+            if t_start and t_end and str(t_start)[:10] > str(t_end)[:10]:
+                t_end = None
             platform = clean_str(
                 [d.get("characteristics_platform"), d.get("characteristics_sensor"), d.get("platform"), d.get("sensor")]
             )
@@ -593,6 +710,8 @@ def parse_07_jrc() -> tuple[list[dict[str, Any]], int]:
                 if isinstance(temp, list) and temp and isinstance(temp[0], dict):
                     t_start = clean_str(temp[0].get("gte") or temp[0].get("start_date"))
                     t_end = clean_str(temp[0].get("lte") or temp[0].get("end_date"))
+                if t_start and t_end and str(t_start)[:10] > str(t_end)[:10]:
+                    t_end = None
 
                 accrual = clean_str(d.get("accrual_periodicity"))
                 doi = None
@@ -611,7 +730,7 @@ def parse_07_jrc() -> tuple[list[dict[str, Any]], int]:
                     "temporal_start_raw": t_start,
                     "temporal_end_raw": t_end,
                     "update_frequency_raw": accrual,
-                    "bbox_raw": None,
+                    "bbox_raw": _extract_geojson_bbox(d.get("spatial")),
                     "producing_org_raw": "European Commission Joint Research Centre (EC JRC)",
                     "platform_sensor_raw": None,
                     "doi_raw": doi,
@@ -676,12 +795,12 @@ def parse_09_wekeo() -> list[dict[str, Any]]:
                     except Exception:
                         bbox = None
                 kws = md.get("keywords") or []
-                lvl = None
+                lvls: list[str] = []
                 for k in (kws if isinstance(kws, list) else []):
                     ks = str(k).lower()
                     if ks in ("level-3", "level-4", "level-2", "level-1", "level-0", "l3", "l4", "l2", "l1"):
-                        lvl = str(k)
-                        break
+                        lvls.append(str(k))
+                lvl = "; ".join(dict.fromkeys(lvls)) if lvls else None
                 rows.append({
                     "source_id": "09_wekeo_dias",
                     "raw_id": did,
@@ -723,6 +842,35 @@ def parse_11_eea_emodnet() -> list[dict[str, Any]]:
                 res_dist = clean_str(d.get("resolutionDistance"))
                 t_start = clean_str(d.get("tempExtentBegin"))
                 t_end = clean_str(d.get("tempExtentEnd"))
+                if not t_start:
+                    rtd = d.get("resourceTemporalExtentDetails")
+                    if isinstance(rtd, list):
+                        starts: list[str] = []
+                        ends: list[str] = []
+                        ongoing = False
+                        for it in rtd:
+                            if not isinstance(it, dict):
+                                continue
+                            st_d = it.get("start")
+                            en_d = it.get("end")
+                            st = st_d.get("date") if isinstance(st_d, dict) else None
+                            en = en_d.get("date") if isinstance(en_d, dict) else None
+                            indet = str((en_d or {}).get("indeterminatePosition") or "").lower() if isinstance(en_d, dict) else ""
+                            if indet in ("now", "ongoing") or (st and not en):
+                                ongoing = True
+                            if st and re.match(r"^\d{4}", str(st)):
+                                starts.append(str(st)[:10])
+                            if en and re.match(r"^\d{4}", str(en)):
+                                ends.append(str(en)[:10])
+                        if starts:
+                            t_start = min(starts)
+                        if not ongoing and ends:
+                            t_end = max(ends)
+                        elif ongoing:
+                            t_end = None
+                if t_start and t_end and str(t_start)[:10] > str(t_end)[:10]:
+                    t_end = None
+                bbox = _extract_geojson_bbox(d.get("geom"), primary_only=(fname == "eea_sdi_datasets.jsonl"))
                 freq = clean_str(d.get("cl_maintenanceAndUpdateFrequency"))
                 org = clean_str(d.get("OrgObject") or d.get("custodianOrgForResourceObject")) or default_org
                 doi = clean_str(d.get("resourceIdentifier"))
@@ -737,7 +885,7 @@ def parse_11_eea_emodnet() -> list[dict[str, Any]]:
                     "temporal_start_raw": t_start,
                     "temporal_end_raw": t_end,
                     "update_frequency_raw": freq,
-                    "bbox_raw": None,
+                    "bbox_raw": bbox,
                     "producing_org_raw": org,
                     "platform_sensor_raw": clean_str(d.get("cl_spatialRepresentationType")),
                     "doi_raw": doi,
@@ -890,7 +1038,13 @@ def parse_12_wgclimate_ecv() -> list[dict[str, Any]]:
             "temporal_start_raw": clean_str(r.get("start_date")),
             "temporal_end_raw": clean_str(r.get("end_date")),
             "update_frequency_raw": existence,
-            "bbox_raw": [-180.0, -90.0, 180.0, 90.0] if "global" in str(r.get("geocoverage", "")).lower() else None,
+            "bbox_raw": (
+                [float(x) for x in r["geocoverage"]["bbox"]]
+                if isinstance(r.get("geocoverage"), dict)
+                and isinstance(r["geocoverage"].get("bbox"), list)
+                and len(r["geocoverage"]["bbox"]) == 4
+                else ([-180.0, -90.0, 180.0, 90.0] if "global" in str(r.get("geocoverage", "")).lower() else None)
+            ),
             "producing_org_raw": org_str,
             "platform_sensor_raw": plat_str,
             "doi_raw": doi_clean,
@@ -961,15 +1115,11 @@ def parse_17_eumetsat() -> list[dict[str, Any]]:
             s = hit.get("_source", {})
             te = s.get("temporalExtent", {}) or {}
             loc = s.get("location", {}) or {}
-            bbox = None
-            coords = loc.get("coordinates")
-            if isinstance(coords, list) and coords and isinstance(coords[0], list) and len(coords[0]) >= 4:
-                try:
-                    xs = [pt[0] for pt in coords[0]]
-                    ys = [pt[1] for pt in coords[0]]
-                    bbox = [min(xs), min(ys), max(xs), max(ys)]
-                except Exception:
-                    bbox = None
+            bbox = _extract_geojson_bbox(loc)
+            t_start = clean_str(te.get("begin") or te.get("beginDate"))
+            t_end = clean_str((te.get("end") or te.get("endDate")) if not te.get("isOngoing") else None)
+            if t_start and t_end and str(t_start)[:10] > str(t_end)[:10]:
+                t_end = None
             rows.append({
                 "source_id": "17_eumetsat_product_navigator",
                 "raw_id": clean_str(s.get("id") or hit.get("_id")),
@@ -978,8 +1128,8 @@ def parse_17_eumetsat() -> list[dict[str, Any]]:
                 "processing_level_raw": clean_str(s.get("processingLevels")),
                 "spatial_resolution_raw": clean_str(s.get("spatialResolutions")),
                 "temporal_resolution_raw": None,
-                "temporal_start_raw": clean_str(te.get("beginDate")),
-                "temporal_end_raw": clean_str(te.get("endDate") if not te.get("isOngoing") else None),
+                "temporal_start_raw": t_start,
+                "temporal_end_raw": t_end,
                 "update_frequency_raw": clean_str(s.get("productStatus")),
                 "bbox_raw": bbox,
                 "producing_org_raw": clean_str(s.get("originator") or s.get("distributors") or "EUMETSAT"),
@@ -994,45 +1144,54 @@ def parse_17_eumetsat() -> list[dict[str, Any]]:
 
 def parse_20_noaa() -> list[dict[str, Any]]:
     rows = []
-    p = RAW_DIR / "20_noaa_onestop/data/noaa_onestop_collections.jsonl"
-    with p.open(encoding="utf-8") as f:
-        for line in f:
-            item = json.loads(line)
-            a = item.get("attributes", {}) or {}
-            sb = a.get("spatialBounding", {}) or {}
-            bbox = None
-            coords = sb.get("coordinates")
-            if isinstance(coords, list) and coords and isinstance(coords[0], list) and len(coords[0]) >= 4:
-                try:
-                    xs = [pt[0] for pt in coords[0]]
-                    ys = [pt[1] for pt in coords[0]]
-                    bbox = [min(xs), min(ys), max(xs), max(ys)]
-                except Exception:
-                    bbox = None
-            url = None
-            for lk in (a.get("links") or []):
-                if isinstance(lk, dict) and lk.get("linkUrl"):
-                    url = clean_str(lk.get("linkUrl"))
-                    break
-            rows.append({
-                "source_id": "20_noaa_onestop",
-                "raw_id": clean_str(item.get("id") or a.get("fileIdentifier")),
-                "title": clean_str(a.get("title")),
-                "description": clean_str(a.get("description")),
-                "processing_level_raw": clean_str(a.get("dataProcessingLevel")),
-                "spatial_resolution_raw": None,
-                "temporal_resolution_raw": clean_str(a.get("maintenanceFrequency")),
-                "temporal_start_raw": clean_str(a.get("beginDate") or a.get("beginYear")),
-                "temporal_end_raw": clean_str(a.get("endDate") or a.get("endYear")),
-                "update_frequency_raw": clean_str(a.get("maintenanceFrequency")),
-                "bbox_raw": bbox,
-                "producing_org_raw": "NOAA (NESDIS / NCEI / STAR)",
-                "platform_sensor_raw": clean_str(a.get("platforms") or a.get("instruments")),
-                "doi_raw": clean_str(a.get("doi")),
-                "license_raw": clean_str(a.get("useLimitation") or "U.S. Government Public Domain"),
-                "landing_url_raw": url,
-                "keywords_raw": clean_str(a.get("keywords") or a.get("gcmdScienceServices")),
-            })
+    seen_ids: set[str] = set()
+    files = sorted((RAW_DIR / "20_noaa_onestop/data").glob("noaa_onestop_collections*.jsonl"))
+    for p in files:
+        with p.open(encoding="utf-8") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                item = json.loads(line)
+                a = item.get("attributes", {}) or {}
+                rid = clean_str(item.get("id") or a.get("fileIdentifier"))
+                if rid and rid in seen_ids:
+                    continue
+                if rid:
+                    seen_ids.add(rid)
+                sb = a.get("spatialBounding", {}) or {}
+                bbox = None
+                coords = sb.get("coordinates")
+                if isinstance(coords, list) and coords and isinstance(coords[0], list) and len(coords[0]) >= 4:
+                    try:
+                        xs = [pt[0] for pt in coords[0]]
+                        ys = [pt[1] for pt in coords[0]]
+                        bbox = [min(xs), min(ys), max(xs), max(ys)]
+                    except Exception:
+                        bbox = None
+                url = None
+                for lk in (a.get("links") or []):
+                    if isinstance(lk, dict) and lk.get("linkUrl"):
+                        url = clean_str(lk.get("linkUrl"))
+                        break
+                rows.append({
+                    "source_id": "20_noaa_onestop",
+                    "raw_id": rid,
+                    "title": clean_str(a.get("title")),
+                    "description": clean_str(a.get("description")),
+                    "processing_level_raw": clean_str(a.get("dataProcessingLevel")),
+                    "spatial_resolution_raw": None,
+                    "temporal_resolution_raw": clean_str(a.get("maintenanceFrequency")),
+                    "temporal_start_raw": clean_str(a.get("beginDate") or a.get("beginYear")),
+                    "temporal_end_raw": clean_str(a.get("endDate") or a.get("endYear")),
+                    "update_frequency_raw": clean_str(a.get("maintenanceFrequency")),
+                    "bbox_raw": bbox,
+                    "producing_org_raw": "NOAA (NESDIS / NCEI / STAR)",
+                    "platform_sensor_raw": clean_str(a.get("platforms") or a.get("instruments")),
+                    "doi_raw": clean_str(a.get("doi")),
+                    "license_raw": clean_str(a.get("useLimitation") or "U.S. Government Public Domain"),
+                    "landing_url_raw": url,
+                    "keywords_raw": clean_str(a.get("keywords") or a.get("gcmdScienceServices")),
+                })
     return rows
 
 
@@ -1045,6 +1204,7 @@ def parse_23_wri() -> tuple[list[dict[str, Any]], int]:
     for d in gfw_data:
         meta = d.get("metadata", {}) or {}
         title = clean_str(meta.get("title") or d.get("dataset"))
+        t_start, t_end = _split_date_range_str(meta.get("content_date"))
         rows.append({
             "source_id": "23_wri_gfw_and_resourcewatch",
             "raw_id": f"GFW:{d.get('dataset')}",
@@ -1053,8 +1213,8 @@ def parse_23_wri() -> tuple[list[dict[str, Any]], int]:
             "processing_level_raw": None,
             "spatial_resolution_raw": clean_str(meta.get("resolution")),
             "temporal_resolution_raw": clean_str(meta.get("update_frequency")),
-            "temporal_start_raw": clean_str(meta.get("content_date")),
-            "temporal_end_raw": None,
+            "temporal_start_raw": t_start,
+            "temporal_end_raw": t_end,
             "update_frequency_raw": clean_str(meta.get("update_frequency")),
             "bbox_raw": None,
             "producing_org_raw": clean_str(meta.get("source")) or "World Resources Institute (Global Forest Watch / UMD GLAD)",
@@ -1077,6 +1237,7 @@ def parse_23_wri() -> tuple[list[dict[str, Any]], int]:
             meta_list = attr.get("metadata") or []
             m0 = meta_list[0].get("attributes", {}) if meta_list and isinstance(meta_list[0], dict) else {}
             info = m0.get("info", {}) if isinstance(m0.get("info"), dict) else {}
+            t_start, t_end = _split_date_range_str(info.get("date_of_content"))
             rows.append({
                 "source_id": "23_wri_gfw_and_resourcewatch",
                 "raw_id": f"RW:{item.get('id')}",
@@ -1085,8 +1246,8 @@ def parse_23_wri() -> tuple[list[dict[str, Any]], int]:
                 "processing_level_raw": None,
                 "spatial_resolution_raw": clean_str(info.get("spatial_resolution")),
                 "temporal_resolution_raw": clean_str(info.get("frequency_of_updates")),
-                "temporal_start_raw": clean_str(info.get("date_of_content")),
-                "temporal_end_raw": None,
+                "temporal_start_raw": t_start,
+                "temporal_end_raw": t_end,
                 "update_frequency_raw": clean_str(info.get("frequency_of_updates")),
                 "bbox_raw": None,
                 "producing_org_raw": clean_str(info.get("organization") or m0.get("source")) or "World Resources Institute (Resource Watch)",
@@ -1145,7 +1306,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
                 "temporal_resolution_raw": None,
-                "temporal_start_raw": clean_str(md.get("publication_date")),
+                "temporal_start_raw": None,  # Zenodo deposit publication_date is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
                 "bbox_raw": None,
@@ -1155,7 +1316,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "doi_raw": clean_str(h.get("doi") or md.get("doi")),
                 "license_raw": clean_str((md.get("license") or {}).get("id") if isinstance(md.get("license"), dict) else md.get("license")),
                 "landing_url_raw": clean_str((h.get("links") or {}).get("html")),
-                "keywords_raw": clean_str(md.get("keywords") or h.get("_matched_benchmark_query")),
+                "keywords_raw": clean_str(md.get("keywords")),
             })
 
     # 3. GFZ Data Services (DataCite) for Horizon 2020 G3P Groundwater Products
@@ -1178,7 +1339,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
                 "temporal_resolution_raw": None,
-                "temporal_start_raw": clean_str(attr.get("publicationYear")),
+                "temporal_start_raw": None,  # DataCite publicationYear is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
                 "bbox_raw": None,
@@ -1239,11 +1400,16 @@ def main() -> None:
     source_raw_batches: list[tuple[str, list[dict[str, Any]], int, int]] = []
 
     # 01 - 06
-    source_raw_batches.append(("01_copernicus_cmems", parse_01_cmems(), 307, 0))
-    source_raw_batches.append(("02_copernicus_clms", parse_02_clms(), 270, 0))
-    source_raw_batches.append(("03_copernicus_c3s_cds", parse_cads_stac("03_copernicus_c3s_cds", "c3s_cds_datasets.json", "ECMWF (Copernicus Climate Change Service - C3S)"), 144, 0))
-    source_raw_batches.append(("04_copernicus_cams_ads", parse_cads_stac("04_copernicus_cams_ads", "cams_ads_datasets.json", "ECMWF (Copernicus Atmosphere Monitoring Service - CAMS)"), 16, 0))
-    source_raw_batches.append(("05_copernicus_cems_ewds", parse_cads_stac("05_copernicus_cems_ewds", "cems_ewds_datasets.json", "ECMWF / EC JRC (Copernicus Emergency Management Service - CEMS)"), 12, 0))
+    cmems_rows = parse_01_cmems()
+    clms_rows = parse_02_clms()
+    c3s_rows = parse_cads_stac("03_copernicus_c3s_cds", "c3s_cds_datasets.json", "ECMWF (Copernicus Climate Change Service - C3S)")
+    cams_rows = parse_cads_stac("04_copernicus_cams_ads", "cams_ads_datasets.json", "ECMWF (Copernicus Atmosphere Monitoring Service - CAMS)")
+    cems_rows = parse_cads_stac("05_copernicus_cems_ewds", "cems_ewds_datasets.json", "ECMWF / EC JRC (Copernicus Emergency Management Service - CEMS)")
+    source_raw_batches.append(("01_copernicus_cmems", cmems_rows, len(cmems_rows), 0))
+    source_raw_batches.append(("02_copernicus_clms", clms_rows, len(clms_rows), 0))
+    source_raw_batches.append(("03_copernicus_c3s_cds", c3s_rows, len(c3s_rows), 0))
+    source_raw_batches.append(("04_copernicus_cams_ads", cams_rows, len(cams_rows), 0))
+    source_raw_batches.append(("05_copernicus_cems_ewds", cems_rows, len(cems_rows), 0))
     eodc_cols = json.loads((RAW_DIR / "06_copernicus_cems_gfm_eodc/data/eodc_stac_collections.json").read_text())["collections"]
     source_raw_batches.append(("06_copernicus_cems_gfm_eodc", parse_generic_stac_collections("06_copernicus_cems_gfm_eodc", eodc_cols, "EODC / Copernicus Emergency Management Service (CEMS GFM)"), len(eodc_cols), 0))
 
@@ -1279,8 +1445,9 @@ def main() -> None:
     ecv_rows = parse_12_wgclimate_ecv()
     source_raw_batches.append(("12_ceos_cgms_wgclimate_ecv", ecv_rows, len(ecv_rows), 0))
 
-    # 14 CEOS FedEO Agencies
+    # 14 CEOS FedEO Agencies + Native CEDA & ESA MAAP STAC
     fedeo_cols = []
+    fedeo_seen_ids: set[str] = set()
     for p in sorted((RAW_DIR / "14_ceos_fedeo_agencies/data").glob("fedeo_*.jsonl")):
         agency_tag = p.stem.replace("fedeo_", "")
         with p.open(encoding="utf-8") as f:
@@ -1288,10 +1455,26 @@ def main() -> None:
                 c = json.loads(line)
                 c["_fedeo_agency"] = agency_tag
                 fedeo_cols.append(c)
+                if c.get("id"):
+                    fedeo_seen_ids.add(str(c["id"]))
     ceda_native_path = RAW_DIR / "14_ceos_fedeo_agencies/data/ceda_native_stac.json"
     if ceda_native_path.exists():
-        for c in json.loads(ceda_native_path.read_text()).get("collections", []):
+        for c in json.loads(ceda_native_path.read_text(encoding="utf-8")).get("collections", []):
+            cid = c.get("id")
+            if cid and str(cid) in fedeo_seen_ids:
+                continue
+            if cid:
+                fedeo_seen_ids.add(str(cid))
             c["_fedeo_agency"] = "ceda_native"
+            fedeo_cols.append(c)
+    esa_maap_path = RAW_DIR / "14_ceos_fedeo_agencies/data/esa_maap_stac.json"
+    if esa_maap_path.exists():
+        for c in json.loads(esa_maap_path.read_text(encoding="utf-8")).get("collections", []):
+            cid = str(c.get("id") or "")
+            if not cid or cid in ("datasets", "services") or cid in fedeo_seen_ids:
+                continue
+            fedeo_seen_ids.add(cid)
+            c["_fedeo_agency"] = "esa_maap_stac"
             fedeo_cols.append(c)
     source_raw_batches.append(("14_ceos_fedeo_agencies", parse_generic_stac_collections("14_ceos_fedeo_agencies", fedeo_cols, "CEOS FedEO Federated Space Agency"), len(fedeo_cols), 0))
 
@@ -1318,7 +1501,7 @@ def main() -> None:
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
                 "temporal_resolution_raw": None,
-                "temporal_start_raw": clean_str(md.get("publication_date")),
+                "temporal_start_raw": None,  # GEO Knowledge Hub publication_date is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
                 "bbox_raw": None,
@@ -1333,7 +1516,8 @@ def main() -> None:
 
     # 16 NASA CMR
     cmr_rows = parse_16_nasa_cmr("16_nasa_cmr", "*.jsonl")
-    source_raw_batches.append(("16_nasa_cmr", cmr_rows, 5749, 0))
+    cmr_raw_total = sum(sum(1 for ln in p.open(encoding="utf-8") if ln.strip()) for p in (RAW_DIR / "16_nasa_cmr/data").glob("*.jsonl"))
+    source_raw_batches.append(("16_nasa_cmr", cmr_rows, cmr_raw_total, 0))
 
     # 17 EUMETSAT
     eum_rows = parse_17_eumetsat()
@@ -1362,12 +1546,22 @@ def main() -> None:
     nat_raw_total = 0
     _nat_org_map = {
         "australia_dea_stac.json": "Geoscience Australia (Digital Earth Australia)",
+        "brazil_inpe_bdc_stac.json": "INPE Brazil Data Cube (Instituto Nacional de Pesquisas Espaciais)",
         "france_dataterra_stac.json": "Data Terra / CNES / Theia (France)",
     }
+    _nat_host_map = {
+        "australia_dea_stac.json": "Digital Earth Australia (DEA)",
+        "brazil_inpe_bdc_stac.json": "INPE Brazil Data Cube",
+        "france_dataterra_stac.json": "Data Terra / Theia",
+    }
     for p in sorted((RAW_DIR / "22_data_terra_inpe_dea/data").glob("*.json")):
-        cols = json.loads(p.read_text()).get("collections", [])
+        cols = json.loads(p.read_text(encoding="utf-8")).get("collections", [])
         nat_raw_total += len(cols)
-        nat_rows.extend(parse_generic_stac_collections("22_data_terra_inpe_dea", cols, _nat_org_map.get(p.name, "National EO Data Cube")))
+        parsed = parse_generic_stac_collections("22_data_terra_inpe_dea", cols, _nat_org_map.get(p.name, "National EO Data Cube"))
+        for pr in parsed:
+            if not pr.get("hosting_platform_raw") and p.name in _nat_host_map:
+                pr["hosting_platform_raw"] = _nat_host_map[p.name]
+        nat_rows.extend(parsed)
     source_raw_batches.append(("22_data_terra_inpe_dea", nat_rows, nat_raw_total, 0))
 
     # 23 WRI GFW & Resource Watch

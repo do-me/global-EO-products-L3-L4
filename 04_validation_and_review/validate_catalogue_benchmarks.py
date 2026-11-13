@@ -158,18 +158,25 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     ]
     qa.append(("3. Zero JRC non-EO lab/nuclear/LCA leakage", len(jrc_bad) == 0, f"Violations: {len(jrc_bad)}"))
 
-    # 4. Zero unrealistic >1000-deg or INSPIRE scale denominator spatial resolution artifacts
-    bad_1000deg = df_all[df_all["spatial_resolution_meters"] >= 100_000_000.0]
-    eea_scale = df_all[(df_all["source_catalogue"] == "11_eea_and_emodnet") & (df_all["spatial_resolution_meters"] >= 500_000.0)]
+    # 4. Zero unrealistic >600km degree-fraction, INSPIRE scale denominator, or >10x title-token resolution artifacts
+    bad_res = df_all[df_all["spatial_resolution_meters"] > 600_000.0]
+    eea_scale = df_all[
+        (df_all["source_catalogue"] == "11_eea_and_emodnet")
+        & (df_all["spatial_resolution_meters"] >= 500_000.0)
+        & (~df_all["spatial_resolution_raw"].astype(str).str.contains("deg", case=False, na=False))
+    ]
+    both_res = df_all[df_all["spatial_resolution_meters"].notna() & df_all["title_token_resolution_meters"].notna()]
+    res_ratio = both_res["spatial_resolution_meters"] / both_res["title_token_resolution_meters"]
+    bad_title_res = both_res[(res_ratio > 10.0) | (res_ratio < 0.1)]
     qa.append(
-        ("4. Zero implausible STAC/EEA scale resolution artifacts", len(bad_1000deg) == 0 and len(eea_scale) == 0, f">=100km_deg: {len(bad_1000deg)}, EEA>=500km: {len(eea_scale)}"),
+        ("4. Zero implausible STAC/EEA scale or title-token resolution artifacts", len(bad_res) == 0 and len(eea_scale) == 0 and len(bad_title_res) == 0, f">600km: {len(bad_res)}, EEA_scale>=500km: {len(eea_scale)}, title_mismatch: {len(bad_title_res)}"),
     )
 
     # 5. Zero in-situ records marked strict_eo_c1_eligible == True
     bad_insitu = df_all[
         (
             df_all["raw_id"].fillna("").str.contains(r"^insitu[-_]|^EO:MO:DAT:INSITU_|^INSITU_", case=False, regex=True)
-            | df_all["title"].fillna("").str.contains(r"\bderived from in[- ]situ observations\b|\bGlobal Ocean in situ\b", case=False, regex=True)
+            | df_all["title"].fillna("").str.contains(r"\bderived from in[- ]situ observations\b|\bGlobal Ocean in situ\b|Sensor Depth:|\bcollected by XBT\b", case=False, regex=True)
         )
         & (df_all["strict_eo_c1_eligible"] == True)  # noqa: E712
     ]
@@ -226,6 +233,83 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         "9. Producer-pool & WGClimate attribute integrity",
         len(wgc_l2_leak) == 0 and len(cop_marine_noneu) == 0 and len(fedeo_esa_noneu) == 0 and len(fifra_eu) == 0,
         f"wgc_l2={len(wgc_l2_leak)}, cop_marine_non_eu={len(cop_marine_noneu)}, esa_esrin_non_eu={len(fedeo_esa_noneu)}, fifra_eu={len(fifra_eu)}",
+    ))
+
+    # 10. Leading-dot degree resolution & future-projection maturity guard
+    dyocn_bad = df_all[
+        df_all["title"].astype(str).str.contains("AE_DyOcn|AU_DyOcn", case=False, na=False)
+        & (df_all["title_token_resolution_meters"] != 27830.0)
+    ]
+    fut_ongoing = df_all[(df_all["temporal_end_year"].fillna(0) >= 2028) & (df_all["is_ongoing_archive"] == True)]  # noqa: E712
+    qa.append((
+        "10. Leading-dot resolution & future-projection maturity",
+        len(dyocn_bad) == 0 and len(fut_ongoing) == 0,
+        f"dyocn_bad={len(dyocn_bad)}, ongoing_ge_2028={len(fut_ongoing)}",
+    ))
+
+    # 11. Jurisdiction tier invariants & ERA5/JRC/FedEO/INPE routing
+    valid_tiers = {
+        "copernicus_service",
+        "eu27_national_or_eu_agency",
+        "european_space_met_igo",
+        "copernicus_associated_state",
+        "european_esa_non_copernicus_state",
+        "un_or_international_body",
+        "third_country_non_european",
+    }
+    bad_tiers = df_all[~df_all["provider_jurisdiction_tier"].isin(valid_tiers)]
+    era_bad = df_all[
+        df_all["raw_id"].astype(str).str.contains(r"era5-pds|era5_repack|terrascope-sis-agrometeorological|ce-ag-era5", case=False, na=False)
+        & (df_all["provider_pool"] != "copernicus_services")
+    ]
+    fedeo_noneu_bad = df_all[
+        (df_all["source_catalogue"] == "14_ceos_fedeo_agencies")
+        & df_all["raw_id"].astype(str).str.contains(r"samet_|opera-s1-rtc|mod11a2|ORNL_CLOUD", case=False, na=False)
+        & (df_all["provider_pool"] != "non_eu")
+    ]
+    qa.append((
+        "11. Jurisdiction tier & ERA5/FedEO institutional routing",
+        len(bad_tiers) == 0 and len(era_bad) == 0 and len(fedeo_noneu_bad) == 0,
+        f"bad_tiers={len(bad_tiers)}, era_non_cop={len(era_bad)}, fedeo_non_eu_leak={len(fedeo_noneu_bad)}",
+    ))
+
+    # 12. Zero socioeconomic/campaign/suborbital leaks into strict_eo_c1_eligible
+    strict_leaks = df_all[
+        (df_all["strict_eo_c1_eligible"] == True)  # noqa: E712
+        & df_all["title"].fillna("").str.contains(
+            r"\b(?:gridded gdp|unemployment rate|employment in agriculture|ardeco|lucas\s+copernicus|"
+            r"integrated global radiosonde archive|argo float|polarstern cruise|airborne lidar|drone imagery)\b",
+            case=False,
+            regex=True,
+        )
+    ]
+    qa.append((
+        "12. Zero non-EO/campaign leaks in strict_eo_c1_eligible",
+        len(strict_leaks) == 0,
+        f"Violations: {len(strict_leaks)}",
+    ))
+
+    # 13. High-recall rescue of composited/gridded L2-tagged EO & SEDAC/WaPOR series
+    has_wapor = (df_all["raw_id"].astype(str).str.startswith("FAO/WAPOR/")).sum() >= 12
+    has_syn = (df_all["raw_id"].astype(str).str.contains("syn-2-v10|syn-2-vg1|s3-syn-vgt|synergy-v10", case=False, na=False)).sum() >= 6
+    has_transcom = (df_all["title"].astype(str).str.contains("TransCom 3", case=False, na=False)).sum() >= 2
+    has_gcom = (df_all["raw_id"].astype(str).str.contains("GCOM-C_SGLI_L2_statistics", na=False)).sum() >= 10
+    qa.append((
+        "13. High-recall rescued EO series present in canonical",
+        bool(has_wapor and has_syn and has_transcom and has_gcom),
+        f"wapor={has_wapor}, s3_syn={has_syn}, transcom={has_transcom}, gcom_stats={has_gcom}",
+    ))
+
+    # 14. Zero Suomi-NPP L3-to-L4, PML/HS3 homograph, or >2026 start-year leaks
+    id_title = df_all["raw_id"].astype(str) + " " + df_all["title"].astype(str)
+    suomi_l4_cnt = int((id_title.str.contains("VIIRSN_L3|VNP43|OMPS_NPP.*L3", case=False, na=False) & (df_all["processing_level"] == "L4")).sum())
+    pml_leak_cnt = int((id_title.str.contains("CAS/IGSNRR/PML", case=False, na=False) & (df_all["provider_pool"] != "non_eu")).sum())
+    hs3_leak_cnt = int((df_all["title"].astype(str).str.contains("Hurricane and Severe Storm Sentinel", case=False, na=False) & (df_all["uses_sentinel_data"] == True)).sum())
+    future_start_cnt = int((df_all["temporal_start_year"] > 2026).sum())
+    qa.append((
+        "14. Zero Suomi-NPP L3-to-L4, PML/HS3 homograph, or >2026 start-year leaks",
+        suomi_l4_cnt == 0 and pml_leak_cnt == 0 and hs3_leak_cnt == 0 and future_start_cnt == 0,
+        f"suomi_l4={suomi_l4_cnt}, pml_leak={pml_leak_cnt}, hs3_leak={hs3_leak_cnt}, future_start={future_start_cnt}",
     ))
 
     return qa

@@ -13,4 +13,4 @@ uv run mine.py
 ```
 
 ## Particularities & Technical Notes
-Queries NASA CMR directly for `processing_level_id[] in ['3', '4']` without restrictive `boxes == '[-90 -180 90 180]'` or open-ended date filters, preserving quasi-global missions (GEDI +/-51.6 deg, SRTM, GPM, MODIS Land) and completed Climate Data Records, and additionally harvests NASA SEDAC (`SEDAC`) and ORNL DAAC (`ORNL_DAAC`) collections where gridded L3/L4 socio-environmental products omit `processing_level_id`. Saved in chunked `.jsonl` files (<15 MB each).
+Queries NASA CMR directly for `processing_level_id[] in ['3', '4']` without restrictive `boxes == '[-90 -180 90 180]'` or open-ended date filters, preserving quasi-global missions (GEDI +/-51.6 deg, SRTM, GPM, MODIS Land) and completed Climate Data Records, and additionally harvests ESDIS SEDAC collections (`keyword=SEDAC`, covering 327 socioeconomic/environmental gridded products) and supplementary high-recall EO series (`OAFlux`, `GWELD`, `GPCP`, `CMAP`, `Daymet`, `LPJ-EOSIM`, `CYGNSS Heat Flux`, `MERRA`, `GRACE Tellus`, etc.) where gridded L3/L4 products omit `processing_level_id`. Saved in chunked `.jsonl` files (<17 MB each).

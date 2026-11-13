@@ -121,7 +121,8 @@ def main() -> None:
 
     # Fetch datasets from GEO Knowledge Hub
     gkh_records: list[dict[str, Any]] = []
-    for page in range(1, 15):
+    page = 1
+    while page <= 200:
         gkh_url = f"https://gkhub.earthobservations.org/api/records?size=100&page={page}"
         r2 = session.get(gkh_url, timeout=60)
         if r2.status_code != 200:
@@ -132,6 +133,7 @@ def main() -> None:
         gkh_records.extend(hits)
         if len(hits) < 100:
             break
+        page += 1
     queried.append("https://gkhub.earthobservations.org/api/records?size=100&page=1..N")
     total += len(gkh_records)
     with (DATA_DIR / "geokhub_records.jsonl").open("w", encoding="utf-8") as f:

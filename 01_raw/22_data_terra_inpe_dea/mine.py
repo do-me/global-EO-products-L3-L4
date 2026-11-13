@@ -112,15 +112,36 @@ ENDPOINTS = [
 
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    session = build_session(max_retries=1)
+    session = build_session(max_retries=3)
     total = 0
     queried: list[str] = []
     for fname, url in ENDPOINTS:
         try:
-            r = session.get(url, timeout=15)
+            r = session.get(url, timeout=45)
             if r.status_code == 200:
                 payload = r.json()
-                cols = payload.get("collections", [])
+                cols = list(payload.get("collections", []))
+                # Follow STAC next pagination links when present
+                seen_ids = {c.get("id") for c in cols if c.get("id")}
+                nxt = next((lk.get("href") for lk in payload.get("links", []) if lk.get("rel") == "next" and lk.get("href")), None)
+                pages = 1
+                while nxt and pages < 50:
+                    rn = session.get(nxt, timeout=45)
+                    if rn.status_code != 200:
+                        break
+                    d_n = rn.json()
+                    batch = d_n.get("collections", [])
+                    if not batch:
+                        break
+                    for c in batch:
+                        cid = c.get("id")
+                        if not cid or cid not in seen_ids:
+                            if cid:
+                                seen_ids.add(cid)
+                            cols.append(c)
+                    nxt = next((lk.get("href") for lk in d_n.get("links", []) if lk.get("rel") == "next" and lk.get("href")), None)
+                    pages += 1
+                payload["collections"] = cols
                 total += len(cols)
                 queried.append(f"{url} ({len(cols)} collections)")
                 (DATA_DIR / fname).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

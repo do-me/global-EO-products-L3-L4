@@ -170,6 +170,37 @@ def main() -> None:
             json.dumps(r_ceda.json(), ensure_ascii=False, indent=2), encoding="utf-8"
         )
 
+    # Also fetch native ESA MAAP STAC API (full collection catalogue beyond FedEO subsets)
+    maap_base = "https://catalog.maap.eo.esa.int/catalogue/collections?limit=100"
+    maap_cols: list[dict[str, Any]] = []
+    maap_seen: set[str] = set()
+    nxt_url: str | None = maap_base
+    maap_pages = 0
+    while nxt_url and maap_pages < 25:
+        r_maap = session.get(nxt_url, timeout=45)
+        if r_maap.status_code != 200:
+            break
+        d_maap = r_maap.json()
+        batch = d_maap.get("collections", [])
+        if not batch:
+            break
+        for c in batch:
+            cid = c.get("id")
+            if cid and cid not in maap_seen:
+                maap_seen.add(cid)
+                maap_cols.append(c)
+        nxt_url = next(
+            (lk.get("href") for lk in d_maap.get("links", []) if lk.get("rel") == "next" and lk.get("href")),
+            None,
+        )
+        maap_pages += 1
+    if maap_cols:
+        total += len(maap_cols)
+        queried.append(f"{maap_base} ({len(maap_cols)} collections)")
+        (DATA_DIR / "esa_maap_stac.json").write_text(
+            json.dumps({"collections": maap_cols}, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+
     write_last_access(sorted(queried), total, "200 OK")
 
 

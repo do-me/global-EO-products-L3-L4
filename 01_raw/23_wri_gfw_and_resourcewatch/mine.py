@@ -115,7 +115,7 @@ def main() -> None:
 
     rw_items: list[dict[str, Any]] = []
     page = 1
-    while page <= 15:
+    while page <= 200:
         rw_url = f"https://api.resourcewatch.org/v1/dataset?page[size]=250&page[number]={page}&includes=metadata"
         r2 = session.get(rw_url, timeout=60)
         if r2.status_code != 200:

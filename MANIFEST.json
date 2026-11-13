@@ -1,10 +1,10 @@
 {
   "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
-  "generated_at_utc": "2026-11-13T16:06:19Z",
+  "generated_at_utc": "2026-11-13T20:57:28Z",
   "total_raw_sources": 29,
-  "total_raw_records_retrieved": 35759,
-  "total_files_hashed": 235,
-  "total_bytes": 654266547,
+  "total_raw_records_retrieved": 48142,
+  "total_files_hashed": 243,
+  "total_bytes": 732625876,
   "sources": [
     {
       "source_id": "01_copernicus_cmems",
@@ -70,7 +70,7 @@
     {
       "source_id": "07_ec_jrc_data_catalogue",
       "source_title": "European Commission Joint Research Centre (JRC) Data Catalogue (DCAT-AP API & CKAN)",
-      "retrieved_at_utc": "2026-11-13T12:18:09Z",
+      "retrieved_at_utc": "2026-11-13T16:53:19Z",
       "http_status_summary": "200 OK",
       "total_records_retrieved": 4370,
       "endpoints_queried": [
@@ -146,11 +146,12 @@
     {
       "source_id": "14_ceos_fedeo_agencies",
       "source_title": "CEOS FedEO Gateway — ESA CCI (CEDA), ESA Earth Online, ESA MAAP, VITO Terrascope, JAXA, ISRO, DLR, INPE, NRCan & USGS",
-      "retrieved_at_utc": "2026-11-13T10:38:22Z",
+      "retrieved_at_utc": "2026-11-13T16:51:00Z",
       "http_status_summary": "200 OK",
-      "total_records_retrieved": 2516,
+      "total_records_retrieved": 2817,
       "endpoints_queried": [
         "https://api.stac.ceda.ac.uk/collections (29 collections)",
+        "https://catalog.maap.eo.esa.int/catalogue/collections?limit=100 (301 collections)",
         "https://fedeo.ceos.org/collections?parentIdentifier=EOP:DLR:EOC (69 collections)",
         "https://fedeo.ceos.org/collections?parentIdentifier=EOP:DLR:GEOSERVICE (19 collections)",
         "https://fedeo.ceos.org/collections?parentIdentifier=EOP:ESA:EARTH-ONLINE (162 collections)",
@@ -168,7 +169,7 @@
     {
       "source_id": "15_geobon_and_geokhub",
       "source_title": "GEO BON Essential Biodiversity Variables (EBV) STAC API & GEO Knowledge Hub InvenioRDM API",
-      "retrieved_at_utc": "2026-11-13T10:37:30Z",
+      "retrieved_at_utc": "2026-11-13T16:52:41Z",
       "http_status_summary": "200 OK",
       "total_records_retrieved": 1286,
       "endpoints_queried": [
@@ -179,12 +180,13 @@
     {
       "source_id": "16_nasa_cmr",
       "source_title": "NASA Common Metadata Repository (CMR) Collections API — All Explicit L3/L4 + SEDAC/ORNL Gridded Collections",
-      "retrieved_at_utc": "2026-11-13T10:38:31Z",
+      "retrieved_at_utc": "2026-11-13T16:55:47Z",
       "http_status_summary": "200 OK",
-      "total_records_retrieved": 5749,
+      "total_records_retrieved": 6592,
       "endpoints_queried": [
         "https://cmr.earthdata.nasa.gov/search/collections.json?processing_level_id[]=3&processing_level_id[]=4&page_size=2000",
-        "https://cmr.earthdata.nasa.gov/search/collections.json?provider=SEDAC&page_size=2000"
+        "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=SEDAC&page_size=2000",
+        "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=<high-recall-eo>&page_size=2000 (keywords=['OAFlux', 'Global Web-Enabled Landsat Data', 'Fengyun', 'EarthCARE', 'GPCP', 'CMAP precipitation', 'Global Forest Cover Change', 'Daymet', 'MERRA', 'LPJ-EOSIM', 'CYGNSS Heat Flux', 'GlobeLand30', 'AVISO altimetry', 'CCI Land Cover', 'GRACE Tellus'])"
       ]
     },
     {
@@ -221,11 +223,11 @@
     {
       "source_id": "20_noaa_onestop",
       "source_title": "NOAA OneStop Data Search REST API (NOAA CDRs, NESDIS/STAR/NCEI Gridded Satellite Products)",
-      "retrieved_at_utc": "2026-11-13T10:38:09Z",
+      "retrieved_at_utc": "2026-11-13T16:51:54Z",
       "http_status_summary": "200 OK",
-      "total_records_retrieved": 3145,
+      "total_records_retrieved": 14275,
       "endpoints_queried": [
-        "POST https://data.noaa.gov/onestop/api/search/search/collection (queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'])"
+        "POST https://data.noaa.gov/onestop/api/search/search/collection (queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'], full pagination up to meta.total/15000)"
       ]
     },
     {
@@ -242,19 +244,19 @@
     {
       "source_id": "22_data_terra_inpe_dea",
       "source_title": "National EO Data Cube STAC Catalogues — France (Data Terra/Dinamis), Brazil (INPE BDC) & Australia (DEA)",
-      "retrieved_at_utc": "2026-11-13T10:44:39Z",
+      "retrieved_at_utc": "2026-11-13T16:48:24Z",
       "http_status_summary": "200 OK",
-      "total_records_retrieved": 111,
+      "total_records_retrieved": 220,
       "endpoints_queried": [
-        "https://api.stac.teledetection.fr/collections (10 collections)",
+        "https://api.stac.teledetection.fr/collections (39 collections)",
         "https://explorer.sandbox.dea.ga.gov.au/stac/collections (101 collections)",
-        "https://data.inpe.br/bdc/stac/v1/collections (timeout/unreachable: ConnectionError - covered via FedEO EOP:INPE:DATA)"
+        "https://data.inpe.br/bdc/stac/v1/collections (80 collections)"
       ]
     },
     {
       "source_id": "23_wri_gfw_and_resourcewatch",
       "source_title": "World Resources Institute (WRI) — Global Forest Watch (GFW) & Resource Watch Data APIs",
-      "retrieved_at_utc": "2026-11-13T10:44:55Z",
+      "retrieved_at_utc": "2026-11-13T16:52:57Z",
       "http_status_summary": "200 OK",
       "total_records_retrieved": 3096,
       "endpoints_queried": [
@@ -513,14 +515,14 @@
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/data/jrc_dcat_ap_datasets_part01.jsonl",
       "stage": "01_raw",
-      "bytes": 26033710,
-      "sha256": "d0e67b0a123f399fc7335065aaff8158ffc5359b9dc69036a8d650b86eea4b81"
+      "bytes": 26032821,
+      "sha256": "e0a30211b5a4f0d3a6b68ff9cc9efdad0a4bf98ae4c8236166931e18f4e5e4de"
     },
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/data/jrc_dcat_ap_datasets_part02.jsonl",
       "stage": "01_raw",
-      "bytes": 25971359,
-      "sha256": "606bd5495ebd2c8eb9a636603a0824106174589996c7c05b6674bef6c27f520f"
+      "bytes": 25972298,
+      "sha256": "9e995f910ba53424001b68784d93a1f14a137579bd8ccadce8967a4558c33502"
     },
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/data/jrc_dcat_ap_datasets_part03.jsonl",
@@ -543,8 +545,8 @@
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/data/jrc_dcat_ap_datasets_part06.jsonl",
       "stage": "01_raw",
-      "bytes": 17744791,
-      "sha256": "a9e9a6beb399082435437ed761f2383cdf6b615f73bd4b39610fb56f085a423e"
+      "bytes": 17743983,
+      "sha256": "40f51f82691465968b8ec49ecb9981157372fd688a7e69762c96af812c46d683"
     },
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/data/jrc_dcat_ap_datasets_part07.jsonl",
@@ -574,13 +576,13 @@
       "path": "01_raw/07_ec_jrc_data_catalogue/last_access.txt",
       "stage": "01_raw",
       "bytes": 2205,
-      "sha256": "58506a84cc53676d9886dfcbd7d24a13d7ce57365448f74e42b0b73ef87acda5"
+      "sha256": "b55d5ef88e65c9a627e0ca0a15b9429c8ebc37cf6895efb30be9d929ea8c4363"
     },
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/mine.py",
       "stage": "01_raw",
-      "bytes": 8676,
-      "sha256": "19c76ee276670f1b75567194893dafe983f7f7d1a538133a6180ea9547a61dfd"
+      "bytes": 8677,
+      "sha256": "c58ddf1a7e8190bf80c741a94225e9f0bc3862dfedd5741a9e6ce3e521bcad29"
     },
     {
       "path": "01_raw/08_destine_dedl_stac/README.md",
@@ -753,14 +755,20 @@
     {
       "path": "01_raw/14_ceos_fedeo_agencies/README.md",
       "stage": "01_raw",
-      "bytes": 1176,
-      "sha256": "4a1c41bcc08e7c727e7a3661265e5376615f76e4e5584a444c0f0f073249c9c1"
+      "bytes": 1262,
+      "sha256": "e7776f444516b3ec92808ccec03a71b517a50dd4055a83f073eb047668f85b8f"
     },
     {
       "path": "01_raw/14_ceos_fedeo_agencies/data/ceda_native_stac.json",
       "stage": "01_raw",
       "bytes": 218339,
       "sha256": "f4247b32fe1eebfbc3c14fac223ef23fec4a1dce8aa73fe7b59290c531aa1a88"
+    },
+    {
+      "path": "01_raw/14_ceos_fedeo_agencies/data/esa_maap_stac.json",
+      "stage": "01_raw",
+      "bytes": 4121643,
+      "sha256": "8095f6a177704013dc31efe361baced28cd6b42bf3f38f5737e6f61c7c750279"
     },
     {
       "path": "01_raw/14_ceos_fedeo_agencies/data/fedeo_ceda_cci.jsonl",
@@ -837,14 +845,14 @@
     {
       "path": "01_raw/14_ceos_fedeo_agencies/last_access.txt",
       "stage": "01_raw",
-      "bytes": 3202,
-      "sha256": "e7b26a325a15e7a6e636254b8c7db6a94ba8bf4503a01851405c857058871e4b"
+      "bytes": 3418,
+      "sha256": "f014ac59e8dda465f8d5ad0a77f1db541718cc928347604dfee3b732e881515d"
     },
     {
       "path": "01_raw/14_ceos_fedeo_agencies/mine.py",
       "stage": "01_raw",
-      "bytes": 6007,
-      "sha256": "55cd7bbd710c8e9622be0ebd3b01fd60200ad196a3d53fdea7364117db1fc901"
+      "bytes": 7210,
+      "sha256": "4bd97b15842dc6cf44034f7a0950fbddb45085cee115ccac863ea95983774503"
     },
     {
       "path": "01_raw/15_geobon_and_geokhub/README.md",
@@ -868,55 +876,61 @@
       "path": "01_raw/15_geobon_and_geokhub/last_access.txt",
       "stage": "01_raw",
       "bytes": 708,
-      "sha256": "81a91cc0c05d4480f27d80cea6456b1d1c3c3272af2be297402bdc5e0beced06"
+      "sha256": "a7bb97fdb846b0d0b7184be22b5574572d94f04cdde34f8c48d353ba8a73e976"
     },
     {
       "path": "01_raw/15_geobon_and_geokhub/mine.py",
       "stage": "01_raw",
-      "bytes": 4809,
-      "sha256": "98c4560129d5d801b2ebd85d62ca689058e8062806f2422d93809446a5d724ce"
+      "bytes": 4833,
+      "sha256": "990dc01631929a18872ff28304bb27618078fc0ccac9720a16b6b445c8c23c96"
     },
     {
       "path": "01_raw/16_nasa_cmr/README.md",
       "stage": "01_raw",
-      "bytes": 1004,
-      "sha256": "5925ea805f9125e91efab9a2bce823d4d81d32b3b2216d7abf25268a36ad4100"
+      "bytes": 1174,
+      "sha256": "f65f97562ae390cf5137ddf69cd871cf732e58479df2f8732366e66cb7da9454"
     },
     {
       "path": "01_raw/16_nasa_cmr/data/nasa_cmr_l3_l4_part01.jsonl",
       "stage": "01_raw",
-      "bytes": 16492904,
-      "sha256": "8a1b949317c5fffe40e3bf6e36f07484e098beb23fe06f1662cb875a85865ac9"
+      "bytes": 16455545,
+      "sha256": "63038f7fc9fed7c4d84e5c51ee1eb925ce857b613b2d4a6fbb7be73aba7070ac"
     },
     {
       "path": "01_raw/16_nasa_cmr/data/nasa_cmr_l3_l4_part02.jsonl",
       "stage": "01_raw",
-      "bytes": 10510695,
-      "sha256": "f357e34e812541cf7b17b55194261bec9b87d416127c62d233bee08583172ac6"
+      "bytes": 10550269,
+      "sha256": "39eecd5f7c2dcb0fa2b38b00ee4c9134bc22f593339a5d8c1e8432aff91b1c69"
     },
     {
       "path": "01_raw/16_nasa_cmr/data/nasa_cmr_l3_l4_part03.jsonl",
       "stage": "01_raw",
-      "bytes": 7733992,
-      "sha256": "e1496420ef1e02e7a534eae3d69fd1b36aea1988af97ee3ea6f02e6cbb4af918"
+      "bytes": 7731664,
+      "sha256": "eab499147189f5c56e3892a126a3f1e8542d9f4202fedccb6a5eb400556015bb"
     },
     {
       "path": "01_raw/16_nasa_cmr/data/nasa_cmr_sedac.jsonl",
       "stage": "01_raw",
-      "bytes": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "bytes": 1249217,
+      "sha256": "203cbe02891308f124dc1d910dd04f1c7c355b6471c4eb96a552ced50eb13be5"
+    },
+    {
+      "path": "01_raw/16_nasa_cmr/data/nasa_cmr_supplementary_eo.jsonl",
+      "stage": "01_raw",
+      "bytes": 3362381,
+      "sha256": "d80639eadb0ffa15c997479dfc63f0107fd30afa0ababd314431dc1a84d60d21"
     },
     {
       "path": "01_raw/16_nasa_cmr/last_access.txt",
       "stage": "01_raw",
-      "bytes": 1096,
-      "sha256": "8f82c73d3e7847c25e28cb8b52fe93f5a06a26fd39e79b5ad04829268c045686"
+      "bytes": 1662,
+      "sha256": "2ef0dc4424840926d551ded39652716056a41fb95e80c5abeb84bee2a07dd528"
     },
     {
       "path": "01_raw/16_nasa_cmr/mine.py",
       "stage": "01_raw",
-      "bytes": 5659,
-      "sha256": "ac95513b65c138c7c1d4da3371457e4f435d041dac3141293f6679922dd403c2"
+      "bytes": 7093,
+      "sha256": "5db7cce0bf637df877e343fc843a60fbe8149cbaeab4a74fc9dd38d3733f39c3"
     },
     {
       "path": "01_raw/17_eumetsat_product_navigator/README.md",
@@ -999,26 +1013,44 @@
     {
       "path": "01_raw/20_noaa_onestop/README.md",
       "stage": "01_raw",
-      "bytes": 848,
-      "sha256": "4143c7969d290ed3f6f6f065443c3bced832899573ae03dc6776cd85f41e6786"
+      "bytes": 888,
+      "sha256": "527457fb4cf386f7b968e5f2125250c803b037c18f5339999c4631f802856561"
     },
     {
-      "path": "01_raw/20_noaa_onestop/data/noaa_onestop_collections.jsonl",
+      "path": "01_raw/20_noaa_onestop/data/noaa_onestop_collections_part01.jsonl",
       "stage": "01_raw",
-      "bytes": 6862933,
-      "sha256": "80473f4ccfd22568acd58061ce6d25ff8cb17faeee6c2f33646f46633cb2533a"
+      "bytes": 5968802,
+      "sha256": "9a66c7eebd6a3d1c5265d0c6908fa63d1ac5416b0552baaab57f0031c5f4cec3"
+    },
+    {
+      "path": "01_raw/20_noaa_onestop/data/noaa_onestop_collections_part02.jsonl",
+      "stage": "01_raw",
+      "bytes": 11940175,
+      "sha256": "c48463fcb55b4de340bd3178b10b1382cce103ae4bb368e352d3f38102334a95"
+    },
+    {
+      "path": "01_raw/20_noaa_onestop/data/noaa_onestop_collections_part03.jsonl",
+      "stage": "01_raw",
+      "bytes": 14246888,
+      "sha256": "e1b8e710299987032d63f0983b3d2e3cbf89ca0a2ed7513f857b381c29d3c7c2"
+    },
+    {
+      "path": "01_raw/20_noaa_onestop/data/noaa_onestop_collections_part04.jsonl",
+      "stage": "01_raw",
+      "bytes": 7928058,
+      "sha256": "3dceb612b0525ed4f39e98e7889fd50ad802deb1d3e08f38c27043d7d8f6cb27"
     },
     {
       "path": "01_raw/20_noaa_onestop/last_access.txt",
       "stage": "01_raw",
-      "bytes": 695,
-      "sha256": "8033dd09778ad4579ba290161d6e65fb8240dd5de6f032488d55ae748eca0eea"
+      "bytes": 1192,
+      "sha256": "4a1b92d251ef6b790c234a9b6b8175d8a14fdfc907529f9d62db6a4462a46225"
     },
     {
       "path": "01_raw/20_noaa_onestop/mine.py",
       "stage": "01_raw",
-      "bytes": 4896,
-      "sha256": "412359d9ffd5f9c5836b57c8a2784b143f59ec68fa7be7654c2576cc843f613e"
+      "bytes": 5467,
+      "sha256": "3f076b37d9926160ad3efd1246ab5f05b94bab1613a5c5a173b3e39135b430e2"
     },
     {
       "path": "01_raw/21_usgs_landsat_and_eros/README.md",
@@ -1060,25 +1092,31 @@
       "path": "01_raw/22_data_terra_inpe_dea/data/australia_dea_stac.json",
       "stage": "01_raw",
       "bytes": 137291,
-      "sha256": "ca690361c820f03c3840efbcbbb409564aed6966d480f78a9bc5deaa35326df6"
+      "sha256": "fc21fa742065d2db2369878102be8642f72a9a01128c05b8bf3945d265f4e137"
+    },
+    {
+      "path": "01_raw/22_data_terra_inpe_dea/data/brazil_inpe_bdc_stac.json",
+      "stage": "01_raw",
+      "bytes": 1125980,
+      "sha256": "5fdc8b0416855166ad53c445a23677143855cb77a1468a4d47a212f9a48f5f49"
     },
     {
       "path": "01_raw/22_data_terra_inpe_dea/data/france_dataterra_stac.json",
       "stage": "01_raw",
-      "bytes": 27544,
-      "sha256": "eb148a12012f0761d8a2da684902f57e34b832738e5fff0c28cf8e81602621dd"
+      "bytes": 109144,
+      "sha256": "f1e88e79a8c37865a6c3d26660dc006cc644f94c9c2984fde32e4674d5ad370d"
     },
     {
       "path": "01_raw/22_data_terra_inpe_dea/last_access.txt",
       "stage": "01_raw",
-      "bytes": 822,
-      "sha256": "55af5324068f0717aa4d2c566c9259365bb5077a51bc7e518b5068ceae4b5251"
+      "bytes": 904,
+      "sha256": "3d0e5088a1098bf2f059104be1f7b5322a559b05422fd27238d499029aff7194"
     },
     {
       "path": "01_raw/22_data_terra_inpe_dea/mine.py",
       "stage": "01_raw",
-      "bytes": 4632,
-      "sha256": "727cf526706a334e8be7cfc8135fcdde367b34e9e9857ea7856f8caab57f4cb7"
+      "bytes": 5733,
+      "sha256": "e3899378cce0e9d1f48c385d285fefc017e3dd27a135a135f0df09198b3f6bf5"
     },
     {
       "path": "01_raw/23_wri_gfw_and_resourcewatch/README.md",
@@ -1096,19 +1134,19 @@
       "path": "01_raw/23_wri_gfw_and_resourcewatch/data/wri_resourcewatch_datasets.jsonl",
       "stage": "01_raw",
       "bytes": 11963545,
-      "sha256": "e740319db07326cc3ba9ce5e6d9fe6a6533679f515969403898126113e2c3385"
+      "sha256": "0a30b0921e8cf2e6da4a97a2cfaf5c67c231720ac0217f6f0fdbadc1390798a1"
     },
     {
       "path": "01_raw/23_wri_gfw_and_resourcewatch/last_access.txt",
       "stage": "01_raw",
       "bytes": 737,
-      "sha256": "e790cf1ea5d4bfd0b6d62321ab2e57330e3abdac177076603ce2de6415bda9b0"
+      "sha256": "c023bf76a684d09d9d8e64a7bfd453ff87bb6d1f0f049f57ac070d4ff3428c0f"
     },
     {
       "path": "01_raw/23_wri_gfw_and_resourcewatch/mine.py",
       "stage": "01_raw",
-      "bytes": 4798,
-      "sha256": "278bfc61df96f4475d968bbaed3f300f0313bbfa6b30bdacd0a3c67876af0c9a"
+      "bytes": 4799,
+      "sha256": "8801d80be60a82a6b31fcd84d4ed1d0e4c9a7b6c02b87c19f14db58d0160054d"
     },
     {
       "path": "01_raw/24_openlandmap_stac/README.md",
@@ -1281,32 +1319,32 @@
     {
       "path": "02_preparation/README.md",
       "stage": "02_preparation",
-      "bytes": 3535,
-      "sha256": "373c7b5a9ce4dbe8d68cc247a096ee6516d2558c03a50ddd0ad6731dca883544"
+      "bytes": 3869,
+      "sha256": "620e0cb916011b83831776f3b752314aae487f33d21f952eadb17713fd88fc09"
     },
     {
       "path": "02_preparation/data/01_copernicus_cmems.jsonl",
       "stage": "02_preparation",
-      "bytes": 1216869,
-      "sha256": "d1ea5fa6fb1a0cb94375fa09d6281e347ed0424984f3fe834585c3456a7ac9d7"
+      "bytes": 1230057,
+      "sha256": "9e64a990b204591ab9bf7e6a025a2b11eda3e5e366825fefc0e6248b1944c5c9"
     },
     {
       "path": "02_preparation/data/01_copernicus_cmems.parquet",
       "stage": "02_preparation",
-      "bytes": 377495,
-      "sha256": "3da41a432caf0dc706238e60102dee481d213fb7c292267f508f0e90575b8ceb"
+      "bytes": 381633,
+      "sha256": "d29226ae8de116f2b39eeb29dda75d204983a10578ca7f0641ae1cf4354b5b39"
     },
     {
       "path": "02_preparation/data/02_copernicus_clms.jsonl",
       "stage": "02_preparation",
-      "bytes": 297249,
-      "sha256": "6759c563acb931c8e38f6c40bd993443d230a570a39695491dc67113554137cc"
+      "bytes": 301596,
+      "sha256": "dc05fff2270226ea24916e72ece5b333a017643860ecbbc6753a69dbc6030248"
     },
     {
       "path": "02_preparation/data/02_copernicus_clms.parquet",
       "stage": "02_preparation",
-      "bytes": 61075,
-      "sha256": "bb96be9348bdf600c751ca254e45ab17159a047350331802668b94e9ba90ed49"
+      "bytes": 62760,
+      "sha256": "6052363e7cce308378b6ac75597832cab5b4d6a04032e459e3103a4667a48a81"
     },
     {
       "path": "02_preparation/data/03_copernicus_c3s_cds.jsonl",
@@ -1359,134 +1397,134 @@
     {
       "path": "02_preparation/data/07_ec_jrc_data_catalogue.jsonl",
       "stage": "02_preparation",
-      "bytes": 4075180,
-      "sha256": "3f7ecd5fb70498760a012443d56af8b56675ae02459e9092e7f41d5ca2381d5a"
+      "bytes": 4133999,
+      "sha256": "37ae96ee9a42a2fdd461c448441189eb226027646ba74627d32237bce0037c91"
     },
     {
       "path": "02_preparation/data/07_ec_jrc_data_catalogue.parquet",
       "stage": "02_preparation",
-      "bytes": 1140471,
-      "sha256": "f4588fef8a1f4b921addf93b4909024d34d2ef3dd8b04dc931848b8b61a64594"
+      "bytes": 1185754,
+      "sha256": "28e868c44d5cc7dce05dc67f59df843d50f571e9a2f03eb73a96c935fb588c78"
     },
     {
       "path": "02_preparation/data/08_destine_dedl_stac.jsonl",
       "stage": "02_preparation",
-      "bytes": 567001,
-      "sha256": "3bb53a61f2d85f411389cf37f81ced86b6d5d55dd43fa3b2a78d0ec42ce9caab"
+      "bytes": 571355,
+      "sha256": "04e1c2d8109dd3d12c2be6266a772df05d8bf936501f9b28e3a0b57c9f0bce1a"
     },
     {
       "path": "02_preparation/data/08_destine_dedl_stac.parquet",
       "stage": "02_preparation",
-      "bytes": 135365,
-      "sha256": "e06069d2f3ba1e6949d105953cafc9b4f6cf5f4659931c470ae2b26e97868b31"
+      "bytes": 136292,
+      "sha256": "ac7ea2529edf3e032a1528b206a6ba2efa276100bbcfc06511fd8985bfdb7d39"
     },
     {
       "path": "02_preparation/data/09_wekeo_dias.jsonl",
       "stage": "02_preparation",
-      "bytes": 1340377,
-      "sha256": "359ea31de58ea72c32821c562b9775ab6dea8665c9e380fcc5a92f50bcb6762e"
+      "bytes": 1344042,
+      "sha256": "e0cb37923e775c927aff1fbf4fd3479986a454f82c0a6cb3795d4f18bda85a70"
     },
     {
       "path": "02_preparation/data/09_wekeo_dias.parquet",
       "stage": "02_preparation",
-      "bytes": 351695,
-      "sha256": "5e5838f17f6c59d646a27b77c3f4693ad9d95668905da88c334fb506dd85e20b"
+      "bytes": 352119,
+      "sha256": "01b01d2da46e4f99ac23abbef4e0ed8357555879bd038844fbe3d2760237bcaa"
     },
     {
       "path": "02_preparation/data/10_cdse_stac.jsonl",
       "stage": "02_preparation",
-      "bytes": 351269,
-      "sha256": "2ac53a08bff2ceb29a56556a8d5285635393cd16b917bc3657541670a390ae9e"
+      "bytes": 355461,
+      "sha256": "d8715f2ed4a59ca1326bfd6f5331e06a7cf1a587a2762044cbc82d84a78e8a7d"
     },
     {
       "path": "02_preparation/data/10_cdse_stac.parquet",
       "stage": "02_preparation",
-      "bytes": 77070,
-      "sha256": "f2c8560485c0d88a0841246fc217d7504ed41857c40c65705abd85673eef3e87"
+      "bytes": 77326,
+      "sha256": "000ab9418258bd6ac536a536ee2cd5c302fba9cea9db7b18338c3fc5408d65c4"
     },
     {
       "path": "02_preparation/data/11_eea_and_emodnet.jsonl",
       "stage": "02_preparation",
-      "bytes": 3260438,
-      "sha256": "955dbcbe8cb1f964a8d87d3d15878069dc116f4341f31191e6821170a7727661"
+      "bytes": 3332792,
+      "sha256": "99ddcf6ce196651472ccaa2ca1676cf076cb9b703a754e34368262589929eb76"
     },
     {
       "path": "02_preparation/data/11_eea_and_emodnet.parquet",
       "stage": "02_preparation",
-      "bytes": 611752,
-      "sha256": "58b42f237a77d10b62e661977f42c96e99a7b8587daed4d4ffb71177526befbf"
+      "bytes": 637130,
+      "sha256": "b1e3b644b42ebce3e24eacff27c28a7df303885aab313f89404f5f8ce5c49c9f"
     },
     {
       "path": "02_preparation/data/12_ceos_cgms_wgclimate_ecv.jsonl",
       "stage": "02_preparation",
-      "bytes": 720263,
-      "sha256": "e3cc560091e73725f1b5dd08a7cf10cd33209ac34558184a0b75721a55a8b01a"
+      "bytes": 738983,
+      "sha256": "c14d3ba9c7e25d94c614f1b1be400b39de0bffd314d09ff94bc75d1936161ea0"
     },
     {
       "path": "02_preparation/data/12_ceos_cgms_wgclimate_ecv.parquet",
       "stage": "02_preparation",
-      "bytes": 63659,
-      "sha256": "83e8cb316f37509ed9c86b468d7cf2396699bcd52515d09b1265373511ddf1a0"
+      "bytes": 64808,
+      "sha256": "195770b8ae27a85436523b1aafea1123272d8b180ad36d949b0b35a3073db52f"
     },
     {
       "path": "02_preparation/data/14_ceos_fedeo_agencies.jsonl",
       "stage": "02_preparation",
-      "bytes": 4069633,
-      "sha256": "913ecd9960b950eafda9247bf9a5238ffbf00c40129f3027ce1553fd3a06b551"
+      "bytes": 4368831,
+      "sha256": "5359f8dfbd827f649d70b2098fdb389f9c4fa26ba134c1ff7759c1b01c9cfbb8"
     },
     {
       "path": "02_preparation/data/14_ceos_fedeo_agencies.parquet",
       "stage": "02_preparation",
-      "bytes": 863653,
-      "sha256": "916e345e326e7ccf1be62703faba84f66acbdc60939580175b3a5acf6bc32d51"
+      "bytes": 938783,
+      "sha256": "a517632be94af91aa615420ee1cb3856bfd7ffefbbc011ca36a16e37e132a473"
     },
     {
       "path": "02_preparation/data/15_geobon_and_geokhub.jsonl",
       "stage": "02_preparation",
-      "bytes": 467615,
-      "sha256": "b471392af5bbfaec1e13786f8504370801569cc7fbd2bd25ee6f308840eecedd"
+      "bytes": 465735,
+      "sha256": "2c763324f5bba52afe4e21b7fc21cc3b4d8b9cdf94636514e87e72130686bac2"
     },
     {
       "path": "02_preparation/data/15_geobon_and_geokhub.parquet",
       "stage": "02_preparation",
-      "bytes": 172680,
-      "sha256": "b94e4472d65af0b5836461eeff86ed77b7f06480718c9a9a60efdba81d20ccdc"
+      "bytes": 171592,
+      "sha256": "3ddf01f61635c9627f0714e7e4fbb312bb77f7fdec8bc19092d0dbf172dc7098"
     },
     {
       "path": "02_preparation/data/16_nasa_cmr.jsonl",
       "stage": "02_preparation",
-      "bytes": 11812553,
-      "sha256": "8ff3c155fd44e9f49100f0d6ae8328089b1a9c0400ac372968a037b448229a36"
+      "bytes": 12186472,
+      "sha256": "fe5c1c9c2f706c29248f08aac87246d446778e5b5e2591a85e8ea49c558149b1"
     },
     {
       "path": "02_preparation/data/16_nasa_cmr.parquet",
       "stage": "02_preparation",
-      "bytes": 2801846,
-      "sha256": "8f8b291e92e2c9d9872be2a3d9a136553f5dcd594b3df47068be5d3d11205a27"
+      "bytes": 2923069,
+      "sha256": "3355c4fca18128bfe5124bcf9b8fdc990d1f3a0c8ebadf811663753622231a21"
     },
     {
       "path": "02_preparation/data/17_eumetsat_product_navigator.jsonl",
       "stage": "02_preparation",
-      "bytes": 393272,
-      "sha256": "6c07a607e90a99472a9a30c405bc6c761c52101d7c2e2c7626d56314259fc7c7"
+      "bytes": 430729,
+      "sha256": "1256e107da6ea01042264b653d38ea31eefd1b77d9bd0eca2e245e7ca25e3079"
     },
     {
       "path": "02_preparation/data/17_eumetsat_product_navigator.parquet",
       "stage": "02_preparation",
-      "bytes": 107358,
-      "sha256": "f93afda683015dd4815065e1332f25f5481af10c00b483730ad7f9da38a20bb1"
+      "bytes": 115931,
+      "sha256": "2f02af70f4009f5a40421459bb0faa98290cd8114682a589d7d85e08dcc2c938"
     },
     {
       "path": "02_preparation/data/18_esa_osc_earthcode.jsonl",
       "stage": "02_preparation",
-      "bytes": 523631,
-      "sha256": "600c248d8b415780c50b2ef70351662ab9d71d4f86b4ddc7c3d42caccaec2430"
+      "bytes": 525819,
+      "sha256": "05b6f48fb8ba72ce41d9ac3701cb3265b96beb1c8c85e69d4907fa9421031a21"
     },
     {
       "path": "02_preparation/data/18_esa_osc_earthcode.parquet",
       "stage": "02_preparation",
-      "bytes": 137509,
-      "sha256": "cf2c38eebcc61d4b4c58f0e9ad0fdc779006ec24e7ec1365de55d61e40932875"
+      "bytes": 137740,
+      "sha256": "a8b1536311ee4fb733a53d3196b5244222c187a744d744790f1729420699a0c6"
     },
     {
       "path": "02_preparation/data/19_dlr_eoc_stac.jsonl",
@@ -1503,14 +1541,14 @@
     {
       "path": "02_preparation/data/20_noaa_onestop.jsonl",
       "stage": "02_preparation",
-      "bytes": 1760600,
-      "sha256": "6e65aeeccc58f157c5620a331c370a8b715207d5edf070b5a6bbcd8e1d0b95b7"
+      "bytes": 9218870,
+      "sha256": "6c9a4c254fff5627406d462fef4767fae6788682c96bd85b496f78e430a8989e"
     },
     {
       "path": "02_preparation/data/20_noaa_onestop.parquet",
       "stage": "02_preparation",
-      "bytes": 251676,
-      "sha256": "f5ae762b68a464c5e0760d0f58ce1ba27695f2c77755b4f01ee4c08ccb79af04"
+      "bytes": 1380323,
+      "sha256": "8539c3f775309c690976e8c0a11929882ada802699b8e516cf6aec0458db43fb"
     },
     {
       "path": "02_preparation/data/21_usgs_landsat_and_eros.jsonl",
@@ -1527,26 +1565,26 @@
     {
       "path": "02_preparation/data/22_data_terra_inpe_dea.jsonl",
       "stage": "02_preparation",
-      "bytes": 86573,
-      "sha256": "e9599e22a4252a8a6a6d6347113e4c3792d24424c00fb822816b3087bab3d382"
+      "bytes": 201652,
+      "sha256": "1c821111fa7bf16d00c818573b436525daf245c04cbd472f70fbb933e68352b3"
     },
     {
       "path": "02_preparation/data/22_data_terra_inpe_dea.parquet",
       "stage": "02_preparation",
-      "bytes": 23988,
-      "sha256": "bf86398e60a70d8674454e0fa15ccb670dfa14205886f296a686a6fa3ce38eb1"
+      "bytes": 53464,
+      "sha256": "40e22cd974032ec6041dbbe9674250806d10663e52aa08858a1f09d34ba8380d"
     },
     {
       "path": "02_preparation/data/23_wri_gfw_and_resourcewatch.jsonl",
       "stage": "02_preparation",
-      "bytes": 4060477,
-      "sha256": "217f81a04b46c22f4de421d8a095f399a1187b3b751c4b3fa1b7d0e6151736ac"
+      "bytes": 4043818,
+      "sha256": "f8fe8cbb1778d20e2fa665b6dab177411afe22ab7df06483e972fe9b5c41ea4c"
     },
     {
       "path": "02_preparation/data/23_wri_gfw_and_resourcewatch.parquet",
       "stage": "02_preparation",
-      "bytes": 1215871,
-      "sha256": "44a566478957540da364f954ac145947a48dc36195ff55574143a718efaebf4c"
+      "bytes": 1212665,
+      "sha256": "7e496638c1014ea28c4f8c8fe84a815632e72f83b3721eaa8cc205645e61afa9"
     },
     {
       "path": "02_preparation/data/24_openlandmap_stac.jsonl",
@@ -1575,38 +1613,38 @@
     {
       "path": "02_preparation/data/26_fao_unep_and_thematic_benchmarks.jsonl",
       "stage": "02_preparation",
-      "bytes": 1084073,
-      "sha256": "636e5328028e26d5c01ac81f60b40ab825b1a12e84573fafaadd22c47407d283"
+      "bytes": 1081323,
+      "sha256": "729b65dc0e68b61f84ab6d7ad521ec273d98a296f821c2a8b3c549d92dcc5675"
     },
     {
       "path": "02_preparation/data/26_fao_unep_and_thematic_benchmarks.parquet",
       "stage": "02_preparation",
-      "bytes": 215269,
-      "sha256": "aab252e917a7394219ef5cc698671949c0cd30d9088750d450b4aadc774e5486"
+      "bytes": 213936,
+      "sha256": "a46a2eae15fccd92ad3ee77d9bc6a5662959fa373221847d872fdb203d94935c"
     },
     {
       "path": "02_preparation/data/27_gee_official_stac.jsonl",
       "stage": "02_preparation",
-      "bytes": 2486216,
-      "sha256": "e0f4f833b603287d156c7c456576cfb8e8737553f95cd11933e06e9895108717"
+      "bytes": 2499369,
+      "sha256": "72f9bafb951b9cd3fe245f3eea228413cda64b63c2b5d343b030a88b7ab87cfb"
     },
     {
       "path": "02_preparation/data/27_gee_official_stac.parquet",
       "stage": "02_preparation",
-      "bytes": 607139,
-      "sha256": "0f086c243c36d4b22cd7adbad14e71fd3740cf38e22ac708f68974029c2b1dd6"
+      "bytes": 603811,
+      "sha256": "6746e2d59e3053d8c1d2aae241c024be013f4c4ae4101e5ec025c2306c2c474e"
     },
     {
       "path": "02_preparation/data/28_planetary_computer_stac.jsonl",
       "stage": "02_preparation",
-      "bytes": 399348,
-      "sha256": "df5b343bc264bff6d100a455f4acdde2ba2057264a027e4abb92682470c669a8"
+      "bytes": 404689,
+      "sha256": "d54910c2de8cd1402bcf3957dcd9b1dc39b4508e07c98dbacfdfc6b33f5d35ba"
     },
     {
       "path": "02_preparation/data/28_planetary_computer_stac.parquet",
       "stage": "02_preparation",
-      "bytes": 132034,
-      "sha256": "5bba03d0d71cc81bc057e44f1fd637185555755f7622948cd53f8bcfa8950500"
+      "bytes": 133431,
+      "sha256": "4f5d8b88b0f77bbb36c84d24668ed71cad0d7d904743132d3605913f9bbbfe80"
     },
     {
       "path": "02_preparation/data/29_awesome_gee_community.jsonl",
@@ -1623,20 +1661,20 @@
     {
       "path": "02_preparation/data/excluded_records_log.parquet",
       "stage": "02_preparation",
-      "bytes": 114753,
-      "sha256": "a080f1dd7d0225546496e90e3d1d0bc1ed860ec0bbc230f7ef5ca7388a5658d8"
+      "bytes": 206792,
+      "sha256": "34119ee3d68b9cc7a1376cb91e2ec35c0ee1264d8471a9c06f48123e8ec5e3c2"
     },
     {
       "path": "02_preparation/exclusion_audit_summary.csv",
       "stage": "02_preparation",
-      "bytes": 1713,
-      "sha256": "ba50e19b062db45467803a166b03359acab85f1d52438962ead76fdca235a571"
+      "bytes": 1714,
+      "sha256": "46c638675ec0201794b3c08e0c47e057ae31f834c7ef8744f0375f217af6b226"
     },
     {
       "path": "02_preparation/prepare_all.py",
       "stage": "02_preparation",
-      "bytes": 75571,
-      "sha256": "101800a3341024454ce955d8cf5ccefcaa6fd6022f0f5b4b22bdb2e1ed318241"
+      "bytes": 86132,
+      "sha256": "7baf8ce497361d882dbac260e730bc149cbbaa28230eaca2be94fedaf2819ad5"
     },
     {
       "path": "02_preparation/reference_taxonomies/wmo_oscar_satellites.parquet",
@@ -1653,92 +1691,104 @@
     {
       "path": "03_harmonization/README.md",
       "stage": "03_harmonization",
-      "bytes": 5277,
-      "sha256": "00e6fd66f0dfcde5d42f7a3d30d066659f6237b9be54ca01ef0f07e12e9b30a3"
+      "bytes": 6064,
+      "sha256": "ff3ea8cc2570c0bac7b880e215a62498d8dd8ae9bc55520bacbb4e2cf7bf90af"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records.parquet",
       "stage": "03_harmonization",
-      "bytes": 11160157,
-      "sha256": "d1dddf989c10c8afe3a1e5524c915bf7c5c381afffb02e71d309087378a1f914"
+      "bytes": 13662189,
+      "sha256": "41f5ea17688c271890e1e8ee4a0c22ef869c82705fa5d78814f7cad8d6943e2c"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part01.jsonl",
       "stage": "03_harmonization",
-      "bytes": 20810665,
-      "sha256": "5e172f5cc31155fe9e1f11c8004ba71097006b1defff18dc5fe14ab89de622fb"
+      "bytes": 21490269,
+      "sha256": "ed55d7a584b5d48c9841ea69bb72ec8a889963b4e5e52bae2838339b4d9c8409"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part02.jsonl",
       "stage": "03_harmonization",
-      "bytes": 16505152,
-      "sha256": "24a18733d9e4e205f94c8efbb5ebd87660c00ee4aa397cba27182500793cf410"
+      "bytes": 12663528,
+      "sha256": "cddc6ac914fcd4d588318eedc09f6950ba69b6a92de88643292f080c66a5b79a"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part03.jsonl",
       "stage": "03_harmonization",
-      "bytes": 19169030,
-      "sha256": "74b75b8e829b7dfec890ae346a19322f4435bd43d4aac5f5ad8546d7a8164447"
+      "bytes": 14394746,
+      "sha256": "728c18a9e9125502ef7fa479f075756601ef1219cb90c9159da84a0f604026a2"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part04.jsonl",
       "stage": "03_harmonization",
-      "bytes": 12173538,
-      "sha256": "8a563379e54c3c30fc229941ed9ad2c4056b0e0fb7939e43ceb5ca35d17e3587"
+      "bytes": 19030532,
+      "sha256": "a5a7aba5a56ec0646c9e7ef5373c2179ad69abef2fcff22fbc0e6c64c4bbf035"
+    },
+    {
+      "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part05.jsonl",
+      "stage": "03_harmonization",
+      "bytes": 18493611,
+      "sha256": "43041b88d5c76c01f569dc5db8f266c8657f02f08837531f6e09f08e0233ec6e"
+    },
+    {
+      "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part06.jsonl",
+      "stage": "03_harmonization",
+      "bytes": 3154187,
+      "sha256": "596e65d11c60d826b6333cf6b30dd9562f7b79d0221f69d3d6d11fe0f4cf299a"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_canonical_products.parquet",
       "stage": "03_harmonization",
-      "bytes": 10992894,
-      "sha256": "ba0ca0d76fc92a72877f1a577bf091a986c2e173b8f4a1ff9a8b6df478db1f82"
+      "bytes": 13081746,
+      "sha256": "7a87ea7ed953f465006dbd333585e1dd8dc0cce82f0435efb830d3a5e8dc762d"
     },
     {
       "path": "03_harmonization/harmonize_catalogue.py",
       "stage": "03_harmonization",
-      "bytes": 41911,
-      "sha256": "3b8f5b4f37f2fed8a945a0e14cc7ba52d24a58d865d14b7b283c37a4e77328a6"
+      "bytes": 59735,
+      "sha256": "fb1e39e97d284671690745316922c010245af746fd828442ad6b7b5f7f935b61"
     },
     {
       "path": "03_harmonization/provider_pool_and_sentinel_summary.csv",
       "stage": "03_harmonization",
       "bytes": 407,
-      "sha256": "c129f9ec5953251597839d86b459e4fd8ad707f71ab4e1885712bd2a1d94d2d2"
+      "sha256": "da6ac4e33a06e7ac53d174eac38890a8180af7ee324a2c703938e31881072014"
     },
     {
       "path": "03_harmonization/schema_completeness_report.csv",
       "stage": "03_harmonization",
-      "bytes": 649,
-      "sha256": "85168413f54fca6dc3bc2942d69aaa3f92ba88c2e4306337ad65dd41a0c515c1"
+      "bytes": 1510,
+      "sha256": "13c025d9d211a7174554b31d7995857ed3bbd5fc469162a4501af9da77f34997"
     },
     {
       "path": "03_harmonization/verify_catalogue.py",
       "stage": "03_harmonization",
-      "bytes": 10651,
-      "sha256": "ac45cdd0c207870bdcb465c87292c0e12f6474ef1532c8bc7016d06c546238a9"
+      "bytes": 17249,
+      "sha256": "aac719bbc9cba987679af658df3dd0918f2cbcd4a0bd699c3424586d2dfe4481"
     },
     {
       "path": "04_validation_and_review/README.md",
       "stage": "04_validation_and_review",
-      "bytes": 7595,
-      "sha256": "5abe30999edeb25272fdc615ca979d8f67faed84c35b858cf35b04ab258a8d62"
+      "bytes": 8854,
+      "sha256": "003a8eb72824d888e4313622c60e57a9b0d84c80d5db4c3087d9c4faf07ed730"
     },
     {
       "path": "04_validation_and_review/eu_policy_products_benchmark_audit.csv",
       "stage": "04_validation_and_review",
-      "bytes": 21927,
-      "sha256": "689fbae77574034f65006a75e283930d0b7c5656fe72c8fe67d24148c9ac22eb"
+      "bytes": 21948,
+      "sha256": "789caa4dabf02b03102e853ee61b8b1010bb8964cc5528c0e873516ad2dde2c3"
     },
     {
       "path": "04_validation_and_review/gcos_ecv_domain_coverage.csv",
       "stage": "04_validation_and_review",
-      "bytes": 1105,
-      "sha256": "dba9bfb1e44faed58c2f15bb8844163ea3317000344b63c3a0d803f5268afe6e"
+      "bytes": 1106,
+      "sha256": "c93f12c817fef1ed8e4f61fb32dc73a7e3c4295c78343d6a65dd4f7d2119f246"
     },
     {
       "path": "04_validation_and_review/validate_catalogue_benchmarks.py",
       "stage": "04_validation_and_review",
-      "bytes": 32056,
-      "sha256": "61aa54a6f84a02b65d3c40678764b867f7127b187d853f7c4b4e886815d92ba0"
+      "bytes": 36878,
+      "sha256": "857d3e3c286e17f860a0e46e000dba74db6a5bd668dcf216ecc07f287e3c0422"
     }
   ]
 }

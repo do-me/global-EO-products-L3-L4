@@ -165,6 +165,87 @@ def main() -> None:
     else:
         issues_found.append(f"Attribution/coverage check failed: wgc_bad_eu={len(wgc_bad_eu)}, dea={len(dea)}, olm_glob={len(olm_glob)}")
 
+    # Check K: Resolution Regex (.25 deg) & Future Projection Maturity (>= 2028)
+    dyocn = df_all[df_all["title"].astype(str).str.contains("AE_DyOcn|AU_DyOcn", case=False, na=False)]
+    fut_ongoing = df_all[(df_all["temporal_end_year"].fillna(0) >= 2028) & (df_all["is_ongoing_archive"] == True)]  # noqa: E712
+    if len(dyocn) >= 2 and (dyocn["title_token_resolution_meters"] == 27830.0).all() and len(fut_ongoing) == 0:
+        checks_passed += 1
+        benchmarks.append(("Resolution Regex (.25 deg) & Future Maturity Guard", "PASS", f"AE/AU_DyOcn={dyocn.iloc[0]['title_token_resolution_meters']}m, ongoing>=2028={len(fut_ongoing)}"))
+    else:
+        issues_found.append(f"Resolution/maturity check failed: dyocn={dyocn['title_token_resolution_meters'].tolist()}, fut_ongoing={len(fut_ongoing)}")
+
+    # Check L: Two-Layer Provider Pool vs Jurisdiction Tier & Schema Completeness Coverage
+    comp_csv = pd.read_csv(BASE_DIR / "schema_completeness_report.csv")
+    tier_valid = (
+        df_all[df_all["provider_pool"] == "copernicus_services"]["provider_jurisdiction_tier"].eq("copernicus_service").all()
+        and df_all[df_all["provider_pool"] == "eu_non_copernicus"]["provider_jurisdiction_tier"].isin(["eu27_national_or_eu_agency", "european_space_met_igo", "copernicus_associated_state"]).all()
+        and df_all[df_all["provider_pool"] == "non_eu"]["provider_jurisdiction_tier"].isin(["third_country_non_european", "un_or_international_body", "european_esa_non_copernicus_state"]).all()
+    )
+    era_c3s = df_all[df_all["raw_id"].astype(str).str.contains(r"era5-pds|era5_repack|terrascope-sis-agrometeorological|ce-ag-era5", case=False, na=False)]
+    if len(comp_csv) == len(df_all.columns) and tier_valid and len(era_c3s) >= 4 and (era_c3s["provider_pool"] == "copernicus_services").all():
+        checks_passed += 1
+        benchmarks.append(("Jurisdiction Tier, Completeness & ERA5 C3S Mapping", "PASS", f"schema_cols={len(comp_csv)}, era5_c3s={len(era_c3s)}, tier_invariants=valid"))
+    else:
+        issues_found.append(f"Jurisdiction/completeness check failed: comp_cols={len(comp_csv)}/{len(df_all.columns)}, tier_valid={tier_valid}, era_bad={era_c3s[era_c3s['provider_pool']!='copernicus_services']['raw_id'].tolist()}")
+
+    # Check M: JRC Prose Exemption (ARDECO/LUCAS), FedEO SAMeT/NASA/ORNL & INPE BDC
+    jrc_noncop = df_all[(df_all["source_catalogue"] == "07_ec_jrc_data_catalogue") & df_all["title"].astype(str).str.contains("ARDECO|LUCAS Copernicus", case=False, na=False)]
+    fedeo_noneu = df_all[(df_all["source_catalogue"] == "14_ceos_fedeo_agencies") & df_all["raw_id"].astype(str).str.contains(r"samet_|opera-s1-rtc|mod11a2|ORNL_CLOUD", case=False, na=False)]
+    inpe = df_all[(df_all["source_catalogue"] == "22_data_terra_inpe_dea") & df_all["hosting_platform"].astype(str).str.contains("INPE", case=False, na=False)]
+    if (
+        len(jrc_noncop) >= 3
+        and (jrc_noncop["provider_pool"] == "eu_non_copernicus").all()
+        and (~jrc_noncop["strict_eo_c1_eligible"]).all()
+        and len(fedeo_noneu) >= 5
+        and (fedeo_noneu["provider_pool"] == "non_eu").all()
+        and len(inpe) >= 50
+        and (inpe["provider_pool"] == "non_eu").all()
+    ):
+        checks_passed += 1
+        benchmarks.append(("JRC ARDECO/LUCAS, FedEO Non-EU & INPE BDC Split", "PASS", f"jrc_ex={len(jrc_noncop)}, fedeo_noneu={len(fedeo_noneu)}, inpe_bdc={len(inpe)}"))
+    else:
+        issues_found.append(f"JRC/FedEO/INPE split failed: jrc={len(jrc_noncop)}, fedeo_noneu={len(fedeo_noneu)}, inpe={len(inpe)}")
+
+    # Check N: High-Recall Rescued L3/L4 Composites, CDRs & Multi-Partner Coverage
+    wapor_gee = df_all[(df_all["source_catalogue"] == "27_gee_official_stac") & df_all["raw_id"].astype(str).str.startswith("FAO/WAPOR/")]
+    s3_syn = df_all[df_all["raw_id"].astype(str).str.contains("syn-2-v10|syn-2-vg1|s3-syn-vgt|synergy-v10", case=False, na=False)]
+    transcom = df_all[df_all["title"].astype(str).str.contains("TransCom 3", case=False, na=False)]
+    sedac = df_all[(df_all["source_catalogue"] == "16_nasa_cmr") & df_all["title"].astype(str).str.contains("PEST-CHEMGRIDS|Gridded Population of the World", case=False, na=False)]
+    if len(wapor_gee) >= 12 and len(s3_syn) >= 6 and len(transcom) >= 2 and len(sedac) >= 10:
+        checks_passed += 1
+        benchmarks.append(("High-Recall Rescued Products (WaPOR/SYN/TransCom/SEDAC)", "PASS", f"wapor_gee={len(wapor_gee)}, s3_syn={len(s3_syn)}, transcom={len(transcom)}, sedac={len(sedac)}"))
+    else:
+        issues_found.append(f"High-recall rescue check failed: wapor={len(wapor_gee)}, syn={len(s3_syn)}, transcom={len(transcom)}, sedac={len(sedac)}")
+
+    # Check O: Flagship Resolution, Suomi-NPP L3, CLMS/CEMS & Metadata Recovery
+    max_res = df_all["spatial_resolution_meters"].max()
+    id_title = df_all["raw_id"].astype(str) + " " + df_all["title"].astype(str)
+    burnt = df_all[
+        (df_all["source_catalogue"] == "02_copernicus_clms")
+        & id_title.str.contains("Burnt Area.*300 m", case=False, na=False)
+    ]
+    burnt_ok = len(burnt) > 0 and bool((burnt["spatial_resolution_meters"] < 500.0).all())
+    suomi_l4 = df_all[id_title.str.contains("VIIRSN_L3|VNP43|OMPS_NPP.*L3", case=False, na=False) & (df_all["processing_level"] == "L4")]
+    pml_bad = df_all[id_title.str.contains("CAS/IGSNRR/PML", case=False, na=False) & (df_all["provider_pool"] != "non_eu")]
+    geo_cats = [
+        "01_copernicus_cmems",
+        "02_copernicus_clms",
+        "11_eea_and_emodnet",
+        "12_ceos_cgms_wgclimate_ecv",
+        "17_eumetsat_product_navigator",
+    ]
+    geo_rates = {c: float(df_all.loc[df_all["source_catalogue"] == c, "geographic_coverage_class"].notna().mean()) for c in geo_cats}
+    geo_ok = all(rate >= 0.50 for rate in geo_rates.values())
+    clms_ongoing = int(((df_all["source_catalogue"] == "02_copernicus_clms") & (df_all["is_ongoing_archive"] == True)).sum())
+    if bool(max_res <= 600_000.0) and burnt_ok and len(suomi_l4) == 0 and len(pml_bad) == 0 and geo_ok and clms_ongoing >= 30:
+        checks_passed += 1
+        geo_summary = ", ".join(f"{k[:2]}={v:.1%}" for k, v in geo_rates.items())
+        benchmarks.append(("Flagship Resolution, Suomi-NPP L3, CLMS/CEMS & Metadata Recovery", "PASS", f"max_res={max_res:.1f}m, burnt={len(burnt)} (<500m), ongoing_clms={clms_ongoing}, geo[{geo_summary}]"))
+    else:
+        issues_found.append(
+            f"Check O failed: max_res={max_res}, burnt_ok={burnt_ok} (n={len(burnt)}), suomi_l4={len(suomi_l4)}, pml_bad={len(pml_bad)}, geo_rates={geo_rates}, clms_ongoing={clms_ongoing}"
+        )
+
     print("=" * 92)
     print(f"VERIFICATION REPORT ({checks_passed} core test suites passed, {len(issues_found)} issues)")
     print(f"Max single file size in repo: {max_file_mb:.2f} MB ({max_file_path})")

@@ -851,6 +851,2527 @@
         "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
         "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
       ]
+    },
+    {
+      "id": "fordead-predict",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/fordead-predict/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/fordead-predict"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/fordead-predict/queryables"
+        }
+      ],
+      "title": "FORDEAD predict",
+      "assets": {
+        "QL": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/fordead-predict.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -1.785712865826906,
+              42.302451615096686,
+              9.13521359578018,
+              50.55229211014782
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-01-02T10:28:14.236000Z",
+              "2026-10-23T10:48:53.873000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC BY-SA 4.0",
+      "contacts": [
+        {
+          "name": "Florian de Boissieu",
+          "organization": "INRAE"
+        },
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "url": "www.inrae.fr",
+          "name": "INRAE",
+          "roles": []
+        },
+        {
+          "name": "UMR TETIS",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "FORDEAD anomalies predictions",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "forms-t",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/forms-t/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/forms-t"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/forms-t/queryables"
+        }
+      ],
+      "title": "FORMS-T",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/PvjGX01V/France-visu.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.859595786155143,
+              40.08242510778443,
+              11.175837021340103,
+              51.130598314425725
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Martin Schwartz",
+        "email": "martin.schwartz@lsce.ipsl.fr",
+        "organization": "Laboratoire des Sciences du Climat et de l'Environnement, LSCE/IPSL,CEA-CNRS-UVSQ, Université Paris-Saclay,Gif-sur-Yvette,91191, France"
+      },
+      "license": "other",
+      "sci:doi": "10.71961/0ts1-zz77",
+      "keywords": [
+        "forest",
+        "biomass",
+        "height",
+        "volume",
+        "France",
+        "remote sensing",
+        "LIDAR",
+        "Sentinel",
+        "GEDI"
+      ],
+      "providers": [
+        {
+          "url": "https://www.lsce.ipsl.fr/",
+          "name": "Laboratoire des Sciences du Climat et de l'Environnement",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "FORMS-T : Height, aboveground biomass and wood volume density time-series at 10 to 30 m resolution over france (2018-2024)",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "FORMSpoT",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/FORMSpoT/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/FORMSpoT"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/FORMSpoT/queryables"
+        }
+      ],
+      "title": "FORMSpoT",
+      "assets": {
+        "thumbnail": {
+          "href": "https://forge.inrae.fr/teledec/gdc-media/-/raw/main/forms-t-evolution-opencanopy.gif",
+          "type": "image/gif",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.54868090184636,
+              41.27073250844541,
+              10.84235317110916,
+              51.22848343964462
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2014-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Martin Schwartz",
+        "email": "martin.schwartz@lsce.ipsl.fr",
+        "organization": "Laboratoire des Sciences du Climat et de l'Environnement, LSCE/IPSL,CEA-CNRS-UVSQ, Université Paris-Saclay,Gif-sur-Yvette,91191, France"
+      },
+      "license": "other",
+      "sci:doi": "10.71961/F879-K244",
+      "keywords": [
+        "forest",
+        "height",
+        "France",
+        "remote sensing",
+        "SPOT",
+        "Vision-Transformer",
+        "Deep Learning",
+        "Lidar HD"
+      ],
+      "providers": [
+        {
+          "url": "https://www.lsce.ipsl.fr/",
+          "name": "Laboratoire des Sciences du Climat et de l'Environnement",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "FORMSpoT : Canopy height maps at 1.5 m resolution over France (2014-2024) derived from SPOT-6/7 imagery. ArXiv preprint [https://doi.org/10.48550/arXiv.2512.17021](https://doi.org/10.48550/arXiv.2512.17021).",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "FORMSpoT-delta",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/FORMSpoT-delta/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/FORMSpoT-delta"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/FORMSpoT-delta/queryables"
+        }
+      ],
+      "title": "FORMSpoT-∆",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/Xxz9vqKb/evolution-opencanopy-delta-plus.gif",
+          "type": "image/gif",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.54868090184636,
+              41.27073250844541,
+              10.84235317110916,
+              51.22848343964462
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2014-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Martin Schwartz",
+        "email": "martin.schwartz@lsce.ipsl.fr",
+        "organization": "Laboratoire des Sciences du Climat et de l'Environnement, LSCE/IPSL,CEA-CNRS-UVSQ, Université Paris-Saclay,Gif-sur-Yvette,91191, France"
+      },
+      "license": "other",
+      "sci:doi": "10.71961/F879-K244",
+      "keywords": [
+        "forest",
+        "height",
+        "France",
+        "remote sensing",
+        "SPOT",
+        "Vision-Transformer",
+        "Deep Learning",
+        "Lidar HD"
+      ],
+      "providers": [
+        {
+          "url": "https://www.lsce.ipsl.fr/",
+          "name": "Laboratoire des Sciences du Climat et de l'Environnement",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "FORMSpoT-delta : Disturbance polygons for 2014-2024, derived from the FORMSpoT dataset. ArXiv preprint [https://doi.org/10.48550/arXiv.2512.17021](https://doi.org/10.48550/arXiv.2512.17021).",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "french-tiled-rpg",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/french-tiled-rpg/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/french-tiled-rpg"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/french-tiled-rpg/queryables"
+        }
+      ],
+      "title": "Registre Parcellaire Graphique français",
+      "assets": {
+        "QL": {
+          "href": "https://i.ibb.co/ycFFSKP4/french-rpg.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "contacts": [
+        {
+          "name": "Loïc Lozac'h",
+          "organization": "INRAE"
+        }
+      ],
+      "description": "MGRS tiled and rasterized french declared agricultural plot",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "geogedi",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/geogedi/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/geogedi"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/geogedi/queryables"
+        }
+      ],
+      "title": "GeoGEDI L2A",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/FkVnqDLr/thumbnail-geogedi2-440x300-large.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.14322917109556,
+              41.339211276888854,
+              9.55910462390106,
+              51.09126229062834
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2019-04-18T10:17:12.562431Z",
+              "2023-03-16T20:52:36.037048Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Sylvie Durrieu",
+        "email": "sylvie.durrieu@inrae.fr",
+        "organization": "UMR TETIS / INRAE"
+      },
+      "license": "etalab-2.0",
+      "sci:doi": "10.71961/JEPS-C887",
+      "keywords": [
+        "lidar",
+        "GEDI",
+        "point cloud",
+        "terrain",
+        "forest",
+        "copc",
+        "remote sensing"
+      ],
+      "providers": [
+        {
+          "url": "https://www.inrae.fr",
+          "name": "INRAE",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "GEDI L2A corrected with GeoGEDI",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "get-omp-surfwater",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/get-omp-surfwater/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/get-omp-surfwater"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/get-omp-surfwater/queryables"
+        }
+      ],
+      "title": "Monthly and yearly synthesis of Water Surface occurence",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/PvLy13Hr/surfwater-512.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719358495215288,
+              40.555473140756746,
+              10.354447329975113,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2019-01-01T00:00:00Z",
+              "2020-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "sci:doi": "https://doi.org/10.3390/rs13163279",
+      "Contacts": [
+        {
+          "name": "Santiago Pena Luque",
+          "organization": "CNES"
+        }
+      ],
+      "providers": [
+        {
+          "url": "https://www.get.omp.eu/",
+          "name": "Geosciences Environnement Toulouse - OSU OMP",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "SURFWATER data collection contains yearly and monthly water occurrence  maps (ratio of water detections over clear satellite observations during  a year/month period) on a 10m resolution grid. Such maps are extracted  from optical (Sentinel-2 L2 from MAJA) and radar (Sentinel-1 GRD  processed by S1Tiling) datasets. Supervised algorithms guided by the  Global Surface Water reference are used to classify water/land scenes  for each optical/radar observation. Based on MERIT DEM information,  Height Above Neirest Drainage maps (HAND) are used to remove false  positives. Based on the validation scheme on [Pena Luque, 2021],  single-observation water maps have a median F1 score of 0.89  (precision= 0.9, recall : 0.9) evaluated on 26 labeled scenes. This  dataset is a demo production for France metropolitan territory on 2019.  THEIA/hydroweb.next plans to produce daily SURFWATER maps along 2022. [Pena Luque, 2021] https://www.mdpi.com/2072-4292/13/16/3279,  Validatin dataset https://zenodo.org/record/4657020\n",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "lidarhd",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/lidarhd/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/lidarhd"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/lidarhd/queryables"
+        }
+      ],
+      "title": "Lidar HD point cloud (COPC)",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/zWKsSXdZ/lidarhd-thumbnail2-zoom3.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        },
+        "item-table": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-tests/lidarhd/item_table.parquet",
+          "type": "application/x-parquet",
+          "roles": [
+            "stac-items"
+          ],
+          "title": "Table of items",
+          "description": "Snapshot of the collection's STAC item main properties exported to GeoParquet format."
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -61.811625929159,
+              -21.391017744271757,
+              55.84420608612527,
+              51.0937100934329
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2011-09-14T01:46:40Z",
+              "2026-03-21T11:13:33.906612Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Florian de Boissieu",
+        "email": "florian.deboissieu@inrae.fr",
+        "organization": "UMR TETIS / INRAE"
+      },
+      "created": "2025-06-21T17:03:19Z",
+      "license": "etalab-2.0",
+      "updated": "2026-10-20T01:45:13.109069Z",
+      "keywords": [
+        "lidar",
+        "lidar-hd",
+        "point cloud",
+        "classification",
+        "terrain",
+        "forest",
+        "copc"
+      ],
+      "providers": [
+        {
+          "url": "https://geoservices.ign.fr/lidarhd",
+          "name": "IGNF",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "Lidar HD classified point clouds from IGN, see https://geoservices.ign.fr/lidarhd",
+      "item_assets": {},
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "oso",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/oso/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/oso"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://api.stac.teledetection.fr/collections/oso/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/oso/queryables"
+        }
+      ],
+      "title": "France land cover map (OSO) with MGRS tiles",
+      "assets": {
+        "thumbnail": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/oso.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719358495215288,
+              40.555473140756746,
+              10.354447329975113,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "ETALAB-2",
+      "providers": [
+        {
+          "name": "CESBIO"
+        },
+        {
+          "name": "INRAE"
+        },
+        {
+          "name": "CNES"
+        }
+      ],
+      "description": "The emblematic classification map covering the whole French metropolitan territory. It has a spatial resolution of 10 m. It results from the processing of the complete Sentinel-2 time series of the reference year using the iota² processing chain. A Random Forest classification model is calibrated using a training dataset derived from a combination of several national and international vector data sources (BD TOPO IGN, Corine Land Cover, Urban Atlas, Référentiel Parcellaire Graphique, etc.). Value-added data processed by CNES for the Theia data cluster www.theia.land.fr from Copernicus data. The processing uses algorithms developed by Theia’s Scientific Expertise Centres.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "oso-fr",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/oso-fr/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/oso-fr"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://api.stac.teledetection.fr/collections/oso-fr/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/oso-fr/queryables"
+        }
+      ],
+      "title": "France land cover map (OSO), the original product",
+      "assets": {
+        "thumbnail": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/oso.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -6.257577356132422,
+              40.45571396132725,
+              11.852979242574136,
+              51.139393681799845
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "ETALAB-2",
+      "providers": [
+        {
+          "name": "CESBIO"
+        },
+        {
+          "name": "INRAE"
+        },
+        {
+          "name": "CNES"
+        }
+      ],
+      "description": "The emblematic classification map covering the whole French metropolitan territory. It has a spatial resolution of 10 m. It results from the processing of the complete Sentinel-2 time series of the reference year using the iota² processing chain. A Random Forest classification model is calibrated using a training dataset derived from a combination of several national and international vector data sources (BD TOPO IGN, Corine Land Cover, Urban Atlas, Référentiel Parcellaire Graphique, etc.). Value-added data processed by CNES for the Theia data cluster www.theia.land.fr from Copernicus data. The processing uses algorithms developed by Theia’s Scientific Expertise Centres.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "reconfort-chene",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/reconfort-chene/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/reconfort-chene"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/reconfort-chene/queryables"
+        }
+      ],
+      "title": "RECONFORT Chene",
+      "assets": {
+        "thumbnail": {
+          "href": "https://www.cesbio.cnrs.fr/multitemp/wp-content/uploads/sites/11/2023/11/orleans_compress.gif",
+          "type": "image/gif",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -0.5596901661621927,
+              45.916725067675294,
+              4.518799932751944,
+              49.65268355407665
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-01-01T00:00:00Z",
+              "2024-12-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-NC-BY-SA",
+      "sci:doi": "10.71961/FKRT-XH12",
+      "contacts": [
+        {
+          "name": "Cecile Vincent-Barbaroux",
+          "organization": "Universite d'Orleans"
+        },
+        {
+          "name": "Milena Planells",
+          "organization": "CESBIO Toulouse"
+        }
+      ],
+      "keywords": [
+        "foret",
+        "chene",
+        "France",
+        "teledetection",
+        "deperissement"
+      ],
+      "description": "Cartes de deperissement produites par le module RECONFORT Chene. Contient les classifications de 2017 à 2024 en trois classes (sain, deperissant, tres deperissant) ainsi que les cartes en score continu de 2017 à 2024. Ces cartes correspondent aux forets publiques feuillues (masque OSO).",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json",
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "s1-grd-sigma0-ortho-patches-stats",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/s1-grd-sigma0-ortho-patches-stats/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/s1-grd-sigma0-ortho-patches-stats"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/s1-grd-sigma0-ortho-patches-stats/queryables"
+        }
+      ],
+      "title": "Sentinel 1 patches statistics over MGRS tiles",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/fzkB11hG/s1-patches.jpg",
+          "type": "image/jpeg",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "image quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -74.09588341465607,
+              -9.11344341554588,
+              106.91774030551032,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-07T21:43:09.979297Z",
+              "2025-10-24T06:24:04.567000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-NC-BY-SA",
+      "description": "Sentinel 1 patches statistics",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json"
+      ]
+    },
+    {
+      "id": "s2mp-rpg-fr",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/s2mp-rpg-fr/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/s2mp-rpg-fr"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/s2mp-rpg-fr/queryables"
+        }
+      ],
+      "title": "CDS THEIA-MTD Sentinel Soil Moisture products (S2MP) over french agricultural plot",
+      "assets": {
+        "thumbnail": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/soil-moisture-spot.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719358495215288,
+              41.45624189712769,
+              10.354447329975113,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2025-01-01T17:47:11Z",
+              "2026-06-29T06:07:50Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "contacts": [
+        {
+          "name": "Nicolas Baghdadi",
+          "organization": "INRAE"
+        },
+        {
+          "name": "Loïc Lozac'h",
+          "organization": "INRAE"
+        }
+      ],
+      "description": "\"The soil moisture maps were carried out at a plot scale using french RPG (declared agricultural plot register).  A map is provided each 6 days (12 days with Sentinel-1A and 12 days with Sentinel-1B). Inversion algorithm for estimating  soil moisture was applied for agricultural areas with any vegetation cover. Land cover map is used to  extract the agricultural areas. Sentinel-2 images corrected for atmospheric effects are used  to calculate the NDVI (Normalized Differential Vegetation Index). Using several in situ measurements  of soil moisture, the accuracy on soil moisture estimation was evaluated to be about 5 vol.%.  In the provided soil moisture maps (WGS84, EPSG: 4326), the soil moisture values (mv) are multiplied by 5.  In order to derive the estimated soil moisture value from the provided maps it is necessary to divide by 5 :  volumetric soil moisture (in vol.%) = value obtatiend from the map / 5. Null values in the soil moisture  maps = no data (no soil moisture estimation). The difference between this collection and the historical collection  labeled \"S2MP:v1\" lies in the standardization of input and output data based on the MGRS grid. Additionally, this  collection focuses exclusively on mainland France.\"\n",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sentinel-2-radiometric-indices",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel-2-radiometric-indices/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel-2-radiometric-indices"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel-2-radiometric-indices/queryables"
+        }
+      ],
+      "title": "Sentinel-2 Level 2A radiometric indices",
+      "assets": {
+        "thumbnail": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/sentinel-2-indices-quicklook.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "Rendered preview"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719288167435069,
+              40.55542744489255,
+              10.354508001293711,
+              51.451137246453214
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-04T10:18:58.537000Z",
+              "2026-10-31T10:57:46.335000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA",
+      "contacts": [
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "description": "Radiometric indices computed from CNES/CESBIO Sentinel-2 Level 2A images",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sentinel-derived-soil-moisture-oldprod",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel-derived-soil-moisture-oldprod/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel-derived-soil-moisture-oldprod"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel-derived-soil-moisture-oldprod/queryables"
+        }
+      ],
+      "title": "Sentinel-1/Sentinel-2 derived soil Moisture product at Plot scale (S2MP:v1)",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/5WpLD4Nt/soilmoisture.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -8.988543556947006,
+              31.10208501120914,
+              23.285549317752597,
+              51.03018732264006
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-09-09T18:32:50Z",
+              "2025-07-08T06:27:46Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "Contacts": [
+        {
+          "Name": "Loïc Lozac'h",
+          "Organization": "INRAE"
+        },
+        {
+          "Name": "Nicolas Baghdadi",
+          "Organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "name": "INRAE"
+        }
+      ],
+      "description": "The soil moisture maps were carried out at a plot scale. A map is provided each 6 days (12 days with Sentinel-1A and 12 days with Sentinel-1B).  Inversion algorithm for estimating soil moisture was applied for agricultural areas with any vegetation cover.  Land cover map is used to extract the agricultural areas.  Sentinel-2 images corrected for atmospheric effects are used  to calculate the NDVI (Normalized Differential Vegetation Index).  Using several in situ measurements of soil moisture, the accuracy  on soil moisture estimation was evaluated to be about 5 vol.%.  In the provided soil moisture maps (WGS84, EPSG: 4326),  the soil moisture values (mv) are multiplied by 5.  In order to derive the estimated soil moisture value  from the provided maps it is necessary to divide by 5 :  volumetric soil moisture (in vol.%) = value obtatiend from the map / 5.  Null values in the soil moisture maps = no data (no soil moisture estimation)\n",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "sentinel1-rtc",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel1-rtc/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel1-rtc"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel1-rtc/queryables"
+        }
+      ],
+      "title": "Sentinel-1 RTC",
+      "assets": {
+        "thumbnail": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/s1-rtc-ql.jpg",
+          "type": "image/jpeg",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -86.09034105704113,
+              -29.01209280543713,
+              104.1796665356454,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-03-28T22:52:13Z",
+              "2026-06-29T17:16:12Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "contacts": [
+        {
+          "name": "Pablo Boizeau",
+          "organization": "IRD"
+        },
+        {
+          "name": "Loic Lozach",
+          "organization": "INRAE"
+        }
+      ],
+      "description": "Sentinel-1 orthorectified images produced at the MTD Geospatial Data Center using s1tiling",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-1/v0.2.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sentinel2-l2a-sen2cor",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-sen2cor/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-sen2cor"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-sen2cor/queryables"
+        }
+      ],
+      "title": "Sentinel-2 Level 2A Sen2Cor",
+      "assets": {
+        "thumbnail": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/sentinel-2-quicklook.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "true color image quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -86.09034105704113,
+              -29.01209280543713,
+              102.68203998630894,
+              50.54373917381065
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-04-20T10:30:19.027000Z",
+              "2026-11-07T10:51:51.024000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC BY-SA 4.0",
+      "contacts": [
+        {
+          "name": "Pablo Boizeau",
+          "organization": "IRD"
+        },
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "description": "The Sentinel-2 program provides global imagery in thirteen spectral bands at 10m-60m resolution and a revisit time of approximately five days. This dataset represents the global Sentinel-2 archive, from 2016 to the present, processed to L2A (bottom-of-atmosphere) using Sen2Cor and converted to cloud-optimized GeoTIFF format. Item naming nomenclature is {platform}_{datetime}_{tile}_{baseline_version}_{esa_processing_datetime_sha} ",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/mgrs/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sentinel2-l2a-sen2lasrc",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-sen2lasrc/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-sen2lasrc"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-sen2lasrc/queryables"
+        }
+      ],
+      "title": "Sentinel-2 Level 2A Sen2LaSRC",
+      "assets": {
+        "QL": {
+          "href": "https://i.ibb.co/TKDJV0Z/sentinel-2-quicklook.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "true color image quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              101.69517668168251,
+              -1.8956439500066542,
+              102.68203998630894,
+              -0.9024912201320957
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-04-06T03:38:32Z",
+              "2026-10-06T03:16:09Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "contacts": [
+        {
+          "name": "Florian De Boissieu",
+          "organization": "INRAE"
+        },
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "url": "www.inrae.fr",
+          "name": "INRAE",
+          "roles": []
+        },
+        {
+          "name": "UMR TETIS",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "Sentinel-2 Level 2A produced with sen2lasrc including LaSRC atmospheric correction, Fmask classification (nodata, clear land, cloud, shadow, water, snow) and S2cloudless cloud mask (https://floriandeboissieu.gitlab.io/sen2lasrc)",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/mgrs/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://schemas.stacspec.org/v1.1.0/item-spec/json-schema/instrument.json",
+        "https://stac-extensions.github.io/product/v0.1.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sentinel2-l2a-theia",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-theia/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-theia"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-theia/queryables"
+        }
+      ],
+      "title": "Sentinel-2 Level 2A from CNES and CESBIO",
+      "assets": {
+        "QL": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/sentinel-2-quicklook.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "true color image quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719288167435069,
+              40.55542744489255,
+              10.354508001293711,
+              51.451137246453214
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-04T10:18:58.537000Z",
+              "2026-11-06T11:28:00.445000Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "contacts": [
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        },
+        {
+          "name": "Florian De Boissieu",
+          "organization": "INRAE"
+        }
+      ],
+      "description": "Sentinel-2 Level 2A images produced by CNES and CESBIO",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/product/v0.1.0/schema.json",
+        "https://stac-extensions.github.io/mgrs/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/eo/v1.1.0/schema.json",
+        "https://schemas.stacspec.org/v1.1.0/item-spec/json-schema/instrument.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/theia/v1.1.0/schema.json?ref_type=heads",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sentinel2-l2a-theia-patches-stats",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-theia-patches-stats/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-theia-patches-stats"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sentinel2-l2a-theia-patches-stats/queryables"
+        }
+      ],
+      "title": "Sentinel-2 Level-2A-THEIA patches statistics over MGRS tiles",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/HLK6WFr6/s2-patches.jpg",
+          "type": "image/jpeg",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "image quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719358495215288,
+              41.477082471581966,
+              10.32632455002095,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-04T10:18:58.537000Z",
+              "2025-12-05T11:07:17.088000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-NC-BY-SA",
+      "description": "Sentinel-2 Level-2A-THEIA patches statistics",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "spot-6-7-buildings-footprint",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-buildings-footprint/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-buildings-footprint"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-buildings-footprint/queryables"
+        }
+      ],
+      "title": "Spot 6/7 buildings footprint",
+      "assets": {
+        "ql": {
+          "href": "https://i.ibb.co/3rTzYPy/thumbs-spot67-buildings.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "Rendered preview"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.509184423842219,
+              -6.62790461272305,
+              9.67555574732026,
+              51.164210856935924
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-04-04T10:21:01.458000Z",
+              "2023-10-10T10:15:25.557000Z"
+            ]
+          ]
+        }
+      },
+      "license": "cc-by-nc",
+      "contacts": [
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "name": "inrae"
+        },
+        {
+          "name": "umr-tetis"
+        },
+        {
+          "name": "theia"
+        }
+      ],
+      "description": "Spot-6-7 buildings footprint",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://forgemia.inra.fr/cdos-pub/stac-extensions-schemas/-/raw/main/production/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/timestamps/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "spot-6-7-footprints",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-footprints/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-footprints"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-footprints/queryables"
+        }
+      ],
+      "title": "Spot 6/7 6-classes footprints",
+      "assets": {
+        "ql": {
+          "href": "https://i.ibb.co/WDvzG8D/thumbs-spot67-classes.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "Rendered preview"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.509184423842219,
+              -6.62790461272305,
+              9.67555574732026,
+              51.164210856935924
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-04-04T10:21:01.458000Z",
+              "2023-10-10T10:15:25.557000Z"
+            ]
+          ]
+        }
+      },
+      "license": "cc-by-nc",
+      "contacts": [
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "name": "inrae"
+        },
+        {
+          "name": "umr-tetis"
+        },
+        {
+          "name": "theia"
+        }
+      ],
+      "description": "Spot-6-7 classes footprint",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://forgemia.inra.fr/cdos-pub/stac-extensions-schemas/-/raw/main/production/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/timestamps/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "spot-6-7-solar-panels",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-solar-panels/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-solar-panels"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-solar-panels/queryables"
+        }
+      ],
+      "title": "Solar panels mapping from Spot-6/7 imagery",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/B56BL7Md/solar-maps.png",
+          "type": "image/jpeg",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              0.9433703554534721,
+              42.71542731819915,
+              4.338380527835587,
+              44.72598165341733
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2022-04-05T10:18:20.484000Z",
+              "2023-10-01T10:34:24.022000Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Eric Barbe",
+        "organization": "INRAE, UMR TETIS"
+      },
+      "license": "CC-BY-NC-SA",
+      "keywords": [
+        "Solar",
+        "Photovoltaic",
+        "Agricultural",
+        "Occitanie",
+        "France",
+        "Spot-6/7"
+      ],
+      "providers": [
+        {
+          "url": "https://www.umr-tetis.fr/index.php/en/",
+          "name": "UMR TETIS Lab",
+          "roles": [
+            "producer"
+          ]
+        },
+        {
+          "url": "https://www.inrae.fr/en/",
+          "name": "INRAE",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "spot-6-7 solar panels footprints",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/timestamps/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://forgemia.inra.fr/cdos-pub/stac-extensions-schemas/-/raw/main/production/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json"
+      ]
+    },
+    {
+      "id": "spot-6-7-solar-panels-v2",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-solar-panels-v2/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-solar-panels-v2"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-solar-panels-v2/queryables"
+        }
+      ],
+      "title": "Solar panels mapping from Spot-6/7 imagery (v2)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-NC-BY-SA",
+      "description": "spot-6-7 solar panels footprints (v2)",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "spot-6-7-trees-footprint",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-trees-footprint/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-trees-footprint"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/spot-6-7-trees-footprint/queryables"
+        }
+      ],
+      "title": "Spot 6/7 trees footprint",
+      "assets": {
+        "ql": {
+          "href": "https://i.ibb.co/tbQkJ4c/thumbs-spot67-forest.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "Rendered preview"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.509184423842219,
+              -6.62790461272305,
+              9.67555574732026,
+              51.164210856935924
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-04-04T10:21:01.458000Z",
+              "2023-10-10T10:15:25.557000Z"
+            ]
+          ]
+        }
+      },
+      "license": "cc-by-nc",
+      "contacts": [
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "name": "inrae"
+        },
+        {
+          "name": "umr-tetis"
+        },
+        {
+          "name": "theia"
+        }
+      ],
+      "description": "Spot-6-7 trees footprint",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/classification/v2.0.0/schema.json",
+        "https://forgemia.inra.fr/cdos-pub/stac-extensions-schemas/-/raw/main/production/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/timestamps/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "srtm",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/srtm/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/srtm"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/srtm/queryables"
+        }
+      ],
+      "title": "SRTM",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/RTTjGq5n/nasa-srtm-30m.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -56.000138888888884,
+              180.0,
+              60.00013888888889
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-02-22T00:00:00Z",
+              "2000-02-22T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "contacts": [
+        {
+          "name": "Loic Lozach",
+          "organization": "INRAE"
+        },
+        {
+          "name": "Pablo Boizeau",
+          "organization": "IRD"
+        }
+      ],
+      "description": "HGT SRTM DTM provided by ESA.",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    },
+    {
+      "id": "sufosat",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/sufosat/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/sufosat"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/sufosat/queryables"
+        }
+      ],
+      "title": "SUFOSAT (suivi des forêts par satellite): Submonthly Assessment of Temperate Forest Clear-Cuts in Mainland France",
+      "assets": {
+        "thumbnail": {
+          "href": "https://forge.inrae.fr/teledec/gdc-media/-/raw/main/sufosat_vignette.jpg",
+          "type": "image/jpeg",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -6.257577356123206,
+              40.45571396134216,
+              11.852837595806331,
+              51.451015849149286
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2022-01-02T00:00:00Z",
+              "2022-01-02T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "other",
+      "sci:doi": "10.71961/M18T-KB92",
+      "providers": [
+        {
+          "url": "https://globeo.net",
+          "name": "GLOBEO",
+          "roles": [
+            "producer"
+          ]
+        },
+        {
+          "url": "https://www.cesbio.cnrs.fr",
+          "name": "CESBIO",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "La carte des coupes rases en France métropolitaine, générée à l'aide des données radar Sentinel-1 par une méthode de détection de changement radar, fournit une information en temps quasi réel des zones de coupe rase avec une résolution de 10 mètres par pixel et une unité minimale de cartographie de 0,1 hectare. La carte permet de détecter les coupes rases avec une précision de 99,4% et un rappel de 80,9%, validée par rapport à 967 parcelles de référence. Cette carte accessible à tous offre des informations détaillées sur la dynamique des coupes rases dans les forêts tempérées françaises. Les coupes rases montrent une variabilité régionale significative et une concentration notable dans les forêts privées, qui présentent sept fois plus de coupes rases que les forêts publiques bien qu’elles ne soient que trois fois plus grandes.",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "super-sentinel-2-l2a",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/super-sentinel-2-l2a/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/super-sentinel-2-l2a"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/super-sentinel-2-l2a/queryables"
+        }
+      ],
+      "title": "Synthetic Sentinel-2 L2A (R, G, B, NIR) fused with Spot-6/7",
+      "assets": {
+        "ql": {
+          "href": "https://i.ibb.co/HdrCLD4/super-sentinel-2-quicklook.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "Rendered preview"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -1.2956360215228273,
+              44.49802838155587,
+              -1.1156028124913246,
+              44.62969659913557
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-01-06T00:00:00Z",
+              "2021-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "proprietary",
+      "providers": [
+        {
+          "name": "INRAE"
+        },
+        {
+          "name": "CDOS de Montpellier"
+        }
+      ],
+      "description": "Synthetic Sentinel-2 L2A (R, G, B, NIR) fused with Spot-6/7",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "thermocity-lst",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/thermocity-lst/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/thermocity-lst"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/thermocity-lst/queryables"
+        }
+      ],
+      "title": "Thermocity Land Surface Temperature",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/3ybBSP7S/thermocity-512.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              0.7880127191561791,
+              43.04950925513808,
+              8.41427554113033,
+              49.298129597581145
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2003-01-14T00:00:00Z",
+              "2020-08-08T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "sci:doi": "https://doi.org/10.60566/cckwb-hqr05",
+      "Contacts": [
+        {
+          "name": "Vincent Lonjou",
+          "organization": "CNES"
+        },
+        {
+          "name": "Aurelie Michel",
+          "organization": "ONERA"
+        },
+        {
+          "name": "Laure Roupioz",
+          "organization": "ONERA"
+        }
+      ],
+      "providers": [
+        {
+          "url": "https://www.spaceclimateobservatory.org/fr/thermocity",
+          "name": "Space for Climate Observatory",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "ASTER and ECOSTRESS thermal data are reprocessed to provide  a state-of-the-art thermal data set over 5 french metropolises :  Marseille, Montpellier, Paris, Strasbourg and Toulouse.  For each metropolises, a 100km square ROI is used. The dataset extends  from 2003 to 2019 for ASTER and from 2018 to 2020 for ECOSTRESS.  For each mission and each ROI, we generally provide at least one acquisition  during day and night, and during winter and summer.  All the data have been geometrically corrected to fit  Copernicus Sentinel-2 mission geolocalization. They are provided  in the original spatial resolution (70m for ECOSTRESS and 90m for ASTER),  together with and enhanced resolution for ASTER when synchroneous visible data  are available (30m). Atmospheric corrections have been refined  for ASTER thanks to original atmospheric profiles from Meteo-France.  Finally, a dedicated TES algorithm trained on urban materials is used  to derive land surface temperature and emissivity.\n",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
     }
   ],
   "numberMatched": 39,

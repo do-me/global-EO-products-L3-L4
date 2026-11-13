@@ -80,7 +80,8 @@ SOURCE_AUTHORITY_RANK: dict[str, int] = {
 def parse_resolution_meters(res_str: str | None) -> float | None:
     """
     Strictly parses a resolution string into meters.
-    Returns None if `res_str` is None or contains no parseable numeric resolution.
+    Returns None if `res_str` is None, contains no parseable numeric resolution,
+    or exceeds physical planetary bounds (> 600 km).
     Conversions:
       - 1 degree latitude/longitude at equator ~ 111,320 m
       - 1 arc-minute ~ 1,855.3 m
@@ -89,35 +90,65 @@ def parse_resolution_meters(res_str: str | None) -> float | None:
     """
     if not res_str:
         return None
-    s = str(res_str).lower().strip()
+    s = str(res_str).lower().replace("&deg;", "°").strip()
     # Direct numeric string (e.g. from STAC summaries.gsd like "10" or "30.0")
     if re.match(r"^\d+(\.\d+)?$", s):
         val = float(s)
-        return val if val > 0 else None
+        return val if 0 < val <= 600_000.0 else None
 
     candidates: list[float] = []
-    # Match patterns like "0.25 deg", "10 m", "1 km", "30 arcsec", "15 arc-second"
+    # 1. Explicit fractional degree notations: e.g. "1°/112", "1/336°", "5°/112", "1/24°", "1/8th degree", "1/4 deg"
+    frac_deg_pat = re.compile(
+        r"(?<![\d.])(\d+(?:\.\d+)?)\s*(?:(°)|\s*(deg|degree|degrees))?\s*/\s*(\d+(?:\.\d+)?)\s*(?:(th)\b)?\s*(?:(deg|degree|degrees)\b|(°)(?!\s*[cfknswe]\b))?"
+    )
+    for m in frac_deg_pat.finditer(s):
+        num = float(m.group(1))
+        den = float(m.group(4))
+        has_deg = bool(m.group(2) or m.group(3) or m.group(6) or m.group(7))
+        if has_deg and num > 0 and den > 0:
+            val_m = round((num / den) * 111320.0, 2)
+            if 0 < val_m <= 600_000.0:
+                candidates.append(val_m)
+
+    # 2. Standard decimal/integer value + unit (excluding numerator/denominator numbers adjacent to '/')
     pattern = re.compile(
-        r"(\d+(?:\.\d+)?)\s*(km|kilometer|kilometre|m|meter|metre|deg|degree|°|arcsec|arc-second|arcsecond|\"|arcmin|arc-minute|')\b"
+        r"(?<![\d.])(?<!\d/)(?<!\d\s/)(\.\d+|\d+(?:\.\d+)?)\s*(?:(km|kilometer|kilometre|m|meter|metre|deg|degree|degrees|arcsec|arc-second|arcsecond|arcmin|arc-minute)\b|(°)(?!\s*[cfknswe]\b))(?![\s°]*\/)"
     )
     for m in pattern.finditer(s):
         val = float(m.group(1))
-        unit = m.group(2)
-        if val <= 0:
+        unit = m.group(2) or m.group(3)
+        if val <= 0 or not unit:
             continue
         if unit in ("km", "kilometer", "kilometre"):
-            candidates.append(val * 1000.0)
+            val_m = val * 1000.0
         elif unit in ("m", "meter", "metre"):
-            candidates.append(val)
-        elif unit in ("deg", "degree", "°"):
-            candidates.append(round(val * 111320.0, 2))
-        elif unit in ("arcsec", "arc-second", "arcsecond", '"'):
-            candidates.append(round(val * 30.92, 2))
-        elif unit in ("arcmin", "arc-minute", "'"):
-            candidates.append(round(val * 1855.3, 2))
+            val_m = val
+        elif unit in ("deg", "degree", "degrees", "°"):
+            val_m = round(val * 111320.0, 2)
+        elif unit in ("arcsec", "arc-second", "arcsecond"):
+            val_m = round(val * 30.92, 2)
+        elif unit in ("arcmin", "arc-minute"):
+            val_m = round(val * 1855.3, 2)
+        else:
+            continue
+        if 0 < val_m <= 600_000.0:
+            candidates.append(val_m)
     if candidates:
         return min(candidates)
     return None
+
+
+def parse_title_token_resolution_meters(raw_id: str | None, title: str | None) -> float | None:
+    """Extracts horizontal pixel resolution tokens from title/ID after masking vertical depths and non-GSD codes."""
+    txt = f"{raw_id or ''} {title or ''}"
+    txt = re.sub(r"sensor depth:\s*[\d.]+\s*m\b", " ", txt, flags=re.IGNORECASE)
+    txt = re.sub(r"\bat\s+(?:the\s+surface\s+and\s+)?\d+(?:\.\d+)?\s*m\b", " ", txt, flags=re.IGNORECASE)
+    txt = re.sub(r"\bin\s+\d+(?:\.\d+)?\s*m\.?\s*transect\b", " ", txt, flags=re.IGNORECASE)
+    txt = re.sub(r"\b\d+\s*M\s+[\w\s]*Mosaic\b", " ", txt)
+    txt = re.sub(r"mosaic-cbers4[a-z]*-[a-z-]+-\d+m\b", " ", txt, flags=re.IGNORECASE)
+    txt = re.sub(r"\bdegree\s+of\s+[a-z\s]+?\([a-z]+\)\s*\d{4}\b", " ", txt, flags=re.IGNORECASE)
+    txt = re.sub(r"\b[a-zA-Z]+\d+(?:\.\d+)?(?:m|km|deg)\b", " ", txt)
+    return parse_resolution_meters(txt)
 
 
 # ---------------------------------------------------------------------------
@@ -137,8 +168,6 @@ def classify_cadence(
     start_year: int | None,
     end_year: int | None,
 ) -> str | None:
-    # If start_year and end_year are identical and not explicitly daily/monthly/hourly NRT,
-    # or if raw frequency explicitly says static/notPlanned/irregular single epoch, treat as static.
     txt = f"{temp_res_raw or ''} {update_freq_raw or ''}".lower()
     title_l = (title or "").lower()
 
@@ -150,38 +179,41 @@ def classify_cadence(
         return "monthly_or_seasonal"
     if any(k in txt for k in ("annual", "yearly", "1 year", "p1y", "biannual")):
         return "annual"
-    if any(k in txt for k in ("3-year", "5-year", "multi-year", "decadal")) or re.search(r"\b(?:[2-9]|\d{2,})\s*years?\b", txt):
+    if any(k in txt for k in ("3-year", "5-year", "6-year", "multi-year", "decadal")) or re.search(r"\b(?:[2-9]|\d{2,})\s*years?\b", txt):
         return "multi_year_periodic"
+
+    # Check explicit cadence tokens in title before falling back to AsNeeded/notPlanned metadata flags
+    if re.search(r"\b(?:10[- ]dail|10[- ]day|8[- ]dail|8[- ]day|16[- ]day|dekadal|weekly)\b", title_l):
+        return "multi_day_or_dekadal"
+    if re.search(r"\b(?:daily|hourly|sub-daily|near[- ]real[- ]time|nrt)\b", title_l):
+        return "sub_daily_or_daily"
+    if re.search(r"\b(?:monthly|seasonal|quarterly)\b", title_l):
+        return "monthly_or_seasonal"
+    if re.search(r"\b(?:[2-9]-yearly|6-yearly|multi-year)\b", title_l):
+        return "multi_year_periodic"
+    if re.search(r"\b(?:annual|yearly)\b", title_l):
+        return "annual"
+
     if any(k in txt for k in ("notplanned", "not_planned", "asneeded", "static", "single-epoch", "one-off", "irregular", "once")):
         return "static_or_single_epoch"
 
-    # Check title tokens only if raw cadence metadata is absent
-    if not temp_res_raw:
-        if re.search(r"\b(daily|hourly|near[- ]real[- ]time|nrt)\b", title_l):
-            return "sub_daily_or_daily"
-        if re.search(r"\b(8-day|10-day|16-day|dekadal|weekly)\b", title_l):
-            return "multi_day_or_dekadal"
-        if re.search(r"\b(monthly|seasonal|quarterly)\b", title_l):
-            return "monthly_or_seasonal"
-        if re.search(r"\b(annual|yearly)\b", title_l):
-            return "annual"
-        if start_year and end_year and start_year == end_year and start_year <= 2024:
-            return "static_or_single_epoch"
+    if not temp_res_raw and start_year and end_year and start_year == end_year and start_year <= 2024:
+        return "static_or_single_epoch"
     return None
 
 
 # ---------------------------------------------------------------------------
 # 3. Geographic Coverage Classifier (from bbox_raw; null stays null)
 # ---------------------------------------------------------------------------
-def classify_geographic_coverage(bbox: Any) -> tuple[float | None, float | None, float | None, float | None, str | None]:
+def classify_geographic_coverage(bbox: Any, title: str | None = None) -> tuple[float | None, float | None, float | None, float | None, str | None]:
     if not isinstance(bbox, (list, tuple)) or len(bbox) < 4:
         return None, None, None, None, None
     try:
         w, s, e, n = float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])
     except Exception:
         return None, None, None, None, None
-    # True antimeridian crossover spans east-of-180 into negative western longitudes
-    if w > e and w > 0.0 and e < 0.0:
+    # Antimeridian wrap-around spans east -> west across 180 deg
+    if w > e:
         dlon = 360.0 - (w - e)
     else:
         dlon = abs(e - w)
@@ -190,9 +222,19 @@ def classify_geographic_coverage(bbox: Any) -> tuple[float | None, float | None,
         cov = "global"
     elif dlon >= 300.0 and dlat >= 90.0:
         cov = "quasi_global"
-    elif dlon >= 300.0 and dlat >= 40.0:
+    elif (dlon >= 300.0 and dlat >= 40.0) or (dlon >= 120.0 and dlat >= 120.0):
         cov = "hemispheric_or_pantropical"
-    elif not (w > 0.0 and e < 0.0) and -35.0 <= w <= 45.0 and 25.0 <= s <= 75.0 and -10.0 <= e <= 70.0 and 35.0 <= n <= 85.0:
+    elif not (w > e) and -65.0 <= w <= 45.0 and 10.0 <= s <= 75.0 and -10.0 <= e <= 85.0 and 35.0 <= n <= 90.0:
+        cov = "europe_regional"
+    elif (
+        dlon < 300.0
+        and title
+        and re.search(
+            r"(?:,\s*Europe\b|\bPan-European\b|\bEEA39\b|\bin Europe(?:'s)?\s+Seas\b|\balong European coastlines\b|\bEuropean soil database\b)",
+            title,
+            re.IGNORECASE,
+        )
+    ):
         cov = "europe_regional"
     else:
         cov = "regional_or_local"
@@ -200,50 +242,120 @@ def classify_geographic_coverage(bbox: Any) -> tuple[float | None, float | None,
 
 
 # ---------------------------------------------------------------------------
-# 4. Producing Institution vs Hosting Platform & Provider Pool
+# 4. Producing Institution vs Hosting Platform, Provider Pool & Jurisdiction Tier
 # ---------------------------------------------------------------------------
 COPERNICUS_JRC_CEMS_RE = re.compile(
-    r"\b(ghsl|ghs[-_]|global human settlement|edo\b|gdo\b|European Drought Observatory|Global Drought Observatory|"
-    r"effis|gwis|European Forest Fire Information System|Global Wildfire Information System|glofas|efas|"
-    r"copernicus emergency|cems)\b",
+    r"\b(ghsl|ghs[-_]|global human settlement|degree of urbanisation|smod|edo\b|gdo\b|"
+    r"european drought observatory|global drought observatory|"
+    r"effis|gwis|european forest fire information system|global wildfire information system|"
+    r"glofas|efas|flood hazard|global flood|copernicus emergency|copernicus ems|\bcems\b|rapid mapping|\bemsr\d*\b)\b",
     re.IGNORECASE,
 )
 
 COPERNICUS_CLMS_JRC_RE = re.compile(
-    r"\b(copernicus land|clms|global land service|cgls)\b",
+    r"\b(copernicus land|\bclms\b|global land service|\bcgls\b)\b",
+    re.IGNORECASE,
+)
+
+COPERNICUS_EEA_CLMS_RE = re.compile(
+    r"\b(copernicus land|\bclms\b|corine land cover|\bclc\s*(?:1990|2000|2006|2012|2018)\b|"
+    r"high resolution layer|\bhrl\b|imperviousness|impervious built-up|share of built-up|"
+    r"tree cover density|dominant leaf type|forest type|grassland 20|grassland change|grassland vegetation|grassland mowing|"
+    r"water and wetness|small woody features|small landscape features|urban atlas|riparian zones|coastal zones|"
+    r"\beu-dem\b|\beu-hydro\b|high resolution vegetation phenology|medium resolution vegetation phenology|\bhr-vpp\b|"
+    r"high-resolution snow|fractional snow cover|persistent snow|river and lake ice|biophysical parameters)\b",
+    re.IGNORECASE,
+)
+
+# JRC datasets mentioning Copernicus in prose descriptions/projects but NOT Copernicus service outputs
+NON_COPERNICUS_JRC_EXEMPT_RE = re.compile(r"\b(ardeco|lucas)\b", re.IGNORECASE)
+
+# Explicit third-country national agencies (always non_eu even when mirrored or co-cited in federated gateways)
+THIRD_COUNTRY_PRODUCER_RE = re.compile(
+    r"\b(nasa|jpl|podaac|po\.daac|nsidc|lpdaac|ges_disc|ornl|ornl_cloud|laads|asdc|cmr|"
+    r"usgs|noaa|nesdis|ncei|usda|usfs|usepa|columbia university|ciesin|"
+    r"inpe|cptec|brazil data cube|jaxa|g-portal|isro|mosdac|nrsc|bhoonidhi|"
+    r"nrcan|natural resources canada|ccmeo|canadian space agency|eccc|csiro|"
+    r"geoscience australia|digital earth australia|conae|sansa|nrsa|cbers|"
+    r"\bcas\b|\bigsnrr\b|pml_v2|\busap\b|\busap-dc\b|\bnsf\b)\b",
+    re.IGNORECASE,
+)
+
+# Formal Copernicus Participating / Associated States under Reg. (EU) 2021/696:
+# EEA states (Norway, Iceland) and United Kingdom (Copernicus Association effective 2024-01-01)
+COPERNICUS_ASSOCIATED_STATE_RE = re.compile(
+    r"\b(university of southampton|worldpop|university of bristol|fabdem|"
+    r"uk centre for ecology|\bukceh\b|met office|hadley centre|plymouth marine laboratory|plymouth marine|"
+    r"national oceanography centre|\bnoc\b|british geological survey|\bbgs\b|"
+    r"british antarctic survey|\bbas\b|\bceda\b|\bstfc\b|\bnerc\b|\bukri\b|\bdefra\b|\bnceo\b|"
+    r"university of reading|university of leicester|university of edinburgh|university of leeds|"
+    r"university of exeter|university of oxford|university of cambridge|"
+    r"norwegian meteorological|met norway|\bnersc\b|nansen environmental|\bnilu\b|"
+    r"\bnibio\b|\bimr\b|\bsintef\b|\bniva\b|icelandic meteorological|\bvedur\b)\b",
+    re.IGNORECASE,
+)
+
+# Switzerland: ESA/EUMETSAT/ECMWF Member State NOT associated to Copernicus -> legal third country (non_eu)
+CH_ESA_NON_COPERNICUS_RE = re.compile(
+    r"\b(eth z[uü]rich|\bethz\b|crowther lab|\bwsl\b|envidat|\bepfl\b|\bwgms\b|"
+    r"world glacier monitoring|meteoswiss|swisstopo|federal office of topography|"
+    r"university of zurich|university of bern)\b",
+    re.IGNORECASE,
+)
+
+# European Space / Meteorological IGOs (non-Copernicus activities of ESA, EUMETSAT, ECMWF)
+EUROPEAN_IGO_RE = re.compile(
+    r"\b(european space agency|\besa\b|esa/esrin|esa[-_ ]cci|esa worldcover|esa worldcereal|"
+    r"eumetsat|cm saf|osi saf|osisaf|lsa saf|ac saf|h saf|rom saf|nwc saf|nwpsaf|"
+    r"\becmwf\b|destination earth|destine)\b",
     re.IGNORECASE,
 )
 
 EU_PRODUCER_RE = re.compile(
-    r"\b(european space agency|eumetsat|cm saf|osi saf|osisaf|lsa saf|ac saf|h saf|rom saf|nwc saf|nwpsaf|"
-    r"ecmwf|mercator oc[eé]an|joint research centre|european commission|european environment agency|eurostat|"
+    r"\b(joint research centre|european commission|european environment agency|eurostat|"
     r"emodnet|german aerospace|centre national d'etudes spatiales|data terra|theia|dinamis|terrascope|"
-    r"opengeohub|openlandmap|isric|soilgrids|wageningen|eth z[uü]rich|ghent university|ugent|"
+    r"opengeohub|openlandmap|isric|soilgrids|wageningen|ghent university|ugent|"
     r"vrije universiteit amsterdam|miralles, diego|\bgleam4\b|global land evaporation amsterdam model|"
-    r"university of southampton|worldpop|plymouth marine|met office|ifremer|helmholtz|"
-    r"alfred wegener institute|potsdam institute for climate impact|tu wien|deltares|"
-    r"technical university of denmark|deutscher wetterdienst|norwegian meteorological|"
-    r"uk centre for ecology|university of bremen|university of reading|university of leicester|"
-    r"goethe university|max planck|british geological survey|british antarctic survey|"
-    r"swisstopo|federal office of topography|collecte localisation satellites|"
-    r"esa[-_ ]cci|esa worldcover|esa worldcereal)\b",
+    r"ifremer|mercator oc[eé]an|helmholtz|alfred wegener institute|potsdam institute for climate impact|"
+    r"tu wien|deltares|technical university of denmark|deutscher wetterdienst|"
+    r"university of bremen|goethe university|max planck|collecte localisation satellites)\b",
     re.IGNORECASE,
 )
 
 # Short agency/institute acronyms matched only against explicit producing_institution strings (prevents homograph leaks in titles)
-EU_PRODUCER_ACRONYM_RE = re.compile(
-    r"\b(esa|esa/esrin|copernicus|ec-jrc|jrc|eea|dlr|cnes|vito|rbins|pml|noc|knmi|smhi|dmi|fmi|"
-    r"ispra|ingv|csic|awi|gfz|pik|iiasa|eodc|ceda|stfc|nerc|dtu|bgr|boku|itc|ukceh|nilu|dwd|"
-    r"inrae|cnrs|ird|cesbio|m[eé]t[eé]o[- ]france|nceo|bgs|bas|ignf|enveo|cls|mercator)\b",
+EU27_ACRONYM_RE = re.compile(
+    r"\b(copernicus|ec-jrc|jrc|eea|dlr|cnes|vito|rbins|knmi|smhi|dmi|fmi|"
+    r"ispra|ingv|csic|awi|gfz|pik|iiasa|eodc|dtu|bgr|boku|itc|dwd|"
+    r"inrae|cnrs|ird|cesbio|m[eé]t[eé]o[- ]france|ignf|enveo|cls|cmcc|mercator)\b",
     re.IGNORECASE,
 )
 
 UN_INTL_PRODUCER_RE = re.compile(
     r"\b(food and agriculture organization|\bfao\b|wapor|gaez|gsoc|"
     r"united nations|\bunep\b|wcmc|protected planet|wdpa|wmo\b|world meteorological|"
-    r"geo bon|geobon|group on earth observations|cgiar|ciat|cifor|icraf|iwmi)\b",
+    r"geo bon|geobon|group on earth observations|cgiar|ciat|cifor|icraf|iwmi|"
+    r"world bank|world bank group|\bundp\b|\bunsd\b|\bunhcr\b)\b",
     re.IGNORECASE,
 )
+
+
+def classify_eu_non_copernicus_tier(
+    combined: str,
+    prod_str: str,
+    source_id: str,
+) -> tuple[str, str]:
+    """Sub-classify non-Copernicus European records by institutional/jurisdiction tier."""
+    # Check ESA / EUMETSAT / ECMWF IGO identity before national institute partners (e.g. ESA CCI hosted at CEDA)
+    if EUROPEAN_IGO_RE.search(prod_str) or EUROPEAN_IGO_RE.search(combined) or source_id in ("17_eumetsat_product_navigator", "18_esa_osc_earthcode"):
+        # If an associated-state national agency is explicit without ESA/EUMETSAT/ECMWF in prod_str, keep national tier
+        if COPERNICUS_ASSOCIATED_STATE_RE.search(prod_str) and not EUROPEAN_IGO_RE.search(prod_str) and "climate change initiative" not in combined.lower() and "_cci" not in combined.lower():
+            return "eu_non_copernicus", "copernicus_associated_state"
+        return "eu_non_copernicus", "european_space_met_igo"
+    if (EU_PRODUCER_RE.search(prod_str) or EU27_ACRONYM_RE.search(prod_str)) and not COPERNICUS_ASSOCIATED_STATE_RE.search(prod_str):
+        return "eu_non_copernicus", "eu27_national_or_eu_agency"
+    if COPERNICUS_ASSOCIATED_STATE_RE.search(prod_str) or COPERNICUS_ASSOCIATED_STATE_RE.search(combined):
+        return "eu_non_copernicus", "copernicus_associated_state"
+    return "eu_non_copernicus", "eu27_national_or_eu_agency"
 
 
 def classify_producer_and_pool(
@@ -253,15 +365,19 @@ def classify_producer_and_pool(
     desc: str | None,
     org_raw: str | None,
     host_raw: str | None,
-) -> tuple[str | None, str | None, str, str | None, bool]:
+    kw_raw: str | None = None,
+) -> tuple[str | None, str | None, str, str | None, bool, str]:
     """
     Returns:
-      (producing_institution, hosting_platform, provider_pool, copernicus_service, is_un_or_international_body)
+      (producing_institution, hosting_platform, provider_pool, copernicus_service,
+       is_un_or_international_body, provider_jurisdiction_tier)
     where provider_pool in {"copernicus_services", "eu_non_copernicus", "non_eu"}.
     """
     rid = (raw_id or "").strip()
     ttl = (title or "").strip()
-    combined = f"{rid} {ttl} {org_raw or ''}"
+    prod_str = (org_raw or "").strip()
+    combined = f"{rid} {ttl} {prod_str}"
+    is_un = bool(UN_INTL_PRODUCER_RE.search(combined)) or source_id == "15_geobon_and_geokhub"
 
     # Default hosting platform by catalogue source
     default_hosts = {
@@ -299,116 +415,173 @@ def classify_producer_and_pool(
 
     # 1. Primary Copernicus Thematic Services (01-05)
     if source_id == "01_copernicus_cmems":
-        return producer or "Mercator Océan International (CMEMS)", host, "copernicus_services", "CMEMS", False
+        return producer or "Mercator Océan International (CMEMS)", host, "copernicus_services", "CMEMS", False, "copernicus_service"
     if source_id == "02_copernicus_clms":
-        return producer or "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False
+        return producer or "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
     if source_id == "03_copernicus_c3s_cds":
-        return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False
+        return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False, "copernicus_service"
     if source_id == "04_copernicus_cams_ads":
-        return producer or "ECMWF (CAMS)", host, "copernicus_services", "CAMS", False
+        return producer or "ECMWF (CAMS)", host, "copernicus_services", "CAMS", False, "copernicus_service"
     if source_id == "05_copernicus_cems_ewds":
-        return producer or "ECMWF / EC JRC (CEMS)", host, "copernicus_services", "CEMS", False
+        return producer or "ECMWF / EC JRC (CEMS)", host, "copernicus_services", "CEMS", False, "copernicus_service"
 
     # 2. EODC (06): CEMS GFM, COP_DEM, CLMS, C3S mirrors vs other EODC/TU Wien/BOKU research collections
     if source_id == "06_copernicus_cems_gfm_eodc":
         if rid.upper() == "GFM" or "global flood monitoring" in ttl.lower():
-            return "EC JRC / EODC Consortium (Copernicus Emergency Management Service - CEMS GFM)", host, "copernicus_services", "CEMS", False
+            return "EC JRC / EODC Consortium (Copernicus Emergency Management Service - CEMS GFM)", host, "copernicus_services", "CEMS", False, "copernicus_service"
         if "COP_DEM" in rid.upper() or "copernicus dem" in ttl.lower():
-            return "European Space Agency / Airbus (Copernicus DEM)", host, "copernicus_services", "COP_DEM", False
+            return "European Space Agency / Airbus (Copernicus DEM)", host, "copernicus_services", "COP_DEM", False, "copernicus_service"
         if rid in ("CGLS_SSM_1KM", "CORINE_LAND_COVER", "clms-st", "clms-vpp"):
-            return "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False
+            return "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
         if rid == "era5-land-datacube":
-            return "ECMWF (C3S)", host, "copernicus_services", "C3S", False
-        return producer or "EODC / TU Wien", host, "eu_non_copernicus", None, False
+            return "ECMWF (C3S)", host, "copernicus_services", "C3S", False, "copernicus_service"
+        if producer == "EODC / Copernicus Emergency Management Service (CEMS GFM)":
+            producer = "Earth Observation Data Centre (EODC)"
+        return producer or "EODC / TU Wien", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
 
-    # 3. EC JRC (07): Distinguish JRC CEMS/CLMS products from standalone JRC scientific flagships (TMF, GSWE, EDGAR, DOPA, ESDAC)
+    # 3. EC JRC (07): Distinguish JRC CEMS/CLMS products from standalone JRC scientific flagships (TMF, GSWE, EDGAR, ARDECO, LUCAS, DOPA, ESDAC)
+    # Only scan rid + ttl + keywords (never full prose description) so background mentions of CEMS/Copernicus do not misclassify ARDECO/LUCAS.
     if source_id == "07_ec_jrc_data_catalogue":
-        if COPERNICUS_JRC_CEMS_RE.search(f"{ttl} {desc or ''}"):
-            return "European Commission Joint Research Centre (EC JRC - CEMS)", host, "copernicus_services", "CEMS", False
-        if COPERNICUS_CLMS_JRC_RE.search(f"{ttl} {desc or ''}"):
-            return "European Commission Joint Research Centre (EC JRC - CLMS)", host, "copernicus_services", "CLMS", False
-        return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False
+        jrc_head = f"{rid} {ttl} {kw_raw or ''}"
+        if not NON_COPERNICUS_JRC_EXEMPT_RE.search(f"{rid} {ttl}"):
+            if COPERNICUS_JRC_CEMS_RE.search(jrc_head):
+                return "European Commission Joint Research Centre (EC JRC - CEMS)", host, "copernicus_services", "CEMS", False, "copernicus_service"
+            if COPERNICUS_CLMS_JRC_RE.search(jrc_head):
+                return "European Commission Joint Research Centre (EC JRC - CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
+        return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
 
-    # 4. Cross-platform Copernicus Service detection (DEDL, WEkEO, CDSE, GEE, PC, EEA, OLM)
+    # 3b. National hubs in 22_data_terra_inpe_dea & Brazilian INPE SAMeT in 14_ceos_fedeo_agencies:
+    # Classify before cross-platform C3S/ESA checks so co-listed forcing providers (e.g. C3S ERA5) never hijack INPE/DEA products.
+    if source_id == "22_data_terra_inpe_dea":
+        hub_text = f"{rid} {prod_str} {host_raw or ''}"
+        if re.search(r"\b(geoscience australia|digital earth australia|\bdea\b|^ga_|inpe|brazil)\b", hub_text, re.IGNORECASE):
+            return producer, host, "non_eu", None, False, "third_country_non_european"
+        return producer or "Data Terra / CNES / Theia (France)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
+
+    if source_id == "14_ceos_fedeo_agencies" and re.match(r"^samet_", rid, re.IGNORECASE):
+        return producer or "INPE / CPTEC (Brazil)", host, "non_eu", None, False, "third_country_non_european"
+
+    # 4. Cross-platform Copernicus Service detection (DEDL, WEkEO, CDSE, GEE, PC, EEA, FedEO, OLM)
     if re.search(r"(^EO[:.]MO[:.]DAT[:.]|^cmems_|^COPERNICUS/MARINE|Copernicus Marine|CMEMS)", combined, re.IGNORECASE):
-        return producer or "Mercator Océan International (CMEMS)", host, "copernicus_services", "CMEMS", False
-    if re.search(r"(^EO[:.]CLMS[:.]DAT[:.]|^EO[:.]EEA[:.]DAT[:.](?:CLMS|HRL|CORINE|CLC|URBAN-ATLAS|COASTAL|RIPARIAN|EU-HYDRO)|^EO[:.]JRC[:.]DAT[:.]CLMS|^COPERNICUS/Landcover|^COPERNICUS/CORINE|^land\.cover_copernicus$|^fapar_proba\.v$|Copernicus Land|CLMS)", combined, re.IGNORECASE):
-        return producer or "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False
+        return producer or "Mercator Océan International (CMEMS)", host, "copernicus_services", "CMEMS", False, "copernicus_service"
+    if re.search(r"(^EO[:.]CLMS[:.]DAT[:.]|^EO[:.]EEA[:.]DAT[:.](?:CLMS|HRL|CORINE|CLC|URBAN-ATLAS|COASTAL|RIPARIAN|EU-HYDRO)|^EO[:.]JRC[:.]DAT[:.]CLMS|^COPERNICUS/Landcover|^COPERNICUS/CORINE|\bland\.cover_copernicus\b|\bfapar_proba\.v\b|Copernicus (?:Global )?Land|\bCLMS\b|\bCGLS\b|Copernicus Urban Atlas|Copernicus Imperviousness)", combined, re.IGNORECASE):
+        return producer or "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
     if re.search(r"(^EO[:.]ECMWF[:.]DAT[:.]CAMS|^ECMWF/CAMS|Copernicus Atmosphere|\bCAMS\b)", combined, re.IGNORECASE):
-        return producer or "ECMWF (CAMS)", host, "copernicus_services", "CAMS", False
-    if re.search(r"(^EO[:.]ECMWF[:.]DAT[:.](?:CEMS_|GLOFAS|EFAS|FIRE_)|^EO[:.]GHSL[:.]|^JRC/GHSL|^pop\.count_ghs\.jrc$|GHS-POP|GHS-BUILT|GHS-SMOD|Copernicus Emergency|\bCEMS\b|GloFAS|EFAS)", combined, re.IGNORECASE):
-        return producer or "EC JRC / ECMWF (CEMS)", host, "copernicus_services", "CEMS", False
-    if re.search(r"(^EO[:.]DEM[:.]DAT[:.]COP-DEM|COP-DEM|^COPERNICUS/DEM|cop-dem-glo|^dsm_glo30$|Copernicus DEM)", combined, re.IGNORECASE):
-        return producer or "ESA / Copernicus (Copernicus DEM)", host, "copernicus_services", "COP_DEM", False
+        return producer or "ECMWF (CAMS)", host, "copernicus_services", "CAMS", False, "copernicus_service"
+    if re.search(r"(^EO[:.]ECMWF[:.]DAT[:.](?:CEMS_|GLOFAS|EFAS|FIRE_)|^EO[:.]GHSL[:.]|^JRC/GHSL|\bpop\.count_ghs\.jrc\b|\bGHSL\b|GHS-POP|GHS-BUILT|GHS-SMOD|human settlements? grid|Copernicus Emergency|\bCEMS\b|GloFAS|EFAS)", combined, re.IGNORECASE):
+        return producer or "EC JRC / ECMWF (CEMS)", host, "copernicus_services", "CEMS", False, "copernicus_service"
+    if re.search(r"(^EO[:.]DEM[:.]DAT[:.]COP-DEM|COP-DEM|^COPERNICUS/DEM|cop-dem-glo|\bdsm_glo30\b|Copernicus DEM|\bCopernicus Digital Elevation Model\b)", combined, re.IGNORECASE):
+        return producer or "ESA / Copernicus (Copernicus DEM)", host, "copernicus_services", "COP_DEM", False, "copernicus_service"
     if re.match(r"^EO[:.]ECMWF[:.]DAT[:.]", rid, re.IGNORECASE):
         if re.search(r"(?:\.D1\.|\.DT_|DESTINE|Digital Twin)", f"{rid} {ttl}", re.IGNORECASE):
-            return producer or "ECMWF (Destination Earth)", host, "eu_non_copernicus", None, False
-        return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False
-    if re.search(r"(^ECMWF/ERA5|\bERA5 Heat\b|Copernicus Climate Change|\bC3S\b)", combined, re.IGNORECASE):
-        return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False
+            return producer or "ECMWF (Destination Earth)", host, "eu_non_copernicus", None, False, "european_space_met_igo"
+        return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False, "copernicus_service"
+    if re.search(r"(^ECMWF/ERA5|\bera5-pds\b|\bera5_repack\b|ce-ag-era5|terrascope-sis-agrometeorological-indicators|\bAgERA5\b|\bERA5[- ]Land\b|\bERA5 Heat\b|Copernicus Climate Change|\bC3S\b)", combined, re.IGNORECASE):
+        return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False, "copernicus_service"
 
     # Upstream non-EU mirrors on EU platforms (CDSE MODIS, OpenLandMap third-party global datasets, DestinE GSW/GBIF)
     if source_id == "10_cdse_stac" and re.match(r"^modis-", rid, re.IGNORECASE):
-        return "NASA / USGS LP DAAC", host, "non_eu", None, False
+        return "NASA / USGS LP DAAC", host, "non_eu", None, False, "third_country_non_european"
     if source_id == "24_openlandmap_stac":
         if re.match(r"^(?:lc_glad\.|landsat_glad\.)", rid, re.IGNORECASE):
-            return "University of Maryland (GLAD)", host, "non_eu", None, False
+            return "University of Maryland (GLAD)", host, "non_eu", None, False, "third_country_non_european"
         if re.match(r"^(?:lc_glc\.fcs30d|wilderness_li2022|fapar_essd\.lstm|lc_mcd12q1v061)", rid, re.IGNORECASE):
-            return producer or "Non-EU Partner (OpenLandMap Mirror)", host, "non_eu", None, False
-        return producer, host, "eu_non_copernicus", None, False
+            return producer or "Non-EU Partner (OpenLandMap Mirror)", host, "non_eu", None, False, "third_country_non_european"
+        return producer, host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
     if source_id == "08_destine_dedl_stac":
         if re.match(r"^EO\.GSW\.DAT\.", rid, re.IGNORECASE):
-            return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False
+            return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
         if re.match(r"^EO\.GBIF\.", rid, re.IGNORECASE):
-            return producer, host, "non_eu", None, False
+            return producer, host, "non_eu", None, False, "un_or_international_body" if is_un else "third_country_non_european"
 
-    # 5. Dedicated European Non-Copernicus Catalogues
+    # 5. Dedicated European Non-Copernicus Catalogues (preserving CLMS datasets distributed via EEA SDI and Swiss/IGO/Associated distinctions)
+    if source_id == "11_eea_and_emodnet":
+        is_emodnet = bool(
+            re.search(r"emodnet|marine", prod_str, re.IGNORECASE)
+            or re.search(r"emodnet", host_raw or "", re.IGNORECASE)
+        )
+        if not is_emodnet and (
+            COPERNICUS_EEA_CLMS_RE.search(f"{ttl} {prod_str} {kw_raw or ''}")
+            or re.search(r"\b(copernicus land monitoring service|\bclms\b)\b", desc or "", re.IGNORECASE)
+        ):
+            return "European Environment Agency (Copernicus Land Monitoring Service - CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
+
+    if source_id == "17_eumetsat_product_navigator" and prod_str in (
+        "National Oceanic and Atmospheric Administration",
+        "National Aeronautics and Space Administration",
+    ):
+        return producer, host, "non_eu", None, False, "third_country_non_european"
+
     if source_id in ("11_eea_and_emodnet", "17_eumetsat_product_navigator", "18_esa_osc_earthcode", "19_dlr_eoc_stac"):
-        return producer, host, "eu_non_copernicus", None, False
+        if CH_ESA_NON_COPERNICUS_RE.search(prod_str) and not EUROPEAN_IGO_RE.search(prod_str):
+            return producer, host, "non_eu", None, False, "european_esa_non_copernicus_state"
+        pool, tier = classify_eu_non_copernicus_tier(combined, prod_str, source_id)
+        return producer, host, pool, None, False, tier
 
     if source_id == "14_ceos_fedeo_agencies":
-        prod_str = producer or ""
-        # Check explicit producing institution first so European archives of non-EU sensors (e.g. ESA/ESRIN Landsat) stay European
-        if re.search(r"\b(inpe|jaxa|g-portal|isro|mosdac|nrsc|bhoonidhi|nrcan|ccmeo|usgs)\b", prod_str, re.IGNORECASE):
-            if re.search(r"\b(vito|rbins|esa/esrin|dlr|cnes|ceda)\b", prod_str, re.IGNORECASE) and not re.search(
-                r"\b(inpe|jaxa|isro|nrcan)\b", prod_str, re.IGNORECASE
-            ):
-                return producer, host, "eu_non_copernicus", None, False
-            return producer, host, "non_eu", None, False
-        if not prod_str and re.search(r"\b(jaxa|isro|inpe|nrcan|usgs)\b", combined, re.IGNORECASE):
-            return producer, host, "non_eu", None, False
-        return producer, host, "eu_non_copernicus", None, False
-
-    if source_id == "22_data_terra_inpe_dea":
-        if re.search(r"\b(geoscience australia|digital earth australia|\bdea\b|^ga_|inpe|brazil)\b", f"{rid} {producer or ''}", re.IGNORECASE):
-            return producer, host, "non_eu", None, False
-        return producer or "Data Terra / CNES / Theia (France)", host, "eu_non_copernicus", None, False
+        # Check explicit third-country agencies first (NASA, JPL, ASF, ORNL, USGS, INPE, JAXA, ISRO, NRCan)
+        # while allowing explicit European-hosted Third Party Mission archives (e.g. ESA/ESRIN, VITO, DLR, CNES) without NASA/JPL/USGS co-lead
+        has_third = bool(THIRD_COUNTRY_PRODUCER_RE.search(prod_str) or (not prod_str and THIRD_COUNTRY_PRODUCER_RE.search(combined)))
+        has_eu_host_archive = bool(re.search(r"\b(vito|rbins|esa/esrin|dlr|cnes|terrascope)\b", prod_str, re.IGNORECASE))
+        has_non_eu_primary = bool(re.search(r"\b(nasa|jpl|asf|ornl|cmr|inpe|jaxa|g-portal|isro|mosdac|nrsc|bhoonidhi|nrcan|usgs)\b", prod_str, re.IGNORECASE))
+        if has_third and not (has_eu_host_archive and not has_non_eu_primary):
+            return producer, host, "non_eu", None, False, "third_country_non_european"
+        if CH_ESA_NON_COPERNICUS_RE.search(prod_str) and not EUROPEAN_IGO_RE.search(prod_str):
+            return producer, host, "non_eu", None, False, "european_esa_non_copernicus_state"
+        pool, tier = classify_eu_non_copernicus_tier(combined, prod_str, source_id)
+        return producer, host, pool, None, False, tier
 
     if source_id == "25_worldpop_and_ciesin_stac":
         if "ciesin" in combined.lower() or "columbia" in combined.lower() or "gpw" in combined.lower():
-            return producer or "CIESIN (Columbia University)", host, "non_eu", None, False
-        return producer or "WorldPop (University of Southampton)", host, "eu_non_copernicus", None, False
+            return producer or "CIESIN (Columbia University)", host, "non_eu", None, False, "third_country_non_european"
+        # WorldPop (University of Southampton, UK) -> formal Copernicus Associated State effective 2024-01-01
+        return producer or "WorldPop (University of Southampton)", host, "eu_non_copernicus", None, False, "copernicus_associated_state"
 
-    # 6. Check UN / International body flag (FAO, UNEP-WCMC, WMO, GEO BON)
-    is_un = bool(UN_INTL_PRODUCER_RE.search(combined)) or source_id == "15_geobon_and_geokhub"
+    # 6. UN / International Bodies & Multilateral Consortia (e.g. FAO, UNEP, WMO, GEO BON, World Bank)
+    if is_un:
+        return producer, host, "non_eu", None, True, "un_or_international_body"
 
-    # 7. General Producer-Based Classification
+    # 7. Swiss Institutions (ESA/EUMETSAT/ECMWF member, NOT Copernicus Participating/Associated State)
+    if CH_ESA_NON_COPERNICUS_RE.search(combined) and not EUROPEAN_IGO_RE.search(prod_str):
+        return producer, host, "non_eu", None, False, "european_esa_non_copernicus_state"
+
+    if source_id == "16_nasa_cmr":
+        if re.search(r"\bEUMETSAT\b", prod_str, re.IGNORECASE) and re.search(r"\bproduced by\s+OSI\s*SAF\b", ttl, re.IGNORECASE):
+            return "EUMETSAT Ocean and Sea Ice SAF (OSI SAF)", host, "eu_non_copernicus", None, False, "european_space_met_igo"
+        if prod_str == "GPCC" and ttl.startswith("DWD-GPCC:"):
+            return "Deutscher Wetterdienst (DWD - GPCC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
+
+    # 8. Third-Country Primary Producers (prevents NASA/USGS/NOAA/Canada records mentioning ECMWF or campaign partners from leaking to EU)
+    if THIRD_COUNTRY_PRODUCER_RE.search(prod_str) and not (
+        (EUROPEAN_IGO_RE.search(prod_str) or EU_PRODUCER_RE.search(prod_str))
+        and not re.search(r"^(?:NASA|NOAA|USGS|ORNL|NSIDC|LPDAAC|GES_DISC)", prod_str, re.IGNORECASE)
+    ):
+        return producer, host, "non_eu", None, False, "third_country_non_european"
+
+    # 9. General European Producer Classification (EU-27, ESA/EUMETSAT/ECMWF, UK/NO/IS Copernicus Associated States)
     if (
-        EU_PRODUCER_RE.search(combined)
-        or EU_PRODUCER_ACRONYM_RE.search(producer or "")
+        EUROPEAN_IGO_RE.search(combined)
+        or COPERNICUS_ASSOCIATED_STATE_RE.search(combined)
+        or EU_PRODUCER_RE.search(combined)
+        or EU27_ACRONYM_RE.search(prod_str)
         or re.search(r"^(?:ESA|JRC|DLR|OpenLandMap|ISRIC|COPERNICUS)/|esa-worldcover|esa-cci", f"{rid} {ttl}", re.IGNORECASE)
     ):
-        return producer, host, "eu_non_copernicus", None, False
+        pool, tier = classify_eu_non_copernicus_tier(combined, prod_str, source_id)
+        return producer, host, pool, None, False, tier
 
-    return producer, host, "non_eu", None, is_un
+    return producer, host, "non_eu", None, False, "third_country_non_european"
 
 
 # ---------------------------------------------------------------------------
 # 5. Sentinel Mission Dependency Detector
 # ---------------------------------------------------------------------------
-S1_RE = re.compile(r"\b(sentinel[-_ ]?1[abc]?|s1[abc]?[-_ ]sar|c-band sar)\b", re.IGNORECASE)
-S2_RE = re.compile(r"\b(sentinel[-_ ]?2[abc]?|s2[abc]?[-_ ]msi|hlss30|harmonized landsat[- ]sentinel|dynamic[-_ ]world|worldcover|worldcereal)\b", re.IGNORECASE)
-S3_RE = re.compile(r"\b(sentinel[-_ ]?3[abc]?|olci|slstr|sral)\b", re.IGNORECASE)
+S1_RE = re.compile(r"\b(sentinel[-_ ]?1[abc]?|s1[abc]?[-_ ]sar|c-band sar|egms|european ground motion|global flood monitoring|hr-s&i)\b", re.IGNORECASE)
+S2_RE = re.compile(
+    r"\b(sentinel[-_ ]?2[abc]?|s2[abc]?[-_ ]msi|hlss30|harmonized landsat[- ]sentinel|dynamic[-_ ]world|worldcover|worldcereal|"
+    r"ghs-built-s|hr-vpp|high resolution vegetation phenology|clcplus backbone|clc\+\s*backbone|vlcc|hr-s&i)\b",
+    re.IGNORECASE,
+)
+S3_RE = re.compile(r"\b(sentinel[-_ ]?3[abc]?|olci|slstr|sral)\b|burnt area\s+20(?:1[89]|2\d)-present\s*\(raster 300\s*m\)", re.IGNORECASE)
 S5P_RE = re.compile(r"\b(sentinel[-_ ]?5p|s5p|tropomi)\b", re.IGNORECASE)
 S6_RE = re.compile(r"\b(sentinel[-_ ]?6[ab]?|poseidon-4)\b", re.IGNORECASE)
 
@@ -420,7 +593,10 @@ def detect_sentinel_usage(
     plat_raw: str | None,
     kw_raw: str | None,
 ) -> tuple[bool, str | None]:
-    blob = f"{raw_id or ''} {title or ''} {desc or ''} {plat_raw or ''} {kw_raw or ''}"
+    if re.search(r"\b(hurricane and severe storm sentinel|hs3[a-z0-9_-]*)\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE):
+        return False, None
+    head_blob = f"{raw_id or ''} {title or ''} {plat_raw or ''} {kw_raw or ''}"
+    blob = f"{head_blob} {desc or ''}"
     missions: list[str] = []
     if S1_RE.search(blob):
         missions.append("S1")
@@ -432,7 +608,13 @@ def detect_sentinel_usage(
         missions.append("S5P")
     if S6_RE.search(blob):
         missions.append("S6")
-    if not missions and re.search(r"\bsentinel\b", blob, re.IGNORECASE):
+    if not missions and (
+        re.search(r"\bsentinel\b", head_blob, re.IGNORECASE)
+        or (
+            re.search(r"\b(copernicus sentinel|sentinel-[12356]|sentinel [12356])\b", desc or "", re.IGNORECASE)
+            and "emodnet digital bathymetry" not in (title or "").lower()
+        )
+    ):
         missions.append("Sentinel_Unspecified")
     if missions:
         return True, "; ".join(missions)
@@ -451,8 +633,9 @@ ARD_REFLECTANCE_RE = re.compile(
 
 L4_MODEL_RE = re.compile(
     r"\b(level[- ]?4\b|\bl4[ab]?\b|reanalysis|era5|merra-2|jra-55|glofas|efas|forecast|hindcast|"
-    r"assimilation|numerical model|multiyear_phy|multiyear_bgc|MultiYear_wav|analysisforecast|"
-    r"primary productivity|mod17|myd17|vnp17|gpp\b|npp\b|evapotranspiration|mod16|wapor|gleam4?|global land evaporation amsterdam|"
+    r"(?<!for data )assimilation|numerical model|multiyear_phy|multiyear_bgc|MultiYear_wav|analysisforecast|"
+    r"primary productivity|mod17|myd17|vnp17|gpp\b|gross primary product(?:ion|ivity)|net primary product(?:ion|ivity)|"
+    r"evapotranspiration|mod16|wapor|gleam4?|global land evaporation amsterdam|"
     r"carbon flux|biomass density|gedi04_b|gedi l4b|cci biomass|globbiomass|fwi|fire weather index|"
     r"drought indicator|cdi\b|sma\b|spi\b|soil organic carbon|soilgrids)\b",
     re.IGNORECASE,
@@ -466,15 +649,28 @@ HYBRID_EO_CONSTRAINED_RE = re.compile(
 
 NON_EO_INVENTORY_RE = re.compile(
     r"(^FAO_GISMGR:GLEAM3:|SOCIO-ECONOMIC-FORCING|"
-    r"\b(?:gridded population of the world|gpwv4|edgar|emissions database for global atmospheric research|"
-    r"faostat|gdp per capita|human development index|nighttime lights Socioeconomic|census|"
+    r"\b(?:gridded population of the world|gpwv[34]|edgar|emissions database for global atmospheric research|"
+    r"faostat|gdp per capita|gridded gdp|gross domestic product|ardeco|human development index|nighttime lights socioeconomic|census|"
+    r"unemployment rate|employment in agriculture|forestry employment|tenure security|national law|"
+    r"eurobarometer|harmonised lucas in-situ|cruise ports|suprema|agmip|policy relevant modelling|"
+    r"treaty texts|environmental treaty|hazardous waste site|population projections.*sres|"
     r"global livestock environmental assessment model)\b)",
     re.IGNORECASE,
 )
 
 IN_SITU_GRIDDED_RE = re.compile(
     r"(^insitu[-_]|^EO[:.]MO[:.]DAT[:.]INSITU_|^EO[:.]ECMWF[:.]DAT[:.]INSITU_GRIDDED_|^INSITU_GLO_PHY_|"
-    r"\bderived from in[- ]situ observations\b|\bGlobal Ocean in situ\b)",
+    r"^npp_[a-z0-9_-]+:\s*npp\b|"
+    r"\b(?:derived from in[- ]situ observations|global ocean in situ|lucas\s+copernicus|"
+    r"integrated global radiosonde archive|\bradiosonde\b|argo float|java ocean atlas|"
+    r"oceanographic profile|benthic macrofauna|multibeam survey|hydrographic survey|coastal survey|"
+    r"polarstern cruise|discrete.*stations|towed behind.*ship|in[- ]situ.*measurements|"
+    r"ctd casts?|collected (?:by|from|using) (?:ctd|xbt)|using [\w\s,]*(?:ctd|xbt)\b|xbt casts?|"
+    r"sensor depth:\s*[\d.]+\s*m|wave and tide recorder|temperature and conductivity recorder|"
+    r"coral reef early warning system.*buoy|sst\)?\s+buoy|mooring\s+tao|from\s+moorings?\b|"
+    r"gppdi_npp|bigfoot gpp surfaces|"
+    r"fluxnet|eddy covariance|airborne lidar|airborne radar|uavsar|airsar|drone imagery|\bsuas\b|"
+    r"aircraft campaign|shipboard)\b)",
     re.IGNORECASE,
 )
 
@@ -507,9 +703,18 @@ def classify_level_and_ontology(
     if ARD_REFLECTANCE_RE.search(head) and not re.search(r"\b(land cover|burned area|flood|biomass|leaf area|ndvi|evi|fapar|albedo)\b", ttl, re.IGNORECASE):
         return "L3", "L3_ARD_REFLECTANCE", "eo_ard_surface_reflectance_mosaic", True
 
-    # 2. Check Level 4 vs Level 3 (match explicit L4 tokens only; avoid ambiguous combined labels)
+    # 2. Check Level 4 vs Level 3 (match explicit L4 tokens only; avoid ambiguous combined labels or explicit L3 satellite products)
     is_explicit_l4 = bool(re.search(r"^(?:level[- ]?|l)?4\b", lvl)) and not bool(re.search(r"(?:level[- ]?3|l3|\b3\b)\s*[/,;]\s*(?:level[- ]?4|l4|\b4\b)", lvl))
-    if is_explicit_l4 or source_id in ("03_copernicus_c3s_cds", "04_copernicus_cams_ads", "05_copernicus_cems_ewds") or L4_MODEL_RE.search(head):
+    is_explicit_l3 = (
+        bool(re.search(r"^(?:level[- ]?|l)?3[abc]?\b", lvl))
+        and not bool(re.search(r"4", lvl))
+        and not bool(re.search(
+            r"\b(level[- ]?4|l4[ab]?|reanalysis|era5|merra-2|jra-55|glofas|efas|mod16|mod17|myd17|vnp17|gross primary product|net primary product|gedi04_b|gedi l4b|soilgrids)\b",
+            head,
+            re.IGNORECASE,
+        ))
+    )
+    if is_explicit_l4 or source_id in ("03_copernicus_c3s_cds", "04_copernicus_cams_ads", "05_copernicus_cems_ewds") or (not is_explicit_l3 and L4_MODEL_RE.search(head)):
         p_level = "L4"
         subtype = "L4_MODEL_REANALYSIS_SYNTHESIS"
     else:
@@ -541,7 +746,16 @@ COMPLETED_MISSION_OR_STATIC_RE = re.compile(
     r"world settlement footprint \(wsf\) (?:2015|2019|evolution|3d)|world settlement footprint (?:2015|2019|evolution)|"
     r"srtm|nasadem|tandem-x.*dem|cop-dem|alos.*dsm|meris|envisat|ers-1|ers-2|avhrr pathfinder|"
     r"globcover|glc2000|corine land cover 1990|corine land cover 2000|corine land cover 2006|"
-    r"corine land cover 2012|corine land cover 2018|land cover 2020|lcm-10|tcd-10)\b",
+    r"corine land cover 2012|corine land cover 2018|land cover 2020|lcm-10|tcd-10|"
+    r"seawifs|proba-v|gomos|sciamachy|mipas|aatsr|quikscat|aquarius|adeos|cryosat-1|goce)\b|\btrmm\b(?!.*gpm)|\bsmmr\b(?!.*ssmi)",
+    re.IGNORECASE,
+)
+
+
+FUTURE_PROJECTION_OR_STATIC_RELEASE_RE = re.compile(
+    r"\b(scenariomip|ssp[1-5][-_.]|rcp[-_ ]?[2468]\.?[05]|sres[_ -]?[ab][12]|projections?-cmip|"
+    r"cmip[56].*decadal.*prototype|climate projection|urban expansion|puexpans|white_paper|white paper|"
+    r"luisa|ref20\d\d|reference scenario|medium-term outlook|r202[345]a|p202[345]a)\b",
     re.IGNORECASE,
 )
 
@@ -555,19 +769,35 @@ def classify_operational_maturity(
     start_year: int | None,
     end_year: int | None,
     temporal_end_raw: str | None,
+    kw_raw: str | None = None,
 ) -> tuple[str, bool | None]:
     """
     Returns (operational_maturity_class, is_ongoing_archive).
     Distinguishes operational ongoing series from planned/pre-operational entries,
     deprecated records, completed or mission-bounded releases (GEDI L4B, WorldCover,
-    WSF, static DEMs, single-year maps, or archives ended <= 2024), and research
-    benchmark releases whose temporal timestamp is only a publication date.
+    WSF, static DEMs, single-year maps, future scenario/demographic projections, or archives ended <= 2024),
+    and research benchmark releases whose temporal timestamp is only a publication date.
     """
     head = f"{raw_id or ''} {title or ''}"
     uf = (update_freq_raw or "").strip().lower()
 
     if uf == "planned":
         return "planned_or_preoperational", False
+
+    if any(k in uf for k in ("deprecated", "superseded", "obsolete", "retired")) or any(
+        k in head.lower() for k in ("**superseded**", "[deprecated]", "version superseded", "dismissed)")
+    ):
+        return "deprecated_or_superseded", False
+
+    is_jrc_single_event = (
+        source_id == "07_ec_jrc_data_catalogue"
+        and bool(
+            re.search(r"\(\d{4}-\d{2}-\d{2}\)\s*$", title or "")
+            or re.search(r"\b(emsr\d+|emsn\d+|rapid mapping|risk and recovery)\b", f"{title or ''} {kw_raw or ''}", re.IGNORECASE)
+        )
+    )
+    if is_jrc_single_event:
+        return "completed_or_mission_bounded_release", False
 
     has_ongoing_uf = any(
         k in uf for k in ("continual", "ongoing", "daily", "weekly", "monthly", "annual", "yearly", "update_cont", "regular", "near real time")
@@ -576,29 +806,53 @@ def classify_operational_maturity(
         k in uf for k in ("completed", "archived", "not updated", "no updates", "notplanned", "not_planned", "once", "static", "one-off", "single")
     )
 
+    is_future_proj = bool(
+        FUTURE_PROJECTION_OR_STATIC_RELEASE_RE.search(head)
+        or (source_id == "25_worldpop_and_ciesin_stac" and end_year is not None and end_year >= 2025)
+        or (end_year is not None and end_year >= 2028)
+    )
+
+    is_explicit_present_series = bool(
+        re.search(r"\b(19\d\d|20[0-2]\d)\s*[-–—]\s*(?:present|ongoing)\b", head, re.IGNORECASE)
+        and not is_future_proj
+        and "[archived]" not in head.lower()
+    )
+
     # Determine is_ongoing_archive strictly from raw dates and update status
-    if start_year is None and end_year is None:
+    if is_future_proj:
+        is_ongoing = False
+    elif is_explicit_present_series and not COMPLETED_MISSION_OR_STATIC_RE.search(head):
+        is_ongoing = True
+    elif start_year is None and end_year is None:
         is_ongoing = None
     elif end_year is not None:
         is_ongoing = end_year >= 2025
     elif has_non_ongoing_uf or "[archived]" in head.lower():
         is_ongoing = False
-    elif source_id in ("18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community") and not has_ongoing_uf:
+    elif source_id in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community") and not has_ongoing_uf:
         # Release/publication dates alone without explicit ongoing update cadence do not imply an ongoing operational series
         is_ongoing = False
     else:
         is_ongoing = True
 
-    if any(k in uf for k in ("deprecated", "superseded", "obsolete", "retired")):
-        return "deprecated_or_superseded", False
+    if is_future_proj:
+        if re.search(r"\b(prototype|white_paper|white paper|benchmark|scenariomip)\b", head, re.IGNORECASE) or source_id in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks"):
+            return "research_or_benchmark_release", False
+        return "completed_or_mission_bounded_release", False
 
-    if COMPLETED_MISSION_OR_STATIC_RE.search(head) or cadence_class == "static_or_single_epoch" or "[archived]" in head.lower() or "completed" in uf:
+    if COMPLETED_MISSION_OR_STATIC_RE.search(head) or "[archived]" in head.lower() or "completed" in uf:
+        return "completed_or_mission_bounded_release", False
+
+    if is_explicit_present_series:
+        return "operational_ongoing_series", True
+
+    if cadence_class == "static_or_single_epoch":
         return "completed_or_mission_bounded_release", False
 
     if is_ongoing is False and end_year is not None and end_year <= 2024:
         return "completed_or_mission_bounded_release", False
 
-    if source_id in ("18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community") and is_ongoing is not True:
+    if source_id in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community") and is_ongoing is not True:
         return "research_or_benchmark_release", is_ongoing
 
     if is_ongoing is False:
@@ -684,19 +938,34 @@ def main() -> None:
 
             # 1. Spatial resolution (strictly from spat_raw; title token kept separate!)
             spat_m = parse_resolution_meters(spat_raw)
-            title_spat_m = parse_resolution_meters(f"{raw_id or ''} {title or ''}")
+            title_spat_m = parse_title_token_resolution_meters(raw_id, title)
 
             # 2. Temporal years & cadence
             start_yr = parse_year(t_start_raw)
             end_yr = parse_year(t_end_raw)
+            if start_yr is not None and start_yr > 2026:
+                start_yr = None
+            title_yrs = [int(y) for y in re.findall(r"(?<![\d_])(19[5-9]\d|20[0-2]\d)(?![\d_])", title or "")]
+            has_present_in_title = bool(re.search(r"\b(present|ongoing|current|now|near[- ]real[- ]time|nrt)\b", title or "", re.IGNORECASE))
+            if title_yrs:
+                if has_present_in_title:
+                    m_pres = re.search(r"\b(19[5-9]\d|20[0-2]\d)\s*[-–—]\s*(?:present|ongoing)\b", title or "", re.IGNORECASE)
+                    if m_pres and start_yr is not None and start_yr > int(m_pres.group(1)) + 1:
+                        start_yr = int(m_pres.group(1))
+                elif start_yr is not None and start_yr > max(title_yrs) + 1:
+                    start_yr = min(title_yrs) if max(title_yrs) >= 1970 else None
+                    if start_yr is not None and (end_yr is None or end_yr > max(title_yrs) + 1):
+                        end_yr = max(title_yrs)
+            if start_yr is not None and end_yr is not None and start_yr > end_yr:
+                end_yr = None
             cadence_cls = classify_cadence(temp_res_raw, uf_raw, title, start_yr, end_yr)
 
             # 3. Geographic coverage
-            bw, bs, be, bn, geo_cls = classify_geographic_coverage(bbox_raw)
+            bw, bs, be, bn, geo_cls = classify_geographic_coverage(bbox_raw, title)
 
-            # 4. Producer vs Host & Provider Pool
-            prod_inst, host_plat, pool, cop_srv, is_un = classify_producer_and_pool(
-                sid, raw_id, title, desc, org_raw, host_raw
+            # 4. Producer vs Host, Provider Pool & Institutional Jurisdiction Tier
+            prod_inst, host_plat, pool, cop_srv, is_un, tier = classify_producer_and_pool(
+                sid, raw_id, title, desc, org_raw, host_raw, kw_raw
             )
 
             # 5. Sentinel data dependency
@@ -709,8 +978,18 @@ def main() -> None:
 
             # 7. Operational maturity
             mat_cls, is_ongoing = classify_operational_maturity(
-                sid, raw_id, title, uf_raw, cadence_cls, start_yr, end_yr, t_end_raw
+                sid, raw_id, title, uf_raw, cadence_cls, start_yr, end_yr, t_end_raw, kw_raw
             )
+            if (
+                sid == "07_ec_jrc_data_catalogue"
+                and mat_cls == "completed_or_mission_bounded_release"
+                and cadence_cls is None
+                and (
+                    re.search(r"\(\d{4}-\d{2}-\d{2}\)\s*$", title or "")
+                    or re.search(r"\b(emsr\d+|emsn\d+|rapid mapping|risk and recovery)\b", f"{title or ''} {kw_raw or ''}", re.IGNORECASE)
+                )
+            ):
+                cadence_cls = "static_or_single_epoch"
 
             c_key = build_canonical_key(doi_raw, title, raw_id, pool)
             rec_uid = f"{sid}::{raw_id or idx}"
@@ -726,6 +1005,7 @@ def main() -> None:
                 "producing_institution": prod_inst,
                 "hosting_platform": host_plat,
                 "provider_pool": pool,
+                "provider_jurisdiction_tier": tier,
                 "copernicus_service": cop_srv,
                 "is_un_or_international_body": is_un,
                 "processing_level_raw": lvl_raw,
@@ -833,13 +1113,7 @@ def main() -> None:
     pool_summary.to_csv(BASE_DIR / "provider_pool_and_sentinel_summary.csv", index=False)
 
     completeness = []
-    for col in [
-        "title", "description", "producing_institution", "provider_pool", "processing_level",
-        "product_level_subtype", "product_ontology_class", "spatial_resolution_raw",
-        "spatial_resolution_meters", "title_token_resolution_meters", "temporal_start_raw",
-        "temporal_start_year", "temporal_cadence_class", "geographic_coverage_class",
-        "operational_maturity_class", "doi", "access_url",
-    ]:
+    for col in list(df_all.columns):
         non_null = int(df_all[col].notna().sum())
         null_cnt = int(df_all[col].isna().sum())
         completeness.append({
@@ -854,6 +1128,8 @@ def main() -> None:
     print(f"[03_harmonization] Unique canonical L3/L4 products:         {len(df_canon)}")
     print("\nCanonical Products by Provider Pool:")
     print(df_canon["provider_pool"].value_counts().to_string())
+    print("\nCanonical Products by Provider Jurisdiction Tier:")
+    print(df_canon["provider_jurisdiction_tier"].value_counts().to_string())
     print("\nSentinel Data Dependency Outside Copernicus Services:")
     ext = df_canon[df_canon["provider_pool"] != "copernicus_services"]
     print(ext.groupby(["provider_pool", "uses_sentinel_data"]).size().to_string())

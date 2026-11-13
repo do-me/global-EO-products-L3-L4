@@ -1,11 +1,20 @@
 source_id: 20_noaa_onestop
 source_title: NOAA OneStop Data Search REST API (NOAA CDRs, NESDIS/STAR/NCEI Gridded Satellite Products)
-retrieved_at_utc: 2026-11-13T10:38:09Z
+retrieved_at_utc: 2026-11-13T16:51:54Z
 http_status_summary: 200 OK
-total_records_retrieved: 3145
+total_records_retrieved: 14275
 endpoints_queried:
-  - POST https://data.noaa.gov/onestop/api/search/search/collection (queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'])
+  - POST https://data.noaa.gov/onestop/api/search/search/collection (queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'], full pagination up to meta.total/15000)
 files_written:
-  - path: data/noaa_onestop_collections.jsonl
-    bytes: 6862933
-    sha256: 80473f4ccfd22568acd58061ce6d25ff8cb17faeee6c2f33646f46633cb2533a
+  - path: data/noaa_onestop_collections_part01.jsonl
+    bytes: 5968802
+    sha256: 9a66c7eebd6a3d1c5265d0c6908fa63d1ac5416b0552baaab57f0031c5f4cec3
+  - path: data/noaa_onestop_collections_part02.jsonl
+    bytes: 11940175
+    sha256: c48463fcb55b4de340bd3178b10b1382cce103ae4bb368e352d3f38102334a95
+  - path: data/noaa_onestop_collections_part03.jsonl
+    bytes: 14246888
+    sha256: e1b8e710299987032d63f0983b3d2e3cbf89ca0a2ed7513f857b381c29d3c7c2
+  - path: data/noaa_onestop_collections_part04.jsonl
+    bytes: 7928058
+    sha256: 3dceb612b0525ed4f39e98e7889fd50ad802deb1d3e08f38c27043d7d8f6cb27

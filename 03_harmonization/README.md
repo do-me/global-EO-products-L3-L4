@@ -1,7 +1,7 @@
 # `03_harmonization` — Unified L3/L4 Schema & Harmonized Catalogue
 
 ## Purpose
-Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`26,609` records) from `../02_preparation/data/` into a unified, reproducible metadata schema with producer-origin institutional attribution, processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
+Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`36,666` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`43` record columns; `45` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
 
 ## How to Run
 ```bash
@@ -18,9 +18,10 @@ uv run 03_harmonization/harmonize_catalogue.py
 | `raw_id`, `title`, `description` | `string` | Native product identifier, title, and cleaned abstract/description. |
 | `producing_institution` | `string` | Originating institution that produced the dataset (strictly separated from hosting platform). |
 | `hosting_platform` | `string` | Dissemination portal or cloud data lake hosting the record (`GEE`, `Planetary Computer`, `WEkEO`, `DEDL`, `CMR`, etc.). |
-| `provider_pool` | `string` | `copernicus_services` \| `eu_non_copernicus` \| `non_eu` — assigned strictly by `producing_institution`, independent of `hosting_platform`. |
+| `provider_pool` | `string` | `copernicus_services` \| `eu_non_copernicus` \| `non_eu` — assigned strictly by `producing_institution` in alignment with Regulation (EU) 2021/696 (EU-27, EEA Participating States Norway & Iceland, UK Copernicus Association effective 2024-01-01, and ESA/EUMETSAT/ECMWF; third countries including non-Copernicus-associated Switzerland and ESA Associate Member Canada, plus UN/global bodies, sit in `non_eu`). |
+| `provider_jurisdiction_tier` | `string` | Granular institutional tier enabling policy-boundary sensitivity analysis: `copernicus_service` \| `eu27_national_or_eu_agency` \| `european_space_met_igo` \| `copernicus_associated_state` \| `european_esa_non_copernicus_state` \| `un_or_international_body` \| `third_country_non_european`. |
 | `copernicus_service` | `string \| null` | `CMEMS` \| `CLMS` \| `C3S` \| `CAMS` \| `CEMS` \| `COP_DEM` \| `null`. |
-| `is_un_or_international_body` | `bool` | Flags UN and international bodies (`FAO`, `UNEP-WCMC`, `WMO`, `GEO BON`) for transparent attribution filtering. |
+| `is_un_or_international_body` | `bool` | Flags UN and international multilateral bodies (`FAO`, `UNEP-WCMC`, `WMO`, `GEO BON`, `CGIAR`, `World Bank`) for transparent attribution filtering. |
 | `processing_level` | `string` | `L3` \| `L4`. |
 | `product_level_subtype` | `string` | `L3_THEMATIC_BIOPHYSICAL` \| `L4_MODEL_REANALYSIS_SYNTHESIS` \| `L3_ARD_REFLECTANCE` (retains surface-reflectance mosaics symmetrically across pools). |
 | `product_ontology_class` | `string` | `eo_thematic_or_biophysical` \| `eo_reanalysis_or_model` \| `eo_ard_surface_reflectance_mosaic` \| `eo_constrained_hybrid` \| `in_situ_gridded_interpolation` \| `non_eo_inventory_or_census` \| `authoritative_reference_geometry`. |
@@ -39,7 +40,7 @@ uv run 03_harmonization/harmonize_catalogue.py
 | `doi`, `license`, `access_url` | `string \| null` | Persistent identifier, upstream product license, and landing page URL. |
 
 ## Outputs
-- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `26,609` harmonized L3/L4 records across all 28 product sources.
-- `./data/eo_l3_l4_canonical_products.parquet` — `26,330` conservatively deduplicated canonical L3/L4 products (`273` mirror groups collapsing `279` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
+- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `36,666` harmonized L3/L4 records across all 28 product sources (`43` columns).
+- `./data/eo_l3_l4_canonical_products.parquet` — `36,281` conservatively deduplicated canonical L3/L4 products (`45` columns; `376` mirror groups collapsing `385` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
 - `./provider_pool_and_sentinel_summary.csv` — Breakdown of canonical products by `provider_pool`, `processing_level`, and `uses_sentinel_data`.
-- `./schema_completeness_report.csv` — Exact non-null and null counts across all harmonized columns.
+- `./schema_completeness_report.csv` — Exact non-null and null counts across all `43` harmonized record columns.

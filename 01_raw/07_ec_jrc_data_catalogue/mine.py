@@ -148,7 +148,7 @@ def main() -> None:
         if page == 0:
             queried.append(f"{base_url}?filter=dataset&facets={{'catalog':['jrc']}}&sort=id+asc&limit={limit}&page=0..N")
         page += 1
-        if len(items) < limit or page > 40:
+        if len(items) < limit or page > 500:
             break
 
     # Save in chunked JSONL files (~500 records per chunk) to stay well under 25 MB per file

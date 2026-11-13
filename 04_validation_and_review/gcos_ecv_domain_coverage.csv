@@ -1,41 +1,41 @@
 gcos_ecv_name,wgclimate_inventory_records,canonical_catalogue_matches
-Cloud properties,129,1065
-Soil moisture,66,1130
-Aerosols properties,63,728
-Upper-air Water Vapour,49,246
-Earth radiation budget,47,468
-"Carbon Dioxide, Methane and other greenhouse gases",45,819
-Surface radiation budget,42,468
-Fire,41,909
-Upper-air temperature,36,2017
-Land-surface temperature,35,1831
-Sea ice,30,398
+Cloud properties,129,1140
+Soil moisture,66,1132
+Aerosols properties,63,779
+Upper-air Water Vapour,49,256
+Earth radiation budget,47,487
+"Carbon Dioxide, Methane and other greenhouse gases",45,1017
+Surface radiation budget,42,487
+Fire,41,918
+Upper-air temperature,36,2689
+Land-surface temperature,35,2494
+Sea ice,30,411
 Precursors (supporting the aerosol and ozone ECVs),28,40
-Sea-surface temperature,28,1831
-Albedo,27,551
-Fraction of Absorbed Photosythetically Active Radiation,16,386
-Leaf area index,16,1265
-Surface wind speed and direction,15,394
-Precipitation,14,737
-Ice sheets and ice shelves,13,107
-Snow,11,481
-Sea level,10,2901
-Lakes,9,83
-Ozone,9,187
-River Discharge,4,483
+Sea-surface temperature,28,2494
+Albedo,27,555
+Fraction of Absorbed Photosythetically Active Radiation,16,399
+Leaf area index,16,1354
+Surface wind speed and direction,15,420
+Precipitation,14,756
+Ice sheets and ice shelves,13,108
+Snow,11,498
+Sea level,10,3110
+Lakes,9,86
+Ozone,9,192
+River Discharge,4,554
 Permafrost,4,30
-Sea state,4,853
-Lightning,4,29
-Land cover,4,3261
-Upper-air Wind Speed and Direction,4,608
-Ocean-surface heat flux,4,754
-Surface currents,3,51
+Sea state,4,881
+Lightning,4,30
+Land cover,4,3337
+Upper-air Wind Speed and Direction,4,640
+Ocean-surface heat flux,4,791
+Surface currents,3,57
 Ocean colour,3,94
-Above-ground biomass,2,820
-Sea-surface salinity,2,277
-Plankton,1,139
-Terrestrial Water Storage,1,181
-Evaporation from land,1,2007
+Above-ground biomass,2,850
+Sea-surface salinity,2,546
+Plankton,1,159
+Terrestrial Water Storage,1,190
+Evaporation from land,1,6637
 Glaciers,1,97
 Groundwater,1,98
-Surface stress,1,137
+Surface stress,1,149

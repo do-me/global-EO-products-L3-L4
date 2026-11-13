@@ -1,16 +1,19 @@
 source_id: 22_data_terra_inpe_dea
 source_title: National EO Data Cube STAC Catalogues — France (Data Terra/Dinamis), Brazil (INPE BDC) & Australia (DEA)
-retrieved_at_utc: 2026-11-13T10:44:39Z
+retrieved_at_utc: 2026-11-13T16:48:24Z
 http_status_summary: 200 OK
-total_records_retrieved: 111
+total_records_retrieved: 220
 endpoints_queried:
-  - https://api.stac.teledetection.fr/collections (10 collections)
+  - https://api.stac.teledetection.fr/collections (39 collections)
   - https://explorer.sandbox.dea.ga.gov.au/stac/collections (101 collections)
-  - https://data.inpe.br/bdc/stac/v1/collections (timeout/unreachable: ConnectionError - covered via FedEO EOP:INPE:DATA)
+  - https://data.inpe.br/bdc/stac/v1/collections (80 collections)
 files_written:
   - path: data/australia_dea_stac.json
     bytes: 137291
-    sha256: ca690361c820f03c3840efbcbbb409564aed6966d480f78a9bc5deaa35326df6
+    sha256: fc21fa742065d2db2369878102be8642f72a9a01128c05b8bf3945d265f4e137
+  - path: data/brazil_inpe_bdc_stac.json
+    bytes: 1125980
+    sha256: 5fdc8b0416855166ad53c445a23677143855cb77a1468a4d47a212f9a48f5f49
   - path: data/france_dataterra_stac.json
-    bytes: 27544
-    sha256: eb148a12012f0761d8a2da684902f57e34b832738e5fff0c28cf8e81602621dd
+    bytes: 109144
+    sha256: f1e88e79a8c37865a6c3d26660dc006cc644f94c9c2984fde32e4674d5ad370d

@@ -124,17 +124,21 @@ def main() -> None:
     url = "https://data.noaa.gov/onestop/api/search/search/collection"
     seen_ids: set[str] = set()
     records: list[dict[str, Any]] = []
+    page_size = 200
+    max_offset = 15000
 
     for q in QUERIES:
-        for offset in (0, 200, 400):
+        offset = 0
+        while offset < max_offset:
             payload = {
                 "queries": [{"type": "queryText", "value": q}],
-                "page": {"max": 200, "offset": offset},
+                "page": {"max": page_size, "offset": offset},
             }
             r = session.post(url, json=payload, headers={"Content-Type": "application/json"}, timeout=60)
             if r.status_code != 200:
                 break
-            batch = r.json().get("data", [])
+            res_json = r.json()
+            batch = res_json.get("data", [])
             if not batch:
                 break
             for item in batch:
@@ -142,16 +146,24 @@ def main() -> None:
                 if iid and iid not in seen_ids:
                     seen_ids.add(iid)
                     records.append(item)
-            if len(batch) < 200:
+            total_hits = int((res_json.get("meta") or {}).get("total") or 0)
+            offset += len(batch)
+            if len(batch) < page_size or (total_hits and offset >= total_hits):
                 break
 
-    out_file = DATA_DIR / "noaa_onestop_collections.jsonl"
-    with out_file.open("w", encoding="utf-8") as f:
-        for rec in records:
-            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    for old in DATA_DIR.glob("noaa_onestop_collections*.jsonl"):
+        old.unlink()
+    chunk_size = 4000
+    for idx in range(0, len(records), chunk_size):
+        chunk = records[idx : idx + chunk_size]
+        part = (idx // chunk_size) + 1
+        out_file = DATA_DIR / f"noaa_onestop_collections_part{part:02d}.jsonl"
+        with out_file.open("w", encoding="utf-8") as f:
+            for rec in chunk:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
     write_last_access(
-        [f"POST {url} (queries={QUERIES})"],
+        [f"POST {url} (queries={QUERIES}, full pagination up to meta.total/15000)"],
         len(records),
         "200 OK",
     )

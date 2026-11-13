@@ -1,6 +1,6 @@
 source_id: 07_ec_jrc_data_catalogue
 source_title: European Commission Joint Research Centre (JRC) Data Catalogue (DCAT-AP API & CKAN)
-retrieved_at_utc: 2026-11-13T12:18:09Z
+retrieved_at_utc: 2026-11-13T16:53:19Z
 http_status_summary: 200 OK
 total_records_retrieved: 4370
 endpoints_queried:
@@ -13,11 +13,11 @@ files_written:
     bytes: 184987
     sha256: 34ce1ad3f72527576c7bd26e2179c4bea16fdfe8d2e5cd1d87675c7003a7ee86
   - path: data/jrc_dcat_ap_datasets_part01.jsonl
-    bytes: 26033710
-    sha256: d0e67b0a123f399fc7335065aaff8158ffc5359b9dc69036a8d650b86eea4b81
+    bytes: 26032821
+    sha256: e0a30211b5a4f0d3a6b68ff9cc9efdad0a4bf98ae4c8236166931e18f4e5e4de
   - path: data/jrc_dcat_ap_datasets_part02.jsonl
-    bytes: 25971359
-    sha256: 606bd5495ebd2c8eb9a636603a0824106174589996c7c05b6674bef6c27f520f
+    bytes: 25972298
+    sha256: 9e995f910ba53424001b68784d93a1f14a137579bd8ccadce8967a4558c33502
   - path: data/jrc_dcat_ap_datasets_part03.jsonl
     bytes: 22373980
     sha256: d58fa3c0d461277ea3886fc9b4f24d4e6b62ec8873e81931afda6bf13a20372d
@@ -28,8 +28,8 @@ files_written:
     bytes: 21840340
     sha256: 58b1fc1a7980439c8273ab48cc4edac2f87332b0e3640e23ad6a6c2f2b9f98ef
   - path: data/jrc_dcat_ap_datasets_part06.jsonl
-    bytes: 17744791
-    sha256: a9e9a6beb399082435437ed761f2383cdf6b615f73bd4b39610fb56f085a423e
+    bytes: 17743983
+    sha256: 40f51f82691465968b8ec49ecb9981157372fd688a7e69762c96af812c46d683
   - path: data/jrc_dcat_ap_datasets_part07.jsonl
     bytes: 10129848
     sha256: a1c2e2df1694eba7ac0f320dfb13e3c9c49e756a122af22c2e1f4795c6f3a2ac

@@ -121,6 +121,25 @@ def fetch_cmr_entries(session: requests.Session, params_list: list[tuple[str, st
     return entries
 
 
+SUPPLEMENTARY_EO_KEYWORDS = [
+    "OAFlux",
+    "Global Web-Enabled Landsat Data",
+    "Fengyun",
+    "EarthCARE",
+    "GPCP",
+    "CMAP precipitation",
+    "Global Forest Cover Change",
+    "Daymet",
+    "MERRA",
+    "LPJ-EOSIM",
+    "CYGNSS Heat Flux",
+    "GlobeLand30",
+    "AVISO altimetry",
+    "CCI Land Cover",
+    "GRACE Tellus",
+]
+
+
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     session = build_session()
@@ -128,6 +147,9 @@ def main() -> None:
     # 1. All explicit Level 3 and Level 4 collections across all CMR providers
     l3_l4_params = [("processing_level_id[]", "3"), ("processing_level_id[]", "4")]
     l3_l4_entries = fetch_cmr_entries(session, l3_l4_params)
+
+    for old in DATA_DIR.glob("nasa_cmr_l3_l4_part*.jsonl"):
+        old.unlink()
 
     # Save in chunks of 2,000 entries (~5-7 MB per file)
     chunk_size = 2000
@@ -139,21 +161,41 @@ def main() -> None:
             for e in chunk:
                 f.write(json.dumps(e, ensure_ascii=False) + "\n")
 
-    # 2. SEDAC collections (socioeconomic/environmental grids often lacking processing_level_id)
-    sedac_entries = fetch_cmr_entries(session, [("provider", "SEDAC")])
+    # 2. SEDAC collections (NASA consolidated SEDAC into ESDIS; query keyword=SEDAC & filter legacy provider metadata cleanly)
+    sedac_entries = fetch_cmr_entries(session, [("keyword", "SEDAC")])
     with (DATA_DIR / "nasa_cmr_sedac.jsonl").open("w", encoding="utf-8") as f:
         for e in sedac_entries:
             f.write(json.dumps(e, ensure_ascii=False) + "\n")
 
-    total = len(l3_l4_entries) + len(sedac_entries)
+    # 3. High-recall supplementary EO queries for gridded/CDR/mosaic series lacking L3/L4 tags
+    seen_ids = {e.get("id") for e in l3_l4_entries + sedac_entries if e.get("id")}
+    supp_entries: list[dict[str, Any]] = []
+    for kw in SUPPLEMENTARY_EO_KEYWORDS:
+        for e in fetch_cmr_entries(session, [("keyword", kw)]):
+            cid = e.get("id")
+            if cid and cid not in seen_ids:
+                seen_ids.add(cid)
+                supp_entries.append(e)
+
+    supp_path = DATA_DIR / "nasa_cmr_supplementary_eo.jsonl"
+    with supp_path.open("w", encoding="utf-8") as f:
+        for e in supp_entries:
+            f.write(json.dumps(e, ensure_ascii=False) + "\n")
+
+    total = len(l3_l4_entries) + len(sedac_entries) + len(supp_entries)
     write_last_access(
         [
             "https://cmr.earthdata.nasa.gov/search/collections.json?processing_level_id[]=3&processing_level_id[]=4&page_size=2000",
-            "https://cmr.earthdata.nasa.gov/search/collections.json?provider=SEDAC&page_size=2000",
+            "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=SEDAC&page_size=2000",
+            f"https://cmr.earthdata.nasa.gov/search/collections.json?keyword=<high-recall-eo>&page_size=2000 (keywords={SUPPLEMENTARY_EO_KEYWORDS})",
         ],
         total,
         "200 OK",
-        notes=f"Explicit L3/L4 collections: {len(l3_l4_entries)}, SEDAC collections: {len(sedac_entries)}",
+        notes=(
+            f"Explicit L3/L4 collections: {len(l3_l4_entries)}, "
+            f"SEDAC collections: {len(sedac_entries)}, "
+            f"Supplementary unlabelled/L2-tagged EO collections: {len(supp_entries)}"
+        ),
     )
 
 
