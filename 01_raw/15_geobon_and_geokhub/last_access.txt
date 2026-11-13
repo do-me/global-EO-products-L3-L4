@@ -1,0 +1,16 @@
+source_id: 15_geobon_and_geokhub
+source_title: GEO BON Essential Biodiversity Variables (EBV) STAC API & GEO Knowledge Hub InvenioRDM API
+retrieved_at_utc: 2026-11-13T10:37:30Z
+http_status_summary: 200 OK
+total_records_retrieved: 1286
+endpoints_queried:
+  - https://stac.geobon.org/collections
+  - https://gkhub.earthobservations.org/api/records?size=100&page=1..N
+notes: GEO BON EBV STAC: 10, GEO Knowledge Hub: 1276
+files_written:
+  - path: data/geobon_ebv_stac_collections.json
+    bytes: 16696
+    sha256: fe62f5afa7d15f1d737c1398313a5e89b3cf245cd06dfe370e29dc07fc47d4c6
+  - path: data/geokhub_records.jsonl
+    bytes: 7333501
+    sha256: d6f09175470e6625c5a557cfec606e0384f9ab47a8a52df9e96fdad8747bfc12

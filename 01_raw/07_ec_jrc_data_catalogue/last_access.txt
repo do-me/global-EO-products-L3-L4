@@ -1,0 +1,44 @@
+source_id: 07_ec_jrc_data_catalogue
+source_title: European Commission Joint Research Centre (JRC) Data Catalogue (DCAT-AP API & CKAN)
+retrieved_at_utc: 2026-11-13T12:18:09Z
+http_status_summary: 200 OK
+total_records_retrieved: 4370
+endpoints_queried:
+  - https://data.jrc.ec.europa.eu/api/3/action/package_list
+  - https://data.europa.eu/api/hub/search/search?filter=dataset&facets={'catalog':['jrc']}&sort=id+asc&limit=200&page=0..N
+  - https://forobs.jrc.ec.europa.eu/TMF/data
+notes: Retrieved 4355 unique DCAT-AP dataset records from JRC catalog (sort=id+asc, 22 pages) + 15 JRC FOROBS TMF records.
+files_written:
+  - path: data/jrc_ckan_package_list.json
+    bytes: 184987
+    sha256: 34ce1ad3f72527576c7bd26e2179c4bea16fdfe8d2e5cd1d87675c7003a7ee86
+  - path: data/jrc_dcat_ap_datasets_part01.jsonl
+    bytes: 26033710
+    sha256: d0e67b0a123f399fc7335065aaff8158ffc5359b9dc69036a8d650b86eea4b81
+  - path: data/jrc_dcat_ap_datasets_part02.jsonl
+    bytes: 25971359
+    sha256: 606bd5495ebd2c8eb9a636603a0824106174589996c7c05b6674bef6c27f520f
+  - path: data/jrc_dcat_ap_datasets_part03.jsonl
+    bytes: 22373980
+    sha256: d58fa3c0d461277ea3886fc9b4f24d4e6b62ec8873e81931afda6bf13a20372d
+  - path: data/jrc_dcat_ap_datasets_part04.jsonl
+    bytes: 22078780
+    sha256: a9858abab4fd95475721380eb31d0f4066c672648b25873dbd4a316b97e352d9
+  - path: data/jrc_dcat_ap_datasets_part05.jsonl
+    bytes: 21840340
+    sha256: 58b1fc1a7980439c8273ab48cc4edac2f87332b0e3640e23ad6a6c2f2b9f98ef
+  - path: data/jrc_dcat_ap_datasets_part06.jsonl
+    bytes: 17744791
+    sha256: a9e9a6beb399082435437ed761f2383cdf6b615f73bd4b39610fb56f085a423e
+  - path: data/jrc_dcat_ap_datasets_part07.jsonl
+    bytes: 10129848
+    sha256: a1c2e2df1694eba7ac0f320dfb13e3c9c49e756a122af22c2e1f4795c6f3a2ac
+  - path: data/jrc_dcat_ap_datasets_part08.jsonl
+    bytes: 15728754
+    sha256: a86383f1154c42cb6a078606dc8c9545ad9c09467891ae7411f581f5ab055081
+  - path: data/jrc_dcat_ap_datasets_part09.jsonl
+    bytes: 13077049
+    sha256: b87f74e1ce2aa8cd7e9d4103092ecfef6d41b99d0d1d267b1898ab8e1646b683
+  - path: data/jrc_forobs_tmf_products.json
+    bytes: 15703
+    sha256: 694fbec99339544243b20c6f2e1bb1c9baab0225f1e1a42c8d3a17d2fa1f9cc4

@@ -1,0 +1,639 @@
+{
+  "type": "Catalog",
+  "id": "openlandmap",
+  "stac_version": "1.0.0",
+  "description": "Spatio-Temporal Asset Catalog for global layers provided by [OpenLandMap](https://openlandmap.org) and maintaned by [OpenGeoHub Foundation](https://opengeohub.org)",
+  "links": [
+    {
+      "rel": "child",
+      "href": "./no2_s5p.l3.trop.tmwm/collection.json",
+      "type": "application/json",
+      "title": "Sentinel-5P monthly tropospheric nitrogen dioxide density"
+    },
+    {
+      "rel": "child",
+      "href": "./no2_s5p.l3.trop.tmwm.ltm/collection.json",
+      "type": "application/json",
+      "title": "Sentinel-5P long-term tropospheric nitrogen dioxide density"
+    },
+    {
+      "rel": "child",
+      "href": "./log.oc_iso.10694/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap annual soil organic carbon"
+    },
+    {
+      "rel": "child",
+      "href": "./evi_mod13q1.stl.trend.logit.ols.beta/collection.json",
+      "type": "application/json",
+      "title": "MOD13Q1 long-term Enhanced Vegetation Index (EVI - trend analysis)"
+    },
+    {
+      "rel": "child",
+      "href": "./land.cover_esacci.lc.l4/collection.json",
+      "type": "application/json",
+      "title": "ESA CCI annual land cover"
+    },
+    {
+      "rel": "child",
+      "href": "./evi_mod13q1.tmwm.inpaint/collection.json",
+      "type": "application/json",
+      "title": "MOD13Q1 bi-monthly Enhanced Vegetation Index Index (EVI)"
+    },
+    {
+      "rel": "child",
+      "href": "./dtm.bareearth_ensemble/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap ensemble digital terrain model"
+    },
+    {
+      "rel": "child",
+      "href": "./fapar_essd.lstm/collection.json",
+      "type": "application/json",
+      "title": "Monthly fraction of absorbed photosynthetically active radiation (FAPAR)"
+    },
+    {
+      "rel": "child",
+      "href": "./fapar_essd.lstm.p95.beta/collection.json",
+      "type": "application/json",
+      "title": "Long-term fraction of absorbed photosynthetically active radiation (FAPAR - trend analysis)"
+    },
+    {
+      "rel": "child",
+      "href": "./pot.fapar_fapar.p95.eml.m/collection.json",
+      "type": "application/json",
+      "title": "Annual potential fraction of absorbed photosynthetically active radiation (FAPAR - 2021)"
+    },
+    {
+      "rel": "child",
+      "href": "./pot.fapar_fapar.p95.eml/collection.json",
+      "type": "application/json",
+      "title": "Monthly potential fraction of absorbed photosynthetically active radiation (FAPAR - 2021)"
+    },
+    {
+      "rel": "child",
+      "href": "./snow.cover_esa.modis/collection.json",
+      "type": "application/json",
+      "title": "ESA monthly snow cover fraction"
+    },
+    {
+      "rel": "child",
+      "href": "./snow.cover_esa.modis.ltm/collection.json",
+      "type": "application/json",
+      "title": "ESA long-term snow cover fraction"
+    },
+    {
+      "rel": "child",
+      "href": "./wilderness_li2022.human.footprint/collection.json",
+      "type": "application/json",
+      "title": "Annual terrestrial human footprint"
+    },
+    {
+      "rel": "child",
+      "href": "./wv_mcd19a2v061.seasconv/collection.json",
+      "type": "application/json",
+      "title": "MCD19A2 monthly water vapor"
+    },
+    {
+      "rel": "child",
+      "href": "./wv_mcd19a2v061.seasconv.m_p50/collection.json",
+      "type": "application/json",
+      "title": "MCD19A2 long-term water vapor (perc. 50th)"
+    },
+    {
+      "rel": "child",
+      "href": "./wv_mcd19a2v061.seasconv.m_p25/collection.json",
+      "type": "application/json",
+      "title": "MCD19A2 long-term water vapor (perc. 25th)"
+    },
+    {
+      "rel": "child",
+      "href": "./wv_mcd19a2v061.seasconv.m_p75/collection.json",
+      "type": "application/json",
+      "title": "MCD19A2 long-term water vapor (perc. 75th)"
+    },
+    {
+      "rel": "child",
+      "href": "./wv_mcd19a2v061.seasconv.m_std/collection.json",
+      "type": "application/json",
+      "title": "MCD19A2 long-term water vapor (std. dev.)"
+    },
+    {
+      "rel": "child",
+      "href": "./wv_mcd19a2v061.seasconv.m.yearly/collection.json",
+      "type": "application/json",
+      "title": "MCD19A2 annual water vapor"
+    },
+    {
+      "rel": "child",
+      "href": "./bulkdens.fineearth_usda.4a1h/collection.json",
+      "type": "application/json",
+      "title": "Long-term soil bulk density for fine earth"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_merit.dem/collection.json",
+      "type": "application/json",
+      "title": "MERIT geomorphometry"
+    },
+    {
+      "rel": "child",
+      "href": "./fapar_proba.v/collection.json",
+      "type": "application/json",
+      "title": "PROBA-V long-term fraction of absorbed photosynthetically active radiation (FAPAR)"
+    },
+    {
+      "rel": "child",
+      "href": "./forest.cover_esacci.ifl/collection.json",
+      "type": "application/json",
+      "title": "Tree-covered and intact forest landscapes"
+    },
+    {
+      "rel": "child",
+      "href": "./grtgroup_usda.soiltax/collection.json",
+      "type": "application/json",
+      "title": "USDA long-term soil great groups"
+    },
+    {
+      "rel": "child",
+      "href": "./land.cover_copernicus/collection.json",
+      "type": "application/json",
+      "title": "Copernicus PROBA-V annual land cover"
+    },
+    {
+      "rel": "child",
+      "href": "./organic.carbon.stock_msa.kgm2/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap long-term soil organic carbon stock"
+    },
+    {
+      "rel": "child",
+      "href": "./organic.carbon_usda.6a1c/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap long-term soil organic carbon content"
+    },
+    {
+      "rel": "child",
+      "href": "./pft.landcover_esa.cci.lc/collection.json",
+      "type": "application/json",
+      "title": "ESA CCI annual plant functional types (PFT)"
+    },
+    {
+      "rel": "child",
+      "href": "./precipitation_sm2rain.ltm/collection.json",
+      "type": "application/json",
+      "title": "SM2RAIN long-term precipitation"
+    },
+    {
+      "rel": "child",
+      "href": "./ph.h2o_usda.4c1a2a/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap long-term soil pH"
+    },
+    {
+      "rel": "child",
+      "href": "./pop.count_ghs.jrc/collection.json",
+      "type": "application/json",
+      "title": "JRC Global Human Settlement annual population (GHS)"
+    },
+    {
+      "rel": "child",
+      "href": "./sand.wfraction_usda.3a1a1a/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap long-term sand content"
+    },
+    {
+      "rel": "child",
+      "href": "./lc_mcd12q1v061.p1/collection.json",
+      "type": "application/json",
+      "title": "MCD12Q1 annual land cover and land use"
+    },
+    {
+      "rel": "child",
+      "href": "./texture.class_usda.tt/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap long-term soil texture classes (USDA system)"
+    },
+    {
+      "rel": "child",
+      "href": "./water.occurrence_jrc.surfacewater/collection.json",
+      "type": "application/json",
+      "title": "JRC long-term surface water occurrence"
+    },
+    {
+      "rel": "child",
+      "href": "./watercontent.33kPa_usda.4b1c/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap long-term soil water content"
+    },
+    {
+      "rel": "child",
+      "href": "./dsm_glo30/collection.json",
+      "type": "application/json",
+      "title": "Copernius DEM digital surface model"
+    },
+    {
+      "rel": "child",
+      "href": "./lc_glad.glcluc/collection.json",
+      "type": "application/json",
+      "title": "UMD GLAD annual land cover and land use (GLCLUC)"
+    },
+    {
+      "rel": "child",
+      "href": "./lc_glad.glcluc.change/collection.json",
+      "type": "application/json",
+      "title": "UMD GLAD annual land cover and land use change (GLCLUC)"
+    },
+    {
+      "rel": "child",
+      "href": "./landuse.cropland_hyde/collection.json",
+      "type": "application/json",
+      "title": "HYDE annual cropland for the holocene"
+    },
+    {
+      "rel": "child",
+      "href": "./landuse.pasture_hyde/collection.json",
+      "type": "application/json",
+      "title": "HYDE annual pasture for the holocene"
+    },
+    {
+      "rel": "child",
+      "href": "./land.use.land.cover_hilda.plus/collection.json",
+      "type": "application/json",
+      "title": "HILDA+ annual land use and land cover change"
+    },
+    {
+      "rel": "child",
+      "href": "./lst_mod11a2.daytime.trend.logit.ols.beta/collection.json",
+      "type": "application/json",
+      "title": "MOD11A2 long-term land surface temperature trend (daytime)"
+    },
+    {
+      "rel": "child",
+      "href": "./lst_mod11a2.nighttime.trend.logit.ols.beta/collection.json",
+      "type": "application/json",
+      "title": "MOD11A2 long-term land surface temperature trend (nighttime)"
+    },
+    {
+      "rel": "child",
+      "href": "./lst_mod11a2.daytime.annual/collection.json",
+      "type": "application/json",
+      "title": "MOD11A2 annual land surface temperature (day-time)"
+    },
+    {
+      "rel": "child",
+      "href": "./lst_mod11a2.nighttime.annual/collection.json",
+      "type": "application/json",
+      "title": "MOD11A2 annual land surface temperature (night-time)"
+    },
+    {
+      "rel": "child",
+      "href": "./lst_mod11a2.daytime/collection.json",
+      "type": "application/json",
+      "title": "MOD11A2 monthly land surface temperature (day-time)"
+    },
+    {
+      "rel": "child",
+      "href": "./lst_mod11a2.nighttime/collection.json",
+      "type": "application/json",
+      "title": "MOD11A2 monthly land surface temperature (night-time)"
+    },
+    {
+      "rel": "child",
+      "href": "./landform_usgs.ecotapestry/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap landform classes"
+    },
+    {
+      "rel": "child",
+      "href": "./lithology_usgs.ecotapestry/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap lithology classes"
+    },
+    {
+      "rel": "child",
+      "href": "./grtgroup_usda.soiltax.hapludalfs/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Haopludalfs of USDA soil great groups"
+    },
+    {
+      "rel": "child",
+      "href": "./biome.type_biome00k/collection.json",
+      "type": "application/json",
+      "title": "Potential distribution of biomes"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.evergreen.broadleaf.forest/collection.json",
+      "type": "application/json",
+      "title": "Potential distribution of tropical evergreen broadleaf forest"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.evergreen.broadleaf.forest.rcp26/collection.json",
+      "type": "application/json",
+      "title": "Future potential distribution of tropical evergreen broadleaf forest (RCP 2.6)"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.evergreen.broadleaf.forest.rcp45/collection.json",
+      "type": "application/json",
+      "title": "Future potential distribution of tropical evergreen broadleaf forest (RCP 4.5)"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.evergreen.broadleaf.forest.rcp85/collection.json",
+      "type": "application/json",
+      "title": "Future potential distribution of tropical evergreen broadleaf forest (RCP 8.5)"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.savanna/collection.json",
+      "type": "application/json",
+      "title": "Potential distribution of tropical savanna"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.savanna.rcp26/collection.json",
+      "type": "application/json",
+      "title": "Future potential distribution of tropical savanna (RCP 2.6)"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.savanna.rcp45/collection.json",
+      "type": "application/json",
+      "title": "Future potential distribution of tropical savanna (RCP 4.5)"
+    },
+    {
+      "rel": "child",
+      "href": "./biomes_biome6k.tropical.savanna.rcp85/collection.json",
+      "type": "application/json",
+      "title": "Future potential distribution of tropical savanna (RCP 8.5)"
+    },
+    {
+      "rel": "child",
+      "href": "./lc_glc.fcs30d/collection.json",
+      "type": "application/json",
+      "title": "GLC_FCS30D annual land land-cover dynamic monitoring product"
+    },
+    {
+      "rel": "child",
+      "href": "./nightlights.average_viirs.v21/collection.json",
+      "type": "application/json",
+      "title": "VIIRS annual nighttime lights"
+    },
+    {
+      "rel": "child",
+      "href": "./nightlights.difference_viirs.v21/collection.json",
+      "type": "application/json",
+      "title": "VIIRS long-term nighttime lights difference"
+    },
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json",
+      "title": "OpenLandMap STAC"
+    },
+    {
+      "rel": "child",
+      "href": "./l2a.gedi/collection.json",
+      "type": "application/json",
+      "title": "GEDI analysis-ready height measurements (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./fluxnet/collection.json",
+      "type": "application/json",
+      "title": "FLUXNET: GHG fluxes dataset (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./gbov/collection.json",
+      "type": "application/json",
+      "title": "GBOV: Ground-Based Observations for Validation of the Copernicus Global Land Service (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./geowiki.lc/collection.json",
+      "type": "application/json",
+      "title": "Geo-wiki ground observations of land cover (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./geowiki.forest.loss/collection.json",
+      "type": "application/json",
+      "title": "Geo-wiki drivers of tropical forest loss (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./veg.plot/collection.json",
+      "type": "application/json",
+      "title": "sPlotOpen: An environmentally-balanced, open-access, global dataset of vegetation plots (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./obis/collection.json",
+      "type": "application/json",
+      "title": "OBIS: Ocean Biogeographic Information System (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./fapar.eml/collection.json",
+      "type": "application/json",
+      "title": "FAPAR EML reference samples (vector)"
+    },
+    {
+      "rel": "child",
+      "href": "./gpw_ggc-30m/collection.json",
+      "type": "application/json",
+      "title": "Global Pasture Watch: Annual 30-m grassland class and extent maps (v2)"
+    },
+    {
+      "rel": "child",
+      "href": "./gpw_ugpp.daily-30m/collection.json",
+      "type": "application/json",
+      "title": "Global Pasture Watch: Bi-monthly 30-m uncalibrated Gross Primary Productivity (uGPP)"
+    },
+    {
+      "rel": "child",
+      "href": "./gpw_ugpp-30m/collection.json",
+      "type": "application/json",
+      "title": "Global Pasture Watch: Annual 30-m Uncalibrated Gross Primary Productivity (uGPP)"
+    },
+    {
+      "rel": "child",
+      "href": "./gpw_gpp.daily.grass-30m/collection.json",
+      "type": "application/json",
+      "title": "Global Pasture Watch: Bi-monthly 30-m grassland Gross Primary Productivity (GPP)"
+    },
+    {
+      "rel": "child",
+      "href": "./gpw_gpp.grass-30m/collection.json",
+      "type": "application/json",
+      "title": "Global Pasture Watch: Annual 30-m grassland Gross Primary Productivity (GPP)"
+    },
+    {
+      "rel": "child",
+      "href": "./gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Ensemble Digital Terrain Model (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_dfme_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Difference from mean elevation (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_geomorphon_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Geomorphons (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_hillshade_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Hillshade (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_ls.factor_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap LS factor (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_maxic_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Maximal curvature (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_minic_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Minimal curvature (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_neg.openness_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Negative openness (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_pos.openness_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Positive openness (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_pro.curv_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Profile curvature (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_ring.curv_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Ring curvature (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_shpindx_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Shape index (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_slope.in.degree_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Slope in degree (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_ssdon_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Spherical Standard Deviation of the Normals (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./geom_tan.curv_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Tangential curvature (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./hydro_twi_gedtm-30m/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap Topographic Wetness Index (GEDTM30)"
+    },
+    {
+      "rel": "child",
+      "href": "./soil.types_ensemble_probabilities/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil type probability"
+    },
+    {
+      "rel": "child",
+      "href": "./oc_iso.10694.1995.mg.cm3/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil organic carbon density [kg/m3]"
+    },
+    {
+      "rel": "child",
+      "href": "./oc_iso.10694.1995.wpml/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil organic carbon [g/kg]"
+    },
+    {
+      "rel": "child",
+      "href": "./ph.h2o_iso.10390.2021.index/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil pH in H2O"
+    },
+    {
+      "rel": "child",
+      "href": "./bd.core_iso.11272.2017.g.cm3/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Bulk density ﬁne earth [kg/m3]"
+    },
+    {
+      "rel": "child",
+      "href": "./sand.tot_iso.11277.2020.wpct/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil texture fraction sand [%]"
+    },
+    {
+      "rel": "child",
+      "href": "./silt.tot_iso.11277.2020.wpct/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil texture fraction silt [%]"
+    },
+    {
+      "rel": "child",
+      "href": "./clay.tot_iso.11277.2020.wpct/collection.json",
+      "type": "application/json",
+      "title": "OpenLandMap-soildb: Soil texture fraction clay [%]"
+    },
+    {
+      "rel": "child",
+      "href": "./landsat_glad.swa.ard2_bimonthly/collection.json",
+      "type": "application/json",
+      "title": "Cloud-free reconstructed Landsat bimonthly spectral reflectance bands (1997-2022)"
+    },
+    {
+      "rel": "child",
+      "href": "./landsat_glad.swa.ard2_yearly.p50/collection.json",
+      "type": "application/json",
+      "title": "Cloud-free reconstructed Landsat yearly spectral reflectance bands (1997-2022)"
+    },
+    {
+      "rel": "child",
+      "href": "./gpw_gsvh-30m/collection.json",
+      "type": "application/json",
+      "title": "Global Pasture Watch: Annual 30-m short vegetation height"
+    }
+  ],
+  "title": "OpenLandMap STAC"
+}

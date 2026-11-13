@@ -1,0 +1,15 @@
+source_id: 21_usgs_landsat_and_eros
+source_title: USGS LandsatLook STAC Server & USGS/EROS Collection Metadata
+retrieved_at_utc: 2026-11-13T10:37:13Z
+http_status_summary: 200 OK
+total_records_retrieved: 146
+endpoints_queried:
+  - https://landsatlook.usgs.gov/stac-server/collections
+  - https://cmr.earthdata.nasa.gov/search/collections.json?provider=USGS_EROS,USGS_LTA
+files_written:
+  - path: data/usgs_eros_cmr_collections.jsonl
+    bytes: 385213
+    sha256: 39adc6d956a73318b357bc3833adfb6967b51b65d478ff5c96a363b4c739d42c
+  - path: data/usgs_landsatlook_stac.json
+    bytes: 43782
+    sha256: a026d50cc604872dc44689b4e2494ce7fb34d35cfa719c730ad5af768a7a1d15

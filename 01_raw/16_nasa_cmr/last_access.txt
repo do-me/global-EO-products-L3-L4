@@ -1,0 +1,22 @@
+source_id: 16_nasa_cmr
+source_title: NASA Common Metadata Repository (CMR) Collections API — All Explicit L3/L4 + SEDAC/ORNL Gridded Collections
+retrieved_at_utc: 2026-11-13T10:38:31Z
+http_status_summary: 200 OK
+total_records_retrieved: 5749
+endpoints_queried:
+  - https://cmr.earthdata.nasa.gov/search/collections.json?processing_level_id[]=3&processing_level_id[]=4&page_size=2000
+  - https://cmr.earthdata.nasa.gov/search/collections.json?provider=SEDAC&page_size=2000
+notes: Explicit L3/L4 collections: 5749, SEDAC collections: 0
+files_written:
+  - path: data/nasa_cmr_l3_l4_part01.jsonl
+    bytes: 16492904
+    sha256: 8a1b949317c5fffe40e3bf6e36f07484e098beb23fe06f1662cb875a85865ac9
+  - path: data/nasa_cmr_l3_l4_part02.jsonl
+    bytes: 10510695
+    sha256: f357e34e812541cf7b17b55194261bec9b87d416127c62d233bee08583172ac6
+  - path: data/nasa_cmr_l3_l4_part03.jsonl
+    bytes: 7733992
+    sha256: e1496420ef1e02e7a534eae3d69fd1b36aea1988af97ee3ea6f02e6cbb4af918
+  - path: data/nasa_cmr_sedac.jsonl
+    bytes: 0
+    sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

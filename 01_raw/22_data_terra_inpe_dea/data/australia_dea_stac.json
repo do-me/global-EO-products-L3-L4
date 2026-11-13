@@ -1,0 +1,4869 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "type": "application/json",
+      "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+    },
+    {
+      "rel": "root",
+      "type": "application/json",
+      "href": "https://explorer.sandbox.dea.ga.gov.au/stac"
+    },
+    {
+      "rel": "parent",
+      "type": "application/json",
+      "href": "https://explorer.sandbox.dea.ga.gov.au/stac"
+    }
+  ],
+  "collections": [
+    {
+      "type": "Collection",
+      "id": "esa_s2am_level1_0",
+      "stac_version": "1.1.0",
+      "description": "ESA Sentinel 2A Level 0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/esa_s2am_level1_0/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/esa_s2am_level1_0/queryables"
+        }
+      ],
+      "title": "esa_s2am_level1_0",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.98629650407554,
+              -44.33961644387641,
+              154.1586741001922,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2026-06-10T01:10:22.736049Z",
+              "2026-11-09T00:19:05.290283Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s1_nrb_iw_hh_1",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-1 Interferometric Wide Mode Normalised Radar Backscatter Gamma0 HH Linear Backscatter Collection 1",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_hh_1/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_hh_1/queryables"
+        }
+      ],
+      "title": "ga_s1_nrb_iw_hh_1",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls9c_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat 9 Operational Land Imager and Thermal Infra-Red Scanner Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls9c_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls9c_ard_3/queryables"
+        }
+      ],
+      "title": "ga_ls9c_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              70.08961330507881,
+              -55.591624435306265,
+              169.89961881555308,
+              -7.631192595202736
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2021-10-31T01:40:00.765383Z",
+              "2026-11-13T01:03:48.649012Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2am_fmc",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2A MSI Fuel Moisture Content Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2am_fmc/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2am_fmc/queryables"
+        }
+      ],
+      "title": "ga_s2am_fmc",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              104.83227882333235,
+              -44.463885891312565,
+              168.44683780871668,
+              -8.935176088974877
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-12T00:00:00Z",
+              "2025-01-21T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls7_nbart_geomedian_annual",
+      "stac_version": "1.1.0",
+      "description": "Surface Reflectance Geometric Median 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls7_nbart_geomedian_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls7_nbart_geomedian_annual/queryables"
+        }
+      ],
+      "title": "ls7_nbart_geomedian_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "usgs_ls9c_level1_2",
+      "stac_version": "1.1.0",
+      "description": "United States Geological Survey Landsat 9 Operational Land Imager and Thermal Infra-Red Scanner Level 1 Collection 2",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/usgs_ls9c_level1_2/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/usgs_ls9c_level1_2/queryables"
+        }
+      ],
+      "title": "usgs_ls9c_level1_2",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              70.08962137336013,
+              -55.59174211239772,
+              169.89961739970119,
+              -7.631188101609206
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2021-10-31T01:40:00.765383Z",
+              "2026-11-11T04:39:55.835220Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "wofs_albers",
+      "stac_version": "1.1.0",
+      "description": "Historic Flood Mapping Water Observations from Space",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_albers/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_albers/queryables"
+        }
+      ],
+      "title": "wofs_albers",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "abares_clum_2020",
+      "stac_version": "1.1.0",
+      "description": "ABARES Catchment Scale Land Use of Australia - Update December 2020",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/abares_clum_2020/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/abares_clum_2020/queryables"
+        }
+      ],
+      "title": "abares_clum_2020",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              109.4919062902414,
+              -42.819782986233754,
+              157.22964416682223,
+              -8.195523185852279
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2023-12-12T04:53:58.651543Z",
+              "2023-12-12T04:53:58.651543Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "esa_s2bm_level1_0",
+      "stac_version": "1.1.0",
+      "description": "ESA Sentinel 2B Level 0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/esa_s2bm_level1_0/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/esa_s2bm_level1_0/queryables"
+        }
+      ],
+      "title": "esa_s2bm_level1_0",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              95.74849900010724,
+              -44.34116294786428,
+              169.04733143941476,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2026-01-29T23:51:22.073383Z",
+              "2026-11-10T23:04:22.467478Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ausbathytopo250m_2023",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia AusBathyTopo 250m (Australia) 2023 Grid - A High-resolution Depth Model for Australia",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ausbathytopo250m_2023/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ausbathytopo250m_2023/queryables"
+        }
+      ],
+      "title": "ga_ausbathytopo250m_2023",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              92.00013888887797,
+              -59.99986083987401,
+              172.0001388888053,
+              -7.999860839921216
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2023-11-28T00:48:52.678570Z",
+              "2023-11-28T00:48:52.678570Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls5t_gm_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Nadir BRDF Adjusted Reflectance Terrain, Landsat 5 Geomedian Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls5t_gm_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls5t_gm_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls5t_gm_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1986-01-01T00:00:00Z",
+              "2011-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_tcw_percentiles_2",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Tasseled Cap Wetness Percentiles Collection 2, 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_tcw_percentiles_2/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_tcw_percentiles_2/queryables"
+        }
+      ],
+      "title": "ga_ls_tcw_percentiles_2",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.50152452494667,
+              -44.31507778566801,
+              154.34085263990164,
+              -9.073609182757863
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1987-01-01T00:00:00Z",
+              "1987-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s1_nrb_iw_hh_hv_1",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-1 Interferometric Wide Mode Normalised Radar Backscatter Gamma0 HH+HV Linear Backscatter Collection 1",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_hh_hv_1/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_hh_hv_1/queryables"
+        }
+      ],
+      "title": "ga_s1_nrb_iw_hh_hv_1",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2_fmc_3_v1",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel MSI Fuel Moisture Content Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_fmc_3_v1/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_fmc_3_v1/queryables"
+        }
+      ],
+      "title": "ga_s2_fmc_3_v1",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              71.93358011826487,
+              -56.02262681137958,
+              169.0653521688931,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-12T01:31:07.464000Z",
+              "2026-11-03T03:51:39.824591Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "abares_clum_2023",
+      "stac_version": "1.1.0",
+      "description": "ABARES Catchment Scale Land Use of Australia - Update December 2023",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/abares_clum_2023/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/abares_clum_2023/queryables"
+        }
+      ],
+      "title": "abares_clum_2023",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              109.49189045629166,
+              -42.819799634376515,
+              157.22963490161573,
+              -8.544475534300094
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2024-06-12T06:00:27.721871Z",
+              "2024-06-12T06:00:27.721871Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_regolith_ratios",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_regolith_ratios/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_regolith_ratios/queryables"
+        }
+      ],
+      "title": "aster_regolith_ratios",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -44.01369891236296,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "esa_s2cm_level1_0",
+      "stac_version": "1.1.0",
+      "description": "ESA Sentinel 2C Level 0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/esa_s2cm_level1_0/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/esa_s2cm_level1_0/queryables"
+        }
+      ],
+      "title": "esa_s2cm_level1_0",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              95.74865685417433,
+              -44.34128105831431,
+              169.04708697218194,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2026-01-29T01:10:04.956619Z",
+              "2026-11-10T23:58:56.047874Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls5t_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat 5 Thematic Mapper Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls5t_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls5t_ard_3/queryables"
+        }
+      ],
+      "title": "ga_ls5t_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              110.68734388386027,
+              -44.26230504037979,
+              156.36532074745543,
+              -6.786641754480889
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1986-08-15T23:50:47.387056Z",
+              "2011-11-16T23:32:21.051006Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls8c_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat 8 Operational Land Imager and Thermal Infra-Red Scanner Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls8c_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls8c_ard_3/queryables"
+        }
+      ],
+      "title": "ga_ls8c_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              70.2593444675981,
+              -56.998976676190985,
+              169.58619462215012,
+              -7.6304467978905635
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2013-03-19T00:30:08.886342Z",
+              "2026-11-13T01:54:29.395487Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_wo_fq_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Water Observations Frequency Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls_wo_fq_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1986-01-01T00:00:00Z",
+              "2025-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s1_nrb_iw_vv_1",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-1 Interferometric Wide Mode Normalised Radar Backscatter Gamma0 VV Linear Backscatter Collection 1",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_vv_1/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_vv_1/queryables"
+        }
+      ],
+      "title": "ga_s1_nrb_iw_vv_1",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_opaque_index",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_opaque_index/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_opaque_index/queryables"
+        }
+      ],
+      "title": "aster_opaque_index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls7e_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat 7 Enhanced Thematic Mapper Plus Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls7e_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls7e_ard_3/queryables"
+        }
+      ],
+      "title": "ga_ls7e_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              110.69647849945943,
+              -44.188941028920674,
+              155.71164729898106,
+              -9.152700923810563
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1999-05-28T01:02:17.555371Z",
+              "2022-04-05T23:54:05.288253Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_tc_pc_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Tasseled Cap Percentile Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_tc_pc_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_tc_pc_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls_tc_pc_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1987-01-01T00:00:00Z",
+              "2025-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s1_nrb_iw_vv_vh_1",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-1 Interferometric Wide Mode Normalised Radar Backscatter Gamma0 VV+VH Linear Backscatter Collection 1",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_vv_vh_1/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s1_nrb_iw_vv_vh_1/queryables"
+        }
+      ],
+      "title": "ga_s1_nrb_iw_vv_vh_1",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2_coastalecosystems_cyear_3_v1",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-2 Coastal Ecosystems Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_coastalecosystems_cyear_3_v1/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_coastalecosystems_cyear_3_v1/queryables"
+        }
+      ],
+      "title": "ga_s2_coastalecosystems_cyear_3_v1",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              109.01449767969413,
+              -43.215252894285506,
+              158.7133212442406,
+              -8.456340217485801
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2021-01-01T00:00:00Z",
+              "2022-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2am_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2A MSI Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2am_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2am_ard_3/queryables"
+        }
+      ],
+      "title": "ga_s2am_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              71.93358011826487,
+              -55.55233947399052,
+              169.0471770196402,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-12T01:31:07.464000Z",
+              "2026-11-13T01:36:38.977112Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2cm_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2C MSI Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2cm_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2cm_ard_3/queryables"
+        }
+      ],
+      "title": "ga_s2cm_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              71.93358011826487,
+              -55.48354795178061,
+              169.04708693292685,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2025-01-21T22:54:49.912555Z",
+              "2026-11-13T00:37:45.020529Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls7_nbart_tmad_annual",
+      "stac_version": "1.1.0",
+      "description": "Surface Reflectance Triple Median Absolute Deviation 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls7_nbart_tmad_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls7_nbart_tmad_annual/queryables"
+        }
+      ],
+      "title": "ls7_nbart_tmad_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "wofs_apr_oct_summary",
+      "stac_version": "1.1.0",
+      "description": "Water Observations from Space April to October Statistics",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_apr_oct_summary/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_apr_oct_summary/queryables"
+        }
+      ],
+      "title": "wofs_apr_oct_summary",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_feoh_group_content",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_feoh_group_content/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_feoh_group_content/queryables"
+        }
+      ],
+      "title": "aster_feoh_group_content",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_landcover_class_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Land Cover Calendar Year Collection 3.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_landcover_class_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_landcover_class_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls_landcover_class_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.34335488963099,
+              -44.34031320629086,
+              155.0737046911272,
+              -9.403586706908444
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1988-01-01T00:00:00Z",
+              "2025-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_wo_fq_apr_oct_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Water Observations Frequency April to October Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_apr_oct_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_apr_oct_3/queryables"
+        }
+      ],
+      "title": "ga_ls_wo_fq_apr_oct_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1986-04-01T00:00:00Z",
+              "2025-04-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_wo_fq_myear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Water Observations Frequency Multi Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_myear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_myear_3/queryables"
+        }
+      ],
+      "title": "ga_ls_wo_fq_myear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629084,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1987-01-01T00:00:00Z",
+              "1987-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2_tidal_composites_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-2 Tidal Composites Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_tidal_composites_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_tidal_composites_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_s2_tidal_composites_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              109.01449767969413,
+              -43.215252894285506,
+              161.29598677840025,
+              -7.525303436261066
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-01T00:00:00Z",
+              "2024-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2bm_fmc",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2B MSI Fuel Moisture Content Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2bm_fmc/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2bm_fmc/queryables"
+        }
+      ],
+      "title": "ga_s2bm_fmc",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              96.28069297680254,
+              -44.46384189069536,
+              169.24655110920872,
+              -8.935176088974877
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-06-30T00:00:00Z",
+              "2025-07-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls7_fc_albers",
+      "stac_version": "1.1.0",
+      "description": "Landsat 7 Fractional Cover 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls7_fc_albers/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls7_fc_albers/queryables"
+        }
+      ],
+      "title": "ls7_fc_albers",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "wofs_filtered_summary",
+      "stac_version": "1.1.0",
+      "description": "Water Observations from Space Statistics confidence filtered",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_filtered_summary/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_filtered_summary/queryables"
+        }
+      ],
+      "title": "wofs_filtered_summary",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.85956229089855,
+              -44.93512873199578,
+              155.16936809832364,
+              -9.0069224474448
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1970-01-01T00:00:00Z",
+              "1970-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_ferric_oxide_content",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferric_oxide_content/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferric_oxide_content/queryables"
+        }
+      ],
+      "title": "aster_ferric_oxide_content",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_ferric_oxide_composition",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferric_oxide_composition/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferric_oxide_composition/queryables"
+        }
+      ],
+      "title": "aster_ferric_oxide_composition",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_silica_index",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_silica_index/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_silica_index/queryables"
+        }
+      ],
+      "title": "aster_silica_index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.91702413811102,
+              -43.78060270570978,
+              153.64035845743769,
+              -10.28257228000003
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2bm_ard_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2B MSI Analysis Ready Data Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2bm_ard_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2bm_ard_3/queryables"
+        }
+      ],
+      "title": "ga_s2bm_ard_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              71.93358011826487,
+              -56.02262681137958,
+              169.0653521688931,
+              -8.125022545077034
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-06-30T01:07:27.461000Z",
+              "2026-11-13T01:26:20.929612Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls8_fc_albers",
+      "stac_version": "1.1.0",
+      "description": "Landsat 8 Fractional Cover 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_fc_albers/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_fc_albers/queryables"
+        }
+      ],
+      "title": "ls8_fc_albers",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_ferrous_iron_index",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferrous_iron_index/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferrous_iron_index/queryables"
+        }
+      ],
+      "title": "aster_ferrous_iron_index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "cemp_insar_alos_velocity",
+      "stac_version": "1.1.0",
+      "description": "CEMP InSAR ALOS Velocity",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_alos_velocity/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_alos_velocity/queryables"
+        }
+      ],
+      "title": "cemp_insar_alos_velocity",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              150.33103825324315,
+              -34.52504139402763,
+              151.25802140584102,
+              -33.77247243598798
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2009-06-15T01:01:01Z",
+              "2009-06-15T01:01:01Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_srtm_dem1sv1_0",
+      "stac_version": "1.1.0",
+      "description": "SRTM 1 second DEM version 1.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_srtm_dem1sv1_0/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_srtm_dem1sv1_0/queryables"
+        }
+      ],
+      "title": "ga_srtm_dem1sv1_0",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.99986111110002,
+              -44.00013888924464,
+              153.9998611117613,
+              -10.000138888696245
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2014-12-15T14:58:44Z",
+              "2014-12-15T14:58:44Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "usgs_ls8c_level1_2",
+      "stac_version": "1.1.0",
+      "description": "United States Geological Survey Landsat 8 Operational Land Imager and Thermal Infra-Red Scanner Level 1 Collection 2",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/usgs_ls8c_level1_2/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/usgs_ls8c_level1_2/queryables"
+        }
+      ],
+      "title": "usgs_ls8c_level1_2",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              70.25933641750227,
+              -56.99914487346183,
+              169.5861894696696,
+              -7.6306707153474616
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2013-08-03T03:40:46.313981Z",
+              "2026-11-03T01:15:45.851318Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_ferrous_iron_content_in_mgoh",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferrous_iron_content_in_mgoh/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_ferrous_iron_content_in_mgoh/queryables"
+        }
+      ],
+      "title": "aster_ferrous_iron_content_in_mgoh",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "cemp_insar_envisat_displacement",
+      "stac_version": "1.1.0",
+      "description": "CEMP InSAR Envisat Displacement",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_envisat_displacement/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_envisat_displacement/queryables"
+        }
+      ],
+      "title": "cemp_insar_envisat_displacement",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              150.41635729877854,
+              -34.52835358645128,
+              151.18435581607847,
+              -33.50350772529274
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2006-06-26T01:01:01Z",
+              "2010-08-28T01:01:01Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls5t_nbart_gm_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Nadir BRDF Adjusted Reflectance Terrain, Landsat 5 Geomedian Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls5t_nbart_gm_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls5t_nbart_gm_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls5t_nbart_gm_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_multi_ausbath_0",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Australian Bathymetry and Topography Grid, June 2009",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_multi_ausbath_0/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_multi_ausbath_0/queryables"
+        }
+      ],
+      "title": "ga_multi_ausbath_0",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              91.99762207031249,
+              -60.0024389648438,
+              171.99762207031063,
+              -8.002438964844968
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2023-06-02T02:44:44.526750Z",
+              "2023-06-02T02:44:44.526750Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2cm_fmc",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2C MSI Fuel Moisture Content Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2cm_fmc/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2cm_fmc/queryables"
+        }
+      ],
+      "title": "ga_s2cm_fmc",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.81998518457041,
+              -44.463885891312565,
+              168.41822712615348,
+              -9.839608112514902
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2025-01-22T00:00:00Z",
+              "2025-07-30T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls8_barest_earth_albers",
+      "stac_version": "1.1.0",
+      "description": "Landsat-8 Barest Earth pixel composite albers 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_barest_earth_albers/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_barest_earth_albers/queryables"
+        }
+      ],
+      "title": "ls8_barest_earth_albers",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.49240012005433,
+              -44.335706521509785,
+              155.06656394170784,
+              -8.835156951999382
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2013-01-01T00:00:00Z",
+              "2013-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_gypsum_index",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_gypsum_index/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_gypsum_index/queryables"
+        }
+      ],
+      "title": "aster_gypsum_index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.91702413811102,
+              -43.78060270570978,
+              153.64035845743769,
+              -10.28257228000003
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "cemp_insar_envisat_velocity",
+      "stac_version": "1.1.0",
+      "description": "CEMP InSAR Envisat Velocity",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_envisat_velocity/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_envisat_velocity/queryables"
+        }
+      ],
+      "title": "cemp_insar_envisat_velocity",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              150.41635729877854,
+              -34.52835358645128,
+              151.18435581607847,
+              -33.50350772529274
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2008-06-15T01:01:01Z",
+              "2008-06-15T01:01:01Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls7e_gm_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Nadir BRDF Adjusted Reflectance Terrain, Landsat 7 Geomedian Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls7e_gm_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls7e_gm_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls7e_gm_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1999-01-01T00:00:00Z",
+              "2021-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2_wo_provisional_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel 2 Near Real Time Water Observations Provisional Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_wo_provisional_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_wo_provisional_3/queryables"
+        }
+      ],
+      "title": "ga_s2_wo_provisional_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.95899161437339,
+              -44.3393273411762,
+              155.2190240524588,
+              -9.027271042420457
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2021-07-01T01:01:12.028576Z",
+              "2026-11-13T01:33:59.235810Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls8_nbart_geomedian_annual",
+      "stac_version": "1.1.0",
+      "description": "Surface Reflectance Geometric Median 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_nbart_geomedian_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_nbart_geomedian_annual/queryables"
+        }
+      ],
+      "title": "ls8_nbart_geomedian_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "mangrove_cover",
+      "stac_version": "1.1.0",
+      "description": "Mangrove Cover, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/mangrove_cover/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/mangrove_cover/queryables"
+        }
+      ],
+      "title": "mangrove_cover",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "wofs_nov_mar_summary",
+      "stac_version": "1.1.0",
+      "description": "Water Observations from Space November to March Statistics",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_nov_mar_summary/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_nov_mar_summary/queryables"
+        }
+      ],
+      "title": "wofs_nov_mar_summary",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_kaolin_group_index",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_kaolin_group_index/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_kaolin_group_index/queryables"
+        }
+      ],
+      "title": "aster_kaolin_group_index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "cemp_insar_radarsat2_displacement",
+      "stac_version": "1.1.0",
+      "description": "CEMP InSAR Radarsat-2 Displacement",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_radarsat2_displacement/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_radarsat2_displacement/queryables"
+        }
+      ],
+      "title": "cemp_insar_radarsat2_displacement",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              150.54042039929277,
+              -34.37926884322281,
+              151.15161347757356,
+              -33.87984324787181
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-07-15T01:01:01Z",
+              "2019-05-31T01:01:01Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls7e_nbart_gm_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Nadir BRDF Adjusted Reflectance Terrain, Landsat 7 Geomedian Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls7e_nbart_gm_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls7e_nbart_gm_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls7e_nbart_gm_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls8_nbart_tmad_annual",
+      "stac_version": "1.1.0",
+      "description": "Surface Reflectance Triple Median Absolute Deviation 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_nbart_tmad_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls8_nbart_tmad_annual/queryables"
+        }
+      ],
+      "title": "ls8_nbart_tmad_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "multi_scale_topographic_position",
+      "stac_version": "1.1.0",
+      "description": "Multi-scale Topographic Position Image",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/multi_scale_topographic_position/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/multi_scale_topographic_position/queryables"
+        }
+      ],
+      "title": "multi_scale_topographic_position",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.99958330000001,
+              -44.000416699999995,
+              153.9995833,
+              -10.000416699999983
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-01-01T00:00:00Z",
+              "2018-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "wofs_summary",
+      "stac_version": "1.1.0",
+      "description": "Water Observations from Space Statistics",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_summary/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_summary/queryables"
+        }
+      ],
+      "title": "wofs_summary",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.99986111000003,
+              -44.00078376839635,
+              153.99986111032803,
+              -10.00013888999996
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1970-01-01T00:00:00Z",
+              "1970-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_mgoh_group_composition",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_mgoh_group_composition/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_mgoh_group_composition/queryables"
+        }
+      ],
+      "title": "aster_mgoh_group_composition",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "cemp_insar_radarsat2_velocity",
+      "stac_version": "1.1.0",
+      "description": "CEMP InSAR Radarsat-2 Velocity",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_radarsat2_velocity/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_radarsat2_velocity/queryables"
+        }
+      ],
+      "title": "cemp_insar_radarsat2_velocity",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              150.54042039929277,
+              -34.37926884322281,
+              151.15161347757356,
+              -33.87984324787181
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-06-15T01:01:01Z",
+              "2017-06-15T01:01:01Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls8c_nbart_gm_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Nadir BRDF Adjusted Reflectance Terrain, Landsat 8 Geomedian Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls8c_nbart_gm_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls8c_nbart_gm_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls8c_nbart_gm_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "nidem",
+      "stac_version": "1.1.0",
+      "description": "National Intertidal Digital Elevation Model 25m 1.0.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/nidem/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/nidem/queryables"
+        }
+      ],
+      "title": "nidem",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.2230589907675,
+              -43.829196553065444,
+              154.08029980113173,
+              -10.237104814250808
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2001-07-02T00:00:00Z",
+              "2001-07-02T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "s1_gamma0_geotif_scene",
+      "stac_version": "1.1.0",
+      "description": "Sentinel-1A/B SAR Gamma0 scenes, processed to the CEOS ARD standard - Orbit updates, GRD border noise, thermal noise, radiometric calibration and terrain correction, orthorectification.",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/s1_gamma0_geotif_scene/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/s1_gamma0_geotif_scene/queryables"
+        }
+      ],
+      "title": "s1_gamma0_geotif_scene",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              127.86736438400905,
+              -44.71157032555604,
+              154.75033298931066,
+              -10.534964166376716
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-01-01T19:23:36.446879Z",
+              "2017-12-29T20:40:35.099608Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_mgoh_group_content",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_mgoh_group_content/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_mgoh_group_content/queryables"
+        }
+      ],
+      "title": "aster_mgoh_group_content",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_wo_fq_nov_mar_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Water Observations Frequency November to March Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_nov_mar_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_fq_nov_mar_3/queryables"
+        }
+      ],
+      "title": "ga_ls_wo_fq_nov_mar_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1987-11-01T00:00:00Z",
+              "2025-11-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2ls_intertidal_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Sentinel-2 Landsat Intertidal Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2ls_intertidal_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2ls_intertidal_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_s2ls_intertidal_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              109.01449767969413,
+              -43.215252894285506,
+              159.45358650918217,
+              -8.362895868895261
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-01T00:00:00Z",
+              "2024-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "s2_barest_earth",
+      "stac_version": "1.1.0",
+      "description": "Sentinel-2 Barest Earth",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/s2_barest_earth/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/s2_barest_earth/queryables"
+        }
+      ],
+      "title": "s2_barest_earth",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.32437277106459,
+              -43.9381826788341,
+              154.7051075129598,
+              -8.82186564540386
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-01-01T00:00:00Z",
+              "2017-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_green_vegetation",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_green_vegetation/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_green_vegetation/queryables"
+        }
+      ],
+      "title": "aster_green_vegetation",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "fc_percentile_albers_annual",
+      "stac_version": "1.1.0",
+      "description": "Landsat Fractional Cover percentile 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/fc_percentile_albers_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/fc_percentile_albers_annual/queryables"
+        }
+      ],
+      "title": "fc_percentile_albers_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "weathering_intensity",
+      "stac_version": "1.1.0",
+      "description": "Weathering Intensity Model",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/weathering_intensity/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/weathering_intensity/queryables"
+        }
+      ],
+      "title": "weathering_intensity",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.99958330000001,
+              -44.000416699999995,
+              153.9995833,
+              -10.000416699999983
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-01-01T00:00:00Z",
+              "2018-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_aloh_group_content",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_aloh_group_content/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_aloh_group_content/queryables"
+        }
+      ],
+      "title": "aster_aloh_group_content",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_false_colour",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_false_colour/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_false_colour/queryables"
+        }
+      ],
+      "title": "aster_false_colour",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -44.01369891236296,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "wofs_annual_summary",
+      "stac_version": "1.1.0",
+      "description": "Water Observations from Space Annual Statistics",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_annual_summary/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/wofs_annual_summary/queryables"
+        }
+      ],
+      "title": "wofs_annual_summary",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_aloh_group_composition",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_aloh_group_composition/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_aloh_group_composition/queryables"
+        }
+      ],
+      "title": "aster_aloh_group_composition",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.917275536606,
+              -43.780643351167555,
+              153.640054299875,
+              -10.285658599999973
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "aster_quartz_index",
+      "stac_version": "1.1.0",
+      "description": "ASTER",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_quartz_index/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/aster_quartz_index/queryables"
+        }
+      ],
+      "title": "aster_quartz_index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.91702413811102,
+              -43.78060270570978,
+              153.64035845743769,
+              -10.28257228000003
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-03-02T00:00:00.500000Z",
+              "2004-03-02T00:00:00.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "cemp_insar_alos_displacement",
+      "stac_version": "1.1.0",
+      "description": "CEMP InSAR ALOS Displacement",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_alos_displacement/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/cemp_insar_alos_displacement/queryables"
+        }
+      ],
+      "title": "cemp_insar_alos_displacement",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              150.33103825324315,
+              -34.52504139402763,
+              151.25802140584102,
+              -33.77247243598798
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2008-02-11T01:01:01Z",
+              "2010-10-22T01:01:01Z"
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "fc_percentile_albers_seasonal",
+      "stac_version": "1.1.0",
+      "description": "Landsat Fractional Cover percentile 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/fc_percentile_albers_seasonal/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/fc_percentile_albers_seasonal/queryables"
+        }
+      ],
+      "title": "fc_percentile_albers_seasonal",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls8cls9c_gm_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Nadir BRDF Adjusted Reflectance Terrain, Landsat 8 and 9 Geomedian Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls8cls9c_gm_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls8cls9c_gm_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls8cls9c_gm_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2013-01-01T00:00:00Z",
+              "2025-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "geodata_coast_100k",
+      "stac_version": "1.1.0",
+      "description": "Coastline data for Australia",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/geodata_coast_100k/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/geodata_coast_100k/queryables"
+        }
+      ],
+      "title": "geodata_coast_100k",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.9215,
+              -43.86100194123943,
+              153.63825000000003,
+              -9.14139999905743
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2004-01-01T00:00:00Z",
+              "2004-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_fc_pc_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Fractional Cover Percentile Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_fc_pc_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_fc_pc_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls_fc_pc_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.53308872366085,
+              -44.34031320629086,
+              155.0737046911272,
+              -8.511206284325466
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1987-01-01T00:00:00Z",
+              "2025-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "high_tide_comp_20p",
+      "stac_version": "1.1.0",
+      "description": "High Tide Composite 25m 2.0.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/high_tide_comp_20p/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/high_tide_comp_20p/queryables"
+        }
+      ],
+      "title": "high_tide_comp_20p",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              142.2760269238473,
+              -27.001367524788254,
+              153.80115774998447,
+              -10.237104814250808
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2008-06-01T00:00:00Z",
+              "2008-06-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_landcover_class_cyear_2",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Land Cover Calendar Year Collection 2.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_landcover_class_cyear_2/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_landcover_class_cyear_2/queryables"
+        }
+      ],
+      "title": "ga_ls_landcover_class_cyear_2",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.73182863306789,
+              -44.23421848714163,
+              154.26741095655905,
+              -9.935096784005093
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1988-01-01T00:00:00Z",
+              "2020-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "item_v2",
+      "stac_version": "1.1.0",
+      "description": "Intertidal Extents Model 25m 2.0.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/item_v2/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/item_v2/queryables"
+        }
+      ],
+      "title": "item_v2",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.45962267789557,
+              -43.72018539249873,
+              153.67038797052757,
+              -10.30998230990732
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2001-06-01T23:59:59.500000Z",
+              "2001-06-01T23:59:59.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_mangrove_cover_cyear_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Mangrove Cover Calendar Year Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_mangrove_cover_cyear_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_mangrove_cover_cyear_3/queryables"
+        }
+      ],
+      "title": "ga_ls_mangrove_cover_cyear_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.49225743906086,
+              -39.129221614493844,
+              154.2640537416657,
+              -9.569896313985438
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1987-01-01T00:00:00Z",
+              "2025-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "item_v2_conf",
+      "stac_version": "1.1.0",
+      "description": "Intertidal Extents Model confidence 25m 2.0.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/item_v2_conf/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/item_v2_conf/queryables"
+        }
+      ],
+      "title": "item_v2_conf",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              112.45962267789557,
+              -43.72018539249873,
+              153.67038797052757,
+              -10.30998230990732
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2001-06-01T23:59:59.500000Z",
+              "2001-06-01T23:59:59.500000Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "landsat_barest_earth",
+      "stac_version": "1.1.0",
+      "description": "Landsat 30+ Barest Earth",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/landsat_barest_earth/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/landsat_barest_earth/queryables"
+        }
+      ],
+      "title": "landsat_barest_earth",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.03368600388715,
+              -44.4285210281062,
+              155.7905714111466,
+              -8.494538751828152
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1999-01-01T00:00:00Z",
+              "1999-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "low_tide_comp_20p",
+      "stac_version": "1.1.0",
+      "description": "Low Tide Composite 25m 2.0.0",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/low_tide_comp_20p/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/low_tide_comp_20p/queryables"
+        }
+      ],
+      "title": "low_tide_comp_20p",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              148.75654660738218,
+              -22.97292284973528,
+              150.17018530312438,
+              -21.370312906610767
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2008-06-01T00:00:00Z",
+              "2008-06-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ls5_fc_albers",
+      "stac_version": "1.1.0",
+      "description": "Landsat 5 Fractional Cover 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls5_fc_albers/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls5_fc_albers/queryables"
+        }
+      ],
+      "title": "ls5_fc_albers",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ls5_nbart_geomedian_annual",
+      "stac_version": "1.1.0",
+      "description": "Surface Reflectance Geometric Median 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls5_nbart_geomedian_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls5_nbart_geomedian_annual/queryables"
+        }
+      ],
+      "title": "ls5_nbart_geomedian_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ls5_nbart_tmad_annual",
+      "stac_version": "1.1.0",
+      "description": "Surface Reflectance Triple Median Absolute Deviation 25 metre, 100km tile, Australian Albers Equal Area projection (EPSG:3577)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls5_nbart_tmad_annual/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ls5_nbart_tmad_annual/queryables"
+        }
+      ],
+      "title": "ls5_nbart_tmad_annual",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180.0,
+              -90.0,
+              180.0,
+              90.0
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "license": "Unknown"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_fc_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Fractional Cover Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_fc_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_fc_3/queryables"
+        }
+      ],
+      "title": "ga_ls_fc_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              70.08961330507881,
+              -55.591848570871036,
+              169.9004321669989,
+              -7.6304467978905635
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1986-08-15T23:51:11.394075Z",
+              "2026-11-03T02:01:35.012310Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_s2_ba_provisional_3",
+      "stac_version": "1.1.0",
+      "description": "Sentinel 2 Burnt Area Collection 3 (Provisional)",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_ba_provisional_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_s2_ba_provisional_3/queryables"
+        }
+      ],
+      "title": "ga_s2_ba_provisional_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              111.96674681660532,
+              -44.34138133834764,
+              155.21382403963926,
+              -9.930007388970107
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2021-07-01T01:01:12.028576Z",
+              "2023-08-29T02:27:29.487915Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    },
+    {
+      "type": "Collection",
+      "id": "ga_ls_wo_3",
+      "stac_version": "1.1.0",
+      "description": "Geoscience Australia Landsat Water Observations Collection 3",
+      "links": [
+        {
+          "rel": "root",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac",
+          "type": "application/json",
+          "title": "AWS Explorer"
+        },
+        {
+          "rel": "self",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections"
+        },
+        {
+          "rel": "items",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_3/items"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://explorer.sandbox.dea.ga.gov.au/stac/collections/ga_ls_wo_3/queryables"
+        }
+      ],
+      "title": "ga_ls_wo_3",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              95.62315577559427,
+              -45.67250709553482,
+              169.58619462215012,
+              -7.630865839438721
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1986-08-15T23:51:11.394075Z",
+              "2026-11-03T02:01:35.012310Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+source_id: 14_ceos_fedeo_agencies
+source_title: CEOS FedEO Gateway — ESA CCI (CEDA), ESA Earth Online, ESA MAAP, VITO Terrascope, JAXA, ISRO, DLR, INPE, NRCan & USGS
+retrieved_at_utc: 2026-11-13T10:38:22Z
+http_status_summary: 200 OK
+total_records_retrieved: 2516
+endpoints_queried:
+  - https://api.stac.ceda.ac.uk/collections (29 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:DLR:EOC (69 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:DLR:GEOSERVICE (19 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:ESA:EARTH-ONLINE (162 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:ESA:MAAP (63 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:INPE:DATA (79 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:ISRO:MOSDAC (308 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:JAXA:G-PORTAL (1175 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:NRCAN:EODMS (13 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:NRSC:BHOONIDHI (63 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:STFC:CEDA-CCI (399 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:USGS:LANDSATLOOK (14 collections)
+  - https://fedeo.ceos.org/collections?parentIdentifier=EOP:VITO:TERRASCOPE (123 collections)
+files_written:
+  - path: data/ceda_native_stac.json
+    bytes: 218339
+    sha256: f4247b32fe1eebfbc3c14fac223ef23fec4a1dce8aa73fe7b59290c531aa1a88
+  - path: data/fedeo_ceda_cci.jsonl
+    bytes: 3930745
+    sha256: 3bc4b7930ba0c7118cfac2b044f92cb84ddd9cc4462dafbdb37a0ee8fd2d11c9
+  - path: data/fedeo_dlr_eoc.jsonl
+    bytes: 460557
+    sha256: 9970fd9de10ce8bbcf17edd1143a6315e1f8107d958a093c756fbe1ee5e9693c
+  - path: data/fedeo_dlr_geoservice.jsonl
+    bytes: 192765
+    sha256: d1ec5858c1a0131eb7cb04cae77c7e169a4e3303941b0ee6bf81624c7af589b6
+  - path: data/fedeo_esa_earth_online.jsonl
+    bytes: 2122483
+    sha256: 2bfa665a8cc0d9fc80aad1f45531560ecfc07c3805b8f53977cbbf7ea02f2720
+  - path: data/fedeo_esa_maap.jsonl
+    bytes: 628143
+    sha256: e36ec39844851baa0b7d55359c2cfa3d0f0ae3c5a769c266b148ea24dc8f34b4
+  - path: data/fedeo_inpe_data.jsonl
+    bytes: 944810
+    sha256: 42af75be8d4ebf010c238b258250b0728eab69fe887dc3f8c0b0223e095d6c57
+  - path: data/fedeo_isro_bhoonidhi.jsonl
+    bytes: 297578
+    sha256: 8a905067cf1341750c16d44ba85ecb62bd46c5f4acd33300fc202c1b79a86c19
+  - path: data/fedeo_isro_mosdac.jsonl
+    bytes: 1558660
+    sha256: 2fb1662b2db91e99835b872ac087947d5eb5c3a90e90cfcb4214e7f7d323f36b
+  - path: data/fedeo_jaxa_gportal.jsonl
+    bytes: 10236960
+    sha256: 41fdeba74fe5203b68bbfe22eee63ab9db3b21fc99ceb2e8b44fb09d14396c1d
+  - path: data/fedeo_nrcan_eodms.jsonl
+    bytes: 68990
+    sha256: 25c0f53449dc7db6304e48ba0e002d18cdab81ef41563757f1ec5fe6c8658b41
+  - path: data/fedeo_usgs_landsatlook.jsonl
+    bytes: 75954
+    sha256: 60a06fde5dcaa83e9129f613313b15558f25108ecb6e28d50aae5b438357a85b
+  - path: data/fedeo_vito_terrascope.jsonl
+    bytes: 1438762
+    sha256: 58fa7d7ce2483f9e53f1201de749306991ec9c5c89553d2c73a28b15356e2652

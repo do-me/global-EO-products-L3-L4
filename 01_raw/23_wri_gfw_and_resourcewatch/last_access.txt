@@ -1,0 +1,16 @@
+source_id: 23_wri_gfw_and_resourcewatch
+source_title: World Resources Institute (WRI) — Global Forest Watch (GFW) & Resource Watch Data APIs
+retrieved_at_utc: 2026-11-13T10:44:55Z
+http_status_summary: 200 OK
+total_records_retrieved: 3096
+endpoints_queried:
+  - https://data-api.globalforestwatch.org/datasets
+  - https://api.resourcewatch.org/v1/dataset?page[size]=250&includes=metadata
+notes: GFW datasets: 382, Resource Watch datasets: 2714
+files_written:
+  - path: data/wri_gfw_datasets.json
+    bytes: 709161
+    sha256: 820e162e2a98d35273db9cfa2970592202a590a9b9ad5fe1629e4394fbbb0d4d
+  - path: data/wri_resourcewatch_datasets.jsonl
+    bytes: 11963545
+    sha256: e740319db07326cc3ba9ce5e6d9fe6a6533679f515969403898126113e2c3385

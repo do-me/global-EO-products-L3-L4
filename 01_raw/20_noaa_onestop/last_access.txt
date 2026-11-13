@@ -1,0 +1,11 @@
+source_id: 20_noaa_onestop
+source_title: NOAA OneStop Data Search REST API (NOAA CDRs, NESDIS/STAR/NCEI Gridded Satellite Products)
+retrieved_at_utc: 2026-11-13T10:38:09Z
+http_status_summary: 200 OK
+total_records_retrieved: 3145
+endpoints_queried:
+  - POST https://data.noaa.gov/onestop/api/search/search/collection (queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'])
+files_written:
+  - path: data/noaa_onestop_collections.jsonl
+    bytes: 6862933
+    sha256: 80473f4ccfd22568acd58061ce6d25ff8cb17faeee6c2f33646f46633cb2533a

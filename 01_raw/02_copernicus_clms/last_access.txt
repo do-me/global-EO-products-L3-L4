@@ -1,0 +1,16 @@
+source_id: 02_copernicus_clms
+source_title: Copernicus Land Monitoring Service (CLMS) Plone REST API (Catalog + Full Product Detail JSONs)
+retrieved_at_utc: 2026-11-13T10:42:41Z
+http_status_summary: 200 OK
+total_records_retrieved: 270
+endpoints_queried:
+  - https://land.copernicus.eu/++api++/en/dataset-catalog/@querystring-search
+  - https://land.copernicus.eu/++api++/en/products/<product-slug> (x270)
+notes: Fetched 270 catalog summary items and 270 full ++api++ product detail JSONs.
+files_written:
+  - path: data/clms_products_detailed.jsonl
+    bytes: 15837470
+    sha256: a3e93b3307bebd30c446dffc8a6503d2131196673d6143e0ab2b0cf57cf2c94d
+  - path: data/clms_querystring_search.json
+    bytes: 1649598
+    sha256: 194f26ed4bf98447c2cb15fed997fcfc12666a9681e8a7fe1096e9da2eb91717

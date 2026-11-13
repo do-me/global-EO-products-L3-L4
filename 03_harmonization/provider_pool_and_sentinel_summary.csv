@@ -1,0 +1,13 @@
+provider_pool,processing_level,uses_sentinel_data,canonical_product_count
+copernicus_services,L3,False,1534
+copernicus_services,L3,True,399
+copernicus_services,L4,False,733
+copernicus_services,L4,True,110
+eu_non_copernicus,L3,False,4730
+eu_non_copernicus,L3,True,777
+eu_non_copernicus,L4,False,154
+eu_non_copernicus,L4,True,29
+non_eu,L3,False,14423
+non_eu,L3,True,740
+non_eu,L4,False,2649
+non_eu,L4,True,52

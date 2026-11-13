@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "Global Harmonized L3/L4 Earth Observation Product Catalogue"
+message: "If you use this catalogue or mining architecture in your research, please cite it using the metadata below."
+type: dataset
+authors:
+  - family-names: "Weckmüller"
+    given-names: "Dominik"
+    affiliation: "European Commission, Joint Research Centre (JRC), Ispra, Italy"
+repository-code: "https://github.com/do-me/global-EO-products-L3-L4"
+license: "MIT"
+license-url: "https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE"
+keywords:
+  - "Earth Observation"
+  - "Level 3"
+  - "Level 4"
+  - "Copernicus Services"
+  - "STAC"
+  - "DCAT-AP"
+  - "Essential Climate Variables"

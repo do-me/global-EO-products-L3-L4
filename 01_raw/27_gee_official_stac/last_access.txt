@@ -1,0 +1,13 @@
+source_id: 27_gee_official_stac
+source_title: Google Earth Engine (GEE) Official STAC Catalogue (Full Tree Traversal)
+retrieved_at_utc: 2026-11-13T10:42:20Z
+http_status_summary: 200 OK
+total_records_retrieved: 1182
+endpoints_queried:
+  - https://earthengine-stac.storage.googleapis.com/catalog/catalog.json
+  - provider catalogs (x133)
+  - collection JSONs (x1182)
+files_written:
+  - path: data/gee_official_stac_collections.jsonl
+    bytes: 22228949
+    sha256: 6b3c15bf23e387e7fe3ac77c97b8e9478602debf861150496e4b4a257b8d5b65

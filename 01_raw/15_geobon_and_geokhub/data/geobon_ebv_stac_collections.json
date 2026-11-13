@@ -1,0 +1,584 @@
+{
+  "links": [
+    {
+      "rel": "next",
+      "type": "application/geo+json",
+      "method": "GET",
+      "href": "https://stac.geobon.org/collections?offset=10"
+    },
+    {
+      "rel": "root",
+      "type": "application/json",
+      "href": "https://stac.geobon.org/"
+    },
+    {
+      "rel": "self",
+      "type": "application/json",
+      "href": "https://stac.geobon.org/collections"
+    }
+  ],
+  "collections": [
+    {
+      "id": "accessibility_to_cities",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/accessibility_to_cities/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/accessibility_to_cities"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/accessibility_to_cities/queryables"
+        }
+      ],
+      "title": "Accessibility - Time to access cities",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              85
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-01-01T00:00:00Z",
+              "2015-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "This global accessibility map enumerates land-based travel time to the nearest densely-populated area for all areas between 85 degrees north and 60 degrees south for a nominal year 2015. Densely-populated areas are defined as contiguous areas with 1,500 or more inhabitants per square kilometer or a majority of built-up land cover types coincident with a population centre of at least 50,000 inhabitants.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "bii_nhm",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/bii_nhm/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/bii_nhm"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/bii_nhm/queryables"
+        }
+      ],
+      "title": "Biodiversity Intactness Index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "Other (Non-Commercial)",
+      "description": "The Biodiversity Intactness Index developed by The Natural History Museum, London, v2.1.1. At approximately 10 km resolution. See https://data.nhm.ac.uk/dataset/bii-developed-by-nhm-v2-1-1-limited-release",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "cec_derived_maps",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/cec_derived_maps/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/cec_derived_maps"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/cec_derived_maps/queryables"
+        }
+      ],
+      "title": "Rasters derived from CEC North American Land Cover map to serve as inputs for various pipelines.",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              0,
+              14,
+              84
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2005-01-01T00:00:00Z",
+              "2020-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-0",
+      "description": "Rasters at 300 m. resolution derived from the land cover map generated by the Commission for Environmental Cooperation (CEC) for North America at 30 meter resolution. See http://www.cec.org/north-american-environmental-atlas/land-cover-30m-2020/. These maps serve as inputs for various pipelines for species distribution and EBV modeling. ",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "cec_land_cover",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/cec_land_cover/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/cec_land_cover"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/cec_land_cover/queryables"
+        }
+      ],
+      "title": "CEC North American Land Cover",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              0,
+              14,
+              84
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2005-01-01T00:00:00Z",
+              "2020-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-0",
+      "description": "Land cover map generated by the Commission for Environmental Cooperation (CEC) for North America at 30 meter resolution. The map contains 19 land cover categories. See http://www.cec.org/north-american-environmental-atlas/land-cover-30m-2020/.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "cec_land_cover_percentage",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/cec_land_cover_percentage/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/cec_land_cover_percentage"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/cec_land_cover_percentage/queryables"
+        }
+      ],
+      "title": "CEC North American Land Cover Percentage at 300 m resolution",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              0,
+              14,
+              84
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2005-01-01T00:00:00Z",
+              "2020-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-0",
+      "description": "Percentager of each land cover at 300 m. reslution from land cover map generated by the Commission for Environmental Cooperation (CEC) for North America at 30 meter resolution. The collection contains one map for each of the 19 land cover categories. See http://www.cec.org/north-american-environmental-atlas/land-cover-30m-2020/.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "chelsa-clim",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/chelsa-clim/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/chelsa-clim"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/chelsa-clim/queryables"
+        }
+      ],
+      "title": "CHELSA Climatologies",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1981-01-01T00:00:00Z",
+              "2020-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "CHELSA Climatologies",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "chelsa-clim-proj",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/chelsa-clim-proj/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/chelsa-clim-proj"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/chelsa-clim-proj/queryables"
+        }
+      ],
+      "title": "CHELSA Climatologies Projections",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1981-01-01T00:00:00Z",
+              "2100-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "CHELSA Climatologies Projections",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "chelsa-monthly",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/chelsa-monthly/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/chelsa-monthly"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/chelsa-monthly/queryables"
+        }
+      ],
+      "title": "CHELSA monthly timeseries",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              "2019-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "CHELSA monthly timeseries",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "colombia_forests",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/colombia_forests/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/colombia_forests"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/colombia_forests/queryables"
+        }
+      ],
+      "title": "Time series of the presence of forests in Colombia",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -81.68,
+              -4.25,
+              -70.79,
+              12.9
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1990-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "Yearly time series of binary forest cover in Colombia",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "colombia-human-footprint",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/colombia-human-footprint/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/colombia-human-footprint"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/colombia-human-footprint/queryables"
+        }
+      ],
+      "title": "Colombia - Human Footprint",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -79,
+              -4,
+              -66,
+              12
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1970-01-01T00:00:00Z",
+              "2018-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "Human Footprint dataset for Colombia for years 1970, 1990, 2000, 2015 and 2018",
+      "stac_version": "1.1.0"
+    }
+  ],
+  "numberMatched": 34,
+  "numberReturned": 10
+}

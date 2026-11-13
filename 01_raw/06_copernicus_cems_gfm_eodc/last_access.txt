@@ -1,0 +1,11 @@
+source_id: 06_copernicus_cems_gfm_eodc
+source_title: EODC STAC API — CEMS Global Flood Monitoring (GFM), Copernicus DEM & Sentinel Thematic Products
+retrieved_at_utc: 2026-11-13T10:35:14Z
+http_status_summary: 200 OK
+total_records_retrieved: 58
+endpoints_queried:
+  - https://stac.eodc.eu/api/v1/collections
+files_written:
+  - path: data/eodc_stac_collections.json
+    bytes: 297188
+    sha256: 70617e9ca6b6649bc54458d9dcbe48802b1de907e4d330e69707e5c4c44bfa97

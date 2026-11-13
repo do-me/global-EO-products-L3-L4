@@ -1,0 +1,15 @@
+source_id: 24_openlandmap_stac
+source_title: OpenGeoHub OpenLandMap Global Soil, Land Cover & Climate STAC Catalogue
+retrieved_at_utc: 2026-11-13T10:44:57Z
+http_status_summary: 200 OK
+total_records_retrieved: 104
+endpoints_queried:
+  - https://s3.eu-central-1.wasabisys.com/stac/openlandmap/catalog.json
+  - child collection JSONs (x104)
+files_written:
+  - path: data/openlandmap_collections.jsonl
+    bytes: 576126
+    sha256: dc403e770f82c6173f3525812b3504928d80b1cbafd2168bf57e473222b5df1c
+  - path: data/openlandmap_root_catalog.json
+    bytes: 20912
+    sha256: 9b100bfc8ffbc6d82a47a5eabc8d2c7d2ee7e0d95b502b20f3f955b74ebcb8bc

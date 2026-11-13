@@ -1,0 +1,16 @@
+source_id: 13_wmo_oscar_and_gcos
+source_title: WMO OSCAR (Observing Systems Capability Analysis and Review Tool) Space & GCOS Variables
+retrieved_at_utc: 2026-11-13T10:46:02Z
+http_status_summary: 200 OK
+total_records_retrieved: 1300
+endpoints_queried:
+  - https://space.oscar.wmo.int/api/v1/variables
+  - https://space.oscar.wmo.int/api/v1/satellites
+notes: Variables: 237, Satellites: 1063
+files_written:
+  - path: data/wmo_oscar_satellites.json
+    bytes: 5447482
+    sha256: 243f1361641b7caa5e8154f47b11b1db739d8eda98c1668644414b2517c7d8c0
+  - path: data/wmo_oscar_variables.json
+    bytes: 414045
+    sha256: c2a4065dd58627bd0c17e7183878b3c87540f34eacdc11d0d2ffa4cdb65b622d

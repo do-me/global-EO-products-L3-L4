@@ -1,0 +1,11 @@
+source_id: 03_copernicus_c3s_cds
+source_title: Copernicus Climate Change Service (C3S) Climate Data Store (CDS) CADS STAC API
+retrieved_at_utc: 2026-11-13T10:35:11Z
+http_status_summary: 200 OK
+total_records_retrieved: 144
+endpoints_queried:
+  - https://cds.climate.copernicus.eu/api/catalogue/v1/datasets?limit=500
+files_written:
+  - path: data/c3s_cds_datasets.json
+    bytes: 682847
+    sha256: bcec2cd9a5a3335b61ef3d6500b2badc6a330668a8bbae352b32978e8e53540c

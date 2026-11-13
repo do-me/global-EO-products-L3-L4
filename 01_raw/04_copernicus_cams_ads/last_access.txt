@@ -1,0 +1,11 @@
+source_id: 04_copernicus_cams_ads
+source_title: Copernicus Atmosphere Monitoring Service (CAMS) Atmosphere Data Store (ADS) CADS STAC API
+retrieved_at_utc: 2026-11-13T10:35:12Z
+http_status_summary: 200 OK
+total_records_retrieved: 16
+endpoints_queried:
+  - https://ads.atmosphere.copernicus.eu/api/catalogue/v1/datasets?limit=500
+files_written:
+  - path: data/cams_ads_datasets.json
+    bytes: 67600
+    sha256: f7147bca23d035f9c6eaaa01b1e3b5e48adc77adb49191b867eb7b237f01f494

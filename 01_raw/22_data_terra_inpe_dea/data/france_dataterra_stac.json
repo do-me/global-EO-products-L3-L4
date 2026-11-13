@@ -1,0 +1,858 @@
+{
+  "links": [
+    {
+      "rel": "next",
+      "type": "application/geo+json",
+      "method": "GET",
+      "href": "https://api.stac.teledetection.fr/collections?offset=10"
+    },
+    {
+      "rel": "root",
+      "type": "application/json",
+      "href": "https://api.stac.teledetection.fr/"
+    },
+    {
+      "rel": "self",
+      "type": "application/json",
+      "href": "https://api.stac.teledetection.fr/collections"
+    }
+  ],
+  "collections": [
+    {
+      "id": "becarun",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/becarun/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/becarun"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/becarun/queryables"
+        }
+      ],
+      "title": "Lidar BECARUN (COPC)",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/yGq02fK/image003.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              55.35028882986212,
+              -21.155696255813346,
+              55.36976151906382,
+              -21.079630557848944
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              null,
+              null
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Olivier Mattre",
+        "email": "olivier.matte@inrae.fr",
+        "organization": "UMR TETIS / INRAE"
+      },
+      "license": "etalab-2.0",
+      "keywords": [
+        "lidar",
+        "point cloud",
+        "classification",
+        "terrain",
+        "forest",
+        "copc"
+      ],
+      "providers": [
+        {
+          "url": "https://umr-tetis.fr/index.php/fr/",
+          "name": "UMR TETIS",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "Jeu de données Lidar (format COPC) depuis l'entrepôt DataGouv",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "cartofeux-lidarhd",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/cartofeux-lidarhd/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/cartofeux-lidarhd"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/cartofeux-lidarhd/queryables"
+        }
+      ],
+      "title": "Lidar HD point cloud for project CARTO-FEUX",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/zWKsSXdZ/lidarhd-thumbnail2-zoom3.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        },
+        "item-table": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-carto-nat-incendies/cartofeux-lidarhd/item_table.parquet",
+          "type": "application/x-parquet",
+          "roles": [
+            "stac-items"
+          ],
+          "title": "Table of items",
+          "description": "Snapshot of the collection's STAC item main properties exported to GeoParquet format."
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -2.6030472670979874,
+              41.52294239957105,
+              9.420085554429315,
+              48.874062921819274
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2011-09-16T10:19:47.031692Z",
+              "2025-02-01T16:32:00.858836Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Florian de Boissieu",
+        "email": "florian.deboissieu@inrae.fr",
+        "organization": "UMR TETIS / INRAE"
+      },
+      "created": "2025-06-21T17:03:19Z",
+      "license": "etalab-2.0",
+      "updated": "2026-03-23T02:43:52.666543Z",
+      "keywords": [
+        "lidar",
+        "lidar-hd",
+        "point cloud",
+        "classification",
+        "terrain",
+        "forest",
+        "copc"
+      ],
+      "providers": [
+        {
+          "url": "https://geoservices.ign.fr/lidarhd",
+          "name": "IGNF",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "Lidar HD classified point clouds from IGN, see https://geoservices.ign.fr/lidarhd",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "cesbio-s2albedo",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/cesbio-s2albedo/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/cesbio-s2albedo"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/cesbio-s2albedo/queryables"
+        }
+      ],
+      "title": "Albédo de surface Sentinel-2",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/zTkKC22s/s2albedo-512.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.719358495215288,
+              41.45624189712769,
+              10.354447329975113,
+              51.451182205314446
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2022-06-01T00:00:00Z",
+              "2022-08-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "sci:doi": "10.71961/T6J0-FR91",
+      "Contacts": [
+        {
+          "name": "Jean-Louis Roujean",
+          "organization": "CESBIO"
+        }
+      ],
+      "providers": [
+        {
+          "url": "https://www.cesbio.cnrs.fr/",
+          "name": "CESBIO",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "La méthode de calcul de l’albédo haute résolution (HR) Sentinel-2 (S2)  a déjà été utilisée dans le cadre du programme Copernicus Global  Land Service (http://land.copernicus.eu/global/) en considérant les données  PROBA-V (Roujean et al., RSE, 2018, https://doi.org/10.1016/j.rse.2018.05.015).  Elle utilise ici en entrée les données MAJA L2A et comprend deux étapes.  En premier lieu, un jeu de données spectrales est constitué par accumulation  de scènes S2 au cours du temps afin de disposer de mesures directionnelles  permettant d’inverser un modèle de la Fonction de Distribution de la  Réflectance Bidirectionnelle (FDRB). Du fait du champ de vue réduit de S2,  la directionalité provient surtout de la variabilité de la géométrie solaire,  et ainsi la qualité du produit albédo HR peut varier selon la longueur de la  période de temps choisie. En second lieu, un modèle de FDRB est inversé sur  chaque jeu de données directionnelles spectrales multitemporel pour servir à  simuler ensuite la réflectance dans toutes les directions. L’intégration du  modèle de FDRB sur l’espace des directions de visée fournit la réflectance  directionnelle hémisphérique (DHR en anglais) et l’intégration de l’albédo  DHR sur l’espace des directions d’illumination fournit la réflectance  bidirectionnelle hémisphérique (BHR en anglais). Il s’agit ici d’un produit  albédo DHR correspondant au midi solaire local. Il est fourni avec une  incertitude qui traduit l’erreur cumulée dans sa réalisation. La dernière  étape consiste à convertir les albédos spectraux de S2 en un albédo solaire.  La loi de conversion est obtenue à partir de simulations d’un modèle de  transfert radiatif incluant des milliers de couverts végétaux. Ce travail a  été réalisé dans le cadre du programme SCO (Space Climate Observatory) du CNES  au travers du projet sat4BDNB mené en collaboration entre le CESBIO et le CSTB  (Centre Scientifique et Technique du Bâtiment) et qui s’appuie sur la Base de  Données Nationales du Bâtiment (BDNB). La période choisie est du 1er juin au  30 septembre 2022. Un albédo HR moyen est généré sur cette période pour toute  la métropole selon un tuilage et une projection géographique calqués sur le  produit MAJA L2A. Le produit a été vérifié par inter-comparaison avec des  mesures faites à partir d’albédomètres positionnés sur 6 prairies françaises  équiréparties sur le territoire national. Les résultats statistiques donnent un  biais de -0.01 et une erreur quadratique moyenne de 0.02 en unité de réflectance.  La valeur de l'albédo a été multipliée par un facteur 10000 pour archivage.\n",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/scientific/v1.0.0/schema.json"
+      ]
+    },
+    {
+      "id": "corona-4b",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/corona-4b/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/corona-4b"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://api.stac.teledetection.fr/collections/corona-4b/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/corona-4b/queryables"
+        }
+      ],
+      "title": "Corona 4B",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/C52hvw7B/corona-4b.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              43.75275567704797,
+              32.51244038383867,
+              54.14194736521786,
+              36.149969305794016
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1968-02-23T00:00:00Z",
+              "1968-02-23T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "contact": {
+        "name": "Mehrnoush Soroush",
+        "organization": "CAMEL, University of Chicago"
+      },
+      "license": "other",
+      "keywords": [
+        "archeology",
+        "Erbil",
+        "Isfahan",
+        "Iran",
+        "Corona"
+      ],
+      "providers": [
+        {
+          "url": "https://camelab.uchicago.edu/",
+          "name": "Center for Ancient Middle Eastern Landscapes at the Institute for the Study of Ancient Cultures, University of Chicago",
+          "roles": [
+            "producer"
+          ]
+        },
+        {
+          "url": "https://www.umr-tetis.fr/index.php/en/",
+          "name": "UMR TETIS Lab",
+          "roles": [
+            "publisher"
+          ]
+        }
+      ],
+      "description": "Historical data from declassified US spy satellites (optical imagery, visible domain)",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/timestamps/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/application/v0.1.0/schema.json",
+        "https://stac-extensions.github.io/example-links/v0.0.1/schema.json"
+      ]
+    },
+    {
+      "id": "costarica-sentinel-2-l2-spectral-indices",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l2-spectral-indices/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l2-spectral-indices"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l2-spectral-indices/queryables"
+        }
+      ],
+      "title": "costarica-sentinel-2-l2-spectral-indices",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/9mJj8kCS/costa-indices1.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -86.09034105704113,
+              8.036744648101147,
+              -81.81859647098463,
+              11.758567886482854
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-12-02T00:00:00Z",
+              "2023-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "description": "costarica-sentinel-2-l2-spectral-indices",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "costarica-sentinel-2-l3-seasonal-spectral-indices",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l3-seasonal-spectral-indices/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l3-seasonal-spectral-indices"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l3-seasonal-spectral-indices/queryables"
+        }
+      ],
+      "title": "costarica-sentinel-2-l3-seasonal-spectral-indices",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/mV62QGS4/costa-indices2.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -86.09034105704113,
+              8.036744648101147,
+              -81.81859647098463,
+              11.758567886482854
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-11-01T00:00:00Z",
+              "2024-01-31T23:59:59Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "description": "Sentinel 2 Seasonal Spectral Indices (Median on months 11, 12, 1 for wet period and 2, 3, 4 for dry period)",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "costarica-sentinel-2-l3-seasonal-spectral-indices-M",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l3-seasonal-spectral-indices-M/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l3-seasonal-spectral-indices-M"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l3-seasonal-spectral-indices-M/queryables"
+        }
+      ],
+      "title": "costarica-sentinel-2-l3-seasonal-spectral-indices-M",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/mV62QGS4/costa-indices2.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -86.09034105704113,
+              8.036744648101147,
+              -81.81859647098463,
+              11.758567886482854
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-06-01T00:00:00Z",
+              "2023-12-31T23:59:59Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "description": "costarica-sentinel-2-l3-seasonal-spectral-indices-M",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "costarica-sentinel-2-l4-seasonal-diversity-indices",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l4-seasonal-diversity-indices/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l4-seasonal-diversity-indices"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/costarica-sentinel-2-l4-seasonal-diversity-indices/queryables"
+        }
+      ],
+      "title": "costarica-sentinel-2-l4-seasonal-diversity-indices",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/Lzz6Hv2c/costa-biodiv.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -86.09034105704113,
+              8.036744648101147,
+              -81.81859647098463,
+              11.758567886482854
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-11-01T00:00:00Z",
+              "2024-01-31T23:59:59Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "description": "costarica-sentinel-2-l4-seasonal-diversity-indices",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dinamis-openspot-6-7",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/dinamis-openspot-6-7/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/dinamis-openspot-6-7"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "href": "https://api.stac.teledetection.fr/collections/dinamis-openspot-6-7/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/dinamis-openspot-6-7/queryables"
+        }
+      ],
+      "title": "DINAMIS SPOT6/7 National Coverage",
+      "assets": {
+        "thumbnail": {
+          "href": "https://i.ibb.co/RpJ5t34w/spot-6-7-quicklook.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "title": "preview",
+          "description": "Collection thumbnail"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -5.5284502062368635,
+              41.17600768089608,
+              9.834333801995735,
+              51.208471940849954
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2014-06-21T00:00:00Z",
+              "2025-10-12T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "etalab-2.0",
+      "Contacts": [
+        {
+          "name": "Loïc Lozac'h",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "url": "https://dinamis.data-terra.org/",
+          "name": "DINAMIS",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "Inherited from the EQUIPEX GEOSUD project, the DINAMIS annual Spot 6-7 coverages span the territory  of mainland France and Corsica.\n",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "fordead-fit",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://api.stac.teledetection.fr/collections/fordead-fit/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://api.stac.teledetection.fr/collections/fordead-fit"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://api.stac.teledetection.fr/collections/fordead-fit/queryables"
+        }
+      ],
+      "title": "FORDEAD harmonic model",
+      "assets": {
+        "QL": {
+          "href": "https://s3-data.meso.umontpellier.fr/sm1-gdc-media/fordead-fit.png",
+          "type": "image/png",
+          "roles": [
+            "thumbnail"
+          ],
+          "description": "quicklook"
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -1.785712865826906,
+              42.302451615096686,
+              9.13521359578018,
+              50.55229211014782
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC BY-SA 4.0",
+      "contacts": [
+        {
+          "name": "Florian de Boissieu",
+          "organization": "INRAE"
+        },
+        {
+          "name": "Rémi Cresson",
+          "organization": "INRAE"
+        }
+      ],
+      "providers": [
+        {
+          "url": "www.inrae.fr",
+          "name": "INRAE",
+          "roles": []
+        },
+        {
+          "name": "UMR TETIS",
+          "roles": [
+            "producer"
+          ]
+        }
+      ],
+      "description": "Fordead harmonic model produced using Sentinel-2 Level 2A data",
+      "stac_version": "1.1.0",
+      "stac_extensions": [
+        "https://stac-extensions.github.io/processing/v1.2.0/schema.json",
+        "https://stac-extensions.github.io/grid/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/sentinel-2/v1.0.0/schema.json",
+        "https://stac-extensions.github.io/raster/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+        "https://forge.inrae.fr/teledec/stac-extensions/schemas/-/raw/main/production/v1.1.0/schema.json",
+        "https://stac-extensions.github.io/contacts/v0.1.1/schema.json"
+      ]
+    }
+  ],
+  "numberMatched": 39,
+  "numberReturned": 10
+}

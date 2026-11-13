@@ -1,0 +1,15 @@
+source_id: 18_esa_osc_earthcode
+source_title: ESA Open Science Catalog (EarthCODE) STAC Product Catalogue
+retrieved_at_utc: 2026-11-13T10:37:57Z
+http_status_summary: 200 OK
+total_records_retrieved: 366
+endpoints_queried:
+  - https://esa-earthcode.github.io/open-science-catalog-metadata/products/catalog.json
+  - child product STAC JSONs (x366)
+files_written:
+  - path: data/esa_osc_products.jsonl
+    bytes: 1566343
+    sha256: e15904ba7d01e216aefbca782b37e3f74e59e0d6f50eaa5e97ac89f052cb216b
+  - path: data/esa_osc_root_catalog.json
+    bytes: 83605
+    sha256: e2cb81fd563fc78555ef0bab4e6b610b10bb65616e0395af0dfbbd1173220f45

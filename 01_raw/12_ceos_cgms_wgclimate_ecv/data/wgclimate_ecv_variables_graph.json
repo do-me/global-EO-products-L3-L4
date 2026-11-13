@@ -1,0 +1,5840 @@
+[
+  {
+    "id": 140,
+    "name": "Land",
+    "type": {
+      "id": 1,
+      "name": "Domain",
+      "description": "Domain"
+    },
+    "data_records_count": 250,
+    "children": [
+      {
+        "id": 378,
+        "name": "Anthropogenic Water Use",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 0,
+        "children": [
+          {
+            "id": 379,
+            "name": "Anthropogenic Water Use",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 380,
+                "name": "Anthropogenic Water Use",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 373,
+        "name": "River Discharge",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 375,
+            "name": "Water Level",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 377,
+                "name": "Water Level",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 374,
+            "name": "River Discharge",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 376,
+                "name": "River Discharge",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 320,
+        "name": "Terrestrial Water Storage",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 1,
+        "children": [
+          {
+            "id": 321,
+            "name": "Terrestrial water storage anomaly",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 322,
+                "name": "Terrestrial water storage anomaly",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 280,
+        "name": "Evaporation from land",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 1,
+        "children": [
+          {
+            "id": 285,
+            "name": "Transpiration",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 286,
+                "name": "Transpiration",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 283,
+            "name": "Interception loss",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 284,
+                "name": "Interception loss",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 281,
+            "name": "Bare soil evaporation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 282,
+                "name": "Bare soil evaporation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 203,
+            "name": "Latent heat flux",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 204,
+                "name": "Latent heat flux",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 205,
+            "name": "Sensible heat flux",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 206,
+                "name": "Sensible heat flux",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 253,
+        "name": "Permafrost",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 304,
+            "name": "Rock glacier velocity",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 305,
+                "name": "Rock glacier velocity",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 256,
+            "name": "Permafrost temperature",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 257,
+                "name": "Permafrost temperature",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 254,
+            "name": "Active layer thickness",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 255,
+                "name": "Active layer thickness",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 197,
+        "name": "Groundwater",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 1,
+        "children": [
+          {
+            "id": 198,
+            "name": "Groundwater storage change",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 199,
+                "name": "Groundwater storage change",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 194,
+        "name": "Land-surface temperature",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 35,
+        "children": [
+          {
+            "id": 195,
+            "name": "Land-surface temperature",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 35,
+            "children": [
+              {
+                "id": 196,
+                "name": "Land-surface temperature",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 35,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 191,
+        "name": "Soil moisture",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 66,
+        "children": [
+          {
+            "id": 232,
+            "name": "Vegetation optical depth",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 233,
+                "name": "Vegetation optical depth",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": []
+              }
+            ],
+            "nomenclatures": []
+          },
+          {
+            "id": 230,
+            "name": "Surface inundation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 231,
+                "name": "Surface inundation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 228,
+            "name": "Root-zone soil moisture",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 229,
+                "name": "Root-zone soil moisture",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 210,
+            "name": "Freeze/thaw",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 211,
+                "name": "Freeze/thaw",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 192,
+            "name": "Surface soil moisture",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 66,
+            "children": [
+              {
+                "id": 193,
+                "name": "Surface soil moisture",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 66,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 184,
+        "name": "Fire",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 41,
+        "children": [
+          {
+            "id": 189,
+            "name": "Fire radiative power",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 11,
+            "children": [
+              {
+                "id": 190,
+                "name": "Fire radiative power",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 11,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 187,
+            "name": "Active fires",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 8,
+            "children": [
+              {
+                "id": 188,
+                "name": "Active fires",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 8,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 185,
+            "name": "Burned area",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 22,
+            "children": [
+              {
+                "id": 186,
+                "name": "Burned area",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 22,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 181,
+        "name": "Above-ground biomass",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 2,
+        "children": [
+          {
+            "id": 182,
+            "name": "Above-ground biomass",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 183,
+                "name": "Above-ground biomass",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 178,
+        "name": "Leaf area index",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 16,
+        "children": [
+          {
+            "id": 239,
+            "name": "Maps of LAI for adaptation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 180,
+                "name": "Leaf area index",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS245",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 238,
+            "name": "Maps of LAI for modelling",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 11,
+            "children": [
+              {
+                "id": 180,
+                "name": "Leaf area index",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS245",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 179,
+            "name": "Leaf area index",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 180,
+                "name": "Leaf area index",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS245",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS245",
+          "GCOS200"
+        ]
+      },
+      {
+        "id": 175,
+        "name": "Fraction of Absorbed Photosythetically Active Radiation",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 16,
+        "children": [
+          {
+            "id": 237,
+            "name": "Maps of FAPAR for adaptation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 177,
+                "name": "Fraction of Absorbed Photosythetically Active Radiation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS245",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 236,
+            "name": "Maps of FAPAR for modelling",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 11,
+            "children": [
+              {
+                "id": 177,
+                "name": "Fraction of Absorbed Photosythetically Active Radiation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS245",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 176,
+            "name": "Fraction of Absorbed Photosythetically Active Radiation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 177,
+                "name": "Fraction of Absorbed Photosythetically Active Radiation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS245",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS245",
+          "GCOS200"
+        ]
+      },
+      {
+        "id": 170,
+        "name": "Land cover",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 289,
+            "name": "Maps of key IPCC land classes, related changes and land management types",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 290,
+                "name": "Maps of key IPCC land classes, related changes and land management types",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 173,
+            "name": "Maps of high-resolution land cover",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 174,
+                "name": "Maps of high-resolution land cover",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 171,
+            "name": "Land cover",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 172,
+                "name": "Land cover",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 163,
+        "name": "Albedo",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 27,
+        "children": [
+          {
+            "id": 272,
+            "name": "Spectral and broadband (VIS, NIR and SW) DHR and BHR with associated spectral BRDF parameters",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 371,
+                "name": "Spectral and broadband (VIS, NIR and SW) DHR and BHR",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": []
+              },
+              {
+                "id": 273,
+                "name": "Spectral and broadband (VIS, NIR and SW) DHR and BHR with associated spectral BRDF parameters",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 245,
+            "name": "Maps of BHR albedo for modelling",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 244,
+                "name": "BHR albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 243,
+            "name": "Maps of BHR albedo for adaptation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 244,
+                "name": "BHR albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 242,
+            "name": "Maps of DHR albedo for adaptation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 241,
+                "name": "DHR albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 240,
+            "name": "Maps of DHR albedo for modelling",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 241,
+                "name": "DHR albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 167,
+            "name": "White-sky Albedo",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 6,
+            "children": [
+              {
+                "id": 169,
+                "name": "Broadband land-surface white-sky albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154"
+                ]
+              },
+              {
+                "id": 168,
+                "name": "Spectral land-surface white-sky albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": []
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154"
+            ]
+          },
+          {
+            "id": 164,
+            "name": "Black-sky Albedo",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 11,
+            "children": [
+              {
+                "id": 166,
+                "name": "Broadband land-surface black-sky albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 6,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154"
+                ]
+              },
+              {
+                "id": 165,
+                "name": "Spectral land-surface black-sky albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": []
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 156,
+        "name": "Ice sheets and ice shelves",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 13,
+        "children": [
+          {
+            "id": 287,
+            "name": "Ice volume change",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 288,
+                "name": "Ice volume change",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 200,
+            "name": "Grounding line location and thickness",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 201,
+                "name": "Grounding line location and thickness",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 161,
+            "name": "Ice mass change",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 162,
+                "name": "Ice mass change",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 159,
+            "name": "Ice velocity",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 160,
+                "name": "Ice velocity",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 157,
+            "name": "Surface elevation change",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 158,
+                "name": "Surface elevation change",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 151,
+        "name": "Glaciers",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 1,
+        "children": [
+          {
+            "id": 234,
+            "name": "Glacier mass change",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 235,
+                "name": "Glacier mass change",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 154,
+            "name": "Glacier elevation change",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 155,
+                "name": "Glacier elevation change",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 146,
+        "name": "Snow",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 11,
+        "children": [
+          {
+            "id": 314,
+            "name": "Snow depth",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 315,
+                "name": "Snow depth",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 149,
+            "name": "Snow water equivalent",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 150,
+                "name": "Snow water equivalent",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 147,
+            "name": "Area covered by snow",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 9,
+            "children": [
+              {
+                "id": 148,
+                "name": "Area covered by snow",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 9,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 141,
+        "name": "Lakes",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 9,
+        "children": [
+          {
+            "id": 226,
+            "name": "Lake water-leaving reflectance",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 227,
+                "name": "Lake water-leaving reflectance",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 224,
+            "name": "Lake ice cover",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 225,
+                "name": "Lake ice cover",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 222,
+            "name": "Lake ice thickness",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 223,
+                "name": "Lake ice thickness",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 220,
+            "name": "Lake surface water temperature",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 6,
+            "children": [
+              {
+                "id": 221,
+                "name": "Lake surface water temperature",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 6,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 144,
+            "name": "Lake water level",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 145,
+                "name": "Lake water level",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 142,
+            "name": "Lake water extent",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 143,
+                "name": "Lake water extent",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      }
+    ],
+    "nomenclatures": [
+      "GCOS154",
+      "GCOS200",
+      "GCOS245"
+    ]
+  },
+  {
+    "id": 108,
+    "name": "Ocean",
+    "type": {
+      "id": 1,
+      "name": "Domain",
+      "description": "Domain"
+    },
+    "data_records_count": 86,
+    "children": [
+      {
+        "id": 381,
+        "name": "Plankton",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 1,
+        "children": [
+          {
+            "id": 383,
+            "name": "Phytoplankton Biomass",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 385,
+                "name": "Phytoplankton Biomass",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 382,
+            "name": "Phytoplankton Diversity",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 384,
+                "name": "Phytoplankton Diversity",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 295,
+        "name": "Marine habitat properties",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 0,
+        "children": [
+          {
+            "id": 296,
+            "name": "Mangrove cover and composition",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 297,
+                "name": "Mangrove cover and composition",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 215,
+        "name": "Surface currents",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 3,
+        "children": [
+          {
+            "id": 316,
+            "name": "Ekman currents",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 317,
+                "name": "Ekman currents",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 216,
+            "name": "Surface geostrophic currents",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 217,
+                "name": "Surface geostrophic currents",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 207,
+        "name": "Surface stress",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 1,
+        "children": [
+          {
+            "id": 208,
+            "name": "Surface stress",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 209,
+                "name": "Ocean surface stress",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 202,
+        "name": "Ocean-surface heat flux",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 218,
+            "name": "Radiative heat flux",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 219,
+                "name": "Radiative heat flux",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 205,
+            "name": "Sensible heat flux",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 206,
+                "name": "Sensible heat flux",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 203,
+            "name": "Latent heat flux",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 204,
+                "name": "Latent heat flux",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 135,
+        "name": "Ocean colour",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 3,
+        "children": [
+          {
+            "id": 138,
+            "name": "Chlorophyll-a concentration",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 139,
+                "name": "Chlorophyll-a concentration",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 136,
+            "name": "Water leaving radiance",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 137,
+                "name": "Water leaving radiance",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 126,
+        "name": "Sea ice",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 30,
+        "children": [
+          {
+            "id": 312,
+            "name": "Snow depth on sea ice",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 313,
+                "name": "Snow depth on sea ice",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 310,
+            "name": "Sea ice surface albedo",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 311,
+                "name": "Sea ice surface albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 260,
+            "name": "Sea ice surface temperature (IST)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 261,
+                "name": "Sea ice surface temperature",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 258,
+            "name": "Sea ice age",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 372,
+                "name": "Sea ice type",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": []
+              },
+              {
+                "id": 259,
+                "name": "Sea ice age",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 133,
+            "name": "Sea-ice drift",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 134,
+                "name": "Sea-ice drift",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 131,
+            "name": "Sea-ice thickness",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 132,
+                "name": "Sea-ice thickness",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 129,
+            "name": "Sea-ice extent/edge",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 7,
+            "children": [
+              {
+                "id": 130,
+                "name": "Sea-ice extent/edge",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 7,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 127,
+            "name": "Sea-ice concentration",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 12,
+            "children": [
+              {
+                "id": 128,
+                "name": "Sea-ice concentration",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 12,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 120,
+        "name": "Sea state",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 121,
+            "name": "Wave height",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 125,
+                "name": "Wave period",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": []
+              },
+              {
+                "id": 122,
+                "name": "Significant wave height",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 115,
+        "name": "Sea level",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 10,
+        "children": [
+          {
+            "id": 118,
+            "name": "Regional sea level",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 119,
+                "name": "Regional sea level",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 116,
+            "name": "Global mean sea level",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 117,
+                "name": "Global mean sea level",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 112,
+        "name": "Sea-surface salinity",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 2,
+        "children": [
+          {
+            "id": 113,
+            "name": "Sea-surface salinity",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 114,
+                "name": "Sea-surface salinity",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 109,
+        "name": "Sea-surface temperature",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 28,
+        "children": [
+          {
+            "id": 110,
+            "name": "Sea-surface temperature",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 28,
+            "children": [
+              {
+                "id": 111,
+                "name": "Sea-surface temperature",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 28,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      }
+    ],
+    "nomenclatures": [
+      "GCOS154",
+      "GCOS200",
+      "GCOS245"
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Atmosphere",
+    "type": {
+      "id": 1,
+      "name": "Domain",
+      "description": "Domain"
+    },
+    "data_records_count": 485,
+    "children": [
+      {
+        "id": 212,
+        "name": "Lightning",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 293,
+            "name": "Schumann resonances",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 294,
+                "name": "Schumann resonances",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 291,
+            "name": "Total lightning stroke density",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 292,
+                "name": "Total lightning stroke density",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 213,
+            "name": "Lightning",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 214,
+                "name": "Lightning",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS200"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 97,
+        "name": "Precursors (supporting the aerosol and ozone ECVs)",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 28,
+        "children": [
+          {
+            "id": 308,
+            "name": "NO2 mole fraction",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 309,
+                "name": "NO2 mole fraction",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 306,
+            "name": "SO2 stratospheric column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 307,
+                "name": "SO2 stratospheric column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 106,
+            "name": "CO mole fraction",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 10,
+            "children": [
+              {
+                "id": 107,
+                "name": "CO mole fraction",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 10,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 104,
+            "name": "CO tropospheric column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 105,
+                "name": "CO tropospheric column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 102,
+            "name": "HCHO tropospheric column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 103,
+                "name": "HCHO tropospheric column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 100,
+            "name": "SO2 tropospheric column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 101,
+                "name": "SO2 tropospheric column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 98,
+            "name": "NO2 tropospheric column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 7,
+            "children": [
+              {
+                "id": 99,
+                "name": "NO2 tropospheric column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 7,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 88,
+        "name": "Aerosols properties",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 63,
+        "children": [
+          {
+            "id": 270,
+            "name": "Aerosol Number Size Distribution",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 271,
+                "name": "Aerosol Number Size Distribution",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 268,
+            "name": "Number of Cloud Condensation Nuclei",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 269,
+                "name": "Number of Cloud Condensation Nuclei",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 266,
+            "name": "Chemical Composition of Aerosol Particles",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 267,
+                "name": "Chemical Composition of Aerosol Particles",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 264,
+            "name": "Aerosol Light Extinction Vertical Profile (Stratosphere)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 265,
+                "name": "Aerosol Light Extinction Vertical Profile (Stratosphere)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 262,
+            "name": "Aerosol Light Extinction Vertical Profile (Troposphere)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 263,
+                "name": "Aerosol Light Extinction Vertical Profile (Troposphere)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 95,
+            "name": "Aerosol-extinction coefficient profile",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 96,
+                "name": "Aerosol-extinction coefficient profile",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 93,
+            "name": "Aerosol-layer height",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 6,
+            "children": [
+              {
+                "id": 94,
+                "name": "Aerosol-layer height",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 6,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 91,
+            "name": "Aerosol single-scattering albedo",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 92,
+                "name": "Aerosol single-scattering albedo",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 89,
+            "name": "Multi-wavelength Aerosol Optical Depth",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 53,
+            "children": [
+              {
+                "id": 90,
+                "name": "Multi-wavelength Aerosol Optical Depth",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 53,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 79,
+        "name": "Ozone",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 9,
+        "children": [
+          {
+            "id": 302,
+            "name": "Ozone Stratospheric Column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 303,
+                "name": "Ozone Stratospheric Column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 300,
+            "name": "Ozone Tropospheric Column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 301,
+                "name": "Ozone Tropospheric Column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 298,
+            "name": "Ozone Mole Fraction in the Middle and Upper Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 299,
+                "name": "Ozone Mole Fraction in the Middle and Upper Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 84,
+            "name": "Ozone mole fraction in upper troposphere and lower stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 85,
+                "name": "Ozone mole fraction in upper troposphere and lower stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 80,
+            "name": "Ozone Total Column",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 8,
+            "children": [
+              {
+                "id": 81,
+                "name": "Ozone Total Column",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 8,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 68,
+        "name": "Carbon Dioxide, Methane and other greenhouse gases",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 45,
+        "children": [
+          {
+            "id": 274,
+            "name": "N2O Mole Fraction",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 275,
+                "name": "N2O Mole Fraction",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 77,
+            "name": "Stratospheric CH4 profile",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 78,
+                "name": "Stratospheric CH4 profile",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 75,
+            "name": "CH4 Mole Fraction",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 10,
+            "children": [
+              {
+                "id": 76,
+                "name": "CH4 Mole Fraction",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 10,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 73,
+            "name": "CH4 Column Average Dry Air Mixing Ratio",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 14,
+            "children": [
+              {
+                "id": 74,
+                "name": "CH4 Column Average Dry Air Mixing Ratio",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 14,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 71,
+            "name": "CO2 Mole Fraction",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 72,
+                "name": "CO2 Mole Fraction",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 69,
+            "name": "CO2 Column Average Dry Air Mixing Ratio",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 19,
+            "children": [
+              {
+                "id": 70,
+                "name": "CO2 Column Average Dry Air Mixing Ratio",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 19,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 52,
+        "name": "Surface radiation budget",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 42,
+        "children": [
+          {
+            "id": 61,
+            "name": "Downward short-wave irradiance at Earth surface",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 14,
+            "children": [
+              {
+                "id": 62,
+                "name": "Downward short-wave irradiance at Earth surface",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 14,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 59,
+            "name": "Surface ERB short-wave",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 9,
+            "children": [
+              {
+                "id": 63,
+                "name": "Upward short-wave radiation at surface",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": []
+              },
+              {
+                "id": 60,
+                "name": "Surface ERB short-wave",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 7,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 57,
+            "name": "Upward long-wave irradiance at Earth surface",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 7,
+            "children": [
+              {
+                "id": 58,
+                "name": "Upward long-wave irradiance at Earth surface",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 7,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 55,
+            "name": "Downward long-wave irradiance at Earth surface",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 7,
+            "children": [
+              {
+                "id": 56,
+                "name": "Downward long-wave irradiance at Earth surface",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 7,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 53,
+            "name": "Surface ERB long-wave",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 5,
+            "children": [
+              {
+                "id": 54,
+                "name": "Surface ERB long-wave",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 5,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 47,
+        "name": "Earth radiation budget",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 47,
+        "children": [
+          {
+            "id": 278,
+            "name": "Radiation Profile",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 279,
+                "name": "Radiation Profile",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 66,
+            "name": "Solar spectral irradiance",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 3,
+            "children": [
+              {
+                "id": 67,
+                "name": "Solar spectral irradiance",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 64,
+            "name": "Downward Short-Wave Irradiance at Top of the Atmosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 1,
+            "children": [
+              {
+                "id": 65,
+                "name": "Downward Short-Wave Irradiance at Top of the Atmosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 1,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 50,
+            "name": "Upward Short-Wave Irradiance at Top of the Atmosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 11,
+            "children": [
+              {
+                "id": 51,
+                "name": "Upward short-wave irradiance at TOA",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 11,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 48,
+            "name": "Upward Long-Wave Irradiance at Top of the Atmosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 32,
+            "children": [
+              {
+                "id": 49,
+                "name": "Upward long-wave irradiance at TOA",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 32,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 29,
+        "name": "Cloud properties",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 129,
+        "children": [
+          {
+            "id": 369,
+            "name": "Cloud drop effective radius",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 370,
+                "name": "Cloud drop effective radius",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 276,
+            "name": "Cloud-top height",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 277,
+                "name": "Cloud-top height",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 44,
+            "name": "Cloud effective particle radius (liquid and ice)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 9,
+            "children": [
+              {
+                "id": 46,
+                "name": "Cloud effective particle radius (ice)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 3,
+                "children": [],
+                "nomenclatures": []
+              },
+              {
+                "id": 45,
+                "name": "Cloud effective particle radius (liquid)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 6,
+                "children": [],
+                "nomenclatures": []
+              }
+            ],
+            "nomenclatures": []
+          },
+          {
+            "id": 42,
+            "name": "Cloud ice water path",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 13,
+            "children": [
+              {
+                "id": 43,
+                "name": "Cloud ice water path",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 13,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 40,
+            "name": "Cloud liquid water path",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 17,
+            "children": [
+              {
+                "id": 41,
+                "name": "Cloud liquid water path",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 17,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 38,
+            "name": "Cloud water path (liquid and ice)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 39,
+                "name": "Cloud water path (liquid and ice)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 36,
+            "name": "Cloud optical depth",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 11,
+            "children": [
+              {
+                "id": 37,
+                "name": "Cloud optical depth",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 11,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 34,
+            "name": "Cloud-top temperature",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 24,
+            "children": [
+              {
+                "id": 35,
+                "name": "Cloud-top temperature",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 24,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 32,
+            "name": "Cloud-top pressure",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 24,
+            "children": [
+              {
+                "id": 33,
+                "name": "Cloud-top pressure",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 24,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 30,
+            "name": "Cloud cover",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 27,
+            "children": [
+              {
+                "id": 31,
+                "name": "Cloud cover",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 27,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 22,
+        "name": "Upper-air Water Vapour",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 49,
+        "children": [
+          {
+            "id": 347,
+            "name": "Specific Humidity in the Free Troposphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 348,
+                "name": "Specific Humidity in the Free Troposphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 345,
+            "name": "Specific Humidity in the Boundary Layer",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 346,
+                "name": "Specific Humidity in the Boundary Layer",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 343,
+            "name": "Relative Humidity in the Upper Troposphere and Lower Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 344,
+                "name": "Relative Humidity in the Upper Troposphere and Lower Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 341,
+            "name": "Relative Humidity in the Free Troposphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 342,
+                "name": "Relative Humidity in the Free Troposphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 339,
+            "name": "Relative Humidity in the Boundary Layer",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 340,
+                "name": "Relative Humidity in the Boundary Layer",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 337,
+            "name": "Water Vapour Mixing Ratio in the Mesosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 338,
+                "name": "Water Vapour Mixing Ratio in the Mesosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 335,
+            "name": "Water Vapour Mixing Ratio in the Middle and Upper Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 336,
+                "name": "Water Vapour Mixing Ratio in the Middle and Upper Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 333,
+            "name": "Water Vapour Mixing Ratio in the Upper Troposphere and Lower Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 334,
+                "name": "Water Vapour Mixing Ratio in the Upper Troposphere and Lower Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 27,
+            "name": "Upper tropospheric humidity",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 6,
+            "children": [
+              {
+                "id": 28,
+                "name": "Upper tropospheric humidity",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 6,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 25,
+            "name": "Tropospheric and lower-stratospheric profiles of water vapour",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 22,
+            "children": [
+              {
+                "id": 26,
+                "name": "Tropospheric and lower-stratospheric profiles of water vapour",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 22,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 23,
+            "name": "Integrated Water Vapour",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 21,
+            "children": [
+              {
+                "id": 24,
+                "name": "Integrated Water Vapour",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 21,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 19,
+        "name": "Upper-air Wind Speed and Direction",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 4,
+        "children": [
+          {
+            "id": 367,
+            "name": "Wind (vertical) in the Mesosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 368,
+                "name": "Wind (vertical) in the Mesosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 365,
+            "name": "Wind (vertical) In the Middle and Upper Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 366,
+                "name": "Wind (vertical) In the Middle and Upper Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 363,
+            "name": "Wind (vertical) in the Upper Troposphere and Lower Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 364,
+                "name": "Wind (vertical) in the Upper Troposphere and Lower Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 361,
+            "name": "Wind (vertical) in the Free Troposphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 362,
+                "name": "Wind (vertical) in the Free Troposphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 359,
+            "name": "Wind (vertical) in the Boundary Layer",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 360,
+                "name": "Wind (vertical) in the Boundary Layer",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 357,
+            "name": "Wind (horizontal) in the Mesosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 358,
+                "name": "Wind (horizontal) in the Mesosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 355,
+            "name": "Wind (horizontal) in the Middle and Upper Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 356,
+                "name": "Wind (horizontal) in the Middle and Upper Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 353,
+            "name": "Wind (horizontal) in the Upper Troposphere and Lower Stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 354,
+                "name": "Wind (horizontal) in the Upper Troposphere and Lower Stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 351,
+            "name": "Wind (horizontal) in the Free Troposphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 352,
+                "name": "Wind (horizontal) in the Free Troposphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 349,
+            "name": "Wind (horizontal) in the Boundary Layer",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 350,
+                "name": "Wind (horizontal) in the Boundary Layer",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 20,
+            "name": "Upper-air wind retrievals",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 4,
+            "children": [
+              {
+                "id": 21,
+                "name": "Upper-air wind speed and direction",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 4,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 12,
+        "name": "Upper-air temperature",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 36,
+        "children": [
+          {
+            "id": 331,
+            "name": "Atmospheric temperature in the mesosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 332,
+                "name": "Atmospheric temperature in the mesosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 329,
+            "name": "Atmospheric temperature in the middle and upper stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 330,
+                "name": "Atmospheric temperature in the middle and upper stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 327,
+            "name": "Atmospheric temperature in the upper troposphere and lower stratosphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 328,
+                "name": "Atmospheric temperature in the upper troposphere and lower stratosphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 325,
+            "name": "Atmospheric temperature in the free troposphere",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 326,
+                "name": "Atmospheric temperature in the free troposphere",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 323,
+            "name": "Atmospheric temperature in the boundary layer",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 324,
+                "name": "Atmospheric temperature in the boundary layer",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 17,
+            "name": "Temperatures of deep atmospheric layers",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 2,
+            "children": [
+              {
+                "id": 18,
+                "name": "Temperatures of deep atmospheric layers",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 2,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 15,
+            "name": "Stratospheric temperature profile",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 16,
+            "children": [
+              {
+                "id": 16,
+                "name": "Stratospheric temperature profile",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 16,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          },
+          {
+            "id": 13,
+            "name": "Tropospheric temperature profile",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 18,
+            "children": [
+              {
+                "id": 14,
+                "name": "Tropospheric temperature profile",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 18,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Precipitation",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 14,
+        "children": [
+          {
+            "id": 8,
+            "name": "Accumulated precipitation",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 14,
+            "children": [
+              {
+                "id": 11,
+                "name": "Solid precipitation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              },
+              {
+                "id": 10,
+                "name": "Liquid precipitation",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 6,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              },
+              {
+                "id": 9,
+                "name": "Precipitation (liquid and solid)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 8,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Surface wind speed and direction",
+        "type": {
+          "id": 2,
+          "name": "ECV",
+          "description": "ECV"
+        },
+        "data_records_count": 15,
+        "children": [
+          {
+            "id": 318,
+            "name": "Wind direction (near surface)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 0,
+            "children": [
+              {
+                "id": 319,
+                "name": "Wind direction (near surface)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 0,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 5,
+            "name": "Wind vector (near surface)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 7,
+            "children": [
+              {
+                "id": 6,
+                "name": "Wind vector (near surface)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 7,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS245"
+            ]
+          },
+          {
+            "id": 3,
+            "name": "Wind speed (near surface)",
+            "type": {
+              "id": 3,
+              "name": "ECV_Product",
+              "description": "ECV Product"
+            },
+            "data_records_count": 8,
+            "children": [
+              {
+                "id": 4,
+                "name": "Wind speed (near surface)",
+                "type": {
+                  "id": 4,
+                  "name": "Physical_Quantity",
+                  "description": "Physical Quantity"
+                },
+                "data_records_count": 8,
+                "children": [],
+                "nomenclatures": [
+                  "GCOS154",
+                  "GCOS200",
+                  "GCOS245"
+                ]
+              }
+            ],
+            "nomenclatures": [
+              "GCOS154",
+              "GCOS200",
+              "GCOS245"
+            ]
+          }
+        ],
+        "nomenclatures": [
+          "GCOS154",
+          "GCOS200",
+          "GCOS245"
+        ]
+      }
+    ],
+    "nomenclatures": [
+      "GCOS154",
+      "GCOS200",
+      "GCOS245"
+    ]
+  }
+]

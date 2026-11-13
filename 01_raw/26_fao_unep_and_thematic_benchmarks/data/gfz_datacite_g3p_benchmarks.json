@@ -1,0 +1,3717 @@
+{
+  "data": [
+    {
+      "id": "10.5880/g3p.2025.001",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5880/g3p.2025.001",
+        "identifiers": [],
+        "creators": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "KIT - Karlsruhe Institute of Technology",
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Eva",
+            "familyName": "Boergens",
+            "name": "Boergens, Eva",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6178-9402"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "Global Multi-Resolution Land Fraction and Land–Ocean Masks Derived from ESA CCI Water Bodies v4.0"
+          }
+        ],
+        "publisher": "GFZ Data Services",
+        "container": {},
+        "publicationYear": 2025,
+        "subjects": [
+          {
+            "subject": "Gravity Recovery And Climate Experiment (GRACE)",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE Follow-on (GRACE-FO)",
+            "lang": "en"
+          },
+          {
+            "subject": "G3P",
+            "lang": "en"
+          },
+          {
+            "subject": "Total Water Storage",
+            "lang": "en"
+          },
+          {
+            "subject": "Groundwater",
+            "lang": "en"
+          },
+          {
+            "subject": "Mass Balance",
+            "lang": "en"
+          },
+          {
+            "subject": "Satellite Gravimetry",
+            "lang": "en"
+          },
+          {
+            "subject": "Copernicus",
+            "lang": "en"
+          },
+          {
+            "subject": "Groundwater Storage Change",
+            "lang": "en"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/platforms",
+            "subject": "Earth Observation Satellites &gt; NASA Earth System Science Pathfinder &gt; GRACE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/2e7aa2e6-9d25-4c6e-aef3-6e86d3773bac",
+            "lang": "en",
+            "subjectScheme": "GCMD Platforms"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; TERRESTRIAL HYDROSPHERE &gt; GROUND WATER",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/734f8f27-6976-4b67-8794-c7fc79d6161e",
+            "lang": "en",
+            "subjectScheme": "NASA/GCMD Earth Science Keywords"
+          },
+          {
+            "schemeUri": "http://www.eionet.europa.eu/gemet/concept/",
+            "subject": "science &gt; geography &gt; geodesy",
+            "valueUri": "http://www.eionet.europa.eu/gemet/concept/3638",
+            "lang": "en",
+            "subjectScheme": "GEMET - GEneral Multilingual Environmental Thesaurus"
+          },
+          {
+            "schemeUri": "http://www.eionet.europa.eu/gemet/concept/",
+            "subject": "science &gt; natural science &gt; water science &gt; hydrology",
+            "valueUri": "http://www.eionet.europa.eu/gemet/concept/4118",
+            "lang": "en",
+            "subjectScheme": "GEMET - GEneral Multilingual Environmental Thesaurus"
+          }
+        ],
+        "contributors": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "KIT - Karlsruhe Institute of Technology",
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ProjectManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Eva",
+            "familyName": "Boergens",
+            "name": "Boergens, Eva",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6178-9402"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ProjectLeader"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "KIT - Karlsruhe Institute of Technology"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ Helmholtz Centre for Geosciences"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2025-11-19",
+            "dateType": "Created"
+          },
+          {
+            "date": "2025",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset",
+          "citeproc": "dataset",
+          "bibtex": "misc",
+          "ris": "DATA",
+          "resourceType": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "Cites",
+            "relatedIdentifier": "10.5880/cost-g.gravis_02_l3_tws",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "Cites",
+            "relatedIdentifier": "10.5880/g3p.2024.001",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.3390/rs9010036",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "1.0",
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "The dataset provides a set of 8 land ocean masks as NetCDF files based on the maps provided by the datasets ESA CCI Water Bodies - v4.0, Ocean-Map-150m-P13Y-2000-v4.0. The masks come as regular lon/lat grids in 0.1°, 0.25°, 0.5° and 1° spatial resolution, each as a version with and without Greenland and the antarctic regions (anything south of 60° S). <br>The data fields of the individual datasets comprise of <br>a) a field with information on the fraction of land in a grid cell, defined by the number of 150m cells of the source dataset lying within a target grid cell, <br>b) a field with a flag (1 or 0) if a a grid cell contains more than 50% land area or not, and <br>c) a field with a flag (1 or 0) if a grid cell contains any land at all. <br>The dataset was generated in the course of the project \"Global Gravity-based Groundwater Product (G3P)\" to facilitate data production on a regular grid and to mask out oceans. G3P was funded by the EU Horizon 2020 programme in response to the call LC-SPACE-04-EO-2019-2020 “Copernicus evolution – Research activities in support of cross-cutting applications between Copernicus services” under grant agreement No. 870353."
+          }
+        ],
+        "geoLocations": [
+          {
+            "geoLocationBox": {
+              "northBoundLatitude": 90,
+              "southBoundLatitude": -60,
+              "eastBoundLongitude": 180,
+              "westBoundLongitude": -180
+            },
+            "geoLocationPlace": "Global, without Greenland and antarctic regions (south of 60°S)"
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderIdentifierType": "Crossref Funder ID",
+            "funderName": "Horizon 2020 Framework Programme",
+            "funderIdentifier": "https://doi.org/10.13039/100010661",
+            "awardTitle": "LC-SPACE-04-EO-2019-2020 “Copernicus evolution – Research activities in support of cross-cutting applications between Copernicus services”",
+            "awardNumber": "870353"
+          }
+        ],
+        "url": "https://dataservices.gfz.de/10.5880/g3p.2025.001/global-multi-resolution-land-fraction-and",
+        "contentUrl": null,
+        "metadataVersion": 2,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 2,
+        "citationCount": 1,
+        "partCount": 1,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2025-12-16T16:57:08Z",
+        "registered": "2025-12-16T16:57:08Z",
+        "published": null,
+        "updated": "2026-09-01T12:54:35Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "tib.gfz",
+            "type": "clients"
+          }
+        }
+      }
+    },
+    {
+      "id": "10.5880/g3p.2024.001",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5880/g3p.2024.001",
+        "identifiers": [],
+        "creators": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany",
+              "University of Potsdam, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Eva",
+            "familyName": "Boergens",
+            "name": "Boergens, Eva",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6178-9402"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Henryk",
+            "familyName": "Dobslaw",
+            "name": "Dobslaw, Henryk",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1776-3314"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wouter",
+            "familyName": "Dorigo",
+            "name": "Dorigo, Wouter",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-8054-7572"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Inés",
+            "familyName": "Dussailant",
+            "name": "Dussailant, Inés",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-0617-7731"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Frank",
+            "familyName": "Flechtner",
+            "name": "Flechtner, Frank",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3093-5558"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Miriam",
+            "familyName": "Kosmale",
+            "name": "Kosmale, Miriam",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6542-7871"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Kari",
+            "familyName": "Luojus",
+            "name": "Luojus, Kari",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4066-6005"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Torsten",
+            "familyName": "Mayer-Gürr",
+            "name": "Mayer-Gürr, Torsten",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2609-428X"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wolfgang",
+            "familyName": "Preimesberger",
+            "name": "Preimesberger, Wolfgang",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6655-0588"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Claudia",
+            "familyName": "Ruz Vargas",
+            "name": "Ruz Vargas, Claudia",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4698-3685"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Michael",
+            "familyName": "Zemp",
+            "name": "Zemp, Michael",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2391-7877"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "Global Gravity-based Groundwater Product (G3P)"
+          }
+        ],
+        "publisher": "GFZ Data Services",
+        "container": {},
+        "publicationYear": 2024,
+        "subjects": [
+          {
+            "subject": "Terrestrial Water Storage",
+            "lang": "en"
+          },
+          {
+            "subject": "Water Balance",
+            "lang": "en"
+          },
+          {
+            "subject": "Satellite Gravimetry",
+            "lang": "en"
+          },
+          {
+            "subject": "Copernicus",
+            "lang": "en"
+          },
+          {
+            "subject": "Groundwater",
+            "lang": "en"
+          },
+          {
+            "subject": "Groundwater Storage Variations",
+            "lang": "en"
+          },
+          {
+            "subject": "Mass change",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravity Recovery And Climate Experiment",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE Follow-on",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE-FO",
+            "lang": "en"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/platforms",
+            "subject": "Earth Observation Satellites &gt; NASA Earth System Science Pathfinder &gt; GRACE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/2e7aa2e6-9d25-4c6e-aef3-6e86d3773bac",
+            "lang": "en",
+            "subjectScheme": "GCMD Platforms"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; TERRESTRIAL HYDROSPHERE &gt; GROUND WATER &gt; WATER TABLE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/ecbe9f17-6012-4e39-a707-713973b7d167",
+            "lang": "en",
+            "subjectScheme": "Science Keywords"
+          },
+          {
+            "schemeUri": "http://www.eionet.europa.eu/gemet/concept/",
+            "subject": "environment &gt; natural environment &gt; terrestrial environment",
+            "valueUri": "http://www.eionet.europa.eu/gemet/concept/10198",
+            "lang": "en",
+            "subjectScheme": "GEMET - GEneral Multilingual Environmental Thesaurus"
+          },
+          {
+            "schemeUri": "http://resource.geosciml.org/vocabulary/timescale/gts2020",
+            "subject": "The Present",
+            "valueUri": "http://resource.geosciml.org/classifier/ics/ischart/Present",
+            "lang": "en",
+            "subjectScheme": "International Chronostratigraphic Chart"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; TERRESTRIAL HYDROSPHERE &gt; GROUND WATER &gt; GROUND WATER FEATURES &gt; WATER TABLE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/ecbe9f17-6012-4e39-a707-713973b7d167",
+            "lang": "en",
+            "subjectScheme": "Science Keywords"
+          }
+        ],
+        "contributors": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany",
+              "University of Potsdam, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ProjectLeader"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ProjectManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Eva",
+            "familyName": "Boergens",
+            "name": "Boergens, Eva",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6178-9402"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Henryk",
+            "familyName": "Dobslaw",
+            "name": "Dobslaw, Henryk",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1776-3314"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wouter",
+            "familyName": "Dorigo",
+            "name": "Dorigo, Wouter",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-8054-7572"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Inés",
+            "familyName": "Dussailant",
+            "name": "Dussailant, Inés",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-0617-7731"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Frank",
+            "familyName": "Flechtner",
+            "name": "Flechtner, Frank",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3093-5558"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Miriam",
+            "familyName": "Kosmale",
+            "name": "Kosmale, Miriam",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6542-7871"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Kari",
+            "familyName": "Luojus",
+            "name": "Luojus, Kari",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4066-6005"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Torsten",
+            "familyName": "Mayer-Gürr",
+            "name": "Mayer-Gürr, Torsten",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2609-428X"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wolfgang",
+            "familyName": "Preimesberger",
+            "name": "Preimesberger, Wolfgang",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6655-0588"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Claudia",
+            "familyName": "Ruz Vargas",
+            "name": "Ruz Vargas, Claudia",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4698-3685"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Michael",
+            "familyName": "Zemp",
+            "name": "Zemp, Michael",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2391-7877"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Graz University of Technology"
+            ],
+            "givenName": "Saniya",
+            "familyName": "Behzadpour",
+            "name": "Behzadpour, Saniya",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1187-3862"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FutureWater, Wageningen, The Netherlands"
+            ],
+            "givenName": "Sergio",
+            "familyName": "Contreras Lopez",
+            "name": "Contreras Lopez, Sergio",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-3991-8241"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Neda",
+            "familyName": "Darbeheshti",
+            "name": "Darbeheshti, Neda",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-9938-5657"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FutureWater, Wageningen, The Netherlands"
+            ],
+            "givenName": "Johannes",
+            "familyName": "Hunink",
+            "name": "Hunink, Johannes",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0878-0588"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FutureWater, Wageningen, The Netherlands"
+            ],
+            "givenName": "Tania",
+            "familyName": "Imran",
+            "name": "Imran, Tania",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "EODC Earth Observation Data Centre For Water Resources Monitoring Gmbh, Vienna, Austria"
+            ],
+            "givenName": "Richard",
+            "familyName": "Kidd",
+            "name": "Kidd, Richard",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4638-5052"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Kvas",
+            "name": "Kvas, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1199-7742"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Adam",
+            "familyName": "Pasik",
+            "name": "Pasik, Adam",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Frank",
+            "familyName": "Paul",
+            "name": "Paul, Frank",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Magellium, Toulouse, France"
+            ],
+            "givenName": "Vanessa",
+            "familyName": "Pedinotti",
+            "name": "Pedinotti, Vanessa",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6155-7342"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Stefan",
+            "familyName": "Siepman",
+            "name": "Siepman, Stefan",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Alexandra",
+            "familyName": "Urgilez Vinueza",
+            "name": "Urgilez Vinueza, Alexandra",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "CLS, Ramonville Saint-Agne, France"
+            ],
+            "givenName": "Maxime",
+            "familyName": "Vayre",
+            "name": "Vayre, Maxime",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2002-04/2023-09",
+            "dateType": "Collected"
+          },
+          {
+            "date": "2024",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset",
+          "citeproc": "dataset",
+          "bibtex": "misc",
+          "ris": "DATA",
+          "resourceType": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.5880/cost-g.gravis_01_l3_tws",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDocumentedBy",
+            "relatedIdentifier": "https://cordis.europa.eu/project/id/870353",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://www.g3p.eu/",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://gravis.gfz-potsdam.de/gws",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "IsNewVersionOf",
+            "relatedIdentifier": "10.5880/g3p.2023.001",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.1016/j.rse.2017.07.001",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.1038/s41597-021-00939-2",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.5194/gmd-16-4957-2023",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.1002/met.2192",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.1038/d41586-019-03700-3",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.1017/jog.2023.66",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "1.12",
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "The Global Gravity-based Groundwater Product (G3P) provides groundwater storage anomalies (GWSA) from a cross-cutting combination of GRACE/GRACE-FO-based terrestrial water storage (TWS) and storage compartments of the water cycle (WSCs) that are part of the Copernicus portfolio. The data set comprises gridded anomalies of groundwater, TWS, and the WSCs glacier, snow, soil moisture and surface water bodies plus layers containing uncertainty information for the individual data products. All WSCs are spatially filtered with a Gaussian filter to be compatible with TWS. Spatial coverage is global, except Greenland and Antarctica, with 0.5-degree resolution. Temporal coverage is from April 2002 to September 2023 with monthly temporal resolution. Gridded data sets are available as NetCDF files containing variables for the parameter value as anomaly in mm equivalent water height and the parameter’s uncertainty as mm equivalent water height. <br>The latest version of the data is visualized at the GravIS portal: https://gravis.gfz-potsdam.de/gws. From GravIS, the data is also available as area averages for several large river basins and aquifers, as well as for climatically similar regions. <br>G3P was funded by the EU Horizon 2020 programme in response to the call LC-SPACE-04-EO-2019-2020 “Copernicus evolution – Research activities in support of cross-cutting applications between Copernicus services” under grant agreement No. 870353. <br> --------------------------------------------------------------------------------------------- <br>Version History: <br>10 March 2023: Release of Version v1.11. That version is the initial release of the data (Güntner et al., 2023; https://doi.org/10.5880/G3P.2023.001) <br>26 June 2024: Release of Version v1.12. Temporal coverage has been extended until September 2023."
+          }
+        ],
+        "geoLocations": [
+          {
+            "geoLocationBox": {
+              "northBoundLatitude": 90,
+              "southBoundLatitude": -90,
+              "eastBoundLongitude": 180,
+              "westBoundLongitude": -180
+            },
+            "geoLocationPlace": "Continental regions without Greenland and Antarctica"
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderIdentifierType": "Crossref Funder ID",
+            "funderName": "Horizon 2020 Framework Programme",
+            "funderIdentifier": "https://doi.org/10.13039/100010661",
+            "awardTitle": "LC-SPACE-04-EO-2019-2020 “Copernicus evolution – Research activities in support of cross-cutting applications between Copernicus services”",
+            "awardNumber": "870353"
+          }
+        ],
+        "url": "https://dataservices.gfz.de/10.5880/g3p.2024.001/global-gravity-based-groundwater-product",
+        "contentUrl": null,
+        "metadataVersion": 3,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 0,
+        "citationCount": 18,
+        "partCount": 4,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2024-06-26T14:07:23Z",
+        "registered": "2024-06-26T14:07:24Z",
+        "published": null,
+        "updated": "2026-09-01T12:52:46Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "tib.gfz",
+            "type": "clients"
+          }
+        }
+      }
+    },
+    {
+      "id": "10.5880/g3p.2023.001",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5880/g3p.2023.001",
+        "identifiers": [],
+        "creators": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany",
+              "University of Potsdam, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Graz University of Technology"
+            ],
+            "givenName": "Saniya",
+            "familyName": "Behzadpour",
+            "name": "Behzadpour, Saniya",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1187-3862"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Eva",
+            "familyName": "Boergens",
+            "name": "Boergens, Eva",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6178-9402"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Neda",
+            "familyName": "Darbeheshti",
+            "name": "Darbeheshti, Neda",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-9938-5657"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Henryk",
+            "familyName": "Dobslaw",
+            "name": "Dobslaw, Henryk",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1776-3314"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wouter",
+            "familyName": "Dorigo",
+            "name": "Dorigo, Wouter",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-8054-7572"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Inés",
+            "familyName": "Dussailant",
+            "name": "Dussailant, Inés",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-0617-7731"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Frank",
+            "familyName": "Flechtner",
+            "name": "Flechtner, Frank",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3093-5558"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "EODC Earth Observation Data Centre For Water Resources Monitoring Gmbh, Vienna, Austria"
+            ],
+            "givenName": "Richard",
+            "familyName": "Kidd",
+            "name": "Kidd, Richard",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4638-5052"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Miriam",
+            "familyName": "Kosmale",
+            "name": "Kosmale, Miriam",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6542-7871"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Kvas",
+            "name": "Kvas, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1199-7742"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Kari",
+            "familyName": "Luojus",
+            "name": "Luojus, Kari",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4066-6005"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Torsten",
+            "familyName": "Mayer-Gürr",
+            "name": "Mayer-Gürr, Torsten",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2609-428X"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Adam",
+            "familyName": "Pasik",
+            "name": "Pasik, Adam",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Frank",
+            "familyName": "Paul",
+            "name": "Paul, Frank",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Magellium, Toulouse, France"
+            ],
+            "givenName": "Vanessa",
+            "familyName": "Pedinotti",
+            "name": "Pedinotti, Vanessa",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6155-7342"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wolfgang",
+            "familyName": "Preimesberger",
+            "name": "Preimesberger, Wolfgang",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6655-0588"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Claudia",
+            "familyName": "Ruz Vargas",
+            "name": "Ruz Vargas, Claudia",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4698-3685"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "CLS, Ramonville Saint-Agne, France"
+            ],
+            "givenName": "Maxime",
+            "familyName": "Vayre",
+            "name": "Vayre, Maxime",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Michael",
+            "familyName": "Zemp",
+            "name": "Zemp, Michael",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2391-7877"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "Global Gravity-based Groundwater Product (G3P)"
+          }
+        ],
+        "publisher": "GFZ Data Services",
+        "container": {},
+        "publicationYear": 2023,
+        "subjects": [
+          {
+            "subject": "Terrestrial Water Storage",
+            "lang": "en"
+          },
+          {
+            "subject": "Water Balance",
+            "lang": "en"
+          },
+          {
+            "subject": "Satellite Gravimetry",
+            "lang": "en"
+          },
+          {
+            "subject": "Copernicus",
+            "lang": "en"
+          },
+          {
+            "subject": "Groundwater",
+            "lang": "en"
+          },
+          {
+            "subject": "Groundwater Storage Variations",
+            "lang": "en"
+          },
+          {
+            "subject": "Mass change",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravity Recovery And Climate Experiment",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE Follow-on",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE-FO",
+            "lang": "en"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/platforms",
+            "subject": "Earth Observation Satellites &gt; NASA Earth System Science Pathfinder &gt; GRACE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/2e7aa2e6-9d25-4c6e-aef3-6e86d3773bac",
+            "lang": "en",
+            "subjectScheme": "GCMD Platforms"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; TERRESTRIAL HYDROSPHERE &gt; GROUND WATER &gt; WATER TABLE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/ecbe9f17-6012-4e39-a707-713973b7d167",
+            "lang": "en",
+            "subjectScheme": "Science Keywords"
+          },
+          {
+            "schemeUri": "http://www.eionet.europa.eu/gemet/concept/",
+            "subject": "environment &gt; natural environment &gt; terrestrial environment",
+            "valueUri": "http://www.eionet.europa.eu/gemet/concept/10198",
+            "lang": "en",
+            "subjectScheme": "GEMET - GEneral Multilingual Environmental Thesaurus"
+          },
+          {
+            "schemeUri": "http://resource.geosciml.org/vocabulary/timescale/gts2020",
+            "subject": "The Present",
+            "valueUri": "http://resource.geosciml.org/classifier/ics/ischart/Present",
+            "lang": "en",
+            "subjectScheme": "International Chronostratigraphic Chart"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; TERRESTRIAL HYDROSPHERE &gt; GROUND WATER &gt; GROUND WATER FEATURES &gt; WATER TABLE",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/ecbe9f17-6012-4e39-a707-713973b7d167",
+            "lang": "en",
+            "subjectScheme": "Science Keywords"
+          }
+        ],
+        "contributors": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany",
+              "University of Potsdam, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ProjectLeader"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Graz University of Technology"
+            ],
+            "givenName": "Saniya",
+            "familyName": "Behzadpour",
+            "name": "Behzadpour, Saniya",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1187-3862"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Eva",
+            "familyName": "Boergens",
+            "name": "Boergens, Eva",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6178-9402"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Neda",
+            "familyName": "Darbeheshti",
+            "name": "Darbeheshti, Neda",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-9938-5657"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Henryk",
+            "familyName": "Dobslaw",
+            "name": "Dobslaw, Henryk",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1776-3314"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wouter",
+            "familyName": "Dorigo",
+            "name": "Dorigo, Wouter",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-8054-7572"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Inés",
+            "familyName": "Dussailant",
+            "name": "Dussailant, Inés",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-0617-7731"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Frank",
+            "familyName": "Flechtner",
+            "name": "Flechtner, Frank",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3093-5558"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ProjectManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "EODC Earth Observation Data Centre For Water Resources Monitoring Gmbh, Vienna, Austria"
+            ],
+            "givenName": "Richard",
+            "familyName": "Kidd",
+            "name": "Kidd, Richard",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4638-5052"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Miriam",
+            "familyName": "Kosmale",
+            "name": "Kosmale, Miriam",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6542-7871"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Kvas",
+            "name": "Kvas, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-1199-7742"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FMI - Ilmatieteen Laitos, Helsinki, Finland"
+            ],
+            "givenName": "Kari",
+            "familyName": "Luojus",
+            "name": "Luojus, Kari",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4066-6005"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Graz, Graz, Austria"
+            ],
+            "givenName": "Torsten",
+            "familyName": "Mayer-Gürr",
+            "name": "Mayer-Gürr, Torsten",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2609-428X"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Adam",
+            "familyName": "Pasik",
+            "name": "Pasik, Adam",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Frank",
+            "familyName": "Paul",
+            "name": "Paul, Frank",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Magellium, Toulouse, France"
+            ],
+            "givenName": "Vanessa",
+            "familyName": "Pedinotti",
+            "name": "Pedinotti, Vanessa",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6155-7342"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "TU Wien, Vienna, Austria"
+            ],
+            "givenName": "Wolfgang",
+            "familyName": "Preimesberger",
+            "name": "Preimesberger, Wolfgang",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-6655-0588"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Claudia",
+            "familyName": "Ruz Vargas",
+            "name": "Ruz Vargas, Claudia",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4698-3685"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "CLS, Ramonville Saint-Agne, France"
+            ],
+            "givenName": "Maxime",
+            "familyName": "Vayre",
+            "name": "Vayre, Maxime",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Zurich, Zurich, Switzerland"
+            ],
+            "givenName": "Michael",
+            "familyName": "Zemp",
+            "name": "Zemp, Michael",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-2391-7877"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FutureWater, Wageningen, The Netherlands"
+            ],
+            "givenName": "Sergio",
+            "familyName": "Contreras Lopez",
+            "name": "Contreras Lopez, Sergio",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-3991-8241"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FutureWater, Wageningen, The Netherlands"
+            ],
+            "givenName": "Johannes",
+            "familyName": "Hunink",
+            "name": "Hunink, Johannes",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0878-0588"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "FutureWater, Wageningen, The Netherlands"
+            ],
+            "givenName": "Tania",
+            "familyName": "Imran",
+            "name": "Imran, Tania",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Stefan",
+            "familyName": "Siepman",
+            "name": "Siepman, Stefan",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "IGRAC (International Groundwater Resources Assessment Centre), Delft, The Netherlands"
+            ],
+            "givenName": "Alexandra",
+            "familyName": "Urgilez Vinueza",
+            "name": "Urgilez Vinueza, Alexandra",
+            "contributorType": "ProjectMember",
+            "nameIdentifiers": []
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Andreas",
+            "familyName": "Güntner",
+            "name": "Güntner, Andreas",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6233-8478"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Julian",
+            "familyName": "Haas",
+            "name": "Haas, Julian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-0275-1903"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Christoph",
+            "familyName": "Dahle",
+            "name": "Dahle, Christoph",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-4733-9242"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Ehsan",
+            "familyName": "Sharifi",
+            "name": "Sharifi, Ehsan",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-7181-8406"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2002-04/2020-12",
+            "dateType": "Collected"
+          },
+          {
+            "date": "2023",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset",
+          "citeproc": "dataset",
+          "bibtex": "misc",
+          "ris": "DATA",
+          "resourceType": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsDerivedFrom",
+            "relatedIdentifier": "10.5880/cost-g.gravis_01_l3_tws",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsDocumentedBy",
+            "relatedIdentifier": "https://cordis.europa.eu/project/id/870353",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://www.g3p.eu/",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://gravis.gfz-potsdam.de/gws",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "IsPreviousVersionOf",
+            "relatedIdentifier": "10.5880/g3p.2024.001",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "1.11",
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "The Global Gravity-based Groundwater Product (G3P) provides groundwater storage anomalies (GWSA) from a cross-cutting combination of GRACE/GRACE-FO-based terrestrial water storage (TWS) and storage compartments of the water cycle (WSCs) that are part of the Copernicus portfolio. The data set comprises gridded anomalies of groundwater, TWS, and the WSCs glacier, snow, soil moisture and surface water bodies plus layers containing uncertainty information for the individual data products. All WSCs are spatially filtered with a Gaussian filter to be compatible with TWS. Spatial coverage is global, except Greenland and Antarctica, with 0.5-degree resolution. Temporal coverage is from April 2002 to December 2020 with monthly temporal resolution. Gridded data sets are available as NetCDF files containing variables for the parameter value as anomaly in mm equivalent water height and the parameter’s uncertainty as mm equivalent water height. <br>The latest version of the data is visualized at the GravIS portal: https://gravis.gfz-potsdam.de/gws. From GravIS, the data is also available as area averages for several large river basins and aquifers, as well as for climatically similar regions. <br>G3P was funded by the EU Horizon 2020 programme in response to the call LC-SPACE-04-EO-2019-2020 “Copernicus evolution – Research activities in support of cross-cutting applications between Copernicus services” under grant agreement No. 870353. <br> --------------------------------------------------------------------------------------------- <br> Version History: <br> 10 March 2023: <br> Release of Version v1.11. This is the initial release of the data."
+          }
+        ],
+        "geoLocations": [
+          {
+            "geoLocationBox": {
+              "northBoundLatitude": 90,
+              "southBoundLatitude": -90,
+              "eastBoundLongitude": 180,
+              "westBoundLongitude": -180
+            },
+            "geoLocationPlace": "Continental regions without Greenland and Antarctica"
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderIdentifierType": "Crossref Funder ID",
+            "funderName": "Horizon 2020 Framework Programme",
+            "funderIdentifier": "https://doi.org/10.13039/100010661",
+            "awardTitle": "LC-SPACE-04-EO-2019-2020 “Copernicus evolution – Research activities in support of cross-cutting applications between Copernicus services”",
+            "awardNumber": "870353"
+          }
+        ],
+        "url": "https://dataservices.gfz.de/10.5880/g3p.2023.001/global-gravity-based-groundwater-product",
+        "contentUrl": null,
+        "metadataVersion": 3,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 0,
+        "citationCount": 4,
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2023-03-09T18:25:59Z",
+        "registered": "2023-03-09T18:33:46Z",
+        "published": null,
+        "updated": "2026-09-01T12:51:03Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "tib.gfz",
+            "type": "clients"
+          }
+        }
+      }
+    },
+    {
+      "id": "10.5880/icgem.2023.004",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5880/icgem.2023.004",
+        "identifiers": [],
+        "creators": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Daniel",
+            "familyName": "Arnold",
+            "name": "Arnold, Daniel",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-3574-0837"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "AIUB-GRACE-FO-operational - Operational GRACE Follow-On monthly gravity field solutions - release 02"
+          }
+        ],
+        "publisher": "GFZ Data Services",
+        "container": {},
+        "publicationYear": 2023,
+        "subjects": [
+          {
+            "subject": "Gravity Recovery And Climate Experiment Follow-On (GRACE-FO)",
+            "lang": "en"
+          },
+          {
+            "subject": "Level-2",
+            "lang": "en"
+          },
+          {
+            "subject": "SHM",
+            "lang": "en"
+          },
+          {
+            "subject": "Spherical Harmonic Model",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravitational Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Geopotential",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravity Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Time variable Gravity Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Satellite Geodesy",
+            "lang": "en"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; SOLID EARTH &gt; GRAVITY/GRAVITATIONAL FIELD",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/221386f6-ef9b-4990-82b3-f990b0fe39fa",
+            "lang": "en",
+            "subjectScheme": "NASA/GCMD Earth Science Keywords"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; SOLID EARTH &gt; GRAVITY/GRAVITATIONAL FIELD &gt; GRAVITY",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/69af3046-08e0-4c24-981d-803c0412ce58",
+            "lang": "en",
+            "subjectScheme": "NASA/GCMD Earth Science Keywords"
+          }
+        ],
+        "contributors": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Elmas Sinem",
+            "familyName": "Ince",
+            "name": "Ince, Elmas Sinem",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3393-1392"
+              }
+            ],
+            "contributorType": "DataCurator"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Sven",
+            "familyName": "Reißland",
+            "name": "Reißland, Sven",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6293-5336"
+              }
+            ],
+            "contributorType": "DataManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2023",
+            "dateType": "Issued"
+          },
+          {
+            "date": "2018-06-01",
+            "dateType": "Valid"
+          }
+        ],
+        "language": null,
+        "types": {
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset",
+          "citeproc": "dataset",
+          "bibtex": "misc",
+          "ris": "DATA",
+          "resourceType": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://www.g3p.eu/",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "IsNewVersionOf",
+            "relatedIdentifier": "10.5880/icgem.2020.001",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": null,
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "Operational GRACE Follow-On monthly gravity field solutions starting from June 2018 up to degree and order 96 computed with the Celestial Mechanics Approach at AIUB (release 02). <br>The time series is a loose continuation of AIUB-RL02 GRACE monthly gravity field time series and is an update of the operational GRACE Follow-On monthly gravity field time series (https://doi.org/10.5880/ICGEM.2020.001) using Level-1B GRACE Follow-On data and operational accelerometer transplant data from TUG (Institute of Geodesy, TU Graz, Working Group Theoretical Geodesy and Satellite Geodesy) and updated modelling strategies concerning data screening and weighting. The time series is reprocessed starting with June 2018. <br>The dataset is created within the framework of the G3P project (https://www.g3p.eu/), this project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 870353. <br>The operational solution of release 02 provides a complete time series of GRACE Follow-on data derived monthly gravity field solutions, is regularly updated with new monthly solutions and features a consistent processing with an advanced noise modelling of GRACE Follow-On data. It is recommened for usage. It is strongly recommended to use release 02 and discontinue using release 01."
+          }
+        ],
+        "geoLocations": [
+          {
+            "geoLocationBox": {
+              "northBoundLatitude": 90,
+              "southBoundLatitude": -90,
+              "eastBoundLongitude": 180,
+              "westBoundLongitude": -180
+            },
+            "geoLocationPlace": "Monthly gravity fields up to degree and order 96"
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderIdentifierType": "Crossref Funder ID",
+            "funderName": "Horizon 2020 Framework Programme",
+            "funderIdentifier": "https://doi.org/10.13039/100010661",
+            "awardTitle": "Global Gravity-based Groundwater Product (G3P)",
+            "awardNumber": "870353"
+          }
+        ],
+        "url": "https://dataservices.gfz.de/10.5880/icgem.2023.004/aiub-grace-fo-operational-operational-grace",
+        "contentUrl": null,
+        "metadataVersion": 1,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 0,
+        "citationCount": 2,
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2024-01-29T10:22:36Z",
+        "registered": "2024-01-29T10:22:37Z",
+        "published": null,
+        "updated": "2026-08-30T10:34:05Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "tib.gfz",
+            "type": "clients"
+          }
+        }
+      }
+    },
+    {
+      "id": "10.5880/icgem.2023.001",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5880/icgem.2023.001",
+        "identifiers": [],
+        "creators": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Neda",
+            "familyName": "Darbeheshti",
+            "name": "Darbeheshti, Neda",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-9938-5657"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Daniel",
+            "familyName": "Arnold",
+            "name": "Arnold, Daniel",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-3574-0837"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "AIUB-G3P GRACE monthly gravity field solutions"
+          }
+        ],
+        "publisher": "GFZ Data Services",
+        "container": {},
+        "publicationYear": 2023,
+        "subjects": [
+          {
+            "subject": "International Center for Global Earth Models",
+            "lang": "en"
+          },
+          {
+            "subject": "ICGEM",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravity Recovery And Climate Experiment",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE",
+            "lang": "en"
+          },
+          {
+            "subject": "GRACE-FO",
+            "lang": "en"
+          },
+          {
+            "subject": "Level-2",
+            "lang": "en"
+          },
+          {
+            "subject": "SHM",
+            "lang": "en"
+          },
+          {
+            "subject": "Spherical Harmonic Model",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravitational Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Geopotential",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravity Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Time variable Gravity Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Satellite Geodesy",
+            "lang": "en"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; SOLID EARTH &gt; GRAVITY/GRAVITATIONAL FIELD &gt; GRAVITY",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/69af3046-08e0-4c24-981d-803c0412ce58",
+            "lang": "en",
+            "subjectScheme": "NASA/GCMD Earth Science Keywords"
+          }
+        ],
+        "contributors": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Neda",
+            "familyName": "Darbeheshti",
+            "name": "Darbeheshti, Neda",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-9938-5657"
+              }
+            ],
+            "contributorType": "Producer"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Daniel",
+            "familyName": "Arnold",
+            "name": "Arnold, Daniel",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-3574-0837"
+              }
+            ],
+            "contributorType": "ProjectMember"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "AIUB Astronomical Institute University of Bern, Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ],
+            "contributorType": "ProjectManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Elmas Sinem",
+            "familyName": "Ince",
+            "name": "Ince, Elmas Sinem",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3393-1392"
+              }
+            ],
+            "contributorType": "DataCurator"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Sven",
+            "familyName": "Reißland",
+            "name": "Reißland, Sven",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6293-5336"
+              }
+            ],
+            "contributorType": "DataManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "University of Bern"
+            ],
+            "givenName": "Neda",
+            "familyName": "Darbeheshti",
+            "name": "Darbeheshti, Neda",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-9938-5657"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2023",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset",
+          "citeproc": "dataset",
+          "bibtex": "misc",
+          "ris": "DATA",
+          "resourceType": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsSupplementTo",
+            "relatedIdentifier": "10.5194/essd-2023-72",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://www.g3p.eu/",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "Cites",
+            "relatedIdentifier": "10.5194/essd-11-647-2019",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": null,
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "GRACE monthly gravity field solutions starting from April 2002 to June 2017 up to degree and order 90 computed with the Celestial Mechanics Approach at AIUB. <br>The time series is an updated of AIUB-RL02 GRACE monthly gravity field time series using Level-1B GRACE data and updated background models. <br>The dataset is created within the framework of the G3P - Global Gravity-based Groundwater Product project (https://www.g3p.eu/), this project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 870353."
+          },
+          {
+            "descriptionType": "Other",
+            "description": "Parameters: <br>product_type = gravity_field <br>earth_gravity_constant = 3.986004415000e+14 <br>radius = 6.378137000000e+06 <br>max_degree = 90 <br>norm = fully_normalized <br>tide_system = tide_free <br>errors = formal"
+          }
+        ],
+        "geoLocations": [
+          {
+            "geoLocationBox": {
+              "northBoundLatitude": 90,
+              "southBoundLatitude": -90,
+              "eastBoundLongitude": 180,
+              "westBoundLongitude": -180
+            }
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderIdentifierType": "Crossref Funder ID",
+            "funderName": "Horizon 2020 Framework Programme",
+            "funderIdentifier": "https://doi.org/10.13039/100010661",
+            "awardTitle": "G3P - Global Gravity-based Groundwater Product project",
+            "awardNumber": "870353"
+          }
+        ],
+        "url": "https://dataservices.gfz.de/10.5880/icgem.2023.001/aiub-g3p-grace-monthly-gravity-field-solutions",
+        "contentUrl": null,
+        "metadataVersion": 1,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 1,
+        "citationCount": 8,
+        "partCount": 2,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2023-03-04T17:32:10Z",
+        "registered": "2023-03-04T17:32:10Z",
+        "published": null,
+        "updated": "2026-08-30T10:34:01Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "tib.gfz",
+            "type": "clients"
+          }
+        }
+      }
+    },
+    {
+      "id": "10.5880/icgem.2020.001",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5880/icgem.2020.001",
+        "identifiers": [],
+        "creators": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Daniel",
+            "familyName": "Arnold",
+            "name": "Arnold, Daniel",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0003-3574-0837"
+              }
+            ]
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Adrian",
+            "familyName": "Jäggi",
+            "name": "Jäggi, Adrian",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-5624-3410"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "AIUB-GRACE-FO-operational - Operational GRACE Follow-On monthly gravity field solutions"
+          }
+        ],
+        "publisher": "GFZ Data Services",
+        "container": {},
+        "publicationYear": 2020,
+        "subjects": [
+          {
+            "subject": "Gravity Recovery And Climate Experiment Follow-On (GRACE-FO)",
+            "lang": "en"
+          },
+          {
+            "subject": "Level-2",
+            "lang": "en"
+          },
+          {
+            "subject": "SHM",
+            "lang": "en"
+          },
+          {
+            "subject": "Spherical Harmonic Model",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravitational Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Geopotential",
+            "lang": "en"
+          },
+          {
+            "subject": "Gravity Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Time variable Gravity Field",
+            "lang": "en"
+          },
+          {
+            "subject": "Satellite Geodesy",
+            "lang": "en"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; SOLID EARTH &gt; GRAVITY/GRAVITATIONAL FIELD",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/221386f6-ef9b-4990-82b3-f990b0fe39fa",
+            "lang": "en",
+            "subjectScheme": "NASA/GCMD Earth Science Keywords"
+          },
+          {
+            "schemeUri": "https://gcmd.earthdata.nasa.gov/kms/concepts/concept_scheme/sciencekeywords",
+            "subject": "EARTH SCIENCE &gt; SOLID EARTH &gt; GRAVITY/GRAVITATIONAL FIELD &gt; GRAVITY",
+            "valueUri": "https://gcmd.earthdata.nasa.gov/kms/concept/69af3046-08e0-4c24-981d-803c0412ce58",
+            "lang": "en",
+            "subjectScheme": "NASA/GCMD Earth Science Keywords"
+          }
+        ],
+        "contributors": [
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Elmas Sinem",
+            "familyName": "Ince",
+            "name": "Ince, Elmas Sinem",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3393-1392"
+              }
+            ],
+            "contributorType": "DataCurator"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "GFZ German Research Centre for Geosciences, Potsdam, Germany"
+            ],
+            "givenName": "Sven",
+            "familyName": "Reißland",
+            "name": "Reißland, Sven",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0001-6293-5336"
+              }
+            ],
+            "contributorType": "DataManager"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Martin",
+            "familyName": "Lasser",
+            "name": "Lasser, Martin",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0009-0005-1243-250X"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          },
+          {
+            "nameType": "Personal",
+            "affiliation": [
+              "Astronomical Institute University of Bern (AIUB), Bern, Switzerland"
+            ],
+            "givenName": "Ulrich",
+            "familyName": "Meyer",
+            "name": "Meyer, Ulrich",
+            "nameIdentifiers": [
+              {
+                "nameIdentifierScheme": "ORCID",
+                "schemeUri": "https://orcid.org/",
+                "nameIdentifier": "https://orcid.org/0000-0002-3379-9213"
+              }
+            ],
+            "contributorType": "ContactPerson"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2020",
+            "dateType": "Issued"
+          },
+          {
+            "date": "2018-06-01",
+            "dateType": "Valid"
+          }
+        ],
+        "language": null,
+        "types": {
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset",
+          "citeproc": "dataset",
+          "bibtex": "misc",
+          "ris": "DATA",
+          "resourceType": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "References",
+            "relatedIdentifier": "https://www.g3p.eu/",
+            "relatedIdentifierType": "URL"
+          },
+          {
+            "relationType": "IsPreviousVersionOf",
+            "relatedIdentifier": "10.5880/icgem.2023.004",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": null,
+        "rightsList": [
+          {
+            "rightsIdentifierScheme": "SPDX",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsIdentifier": "cc-by-4.0"
+          }
+        ],
+        "descriptions": [
+          {
+            "descriptionType": "Abstract",
+            "description": "NEW RELEASE AVAILABLE (release 02, October 2023): The operational solution of release 02 provides a complete time series of GRACE Follow-on data derived monthly gravity field solutions, is regularly updated with new monthly solutions and features a consistent processing with an advanced noise modelling of GRACE Follow-On data. It is recommened for usage. It is strongly recommended to use release 02 and discontinue using this release (release 01) from 2020. <br>------------------------------------------------ <br>Operational GRACE Follow-On monthly gravity field solutions starting from June 2018 up to degree and order 96 computed with the Celestial Mechanics Approach at AIUB (release 01). <br>The time series is a loose continuation of AIUB-RL02 GRACE monthly gravity field time series using Level-1B GRACE Follow-On data and operational accelerometer transplant data from IfG (Institute of Geodesy, TU Graz, Working Group Theoretical Geodesy and Satellite Geodesy) and updated background models. <br>The dataset is created within the framework of the G3P project (https://www.g3p.eu/), this project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 870353."
+          }
+        ],
+        "geoLocations": [
+          {
+            "geoLocationBox": {
+              "northBoundLatitude": 90,
+              "southBoundLatitude": -90,
+              "eastBoundLongitude": 180,
+              "westBoundLongitude": -180
+            },
+            "geoLocationPlace": "monthly gravity fields up to degree and order 96"
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderIdentifierType": "Crossref Funder ID",
+            "funderName": "Horizon 2020 Framework Programme",
+            "funderIdentifier": "https://doi.org/10.13039/100010661",
+            "awardTitle": "Global Gravity-based Groundwater Product (G3P)",
+            "awardNumber": "870353"
+          }
+        ],
+        "url": "https://dataservices.gfz.de/10.5880/icgem.2020.001/aiub-grace-fo-operational-operational-grace",
+        "contentUrl": null,
+        "metadataVersion": 2,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "downloadCount": 0,
+        "referenceCount": 0,
+        "citationCount": 1,
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2020-09-24T08:12:00Z",
+        "registered": "2020-09-24T08:12:01Z",
+        "published": null,
+        "updated": "2026-08-30T10:33:54Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "tib.gfz",
+            "type": "clients"
+          }
+        }
+      }
+    }
+  ]
+}

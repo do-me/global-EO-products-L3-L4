@@ -1,0 +1,271 @@
+[
+  {
+    "id": "JRC-FOROBS-TMF-v2025",
+    "title": "JRC Tropical Moist Forest (TMF) v2025 - Transition Map and Annual Change Collection (1990-2025)",
+    "description": "Pan-tropical annual and cumulative monitoring of tropical moist forest cover extent, deforestation, degradation, and regrowth at 30 m spatial resolution (Landsat 1990-2025) produced by EC JRC FOROBS. Official GEE ImageCollections/Assets listed: projects/JRC/TMF/v1_2020/AnnualDisruptionObs; projects/JRC/TMF/v1_2020/AnnualValidObs; projects/JRC/TMF/v1_2021/AnnualDisruptionObs2021; projects/JRC/TMF/v1_2021/AnnualValidObs2021; projects/JRC/TMF/v1_2021/StartMonitoringPeriod; projects/JRC/TMF/v1_2022/AnnualChanges; projects/JRC/TMF/v1_2022/AnnualDisruptionObs2022; projects/JRC/TMF/v1_2022/AnnualValidObs2022; projects/JRC/TMF/v1_2022/DeforestationAfterDegradation; projects/JRC/TMF/v1_2022/DeforestationAfterDegradationYear; projects/JRC/TMF/v1_2022/DeforestationAfterRegrowth; projects/JRC/TMF/v1_2022/DeforestationYear; projects/JRC/TMF/v1_2022/DegradationYear; projects/JRC/TMF/v1_2022/Duration; projects/JRC/TMF/v1_2022/Intensity; projects/JRC/TMF/v1_2022/TransitionMapHybrid_Source; projects/JRC/TMF/v1_2022/TransitionMapHybrid_Subtypes; projects/JRC/TMF/v1_2022/TransitionMap_MainClasses; projects/JRC/TMF/v1_2022/TransitionMap_Subtypes; projects/JRC/TMF/v1_2023/AnnualChanges; projects/JRC/TMF/v1_2023/AnnualDisruptionObs2023; projects/JRC/TMF/v1_2023/AnnualValidObs2023; projects/JRC/TMF/v1_2023/DeforestationAfterDegradation; projects/JRC/TMF/v1_2023/DeforestationAfterDegradationYear; projects/JRC/TMF/v1_2023/DeforestationAfterRegrowth; projects/JRC/TMF/v1_2023/DeforestationYear; projects/JRC/TMF/v1_2023/DegradationYear; projects/JRC/TMF/v1_2023/Duration; projects/JRC/TMF/v1_2023/Intensity; projects/JRC/TMF/v1_2023/Ndisturb_C2_1982_2022; projects/JRC/TMF/v1_2023/TransitionMap_MainClasses; projects/JRC/TMF/v1_2023/TransitionMap_Subtypes; projects/JRC/TMF/v1_2023/ValidObs_C2_1982_2022; projects/JRC/TMF/v1_2025/AnnualChanges; projects/JRC/TMF/v1_2025/AnnualDisruptionObs2025; projects/JRC/TMF/v1_2025/AnnualValidObs2025; projects/JRC/TMF/v1_2025/DeforestationAfterDegradation; projects/JRC/TMF/v1_2025/DeforestationAfterDegradationYear; projects/JRC/TMF/v1_2025/DeforestationAfterRegrowth; projects/JRC/TMF/v1_2025/DeforestationYear; projects/JRC/TMF/v1_2025/DegradationYear; projects/JRC/TMF/v1_2025/Duration; projects/JRC/TMF/v1_2025/Intensity; projects/JRC/TMF/v1_2025/TransitionMap_MainClasses; projects/JRC/TMF/v1_2025/TransitionMap_Subtypes",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; deforestation; forest degradation; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2020/AnnualDisruptionObs",
+      "projects/JRC/TMF/v1_2020/AnnualValidObs",
+      "projects/JRC/TMF/v1_2021/AnnualDisruptionObs2021",
+      "projects/JRC/TMF/v1_2021/AnnualValidObs2021",
+      "projects/JRC/TMF/v1_2021/StartMonitoringPeriod",
+      "projects/JRC/TMF/v1_2022/AnnualChanges",
+      "projects/JRC/TMF/v1_2022/AnnualDisruptionObs2022",
+      "projects/JRC/TMF/v1_2022/AnnualValidObs2022",
+      "projects/JRC/TMF/v1_2022/DeforestationAfterDegradation",
+      "projects/JRC/TMF/v1_2022/DeforestationAfterDegradationYear",
+      "projects/JRC/TMF/v1_2022/DeforestationAfterRegrowth",
+      "projects/JRC/TMF/v1_2022/DeforestationYear",
+      "projects/JRC/TMF/v1_2022/DegradationYear",
+      "projects/JRC/TMF/v1_2022/Duration",
+      "projects/JRC/TMF/v1_2022/Intensity",
+      "projects/JRC/TMF/v1_2022/TransitionMapHybrid_Source",
+      "projects/JRC/TMF/v1_2022/TransitionMapHybrid_Subtypes",
+      "projects/JRC/TMF/v1_2022/TransitionMap_MainClasses",
+      "projects/JRC/TMF/v1_2022/TransitionMap_Subtypes",
+      "projects/JRC/TMF/v1_2023/AnnualChanges",
+      "projects/JRC/TMF/v1_2023/AnnualDisruptionObs2023",
+      "projects/JRC/TMF/v1_2023/AnnualValidObs2023",
+      "projects/JRC/TMF/v1_2023/DeforestationAfterDegradation",
+      "projects/JRC/TMF/v1_2023/DeforestationAfterDegradationYear",
+      "projects/JRC/TMF/v1_2023/DeforestationAfterRegrowth",
+      "projects/JRC/TMF/v1_2023/DeforestationYear",
+      "projects/JRC/TMF/v1_2023/DegradationYear",
+      "projects/JRC/TMF/v1_2023/Duration",
+      "projects/JRC/TMF/v1_2023/Intensity",
+      "projects/JRC/TMF/v1_2023/Ndisturb_C2_1982_2022",
+      "projects/JRC/TMF/v1_2023/TransitionMap_MainClasses",
+      "projects/JRC/TMF/v1_2023/TransitionMap_Subtypes",
+      "projects/JRC/TMF/v1_2023/ValidObs_C2_1982_2022",
+      "projects/JRC/TMF/v1_2025/AnnualChanges",
+      "projects/JRC/TMF/v1_2025/AnnualDisruptionObs2025",
+      "projects/JRC/TMF/v1_2025/AnnualValidObs2025",
+      "projects/JRC/TMF/v1_2025/DeforestationAfterDegradation",
+      "projects/JRC/TMF/v1_2025/DeforestationAfterDegradationYear",
+      "projects/JRC/TMF/v1_2025/DeforestationAfterRegrowth",
+      "projects/JRC/TMF/v1_2025/DeforestationYear",
+      "projects/JRC/TMF/v1_2025/DegradationYear",
+      "projects/JRC/TMF/v1_2025/Duration",
+      "projects/JRC/TMF/v1_2025/Intensity",
+      "projects/JRC/TMF/v1_2025/TransitionMap_MainClasses",
+      "projects/JRC/TMF/v1_2025/TransitionMap_Subtypes"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2022/TransitionMapHybrid_Source",
+    "title": "JRC Tropical Moist Forest (TMF) - TransitionMapHybrid_Source (v1_2022)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2022/TransitionMapHybrid_Source).",
+    "spatial_resolution_raw": "10 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat / Sentinel-2",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2022/TransitionMapHybrid_Source"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2022/TransitionMapHybrid_Subtypes",
+    "title": "JRC Tropical Moist Forest (TMF) - TransitionMapHybrid_Subtypes (v1_2022)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2022/TransitionMapHybrid_Subtypes).",
+    "spatial_resolution_raw": "10 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat / Sentinel-2",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2022/TransitionMapHybrid_Subtypes"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/AnnualChanges",
+    "title": "JRC Tropical Moist Forest (TMF) - AnnualChanges (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/AnnualChanges).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/AnnualChanges"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/AnnualDisruptionObs2025",
+    "title": "JRC Tropical Moist Forest (TMF) - AnnualDisruptionObs2025 (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/AnnualDisruptionObs2025).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/AnnualDisruptionObs2025"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/AnnualValidObs2025",
+    "title": "JRC Tropical Moist Forest (TMF) - AnnualValidObs2025 (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/AnnualValidObs2025).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/AnnualValidObs2025"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/DeforestationAfterDegradation",
+    "title": "JRC Tropical Moist Forest (TMF) - DeforestationAfterDegradation (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/DeforestationAfterDegradation).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/DeforestationAfterDegradation"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/DeforestationAfterDegradationYear",
+    "title": "JRC Tropical Moist Forest (TMF) - DeforestationAfterDegradationYear (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/DeforestationAfterDegradationYear).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/DeforestationAfterDegradationYear"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/DeforestationAfterRegrowth",
+    "title": "JRC Tropical Moist Forest (TMF) - DeforestationAfterRegrowth (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/DeforestationAfterRegrowth).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/DeforestationAfterRegrowth"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/DeforestationYear",
+    "title": "JRC Tropical Moist Forest (TMF) - DeforestationYear (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/DeforestationYear).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/DeforestationYear"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/DegradationYear",
+    "title": "JRC Tropical Moist Forest (TMF) - DegradationYear (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/DegradationYear).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/DegradationYear"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/Duration",
+    "title": "JRC Tropical Moist Forest (TMF) - Duration (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/Duration).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/Duration"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/Intensity",
+    "title": "JRC Tropical Moist Forest (TMF) - Intensity (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/Intensity).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/Intensity"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/TransitionMap_MainClasses",
+    "title": "JRC Tropical Moist Forest (TMF) - TransitionMap_MainClasses (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/TransitionMap_MainClasses).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/TransitionMap_MainClasses"
+    ]
+  },
+  {
+    "id": "projects/JRC/TMF/v1_2025/TransitionMap_Subtypes",
+    "title": "JRC Tropical Moist Forest (TMF) - TransitionMap_Subtypes (v1_2025)",
+    "description": "EC JRC FOROBS Tropical Moist Forest layer published at https://forobs.jrc.ec.europa.eu/TMF/data (GEE Asset ID: projects/JRC/TMF/v1_2025/TransitionMap_Subtypes).",
+    "spatial_resolution_raw": "30 m",
+    "temporal_start_raw": "1990",
+    "temporal_end_raw": "2025",
+    "update_frequency_raw": "annual",
+    "landing_url_raw": "https://forobs.jrc.ec.europa.eu/TMF/data",
+    "platform_sensor_raw": "Landsat TM/ETM+/OLI",
+    "keywords_raw": "tropical moist forest; TMF; FOROBS; JRC",
+    "gee_assets": [
+      "projects/JRC/TMF/v1_2025/TransitionMap_Subtypes"
+    ]
+  }
+]

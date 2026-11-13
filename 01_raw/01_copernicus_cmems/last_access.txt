@@ -1,0 +1,20 @@
+source_id: 01_copernicus_cmems
+source_title: Copernicus Marine Service (CMEMS) Marine Data Store API (Detailed Variant)
+retrieved_at_utc: 2026-11-13T10:47:09Z
+http_status_summary: 200 OK
+total_records_retrieved: 307
+endpoints_queried:
+  - POST https://data-be-prd.marine.copernicus.eu/api/datasets (variant=detailed, size=1000)
+files_written:
+  - path: data/cmems_datasets_detailed_part01.jsonl
+    bytes: 16562421
+    sha256: e2a9158169f5c4c0af52e2540b65512ceb76e2a5210fde770fc073a5e59a2c06
+  - path: data/cmems_datasets_detailed_part02.jsonl
+    bytes: 30840768
+    sha256: a61d64fa19afe6b91fe618187ff1da564b77eb870e6b968bd38349b4bafb9273
+  - path: data/cmems_datasets_detailed_part03.jsonl
+    bytes: 17520078
+    sha256: dc0c181726a315542e76175cdb1a96c0794af03edc52e4a1c75c18b2a03510b7
+  - path: data/cmems_datasets_detailed_part04.jsonl
+    bytes: 1632326
+    sha256: e30e63159487a9c01c542d32fcac9d437da19e7ea7cc224c4a63dce6f6896aba

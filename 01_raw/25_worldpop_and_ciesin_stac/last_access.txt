@@ -1,0 +1,16 @@
+source_id: 25_worldpop_and_ciesin_stac
+source_title: WorldPop (University of Southampton) STAC API & CIESIN (Columbia University) STAC Catalogue
+retrieved_at_utc: 2026-11-13T10:45:07Z
+http_status_summary: 200 OK
+total_records_retrieved: 259
+endpoints_queried:
+  - https://api.stac.worldpop.org/collections
+  - https://ciesin.github.io/sci-apps-stac/stac/catalog.json
+notes: WorldPop collections: 248, CIESIN STAC nodes: 11
+files_written:
+  - path: data/ciesin_stac_collections.jsonl
+    bytes: 18436
+    sha256: d35804474f91e937dc05ccabbb4039cbdc34c129d4dff48603cd822bb53d3a94
+  - path: data/worldpop_stac_collections.json
+    bytes: 777313
+    sha256: c4261fbe7ab55d31183d0b062ba96f2af44eddd57673b7bd536f8313ae361f20

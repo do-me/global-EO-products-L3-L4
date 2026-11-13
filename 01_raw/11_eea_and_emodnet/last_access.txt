@@ -1,0 +1,16 @@
+source_id: 11_eea_and_emodnet
+source_title: European Environment Agency (EEA SDI) & European Marine Observation and Data Network (EMODnet) GeoNetwork ES APIs
+retrieved_at_utc: 2026-11-13T10:36:36Z
+http_status_summary: 200 OK
+total_records_retrieved: 1744
+endpoints_queried:
+  - https://sdi.eea.europa.eu/catalogue/srv/api/search/records/_search
+  - https://emodnet.ec.europa.eu/geonetwork/srv/api/search/records/_search
+notes: EEA gridded/thematic datasets: 990, EMODnet gridded datasets: 754
+files_written:
+  - path: data/eea_sdi_datasets.jsonl
+    bytes: 29561287
+    sha256: 7cb86d7a8331463ad0434befc0c4d5ae4464ef0537700b15cf93234aa30b49f6
+  - path: data/emodnet_datasets.jsonl
+    bytes: 29651659
+    sha256: 8f2773d2fe18cd19e7f84bc2a2edb6c0892f91b3a6f0e6a19cebb81a1d859e21

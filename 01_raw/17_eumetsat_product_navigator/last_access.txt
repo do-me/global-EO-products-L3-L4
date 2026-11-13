@@ -1,0 +1,11 @@
+source_id: 17_eumetsat_product_navigator
+source_title: EUMETSAT Product Navigator Elasticsearch API (EUMETSAT & All 8 SAFs)
+retrieved_at_utc: 2026-11-13T10:37:52Z
+http_status_summary: 200 OK
+total_records_retrieved: 896
+endpoints_queried:
+  - https://user.eumetsat.int/catalogue/es/csw/_search?size=1000
+files_written:
+  - path: data/eumetsat_product_navigator.jsonl
+    bytes: 11175325
+    sha256: 93fad8b7ef5cdc14f434008ac3911cae7c278505e95f4a334ae39169fde0871c

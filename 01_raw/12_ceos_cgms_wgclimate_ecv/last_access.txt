@@ -1,0 +1,15 @@
+source_id: 12_ceos_cgms_wgclimate_ecv
+source_title: Joint CEOS/CGMS Working Group on Climate (WGClimate) ECV Climate Data Record (CDR) Inventory API
+retrieved_at_utc: 2026-11-13T10:36:39Z
+http_status_summary: 200 OK
+total_records_retrieved: 821
+endpoints_queried:
+  - https://www.cdrinventory.climatemonitoring.info/backend/api/v1/data_records/
+  - https://www.cdrinventory.climatemonitoring.info/backend/api/v1/variables/nodes/graph/
+files_written:
+  - path: data/wgclimate_ecv_data_records.json
+    bytes: 9202600
+    sha256: ce73660876f0f5f9765d58aeb9f26277effd333ec56674fd1ba5b31a81dfbb6c
+  - path: data/wgclimate_ecv_variables_graph.json
+    bytes: 160716
+    sha256: f25a52563b0bcd63c067756ee5c4c1b72b8cac92cc8a216d8e0ad56d4e3f997b
