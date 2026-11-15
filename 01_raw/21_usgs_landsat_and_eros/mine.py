@@ -116,20 +116,48 @@ def main() -> None:
 
     cmr_entries: list[dict[str, Any]] = []
     for prov in ("USGS_EROS", "USGS_LTA"):
-        r2 = session.get(
-            "https://cmr.earthdata.nasa.gov/search/collections.json",
-            params=[("provider", prov), ("page_size", "500")],
-            timeout=60,
-        )
+        q = [("provider", prov), ("page_size", "500")]
+        r2 = session.get("https://cmr.earthdata.nasa.gov/search/collections.json", params=q, timeout=60)
+        r_umm = session.get("https://cmr.earthdata.nasa.gov/search/collections.umm_json", params=q, timeout=60)
+        umm_map: dict[str, dict[str, Any]] = {}
+        if r_umm.status_code == 200:
+            for u_item in r_umm.json().get("items", []):
+                cid = (u_item.get("meta") or {}).get("concept-id")
+                if cid:
+                    umm = u_item.get("umm") or {}
+                    umm_map[str(cid)] = {
+                        k: umm[k]
+                        for k in (
+                            "ShortName",
+                            "Version",
+                            "DOI",
+                            "CollectionProgress",
+                            "DataMaturity",
+                            "ProcessingLevel",
+                            "SpatialExtent",
+                            "TemporalExtents",
+                            "TemporalKeywords",
+                            "ScienceKeywords",
+                            "Platforms",
+                            "DataCenters",
+                            "RelatedUrls",
+                            "UseConstraints",
+                        )
+                        if k in umm and umm[k] is not None
+                    }
         if r2.status_code == 200:
-            cmr_entries.extend(r2.json().get("feed", {}).get("entry", []))
+            for e in r2.json().get("feed", {}).get("entry", []):
+                cid = str(e.get("id", ""))
+                if cid in umm_map:
+                    e["_umm"] = umm_map[cid]
+                cmr_entries.append(e)
 
     with (DATA_DIR / "usgs_eros_cmr_collections.jsonl").open("w", encoding="utf-8") as f:
         for e in cmr_entries:
             f.write(json.dumps(e, ensure_ascii=False) + "\n")
 
     write_last_access(
-        [stac_url, "https://cmr.earthdata.nasa.gov/search/collections.json?provider=USGS_EROS,USGS_LTA"],
+        [stac_url, "https://cmr.earthdata.nasa.gov/search/collections.json + collections.umm_json?provider=USGS_EROS,USGS_LTA"],
         len(stac_cols) + len(cmr_entries),
         "200 OK",
     )

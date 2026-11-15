@@ -577,6 +577,1350 @@
       "license": "CC-BY-NC-4.0",
       "description": "Human Footprint dataset for Colombia for years 1970, 1990, 2000, 2015 and 2018",
       "stac_version": "1.1.0"
+    },
+    {
+      "id": "colombia-lc",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/colombia-lc/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/colombia-lc"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/colombia-lc/queryables"
+        }
+      ],
+      "title": "Colombian land cover time series",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -81.68,
+              -4.24,
+              -66.55,
+              12.9
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "A raster representation of the Colombian land cover data",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "colombia-protected-areas",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/colombia-protected-areas/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/colombia-protected-areas"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/colombia-protected-areas/queryables"
+        }
+      ],
+      "title": "Colombia - Protected Areas",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -79,
+              -4,
+              -66,
+              12
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1930-01-01T00:00:00Z",
+              "2022-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "Protected areas of Colombia from 1930 to 2020",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "csiro_beri",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/csiro_beri/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/csiro_beri"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/csiro_beri/queryables"
+        }
+      ],
+      "title": "CSIRO - Bioclimatic Ecosystem Resilience Index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2024-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "CSIRO Bioclimatic Ecosystem Resilience Index (BERI) is a global 30 arc-second product provided annually for 2000-2024. BERI measures the capacity of natural ecosystems to retain species diversity in the face of climate change, as a function of ecosystem area, connectivity and integrity. The indicator assesses the extent to which any given spatial configuration of natural habitat across a landscape will promote or hinder climate-induced shifts in biological distributions. It does this by analyzing the functional connectivity of each grid-cell of natural habitat to areas of habitat in the surrounding landscape which are projected to support a similar assemblage of species under climate change to that currently associated with the cell of interest. The indicator can then be aggregated and reported by any desired spatial unit – e.g. an ecosystem type, a country, or the entire planet. Regional values are obtained by aggregating with the csiro_denominator weights layer. From: https://doi.org/10.25919/bbp6-a192",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "csiro_bhi",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/csiro_bhi/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/csiro_bhi"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/csiro_bhi/queryables"
+        }
+      ],
+      "title": "CSIRO - BHI - Biodiversity Habitat Index",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2024-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "CSIRO Biodiversity Habitat Index (BHI) is a global 30 arc-second product provided annually for 2000-2024. BHI estimates the level of species diversity expected to be retained within any given spatial reporting unit (e.g., a country, a broad ecosystem type, or the entire planet) as a function of the unit’s area, connectivity and integrity of natural ecosystems across it. Results for the indicator can either be expressed as 1) the ‘effective proportion of habitat’ remaining within the unit – adjusting for the effects of the condition and functional connectivity of habitat, and of spatial variation in the species composition of ecological communities (beta diversity); or 2) the effective proportion of habitat that can be translated, through standard species-area analysis, into a prediction of the proportion of species expected to persist (i.e. avoid extinction) over the long term. Regional values are obtained by aggregating with the csiro_denominator weights layer. From: https://doi.org/10.25919/bbp6-a192",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "csiro_denominator",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/csiro_denominator/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/csiro_denominator"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/csiro_denominator/queryables"
+        }
+      ],
+      "title": "CSIRO - Denominator",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2024-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "CSIRO weights layer (denominator) used for the regional aggregation of the BILBI indicators (BHI, BERI, PARC-representativeness, PARC-connectedness and ecosystem condition). From: https://doi.org/10.25919/bbp6-a192",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "csiro_ecosystem_condition",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/csiro_ecosystem_condition/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/csiro_ecosystem_condition"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/csiro_ecosystem_condition/queryables"
+        }
+      ],
+      "title": "CSIRO - Ecosystem Condition",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2024-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "CSIRO ecosystem condition is a global 30 arc-second product provided annually for 2000-2024. It provides the ecosystem condition data used as an input to the BILBI indicators BHI, BERI and PARC-connectedness. Regional values are obtained by aggregating with the csiro_denominator weights layer. From: https://doi.org/10.25919/bbp6-a192",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "csiro_parc",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/csiro_parc/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/csiro_parc"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/csiro_parc/queryables"
+        }
+      ],
+      "title": "CSIRO - PARC Protected Areas Representativeness",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2024-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "CSIRO Protected Area Representativeness Index (PARC: Representativeness) is a global 30 arc-second product provided annually for 2000-2024. The Protected Area Representativeness and Connectedness (PARC) indices measure the extent to which terrestrial protected areas, and other effective area-based conservation measures (OECMs), are ecologically representative, and well-connected (both to one another, and to other areas of intact natural ecosystems in the surrounding landscape). This collection holds the representativeness index; connectedness is in csiro_parc_connectedness. Regional values are obtained by aggregating with the csiro_denominator weights layer. From: https://doi.org/10.25919/bbp6-a192",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "csiro_parc_connectedness",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/csiro_parc_connectedness/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/csiro_parc_connectedness"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/csiro_parc_connectedness/queryables"
+        }
+      ],
+      "title": "CSIRO - PARC Protected Areas Connectedness",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2024-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "description": "CSIRO Protected Area Connectedness Index (PARC: Connectedness) is a global 30 arc-second product provided annually for 2000-2024. The Protected Area Representativeness and Connectedness (PARC) indices measure the extent to which terrestrial protected areas, and other effective area-based conservation measures (OECMs), are ecologically representative, and well-connected. This collection holds the connectedness index, which measures how well-connected protected areas and OECMs are, both to one another and to other areas of intact natural ecosystems in the surrounding landscape. Representativeness is in csiro_parc. Regional values are obtained by aggregating with the csiro_denominator weights layer. From: https://doi.org/10.25919/bbp6-a192",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "distance_to_roads",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/distance_to_roads/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/distance_to_roads"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/distance_to_roads/queryables"
+        }
+      ],
+      "title": "Distance to roads",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2018-01-01T00:00:00Z",
+              "2018-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-0",
+      "description": "Distance to all roads in the Global Roads Inventory Project (GRIP) dataset (see https://www.globio.info/download-grip-dataset). The resolution is 300 meters at the equator and the units are the number of 300m resolution pixels. To get a distance in meters at the equator, multiply the value by 300.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "earthenv_habitat_heterogeneity",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/earthenv_habitat_heterogeneity/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/earthenv_habitat_heterogeneity"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/earthenv_habitat_heterogeneity/queryables"
+        }
+      ],
+      "title": "EarthEnv - Habitat heterogeneity",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              85
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-01-01T00:00:00Z",
+              "2015-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "The datasets contain 14 metrics quantifying spatial heterogeneity of global habitat at multiple resolutions based on the textural features of Enhanced Vegetation Index (EVI) imagery acquired by the Moderate Resolution Imaging Spectroradiometer (MODIS).",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "earthenv_landcover",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/earthenv_landcover/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/earthenv_landcover"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/earthenv_landcover/queryables"
+        }
+      ],
+      "title": "EarthEnv - Consensus Land Cover - Full version",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -56,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2000-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "Consensus land cover dataset containing 12 data layers, each of which provides consensus information on the prevalence of one land-cover class. All data layers contain unsigned 8-bit values and the valid values range from 0-100, representing the consensus prevalence in percentage. All data layers have a spatial extent from 90ºN - 56ºS and from 180ºW - 180ºE, and have a spatial resolution of 30 arc-second per pixel (~1 km per pixel at the equator).",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "earthenv_topography",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/earthenv_topography/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/earthenv_topography"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/earthenv_topography/queryables"
+        }
+      ],
+      "title": "EarthEnv - Topography",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              85
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2010-01-01T00:00:00Z",
+              "2010-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "A fully standardized and global multivariate product of different terrain features to support many large-scale research applications. The product is based on the digital elevation model products of global 250 m GMTED2010. From https://www.earthenv.org/topography",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "earthenv_topography_derived",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/earthenv_topography_derived/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/earthenv_topography_derived"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/earthenv_topography_derived/queryables"
+        }
+      ],
+      "title": "EarthEnv - Derived topographic categorical variables",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -60,
+              180,
+              85
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2010-01-01T00:00:00Z",
+              "2010-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "A fully standardized and global multivariate product of different terrain features to support many large-scale research applications. The product is based on the digital elevation model products of global 250 m GMTED2010. From https://www.earthenv.org/topography",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "esacci-lc",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/esacci-lc/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/esacci-lc"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/esacci-lc/queryables"
+        }
+      ],
+      "title": "ESA Land cover time series",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1992-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "Global annual land cover map at 300 m based on the full archives of 300 m MERIS, 1 km SPOT-VEGETATION, 1 km PROBA-V and 1 km AVHRR surface reflectance 7-day composites",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "fragmentation-rmf",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/fragmentation-rmf/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/fragmentation-rmf"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/fragmentation-rmf/queryables"
+        }
+      ],
+      "title": "Relative Magnitude of Fragmentation (RMF)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1992-01-01T00:00:00Z",
+              "2018-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "The Relative Magnitude of Fragmentation (RMF) measures the fragmentation of specific land cover types using the entropy-based local indicator of spatial association (ELSA). The values of ELSA vary between 0 and 1 (multiplied by a scale factor of 10000) denoting lowest and highest fragmentation. We use an existing spatially contiguous, global remote-sensing data product (i.e. the 27-year annual ESA CCI land cover maps which can be categorized as an EBV 'Ecosystem Distribution') to derive an annual (27 year) time-series of the Relative Magnitude of Fragmentation (RMF) at a global scale and with a spatial resolution of 300m. From this derived EBV data product, we can calculate a RMF indicator of ecosystem degradation, i.e. the change, and rate of change, in fragmentation of ecosystems (e.g. forests) over the last 27 years. This can provide important information for measuring biodiversity change as it directly links to the draft monitoring framework of the zero draft of the post-2020 global biodiversity framework of the Convention on Biological Diversity (CBD), especially Draft 2050 Goal 1 and the related Draft 2030 Target 1 (see Annex of  the zero draft). We define the 'forest' class by aggregating all 14 tree cover related land cover types from the ESA CCI product into one class. We further define eight non-forest classes (agriculture, grassland, wetland, settlement, sparse vegetation, bare area, water, permanent snow and ice) that we use as multinomial categorical data, or as binary categorical data (to define forest vs. non-forest). This classes follow the reclassification used by Mousivand & Arsanjani 2019 (Applied Geography 106: 82-92). For deriving the RMF, we either calculate ELSA using the binary categorical data (forest vs. non-forest) or the multinomial categorical data (forest vs. the eight non-forest classes).",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "gbif_heatmaps",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/gbif_heatmaps/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/gbif_heatmaps"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/gbif_heatmaps/queryables"
+        }
+      ],
+      "title": "Occurrence density maps created from GBIF data",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              84
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1900-01-01T00:00:00Z",
+              "2024-05-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "Density maps of all occurrences in GBIF, organized by taxonomic group at an approximately 1 km resolution.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "gfw-gain",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/gfw-gain/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/gfw-gain"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/gfw-gain/queryables"
+        }
+      ],
+      "title": "Global Forest Watch - Gain",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "Global Forest Watch - Gain",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "gfw-lossyear",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/gfw-lossyear/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/gfw-lossyear"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/gfw-lossyear/queryables"
+        }
+      ],
+      "title": "Global Forest Watch - Loss year",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2020-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "Global Forest Watch - Loss year",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "gfw-treecover2000",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/gfw-treecover2000/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/gfw-treecover2000"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/gfw-treecover2000/queryables"
+        }
+      ],
+      "title": "Global Forest Watch - Tree cover 2000",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2000-01-01T00:00:00Z",
+              "2000-01-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "Global Forest Watch - Tree cover 2000",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "ghmts",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/ghmts/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/ghmts"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/ghmts/queryables"
+        }
+      ],
+      "title": "Global Human Modification of Terrestrial Systems",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2016-01-01T00:00:00Z",
+              "2016-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "The Global Human Modification of Terrestrial Systems data set provides a cumulative measure of the human modification of terrestrial lands across the globe at a 1-km resolution. It is a continuous 0-1 metric that reflects the proportion of a landscape modified, based on modeling the physical extents of 13 anthropogenic stressors and their estimated impacts using spatially-explicit global data sets with a median year of 2016.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "global-mammals",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/global-mammals/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/global-mammals"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/global-mammals/queryables"
+        }
+      ],
+      "title": "Global habitat availability for mammals from 2015-2055",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2015-01-01T00:00:00Z",
+              "2055-01-01T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-NC-4.0",
+      "description": "Habitat availability for each mammal species (total 5090 species) in 0.25 degrees cells, from 2015 to 2055 in 5 year intervals, for the SSP/RCP scenarios. Developed for the BES-SIM project by the University of Sapienza team using the InSiGHTS (Integrated Scenarios of Global Habitat for Terrestrial Species) model",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "ncp_cna",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/ncp_cna/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/ncp_cna"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/ncp_cna/queryables"
+        }
+      ],
+      "title": "Nature's Contribution to People - Critical Natural Assets",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              180,
+              90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2022-01-01T00:00:00Z",
+              "2022-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "description": "Critical Natural Assets (CNAs) are ecosystems that provide 90 percent of the benefits from 14 types of nature's contributions to people (NCP) and are mapped globally at a 2 km resolution. From https://doi.org/10.1038/s41559-022-01934-5",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "silvis",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/silvis/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/silvis"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/silvis/queryables"
+        }
+      ],
+      "title": "Silvis Dynamic Habitat Indices",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2013-01-01T00:00:00Z",
+              "2015-12-31T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "The DHIs are designed for biodiversity assessments and to describe habitats of different species.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "soilgrids",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.geobon.org/collections/soilgrids/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.geobon.org/collections/soilgrids"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.geobon.org/collections/soilgrids/queryables"
+        }
+      ],
+      "title": "Soil Grids datasets",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1905-03-31T00:00:00Z",
+              "2016-07-04T00:00:00Z"
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "description": "SoilGrids aggregated datasets at 1km resolution",
+      "stac_version": "1.1.0"
     }
   ],
   "numberMatched": 34,

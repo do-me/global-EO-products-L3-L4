@@ -1,26 +1,35 @@
 source_id: 16_nasa_cmr
 source_title: NASA Common Metadata Repository (CMR) Collections API — All Explicit L3/L4 + SEDAC/ORNL Gridded Collections
-retrieved_at_utc: 2026-11-13T16:55:47Z
+retrieved_at_utc: 2026-11-15T04:49:48Z
 http_status_summary: 200 OK
-total_records_retrieved: 6592
+total_records_retrieved: 6593
 endpoints_queried:
-  - https://cmr.earthdata.nasa.gov/search/collections.json?processing_level_id[]=3&processing_level_id[]=4&page_size=2000
-  - https://cmr.earthdata.nasa.gov/search/collections.json?keyword=SEDAC&page_size=2000
-  - https://cmr.earthdata.nasa.gov/search/collections.json?keyword=<high-recall-eo>&page_size=2000 (keywords=['OAFlux', 'Global Web-Enabled Landsat Data', 'Fengyun', 'EarthCARE', 'GPCP', 'CMAP precipitation', 'Global Forest Cover Change', 'Daymet', 'MERRA', 'LPJ-EOSIM', 'CYGNSS Heat Flux', 'GlobeLand30', 'AVISO altimetry', 'CCI Land Cover', 'GRACE Tellus'])
-notes: Explicit L3/L4 collections: 5749, SEDAC collections: 327, Supplementary unlabelled/L2-tagged EO collections: 516
+  - https://cmr.earthdata.nasa.gov/search/collections.json + collections.umm_json (processing_level_id[]=3,4,3A,3B,3C,3G,4A,4B,L3,L4,Level 3,Level 4)
+  - https://cmr.earthdata.nasa.gov/search/collections.json + collections.umm_json?keyword=SEDAC&page_size=2000
+  - https://cmr.earthdata.nasa.gov/search/collections.json + collections.umm_json?keyword=<high-recall-eo>&page_size=2000 (keywords=['OAFlux', 'Global Web-Enabled Landsat Data', 'Fengyun', 'EarthCARE', 'GPCP', 'CMAP precipitation', 'Global Forest Cover Change', 'Daymet', 'MERRA', 'LPJ-EOSIM', 'CYGNSS Heat Flux', 'GlobeLand30', 'AVISO altimetry', 'CCI Land Cover', 'GRACE Tellus'])
+notes: Explicit L3/L4 collections (with UMM-JSON): 5750, SEDAC collections (with UMM-JSON): 327, Supplementary unlabelled/L2-tagged EO collections (with UMM-JSON): 516
 files_written:
   - path: data/nasa_cmr_l3_l4_part01.jsonl
-    bytes: 16455545
-    sha256: 63038f7fc9fed7c4d84e5c51ee1eb925ce857b613b2d4a6fbb7be73aba7070ac
+    bytes: 19212358
+    sha256: a9c96049a9f455db78745ea0426eaa881d5ceef75b9b54f866895a5a70dd1b69
   - path: data/nasa_cmr_l3_l4_part02.jsonl
-    bytes: 10550269
-    sha256: 39eecd5f7c2dcb0fa2b38b00ee4c9134bc22f593339a5d8c1e8432aff91b1c69
+    bytes: 15944169
+    sha256: a911daf0e06742837971dab579b7a06676ddaa23dd67de30dbc2b9622a21c519
   - path: data/nasa_cmr_l3_l4_part03.jsonl
-    bytes: 7731664
-    sha256: eab499147189f5c56e3892a126a3f1e8542d9f4202fedccb6a5eb400556015bb
+    bytes: 12289886
+    sha256: a7c7b427ca81734271a9b84434f93f3689372b8cb9fb44a18755bf436c535bdc
+  - path: data/nasa_cmr_l3_l4_part04.jsonl
+    bytes: 11794979
+    sha256: 7828d39aef126ea27183cdfd432d51fd021ebb7745d0729b4d46577578e5e182
+  - path: data/nasa_cmr_l3_l4_part05.jsonl
+    bytes: 12865538
+    sha256: 26c50df4c5df11d0951430b500476f10355bed1c9da947136fd41cd099be1a10
+  - path: data/nasa_cmr_l3_l4_part06.jsonl
+    bytes: 7354157
+    sha256: 4ba3ed2b09d4cf8f4484337dc8ee77ce54b39f534432192643e810221875097b
   - path: data/nasa_cmr_sedac.jsonl
-    bytes: 1249217
-    sha256: 203cbe02891308f124dc1d910dd04f1c7c355b6471c4eb96a552ced50eb13be5
+    bytes: 4851163
+    sha256: 17aa9086d86bd09e6186703db4bd6b92d85813c464b16ef9c92a9b439852ceef
   - path: data/nasa_cmr_supplementary_eo.jsonl
-    bytes: 3362381
-    sha256: d80639eadb0ffa15c997479dfc63f0107fd30afa0ababd314431dc1a84d60d21
+    bytes: 7274852
+    sha256: 49c80a41b65727c6088fd7f7093ed95c0fdac253bb95593ed171638878101fd7

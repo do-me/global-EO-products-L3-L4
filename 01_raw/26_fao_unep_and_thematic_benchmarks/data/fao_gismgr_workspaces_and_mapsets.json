@@ -3606,6 +3606,2270 @@
       "_workspace_caption": "Water data"
     },
     {
+      "workspaceCode": "WATER",
+      "code": "KHM-PP-GBWP-S",
+      "caption": "Gross Biomass Water Productivity (Prek Po, Cambodia - Seasonal)",
+      "defaultStyleCode": "KHM-GBWP",
+      "measureCaption": "Gross Biomass Water Productivity",
+      "measureUnit": "kg/m³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "GBWP",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KHM-PP-GBWP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "AWA-ETRAIN",
+      "caption": "Rainfall EvapoTranspiration (Awash, Ethiopia - Monthly)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AWASH",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/AWA-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KHM-SC-RWD-S",
+      "caption": "Relative Water Deficit (Stung Chinit, Cambodia - Seasonal)",
+      "defaultStyleCode": "KHM-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KHM-SC-RWD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KHM-PP-RWD-S",
+      "caption": "Relative Water Deficit (Prek Po, Cambodia - Seasonal)",
+      "defaultStyleCode": "KHM-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KHM-PP-RWD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "AWA-LUS",
+      "caption": "Land Use Map Awash River Basin, Ethiopia - Monthly -100m)",
+      "defaultStyleCode": "LUS",
+      "measureCaption": "Land use",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AWASH"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/AWA-LUS"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-AET-S",
+      "caption": "Actual EvapoTranspiration (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": "KA-AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-AET-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-CRT-S",
+      "caption": "Crop types (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": "KA-CRT",
+      "measureCaption": "Crop types",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-CRT-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KHM-SC-GBWP-S",
+      "caption": "Gross Biomass Water Productivity (Stung Chinit, Cambodia - Seasonal)",
+      "defaultStyleCode": "KHM-GBWP",
+      "measureCaption": "Gross Biomass Water Productivity",
+      "measureUnit": "kg/m³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "GBWP",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KHM-SC-GBWP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-CWP-S",
+      "caption": "Crop Water Productivity - (NLBC, Karnataka, India, Seasonal 2019 - 30m)",
+      "defaultStyleCode": null,
+      "measureCaption": "Crop Water Productivity",
+      "measureUnit": "kg/m³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-CWP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-NDVI-S",
+      "caption": "Normalized Difference Vegetation Index (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": "KA-NDVI",
+      "measureCaption": "Normalized Difference Vegetation Index",
+      "measureUnit": "n.a.",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "NDVI",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-NDVI-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-AGBP-S",
+      "caption": "Seasonal biomass production, Samba (India, Tamil Nadu, Seasonal - 30m)",
+      "defaultStyleCode": "IND-TN-AGBP",
+      "measureCaption": "Above Ground Biomass Production",
+      "measureUnit": "kg/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGBP",
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-AGBP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-E",
+      "caption": "Evaporation (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "EVP",
+      "measureCaption": "Evaporation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-E"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-GBWP-S",
+      "caption": "Biomass Water Productivity (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": "KA-GBWP",
+      "measureCaption": "Gross Biomass Water Productivity",
+      "measureUnit": "kg/m³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "GBWP",
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-GBWP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-QAS-S",
+      "caption": "Quality Assessment (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": "KA-QAS",
+      "measureCaption": "Quality Assessment",
+      "measureUnit": "n.a.",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-QAS-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-YIELD-S",
+      "caption": "Yield - Crop  (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": null,
+      "measureCaption": "Yield",
+      "measureUnit": "Tons/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL",
+        "YIELD"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-YIELD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LBN-LIT-BF",
+      "caption": "Base flow (Litani, Lebanon - Monthly - 100m)",
+      "defaultStyleCode": "BFW",
+      "measureCaption": "Base Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "LITANI"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LBN-LIT-BF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-AET-S",
+      "caption": "Actual EvapoTranspirationp Samba (India, Tamil Nadu, Seasonal - 30m)",
+      "defaultStyleCode": "IND-TN-AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-AET-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-CRC-S",
+      "caption": "Crop cover",
+      "defaultStyleCode": "IND-TN-CRC",
+      "measureCaption": "Crop Cover",
+      "measureUnit": "n.a.",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-CRC-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-RWD-10-S",
+      "caption": "Relative Water Deficit (10%) in Samba season (India, Tamil Nadu, Seasonal - 30m)",
+      "defaultStyleCode": "IND-TN-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-RWD-10-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-RWD-50-S",
+      "caption": "Relative Water Deficit (50%) in Samba season (India, Tamil Nadu, Seasonal - 30m)",
+      "defaultStyleCode": "IND-TN-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-RWD-50-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-RWD-30-S",
+      "caption": "Relative Water Deficit (30%) in Samba season (India, Tamil Nadu, Seasonal - 30m)",
+      "defaultStyleCode": "IND-TN-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-RWD-30-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-TN-YIELD-S",
+      "caption": "Seasonal paddy Yield, Samba season (India, Tamil Nadu, Seasonal - 30m)",
+      "defaultStyleCode": "IND-TN-YIELD",
+      "measureCaption": "Yield",
+      "measureUnit": "Tons/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "SEASONAL",
+        "TAMILNADU",
+        "YIELD"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-TN-YIELD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LBN-LIT-NRD",
+      "caption": "Number of Rainy Days (Litani, Lebanon - Monthly - 100m)",
+      "defaultStyleCode": "NRD",
+      "measureCaption": "Number of Rainy Days",
+      "measureUnit": "days",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "LITANI"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LBN-LIT-NRD"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "JOR-ETINCR",
+      "caption": "Incremental evapotranspiration Jordan River Basin - Monthly - 100m)",
+      "defaultStyleCode": "ETINCR",
+      "measureCaption": "Incremental EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ETINCR",
+        "JORDAN"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/JOR-ETINCR"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LBN-LIT-SRO",
+      "caption": "Surface Runoff (Litani, Lebanon - Monthly - 100m)",
+      "defaultStyleCode": "SRO",
+      "measureCaption": "Surface Runoff",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "LITANI"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LBN-LIT-SRO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LBN-LIT-TF",
+      "caption": "Total Flow (Litani, Lebanon - Monthly - 100m)",
+      "defaultStyleCode": "TFW",
+      "measureCaption": "Total Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "LITANI"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LBN-LIT-TF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-DMP",
+      "caption": "Dry Matter Productivity (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "DMP",
+      "measureCaption": "Dry Matter Productivity",
+      "measureUnit": "kg/ha/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-DMP"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "JOR-ETRAIN",
+      "caption": "Rainfall evapotranspiration (Jordan River Basin,  Monthly - 100m)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ETRAIN",
+        "JORDAN"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/JOR-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "JOR-LUS",
+      "caption": "Land Use Map Jordan River Basin - Monthly - 100m)",
+      "defaultStyleCode": "LUS",
+      "measureCaption": "Land use",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "JORDAN"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/JOR-LUS"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LBN-LIT-SUPPLY",
+      "caption": "Supplied water (Litani, Lebanon - Monthly - 100m)",
+      "defaultStyleCode": "SUPPLY",
+      "measureCaption": "Supply",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "LITANI",
+        "SUPPLY"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LBN-LIT-SUPPLY"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-BF",
+      "caption": "Base Flow (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "BFW",
+      "measureCaption": "Base Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-BF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LKA-KM-AET-S",
+      "caption": "Actual EvapoTranspirationp (Kirindi and Menik, Sri Lanka, Seasonal - 30m)",
+      "defaultStyleCode": "LKA-AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "SEASONAL",
+        "SRILANKA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LKA-KM-AET-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-ET",
+      "caption": "Actual EvapoTranspiration (K2, Karnataka, India - Monthly - 250m)",
+      "defaultStyleCode": "AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG-KO-AGBP-S",
+      "caption": "Above Ground Biomass Production  (Khongor, Mongolia, Seasonal - 30m)",
+      "defaultStyleCode": "MNG-AGBP",
+      "measureCaption": "Above Ground Biomass Production",
+      "measureUnit": "kg/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGBP",
+        "KHONGOR",
+        "MONGOLIA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG-KO-AGBP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-ETRAIN",
+      "caption": "Rainfall EvapoTranspiration (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-ET-REF",
+      "caption": "Reference EvapoTranspiration (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ET-REF",
+      "measureCaption": "Reference EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-ET-REF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LKA-MD-AET-S",
+      "caption": "Actual EvapoTranspirationp (Mi and Deduru, Sri Lanka, Seasonal - 30m)",
+      "defaultStyleCode": "LKA-AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "SEASONAL",
+        "SRILANKA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LKA-MD-AET-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LKA-KM-RWD-S",
+      "caption": "Relative Water Deficit in Maha and Yala season (Kirindi and Manik, Sri Lanka, Seasonal - 30m)",
+      "defaultStyleCode": "LKA-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KIRINDI",
+        "MANIK",
+        "SEASONAL",
+        "SRILANKA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LKA-KM-RWD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-PERCO",
+      "caption": "Percolation (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "PERCO",
+      "measureCaption": "Percolation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-PERCO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-P",
+      "caption": "Precipitation (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "PCP",
+      "measureCaption": "Precipitation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-P"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-P-ET",
+      "caption": "Precipitation minus EvapoTranspiration (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "P-ET",
+      "measureCaption": "Precipitation minus actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-P-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-SM",
+      "caption": "Soil Moisture (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SMO",
+      "measureCaption": "Soil Moisture",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-SM"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-SRO",
+      "caption": "Surface Runoff (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SRO",
+      "measureCaption": "Surface Runoff",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-SRO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LKA-KM-AGBP-S",
+      "caption": "Above Ground Biomass Production (Kirindi and Manik, Sri Lanka, Seasonal - 30m)",
+      "defaultStyleCode": "LKA-AGBP",
+      "measureCaption": "Above Ground Biomass Production",
+      "measureUnit": "kg/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGBP",
+        "KIRINDI",
+        "MANIK",
+        "SEASONAL",
+        "SRILANKA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LKA-KM-AGBP-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-SUPPLY",
+      "caption": "Supply (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SUPPLY",
+      "measureCaption": "Supply",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-SUPPLY"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-T",
+      "caption": "Transpiration (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "TRA",
+      "measureCaption": "Transpiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-T"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K2-TF",
+      "caption": "Total Flow (K2, Karnataka, India - Monthly)",
+      "defaultStyleCode": "TFW",
+      "measureCaption": "Total Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K2-TF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-NRD",
+      "caption": "Number of Rainy Days (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "NRD",
+      "measureCaption": "Number of Rainy Days",
+      "measureUnit": "days",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MINDANAO",
+        "MNG1",
+        "MONGOLIA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-NRD"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-BF",
+      "caption": "Base Flow (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "BFW",
+      "measureCaption": "Base Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-BF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-DMP",
+      "caption": "Dry Matter Productivity (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "DMP",
+      "measureCaption": "Dry Matter Productivity",
+      "measureUnit": "kg/ha/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-DMP"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-E",
+      "caption": "Evaporation (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "EVP",
+      "measureCaption": "Evaporation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-E"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-TF",
+      "caption": "Total Flow (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "TFW",
+      "measureCaption": "Total Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-TF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-ET",
+      "caption": "Actual EvapoTranspiration (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-ETINCR",
+      "caption": "Incremental EvapoTranspiration (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ETINCR",
+      "measureCaption": "Incremental EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-ETINCR"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-ETRAIN",
+      "caption": "Rainfall EvapoTranspiration (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-ET-REF",
+      "caption": "Reference EvapoTranspiration (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ET-REF",
+      "measureCaption": "Reference EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-ET-REF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-LAI",
+      "caption": "Leaf Area Index (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "LAI",
+      "measureCaption": "Leaf Area Index",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-LAI"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-LCC",
+      "caption": "Land Cover Classification (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "KAR-LCC",
+      "measureCaption": "Land Cover Classification (Karnataka)",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-LCC"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-TF",
+      "caption": "Total Flow (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "TFW",
+      "measureCaption": "Total Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-TF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-P",
+      "caption": "Precipitation (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "PCP",
+      "measureCaption": "Precipitation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-P"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-PERCO",
+      "caption": "Percolation (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "PERCO",
+      "measureCaption": "Percolation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-PERCO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-SM",
+      "caption": "Soil Moisture (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SMO",
+      "measureCaption": "Soil Moisture",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-SM"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-SRO",
+      "caption": "Surface Runoff (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SRO",
+      "measureCaption": "Surface Runoff",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-SRO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-SUPPLY",
+      "caption": "Supply (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SUPPLY",
+      "measureCaption": "Supply",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-SUPPLY"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K3-T",
+      "caption": "Transpiration (K3, Karnataka, India - Monthly)",
+      "defaultStyleCode": "TRA",
+      "measureCaption": "Transpiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K3-T"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-BF",
+      "caption": "Base Flow (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "BFW",
+      "measureCaption": "Base Flow",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-BF"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "LKA-MD-RWD-S",
+      "caption": "Relative Water Deficit in Maha and Yala season (Mi and Deduru, Sri Lanka, Seasonal - 30m)",
+      "defaultStyleCode": "LKA-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "DEDURU",
+        "SEASONAL",
+        "SRILANKA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/LKA-MD-RWD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-ETRAIN",
+      "caption": "Rainfall EvapoTranspiration (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-E",
+      "caption": "Evaporation (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "EVP",
+      "measureCaption": "Evaporation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-E"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-ET",
+      "caption": "Actual EvapoTranspiration (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-P-ET",
+      "caption": "Precipitation minus EvapoTranspiration (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "P-ET",
+      "measureCaption": "Precipitation minus actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-P-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-ETINCR",
+      "caption": "Incremental EvapoTranspiration (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "ETINCR",
+      "measureCaption": "Incremental EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-ETINCR"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-ET",
+      "caption": "Actual EvapoTranspiration (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MNG1",
+        "MONGOLIA",
+        "NAUSHKY",
+        "SELENGE",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-ETINCR",
+      "caption": "Incremental EvapoTranspiration (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "ETINCR",
+      "measureCaption": "Incremental EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MINDANAO",
+        "MNG1",
+        "MONGOLIA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-ETINCR"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-ETRAIN",
+      "caption": "Rainfall EvapoTranspiration (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MINDANAO",
+        "MNG1",
+        "MONGOLIA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-I",
+      "caption": "Interception (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "INT",
+      "measureCaption": "Interception",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-I"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-LAI",
+      "caption": "Leaf Area Index (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "LAI",
+      "measureCaption": "Leaf Area Index",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-LAI"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-LCC",
+      "caption": "Land Cover Classification (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "KAR-LCC",
+      "measureCaption": "Land Cover Classification (Karnataka)",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-LCC"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-NRD",
+      "caption": "Number of Rainy Days (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "NRD",
+      "measureCaption": "Number of Rainy Days",
+      "measureUnit": "days",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-NRD"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-P",
+      "caption": "Precipitation (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "PCP",
+      "measureCaption": "Precipitation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-P"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-PERCO",
+      "caption": "Percolation (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "PERCO",
+      "measureCaption": "Percolation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-PERCO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-SM",
+      "caption": "Soil Moisture (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SMO",
+      "measureCaption": "Soil Moisture",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-SM"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-SRO",
+      "caption": "Surface Runoff (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SRO",
+      "measureCaption": "Surface Runoff",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-SRO"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "K4-SUPPLY",
+      "caption": "Supply (K4, Karnataka, India - Monthly)",
+      "defaultStyleCode": "SUPPLY",
+      "measureCaption": "Supply",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/K4-SUPPLY"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-NRD",
+      "caption": "Number of Rainy Days (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "NRD",
+      "measureCaption": "Number of Rainy Days",
+      "measureUnit": "days",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-NRD"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-P",
+      "caption": "Precipitation (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "PCP",
+      "measureCaption": "Precipitation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-P"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-ET",
+      "caption": "Actual EvapoTranspiration (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "AET",
+      "measureCaption": "Actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-ETINCR",
+      "caption": "Incremental EvapoTranspiration (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "ETINCR",
+      "measureCaption": "Incremental EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-ETINCR"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-I",
+      "caption": "Interception (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "INT",
+      "measureCaption": "Interception",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MINDANAO",
+        "MNG1",
+        "MONGOLIA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-I"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG-KO-NDVI-S",
+      "caption": "Normalized Difference Vegetation Index (Khongor, Mongolia, Seasonal - 30m)",
+      "defaultStyleCode": "MNG-NDVI",
+      "measureCaption": "Normalized Difference Vegetation Index",
+      "measureUnit": "n.a.",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KHONGOR",
+        "MONGOLIA",
+        "NDVI",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG-KO-NDVI-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-ETRAIN",
+      "caption": "Rainfall EvapoTranspiration (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-I",
+      "caption": "Interception (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "INT",
+      "measureCaption": "Interception",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-I"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-P",
+      "caption": "Precipitation (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "PCP",
+      "measureCaption": "Precipitation",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MINDANAO",
+        "MNG1",
+        "MONGOLIA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-P"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "KAZ1-LCC",
+      "caption": "Land Cover Classification (Nura-Sarysu, Kazakhstan - Monthly)",
+      "defaultStyleCode": "KHZ-LCC",
+      "measureCaption": "Land Cover Classification (Kazakhstan)",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KAZ1",
+        "KAZAKHSTAN",
+        "NURA-SARYSU",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/KAZ1-LCC"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG1-P-ET",
+      "caption": "Precipitation minus EvapoTranspiration (Selenge and Naushky, Mongolia - Monthly)",
+      "defaultStyleCode": "P-ET",
+      "measureCaption": "Precipitation minus actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "MINDANAO",
+        "MNG1",
+        "MONGOLIA",
+        "WATER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG1-P-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "MNG-KO-P-AET-S",
+      "caption": "Seasonal Precipitation minus seasonal ETa (Khongor, Mongolia, Seasonal - 30m)",
+      "defaultStyleCode": "MNG-P-AET",
+      "measureCaption": "Precipitation minus actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "KHONGOR",
+        "MONGOLIA",
+        "P_AET",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/MNG-KO-P-AET-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "NIGER-ETRAIN",
+      "caption": "Rainfall evapotranspiration (Niger River Basin,  Monthly - 100m)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ETRAIN",
+        "NIGER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/NIGER-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "NIGER-LUS",
+      "caption": "Land Use Map (Niger River Baisn - Monthly - 100m)",
+      "defaultStyleCode": "LUS",
+      "measureCaption": "Land use",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "NIGER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/NIGER-LUS"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "NIGER-NRD",
+      "caption": "Number of rainy days in a month (Niger River Basin - Monthly - 100m)",
+      "defaultStyleCode": "NRD",
+      "measureCaption": "Number of Rainy Days",
+      "measureUnit": "days",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "NIGER"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/NIGER-NRD"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "NIGER-P-ET",
+      "caption": "Preicipitation minus evapotranspiration (Niger River Basin- Monthly - 100m)",
+      "defaultStyleCode": "P-ET",
+      "measureCaption": "Precipitation minus actual EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "NIGER",
+        "P_ET"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/NIGER-P-ET"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "NILE-ETINCR",
+      "caption": "Incremental evapotranspiration Nile River Bain - Monthly - 100m)",
+      "defaultStyleCode": "ETINCR",
+      "measureCaption": "Incremental EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ETINCR",
+        "NILE"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/NILE-ETINCR"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "NILE-ETRAIN",
+      "caption": "Rainfall evapotranspiration (Nile River Basin,  Monthly - 100m)",
+      "defaultStyleCode": "ETRAIN",
+      "measureCaption": "Rainfall EvapoTranspiration",
+      "measureUnit": "mm/month",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ETRAIN",
+        "NILE"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/NILE-ETRAIN"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
+      "workspaceCode": "WATER",
+      "code": "IND-KA-RWD-S",
+      "caption": "Relative Water Deficit (NLBC, Karnataka, India, Seasonal - 30m)",
+      "defaultStyleCode": "KA-RWD",
+      "measureCaption": "Relative Water Deficit",
+      "measureUnit": "index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "INDIA",
+        "KARNATAKA",
+        "SEASONAL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/WATER/mapsets/IND-KA-RWD-S"
+        }
+      ],
+      "_workspace_caption": "Water data"
+    },
+    {
       "workspaceCode": "WAPOR-3",
       "code": "L2-I-D",
       "caption": "Interception (National - Dekadal - 100m)",
@@ -5533,10 +7797,10 @@
     },
     {
       "workspaceCode": "THU",
-      "code": "GCI-QC-A",
-      "caption": "Global Cropping Index (Quality Control)",
-      "defaultStyleCode": "GCI-QC-A",
-      "measureCaption": "Global Cropping Index (Quality Control)",
+      "code": "CTM",
+      "caption": "China Terrace Map",
+      "defaultStyleCode": "CTM",
+      "measureCaption": "China Terrace Map",
       "measureUnit": "Value",
       "scale": 1.0,
       "offset": 0.0,
@@ -5544,7 +7808,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/THU/mapsets/GCI-QC-A"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/THU/mapsets/CTM"
         }
       ],
       "_workspace_caption": "Tsinghua University - 1911"
@@ -5569,10 +7833,10 @@
     },
     {
       "workspaceCode": "THU",
-      "code": "CTM",
-      "caption": "China Terrace Map",
-      "defaultStyleCode": "CTM",
-      "measureCaption": "China Terrace Map",
+      "code": "GCI-QC-A",
+      "caption": "Global Cropping Index (Quality Control)",
+      "defaultStyleCode": "GCI-QC-A",
+      "measureCaption": "Global Cropping Index (Quality Control)",
       "measureUnit": "Value",
       "scale": 1.0,
       "offset": 0.0,
@@ -5580,7 +7844,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/THU/mapsets/CTM"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/THU/mapsets/GCI-QC-A"
         }
       ],
       "_workspace_caption": "Tsinghua University - 1911"
@@ -7370,26 +9634,6 @@
     },
     {
       "workspaceCode": "CRU",
-      "code": "PET-A",
-      "caption": "CRU TS4.08 Annual Potential EvapoTranspiration",
-      "defaultStyleCode": "PET-A",
-      "measureCaption": "Potential EvapoTranspiration",
-      "measureUnit": "mm/year",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "PET"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CRU/mapsets/PET-A"
-        }
-      ],
-      "_workspace_caption": "Climate Research Unit"
-    },
-    {
-      "workspaceCode": "CRU",
       "code": "PET",
       "caption": "CRU TS4.08 Potential EvapoTranspiration",
       "defaultStyleCode": "PET",
@@ -7404,6 +9648,26 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CRU/mapsets/PET"
+        }
+      ],
+      "_workspace_caption": "Climate Research Unit"
+    },
+    {
+      "workspaceCode": "CRU",
+      "code": "PET-A",
+      "caption": "CRU TS4.08 Annual Potential EvapoTranspiration",
+      "defaultStyleCode": "PET-A",
+      "measureCaption": "Potential EvapoTranspiration",
+      "measureUnit": "mm/year",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "PET"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CRU/mapsets/PET-A"
         }
       ],
       "_workspace_caption": "Climate Research Unit"
@@ -7468,24 +9732,6 @@
     },
     {
       "workspaceCode": "RVF-TZA",
-      "code": "MCDA-2",
-      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights(Tanzania)",
-      "defaultStyleCode": "RVF-MCDA",
-      "measureCaption": "MCDA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-TZA/mapsets/MCDA-2"
-        }
-      ],
-      "_workspace_caption": "RVF Tanzania"
-    },
-    {
-      "workspaceCode": "RVF-TZA",
       "code": "MCDA",
       "caption": "Multi Criteria Decision Analysis for the RVF (Tanzania)",
       "defaultStyleCode": "RVF-MCDA",
@@ -7498,6 +9744,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-TZA/mapsets/MCDA"
+        }
+      ],
+      "_workspace_caption": "RVF Tanzania"
+    },
+    {
+      "workspaceCode": "RVF-TZA",
+      "code": "MCDA-2",
+      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights(Tanzania)",
+      "defaultStyleCode": "RVF-MCDA",
+      "measureCaption": "MCDA",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-TZA/mapsets/MCDA-2"
         }
       ],
       "_workspace_caption": "RVF Tanzania"
@@ -7540,10 +9804,10 @@
     },
     {
       "workspaceCode": "OMN-FCO",
-      "code": "OMN-BSA-SE",
-      "caption": "Oman Beekeeping Suitability Analysis: Socio-Economic (2000-2025)",
-      "defaultStyleCode": "OMN-BSA",
-      "measureCaption": "BSA-SE",
+      "code": "OMN-BSA",
+      "caption": "Beekeeping Suitability Analysis for Oman (2000-2025)",
+      "defaultStyleCode": "OMN-INTERPOLATED",
+      "measureCaption": "BSA",
       "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
@@ -7551,7 +9815,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA-SE"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA"
         }
       ],
       "_workspace_caption": "FAO Country Office of Oman"
@@ -7570,6 +9834,42 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA-BIO-LTA"
+        }
+      ],
+      "_workspace_caption": "FAO Country Office of Oman"
+    },
+    {
+      "workspaceCode": "OMN-FCO",
+      "code": "OMN-BSA-CATEGORICAL",
+      "caption": "Beekeeping Suitability Analysis for Oman- Categorized(2000-2025)",
+      "defaultStyleCode": "OMN-BSA-CATEGORICAL",
+      "measureCaption": "BSA",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA-CATEGORICAL"
+        }
+      ],
+      "_workspace_caption": "FAO Country Office of Oman"
+    },
+    {
+      "workspaceCode": "OMN-FCO",
+      "code": "OMN-BSA-SE",
+      "caption": "Oman Beekeeping Suitability Analysis: Socio-Economic (2000-2025)",
+      "defaultStyleCode": "OMN-BSA",
+      "measureCaption": "BSA-SE",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA-SE"
         }
       ],
       "_workspace_caption": "FAO Country Office of Oman"
@@ -7606,42 +9906,6 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-WGM-LTA"
-        }
-      ],
-      "_workspace_caption": "FAO Country Office of Oman"
-    },
-    {
-      "workspaceCode": "OMN-FCO",
-      "code": "OMN-BSA",
-      "caption": "Beekeeping Suitability Analysis for Oman (2000-2025)",
-      "defaultStyleCode": "OMN-INTERPOLATED",
-      "measureCaption": "BSA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA"
-        }
-      ],
-      "_workspace_caption": "FAO Country Office of Oman"
-    },
-    {
-      "workspaceCode": "OMN-FCO",
-      "code": "OMN-BSA-CATEGORICAL",
-      "caption": "Beekeeping Suitability Analysis for Oman- Categorized(2000-2025)",
-      "defaultStyleCode": "OMN-BSA-CATEGORICAL",
-      "measureCaption": "BSA",
-      "measureUnit": "class",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OMN-FCO/mapsets/OMN-BSA-CATEGORICAL"
         }
       ],
       "_workspace_caption": "FAO Country Office of Oman"
@@ -7921,18 +10185,18 @@
     },
     {
       "workspaceCode": "FAO-CRE",
-      "code": "UCTT",
-      "caption": "Urban centres travel time",
-      "defaultStyleCode": "UCCT",
-      "measureCaption": "Urban centres travel time",
-      "measureUnit": "min",
+      "code": "CRPT",
+      "caption": "City-Region Patches Types",
+      "defaultStyleCode": "CRPT",
+      "measureCaption": "City-Region Patches Types",
+      "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
       "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/FAO-CRE/mapsets/UCTT"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/FAO-CRE/mapsets/CRPT"
         }
       ],
       "_workspace_caption": "FAO City Region Explorer"
@@ -7957,18 +10221,18 @@
     },
     {
       "workspaceCode": "FAO-CRE",
-      "code": "CRPT",
-      "caption": "City-Region Patches Types",
-      "defaultStyleCode": "CRPT",
-      "measureCaption": "City-Region Patches Types",
-      "measureUnit": "class",
+      "code": "UCC",
+      "caption": "Urban Centre Catchments",
+      "defaultStyleCode": "UCC",
+      "measureCaption": "Urban Centre Catchments",
+      "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
       "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/FAO-CRE/mapsets/CRPT"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/FAO-CRE/mapsets/UCC"
         }
       ],
       "_workspace_caption": "FAO City Region Explorer"
@@ -7993,18 +10257,18 @@
     },
     {
       "workspaceCode": "FAO-CRE",
-      "code": "UCC",
-      "caption": "Urban Centre Catchments",
-      "defaultStyleCode": "UCC",
-      "measureCaption": "Urban Centre Catchments",
-      "measureUnit": null,
+      "code": "UCTT",
+      "caption": "Urban centres travel time",
+      "defaultStyleCode": "UCCT",
+      "measureCaption": "Urban centres travel time",
+      "measureUnit": "min",
       "scale": 1.0,
       "offset": 0.0,
       "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/FAO-CRE/mapsets/UCC"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/FAO-CRE/mapsets/UCTT"
         }
       ],
       "_workspace_caption": "FAO City Region Explorer"
@@ -8051,21 +10315,21 @@
     },
     {
       "workspaceCode": "C2ATLAS",
-      "code": "RFP-T",
-      "caption": "CMIP5 Temperature Change (Reference Future Periods)",
-      "defaultStyleCode": "TCH",
-      "measureCaption": "Temperature Change",
-      "measureUnit": "°C",
+      "code": "GWL-P",
+      "caption": "CMIP5 Precipitation Relative Change (Global Warming Levels)",
+      "defaultStyleCode": "PCH",
+      "measureCaption": "Precipitation Relative Change",
+      "measureUnit": "%",
       "scale": 1.0,
       "offset": 0.0,
       "tags": [
         "CMIP5",
-        "TEMPERATURE"
+        "PRECIPITATION"
       ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/C2ATLAS/mapsets/RFP-T"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/C2ATLAS/mapsets/GWL-P"
         }
       ],
       "_workspace_caption": "Climate Change ATLAS"
@@ -8093,27 +10357,6 @@
     },
     {
       "workspaceCode": "C2ATLAS",
-      "code": "GWL-P",
-      "caption": "CMIP5 Precipitation Relative Change (Global Warming Levels)",
-      "defaultStyleCode": "PCH",
-      "measureCaption": "Precipitation Relative Change",
-      "measureUnit": "%",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "CMIP5",
-        "PRECIPITATION"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/C2ATLAS/mapsets/GWL-P"
-        }
-      ],
-      "_workspace_caption": "Climate Change ATLAS"
-    },
-    {
-      "workspaceCode": "C2ATLAS",
       "code": "RFP-P",
       "caption": "CMIP5 Precipitation Relative Change (Reference Future Periods)",
       "defaultStyleCode": "PCH",
@@ -8129,6 +10372,27 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/C2ATLAS/mapsets/RFP-P"
+        }
+      ],
+      "_workspace_caption": "Climate Change ATLAS"
+    },
+    {
+      "workspaceCode": "C2ATLAS",
+      "code": "RFP-T",
+      "caption": "CMIP5 Temperature Change (Reference Future Periods)",
+      "defaultStyleCode": "TCH",
+      "measureCaption": "Temperature Change",
+      "measureUnit": "°C",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CMIP5",
+        "TEMPERATURE"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/C2ATLAS/mapsets/RFP-T"
         }
       ],
       "_workspace_caption": "Climate Change ATLAS"
@@ -8364,24 +10628,6 @@
     },
     {
       "workspaceCode": "GLW3",
-      "code": "GLW3-N-DA-10KM",
-      "caption": "Animal Number (GLW3-2010, 10KM)",
-      "defaultStyleCode": "D-DA",
-      "measureCaption": "Animal Number ",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW3/mapsets/GLW3-N-DA-10KM"
-        }
-      ],
-      "_workspace_caption": "Gridded Livestock of the World (GLW3, 2010)"
-    },
-    {
-      "workspaceCode": "GLW3",
       "code": "D-DA",
       "caption": "Animal Density (GLW3)",
       "defaultStyleCode": null,
@@ -8397,6 +10643,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW3/mapsets/D-DA"
+        }
+      ],
+      "_workspace_caption": "Gridded Livestock of the World (GLW3, 2010)"
+    },
+    {
+      "workspaceCode": "GLW3",
+      "code": "GLW3-N-DA-10KM",
+      "caption": "Animal Number (GLW3-2010, 10KM)",
+      "defaultStyleCode": "D-DA",
+      "measureCaption": "Animal Number ",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW3/mapsets/GLW3-N-DA-10KM"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW3, 2010)"
@@ -8661,8 +10925,8 @@
     },
     {
       "workspaceCode": "RDMS",
-      "code": "PERC-SMO",
-      "caption": "Soil Moisture",
+      "code": "FINAL-CDI",
+      "caption": "Composite Drought Index",
       "defaultStyleCode": "PERCENTILE-DROUGHT",
       "measureCaption": "Drought Percentile",
       "measureUnit": "%",
@@ -8672,7 +10936,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RDMS/mapsets/PERC-SMO"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RDMS/mapsets/FINAL-CDI"
         }
       ],
       "_workspace_caption": "Regional Drought Monitoring System"
@@ -8715,24 +10979,6 @@
     },
     {
       "workspaceCode": "RDMS",
-      "code": "FINAL-CDI",
-      "caption": "Composite Drought Index",
-      "defaultStyleCode": "PERCENTILE-DROUGHT",
-      "measureCaption": "Drought Percentile",
-      "measureUnit": "%",
-      "scale": 100.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RDMS/mapsets/FINAL-CDI"
-        }
-      ],
-      "_workspace_caption": "Regional Drought Monitoring System"
-    },
-    {
-      "workspaceCode": "RDMS",
       "code": "PERC-PRC",
       "caption": "Precipitation",
       "defaultStyleCode": "PERCENTILE-DROUGHT",
@@ -8745,6 +10991,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RDMS/mapsets/PERC-PRC"
+        }
+      ],
+      "_workspace_caption": "Regional Drought Monitoring System"
+    },
+    {
+      "workspaceCode": "RDMS",
+      "code": "PERC-SMO",
+      "caption": "Soil Moisture",
+      "defaultStyleCode": "PERCENTILE-DROUGHT",
+      "measureCaption": "Drought Percentile",
+      "measureUnit": "%",
+      "scale": 100.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RDMS/mapsets/PERC-SMO"
         }
       ],
       "_workspace_caption": "Regional Drought Monitoring System"
@@ -11324,42 +13588,6 @@
     },
     {
       "workspaceCode": "BTN-FCO",
-      "code": "BCSLS-V1",
-      "caption": "Bhutan Crop Storage Location Scoring- Version 1",
-      "defaultStyleCode": "LCS",
-      "measureCaption": "Suitability",
-      "measureUnit": "Scale",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/BTN-FCO/mapsets/BCSLS-V1"
-        }
-      ],
-      "_workspace_caption": "FAO Country Office of Bhutan"
-    },
-    {
-      "workspaceCode": "BTN-FCO",
-      "code": "BCSM",
-      "caption": "Bhutan Crop Suitability Mapping -Version 1",
-      "defaultStyleCode": "CSM",
-      "measureCaption": "Suitability",
-      "measureUnit": "class",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/BTN-FCO/mapsets/BCSM"
-        }
-      ],
-      "_workspace_caption": "FAO Country Office of Bhutan"
-    },
-    {
-      "workspaceCode": "BTN-FCO",
       "code": "BAEZ-1",
       "caption": "Bhutan Agro-Ecological Zoning",
       "defaultStyleCode": null,
@@ -11390,6 +13618,42 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/BTN-FCO/mapsets/BCSLS"
+        }
+      ],
+      "_workspace_caption": "FAO Country Office of Bhutan"
+    },
+    {
+      "workspaceCode": "BTN-FCO",
+      "code": "BCSLS-V1",
+      "caption": "Bhutan Crop Storage Location Scoring- Version 1",
+      "defaultStyleCode": "LCS",
+      "measureCaption": "Suitability",
+      "measureUnit": "Scale",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/BTN-FCO/mapsets/BCSLS-V1"
+        }
+      ],
+      "_workspace_caption": "FAO Country Office of Bhutan"
+    },
+    {
+      "workspaceCode": "BTN-FCO",
+      "code": "BCSM",
+      "caption": "Bhutan Crop Suitability Mapping -Version 1",
+      "defaultStyleCode": "CSM",
+      "measureCaption": "Suitability",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/BTN-FCO/mapsets/BCSM"
         }
       ],
       "_workspace_caption": "FAO Country Office of Bhutan"
@@ -12443,42 +14707,6 @@
     },
     {
       "workspaceCode": "IFPRI",
-      "code": "GVPAH",
-      "caption": "Harvested area by aggregated crops - MapSPAM (Global)",
-      "defaultStyleCode": "GVPAH",
-      "measureCaption": "Harvested area for each technology",
-      "measureUnit": "ha",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GVPAH"
-        }
-      ],
-      "_workspace_caption": "International Food Policy Research Institute (IFPRI)"
-    },
-    {
-      "workspaceCode": "IFPRI",
-      "code": "GYLD",
-      "caption": "Yield by crop - MapSPAM (Global)",
-      "defaultStyleCode": "GYLD",
-      "measureCaption": "Yield for each crop and technology",
-      "measureUnit": "ha",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GYLD"
-        }
-      ],
-      "_workspace_caption": "International Food Policy Research Institute (IFPRI)"
-    },
-    {
-      "workspaceCode": "IFPRI",
       "code": "GHA",
       "caption": "Harvested area by crop - MapSPAM (Global)",
       "defaultStyleCode": "GHA",
@@ -12497,10 +14725,10 @@
     },
     {
       "workspaceCode": "IFPRI",
-      "code": "GVPAP",
-      "caption": "Production by aggregated crops - MapSPAM (Global)",
-      "defaultStyleCode": "GVPAP",
-      "measureCaption": "Production for each technology:",
+      "code": "GPA",
+      "caption": "Physical area by crop - MapSPAM (Global)",
+      "defaultStyleCode": "GPA",
+      "measureCaption": "Harvested area for each crop and technology",
       "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
@@ -12508,7 +14736,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GVPAP"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GPA"
         }
       ],
       "_workspace_caption": "International Food Policy Research Institute (IFPRI)"
@@ -12533,6 +14761,42 @@
     },
     {
       "workspaceCode": "IFPRI",
+      "code": "GVPAH",
+      "caption": "Harvested area by aggregated crops - MapSPAM (Global)",
+      "defaultStyleCode": "GVPAH",
+      "measureCaption": "Harvested area for each technology",
+      "measureUnit": "ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GVPAH"
+        }
+      ],
+      "_workspace_caption": "International Food Policy Research Institute (IFPRI)"
+    },
+    {
+      "workspaceCode": "IFPRI",
+      "code": "GVPAP",
+      "caption": "Production by aggregated crops - MapSPAM (Global)",
+      "defaultStyleCode": "GVPAP",
+      "measureCaption": "Production for each technology:",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GVPAP"
+        }
+      ],
+      "_workspace_caption": "International Food Policy Research Institute (IFPRI)"
+    },
+    {
+      "workspaceCode": "IFPRI",
       "code": "GVPAPH",
       "caption": "Yield by aggregated crops - MapSPAM (Global)",
       "defaultStyleCode": "GVPAPH",
@@ -12551,18 +14815,18 @@
     },
     {
       "workspaceCode": "IFPRI",
-      "code": "GPA",
-      "caption": "Physical area by crop - MapSPAM (Global)",
-      "defaultStyleCode": "GPA",
-      "measureCaption": "Harvested area for each crop and technology",
-      "measureUnit": null,
+      "code": "GYLD",
+      "caption": "Yield by crop - MapSPAM (Global)",
+      "defaultStyleCode": "GYLD",
+      "measureCaption": "Yield for each crop and technology",
+      "measureUnit": "ha",
       "scale": 1.0,
       "offset": 0.0,
       "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GPA"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/IFPRI/mapsets/GYLD"
         }
       ],
       "_workspace_caption": "International Food Policy Research Institute (IFPRI)"
@@ -15253,6 +17517,1117 @@
       "_workspace_caption": "Global Soil Information System"
     },
     {
+      "workspaceCode": "GLOSIS",
+      "code": "LA-GSNM-CORGS-2026",
+      "caption": "Carbon (C) - organic stock (Laos - 250 m) - GSNmap v2026",
+      "defaultStyleCode": "LA-GSNM-CORGS-2026",
+      "measureCaption": "Carbon (C) - organic stock (Laos - 250 m) - GSNmap v2026",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "LAOS",
+        "ORGANIC_CARBON",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/LA-GSNM-CORGS-2026"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSAS-NAEXC-2021",
+      "caption": "Sodium (Na+) - exchangeable (Cambodia - 1 km) - GSASmap v2021",
+      "defaultStyleCode": "KH-GSAS-NAEXC-2021",
+      "measureCaption": "Sodium (Na+) - exchangeable (Cambodia - 1 km) - GSASmap v2021",
+      "measureUnit": "cmol/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "DIGITAL_SOIL_MAPPING",
+        "EXCHANGEABLE_SODIUM",
+        "SALINITY",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSAS-NAEXC-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSAS-SALT-2021",
+      "caption": "Salinification (Cambodia - 1 km) - GSASmap v2021",
+      "defaultStyleCode": "KH-GSAS-SALT-2021",
+      "measureCaption": "Salinification (Cambodia - 1 km) - GSASmap v2021",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "DIGITAL_SOIL_MAPPING",
+        "EXCHANGEABLE_SODIUM",
+        "SALINITY",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSAS-SALT-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGADBAU-2021",
+      "caption": "OCSeq Absolute difference business-as-usual (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGADBAU-2021",
+      "measureCaption": "OCSeq Absolute difference business-as-usual (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGADBAU-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-CARORG-2024",
+      "caption": "GSNMap - Carbon (C) - organic (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-CARORG-2024",
+      "measureCaption": "Carbon (C) - organic",
+      "measureUnit": "g/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-CARORG-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGADSSM2-2021",
+      "caption": "OCSeq Absolute difference sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGADSSM2-2021",
+      "measureCaption": "OCSeq Absolute difference sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGADSSM2-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGADSSM3-2021",
+      "caption": "OCSeq Absolute difference sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGADSSM3-2021",
+      "measureCaption": "OCSeq Absolute difference sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGADSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-BULDFINE-2024",
+      "caption": "GSNMap - Bulk Density of the fine earth fraction (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-BULDFINE-2024",
+      "measureCaption": "Bulk Density of the fine earth fraction",
+      "measureUnit": "kg/dm³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "BULK_DENSITY",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-BULDFINE-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-PHOTOT-2024",
+      "caption": "GSNMap - Phosphorus (P) - total (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-PHOTOT-2024",
+      "measureCaption": "Phosphorus (P) - total",
+      "measureUnit": "mg/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "DIGITAL_SOIL_MAPPING",
+        "NUTRIENT",
+        "PHOSPHORUS",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-PHOTOT-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGASRBAU-2021",
+      "caption": "OCSeq Absolute sequestration rate business-as-usual (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGASRBAU-2021",
+      "measureCaption": "OCSeq Absolute sequestration rate business-as-usual (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGASRBAU-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGASRSSM1-2021",
+      "caption": "OCSeq Absolute sequestration rate sustainable soil management 1 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGASRSSM1-2021",
+      "measureCaption": "OCSeq Absolute sequestration rate sustainable soil management 1 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGASRSSM1-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-TEXTCLAY-2024",
+      "caption": "GSNMap - Clay texture fraction (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-TEXTCLAY-2024",
+      "measureCaption": "Clay texture fraction",
+      "measureUnit": "g/100g",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "CLAY",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL",
+        "TEXTURE"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-TEXTCLAY-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGASRSSM2-2021",
+      "caption": "OCSeq Absolute sequestration rate sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGASRSSM2-2021",
+      "measureCaption": "OCSeq Absolute sequestration rate sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGASRSSM2-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-COAFRA-2024",
+      "caption": "GSNMap - Coarse fragments (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-COAFRA-2024",
+      "measureCaption": "Coarse fragments",
+      "measureUnit": "g/100g",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "COARSE_FRAGMENTS",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-COAFRA-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-BASEXC-2024",
+      "caption": "GSNMap - Exchangeable bases (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-BASEXC-2024",
+      "measureCaption": "Exchangeable bases",
+      "measureUnit": "cmol(c)/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "DIGITAL_SOIL_MAPPING",
+        "EXCHANGEABLE_BASES",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-BASEXC-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGASRSSM3-2021",
+      "caption": "OCSeq Absolute sequestration rate sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGASRSSM3-2021",
+      "measureCaption": "OCSeq Absolute sequestration rate sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGASRSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGRDSSM3-2021",
+      "caption": "OCSeq Relative difference sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGRDSSM3-2021",
+      "measureCaption": "OCSeq Relative difference sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGRDSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGSOCBAU-2021",
+      "caption": "OCSeq Final SOC stocks after 20 years business-as-usual (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGSOCBAU-2021",
+      "measureCaption": "OCSeq Final SOC stocks after 20 years business-as-usual (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGSOCBAU-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGRSRSSM1-2021",
+      "caption": "OCSeq Relative sequestration rate sustainable soil management 1 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGRSRSSM1-2021",
+      "measureCaption": "OCSeq Relative sequestration rate sustainable soil management 1 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGRSRSSM1-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGRSRSSM3-2021",
+      "caption": "OCSeq Relative sequestration rate sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGRSRSSM3-2021",
+      "measureCaption": "OCSeq Relative sequestration rate sustainable soil management 3 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGRSRSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-CALEXC-2024",
+      "caption": "GSNMap - Calcium (Ca++) - exchangeable (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-CALEXC-2024",
+      "measureCaption": "Calcium (Ca++) - exchangeable",
+      "measureUnit": "cmol(c)/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "CALCIUM",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-CALEXC-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-CARNIT-2024",
+      "caption": "GSNMap - Carbon Nitrogen ratio (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-CARNIT-2024",
+      "measureCaption": "Carbon Nitrogen ratio",
+      "measureUnit": "dimensionless",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "NITROGEN",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-CARNIT-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-CARORG-2024",
+      "caption": "GSNMap - Carbon (C) - organic (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-CARORG-2024",
+      "measureCaption": "Carbon (C) - organic",
+      "measureUnit": "g/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-CARORG-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGADBAU-2021",
+      "caption": "GSOCSeq - Absolute difference business-as-usual (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGADBAU-2021",
+      "measureCaption": "GSOCSeq - Absolute difference business-as-usual (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGADBAU-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGADSSM3-2021",
+      "caption": "GSOCSeq - Absolute difference sustainable soil management 3 (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGADSSM3-2021",
+      "measureCaption": "GSOCSeq - Absolute difference sustainable soil management 3 (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGADSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGASRBAU-2021",
+      "caption": "GSOCSeq - Absolute sequestration rate business-as-usual (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGASRBAU-2021",
+      "measureCaption": "GSOCSeq - Absolute sequestration rate business-as-usual (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGASRBAU-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGASRSSM1-2021",
+      "caption": "GSOCSeq - Absolute sequestration rate sustainable soil management 1 (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGASRSSM1-2021",
+      "measureCaption": "GSOCSeq - Absolute sequestration rate sustainable soil management 1 (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGASRSSM1-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGASRSSM3-2021",
+      "caption": "GSOCSeq - Absolute sequestration rate sustainable soil management 3 (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGASRSSM3-2021",
+      "measureCaption": "GSOCSeq - Absolute sequestration rate sustainable soil management 3 (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGASRSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGRSRSSM3-2021",
+      "caption": "GSOCSeq - Relative sequestration rate sustainable soil management 3 (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGRSRSSM3-2021",
+      "measureCaption": "GSOCSeq - Relative sequestration rate sustainable soil management 3 (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGRSRSSM3-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "ID-GSOCSEQ-CORGSOCSSM2-2021",
+      "caption": "GSOCSeq - Final SOC stocks after 20 years sustainable soil management 2 (Indonesia - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "ID-GSOCSEQ-CORGSOCSSM2-2021",
+      "measureCaption": "GSOCSeq - Final SOC stocks after 20 years sustainable soil management 2 (Indonesia - 1 km - 2021) - SOIL+",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "INDONESIA",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/ID-GSOCSEQ-CORGSOCSSM2-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-BULDFINE-2024",
+      "caption": "GSNMap - Bulk Density of the fine earth fraction (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-BULDFINE-2024",
+      "measureCaption": "Bulk Density of the fine earth fraction",
+      "measureUnit": "kg/dm³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "BULK_DENSITY",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-BULDFINE-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSAS-SODEXP-2021",
+      "caption": "GSAS - Sodium (Na+) - exchangeable (Bangladesh - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "BD-GSAS-SODEXP-2021",
+      "measureCaption": "Sodium (Na+) - exchangeable",
+      "measureUnit": "cmol(c)/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "DIGITAL_SOIL_MAPPING",
+        "EXCHANGEABLE_SODIUM",
+        "SALINITY",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSAS-SODEXP-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-TEXTCLAY-2024",
+      "caption": "GSNMap - Clay texture fraction (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-TEXTCLAY-2024",
+      "measureCaption": "Clay texture fraction",
+      "measureUnit": "g/100g",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "CLAY",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL",
+        "TEXTURE"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-TEXTCLAY-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BT-GSNM-TEXTSAND-2024",
+      "caption": "GSNMap - Sand texture fraction (Bhutan - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BT-GSNM-TEXTSAND-2024",
+      "measureCaption": "Sand texture fraction",
+      "measureUnit": "g/100g",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BHUTAN",
+        "DIGITAL_SOIL_MAPPING",
+        "SAND",
+        "SOIL",
+        "TEXTURE"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BT-GSNM-TEXTSAND-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSAS-ELECCOND-2021",
+      "caption": "GSAS - Electrical conductivity (Bangladesh - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "BD-GSAS-ELECCOND-2021",
+      "measureCaption": "Electrical conductivity",
+      "measureUnit": "dS/m",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "DIGITAL_SOIL_MAPPING",
+        "ELECTRICAL_CONDUCTIVITY",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSAS-ELECCOND-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-CCETOT-2024",
+      "caption": "GSNMap - Calcium carbonate equivalent - total (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-CCETOT-2024",
+      "measureCaption": "Calcium carbonate equivalent - total",
+      "measureUnit": "g/kg",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "CALCIUM",
+        "DIGITAL_SOIL_MAPPING",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-CCETOT-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSAS-PHX-2021",
+      "caption": "GSAS - pH - Hydrogen potential (Bangladesh - 1 km - 2021) - SOIL+",
+      "defaultStyleCode": "BD-GSAS-PHX-2021",
+      "measureCaption": "pH - Hydrogen potential",
+      "measureUnit": "pH",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "DIGITAL_SOIL_MAPPING",
+        "PH",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSAS-PHX-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-CARSTK-2024",
+      "caption": "GSNMap - Carbon (C) - organic stock (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-CARSTK-2024",
+      "measureCaption": "Carbon (C) - organic stock",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-CARSTK-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-ELECCOND-2024",
+      "caption": "GSNMap - Electrical conductivity (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-ELECCOND-2024",
+      "measureCaption": "Electrical conductivity",
+      "measureUnit": "dS/m",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "DIGITAL_SOIL_MAPPING",
+        "ELECTRICAL_CONDUCTIVITY",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-ELECCOND-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-PHX-2024",
+      "caption": "GSNMap - pH - Hydrogen potential (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-PHX-2024",
+      "measureCaption": "pH - Hydrogen potential",
+      "measureUnit": "pH",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "DIGITAL_SOIL_MAPPING",
+        "PH",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-PHX-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "BD-GSNM-PEAT-2024",
+      "caption": "GSNMap - Peat (Bangladesh - 250 m - 2024) - SOIL+",
+      "defaultStyleCode": "BD-GSNM-PEAT-2024",
+      "measureCaption": "Peat",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "BANGLADESH",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/BD-GSNM-PEAT-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSAS-PHAQ-2021",
+      "caption": "pH - Hydrogen potential in water (Cambodia - 1 km) - GSASmap v2021",
+      "defaultStyleCode": "KH-GSAS-PHAQ-2021",
+      "measureCaption": "pH - Hydrogen potential in water (Cambodia - 1 km) - GSASmap v2021",
+      "measureUnit": "pH",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "DIGITAL_SOIL_MAPPING",
+        "PH",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSAS-PHAQ-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGRDSSM2-2021",
+      "caption": "OCSeq Relative difference sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGRDSSM2-2021",
+      "measureCaption": "OCSeq Relative difference sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGRDSSM2-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "KH-GSOCSEQ-CORGSOCSSM2-2021",
+      "caption": "OCSeq Final SOC stocks after 20 years sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "defaultStyleCode": "KH-GSOCSEQ-CORGSOCSSM2-2021",
+      "measureCaption": "OCSeq Final SOC stocks after 20 years sustainable soil management 2 (Cambodia - 1 km) - GSOCSeq v2021",
+      "measureUnit": "t/(ha·a)",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CAMBODIA",
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SEQUESTRATION",
+        "SOIL"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/KH-GSOCSEQ-CORGSOCSSM2-2021"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "GLOSIS",
+      "code": "VN-GSNM-CORG-2024",
+      "caption": "GSNmap - Carbon (C) - organic (Vietnam - % - 0.0022457 deg - 2024)",
+      "defaultStyleCode": "VN-GSNM-CORG-2024",
+      "measureCaption": "GSNmap - Carbon (C) - organic (Vietnam - % - 0.0022457 deg - 2024)",
+      "measureUnit": "%",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CARBON",
+        "DIGITAL_SOIL_MAPPING",
+        "ORGANIC_CARBON",
+        "SOIL",
+        "VIETNAM"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLOSIS/mapsets/VN-GSNM-CORG-2024"
+        }
+      ],
+      "_workspace_caption": "Global Soil Information System"
+    },
+    {
+      "workspaceCode": "CAS",
+      "code": "DLMF",
+      "caption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "defaultStyleCode": "DLMF",
+      "measureCaption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CATA0RISK",
+        "DESERT",
+        "LOCUST",
+        "PEST"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/DLMF"
+        }
+      ],
+      "_workspace_caption": "Chinese Academy of Sciences"
+    },
+    {
       "workspaceCode": "CAS",
       "code": "GET",
       "caption": "Global daily 1-km actual evapotranspiration from 2000 to 2021",
@@ -15274,28 +18649,6 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/GET"
-        }
-      ],
-      "_workspace_caption": "Chinese Academy of Sciences"
-    },
-    {
-      "workspaceCode": "CAS",
-      "code": "WHEAT-PDMF",
-      "caption": "Wheat pest and disease monitoring and forecasting",
-      "defaultStyleCode": "PDMF",
-      "measureCaption": "Wheat pest and disease monitoring and forecasting",
-      "measureUnit": "class",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "DISEASE",
-        "PEST",
-        "WHEAT"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/WHEAT-PDMF"
         }
       ],
       "_workspace_caption": "Chinese Academy of Sciences"
@@ -15324,23 +18677,22 @@
     },
     {
       "workspaceCode": "CAS",
-      "code": "DLMF",
-      "caption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
-      "defaultStyleCode": "DLMF",
-      "measureCaption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "code": "WHEAT-PDMF",
+      "caption": "Wheat pest and disease monitoring and forecasting",
+      "defaultStyleCode": "PDMF",
+      "measureCaption": "Wheat pest and disease monitoring and forecasting",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
       "tags": [
-        "CATA0RISK",
-        "DESERT",
-        "LOCUST",
-        "PEST"
+        "DISEASE",
+        "PEST",
+        "WHEAT"
       ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/DLMF"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/WHEAT-PDMF"
         }
       ],
       "_workspace_caption": "Chinese Academy of Sciences"
@@ -17540,6 +20892,508 @@
       "_workspace_caption": "Global Agro-Ecological Zones (2025)"
     },
     {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES02-CYL",
+      "caption": "Length of crop growth cycle (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "LGB",
+      "measureCaption": "Length of crop growth cycle (days)",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGRO_CLIMATIC_YIELD",
+        "CROP_GROWTH_CYCLE",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES02-CYL"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES02-ETA",
+      "caption": "Crop-specific actual evapotranspiration (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "ETA",
+      "measureCaption": "Crop-specific actual evapotranspiration (mm)",
+      "measureUnit": "mm",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGRO_CLIMATIC_YIELD",
+        "CROP_GROWTH_CYCLE",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES02-ETA"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES02-FC3",
+      "caption": "Crop yield constraint factor, agro-climatic (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "YLD",
+      "measureCaption": "Crop yield constraint factor, agro-climatic",
+      "measureUnit": "Index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGRO_CLIMATIC_CONSTRAINT_FACTORS",
+        "AGRO_CLIMATIC_YIELD",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES02-FC3"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SXX30AS",
+      "caption": "Crop suitability, continuous index (Global - 20 years average - ~1 km) - GAEZ v5",
+      "defaultStyleCode": "SXX",
+      "measureCaption": "Crop suitability index",
+      "measureUnit": "Index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SXX30AS"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-YCX30AS",
+      "caption": "Agro-ecological attainable yield for current cropland (Global - 20 years average - ~1 km) - GAEZ v5",
+      "defaultStyleCode": "YLD",
+      "measureCaption": "Average attainable yield of current cropland",
+      "measureUnit": "Kg (DW)/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ATTAINABLE_YIELD",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-YCX30AS"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES01-ET0",
+      "caption": "Reference potential evapotranspiration (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "ET0",
+      "measureCaption": "Reference potential evapotranspiration",
+      "measureUnit": "mm",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "AGRO_CLIMATIC_RESOURCES",
+        "EVAPOTRANSPIRATION",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES01-ET0"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES06-VAL",
+      "caption": "Total crop production volume (Global - 2020 - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "ACT-PROD",
+      "measureCaption": "Total crop production volume",
+      "measureUnit": "I$",
+      "scale": 1000.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP",
+        "CROP_AGGREGATES",
+        "FAOSTAT",
+        "GAEZV5",
+        "TOTAL_PRODUCTION"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES06-VAL"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES06-HAR",
+      "caption": "Downscaled harvested area (Global - 2020 - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "ACT-HARV",
+      "measureCaption": "Harvested area",
+      "measureUnit": "ha",
+      "scale": 1000.0,
+      "offset": 0.0,
+      "tags": [
+        "ACTUAL_HARVESTED_AREA",
+        "CROP",
+        "FAOSTAT",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES06-HAR"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES06-YLD",
+      "caption": "Downscaled yield (Global - 2020 - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "ACT-YLD",
+      "measureCaption": "Yield",
+      "measureUnit": "tonnes/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ACTUAL_YIELD",
+        "CROP",
+        "FAOSTAT",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES06-YLD"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES07-H-CL",
+      "caption": "Aggregate Yield Achievement Ratio (Global- 2020 - ~10 km) - GAEZ v5 ",
+      "defaultStyleCode": "YGA",
+      "measureCaption": "Aggregate Yield Achievement Ratio",
+      "measureUnit": "Class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP",
+        "FAOSTAT",
+        "GAEZV5",
+        "YIELD_GAP"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES07-H-CL"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES07-QGA",
+      "caption": "Cropwise Apparent Production Gap (Global- 2020 - ~10 km) - GAEZ v5 ",
+      "defaultStyleCode": "ACT-PROD",
+      "measureCaption": "Cropwise Apparent Production Gap",
+      "measureUnit": "tonnes",
+      "scale": 1000.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP",
+        "FAOSTAT",
+        "GAEZV5",
+        "YIELD_GAP"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES07-QGA"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES07-YGA-CL",
+      "caption": "Cropwise Yield Achievement Ratio (Global- 2020 - ~10 km) - GAEZ v5 ",
+      "defaultStyleCode": "YGA",
+      "measureCaption": "Cropwise Yield Achievement Ratio",
+      "measureUnit": "Class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP",
+        "FAOSTAT",
+        "GAEZV5",
+        "YIELD_GAP"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES07-YGA-CL"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SCX30AS",
+      "caption": "Crop suitability for current cropland, class index (Global - 20 years average - ~1 km) - GAEZ v5",
+      "defaultStyleCode": "SCX",
+      "measureCaption": "Crop suitability index class",
+      "measureUnit": "Class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SCX30AS"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SIX30AS",
+      "caption": "Crop suitability, class index (Global - 20 years average - ~1 km) - GAEZ v5",
+      "defaultStyleCode": "SCX",
+      "measureCaption": "Crop suitability index class",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SIX30AS"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-YLX30AS",
+      "caption": "Agro-ecological attainable yield (Global - 20 years average - ~1 km) - GAEZ v5",
+      "defaultStyleCode": "YLD",
+      "measureCaption": "Output density (potential production divided by total grid cell area)",
+      "measureUnit": "Kg (DW)/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ATTAINABLE_YIELD",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-YLX30AS"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "SQ-IDX",
+      "caption": "Most limiting soil quality (Global - ~1 km)",
+      "defaultStyleCode": "SQ-IDX",
+      "measureCaption": "Limiting soil quality",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "GAEZV5",
+        "HWSD",
+        "SOIL_QUALITIES",
+        "SOIL_RESOURCES"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/SQ-IDX"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SIX",
+      "caption": "Crop suitability, class index (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "SIX",
+      "measureCaption": "Crop suitability index class",
+      "measureUnit": "Class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SIX"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-WDC",
+      "caption": "Water deficit/net irrigation requirement during crop cycle for current cropland (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "ETA",
+      "measureCaption": "Water deficit/net irrigation requirement (mm)",
+      "measureUnit": "mm",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_WATER_INDICATORS",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-WDC"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-YCX",
+      "caption": "Agro-ecological attainable yield for current cropland (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "YLD",
+      "measureCaption": "Average attainable yield of current cropland",
+      "measureUnit": "Kg (DW)/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ATTAINABLE_YIELD",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-YCX"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SX2",
+      "caption": "Crop suitability, share of VS+S+MS land (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "SXX",
+      "measureCaption": "Share of grid cell assessed as VS+S+MS",
+      "measureUnit": "Index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SX2"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SX1",
+      "caption": "Crop suitability, share of VS+S land (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "SXX",
+      "measureCaption": "Share of grid cell assessed as VS or S",
+      "measureUnit": "Index",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SX1"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-SCX",
+      "caption": "Crop suitability for current cropland, class index (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "SCX",
+      "measureCaption": "Crop suitability index class",
+      "measureUnit": "Class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CROP_SUITABILITY",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-SCX"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
+      "workspaceCode": "GAEZ-V5",
+      "code": "RES05-YLX",
+      "caption": "Agro-ecological attainable yield (Global - 20 years average - ~10 km) - GAEZ v5",
+      "defaultStyleCode": "YLD",
+      "measureCaption": "Output density (potential production divided by total grid cell area)",
+      "measureUnit": "Kg (DW)/ha",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "ATTAINABLE_YIELD",
+        "GAEZV5"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GAEZ-V5/mapsets/RES05-YLX"
+        }
+      ],
+      "_workspace_caption": "Global Agro-Ecological Zones (2025)"
+    },
+    {
       "workspaceCode": "ASIS",
       "code": "VHI-D",
       "caption": "ASIS: Vegetation Health Index (Global, 1 km, Dekadal)",
@@ -18872,24 +22726,6 @@
     },
     {
       "workspaceCode": "RVF-GMB",
-      "code": "MCDA-SW",
-      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Gambia - 2026)",
-      "defaultStyleCode": "RVF-MCDA",
-      "measureCaption": "MCDA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GMB/mapsets/MCDA-SW"
-        }
-      ],
-      "_workspace_caption": "RVF Gambia"
-    },
-    {
-      "workspaceCode": "RVF-GMB",
       "code": "MCDA",
       "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Gambia - 2026)",
       "defaultStyleCode": "RVF-MCDA",
@@ -18902,6 +22738,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GMB/mapsets/MCDA"
+        }
+      ],
+      "_workspace_caption": "RVF Gambia"
+    },
+    {
+      "workspaceCode": "RVF-GMB",
+      "code": "MCDA-SW",
+      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Gambia - 2026)",
+      "defaultStyleCode": "RVF-MCDA",
+      "measureCaption": "MCDA",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GMB/mapsets/MCDA-SW"
         }
       ],
       "_workspace_caption": "RVF Gambia"
@@ -19016,18 +22870,23 @@
     },
     {
       "workspaceCode": "OCB",
-      "code": "FORECAST-FLOOD-COMBINED-RISK",
-      "caption": "Forecast FLOOD IPC combined risk maps 2026",
-      "defaultStyleCode": "FORECAST-FLOOD-COMBINED-RISK",
-      "measureCaption": "Forecast flood IPC combined risk maps 2026",
-      "measureUnit": null,
+      "code": "ASIS-DROUGHT-PROBABILITY",
+      "caption": "Drought probability maps ",
+      "defaultStyleCode": "ASIS-DROUGHT-PROBABILITY",
+      "measureCaption": "Probability",
+      "measureUnit": "%",
       "scale": 1.0,
       "offset": 0.0,
-      "tags": null,
+      "tags": [
+        "CROPLAND",
+        "DROUGHT",
+        "PASTURELAND",
+        "PROBABILITY"
+      ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/FORECAST-FLOOD-COMBINED-RISK"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/ASIS-DROUGHT-PROBABILITY"
         }
       ],
       "_workspace_caption": "Geospatial datasets from Climate Division (OCB)"
@@ -19052,23 +22911,18 @@
     },
     {
       "workspaceCode": "OCB",
-      "code": "ASIS-DROUGHT-PROBABILITY",
-      "caption": "Drought probability maps ",
-      "defaultStyleCode": "ASIS-DROUGHT-PROBABILITY",
-      "measureCaption": "Probability",
-      "measureUnit": "%",
+      "code": "FORECAST-FLOOD-COMBINED-RISK",
+      "caption": "Forecast FLOOD IPC combined risk maps 2026",
+      "defaultStyleCode": "FORECAST-FLOOD-COMBINED-RISK",
+      "measureCaption": "Forecast flood IPC combined risk maps 2026",
+      "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": [
-        "CROPLAND",
-        "DROUGHT",
-        "PASTURELAND",
-        "PROBABILITY"
-      ],
+      "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/ASIS-DROUGHT-PROBABILITY"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/FORECAST-FLOOD-COMBINED-RISK"
         }
       ],
       "_workspace_caption": "Geospatial datasets from Climate Division (OCB)"
@@ -19201,27 +23055,6 @@
     },
     {
       "workspaceCode": "EARTHDATA",
-      "code": "SSMC-10-CP",
-      "caption": "FLDAS Monthly Global Surface Soil Moisture (0-10cm)",
-      "defaultStyleCode": "SMC",
-      "measureCaption": "Soil Moisture Content",
-      "measureUnit": "m³ m⁻³",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "FLDAS",
-        "NASA"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-CP"
-        }
-      ],
-      "_workspace_caption": "NASA Earth Observation Data"
-    },
-    {
-      "workspaceCode": "EARTHDATA",
       "code": "SSMC-10-C",
       "caption": "FLDAS Long-Term Historical Global Surface Soil Moisture (0-10cm)",
       "defaultStyleCode": "SMC",
@@ -19242,22 +23075,25 @@
       "_workspace_caption": "NASA Earth Observation Data"
     },
     {
-      "workspaceCode": "VISTA",
-      "code": "N-FLOOD-ANY-FREQ-DEKAD-TEST",
-      "caption": "Dekadal Flood Frequency (Band 9 - Any Flood) - Test",
-      "defaultStyleCode": "N-FLOOD-ANY-FREQ",
-      "measureCaption": "Frequency",
-      "measureUnit": "%",
+      "workspaceCode": "EARTHDATA",
+      "code": "SSMC-10-CP",
+      "caption": "FLDAS Monthly Global Surface Soil Moisture (0-10cm)",
+      "defaultStyleCode": "SMC",
+      "measureCaption": "Soil Moisture Content",
+      "measureUnit": "m³ m⁻³",
       "scale": 1.0,
       "offset": 0.0,
-      "tags": null,
+      "tags": [
+        "FLDAS",
+        "NASA"
+      ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/VISTA/mapsets/N-FLOOD-ANY-FREQ-DEKAD-TEST"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-CP"
         }
       ],
-      "_workspace_caption": "VISTA VIIRS Surface Water Temporal Atlas project (2012-2026)."
+      "_workspace_caption": "NASA Earth Observation Data"
     },
     {
       "workspaceCode": "VISTA",
@@ -19273,6 +23109,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/VISTA/mapsets/N-FLOOD-ANY-FREQ-DEKAD"
+        }
+      ],
+      "_workspace_caption": "VISTA VIIRS Surface Water Temporal Atlas project (2012-2026)."
+    },
+    {
+      "workspaceCode": "VISTA",
+      "code": "N-FLOOD-ANY-FREQ-DEKAD-TEST",
+      "caption": "Dekadal Flood Frequency (Band 9 - Any Flood) - Test",
+      "defaultStyleCode": "N-FLOOD-ANY-FREQ",
+      "measureCaption": "Frequency",
+      "measureUnit": "%",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/VISTA/mapsets/N-FLOOD-ANY-FREQ-DEKAD-TEST"
         }
       ],
       "_workspace_caption": "VISTA VIIRS Surface Water Temporal Atlas project (2012-2026)."

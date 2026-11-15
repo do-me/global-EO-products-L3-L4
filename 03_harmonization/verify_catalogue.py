@@ -30,6 +30,7 @@ HARM_DATA_DIR = BASE_DIR / "data"
 
 def main() -> None:
     df_all = pd.read_parquet(HARM_DATA_DIR / "eo_l3_l4_all_catalogue_records.parquet")
+    df_canon = pd.read_parquet(HARM_DATA_DIR / "eo_l3_l4_canonical_products.parquet")
 
     checks_passed = 0
     issues_found: list[str] = []
@@ -244,6 +245,68 @@ def main() -> None:
     else:
         issues_found.append(
             f"Check O failed: max_res={max_res}, burnt_ok={burnt_ok} (n={len(burnt)}), suomi_l4={len(suomi_l4)}, pml_bad={len(pml_bad)}, geo_rates={geo_rates}, clms_ongoing={clms_ongoing}"
+        )
+
+    # Check P: Deep UMM/OneStop Harvest, Cadence Support, Operational Status & Lineage Invariants
+    noaa_c = df_canon[df_canon["source_catalogue"] == "20_noaa_onestop"]
+    cmr_c = df_canon[df_canon["source_catalogue"] == "16_nasa_cmr"]
+    noaa_desc_rate = float(noaa_c["description"].notna().mean()) if len(noaa_c) else 0.0
+    noaa_bbox_rate = float(noaa_c["bbox_west"].notna().mean()) if len(noaa_c) else 0.0
+    cmr_doi_rate = float(cmr_c["doi"].notna().mean()) if len(cmr_c) else 0.0
+    cmr_spat_cnt = int(cmr_c["spatial_resolution_meters"].notna().sum())
+    img_url_cnt = int(
+        df_canon["access_url"]
+        .fillna("")
+        .str.contains(r"\.(?:png|jpe?g|gif|bmp|webp|svg|kmz)(?:[?#]|$)|/browse[/?#]", case=False, regex=True)
+        .sum()
+    )
+    multi_day_ttl = df_canon["title"].fillna("").str.contains(
+        r"\b(?:8-day|10-day|10-daily|16-day|5-day|dekad|dekadal|weekly|biweekly)\b", case=False, regex=True
+    )
+    cadence_contra_cnt = int((multi_day_ttl & (df_canon["temporal_cadence_class"] == "sub_daily_or_daily")).sum())
+    op_null_cnt = int(
+        ((df_canon["operational_maturity_class"] == "operational_ongoing_series") & df_canon["is_ongoing_archive"].isna()).sum()
+    )
+    pre2014_sent_cnt = int(
+        (
+            (df_canon["uses_sentinel_data"] == True)  # noqa: E712
+            & (df_canon["is_ongoing_archive"] != True)  # noqa: E712
+            & (df_canon["temporal_end_year"].fillna(9999) < 2014)
+        ).sum()
+    )
+    has_eum_0088 = bool(((df_all["source_catalogue"] == "17_eumetsat_product_navigator") & (df_all["raw_id"] == "EO:EUM:DAT:0088")).any())
+    has_fluxcom = bool(df_all["doi"].fillna("").str.lower().str.contains("10.18160/5nzg-jmje").any())
+    has_lcspp = bool(df_all["title"].fillna("").str.contains("LCSPP", case=False).any())
+    cds_oc = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-ocean-colour")]
+    cds_oc_ok = bool(len(cds_oc) == 1 and cds_oc.iloc[0]["processing_level"] == "L3" and cds_oc.iloc[0]["temporal_cadence_class"] == "sub_daily_or_daily")
+
+    if (
+        noaa_desc_rate >= 0.98
+        and noaa_bbox_rate >= 0.98
+        and cmr_doi_rate >= 0.90
+        and cmr_spat_cnt >= 2300
+        and img_url_cnt == 0
+        and cadence_contra_cnt == 0
+        and op_null_cnt == 0
+        and pre2014_sent_cnt == 0
+        and has_eum_0088
+        and has_fluxcom
+        and has_lcspp
+        and cds_oc_ok
+    ):
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "UMM/OneStop Deep Metadata, Cadence, Maturity & Lineage",
+                "PASS",
+                f"noaa_desc={noaa_desc_rate:.1%}, cmr_doi={cmr_doi_rate:.1%}, cmr_spat={cmr_spat_cnt}, contra={cadence_contra_cnt}, op_null={op_null_cnt}",
+            )
+        )
+    else:
+        issues_found.append(
+            f"Check P failed: noaa_desc={noaa_desc_rate:.3f}, noaa_bbox={noaa_bbox_rate:.3f}, cmr_doi={cmr_doi_rate:.3f}, "
+            f"cmr_spat={cmr_spat_cnt}, img_urls={img_url_cnt}, cadence_contra={cadence_contra_cnt}, op_null={op_null_cnt}, "
+            f"pre2014_sent={pre2014_sent_cnt}, eum_0088={has_eum_0088}, fluxcom={has_fluxcom}, lcspp={has_lcspp}, cds_oc={cds_oc_ok}"
         )
 
     print("=" * 92)

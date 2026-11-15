@@ -1,16 +1,16 @@
 source_id: 10_cdse_stac
 source_title: Copernicus Data Space Ecosystem (CDSE) STAC API & CEOS FedEO CDSE Collection Index
-retrieved_at_utc: 2026-11-13T10:35:50Z
+retrieved_at_utc: 2026-11-15T04:48:12Z
 http_status_summary: 200 OK
-total_records_retrieved: 436
+total_records_retrieved: 854
 endpoints_queried:
-  - https://stac.dataspace.copernicus.eu/v1/collections
+  - https://stac.dataspace.copernicus.eu/v1/collections?limit=1000
   - https://fedeo.ceos.org/collections?parentIdentifier=EOP:EU:CDSE
-notes: Native CDSE STAC: 10, FedEO CDSE: 426
+notes: Native CDSE STAC: 428, FedEO CDSE: 426
 files_written:
   - path: data/cdse_fedeo_stac_collections.json
     bytes: 7986548
-    sha256: 493c8295b9a46ea500ca0b26f4e0c1511fcdf141411a87c300b365028c2089a9
+    sha256: 539b03c5f3053a6e0c7316d50ac66d35cfa487319d7b58d5da121e0a75362090
   - path: data/cdse_native_stac_collections.json
-    bytes: 61215
-    sha256: 6f8d5b8616cc438e943d55151f523734b3191f7e995320fb9b317a0c56f35466
+    bytes: 6053500
+    sha256: d0c76b850778d9e211f95cb97bbd770eb6b711e059fc9b9659d089e9938169ba

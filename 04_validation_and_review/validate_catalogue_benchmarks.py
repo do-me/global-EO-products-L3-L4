@@ -47,7 +47,7 @@ EU_POLICY_PRODUCTS_BENCHMARK: list[tuple[str, str, str, str | None, str, str]] =
     ("CLMS", "CORINE Land Cover (CLC 1990-2018; 2024 forthcoming)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"corine land cover", "CLC 1990-2018 & change layers indexed; CLC 2024 pending public release"),
     ("CLMS", "HRL Grasslands (GRA) & Grassland Mowing Events (GRAME)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"grassland", "HRL Grasslands & phenology/mowing related CLMS layers indexed"),
     ("CLMS", "HRL Small Woody Features (SWF) / Small Landscape Features", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"small woody features|small landscape features", "SWF 2015, 2018, 2021 (5 m / 100 m) indexed in CLMS"),
-    ("CLMS", "HRL Croplands - Crop Types (CT) & Cropping Patterns (CP)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"crop types|cropping patterns", "Crop Types & Cropping Patterns (10 m, Europe) indexed in CLMS"),
+    ("CLMS", "HRL Croplands - Crop Types (CT) & Cropping Patterns (CP)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"crop types|cropping patterns|high resolution layer croplands|cropping seasons yearly|main crop emergence|main crop harvest|main crop duration|secondary crops|fallow land presence", "Crop Types & Cropping Patterns (9 pan-European 10 m layers: CT, Cropping Seasons, Emergence, Harvest, Duration, Secondary Crops, Fallow Land) indexed in CLMS"),
     ("CLMS", "HRL Imperviousness (IMD, IMC, Impervious Built-Up IBU)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"imperviousness|impervious built-up", "IMD, IMC, IBU 2006-2024 (10 m / 20 m / 100 m) indexed in CLMS"),
     ("CLMS", "HRL Tree Cover & Forests (TCD, FTY, DLT, Tree Cover Change)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"tree cover density|forest type|dominant leaf type|tree cover presence", "TCD, FTY, DLT & changes indexed in CLMS"),
     ("CLMS", "HRL Vegetated Land Cover Characteristics (VLCC)", "IN_SCOPE_L3_L4_EO", "02_copernicus_clms", r"tree cover density|grassland|crop types|small woody", "HRL VLCC portfolio (Forest, Grassland, Cropland, SWF) indexed as component products"),
@@ -120,13 +120,17 @@ EU_POLICY_PRODUCTS_BENCHMARK: list[tuple[str, str, str, str | None, str, str]] =
     ("Security/EMSA", "Copernicus Security Services (CMS, CBSS, SESA) & EMSA CleanSeaNet", "OUT_OF_SCOPE_RESTRICTED_SECURITY_SERVICE", None, r"cleanseanet|maritime surveillance|border surveillance", "Security-restricted / non-public operational services without open public API metadata"),
     ("EEA", "EEA Water Exploitation Index plus (WEI+), WISE Flood Risk & EUCRA", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", "11_eea_and_emodnet", r"\bwei\+\b|\beucra\b|\bwise flood risk\b|european climate risk assessment", "Hydrological/statistical indices & directives reports; EMODnet/EEA SDI spatial layers present"),
     ("EMODnet", "EMODnet EUSeaMap, Seagrass, Bathymetry DTM & Vessel Density", "IN_SCOPE_L3_L4_EO", "11_eea_and_emodnet", r"euseamap|seagrass|bathymetry|vessel density", "Indexed via EMODnet GeoNetwork API (`11_eea_and_emodnet`)"),
-    ("Eurostat/MS", "Eurostat (env_nwat, NUTS2 Pop, LUCAS) & Member State LPIS", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", None, r"\blucas\b|\blpis\b|\beurostat\b", "Administrative/statistical tabular surveys and Member-State cadastral parcels (non-EO reference)"),
+    ("Eurostat/MS", "Eurostat (env_nwat, NUTS2 Pop, LUCAS) & Member State LPIS", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", None, r"\blucas\s+(?:copernicus|20\d{2}|survey|topsoil|harmonised)\b|\blpis\b|\beurostat\b|\benv_nwat\b", "Administrative/statistical tabular surveys and Member-State cadastral parcels (non-EO reference)"),
     ("External EO", "VIIRS Day/Night Band Nighttime Lights (VNP46)", "IN_SCOPE_L3_L4_EO", "16_nasa_cmr", r"VNP46|nighttime lights", "NASA Black Marble VNP46 L3 & NOAA VIIRS DNB indexed in NASA CMR & GEE"),
     ("External EO", "USGS Landsat Collection 2 Level-3 Science Products", "IN_SCOPE_L3_L4_EO", "21_usgs_landsat_and_eros", r"Landsat Collection 2|surface temperature", "USGS Landsat C2 L3 BA/DSWE/fSCA collections indexed (L1/L2 scenes excluded by L3/L4 rule)"),
     ("External EO", "Global Gravity-based Groundwater Product (G3P / GRACE TWS)", "IN_SCOPE_L3_L4_EO", None, r"DATACITE:10\.5880/g3p|gravity-based groundwater|groundwater storage change data from 2002", "Horizon 2020 G3P indexed via GFZ DataCite API + GRACE/C3S TWS in CDS & NASA CMR"),
+    ("External EO", "FLUXCOM-X-BASE Global Carbon & Energy Fluxes (ICOS)", "IN_SCOPE_L3_L4_EO", "26_fao_unep_and_thematic_benchmarks", r"10\.18160/5NZG-JMJE|FLUXCOM-X-BASE", "Global gridded GPP, NEE, ET & energy fluxes indexed via ICOS Carbon Portal DataCite API"),
+    ("External EO", "Global LCREF, LCSIF, and LCSPP (SIF & GPP Benchmarks)", "IN_SCOPE_L3_L4_EO", "26_fao_unep_and_thematic_benchmarks", r"\bLCSPP\b|\bLCSIF\b|10\.5281/zenodo\.13922379", "Global land-cover-based SIF and primary production products indexed via Zenodo/DataCite API"),
+    ("External EO", "Global Web-Enabled Landsat Data (GWELD Monthly & Annual 30 m)", "IN_SCOPE_L3_L4_EO", "16_nasa_cmr", r"GWELDMO|GWELDYR|Global Web-Enabled Landsat Data", "Monthly and annual global 30 m Landsat composites retained via composite override"),
+    ("External EO", "EUMETSAT MSG Land Surface Temperature Data Record (Level 3)", "IN_SCOPE_L3_L4_EO", "17_eumetsat_product_navigator", r"^EO:EUM:DAT:0088$|Land Surface Temperature Data Record - MSG", "Explicit EUMETSAT Level 3 MSG LST climate data record retained in both EUMETSAT & WEkEO"),
     ("External/Model", "EDGAR & CEDS Emission Inventories", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", "07_ec_jrc_data_catalogue", r"\bedgar\b|\bceds\b", "Inventory-based bottom-up emissions indexed under `non_eo_inventory_or_census` (`strict_eo_c1_eligible=False`)"),
     ("External/Non-EO", "EUBUCCO, OpenStreetMap, Building Stock Observatory, FloraVeg.EU, MeteoAlarm", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", None, r"\beubucco\b|\bopenstreetmap\b|\bfloraveg\b|\bmeteoalarm\b", "Non-EO building registries, crowd-sourced OSM vectors, botanical checklists, meteorological warnings"),
-    ("CDSE L1/L2", "CDSE Sentinel Level-1 and Level-2 Operational Imagery", "OUT_OF_SCOPE_L1_L2_RAW", "10_cdse_stac", r"^sentinel-[1235]-.*l[12]", "Excluded in `02_preparation` (`excluded_records_log.parquet`) by L3/L4 eligibility filter"),
+    ("CDSE L1/L2", "CDSE Sentinel Level-1 and Level-2 Operational Imagery", "OUT_OF_SCOPE_L1_L2_RAW", "10_cdse_stac", r"^sentinel-[1235]-l[12][abc]?\b", "Excluded in `02_preparation` (`excluded_records_log.parquet`) by L3/L4 eligibility filter"),
 ]
 
 
@@ -312,6 +316,55 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"suomi_l4={suomi_l4_cnt}, pml_leak={pml_leak_cnt}, hs3_leak={hs3_leak_cnt}, future_start={future_start_cnt}",
     ))
 
+    # 15. Deep provider metadata recovery (NOAA summary=False, CMR UMM-JSON) & non-image access URLs
+    noaa_c = df_canon[df_canon["source_catalogue"] == "20_noaa_onestop"]
+    cmr_c = df_canon[df_canon["source_catalogue"] == "16_nasa_cmr"]
+    noaa_desc_ok = len(noaa_c) >= 12000 and float(noaa_c["description"].notna().mean()) >= 0.98
+    cmr_umm_ok = (
+        len(cmr_c) >= 5800
+        and float(cmr_c["doi"].notna().mean()) >= 0.90
+        and int(cmr_c["spatial_resolution_meters"].notna().sum()) >= 2300
+        and int(cmr_c["temporal_resolution_raw"].notna().sum()) >= 1600
+    )
+    img_urls_cnt = int(
+        df_all["access_url"]
+        .fillna("")
+        .str.contains(r"\.(?:png|jpe?g|gif|bmp|webp|svg|kmz)(?:[?#]|$)|/browse[/?#]", case=False, regex=True)
+        .sum()
+    )
+    qa.append((
+        "15. Deep NOAA/CMR metadata recovery & zero preview-image access_url",
+        bool(noaa_desc_ok and cmr_umm_ok and img_urls_cnt == 0),
+        f"noaa_desc={noaa_c['description'].notna().mean():.1%}, cmr_doi={cmr_c['doi'].notna().mean():.1%}, cmr_spat={int(cmr_c['spatial_resolution_meters'].notna().sum())}, img_urls={img_urls_cnt}",
+    ))
+
+    # 16. Cadence support, operational status & Sentinel lineage invariants
+    multi_day_ttl = df_all["title"].fillna("").str.contains(
+        r"\b(?:8-day|10-day|10-daily|16-day|5-day|dekad|dekadal|weekly|biweekly)\b", case=False, regex=True
+    )
+    cadence_contra = int((multi_day_ttl & (df_all["temporal_cadence_class"] == "sub_daily_or_daily")).sum())
+    op_null_ongoing = int(
+        ((df_all["operational_maturity_class"] == "operational_ongoing_series") & df_all["is_ongoing_archive"].isna()).sum()
+    )
+    pre2014_sent = int(
+        (
+            (df_all["uses_sentinel_data"] == True)  # noqa: E712
+            & (df_all["is_ongoing_archive"] != True)  # noqa: E712
+            & (df_all["temporal_end_year"].fillna(9999) < 2014)
+        ).sum()
+    )
+    meris_ilw_bad = int(
+        (
+            (df_all["raw_id"] == "C3433948164-OB_CLOUD")
+            & ((df_all["geographic_coverage_class"] == "global") | (df_all["uses_sentinel_data"] == True))  # noqa: E712
+        ).sum()
+    )
+    qa.append((
+        "16. Zero cadence contradictions, null-ongoing maturity, or pre-2014 Sentinel tags",
+        cadence_contra == 0 and op_null_ongoing == 0 and pre2014_sent == 0 and meris_ilw_bad == 0,
+        f"cadence_contra={cadence_contra}, op_null={op_null_ongoing}, pre2014_sent={pre2014_sent}, meris_ilw_bad={meris_ilw_bad}",
+    ))
+
     return qa
 
 
@@ -389,6 +442,50 @@ def audit_eu_policy_benchmark(df_all: pd.DataFrame, df_excl: pd.DataFrame) -> pd
     return pd.DataFrame(rows)
 
 
+GCOS_ECV_EXPLICIT_PATTERNS: dict[str, str] = {
+    "Above-ground biomass": r"\b(?:above[- ]?ground\s+biomass|\bagb\b|forest\s+biomass|woody\s+biomass|biomass\s+density|gedi04_b|cci\s+biomass|globbiomass)\b",
+    "Aerosols properties": r"\b(?:aerosols?|optical\s+depth|\baod\b|\baai\b|absorbing\s+aerosol|particulate\s+matter|pm2\.5|pm10)\b",
+    "Albedo": r"\b(?:albedo|surface\s+albedo|black[- ]sky\s+albedo|white[- ]sky\s+albedo|blue[- ]sky\s+albedo|mcd43)\b",
+    "Carbon Dioxide, Methane and other greenhouse gases": r"\b(?:carbon\s+dioxide|\bco2\b|\bxco2\b|\bmethane\b|\bch4\b|\bxch4\b|\bn2o\b|nitrous\s+oxide|greenhouse\s+gas(?:es)?)\b",
+    "Cloud properties": r"\b(?:cloud\s+(?:properties|fraction|cover|optical|top|mask|phase|water|amount|droplet|effective\s+radius)|isccp|clara[- ]a)\b",
+    "Earth radiation budget": r"\b(?:earth\s+radiation\s+budget|top[- ]of[- ]atmosphere.*(?:radiation|flux|irradiance)|outgoing\s+longwave\s+radiation|\bolr\b|\bceres\b|erbe)\b",
+    "Evaporation from land": r"\b(?:evapotranspiration|land\s+evaporation|actual\s+evaporation|potential\s+evaporation|canopy\s+transpiration|\bgleam\d?\b|\bmod16\b|\bwapor\b.*evaporation)\b",
+    "Fire": r"\b(?:burned\s+area|burnt\s+area|active\s+fire|fire\s+radiative\s+power|\bfrp\b|fire\s+danger|fire\s+weather\s+index|wildfire)\b",
+    "Fraction of Absorbed Photosythetically Active Radiation": r"\b(?:fapar|fraction\s+of\s+absorbed\s+photosynthetically\s+active\s+radiation)\b",
+    "Glaciers": r"\b(?:glaciers?|glacier\s+(?:mass|area|elevation|extent|velocity|outlines)|randolph\s+glacier)\b",
+    "Groundwater": r"\b(?:groundwater|\bg3p\b|aquifer\s+storage)\b",
+    "Ice sheets and ice shelves": r"\b(?:ice\s+sheets?|ice\s+shel(?:f|ves)|greenland\s+ice|antarctic\s+ice|grounded\s+ice)\b",
+    "Lakes": r"\b(?:lake\s+(?:water|surface|level|extent|quality|temperature|ice)|inland\s+water|global\s+lakes|hydrolakes)\b",
+    "Land cover": r"\b(?:land\s+cover|land\s+use|corine|worldcover|dynamic\s+world|glc_fcs|globcover|modis\s+land\s+cover|mcd12)\b",
+    "Land-surface temperature": r"\b(?:land[- ]surface\s+temperature|\blst\b|mod11|myd11|vnp21)\b",
+    "Leaf area index": r"\b(?:leaf\s+area\s+index|\blai\b|mod15|vnp15)\b",
+    "Lightning": r"\b(?:lightning\s+(?:flashes|imaging|detection|flash|density)|lis/otd|\bglm\b.*lightning)\b",
+    "Ocean colour": r"\b(?:ocean\s+colou?r|water[- ]leaving\s+radiance|remote[- ]sensing\s+reflectance|\brrs\b|globcolour|chlorophyll[- ]a)\b",
+    "Ocean-surface heat flux": r"\b(?:ocean[- ]surface\s+heat\s+flux|latent\s+heat\s+flux|sensible\s+heat\s+flux|air[- ]sea\s+heat\s+flux|oaflux)\b",
+    "Ozone": r"\b(?:ozone|\bo3\b|total\s+column\s+ozone|stratospheric\s+ozone|tropospheric\s+ozone)\b",
+    "Permafrost": r"\b(?:permafrost|active\s+layer\s+thickness|rock\s+glacier|frozen\s+ground)\b",
+    "Plankton": r"\b(?:plankton|phytoplankton|zooplankton|chlorophyll|primary\s+production.*ocean|marine\s+biogeochemistry)\b",
+    "Precipitation": r"\b(?:precipitation|rainfall|rain\s+rate|\bgpm\b|\bimerg\b|\bchirps\b|\bgpcp\b|\btrmm\b|\bcmorph\b|\bpersiann\b)\b",
+    "Precursors (supporting the aerosol and ozone ECVs)": r"\b(?:nitrogen\s+dioxide|\bno2\b|sulfur\s+dioxide|sulphur\s+dioxide|\bso2\b|formaldehyde|\bhcho\b|carbon\s+monoxide|\bco\b\s+column|aerosol\s+precursors?|ozone\s+precursors?)\b",
+    "River Discharge": r"\b(?:river\s+discharge|streamflow|runoff|glofas|efas)\b",
+    "Sea ice": r"\b(?:sea[- ]ice|ice\s+concentration|ice\s+extent|ice\s+thickness|ice\s+drift|ice\s+edge)\b",
+    "Sea level": r"\b(?:sea[- ]level|sea\s+surface\s+height|\bssh\b|\bsla\b|mean\s+dynamic\s+topography|\bmdt\b)\b",
+    "Sea state": r"\b(?:sea\s+state|significant\s+wave\s+height|ocean\s+waves?|wave\s+period|swell\s+height)\b",
+    "Sea-surface salinity": r"\b(?:sea[- ]surface\s+salinity|\bsss\b|ocean\s+salinity|smos.*salinity|smap.*salinity|aquarius.*salinity)\b",
+    "Sea-surface temperature": r"\b(?:sea[- ]surface\s+temperature|\bsst\b|ghrsst|oisst|ostia|pathfinder\s+sst)\b",
+    "Snow": r"\b(?:snow\s+(?:cover|water\s+equivalent|depth|extent|melt|albedo|fraction)|\bswe\b|\bfsca\b|mod10|myd10)\b",
+    "Soil moisture": r"\b(?:soil\s+moisture|soil\s+water\s+index|\bswi\b|\bssm\b|root[- ]zone\s+soil\s+moisture)\b",
+    "Surface currents": r"\b(?:surface\s+currents?|ocean\s+currents?|geostrophic\s+currents?|oscar.*currents?|globcurrent)\b",
+    "Surface radiation budget": r"\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|photosynthetically\s+active\s+radiation|\bpar\b|surface\s+net\s+radiation)\b",
+    "Surface stress": r"\b(?:surface\s+wind\s+stress|ocean\s+wind\s+stress|wind\s+stress\s+curl|momentum\s+flux)\b",
+    "Surface wind speed and direction": r"\b(?:surface\s+winds?|10[- ]?m(?:eter)?\s+winds?|ocean\s+surface\s+winds?|scatterometer\s+winds?|ccmp\s+winds?|ascat.*winds?|quikscat)\b",
+    "Terrestrial Water Storage": r"\b(?:terrestrial\s+water\s+storage|\btws\b|liquid\s+water\s+equivalent\s+thickness|grace.*mascon|grace.*tellus)\b",
+    "Upper-air Water Vapour": r"\b(?:water\s+vapou?r|total\s+column\s+water\s+vapou?r|\btcwv\b|precipitable\s+water|upper[- ]tropospher(?:e|ic)\s+humidity|specific\s+humidity\s+profile)\b",
+    "Upper-air Wind Speed and Direction": r"\b(?:upper[- ]air\s+winds?|atmospheric\s+motion\s+vectors?|\bamvs?\b|tropospheric\s+wind|stratospheric\s+wind|wind\s+profile|aeolus)\b",
+    "Upper-air temperature": r"\b(?:upper[- ]air\s+temperature|atmospheric\s+temperature\s+profile|stratospheric\s+temperature|tropospheric\s+temperature|msu/amsu|radio\s+occultation.*temperature)\b",
+}
+
+
 def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
     ecv_path = RAW_DIR / "12_ceos_cgms_wgclimate_ecv" / "data" / "wgclimate_ecv_data_records.json"
     ecv_data = json.loads(ecv_path.read_text(encoding="utf-8"))
@@ -404,15 +501,21 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
             ecv_names[ecv] = ecv_names.get(ecv, 0) + 1
 
     blob = (df_canon["title"].fillna("") + " " + df_canon["keywords"].fillna("")).str.lower()
+    is_non_wgc = df_canon["source_catalogue"] != "12_ceos_cgms_wgclimate_ecv"
     rows = []
     for ecv, n_wg in sorted(ecv_names.items(), key=lambda x: -x[1]):
-        kws = [w for w in re.findall(r"[a-z]+", ecv.lower()) if len(w) >= 4 and w not in ("surface", "earth", "ocean", "above", "water", "land", "other")]
-        pat = "|".join(kws[:2]) if kws else re.escape(ecv.lower())
-        matched = int(blob.str.contains(pat, regex=True, na=False).sum())
+        pat = GCOS_ECV_EXPLICIT_PATTERNS.get(ecv)
+        if not pat:
+            pat = r"\b" + re.escape(ecv.lower()) + r"\b"
+        hit_mask = blob.str.contains(pat, case=False, regex=True, na=False)
+        matched = int(hit_mask.sum())
+        matched_non_wgc = int((hit_mask & is_non_wgc).sum())
         rows.append({
             "gcos_ecv_name": ecv,
             "wgclimate_inventory_records": n_wg,
             "canonical_catalogue_matches": matched,
+            "independent_non_wgclimate_matches": matched_non_wgc,
+            "matching_pattern": pat,
         })
     return pd.DataFrame(rows)
 
@@ -440,7 +543,7 @@ def main() -> None:
         print(f"  [{tag}] {name:56s} | {detail}")
 
     # 2. EU Policy & Operational Service Product Benchmark
-    print("\n--- 2. EXTERNAL BENCHMARK 1: EU POLICY & OPERATIONAL SERVICE PRODUCT FAMILIES (N=80) ---")
+    print(f"\n--- 2. EXTERNAL BENCHMARK 1: EU POLICY & OPERATIONAL SERVICE PRODUCT FAMILIES (N={len(EU_POLICY_PRODUCTS_BENCHMARK)}) ---")
     df_a2 = audit_eu_policy_benchmark(df_all, df_excl)
     df_a2.to_csv(BASE_DIR / "eu_policy_products_benchmark_audit.csv", index=False)
     print(df_a2["catalogue_status"].value_counts().to_string())

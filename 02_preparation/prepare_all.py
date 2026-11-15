@@ -137,6 +137,18 @@ def clean_doi(val: Any) -> str | None:
     return d if re.match(r"^10\.\d{4,9}/[^\s\]]+$", d) else None
 
 
+_IMAGE_PREVIEW_URL_RE = re.compile(
+    r"\.(?:png|jpe?g|gif|bmp|webp|svg|ico|kmz)(?:[?#]|$)|/browse[/?#]",
+    re.IGNORECASE,
+)
+
+
+def is_image_preview_url(url: str | None) -> bool:
+    if not url:
+        return False
+    return bool(_IMAGE_PREVIEW_URL_RE.search(url))
+
+
 def clean_url(val: Any) -> str | None:
     """Normalize malformed URL schemes/markdown/prose wrappers to a clean http(s)/ftp URL or None."""
     s = clean_str(val)
@@ -146,7 +158,10 @@ def clean_url(val: Any) -> str | None:
     s = re.sub(r"^http:([a-zA-Z0-9])", r"https://\1", s, flags=re.IGNORECASE)
     m = re.search(r"((?:https?|ftp)://[^\s,;\"'<>)\]]+)", s, re.IGNORECASE)
     if m:
-        return m.group(1).rstrip(".,;")
+        candidate = m.group(1).rstrip(".,;")
+        if is_image_preview_url(candidate):
+            return None
+        return candidate
     doi_only = clean_doi(s)
     if doi_only:
         return f"https://doi.org/{doi_only}"
@@ -279,7 +294,8 @@ SWATH_L1_L2_ID_PATTERNS = re.compile(
 SWATH_L1_L2_TITLE_PATTERNS = re.compile(
     r"(\b(level[- ]?(?:0[ab]?|1|1\.5|1[abcdgrt]|1gt|1gst|2|2[abcgprt])\b|l0[ab]?\b|l1[abcdgrt]?\b|l1gt\b|l1gst\b|l1\.5\b|l2[abcgprt]?\b)|"
     r"\b(single look complex|slc[- ]off|slc burst|ground range detected|top-of-atmosphere radiance|calibrated radiance|"
-    r"raw scenes?|toa reflectance|raw instrument data|raw data record|\brdr\b|temperature data record|\btdr\b|sensor data record|\bsdr\b|"
+    r"raw scenes?|toa reflectance|raw instrument data|raw data record|\brdr\b|"
+    r"(?:brightness|antenna|microwave|radiometer|sensor)\s+temperature data record|\btdr\b|sensor data record|\bsdr\b|"
     r"swath level 2|on the satellite swath|along-track re-tracked|l2 swath|swath grid|swath image|swath files|swath[- ]derived|swath elevation)\b)",
     re.IGNORECASE,
 )
@@ -296,17 +312,21 @@ COMPOSITE_OR_L3_OVERRIDE_PATTERNS = re.compile(
     r"(\b(?:level[- ]?[34][abc]?\b|l3[abc]?\b|l4[abc]?\b|l2 and l3\b|l2/3\b|"
     r"global mosaic|cloudless mosaic|monthly mosaic|quarterly mosaic|annual mosaic|"
     r"cloud-free annual composites?|s2mosaic|pixel based image composite|"
-    r"8-day.*composite|32-day.*composite|annual.*composite|"
-    r"harmonized landsat sentinel|hlsl30|hlss30|"
+    r"8-day.*composite|10-day.*composite|16-day.*composite|32-day.*composite|monthly.*composite|annual.*composite|"
+    r"10-day composites of msg|composites of msg land surface temperature|"
+    r"harmonized landsat sentinel|hlsl30|hlss30|gweldmo|gweldyr|global web-enabled landsat|"
     r"daily synthesis|10-daily synthesis|1-day surface reflectance|10-day surface reflectance|"
     r"l2 statistics|gridded user friendly product|gravity field models and grids|"
-    r"ghrsst level 2p gridded|data cube.*lcf \d+ days|"
+    r"ghrsst level 2p gridded|ghrsst l2p gridded|data cube.*lcf \d+ days|"
     r"daily surface albedo|gsa level 2|10-day surface albedo|"
     r"fire radiative power grid|gridded fire radiative power|"
     r"daily shortwave solar irradiance|daily downward longwave irradiance|daily surface solar irradiance|"
-    r"reference evapotranspiration|normalized difference vegetation index cdr|"
-    r"downward surface solar radiation.*daily mean)\b|"
-    r"(?:syn-2-v10|syn-2-vg1|s3-syn-vgt|sentinel-3-synergy-v10|l2c-ndvi|l2-smos-sss-daily|gomos_ufp_gridded|goce_global_gravity_field_models_and_grids))",
+    r"reference evapotranspiration|normalized difference vegetation index.*(?:cdr|climate data record)|"
+    r"downward surface solar radiation.*daily mean|"
+    r"lpj[-_]eosim.*simulated.*(?:daily|monthly).*flux|simulated.*(?:methane|carbon).*flux|"
+    r"gridded population of the world.*grid|cygnss.*level 2.*surface.*flux.*climate data record)\b|"
+    r"(?:syn-2-v10|syn-2-vg1|s3-syn-vgt|sentinel-3-synergy-v10|l2c-ndvi|l2-smos-sss-daily|"
+    r"gomos_ufp_gridded|goce_global_gravity_field_models_and_grids|clms_toc_global_300m_daily))",
     re.IGNORECASE,
 )
 
@@ -344,10 +364,11 @@ def check_l3_l4_eligibility(
     )
 
     # 1. Check explicit processing_level_raw field
+    has_explicit_l3_l4 = False
     if lvl:
         lvl_tokens = [t.strip().lower() for t in re.split(r"[;,/|]", lvl) if t.strip()]
         has_l3_l4 = any(
-            re.match(r"^(?:level[- ]?|l)?[34][abc]?$", t)
+            re.match(r"^(?:level[- ]?|l)?[34][abcgs]?$", t)
             or "level 3" in t
             or "level 4" in t
             for t in lvl_tokens
@@ -357,6 +378,8 @@ def check_l3_l4_eligibility(
             re.match(r"^(?:visuali[sz]ation|(?:level[- ]?|l)?(?:0|1|1\.5)(?:[abcdgrt]+|\.\d+)?)$", t)
             for t in lvl_tokens
         )
+        if has_l3_l4 and not has_l0_or_l1_or_vis:
+            has_explicit_l3_l4 = True
         if has_only_l0_l1_l2 and not has_l3_l4:
             # Allow explicit L2-only records when overridden by non-sensor hierarchy or verified gridded/composited CDR patterns
             # Never override explicit L0/L1/L1.5/Visualisation radiances or quicklooks.
@@ -382,12 +405,13 @@ def check_l3_l4_eligibility(
     if AERIAL_ORTHOPHOTO_PATTERNS.search(rid) or AERIAL_ORTHOPHOTO_PATTERNS.search(ttl):
         return False, "aerial_orthophoto_imagery"
 
-    # 4. Check swath/granule L1/L2 IDs or titles unless it is a non-sensor hierarchy or multi-temporal L3 composite
+    # 4. Check swath/granule L1/L2 IDs or titles unless it is a non-sensor hierarchy, multi-temporal L3 composite, or explicit provider L3/L4
     if not is_non_sensor_hier and not is_composite_override:
-        if SWATH_L1_L2_ID_PATTERNS.search(rid):
+        if SWATH_L1_L2_ID_PATTERNS.search(rid) and not has_explicit_l3_l4:
             return False, "swath_or_tile_l1_l2_id"
         if SWATH_L1_L2_TITLE_PATTERNS.search(ttl):
-            return False, "swath_or_tile_l1_l2_title"
+            if not has_explicit_l3_l4 or re.search(r"\b(swath|level[- ]?[012]|l[012][abcgprst]?\b)\b", ttl, re.IGNORECASE):
+                return False, "swath_or_tile_l1_l2_title"
 
     return True, None
 
@@ -396,7 +420,8 @@ def check_l3_l4_eligibility(
 # Source-Specific Parsers (28 product sources + 1 taxonomy source)
 # ---------------------------------------------------------------------------
 def _extract_geojson_bbox(geom_obj: Any, primary_only: bool = False) -> list[float] | None:
-    """Recursively extracts a validated WGS84 [west, south, east, north] bbox from GeoJSON geometries."""
+    """Recursively extracts a validated WGS84 [west, south, east, north] bbox from GeoJSON geometries,
+    preserving antimeridian-wrapping bounds [west_pos, south, east_neg, north] for dateline-split MultiPolygons."""
     if not geom_obj:
         return None
     if primary_only and isinstance(geom_obj, list) and len(geom_obj) > 1:
@@ -411,6 +436,50 @@ def _extract_geojson_bbox(geom_obj: Any, primary_only: bool = False) -> list[flo
                 round(max(b[3] for b in target), 6),
             ]
         return None
+
+    # Check if geom_obj is a MultiPolygon or list of polygons split at the +/-180 antimeridian
+    geom_type = str(geom_obj.get("type", "")).lower() if isinstance(geom_obj, dict) else ""
+    coords_root = geom_obj.get("coordinates") if isinstance(geom_obj, dict) else None
+    if geom_type == "multipolygon" and isinstance(coords_root, list) and len(coords_root) >= 2:
+        poly_boxes: list[tuple[float, float, float, float]] = []
+        for poly in coords_root:
+            pxs: list[float] = []
+            pys: list[float] = []
+
+            def _walk_poly(c: Any) -> None:
+                if isinstance(c, (list, tuple)):
+                    if len(c) >= 2 and isinstance(c[0], (int, float)) and isinstance(c[1], (int, float)) and not isinstance(c[0], bool) and not isinstance(c[1], bool):
+                        pxs.append(float(c[0]))
+                        pys.append(float(c[1]))
+                    else:
+                        for it in c:
+                            _walk_poly(it)
+
+            _walk_poly(poly)
+            if pxs and pys:
+                poly_boxes.append((min(pxs), min(pys), max(pxs), max(pys)))
+
+        if len(poly_boxes) >= 2:
+            min_w = min(b[0] for b in poly_boxes)
+            min_s = min(b[1] for b in poly_boxes)
+            max_e = max(b[2] for b in poly_boxes)
+            max_n = max(b[3] for b in poly_boxes)
+            # If polygons touch both -180 and +180 but leave an interior longitude gap > 60 deg around Greenwich,
+            # compute the antimeridian-wrapping bbox [west_pos, south, east_neg, north]
+            neg_polys = [b for b in poly_boxes if b[2] <= 0.0]
+            pos_polys = [b for b in poly_boxes if b[0] >= 0.0]
+            if (
+                min_w <= -179.0
+                and max_e >= 179.0
+                and neg_polys
+                and pos_polys
+                and len(neg_polys) + len(pos_polys) == len(poly_boxes)
+            ):
+                east_neg = max(b[2] for b in neg_polys)
+                west_pos = min(b[0] for b in pos_polys)
+                if west_pos - east_neg > 60.0 and -90.0 <= min_s <= 90.0 and -90.0 <= max_n <= 90.0 and min_s <= max_n:
+                    return [round(west_pos, 6), round(min_s, 6), round(east_neg, 6), round(max_n, 6)]
+
     xs: list[float] = []
     ys: list[float] = []
 
@@ -430,6 +499,43 @@ def _extract_geojson_bbox(geom_obj: Any, primary_only: bool = False) -> list[flo
         w, s, e, n = min(xs), min(ys), max(xs), max(ys)
         if -180.0 <= w <= 180.0 and -90.0 <= s <= 90.0 and -180.0 <= e <= 180.0 and -90.0 <= n <= 90.0 and s <= n:
             return [round(w, 6), round(s, 6), round(e, 6), round(n, 6)]
+    return None
+
+
+_TEXT_CADENCE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\b(sub[- ]?hourly|\d+\s*min(?:ute)?s?|half[- ]?hourly|every\s+(?:15|30)\s*min)\b", re.I), "sub-hourly"),
+    (re.compile(r"\b(hourly|1[- ]?hour(?:ly)?|3[- ]?hour(?:ly)?|6[- ]?hour(?:ly)?|every\s+[136]\s*hours?)\b", re.I), "hourly"),
+    (re.compile(r"\b(10[- ]?da(?:y|ily|ys)|8[- ]?da(?:y|ily|ys)|16[- ]?da(?:y|ily|ys)|5[- ]?da(?:y|ily|ys)|dekad(?:al|e)?|three times a month|fortnightly|bi[- ]?weekly)\b", re.I), "10-daily"),
+    (re.compile(r"\b(weekly|7[- ]?da(?:y|ily|ys))\b", re.I), "weekly"),
+    (re.compile(r"(?<!\d[- ])(?<!\bmulti[- ])\b(daily|1[- ]?day|day[- ]?by[- ]?day|diurnal)\b", re.I), "daily"),
+    (re.compile(r"\b(monthly|1[- ]?month|month[- ]?by[- ]?month)\b", re.I), "monthly"),
+    (re.compile(r"\b(seasonal|quarterly|3[- ]?month)\b", re.I), "seasonal"),
+    (re.compile(r"\b(annual(?:ly)?|yearly|1[- ]?year)\b", re.I), "annual"),
+]
+
+
+def _extract_cadence_from_text(title: str | None, desc: str | None = None) -> str | None:
+    """Extract explicit product temporal sampling/composite cadence from title (or explicit cadence clauses in description),
+    without confusing dataset publication/update schedule with product temporal support."""
+    if title:
+        for pat, label in _TEXT_CADENCE_PATTERNS:
+            m = pat.search(title)
+            if m:
+                return m.group(0)
+    if desc:
+        # Look for explicit temporal resolution/composite sentences in description
+        for clause_m in re.finditer(
+            r"(?:temporal\s+(?:resolution|coverage|sampling|step|aggregation)|"
+            r"(?:daily|monthly|annual|hourly|3-hourly|6-hourly|8-day|10-day|10-daily|dekadal|weekly|seasonal)\s+"
+            r"(?:and\s+(?:daily|monthly|annual|seasonal)\s+)?(?:composites?|means?|averages?|grids?|products?|estimates?|fields?|data))[^.;]{0,80}",
+            desc,
+            re.IGNORECASE,
+        ):
+            clause = clause_m.group(0)
+            for pat, _ in _TEXT_CADENCE_PATTERNS:
+                m = pat.search(clause)
+                if m:
+                    return m.group(0)
     return None
 
 
@@ -549,17 +655,20 @@ def parse_02_clms() -> list[dict[str, Any]]:
             platform = clean_str(
                 [d.get("characteristics_platform"), d.get("characteristics_sensor"), d.get("platform"), d.get("sensor")]
             )
+            title_str = clean_str(d.get("title"))
+            desc_str = clean_str(d.get("description"))
+            temp_res_clms = clean_str(d.get("characteristics_temporal_resolution") or d.get("temporal_resolution")) or _extract_cadence_from_text(title_str, desc_str)
             rows.append({
                 "source_id": "02_copernicus_clms",
                 "raw_id": clean_str(d.get("UID") or d.get("id") or d.get("@id")),
-                "title": clean_str(d.get("title")),
-                "description": clean_str(d.get("description")),
+                "title": title_str,
+                "description": desc_str,
                 "processing_level_raw": clean_str(d.get("processing_level")),
                 "spatial_resolution_raw": spat_res,
-                "temporal_resolution_raw": clean_str(d.get("characteristics_update_frequency") or d.get("update_frequency")),
+                "temporal_resolution_raw": temp_res_clms,
                 "temporal_start_raw": t_start,
                 "temporal_end_raw": t_end,
-                "update_frequency_raw": clean_str(d.get("characteristics_update_frequency")),
+                "update_frequency_raw": clean_str(d.get("characteristics_update_frequency") or d.get("update_frequency")),
                 "bbox_raw": bbox,
                 "producing_org_raw": clean_str(d.get("organisationName") or "European Environment Agency / EC JRC (Copernicus Land Monitoring Service - CLMS)"),
                 "platform_sensor_raw": platform,
@@ -579,14 +688,22 @@ def parse_cads_stac(source_id: str, filename: str, default_org: str) -> list[dic
         bbox = extract_stac_bbox(c.get("extent"))
         doi, url = extract_stac_doi_and_url(c)
         prod, _ = extract_stac_providers(c)
+        title_str = clean_str(c.get("title"))
+        desc_str = clean_str(c.get("description"))
+        lvl_raw = clean_str(c.get("processing:level"))
+        if not lvl_raw and desc_str:
+            m_lvl = re.search(r"\b(Level[- ]?[34][A-Z]?|L[34][A-Z]?)\b", desc_str)
+            if m_lvl:
+                lvl_raw = m_lvl.group(1)
+        temp_res = _extract_cadence_from_text(title_str, desc_str)
         rows.append({
             "source_id": source_id,
             "raw_id": clean_str(c.get("id")),
-            "title": clean_str(c.get("title")),
-            "description": clean_str(c.get("description")),
-            "processing_level_raw": None,
+            "title": title_str,
+            "description": desc_str,
+            "processing_level_raw": lvl_raw,
             "spatial_resolution_raw": extract_stac_gsd(c),
-            "temporal_resolution_raw": clean_str(c.get("cads:update_frequency")),
+            "temporal_resolution_raw": temp_res,
             "temporal_start_raw": t_start,
             "temporal_end_raw": t_end,
             "update_frequency_raw": clean_str(c.get("cads:update_frequency")),
@@ -626,7 +743,7 @@ def parse_generic_stac_collections(source_id: str, collections: list[dict[str, A
         temp_res = clean_str(
             c.get("gee:interval")
             or summaries.get("temporal_resolution")
-            or c.get("cads:update_frequency")
+            or c.get("temporal_resolution")
         )
         rows.append({
             "source_id": source_id,
@@ -638,7 +755,7 @@ def parse_generic_stac_collections(source_id: str, collections: list[dict[str, A
             "temporal_resolution_raw": temp_res,
             "temporal_start_raw": t_start,
             "temporal_end_raw": t_end,
-            "update_frequency_raw": clean_str(c.get("gee:status") or c.get("osc:status")),
+            "update_frequency_raw": clean_str(c.get("gee:status") or c.get("osc:status") or c.get("cads:update_frequency")),
             "bbox_raw": bbox,
             "producing_org_raw": prod or default_org,
             "hosting_platform_raw": host,
@@ -726,7 +843,7 @@ def parse_07_jrc() -> tuple[list[dict[str, Any]], int]:
                     "description": desc,
                     "processing_level_raw": None,
                     "spatial_resolution_raw": clean_str(d.get("spatial_resolution")),
-                    "temporal_resolution_raw": accrual,
+                    "temporal_resolution_raw": _extract_cadence_from_text(title, desc),
                     "temporal_start_raw": t_start,
                     "temporal_end_raw": t_end,
                     "update_frequency_raw": accrual,
@@ -881,13 +998,13 @@ def parse_11_eea_emodnet() -> list[dict[str, Any]]:
                     "description": desc,
                     "processing_level_raw": None,
                     "spatial_resolution_raw": res_dist,
-                    "temporal_resolution_raw": freq,
+                    "temporal_resolution_raw": _extract_cadence_from_text(title, desc),
                     "temporal_start_raw": t_start,
                     "temporal_end_raw": t_end,
                     "update_frequency_raw": freq,
                     "bbox_raw": bbox,
                     "producing_org_raw": org,
-                    "platform_sensor_raw": clean_str(d.get("cl_spatialRepresentationType")),
+                    "platform_sensor_raw": None,
                     "doi_raw": doi,
                     "license_raw": clean_str(d.get("MD_LegalConstraintsUseLimitationObject")),
                     "landing_url_raw": f"{portal_base}{uuid}" if uuid else None,
@@ -1055,6 +1172,130 @@ def parse_12_wgclimate_ecv() -> list[dict[str, Any]]:
     return rows
 
 
+def _extract_umm_spatial_resolution(umm: dict[str, Any], title: str | None = None) -> str | None:
+    cand: str | None = None
+    spat = umm.get("SpatialExtent")
+    if isinstance(spat, dict):
+        hsd = spat.get("HorizontalSpatialDomain")
+        if isinstance(hsd, dict):
+            rcs = hsd.get("ResolutionAndCoordinateSystem")
+            if isinstance(rcs, dict):
+                hdr = rcs.get("HorizontalDataResolution")
+                if isinstance(hdr, dict):
+                    for key in ("GriddedResolutions", "NonGriddedResolutions", "GenericResolutions", "VariesResolutions"):
+                        items = hdr.get(key)
+                        if isinstance(items, list):
+                            for it in items:
+                                if not isinstance(it, dict):
+                                    continue
+                                unit = clean_str(it.get("Unit"))
+                                if not unit or unit.lower() in ("not provided", "na", "n/a"):
+                                    continue
+                                dim = (
+                                    it.get("XDimension")
+                                    or it.get("YDimension")
+                                    or it.get("MinimumXDimension")
+                                    or it.get("MaximumXDimension")
+                                    or it.get("MinimumYDimension")
+                                    or it.get("MaximumYDimension")
+                                )
+                                if dim is not None:
+                                    cand = f"{dim} {unit}"
+                                    break
+                        if cand:
+                            break
+    if not cand:
+        for attr in (umm.get("AdditionalAttributes") or []):
+            if isinstance(attr, dict) and attr.get("Value") is not None:
+                aname = str(attr.get("Name") or "").lower()
+                if "spatial_resolution" in aname or "horizontal_resolution" in aname or aname in ("resolution", "grid_spacing"):
+                    val = clean_str(attr.get("Value"))
+                    unit = clean_str(attr.get("ParameterUnitsOfMeasure"))
+                    if val:
+                        cand = f"{val} {unit}".strip() if unit else val
+                        break
+    if cand and title:
+        # Guard against upstream UMM unit typos where UMM enters Kilometers for a degree grid (e.g. '0.625 Kilometers'
+        # on MERRA-2 '0.625 x 0.5 degree', or '10 Kilometers' L2 granule resolution on '1 x 1 degree Gridded L3')
+        tl = title.lower()
+        cl = cand.lower()
+        if "0.625 kilometers" in cl and "0.625 x 0.5 degree" in tl:
+            return "0.5 Decimal Degrees"
+        if "10 kilometers" in cl and re.search(r"\b1\s*x\s*1\s*degree\b", tl):
+            return "1 Decimal Degrees"
+        if "1 decimal degrees" in cl and "0.05 deg" in tl:
+            return "0.05 Decimal Degrees"
+    return cand
+
+
+def _extract_umm_temporal_resolution(umm: dict[str, Any]) -> str | None:
+    for te in (umm.get("TemporalExtents") or []):
+        if not isinstance(te, dict):
+            continue
+        tr = te.get("TemporalResolution")
+        if isinstance(tr, dict):
+            val = tr.get("Value")
+            unit = clean_str(tr.get("Unit"))
+            if val is not None and unit and unit.lower() not in ("varies", "constant", "not provided"):
+                return f"{val} {unit}"
+            if unit and unit.lower() not in ("varies", "constant", "not provided"):
+                return unit
+    tkws = [clean_str(k) for k in (umm.get("TemporalKeywords") or []) if clean_str(k)]
+    tkws = [k for k in tkws if k and k.lower() not in ("not provided", "varies", "other")]
+    if tkws:
+        return "; ".join(dict.fromkeys(tkws))
+    return None
+
+
+def _select_cmr_landing_url(e: dict[str, Any], umm: dict[str, Any], doi: str | None, cid: str, short_name: str | None) -> str:
+    # 1. Explicit DATA SET LANDING PAGE or CollectionURL from UMM RelatedUrls
+    for ru in (umm.get("RelatedUrls") or []):
+        if not isinstance(ru, dict):
+            continue
+        u = clean_url(ru.get("URL"))
+        if not u:
+            continue
+        utype = str(ru.get("Type") or "").upper()
+        uct = str(ru.get("URLContentType") or "").upper()
+        if utype in ("DATA SET LANDING PAGE", "COLLECTION URL") or uct == "COLLECTIONURL":
+            return u
+    # 2. DOI resolver URL if canonical DOI exists
+    doi_clean = clean_doi(doi)
+    if doi_clean:
+        return f"https://doi.org/{doi_clean}"
+    # 3. Typed links from CMR Atom-JSON entry (excluding browse# and image URLs)
+    for preferred_suffix in ("/data#", "/service#", "/metadata#", "/documentation#"):
+        for lk in (e.get("links") or []):
+            if not isinstance(lk, dict):
+                continue
+            rel = str(lk.get("rel") or "").lower()
+            if rel.endswith(preferred_suffix):
+                u = clean_url(lk.get("href"))
+                if u:
+                    return u
+    # 4. Distribution or publication URL from UMM RelatedUrls (excluding visualizations/browse)
+    for ru in (umm.get("RelatedUrls") or []):
+        if not isinstance(ru, dict):
+            continue
+        utype = str(ru.get("Type") or "").upper()
+        if "VISUALIZATION" in utype or "BROWSE" in utype:
+            continue
+        u = clean_url(ru.get("URL"))
+        if u:
+            return u
+    # 5. Any remaining non-browse link in entry
+    for lk in (e.get("links") or []):
+        if not isinstance(lk, dict):
+            continue
+        rel = str(lk.get("rel") or "").lower()
+        if "browse#" in rel:
+            continue
+        u = clean_url(lk.get("href"))
+        if u:
+            return u
+    return f"https://search.earthdata.nasa.gov/search/granules?p={cid}"
+
+
 def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") -> list[dict[str, Any]]:
     rows = []
     seen = set()
@@ -1066,6 +1307,7 @@ def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") 
                 if not cid or cid in seen:
                     continue
                 seen.add(cid)
+                umm = e.get("_umm") if isinstance(e.get("_umm"), dict) else {}
                 bbox = None
                 boxes = e.get("boxes")
                 if isinstance(boxes, list) and boxes:
@@ -1073,35 +1315,104 @@ def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") 
                     parts = [float(x) for x in str(boxes[0]).split() if re.match(r"^-?\d+(\.\d+)?$", x)]
                     if len(parts) == 4:
                         bbox = [parts[1], parts[0], parts[3], parts[2]]
+                if bbox is None and isinstance(umm.get("SpatialExtent"), dict):
+                    brs = (
+                        ((umm["SpatialExtent"].get("HorizontalSpatialDomain") or {}).get("Geometry") or {}).get("BoundingRectangles")
+                    )
+                    if isinstance(brs, list) and brs and isinstance(brs[0], dict):
+                        try:
+                            bbox = [
+                                float(brs[0]["WestBoundingCoordinate"]),
+                                float(brs[0]["SouthBoundingCoordinate"]),
+                                float(brs[0]["EastBoundingCoordinate"]),
+                                float(brs[0]["NorthBoundingCoordinate"]),
+                            ]
+                        except Exception:
+                            bbox = None
+
+                # Extract DOI from UMM.DOI, UMM.AdditionalAttributes, or Atom-JSON entry
                 doi = clean_str(e.get("doi"))
-                url = None
-                for lk in (e.get("links") or []):
-                    if isinstance(lk, dict) and lk.get("href") and str(lk.get("href")).startswith("http"):
-                        url = clean_str(lk.get("href"))
-                        break
-                short_name = clean_str(e.get("short_name"))
-                title = clean_str(e.get("title") or e.get("dataset_id"))
+                umm_doi = umm.get("DOI")
+                if isinstance(umm_doi, dict) and umm_doi.get("DOI"):
+                    doi = clean_str(umm_doi.get("DOI"))
+                if not doi:
+                    for attr in (umm.get("AdditionalAttributes") or []):
+                        if isinstance(attr, dict) and "doi" in str(attr.get("Name") or "").lower() and attr.get("Value"):
+                            doi = clean_str(attr.get("Value"))
+                            if doi:
+                                break
+
+                short_name = clean_str(e.get("short_name") or umm.get("ShortName"))
+                title = clean_str(e.get("title") or umm.get("EntryTitle") or e.get("dataset_id"))
                 if short_name and title and short_name not in title:
                     title = f"{short_name}: {title}"
+
+                lvl_raw = clean_str(e.get("processing_level_id") or (umm.get("ProcessingLevel") or {}).get("Id"))
+                spat_raw = _extract_umm_spatial_resolution(umm, title)
+                temp_raw = _extract_umm_temporal_resolution(umm)
+
+                t_start = clean_str(e.get("time_start"))
+                t_end = clean_str(e.get("time_end"))
+                ends_at_present = False
+                for te in (umm.get("TemporalExtents") or []):
+                    if isinstance(te, dict) and te.get("EndsAtPresentFlag") is True:
+                        ends_at_present = True
+                if ends_at_present:
+                    t_end = None
+
+                coll_prog = clean_str(umm.get("CollectionProgress"))
+                coll_dt = clean_str(e.get("collection_data_type") or umm.get("CollectionDataType"))
+                upd_parts = [x for x in (f"CollectionProgress:{coll_prog}" if coll_prog else None, coll_dt) if x]
+                upd_raw = "; ".join(upd_parts) if upd_parts else None
+
+                # Platforms & Instruments from UMM or Atom-JSON
+                plat_items: list[str] = []
+                for pl in (umm.get("Platforms") or []):
+                    if not isinstance(pl, dict):
+                        continue
+                    psn = clean_str(pl.get("ShortName"))
+                    if psn and psn.upper() not in ("NOT APPLICABLE", "NOT PROVIDED"):
+                        plat_items.append(psn)
+                    for ins in (pl.get("Instruments") or []):
+                        if isinstance(ins, dict):
+                            isn = clean_str(ins.get("ShortName"))
+                            if isn and isn.upper() not in ("NOT APPLICABLE", "NOT PROVIDED"):
+                                plat_items.append(isn)
+                plat_str = "; ".join(dict.fromkeys(plat_items)) if plat_items else clean_str([e.get("platforms"), e.get("instruments")])
+
+                # ScienceKeywords from UMM
+                skw_items: list[str] = []
+                for sk in (umm.get("ScienceKeywords") or []):
+                    if isinstance(sk, dict):
+                        for k_lvl in ("Topic", "Term", "VariableLevel1", "VariableLevel2", "DetailedVariable"):
+                            kv = clean_str(sk.get(k_lvl))
+                            if kv and kv.upper() not in ("NOT APPLICABLE", "NOT PROVIDED"):
+                                skw_items.append(kv)
+                if e.get("consortiums"):
+                    skw_items.append(str(clean_str(e.get("consortiums"))))
+                kw_str = "; ".join(dict.fromkeys(skw_items)) if skw_items else None
+
+                url = _select_cmr_landing_url(e, umm, doi, cid, short_name)
+
                 rows.append({
                     "source_id": source_id,
                     "raw_id": cid,
                     "short_name_raw": short_name,
                     "title": title,
                     "description": clean_str(e.get("summary")),
-                    "processing_level_raw": clean_str(e.get("processing_level_id")),
-                    "spatial_resolution_raw": None,
-                    "temporal_resolution_raw": None,
-                    "temporal_start_raw": clean_str(e.get("time_start")),
-                    "temporal_end_raw": clean_str(e.get("time_end")),
-                    "update_frequency_raw": clean_str(e.get("collection_data_type")),
+                    "processing_level_raw": lvl_raw,
+                    "spatial_resolution_raw": spat_raw,
+                    "temporal_resolution_raw": temp_raw,
+                    "temporal_start_raw": t_start,
+                    "temporal_end_raw": t_end,
+                    "update_frequency_raw": upd_raw,
                     "bbox_raw": bbox,
                     "producing_org_raw": clean_str(e.get("organizations") or e.get("archive_center") or e.get("data_center")),
-                    "platform_sensor_raw": clean_str([e.get("platforms"), e.get("instruments")]),
+                    "platform_sensor_raw": plat_str,
                     "doi_raw": doi,
                     "license_raw": "NASA Earthdata Open Data Policy",
-                    "landing_url_raw": url or f"https://search.earthdata.nasa.gov/search?q={short_name or cid}",
-                    "keywords_raw": clean_str(e.get("consortiums")),
+                    "landing_url_raw": url,
+                    "keywords_raw": kw_str,
                 })
     return rows
 
@@ -1142,6 +1453,21 @@ def parse_17_eumetsat() -> list[dict[str, Any]]:
     return rows
 
 
+def _clean_gcmd_list(vals: Any) -> str | None:
+    if not vals:
+        return None
+    items = vals if isinstance(vals, list) else [vals]
+    kept: list[str] = []
+    for it in items:
+        s = clean_str(it)
+        if not s:
+            continue
+        if s.lower() in ("not provided", "not applicable", "none", "unknown"):
+            continue
+        kept.append(s)
+    return "; ".join(dict.fromkeys(kept)) if kept else None
+
+
 def parse_20_noaa() -> list[dict[str, Any]]:
     rows = []
     seen_ids: set[str] = set()
@@ -1159,38 +1485,72 @@ def parse_20_noaa() -> list[dict[str, Any]]:
                 if rid:
                     seen_ids.add(rid)
                 sb = a.get("spatialBounding", {}) or {}
-                bbox = None
-                coords = sb.get("coordinates")
-                if isinstance(coords, list) and coords and isinstance(coords[0], list) and len(coords[0]) >= 4:
-                    try:
-                        xs = [pt[0] for pt in coords[0]]
-                        ys = [pt[1] for pt in coords[0]]
-                        bbox = [min(xs), min(ys), max(xs), max(ys)]
-                    except Exception:
-                        bbox = None
+                bbox = _extract_geojson_bbox(sb)
+
+                # Extract DOI from doi attribute, links, crossReferences, or citeAsStatements
+                doi = clean_doi(a.get("doi"))
+                if not doi:
+                    for lk in (a.get("links") or []):
+                        if isinstance(lk, dict):
+                            d_cand = clean_doi(lk.get("linkUrl") or lk.get("linkName") or lk.get("linkDescription"))
+                            if d_cand:
+                                doi = d_cand
+                                break
+                if not doi:
+                    for cs in (a.get("citeAsStatements") or []):
+                        d_cand = clean_doi(cs)
+                        if d_cand:
+                            doi = d_cand
+                            break
+
+                # Role-prioritized non-image landing URL
                 url = None
-                for lk in (a.get("links") or []):
-                    if isinstance(lk, dict) and lk.get("linkUrl"):
-                        url = clean_str(lk.get("linkUrl"))
+                for pref_fn in ("information", "search", "download", "offlineaccess"):
+                    for lk in (a.get("links") or []):
+                        if not isinstance(lk, dict):
+                            continue
+                        fn = str(lk.get("linkFunction") or "").lower()
+                        if fn == pref_fn:
+                            u_cand = clean_url(lk.get("linkUrl"))
+                            if u_cand:
+                                url = u_cand
+                                break
+                    if url:
                         break
+                if not url:
+                    for lk in (a.get("links") or []):
+                        if isinstance(lk, dict):
+                            u_cand = clean_url(lk.get("linkUrl"))
+                            if u_cand:
+                                url = u_cand
+                                break
+                if not url and doi:
+                    url = f"https://doi.org/{doi}"
+
+                spat_raw = _clean_gcmd_list(a.get("gcmdHorizontalResolution"))
+                temp_raw = _clean_gcmd_list(a.get("gcmdTemporalResolution"))
+                plat_raw = _clean_gcmd_list((a.get("gcmdPlatforms") or a.get("platforms") or []) + (a.get("gcmdInstruments") or a.get("instruments") or []))
+                org_raw = _clean_gcmd_list(a.get("gcmdDataCenters") or a.get("organizationNames")) or "NOAA (NESDIS / NCEI / STAR)"
+                kw_raw = _clean_gcmd_list((a.get("gcmdScience") or []) + (a.get("keywords") or []) + (a.get("gcmdScienceServices") or []))
+
                 rows.append({
                     "source_id": "20_noaa_onestop",
                     "raw_id": rid,
                     "title": clean_str(a.get("title")),
                     "description": clean_str(a.get("description")),
                     "processing_level_raw": clean_str(a.get("dataProcessingLevel")),
-                    "spatial_resolution_raw": None,
-                    "temporal_resolution_raw": clean_str(a.get("maintenanceFrequency")),
+                    "spatial_resolution_raw": spat_raw,
+                    "temporal_resolution_raw": temp_raw,
                     "temporal_start_raw": clean_str(a.get("beginDate") or a.get("beginYear")),
                     "temporal_end_raw": clean_str(a.get("endDate") or a.get("endYear")),
                     "update_frequency_raw": clean_str(a.get("maintenanceFrequency")),
                     "bbox_raw": bbox,
-                    "producing_org_raw": "NOAA (NESDIS / NCEI / STAR)",
-                    "platform_sensor_raw": clean_str(a.get("platforms") or a.get("instruments")),
-                    "doi_raw": clean_str(a.get("doi")),
-                    "license_raw": clean_str(a.get("useLimitation") or "U.S. Government Public Domain"),
+                    "producing_org_raw": org_raw,
+                    "platform_sensor_raw": plat_raw,
+                    "doi_raw": doi,
+                    "license_raw": clean_str(a.get("useLimitation") or a.get("dataLicenses") or "U.S. Government Public Domain"),
                     "landing_url_raw": url,
-                    "keywords_raw": clean_str(a.get("keywords") or a.get("gcmdScienceServices")),
+                    "keywords_raw": kw_raw,
                 })
     return rows
 
@@ -1204,15 +1564,16 @@ def parse_23_wri() -> tuple[list[dict[str, Any]], int]:
     for d in gfw_data:
         meta = d.get("metadata", {}) or {}
         title = clean_str(meta.get("title") or d.get("dataset"))
+        desc = clean_str(meta.get("overview") or meta.get("function"))
         t_start, t_end = _split_date_range_str(meta.get("content_date"))
         rows.append({
             "source_id": "23_wri_gfw_and_resourcewatch",
             "raw_id": f"GFW:{d.get('dataset')}",
             "title": title,
-            "description": clean_str(meta.get("overview") or meta.get("function")),
+            "description": desc,
             "processing_level_raw": None,
             "spatial_resolution_raw": clean_str(meta.get("resolution")),
-            "temporal_resolution_raw": clean_str(meta.get("update_frequency")),
+            "temporal_resolution_raw": _extract_cadence_from_text(title, desc),
             "temporal_start_raw": t_start,
             "temporal_end_raw": t_end,
             "update_frequency_raw": clean_str(meta.get("update_frequency")),
@@ -1238,21 +1599,23 @@ def parse_23_wri() -> tuple[list[dict[str, Any]], int]:
             m0 = meta_list[0].get("attributes", {}) if meta_list and isinstance(meta_list[0], dict) else {}
             info = m0.get("info", {}) if isinstance(m0.get("info"), dict) else {}
             t_start, t_end = _split_date_range_str(info.get("date_of_content"))
+            title_rw = clean_str(m0.get("name") or attr.get("name"))
+            desc_rw = clean_str(m0.get("description") or info.get("functions"))
             rows.append({
                 "source_id": "23_wri_gfw_and_resourcewatch",
                 "raw_id": f"RW:{item.get('id')}",
-                "title": clean_str(m0.get("name") or attr.get("name")),
-                "description": clean_str(m0.get("description") or info.get("functions")),
+                "title": title_rw,
+                "description": desc_rw,
                 "processing_level_raw": None,
                 "spatial_resolution_raw": clean_str(info.get("spatial_resolution")),
-                "temporal_resolution_raw": clean_str(info.get("frequency_of_updates")),
+                "temporal_resolution_raw": _extract_cadence_from_text(title_rw, desc_rw),
                 "temporal_start_raw": t_start,
                 "temporal_end_raw": t_end,
                 "update_frequency_raw": clean_str(info.get("frequency_of_updates")),
                 "bbox_raw": None,
                 "producing_org_raw": clean_str(info.get("organization") or m0.get("source")) or "World Resources Institute (Resource Watch)",
                 "hosting_platform_raw": clean_str(attr.get("provider")),
-                "platform_sensor_raw": clean_str(attr.get("tableName")),
+                "platform_sensor_raw": None,
                 "doi_raw": clean_str(info.get("citation")),
                 "license_raw": clean_str(info.get("license")),
                 "landing_url_raw": clean_str(info.get("learn_more_link")),
@@ -1270,18 +1633,20 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
         for lk in (m.get("links") or []):
             if isinstance(lk, dict) and lk.get("rel") == "self":
                 self_url = clean_str(lk.get("href"))
+        title_fao = clean_str(f"{m.get('_workspace_caption', 'FAO')} - {m.get('caption') or m.get('code')}")
+        desc_fao = clean_str(m.get("description") or m.get("measureCaption"))
         rows.append({
             "source_id": "26_fao_unep_and_thematic_benchmarks",
             "raw_id": f"FAO_GISMGR:{m.get('workspaceCode')}:{m.get('code')}",
-            "title": clean_str(f"{m.get('_workspace_caption', 'FAO')} - {m.get('caption') or m.get('code')}"),
-            "description": clean_str(m.get("description") or m.get("measureCaption")),
+            "title": title_fao,
+            "description": desc_fao,
             "processing_level_raw": None,
             "spatial_resolution_raw": None,
-            "temporal_resolution_raw": None,
+            "temporal_resolution_raw": _extract_cadence_from_text(title_fao, desc_fao),
             "temporal_start_raw": None,
             "temporal_end_raw": None,
             "update_frequency_raw": None,
-            "bbox_raw": None,
+            "bbox_raw": m.get("bbox") if isinstance(m.get("bbox"), list) else None,
             "producing_org_raw": "Food and Agriculture Organization of the United Nations (FAO)",
             "platform_sensor_raw": None,
             "doi_raw": None,
@@ -1298,14 +1663,16 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
             creators = [c.get("name") for c in (md.get("creators") or []) if isinstance(c, dict) and c.get("name")]
             affils = [c.get("affiliation") for c in (md.get("creators") or []) if isinstance(c, dict) and c.get("affiliation")]
             org = "; ".join(dict.fromkeys(affils[:3])) if affils else ("; ".join(creators[:3]) if creators else "Zenodo Scientific Benchmark")
+            title_z = clean_str(md.get("title") or h.get("title"))
+            desc_z = clean_str(md.get("description"))
             rows.append({
                 "source_id": "26_fao_unep_and_thematic_benchmarks",
                 "raw_id": f"ZENODO:{h.get('id')}",
-                "title": clean_str(md.get("title") or h.get("title")),
-                "description": clean_str(md.get("description")),
+                "title": title_z,
+                "description": desc_z,
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
-                "temporal_resolution_raw": None,
+                "temporal_resolution_raw": _extract_cadence_from_text(title_z, desc_z),
                 "temporal_start_raw": None,  # Zenodo deposit publication_date is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
@@ -1319,37 +1686,78 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "keywords_raw": clean_str(md.get("keywords")),
             })
 
-    # 3. GFZ Data Services (DataCite) for Horizon 2020 G3P Groundwater Products
+    # 3. DataCite Benchmark Records (G3P Groundwater, FLUXCOM-X-BASE, LCSPP/LCSIF, CSIF, PANGAEA)
     g3p_path = RAW_DIR / "26_fao_unep_and_thematic_benchmarks/data/gfz_datacite_g3p_benchmarks.json"
     if g3p_path.exists():
         for d in json.loads(g3p_path.read_text(encoding="utf-8")).get("data", []):
             attr = d.get("attributes", {}) or {}
             rtype_gen = str((attr.get("types") or {}).get("resourceTypeGeneral") or "").lower()
-            if rtype_gen and rtype_gen != "dataset":
+            if rtype_gen and rtype_gen not in ("dataset", "collection"):
                 continue
             titles = [t.get("title") for t in (attr.get("titles") or []) if isinstance(t, dict) and t.get("title")]
             descs = [x.get("description") for x in (attr.get("descriptions") or []) if isinstance(x, dict) and x.get("description")]
             creators = [c.get("name") for c in (attr.get("creators") or []) if isinstance(c, dict) and c.get("name")]
+            subjects = [s.get("subject") for s in (attr.get("subjects") or []) if isinstance(s, dict) and s.get("subject")]
             doi_id = clean_str(d.get("id"))
+            title_dc = clean_str(titles[0] if titles else doi_id)
+            desc_dc = clean_str(descs[0] if descs else None)
+            publisher_dc = clean_str(attr.get("publisher"))
+            doi_low = (doi_id or "").lower()
+
+            bbox_dc = None
+            for gl in (attr.get("geoLocations") or []):
+                if isinstance(gl, dict) and isinstance(gl.get("geoLocationBox"), dict):
+                    gb = gl["geoLocationBox"]
+                    try:
+                        bbox_dc = [
+                            float(gb["westBoundLongitude"]),
+                            float(gb["southBoundLatitude"]),
+                            float(gb["eastBoundLongitude"]),
+                            float(gb["northBoundLatitude"]),
+                        ]
+                        break
+                    except Exception:
+                        bbox_dc = None
+
+            if doi_low.startswith("10.5880/"):
+                org_dc = publisher_dc or clean_str(creators[:2]) or "GFZ German Research Centre for Geosciences / G3P Consortium"
+                host_dc = "GFZ Data Services (DataCite)"
+                plat_dc = "GRACE / GRACE-FO"
+                kw_dc = clean_str(subjects) or "G3P; groundwater; GRACE; GRACE-FO; Horizon 2020"
+            elif doi_low.startswith("10.18160/"):
+                org_dc = "Max Planck Institute for Biogeochemistry / ICOS Carbon Portal (FLUXCOM-X)"
+                host_dc = "ICOS Carbon Portal (DataCite)"
+                plat_dc = "MODIS; FLUXNET; ICOS"
+                kw_dc = clean_str(subjects) or "FLUXCOM-X-BASE; gross primary production; GPP; NEE; evapotranspiration; carbon flux; energy flux"
+                if bbox_dc is None:
+                    bbox_dc = [-180.0, -90.0, 180.0, 90.0]
+            else:
+                org_dc = clean_str(creators[:3]) or publisher_dc or "Scientific EO Benchmark Consortium"
+                host_dc = f"{publisher_dc} (DataCite)" if publisher_dc else "DataCite Scientific Repository"
+                plat_dc = None
+                kw_dc = clean_str(subjects) or clean_str(title_dc)
+                if bbox_dc is None and "global" in f"{title_dc or ''} {desc_dc or ''}".lower():
+                    bbox_dc = [-180.0, -90.0, 180.0, 90.0]
+
             rows.append({
                 "source_id": "26_fao_unep_and_thematic_benchmarks",
                 "raw_id": f"DATACITE:{doi_id}",
-                "title": clean_str(titles[0] if titles else doi_id),
-                "description": clean_str(descs[0] if descs else None),
+                "title": title_dc,
+                "description": desc_dc,
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
-                "temporal_resolution_raw": None,
+                "temporal_resolution_raw": _extract_cadence_from_text(title_dc, desc_dc),
                 "temporal_start_raw": None,  # DataCite publicationYear is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
-                "bbox_raw": None,
-                "producing_org_raw": clean_str(attr.get("publisher")) or clean_str(creators[:2]) or "GFZ German Research Centre for Geosciences / G3P Consortium",
-                "hosting_platform_raw": "GFZ Data Services (DataCite)",
-                "platform_sensor_raw": "GRACE / GRACE-FO",
+                "bbox_raw": bbox_dc,
+                "producing_org_raw": org_dc,
+                "hosting_platform_raw": host_dc,
+                "platform_sensor_raw": plat_dc,
                 "doi_raw": doi_id,
                 "license_raw": "CC-BY-4.0",
                 "landing_url_raw": clean_str(attr.get("url")) or (f"https://doi.org/{doi_id}" if doi_id else None),
-                "keywords_raw": "G3P; groundwater; GRACE; GRACE-FO; Horizon 2020",
+                "keywords_raw": kw_dc,
             })
     return rows
 
@@ -1649,9 +2057,19 @@ def main() -> None:
         total_prepared += len(kept)
         df_src = pd.DataFrame(kept)
         df_src.to_parquet(OUT_DATA_DIR / f"{sid}.parquet", index=False)
-        with (OUT_DATA_DIR / f"{sid}.jsonl").open("w", encoding="utf-8") as f:
-            for item in kept:
-                f.write(json.dumps(item, ensure_ascii=False) + "\n")
+        for old_j in OUT_DATA_DIR.glob(f"{sid}*.jsonl"):
+            old_j.unlink()
+        if len(kept) <= 6000:
+            with (OUT_DATA_DIR / f"{sid}.jsonl").open("w", encoding="utf-8") as f:
+                for item in kept:
+                    f.write(json.dumps(item, ensure_ascii=False) + "\n")
+        else:
+            jsonl_chunk = 5000
+            for c_idx in range(0, len(kept), jsonl_chunk):
+                c_part = (c_idx // jsonl_chunk) + 1
+                with (OUT_DATA_DIR / f"{sid}_part{c_part:02d}.jsonl").open("w", encoding="utf-8") as f:
+                    for item in kept[c_idx : c_idx + jsonl_chunk]:
+                        f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
         # Compute null rates for audit
         n_kept = max(len(kept), 1)

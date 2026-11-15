@@ -117,10 +117,27 @@ ZENODO_QUERIES = [
     "Global Wetlands Map",
     "Global Kelp Forest",
     "Global Land Evaporation Amsterdam Model",
+    "LCSPP LCSIF LCREF",
+    "GOSIF Global OCO-2 SIF",
+    "CSIF Contiguous Solar-Induced Fluorescence",
+    "GLOBMAP Leaf Area Index",
 ]
 
 ZENODO_PINNED_RECORD_IDS = [
     14724263,  # GLEAM4 (Miralles et al. / Ghent University, doi:10.5281/zenodo.14724263)
+    20683570,  # Global LCREF, LCSIF, and LCSPP (latest version, doi:10.5281/zenodo.20683570)
+    13922379,  # Global LCREF, LCSIF, and LCSPP (v2, doi:10.5281/zenodo.13922379)
+    7916879,   # Global LCREF, LCSIF, and LCSPP (v1, doi:10.5281/zenodo.7916879)
+]
+
+DATACITE_PINNED_DOIS = [
+    "10.18160/5NZG-JMJE",        # FLUXCOM-X-BASE global carbon & energy fluxes (ICOS Carbon Portal)
+    "10.5281/zenodo.20683570",   # LCSPP / LCSIF / LCREF global SIF & GPP
+    "10.5281/zenodo.13922379",   # LCSPP / LCSIF / LCREF v2
+    "10.5281/zenodo.7916879",    # LCSPP / LCSIF / LCREF v1
+    "10.1594/PANGAEA.911944",    # Global terrestrial carbon/water flux EO benchmark (PANGAEA)
+    "10.1594/PANGAEA.897399",    # Global EO biophysical benchmark (PANGAEA)
+    "10.7910/DVN/EJSXHS",        # CSIF Contiguous Solar-Induced Fluorescence (Harvard Dataverse)
 ]
 
 
@@ -129,25 +146,44 @@ def main() -> None:
     session = build_session()
     queried: list[str] = []
 
-    # 1. FAO GISMGR v2 workspaces and mapsets
-    ws_url = "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces?size=100"
-    r_ws = session.get(ws_url, timeout=60)
-    r_ws.raise_for_status()
-    workspaces = r_ws.json().get("response", {}).get("items", [])
-    queried.append(ws_url)
+    # 1. FAO GISMGR v2 workspaces and mapsets (with full pagination across all pages)
+    workspaces: list[dict[str, Any]] = []
+    ws_page = 0
+    while True:
+        ws_url = f"https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces?size=100&page={ws_page}"
+        r_ws = session.get(ws_url, timeout=60)
+        r_ws.raise_for_status()
+        ws_resp = r_ws.json().get("response", {})
+        ws_items = ws_resp.get("items", [])
+        workspaces.extend(ws_items)
+        if not ws_resp.get("hasNext") or not ws_items:
+            break
+        ws_page += 1
+    queried.append("https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces?size=100&page=0..N")
 
     fao_mapsets: list[dict[str, Any]] = []
+    seen_mapsets: set[str] = set()
     for ws in workspaces:
         code = ws.get("code")
         if not code:
             continue
-        m_url = f"https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/{code}/mapsets?size=100"
-        rm = session.get(m_url, timeout=30)
-        if rm.status_code == 200:
-            items = rm.json().get("response", {}).get("items", [])
+        m_page = 0
+        while True:
+            m_url = f"https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/{code}/mapsets?size=100&page={m_page}"
+            rm = session.get(m_url, timeout=30)
+            if rm.status_code != 200:
+                break
+            m_resp = rm.json().get("response", {})
+            items = m_resp.get("items", [])
             for it in items:
-                it["_workspace_caption"] = ws.get("caption")
-                fao_mapsets.append(it)
+                m_code = f"{code}:{it.get('code')}"
+                if m_code not in seen_mapsets:
+                    seen_mapsets.add(m_code)
+                    it["_workspace_caption"] = ws.get("caption")
+                    fao_mapsets.append(it)
+            if not m_resp.get("hasNext") or not items:
+                break
+            m_page += 1
 
     (DATA_DIR / "fao_gismgr_workspaces_and_mapsets.json").write_text(
         json.dumps({"workspaces": workspaces, "mapsets": fao_mapsets}, ensure_ascii=False, indent=2),
@@ -187,24 +223,45 @@ def main() -> None:
         for rec in zenodo_records:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-    # 3. GFZ Data Services (DataCite API) for Horizon 2020 Global Gravity-based Groundwater Product (G3P)
+    # 3. DataCite API for G3P (GFZ), FLUXCOM-X-BASE (ICOS), LCSPP/LCSIF, CSIF, and PANGAEA benchmarks
     g3p_url = "https://api.datacite.org/dois"
     g3p_records: list[dict[str, Any]] = []
-    r_g3p = session.get(g3p_url, params={"prefix": "10.5880", "query": "g3p", "page[size]": "25"}, timeout=60)
-    if r_g3p.status_code == 200:
-        queried.append(f"{g3p_url}?prefix=10.5880&query=g3p&page[size]=25")
-        g3p_records = r_g3p.json().get("data", [])
-        (DATA_DIR / "gfz_datacite_g3p_benchmarks.json").write_text(
-            json.dumps({"data": g3p_records}, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+    seen_dc_ids: set[str] = set()
+
+    for dc_params in [
+        {"prefix": "10.5880", "query": "g3p", "page[size]": "25"},
+        {"prefix": "10.18160", "query": "FLUXCOM", "page[size]": "50"},
+    ]:
+        r_dc = session.get(g3p_url, params=dc_params, timeout=60)
+        if r_dc.status_code == 200:
+            queried.append(f"{g3p_url}?prefix={dc_params['prefix']}&query={dc_params['query']}")
+            for item in r_dc.json().get("data", []):
+                dc_id = str(item.get("id", "")).lower()
+                if dc_id and dc_id not in seen_dc_ids:
+                    seen_dc_ids.add(dc_id)
+                    g3p_records.append(item)
+
+    for doi in DATACITE_PINNED_DOIS:
+        if doi.lower() in seen_dc_ids:
+            continue
+        r_doi = session.get(f"{g3p_url}/{doi}", timeout=30)
+        if r_doi.status_code == 200:
+            item = r_doi.json().get("data")
+            if isinstance(item, dict) and item.get("id"):
+                seen_dc_ids.add(str(item["id"]).lower())
+                g3p_records.append(item)
+
+    (DATA_DIR / "gfz_datacite_g3p_benchmarks.json").write_text(
+        json.dumps({"data": g3p_records}, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
     write_last_access(
         queried,
         len(fao_mapsets) + len(zenodo_records) + len(g3p_records),
         "200 OK",
         notes=(
-            f"FAO GISMGR mapsets: {len(fao_mapsets)}, Zenodo benchmark datasets: {len(zenodo_records)}, "
-            f"GFZ DataCite G3P records: {len(g3p_records)}"
+            f"FAO GISMGR mapsets (all pages): {len(fao_mapsets)}, Zenodo benchmark datasets: {len(zenodo_records)}, "
+            f"DataCite benchmark records (G3P, FLUXCOM-X, LCSPP, PANGAEA, CSIF): {len(g3p_records)}"
         ),
     )
 

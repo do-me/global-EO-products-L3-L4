@@ -13,4 +13,4 @@ uv run mine.py
 ```
 
 ## Particularities & Technical Notes
-Harvests the Group on Earth Observations Biodiversity Observation Network (GEO BON) EBV Data Portal STAC API (`stac.geobon.org/collections`, 34 global/regional L3/L4 biodiversity cubes) and the GEO Knowledge Hub (`gkhub.earthobservations.org/api/records`).
+Harvests the Group on Earth Observations Biodiversity Observation Network (GEO BON) EBV Data Portal STAC API (`stac.geobon.org/collections` with `rel="next"` pagination, 35 global/regional L3/L4 biodiversity cubes) and the GEO Knowledge Hub (`gkhub.earthobservations.org/api/records`, 1,275 records).

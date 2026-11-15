@@ -106,13 +106,37 @@ def write_last_access(
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     session = build_session()
-    url1 = "https://stac.dataspace.copernicus.eu/v1/collections"
-    r1 = session.get(url1, timeout=60)
-    r1.raise_for_status()
-    d1 = r1.json()
-    cols1 = d1.get("collections", [])
+    url1 = "https://stac.dataspace.copernicus.eu/v1/collections?limit=1000"
+    cols1: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    next_url: str | None = url1
+    first_payload: dict[str, Any] = {}
+    while next_url:
+        r1 = session.get(next_url, timeout=60)
+        r1.raise_for_status()
+        d1 = r1.json()
+        if not first_payload:
+            first_payload = d1
+        batch = d1.get("collections", [])
+        new_in_page = 0
+        for c in batch:
+            cid = str(c.get("id", ""))
+            if cid and cid not in seen_ids:
+                seen_ids.add(cid)
+                cols1.append(c)
+                new_in_page += 1
+        next_link = None
+        for lk in d1.get("links", []):
+            if isinstance(lk, dict) and lk.get("rel") == "next" and lk.get("href"):
+                next_link = str(lk["href"])
+                break
+        if not next_link or next_link == next_url or new_in_page == 0:
+            break
+        next_url = next_link
+
+    first_payload["collections"] = cols1
     (DATA_DIR / "cdse_native_stac_collections.json").write_text(
-        json.dumps(d1, ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(first_payload, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
     fedeo_cols: list[dict[str, Any]] = []

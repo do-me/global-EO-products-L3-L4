@@ -1,20 +1,42 @@
 source_id: 20_noaa_onestop
 source_title: NOAA OneStop Data Search REST API (NOAA CDRs, NESDIS/STAR/NCEI Gridded Satellite Products)
-retrieved_at_utc: 2026-11-13T16:51:54Z
+retrieved_at_utc: 2026-11-15T04:51:22Z
 http_status_summary: 200 OK
-total_records_retrieved: 14275
+total_records_retrieved: 15165
 endpoints_queried:
-  - POST https://data.noaa.gov/onestop/api/search/search/collection (queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'], full pagination up to meta.total/15000)
+  - POST https://data.noaa.gov/onestop/api/search/search/collection (summary=False, queries=['Climate Data Record', 'Level 3', 'Level 4', 'Coral Reef Watch', 'VIIRS gridded', 'AVHRR Pathfinder', 'Optimum Interpolation Sea Surface Temperature', 'World Ocean Atlas', 'ETOPO', 'NOAA STAR', 'NESDIS global'], dual-sort pagination for >10k window)
+notes: Climate Data Record: retrieved=297/297 (new=297); Level 3: retrieved=1698/1698 (new=1677); Level 4: retrieved=885/885 (new=396); Coral Reef Watch: retrieved=1639/1639 (new=1636); VIIRS gridded: retrieved=80/80 (new=27); AVHRR Pathfinder: retrieved=58/58 (new=36); Optimum Interpolation Sea Surface Temperature: retrieved=12/12 (new=6); World Ocean Atlas: retrieved=104/104 (new=96); ETOPO: retrieved=1/1 (new=1); NOAA STAR: retrieved=1621/1621 (new=793); NESDIS global: retrieved=11075/11075 (new=10200)
 files_written:
   - path: data/noaa_onestop_collections_part01.jsonl
-    bytes: 5968802
-    sha256: 9a66c7eebd6a3d1c5265d0c6908fa63d1ac5416b0552baaab57f0031c5f4cec3
+    bytes: 12835624
+    sha256: baff1e69cfe806848b54042bad54fa12d06b9eeb1be176d819142bccc977aa9c
   - path: data/noaa_onestop_collections_part02.jsonl
-    bytes: 11940175
-    sha256: c48463fcb55b4de340bd3178b10b1382cce103ae4bb368e352d3f38102334a95
+    bytes: 12753831
+    sha256: c031d757473a800cb33962e29842d1e92285b86869a8dbe8330d3d6e16c3cfb4
   - path: data/noaa_onestop_collections_part03.jsonl
-    bytes: 14246888
-    sha256: e1b8e710299987032d63f0983b3d2e3cbf89ca0a2ed7513f857b381c29d3c7c2
+    bytes: 12135618
+    sha256: 384c3cbd4122b725d6f314fe1f8f182ebaf49bda144f7dabc09ad9c8b8e41717
   - path: data/noaa_onestop_collections_part04.jsonl
-    bytes: 7928058
-    sha256: 3dceb612b0525ed4f39e98e7889fd50ad802deb1d3e08f38c27043d7d8f6cb27
+    bytes: 14800518
+    sha256: 0f1e8f276ca86b7aa9c96cddc846f13c797fcd0f192884b70b50147b96b1f5ae
+  - path: data/noaa_onestop_collections_part05.jsonl
+    bytes: 12432495
+    sha256: 424d30980ef8d3904a32c3dfcc655b2ad7f702bf9fa3f60b36ff422f5b000a19
+  - path: data/noaa_onestop_collections_part06.jsonl
+    bytes: 12765448
+    sha256: 099ba853ad6c3991fd81d41afe17f3e7b8c1245d73f411d8cdf54fdaed4cf3c4
+  - path: data/noaa_onestop_collections_part07.jsonl
+    bytes: 12920521
+    sha256: b6cf6e7e660e4bfacfb771c5e6e308b1a5b60e208d0fe179d9f48eec626d3249
+  - path: data/noaa_onestop_collections_part08.jsonl
+    bytes: 12865436
+    sha256: 0d94f6482c4843fd1a6b7b423f08e0ba2f2abced452c8d2c5c313babf3bc0b47
+  - path: data/noaa_onestop_collections_part09.jsonl
+    bytes: 14142234
+    sha256: ffa35071e4cf596a028483c00e26aa01841f591865b50137b2aa26517e155854
+  - path: data/noaa_onestop_collections_part10.jsonl
+    bytes: 18483005
+    sha256: 5ead8f88febd004f44222a62aade935b6476cfbd0c8926057bdc868ac79a0b8c
+  - path: data/noaa_onestop_collections_part11.jsonl
+    bytes: 1483238
+    sha256: c4bfd3697ce825b4777bac52f7ad1a6518482a6f6401c39f968d51bbf3292e36

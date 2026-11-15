@@ -110,13 +110,38 @@ def main() -> None:
     total = 0
 
     geobon_url = "https://stac.geobon.org/collections"
-    r1 = session.get(geobon_url, timeout=60)
-    r1.raise_for_status()
-    gb_cols = r1.json().get("collections", [])
+    gb_cols: list[dict[str, Any]] = []
+    seen_gb: set[str] = set()
+    next_gb_url: str | None = geobon_url
+    first_gb_payload: dict[str, Any] = {}
+    while next_gb_url:
+        r1 = session.get(next_gb_url, timeout=60)
+        r1.raise_for_status()
+        d1 = r1.json()
+        if not first_gb_payload:
+            first_gb_payload = d1
+        batch = d1.get("collections", [])
+        new_in_page = 0
+        for c in batch:
+            cid = str(c.get("id", ""))
+            if cid and cid not in seen_gb:
+                seen_gb.add(cid)
+                gb_cols.append(c)
+                new_in_page += 1
+        next_link = None
+        for lk in d1.get("links", []):
+            if isinstance(lk, dict) and lk.get("rel") == "next" and lk.get("href"):
+                next_link = str(lk["href"])
+                break
+        if not next_link or next_link == next_gb_url or new_in_page == 0:
+            break
+        next_gb_url = next_link
+
+    first_gb_payload["collections"] = gb_cols
     total += len(gb_cols)
     queried.append(geobon_url)
     (DATA_DIR / "geobon_ebv_stac_collections.json").write_text(
-        json.dumps(r1.json(), ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(first_gb_payload, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
     # Fetch datasets from GEO Knowledge Hub
