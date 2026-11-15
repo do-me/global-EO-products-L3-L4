@@ -14,42 +14,42 @@ uv run 04_validation_and_review/validate_catalogue_benchmarks.py
 | Metric | Value | Source Artifact |
 |---|---:|---|
 | Primary & federated sources harvested (`01_raw/`) | `29` | 28 EO product sources + 1 WMO OSCAR/GCOS taxonomy source |
-| Raw records retrieved (`01_raw/`) | `47,360` | Plus `1,300` WMO OSCAR reference records (`237` variables, `1,063` satellites) |
-| Prepared L3/L4 records (`02_preparation/`) | `37,822` | Stored per source in `02_preparation/data/` |
-| Logged excluded records (`02_preparation/`) | `4,537` | `02_preparation/data/excluded_records_log.parquet` (+ `4,200` pre-excluded non-EO records across JRC, GEO KH, WRI) |
-| Harmonized L3/L4 records (`03_harmonization/`) | `37,822` | [`03_harmonization/data/eo_l3_l4_all_catalogue_records.parquet`](../03_harmonization/data/eo_l3_l4_all_catalogue_records.parquet) |
-| Canonical L3/L4 products (`03_harmonization/`) | `37,264` | `534` mirror groups collapsing `558` duplicate records ([`eo_l3_l4_canonical_products.parquet`](../03_harmonization/data/eo_l3_l4_canonical_products.parquet)) |
-| Canonical pool: `copernicus_services` | `3,520` | `L3`: `2,709` (`547` Sentinel), `L4`: `811` (`46` Sentinel) — **`593` Sentinel-dependent** |
-| Canonical pool: `eu_non_copernicus` | `5,047` | `L3`: `4,869` (`539` Sentinel), `L4`: `178` (`27` Sentinel) — **`566` Sentinel-dependent** (`eu27_national_or_eu_agency`: `2,869`; `european_space_met_igo`: `1,807`; `copernicus_associated_state`: `371`) |
-| Canonical pool: `non_eu` | `28,697` | `L3`: `26,421` (`854` Sentinel), `L4`: `2,276` (`36` Sentinel) — **`890` Sentinel-dependent** (`third_country_non_european`: `27,206`; `un_or_international_body`: `1,479`; `european_esa_non_copernicus_state`: `12`) |
+| Raw records retrieved (`01_raw/`) | `47,612` | Plus `1,300` WMO OSCAR reference records (`237` variables, `1,063` satellites) |
+| Prepared L3/L4 records (`02_preparation/`) | `38,059` | Stored per source in `02_preparation/data/` |
+| Logged excluded records (`02_preparation/`) | `4,552` | `02_preparation/data/excluded_records_log.parquet` (+ `4,200` pre-excluded non-EO records across JRC, GEO KH, WRI) |
+| Harmonized L3/L4 records (`03_harmonization/`) | `38,059` | [`03_harmonization/data/eo_l3_l4_all_catalogue_records.parquet`](../03_harmonization/data/eo_l3_l4_all_catalogue_records.parquet) |
+| Canonical L3/L4 products (`03_harmonization/`) | `37,505` | `530` mirror groups collapsing `554` duplicate records ([`eo_l3_l4_canonical_products.parquet`](../03_harmonization/data/eo_l3_l4_canonical_products.parquet)) |
+| Canonical pool: `copernicus_services` | `3,520` | `L3`: `2,706` (`583` Sentinel), `L4`: `814` (`87` Sentinel) — **`670` Sentinel-dependent** |
+| Canonical pool: `eu_non_copernicus` | `5,100` | `L3`: `4,908` (`545` Sentinel), `L4`: `192` (`28` Sentinel) — **`573` Sentinel-dependent** (`eu27_national_or_eu_agency`: `2,913`; `european_space_met_igo`: `1,808`; `copernicus_associated_state`: `379`) |
+| Canonical pool: `non_eu` | `28,885` | `L3`: `26,589` (`892` Sentinel), `L4`: `2,296` (`46` Sentinel) — **`938` Sentinel-dependent** (`third_country_non_european`: `27,390`; `un_or_international_body`: `1,480`; `european_esa_non_copernicus_state`: `15`) |
 
 ---
 
-## 2. Automated Quality Assurance Suites (`18 + 16 PASS`)
+## 2. Automated Quality Assurance Suites (`18 + 17 PASS`)
 
 1. **`03_harmonization/verify_catalogue.py`** (`18` structural and ontology assertions):
    - Verifies completeness of all `29` source directories (`mine.py`, `README.md`, `last_access.txt`, non-empty `data/`) and enforces GitHub's single-file size bound (`<= 48 MB`).
-   - Verifies Sentinel-dependency detection (with mission launch-year and heritage-platform guards), producer-origin pool and `provider_jurisdiction_tier` attribution, operational maturity classification (`operational_ongoing_series` vs. `completed_or_mission_bounded_release`, `research_or_benchmark_release`, `planned_or_preoperational`, `deprecated_or_superseded`, and `unknown`, with zero `operational_ongoing_series` rows lacking `is_ongoing_archive`), symmetric `L3_ARD_REFLECTANCE` tagging across pools, leading-dot and fractional-degree resolution parsing (`27,830.0 m`, CLMS Burnt Area `1/336°` = `331.31 m`), Suomi-NPP L3 and C3S `satellite-*` L3 preservation, full NOAA `summary: false` (`99.3%` descriptions, `99.1%` MultiPolygon/Polygon bounds) and NASA CMR UMM-JSON (`93.4%` DOIs, `2,367` native grid resolutions) metadata recovery, separation of sampling cadence from publication update frequency, all-43-column `schema_completeness_report.csv` coverage, and high-recall benchmark collections (`FAO/WAPOR`, `Sentinel-3 SYNERGY V10/VG1`, `TransCom 3`, `SEDAC`, `INPE BDC`, `FLUXCOM-X-BASE`, `LCSPP`, `GWELD`, `EO:EUM:DAT:0088`).
-2. **`04_validation_and_review/validate_catalogue_benchmarks.py`** (`16` integrity assertions):
+   - Verifies Sentinel-dependency detection (with mission launch-year and contextual-clause guards), producer-origin pool and `provider_jurisdiction_tier` attribution, operational maturity classification (`operational_ongoing_series` vs. `completed_or_mission_bounded_release`, `research_or_benchmark_release`, `planned_or_preoperational`, `deprecated_or_superseded`, and `unknown`, with zero `operational_ongoing_series` rows lacking `is_ongoing_archive`), symmetric `L3_ARD_REFLECTANCE` tagging across pools, leading-dot, anisotropic (`0.625 x 0.5`), and fractional-degree resolution parsing (`27,830.0 m`, CLMS Burnt Area `1/336°` = `331.31 m`), Suomi-NPP L3 and C3S `satellite-*` L3/L4 preservation, full NOAA `summary: false` (`99.3%` descriptions, `99.1%` MultiPolygon/Polygon bounds) and NASA CMR UMM-JSON (`93.4%` DOIs, `2,354` native grid resolutions) metadata recovery, GEE structured `gee:interval` cadence extraction, separation of sampling cadence from publication update frequency, all-43-column `schema_completeness_report.csv` coverage, and high-recall benchmark collections (`FAO/WAPOR`, `Sentinel-3 SYNERGY V10/VG1`, `TransCom 3`, `SEDAC`, `INPE BDC`, `FLUXCOM-X-BASE`, `LCSPP`, `GWELD`, `EO:EUM:DAT:0088`, `TROPOSIF`, `SMOS-IC v2`).
+2. **`04_validation_and_review/validate_catalogue_benchmarks.py`** (`17` integrity assertions):
    - Zero duplicate `raw_id` within any source catalogue.
    - Zero Level-0, SLC-off/Burst, swath grid, or test placeholder contamination in canonical titles.
    - Zero non-EO laboratory/nuclear/LCA entries from institutional repositories.
    - Zero implausible unit-conversion, fractional-degree (`<= 600 km` ceiling), cartographic scale-denominator (`EEA >= 500 km` non-degree), >10x title-token discrepancy, or leading-dot degree artifacts (`AE_DyOcn`/`AU_DyOcn` = `27,830.0 m`) in spatial resolution fields.
    - Zero in-situ/campaign/socioeconomic records (`INSITU_*`, `radiosonde`, `Argo float`, `Polarstern`, `XBT`/`CTD`/buoy logs, `ARDECO`, `LUCAS Copernicus`, `gridded GDP`) marked `strict_eo_c1_eligible = True`.
    - Zero within-catalogue `canonical_product_key` collisions.
-   - Zero null/empty product titles (`37,822 / 37,822` non-null).
+   - Zero null/empty product titles (`38,059 / 38,059` non-null).
    - Zero invalid coordinates (`bbox`), unprefixed or preview-image (`.png`/`.jpg`/`.gif`/`/browse`) `access_url` links, non-canonical `doi` formats, or inverted ISO dates.
    - Zero producer-pool overrides on Copernicus/ESA/EU/INPE/FedEO records and valid `provider_jurisdiction_tier` invariants; zero future scenarios (`temporal_end_year >= 2028`) tagged as `is_ongoing_archive = True`; zero Suomi-NPP L3-to-L4, acronym homograph (`CAS/IGSNRR/PML`, NASA `HS3`), or `temporal_start_year > 2026` leaks.
-   - Verified deep provider metadata recovery (`>= 98%` NOAA descriptions, `>= 90%` CMR DOIs, `>= 2,300` CMR native resolutions) and zero multi-day-title vs. `sub_daily_or_daily` cadence contradictions, zero `operational_ongoing_series` rows with null `is_ongoing_archive`, and zero pre-2014 bounded records tagged `uses_sentinel_data = True`.
+   - Verified deep provider metadata recovery (`>= 98%` NOAA descriptions, `>= 90%` CMR DOIs, `>= 2,300` CMR native resolutions) and zero multi-day/monthly-title vs. `sub_daily_or_daily` cadence contradictions, zero `operational_ongoing_series` rows with null `is_ongoing_archive`, zero pre-2014 bounded records tagged `uses_sentinel_data = True`, zero `temporal_resolution_raw == 'cadence'` GEE interval losses, and zero explicit L4-to-L3 downgrades.
 
 ---
 
 ## 3. External Domain Coverage Benchmarks
 
-### 3.1 EU Policy & Operational Service Product Families (`N = 84`)
-Evaluated across `84` consolidated EU environmental policy, Copernicus operational service, and global scientific benchmark product families in [`eu_policy_products_benchmark_audit.csv`](eu_policy_products_benchmark_audit.csv):
+### 3.1 EU Policy & Operational Service Product Families (`N = 86`)
+Evaluated across `86` consolidated EU environmental policy, Copernicus operational service, and global scientific benchmark product families in [`eu_policy_products_benchmark_audit.csv`](eu_policy_products_benchmark_audit.csv):
 
-- **In-Scope Open L3/L4 EO Product Families**: **`75 / 75` (`100.0%`)** present (`IN_CATALOGUE`) across CLMS (including all 9 pan-European 10 m HRL Croplands Crop Types & Cropping Patterns layers), CEMS/JRC (GFM, GloFAS, EFAS/HERA, EDO/GDO, EFFIS/GWIS, GHSL, GSWE 30 m, TMF v2025, Rapid Mapping & RRM, MARS/ASAP, ESDAC), C3S (ERA5, ERA5-Land, CERRA, seasonal forecasts, PECD, CMIP6, ECVs, UTCI, agroclimatic indicators), CAMS (emission inventories, GHG/AQ forecasts & reanalyses, inversions, CRS), CMEMS (Physics, BGC, HR-OC 100 m, GlobColour, OMIs, SDB 100 m), Copernicus DEM / EU-DEM, EMODnet, and global external benchmarks (VIIRS `VNP46`, USGS Landsat C2 L3, `G3P` / `GRACE` TWS, `FLUXCOM-X-BASE`, `LCSPP`/`LCSIF`/`LCREF`, `GWELD`, and EUMETSAT `EO:EUM:DAT:0088` MSG LST Level 3).
+- **In-Scope Open L3/L4 EO Product Families**: **`77 / 77` (`100.0%`)** present (`IN_CATALOGUE`) across CLMS (including all 9 pan-European 10 m HRL Croplands Crop Types & Cropping Patterns layers), CEMS/JRC (GFM, GloFAS, EFAS/HERA, EDO/GDO, EFFIS/GWIS, GHSL, GSWE 30 m, TMF v2025, Rapid Mapping & RRM, MARS/ASAP, ESDAC), C3S (ERA5, ERA5-Land, CERRA, seasonal forecasts, PECD, CMIP6, ECVs, UTCI, agroclimatic indicators), CAMS (emission inventories, GHG/AQ forecasts & reanalyses, inversions, CRS), CMEMS (Physics, BGC, HR-OC 100 m, GlobColour, OMIs, SDB 100 m), Copernicus DEM / EU-DEM, EMODnet, and global external benchmarks (VIIRS `VNP46`, USGS Landsat C2 L3, `G3P` / `GRACE` TWS, `FLUXCOM-X-BASE`, `LCSPP`/`LCSIF`/`LCREF`, `GWELD`, EUMETSAT `EO:EUM:DAT:0088` MSG LST Level 3, `TROPOSIF` SIF, and `SMOS-IC v2` soil moisture / L-VOD).
 - **Sensitivity / Non-EO Tagged & Related Entries**: `4` families (`INSITU_*_OA_*` gridded interpolations, `EDGAR`/`CEDS` emission inventories, Eurostat/JRC socio-economic support, and non-EO reference registries).
 - **Expected Out-of-Scope**: `4` families (restricted Copernicus Security Services / EMSA CleanSeaNet; interactive web-only CAMS Methane Hotspot Explorer; activity-based CAMS Carbon Monitor; EEA tabular WEI+/WISE Flood Risk/EUCRA reports).
 - **Excluded Imagery**: `1` family (`CDSE Sentinel Level-1 and Level-2 Operational Imagery`, verified as `CORRECTLY_EXCLUDED_IN_AUDIT_LOG` in `excluded_records_log.parquet`).

@@ -121,6 +121,7 @@ ZENODO_QUERIES = [
     "GOSIF Global OCO-2 SIF",
     "CSIF Contiguous Solar-Induced Fluorescence",
     "GLOBMAP Leaf Area Index",
+    "TROPOSIF fluorescence",
 ]
 
 ZENODO_PINNED_RECORD_IDS = [
@@ -128,6 +129,10 @@ ZENODO_PINNED_RECORD_IDS = [
     20683570,  # Global LCREF, LCSIF, and LCSPP (latest version, doi:10.5281/zenodo.20683570)
     13922379,  # Global LCREF, LCSIF, and LCSPP (v2, doi:10.5281/zenodo.13922379)
     7916879,   # Global LCREF, LCSIF, and LCSPP (v1, doi:10.5281/zenodo.7916879)
+    10212472,  # Global fluorescence yield based on TROPOSIF data, normalized with NIRvP (doi:10.5281/zenodo.10212472)
+    7331411,   # eSIF product: enhanced SIF by combining TROPOSIF, MODIS reflectance and ERA-5 (doi:10.5281/zenodo.7331411)
+    2575599,   # VODCA Global Long-term Microwave Vegetation Optical Depth Climate Archive (doi:10.5281/zenodo.2575599)
+    11206366,  # OceanSODA-ETHZ-v2 Surface ocean sea-air CO2 fluxes (doi:10.5281/zenodo.11206366)
 ]
 
 DATACITE_PINNED_DOIS = [
@@ -135,6 +140,8 @@ DATACITE_PINNED_DOIS = [
     "10.5281/zenodo.20683570",   # LCSPP / LCSIF / LCREF global SIF & GPP
     "10.5281/zenodo.13922379",   # LCSPP / LCSIF / LCREF v2
     "10.5281/zenodo.7916879",    # LCSPP / LCSIF / LCREF v1
+    "10.5281/zenodo.10212472",   # Global fluorescence yield based on TROPOSIF data, normalized with NIRvP
+    "10.15454/tihhyp",           # SMOS-IC v2 global soil moisture and L-band vegetation optical depth (INRAE / CESBIO)
     "10.1594/PANGAEA.911944",    # Global terrestrial carbon/water flux EO benchmark (PANGAEA)
     "10.1594/PANGAEA.897399",    # Global EO biophysical benchmark (PANGAEA)
     "10.7910/DVN/EJSXHS",        # CSIF Contiguous Solar-Induced Fluorescence (Harvard Dataverse)
@@ -190,13 +197,19 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    # 2. Zenodo REST API for flagship global L3/L4 EO datasets
+    # 2. Zenodo REST API for flagship global L3/L4 EO datasets (paginated across pages 1..2)
     zenodo_records: list[dict[str, Any]] = []
     seen_zenodo: set[int] = set()
     for q in ZENODO_QUERIES:
         z_url = "https://zenodo.org/api/records"
-        rz = session.get(z_url, params={"q": q, "type": "dataset", "size": "15"}, timeout=60)
-        if rz.status_code == 200:
+        for z_page in (1, 2):
+            rz = session.get(
+                z_url,
+                params={"q": q, "type": "dataset", "size": "15", "page": str(z_page)},
+                timeout=60,
+            )
+            if rz.status_code != 200:
+                break
             hits = rz.json().get("hits", {}).get("hits", [])
             for h in hits:
                 zid = h.get("id")
@@ -204,7 +217,9 @@ def main() -> None:
                     seen_zenodo.add(zid)
                     h["_matched_benchmark_query"] = q
                     zenodo_records.append(h)
-        time.sleep(0.3)
+            time.sleep(0.3)
+            if len(hits) < 15:
+                break
 
     for z_rec_id in ZENODO_PINNED_RECORD_IDS:
         if z_rec_id in seen_zenodo:

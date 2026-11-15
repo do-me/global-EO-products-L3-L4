@@ -277,8 +277,22 @@ def main() -> None:
     has_eum_0088 = bool(((df_all["source_catalogue"] == "17_eumetsat_product_navigator") & (df_all["raw_id"] == "EO:EUM:DAT:0088")).any())
     has_fluxcom = bool(df_all["doi"].fillna("").str.lower().str.contains("10.18160/5nzg-jmje").any())
     has_lcspp = bool(df_all["title"].fillna("").str.contains("LCSPP", case=False).any())
+    has_troposif = bool(df_all["doi"].fillna("").str.lower().str.contains("10.5281/zenodo.10212472").any())
+    has_smos_ic = bool(df_all["doi"].fillna("").str.lower().str.contains("10.15454/tihhyp").any())
     cds_oc = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-ocean-colour")]
-    cds_oc_ok = bool(len(cds_oc) == 1 and cds_oc.iloc[0]["processing_level"] == "L3" and cds_oc.iloc[0]["temporal_cadence_class"] == "sub_daily_or_daily")
+    cds_oc_ok = bool(
+        len(cds_oc) == 1
+        and cds_oc.iloc[0]["processing_level"] == "L3"
+        and "daily" in str(cds_oc.iloc[0]["temporal_resolution_raw"]).lower()
+        and "monthly" in str(cds_oc.iloc[0]["temporal_resolution_raw"]).lower()
+    )
+    gee_cadence_literal = int((df_all["temporal_resolution_raw"] == "cadence").sum())
+    merra_2 = df_all[(df_all["source_catalogue"] == "16_nasa_cmr") & (df_all["raw_id"] == "C2531963170-GES_DISC")]
+    merra_2_ok = bool(
+        len(merra_2) == 1
+        and "10.5067/o8ax56do60mi" in str(merra_2.iloc[0]["access_url"]).lower()
+        and "0.625 x 0.5" in str(merra_2.iloc[0]["spatial_resolution_raw"])
+    )
 
     if (
         noaa_desc_rate >= 0.98
@@ -292,7 +306,11 @@ def main() -> None:
         and has_eum_0088
         and has_fluxcom
         and has_lcspp
+        and has_troposif
+        and has_smos_ic
         and cds_oc_ok
+        and gee_cadence_literal == 0
+        and merra_2_ok
     ):
         checks_passed += 1
         benchmarks.append(

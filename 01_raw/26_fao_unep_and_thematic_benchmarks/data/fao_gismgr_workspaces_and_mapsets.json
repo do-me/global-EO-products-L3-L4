@@ -14042,21 +14042,18 @@
     },
     {
       "workspaceCode": "GLW4-2020",
-      "code": "D-DA",
-      "caption": "Animal Density (GLW4-2020)",
-      "defaultStyleCode": "D-DA-ALL",
-      "measureCaption": "Animal Density",
+      "code": "GLW4-N-DA-10KM",
+      "caption": "Animal Number (GLW4-2020, 10KM)",
+      "defaultStyleCode": "D-DA",
+      "measureCaption": "Animal Number ",
       "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": [
-        "GLW4_2020",
-        "LIVESTOCK"
-      ],
+      "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/D-DA"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/GLW4-N-DA-10KM"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW4, 2020)"
@@ -14084,18 +14081,21 @@
     },
     {
       "workspaceCode": "GLW4-2020",
-      "code": "GLW4-N-DA-10KM",
-      "caption": "Animal Number (GLW4-2020, 10KM)",
-      "defaultStyleCode": "D-DA",
-      "measureCaption": "Animal Number ",
+      "code": "D-DA",
+      "caption": "Animal Density (GLW4-2020)",
+      "defaultStyleCode": "D-DA-ALL",
+      "measureCaption": "Animal Density",
       "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": null,
+      "tags": [
+        "GLW4_2020",
+        "LIVESTOCK"
+      ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/GLW4-N-DA-10KM"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/D-DA"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW4, 2020)"
@@ -22395,10 +22395,10 @@
     },
     {
       "workspaceCode": "CAVA",
-      "code": "PR-ANOM-HATCHING-SIMPLE",
-      "caption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
+      "code": "TN-ANOM-HATCHING-SIMPLE",
+      "caption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
       "defaultStyleCode": "PR-ANOM-HATCHING-SIMPLE",
-      "measureCaption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
+      "measureCaption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
@@ -22406,25 +22406,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/PR-ANOM-HATCHING-SIMPLE"
-        }
-      ],
-      "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
-    },
-    {
-      "workspaceCode": "CAVA",
-      "code": "PR-RELANOM",
-      "caption": "CAVA – Precipitation Relative Anomaly (pr_relanom)",
-      "defaultStyleCode": "PR-RELANOM",
-      "measureCaption": "CAVA – Precipitation Relative Anomaly (pr_relanom)",
-      "measureUnit": "%",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/PR-RELANOM"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TN-ANOM-HATCHING-SIMPLE"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
@@ -22449,10 +22431,28 @@
     },
     {
       "workspaceCode": "CAVA",
-      "code": "TN-ANOM-HATCHING-SIMPLE",
-      "caption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
+      "code": "PR-RELANOM",
+      "caption": "CAVA – Precipitation Relative Anomaly (pr_relanom)",
+      "defaultStyleCode": "PR-RELANOM",
+      "measureCaption": "CAVA – Precipitation Relative Anomaly (pr_relanom)",
+      "measureUnit": "%",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/PR-RELANOM"
+        }
+      ],
+      "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
+    },
+    {
+      "workspaceCode": "CAVA",
+      "code": "PR-ANOM-HATCHING-SIMPLE",
+      "caption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
       "defaultStyleCode": "PR-ANOM-HATCHING-SIMPLE",
-      "measureCaption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
+      "measureCaption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
@@ -22460,25 +22460,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TN-ANOM-HATCHING-SIMPLE"
-        }
-      ],
-      "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
-    },
-    {
-      "workspaceCode": "CAVA",
-      "code": "TX-ANOM",
-      "caption": "CAVA – Maximum Temperature Anomaly (tx_anom)",
-      "defaultStyleCode": "TX-ANOM",
-      "measureCaption": "CAVA – Maximum Temperature Anomaly (tx_anom)",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TX-ANOM"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/PR-ANOM-HATCHING-SIMPLE"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
@@ -22497,6 +22479,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TX-ANOM-HATCHING-SIMPLE"
+        }
+      ],
+      "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
+    },
+    {
+      "workspaceCode": "CAVA",
+      "code": "TX-ANOM",
+      "caption": "CAVA – Maximum Temperature Anomaly (tx_anom)",
+      "defaultStyleCode": "TX-ANOM",
+      "measureCaption": "CAVA – Maximum Temperature Anomaly (tx_anom)",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TX-ANOM"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
@@ -22762,24 +22762,6 @@
     },
     {
       "workspaceCode": "RVF-MRT",
-      "code": "MCDA",
-      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Mauritania - 2026)",
-      "defaultStyleCode": "RVF-MCDA",
-      "measureCaption": "MCDA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-MRT/mapsets/MCDA"
-        }
-      ],
-      "_workspace_caption": "RVF Mauritania"
-    },
-    {
-      "workspaceCode": "RVF-MRT",
       "code": "MCDA-SW",
       "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Mauritania - 2026)",
       "defaultStyleCode": "RVF-MCDA",
@@ -22792,6 +22774,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-MRT/mapsets/MCDA-SW"
+        }
+      ],
+      "_workspace_caption": "RVF Mauritania"
+    },
+    {
+      "workspaceCode": "RVF-MRT",
+      "code": "MCDA",
+      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Mauritania - 2026)",
+      "defaultStyleCode": "RVF-MCDA",
+      "measureCaption": "MCDA",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-MRT/mapsets/MCDA"
         }
       ],
       "_workspace_caption": "RVF Mauritania"
@@ -22834,24 +22834,6 @@
     },
     {
       "workspaceCode": "RVF-GIN",
-      "code": "MCDA",
-      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Guinea - 2026)",
-      "defaultStyleCode": "RVF-MCDA",
-      "measureCaption": "MCDA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GIN/mapsets/MCDA"
-        }
-      ],
-      "_workspace_caption": "RVF Guinea"
-    },
-    {
-      "workspaceCode": "RVF-GIN",
       "code": "MCDA-SW",
       "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Guinea - 2026)",
       "defaultStyleCode": "RVF-MCDA",
@@ -22864,6 +22846,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GIN/mapsets/MCDA-SW"
+        }
+      ],
+      "_workspace_caption": "RVF Guinea"
+    },
+    {
+      "workspaceCode": "RVF-GIN",
+      "code": "MCDA",
+      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Guinea - 2026)",
+      "defaultStyleCode": "RVF-MCDA",
+      "measureCaption": "MCDA",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GIN/mapsets/MCDA"
         }
       ],
       "_workspace_caption": "RVF Guinea"
@@ -23055,27 +23055,6 @@
     },
     {
       "workspaceCode": "EARTHDATA",
-      "code": "SSMC-10-C",
-      "caption": "FLDAS Long-Term Historical Global Surface Soil Moisture (0-10cm)",
-      "defaultStyleCode": "SMC",
-      "measureCaption": "Soil Moisture Content",
-      "measureUnit": "m³ m⁻³",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "FLDAS",
-        "NASA"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-C"
-        }
-      ],
-      "_workspace_caption": "NASA Earth Observation Data"
-    },
-    {
-      "workspaceCode": "EARTHDATA",
       "code": "SSMC-10-CP",
       "caption": "FLDAS Monthly Global Surface Soil Moisture (0-10cm)",
       "defaultStyleCode": "SMC",
@@ -23091,6 +23070,27 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-CP"
+        }
+      ],
+      "_workspace_caption": "NASA Earth Observation Data"
+    },
+    {
+      "workspaceCode": "EARTHDATA",
+      "code": "SSMC-10-C",
+      "caption": "FLDAS Long-Term Historical Global Surface Soil Moisture (0-10cm)",
+      "defaultStyleCode": "SMC",
+      "measureCaption": "Soil Moisture Content",
+      "measureUnit": "m³ m⁻³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "FLDAS",
+        "NASA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-C"
         }
       ],
       "_workspace_caption": "NASA Earth Observation Data"

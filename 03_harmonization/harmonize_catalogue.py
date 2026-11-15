@@ -110,6 +110,31 @@ def parse_resolution_meters(res_str: str | None) -> float | None:
             if 0 < val_m <= 600_000.0:
                 candidates.append(val_m)
 
+    # 1b. Explicit anisotropic X x Y grid spacing (e.g. "0.625 x 0.5 Decimal Degrees", "0.5 x 0.625 degree")
+    xy_pat = re.compile(
+        r"(?<![\d.])(\.\d+|\d+(?:\.\d+)?)\s*(?:°|deg(?:rees?)?)?\s*[x×]\s*(\.\d+|\d+(?:\.\d+)?)\s*(?:(km|kilometers?|kilometres?|m|meters?|metres?|(?:decimal\s+)?(?:deg|degrees?)|arcsec|arc-seconds?|arcseconds?|arcmin|arc-minutes?|arcminutes?)\b|(°)(?!\s*[cfknswe]\b))"
+    )
+    for m in xy_pat.finditer(s):
+        v1, v2 = float(m.group(1)), float(m.group(2))
+        unit = (m.group(3) or m.group(4) or "").strip()
+        for val in (v1, v2):
+            if val <= 0 or not unit:
+                continue
+            if unit in ("km", "kilometer", "kilometers", "kilometre", "kilometres"):
+                val_m = val * 1000.0
+            elif unit in ("m", "meter", "meters", "metre", "metres"):
+                val_m = val
+            elif unit in ("deg", "degree", "degrees", "°") or unit.startswith("decimal deg"):
+                val_m = round(val * 111320.0, 2)
+            elif unit in ("arcsec", "arc-second", "arc-seconds", "arcsecond", "arcseconds"):
+                val_m = round(val * 30.92, 2)
+            elif unit in ("arcmin", "arc-minute", "arc-minutes", "arcminute", "arcminutes"):
+                val_m = round(val * 1855.3, 2)
+            else:
+                continue
+            if 0 < val_m <= 600_000.0:
+                candidates.append(val_m)
+
     # 2. Standard decimal/integer value + unit (excluding numerator/denominator numbers adjacent to '/')
     pattern = re.compile(
         r"(?<![\d.])(?<!\d/)(?<!\d\s/)(\.\d+|\d+(?:\.\d+)?)\s*(?:(km|kilometers?|kilometres?|m|meters?|metres?|(?:decimal\s+)?(?:deg|degrees?)|arcsec|arc-seconds?|arcseconds?|arcmin|arc-minutes?|arcminutes?)\b|(°)(?!\s*[cfknswe]\b))(?![\s°]*\/)"
@@ -159,7 +184,7 @@ def parse_title_token_resolution_meters(raw_id: str | None, title: str | None) -
 def parse_year(date_str: str | None) -> int | None:
     if not date_str:
         return None
-    m = re.search(r"\b(19\d\d|20[0-3]\d)\b", str(date_str))
+    m = re.search(r"\b(19\d\d|20\d\d|2100)\b", str(date_str))
     return int(m.group(1)) if m else None
 
 
@@ -173,7 +198,7 @@ _MULTI_DAY_RE = re.compile(
 
 _SUB_DAILY_OR_DAILY_RE = re.compile(
     r"\b(?:sub[- ]?hourly|hourly|1[- ]?hour(?:ly)?|3[- ]?hour(?:ly)?|6[- ]?hour(?:ly)?|12[- ]?hour(?:ly)?|"
-    r"every\s+[136]\s*hours?|sub[- ]?daily|diurnal|1\s*days?|p1d|pt\d+[hm])\b|"
+    r"every\s+[136]\s*hours?|sub[- ]?daily|diurnal(?!\s+cycle)|1\s*days?|p1d|pt\d+[hm])\b|"
     r"(?<!\d[- ])(?<!\d)(?<!\bmulti[- ])\bdaily\b|"
     r"\b\d+(?:\.\d+)?\s*(?:hours?|minutes?|seconds?)\b",
     re.IGNORECASE,
@@ -195,6 +220,23 @@ _ANNUAL_RE = re.compile(
 )
 
 
+def _match_cadence_classes(txt: str) -> list[str]:
+    classes: list[str] = []
+    if _MULTI_DAY_RE.search(txt):
+        classes.append("multi_day_or_dekadal")
+    if _SUB_DAILY_OR_DAILY_RE.search(re.sub(r"\b\d+[- ]?da(?:y|ily|ys)\b", " ", txt, flags=re.I)):
+        classes.append("sub_daily_or_daily")
+    if _MONTHLY_OR_SEASONAL_RE.search(txt):
+        classes.append("monthly_or_seasonal")
+    if _MULTI_YEAR_RE.search(txt):
+        classes.append("multi_year_periodic")
+    if _ANNUAL_RE.search(re.sub(r"\b\d+[- ]?year(?:ly|s)?\b", " ", txt, flags=re.I)):
+        classes.append("annual")
+    if re.search(r"\b(?:static|single[- ]epoch|one[- ]off|once)\b", txt, re.I):
+        classes.append("static_or_single_epoch")
+    return classes
+
+
 def classify_cadence(
     temp_res_raw: str | None,
     update_freq_raw: str | None,
@@ -203,62 +245,28 @@ def classify_cadence(
     end_year: int | None,
     desc: str | None = None,
 ) -> str | None:
-    """Classify product temporal support/sampling cadence strictly separately from archival publication frequency."""
+    """Classify product temporal support/sampling cadence strictly separately from archival publication frequency.
+    Accepts None (null) when temporal_resolution_raw and title contain multiple distinct cadences or lack explicit cadence tokens."""
     tr = (temp_res_raw or "").strip().lower()
     title_l = (title or "").strip().lower()
     uf = (update_freq_raw or "").strip().lower()
 
-    # 1. Explicit multi-day / dekadal / weekly token in title takes priority over generic daily tags
-    if _MULTI_DAY_RE.search(title_l):
+    # 1. Explicit single-cadence token in title takes priority (resolving multi-cadence collection tags when title is specific)
+    title_classes = _match_cadence_classes(title_l)
+    if len(title_classes) == 1:
+        return title_classes[0]
+    if "multi_day_or_dekadal" in title_classes and "monthly_or_seasonal" not in title_classes:
         return "multi_day_or_dekadal"
 
-    # 2. Evaluate explicit temporal_resolution_raw (multi-day checked BEFORE daily so '10-daily' never matches 'daily')
+    # 2. Evaluate explicit temporal_resolution_raw (returning None if it lists multiple distinct cadence classes without title disambiguation)
     if tr:
-        if _MULTI_DAY_RE.search(tr):
-            return "multi_day_or_dekadal"
-        if _SUB_DAILY_OR_DAILY_RE.search(tr):
-            return "sub_daily_or_daily"
-        if _MONTHLY_OR_SEASONAL_RE.search(tr):
-            return "monthly_or_seasonal"
-        if _MULTI_YEAR_RE.search(tr):
-            return "multi_year_periodic"
-        if _ANNUAL_RE.search(tr):
-            return "annual"
-        if any(k in tr for k in ("static", "single-epoch", "one-off", "once")):
-            return "static_or_single_epoch"
+        tr_classes = _match_cadence_classes(tr)
+        if len(tr_classes) == 1:
+            return tr_classes[0]
+        if len(tr_classes) > 1:
+            return None
 
-    # 3. Evaluate explicit cadence tokens in title
-    if _SUB_DAILY_OR_DAILY_RE.search(title_l):
-        return "sub_daily_or_daily"
-    if _MONTHLY_OR_SEASONAL_RE.search(title_l):
-        return "monthly_or_seasonal"
-    if _MULTI_YEAR_RE.search(title_l):
-        return "multi_year_periodic"
-    if _ANNUAL_RE.search(title_l):
-        return "annual"
-    if re.search(r"\b(?:static|single[- ]epoch|one[- ]off)\b", title_l):
-        return "static_or_single_epoch"
-
-    # 4. Check explicit temporal step / composite clauses in description (if present)
-    if desc:
-        for clause_m in re.finditer(
-            r"(?:temporal\s+(?:resolution|coverage|sampling|step|aggregation)|"
-            r"(?:every\s+[136]\s*hours?|3-hourly|6-hourly|hourly|daily|8-day|10-day|10-daily|16-day|dekadal|weekly|monthly|seasonal|annual)\s+"
-            r"(?:and\s+(?:daily|monthly|annual|seasonal)\s+)?(?:composites?|means?|averages?|grids?|products?|estimates?|fields?|time[- ]series))[^.;]{0,80}",
-            desc,
-            re.IGNORECASE,
-        ):
-            c_txt = clause_m.group(0).lower()
-            if _MULTI_DAY_RE.search(c_txt):
-                return "multi_day_or_dekadal"
-            if _SUB_DAILY_OR_DAILY_RE.search(c_txt):
-                return "sub_daily_or_daily"
-            if _MONTHLY_OR_SEASONAL_RE.search(c_txt):
-                return "monthly_or_seasonal"
-            if _ANNUAL_RE.search(c_txt):
-                return "annual"
-
-    # 5. Explicit static / single-epoch indicators in update_freq_raw ONLY when not a multi-year time series
+    # 3. Explicit static / single-epoch indicators in update_freq_raw ONLY when not a multi-year time series
     if any(k in uf for k in ("static", "single-epoch", "one-off", "once")) and not (
         start_year is not None and end_year is not None and end_year > start_year
     ):
@@ -670,7 +678,7 @@ S1_RE = re.compile(
     re.IGNORECASE,
 )
 S2_RE = re.compile(
-    r"\b(sentinel[-_ ]?2[abc]?|s2[abc]?[-_ ]msi|hlss30|harmonized landsat[- ]sentinel|dynamic[-_ ]world|worldcover|worldcereal|"
+    r"\b(sentinel[-_ ]?2[abc]?|s2[abc]?[-_ ]msi|glad[-_ ]?s2|hlss30|harmonized landsat[- ]sentinel|dynamic[-_ ]world|worldcover|worldcereal|"
     r"ghs-built-s|hr-vpp|high resolution vegetation phenology|clcplus backbone|clc\+\s*backbone|vlcc|hr-s&i)\b",
     re.IGNORECASE,
 )
@@ -691,6 +699,21 @@ _SENTINEL_LAUNCH_YEAR = {
 }
 
 
+_CONTEXTUAL_NON_SENTINEL_DESC_RE = re.compile(
+    r"(?:complementary with[^.;]*?\bsentinel[-_ ]?[12356][abp]?\b[^.;]*|"
+    r"provides data to[^.;]*?\bsentinel[-_ ]?[12356][abp]?\b[^.;]*|"
+    r"the data target for meris and olci[^.;]*|"
+    r"other sensors running the same algorithm include olci[^.;]*|"
+    r"detectable across some european sentinel platforms[^.;]*|"
+    r"taking advantage of the availability of sentinel[-_ ]?2 data,\s*whereas earlier layers[^.;]*|"
+    r"transition to sentinel[-_ ]?2 imagery in 2018[^.;]*|"
+    r"tropospheric monitoring instrument\s*\(\s*tropomi\s*\)[^.;]*|"
+    r"harmonized landsat and sentinel-2\s*\(\s*hls\s*\)\s*project[^.;]*|"
+    r"sentinel-2a and sentinel-2b[^.;]*?landsat 8 and landsat 9[^.;]*)",
+    re.IGNORECASE,
+)
+
+
 def detect_sentinel_usage(
     raw_id: str | None,
     title: str | None,
@@ -700,33 +723,56 @@ def detect_sentinel_usage(
     end_year: int | None = None,
     is_ongoing: bool | None = None,
 ) -> tuple[bool, str | None]:
-    if re.search(r"\b(hurricane and severe storm sentinel|hs3[a-z0-9_-]*)\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE):
+    rid_str = raw_id or ""
+    ttl_str = title or ""
+    if re.search(r"\b(hurricane and severe storm sentinel|hs3[a-z0-9_-]*)\b", f"{rid_str} {ttl_str}", re.IGNORECASE):
         return False, None
 
-    # No Copernicus Sentinel satellite was in orbit before April 2014 (Sentinel-1A)
-    bounded_end = end_year if (end_year is not None and is_ongoing is not True) else None
+    # Check whether the title itself pins a single pre-2014 reference year/range (ignoring EEA publication month-year suffixes like ', Feb. 2024')
+    ttl_no_pub = re.sub(
+        r",\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z.]*\s+20[12]\d\b",
+        "",
+        ttl_str,
+        flags=re.IGNORECASE,
+    )
+    ttl_years = [int(y) for y in re.findall(r"(?<![\d_])(19[7-9]\d|20\d\d|2100)(?![\d_])", ttl_no_pub)]
+    title_has_post2014_year = any(y >= 2014 for y in ttl_years)
+    title_pinned_pre2014 = bool(
+        ttl_years
+        and max(ttl_years) < 2014
+        and not re.search(
+            r"\b(ongoing|present|nrt|near[- ]real[- ]time|multi[- ]?year|multitemporal|sentinel)\b",
+            ttl_str,
+            re.IGNORECASE,
+        )
+    )
+    if title_pinned_pre2014:
+        return False, None
+
+    is_retrospective_fusion = bool(
+        re.search(r"\b(biomass_cci|cci\s+biomass|gedi[-_ ]?fusion|wsci|gfm|worldcover)\b", f"{rid_str} {ttl_str}", re.IGNORECASE)
+    )
+    bounded_end = (
+        end_year
+        if (end_year is not None and is_ongoing is not True and not title_has_post2014_year and not is_retrospective_fusion)
+        else None
+    )
     if bounded_end is not None and bounded_end < 2014:
         return False, None
 
-    head_blob = f"{raw_id or ''} {title or ''} {plat_raw or ''} {kw_raw or ''}"
+    head_blob = f"{rid_str} {ttl_str} {plat_raw or ''} {kw_raw or ''}"
 
-    # If platform_sensor_raw explicitly names only non-Sentinel platforms/sensors (or title names a heritage mission)
-    # and head_blob has no Sentinel tokens, do not infer Sentinel lineage from background prose in description
-    plat_has_sentinel = bool(
-        plat_raw and re.search(r"\b(sentinel|s[12356][abp]?|olci|slstr|sral|tropomi|poseidon-4|c-sar|msi)\b", plat_raw, re.IGNORECASE)
-    )
-    plat_is_explicit_non_sentinel = bool(plat_raw and not plat_has_sentinel)
-    title_is_heritage_only = bool(
-        title
-        and re.search(
-            r"\b(meris|envisat|aatsr|ers-[12]|seawifs|avhrr|modis|viirs|trmm|landsat|goes|himawari|gcom|alos|grace|aquarius|smos|smap|icesat|gedi)\b",
-            title,
-            re.IGNORECASE,
-        )
-        and not re.search(r"\b(sentinel|hls|harmonized|multi[- ]?sensor|copernicus|synergy)\b", head_blob, re.IGNORECASE)
-    )
-    use_desc = not (plat_is_explicit_non_sentinel or title_is_heritage_only)
-    blob = f"{head_blob} {desc or ''}" if use_desc else head_blob
+    # Strip known non-input contextual/comparison clauses from description rather than suppressing description via platform_sensor_raw
+    desc_clean = _CONTEXTUAL_NON_SENTINEL_DESC_RE.sub(" ", desc or "")
+    # Explicit Landsat-only HLS component (HLSL30 / L30HLS) or ENVISAT-only v1 LWQ reprocessing (2002-2012)
+    if (
+        re.search(r"\bhlsl30\b", f"{rid_str} {ttl_str}", re.IGNORECASE)
+        or ("l30hls" in (desc or "").lower() and "s30hls" not in (desc or "").lower())
+        or re.search(r"^clms_lwq-reproc_global_300m_10daily_v1_", rid_str, re.IGNORECASE)
+    ):
+        desc_clean = ""
+
+    blob = f"{head_blob} {desc_clean}"
 
     missions: list[str] = []
     if S1_RE.search(blob):
@@ -742,9 +788,8 @@ def detect_sentinel_usage(
     if not missions and (
         re.search(r"\bsentinel\b", head_blob, re.IGNORECASE)
         or (
-            use_desc
-            and re.search(r"\b(copernicus sentinel|sentinel-[12356]|sentinel [12356])\b", desc or "", re.IGNORECASE)
-            and "emodnet digital bathymetry" not in (title or "").lower()
+            re.search(r"\b(copernicus sentinel|sentinel-[12356]|sentinel [12356])\b", desc_clean, re.IGNORECASE)
+            and "emodnet digital bathymetry" not in ttl_str.lower()
         )
     ):
         missions.append("Sentinel_Unspecified")
@@ -768,11 +813,12 @@ ARD_REFLECTANCE_RE = re.compile(
 )
 
 L4_MODEL_RE = re.compile(
-    r"\b(level[- ]?4\b|\bl4[ab]?\b|reanalysis|era5|merra-2|jra-55|glofas|efas|forecast|hindcast|"
-    r"(?<!for data )assimilation|numerical model|multiyear_phy|multiyear_bgc|MultiYear_wav|analysisforecast|"
+    r"\b(level[- ]?4\b|\bl4[a-d]?\b|reanalysis|era5|merra-2|jra-55|glofas|efas|forecast|hindcast|"
+    r"(?<!for data )assimilation|numerical model|lpj[-_]eosim|simulated\s+global\s+gridded|"
+    r"multiyear_phy|multiyear_bgc|MultiYear_wav|analysisforecast|"
     r"primary productivity|mod17|myd17|vnp17|gpp\b|gross primary product(?:ion|ivity)|net primary product(?:ion|ivity)|"
     r"evapotranspiration|mod16|wapor|gleam4?|global land evaporation amsterdam|"
-    r"carbon flux|biomass density|gedi04_b|gedi l4b|cci biomass|globbiomass|fwi|fire weather index|"
+    r"carbon flux|biomass density|gedi04_[a-d]|gedi l4[a-d]|cci biomass|globbiomass|fwi|fire weather index|"
     r"drought indicator|cdi\b|sma\b|spi\b|soil organic carbon|soilgrids)\b",
     re.IGNORECASE,
 )
@@ -835,17 +881,21 @@ def classify_level_and_ontology(
     head = f"{rid} {ttl} {kw_raw or ''}"
     full = f"{head} {desc or ''}"
 
-    # 1. Check ARD Surface Reflectance Mosaic (Question 2 symmetric category)
-    if ARD_REFLECTANCE_RE.search(head) and not re.search(r"\b(land cover|burned area|flood|biomass|leaf area|ndvi|evi|fapar|albedo)\b", ttl, re.IGNORECASE):
+    # 1. Check ARD Surface Reflectance Mosaic (Question 2 symmetric category; exclude explicit Level-4 or vegetation-index cubes)
+    if ARD_REFLECTANCE_RE.search(head) and not re.search(
+        r"\b(level[- ]?4\b|l4[a-d]?\b|land cover|burned area|flood|biomass|leaf area|ndvi|evi|fapar|albedo|vegetation index)\b",
+        head,
+        re.IGNORECASE,
+    ):
         return "L3", "L3_ARD_REFLECTANCE", "eo_ard_surface_reflectance_mosaic", True
 
-    # 2. Check Level 4 vs Level 3 (match explicit L4 tokens or model/reanalysis families; keep observational C3S satellite-* ECV grids at L3)
-    is_explicit_l4 = bool(re.search(r"^(?:level[- ]?|l)?4[ab]?\b", lvl)) and not bool(re.search(r"(?:level[- ]?3|l3|\b3\b)\s*[/,;]\s*(?:level[- ]?4|l4|\b4\b)", lvl))
+    # 2. Check Level 4 vs Level 3 (preserving L4 for multi-level L3/L4 collections such as C3S satellite-sea-surface-temperature so L4 queries discover them)
+    is_explicit_l4 = bool(re.search(r"\b(?:level[- ]?|l)?4[a-d]?\b", lvl))
     is_explicit_l3 = (
         bool(re.search(r"^(?:level[- ]?|l)?3[abcgs]?\b", lvl))
         and not bool(re.search(r"4", lvl))
         and not bool(re.search(
-            r"\b(level[- ]?4|l4[ab]?|reanalysis|era5|merra-2|jra-55|glofas|efas|mod16|mod17|myd17|vnp17|gross primary product|net primary product|gedi04_b|gedi l4b|soilgrids)\b",
+            r"\b(level[- ]?4|l4[a-d]?|reanalysis|era5|merra-2|jra-55|glofas|efas|mod16|mod17|myd17|vnp17|gross primary product|net primary product|gedi04_[a-d]|gedi l4[a-d]|soilgrids)\b",
             head,
             re.IGNORECASE,
         ))
@@ -938,7 +988,7 @@ def classify_operational_maturity(
     if (
         "collectionprogress:deprecated" in uf
         or any(k in uf for k in ("deprecated", "superseded", "obsolete", "retired"))
-        or any(k in head.lower() for k in ("**superseded**", "[deprecated]", "version superseded", "dismissed)"))
+        or any(k in head.lower() for k in ("**superseded**", "[deprecated]", "[archived]", "version superseded", "dismissed)"))
     ):
         return "deprecated_or_superseded", False
 
@@ -1123,26 +1173,36 @@ def main() -> None:
             url_raw = r.get("landing_url_raw")
             kw_raw = r.get("keywords_raw")
 
-            # 1. Spatial resolution (strictly from spat_raw; title token kept separate!)
+            # 1. Spatial resolution (strictly from spat_raw; accept null when upstream UMM unit conflicts >10x with title token)
             spat_m = parse_resolution_meters(spat_raw)
             title_spat_m = parse_title_token_resolution_meters(raw_id, title)
+            if spat_m is not None and title_spat_m is not None:
+                res_ratio = spat_m / title_spat_m
+                if res_ratio > 10.0 or res_ratio < 0.1:
+                    spat_m = None
 
-            # 2. Temporal years & cadence
+            # 2. Temporal years & cadence (strictly from raw dates; accept null when raw date is a future placeholder or conflicts with explicit title bounds)
             start_yr = parse_year(t_start_raw)
             end_yr = parse_year(t_end_raw)
             if start_yr is not None and start_yr > 2026:
                 start_yr = None
-            title_yrs = [int(y) for y in re.findall(r"(?<![\d_])(19[5-9]\d|20[0-2]\d)(?![\d_])", title or "")]
+            if t_start_raw and str(t_start_raw).startswith("1970-01-01") and "1970" not in (title or ""):
+                start_yr = None
+            title_yrs = [int(y) for y in re.findall(r"(?<![\d_])(19[5-9]\d|20\d\d|2100)(?![\d_])", title or "")]
             has_present_in_title = bool(re.search(r"\b(present|ongoing|current|now|near[- ]real[- ]time|nrt)\b", title or "", re.IGNORECASE))
             if title_yrs:
                 if has_present_in_title:
                     m_pres = re.search(r"\b(19[5-9]\d|20[0-2]\d)\s*[-–—]\s*(?:present|ongoing)\b", title or "", re.IGNORECASE)
                     if m_pres and start_yr is not None and start_yr > int(m_pres.group(1)) + 1:
-                        start_yr = int(m_pres.group(1))
-                elif start_yr is not None and start_yr > max(title_yrs) + 1:
-                    start_yr = min(title_yrs) if max(title_yrs) >= 1970 else None
-                    if start_yr is not None and (end_yr is None or end_yr > max(title_yrs) + 1):
-                        end_yr = max(title_yrs)
+                        start_yr = None
+                else:
+                    if start_yr is not None and start_yr > max(title_yrs) + 1:
+                        start_yr = None
+                        if end_yr is not None and end_yr > max(title_yrs) + 1:
+                            end_yr = None
+                    if end_yr is not None and end_yr < min(title_yrs):
+                        start_yr = None
+                        end_yr = None
             if start_yr is not None and end_yr is not None and start_yr > end_yr:
                 end_yr = None
             cadence_cls = classify_cadence(temp_res_raw, uf_raw, title, start_yr, end_yr, desc)

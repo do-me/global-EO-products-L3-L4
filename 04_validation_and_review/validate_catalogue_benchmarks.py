@@ -128,6 +128,8 @@ EU_POLICY_PRODUCTS_BENCHMARK: list[tuple[str, str, str, str | None, str, str]] =
     ("External EO", "Global LCREF, LCSIF, and LCSPP (SIF & GPP Benchmarks)", "IN_SCOPE_L3_L4_EO", "26_fao_unep_and_thematic_benchmarks", r"\bLCSPP\b|\bLCSIF\b|10\.5281/zenodo\.13922379", "Global land-cover-based SIF and primary production products indexed via Zenodo/DataCite API"),
     ("External EO", "Global Web-Enabled Landsat Data (GWELD Monthly & Annual 30 m)", "IN_SCOPE_L3_L4_EO", "16_nasa_cmr", r"GWELDMO|GWELDYR|Global Web-Enabled Landsat Data", "Monthly and annual global 30 m Landsat composites retained via composite override"),
     ("External EO", "EUMETSAT MSG Land Surface Temperature Data Record (Level 3)", "IN_SCOPE_L3_L4_EO", "17_eumetsat_product_navigator", r"^EO:EUM:DAT:0088$|Land Surface Temperature Data Record - MSG", "Explicit EUMETSAT Level 3 MSG LST climate data record retained in both EUMETSAT & WEkEO"),
+    ("External EO", "TROPOSIF Global Fluorescence Yield & TROPOMI SIF Benchmarks", "IN_SCOPE_L3_L4_EO", "26_fao_unep_and_thematic_benchmarks", r"10\.5281/zenodo\.10212472|\bTROPOSIF\b", "Global fluorescence yield based on TROPOSIF data normalized with NIRvP indexed via Zenodo/DataCite"),
+    ("External EO", "SMOS-IC v2 Global Soil Moisture & L-VOD Data Record (INRAE/CESBIO)", "IN_SCOPE_L3_L4_EO", "26_fao_unep_and_thematic_benchmarks", r"10\.15454/tihhyp|\bSMOS-IC\b", "Global 0.25 deg daily SMOS-IC v2 soil moisture and L-band VOD indexed via INRAE DataCite"),
     ("External/Model", "EDGAR & CEDS Emission Inventories", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", "07_ec_jrc_data_catalogue", r"\bedgar\b|\bceds\b", "Inventory-based bottom-up emissions indexed under `non_eo_inventory_or_census` (`strict_eo_c1_eligible=False`)"),
     ("External/Non-EO", "EUBUCCO, OpenStreetMap, Building Stock Observatory, FloraVeg.EU, MeteoAlarm", "OUT_OF_SCOPE_NON_EO_STATISTICAL_OR_CADASTRAL", None, r"\beubucco\b|\bopenstreetmap\b|\bfloraveg\b|\bmeteoalarm\b", "Non-EO building registries, crowd-sourced OSM vectors, botanical checklists, meteorological warnings"),
     ("CDSE L1/L2", "CDSE Sentinel Level-1 and Level-2 Operational Imagery", "OUT_OF_SCOPE_L1_L2_RAW", "10_cdse_stac", r"^sentinel-[1235]-l[12][abc]?\b", "Excluded in `02_preparation` (`excluded_records_log.parquet`) by L3/L4 eligibility filter"),
@@ -365,6 +367,44 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"cadence_contra={cadence_contra}, op_null={op_null_ongoing}, pre2014_sent={pre2014_sent}, meris_ilw_bad={meris_ilw_bad}",
     ))
 
+    # 17. Structured GEE intervals, monthly/daily disambiguation, Sentinel positive lineage, LPJ-EOSIM L4 & MERRA-2 URL
+    gee_cad_lit = int((df_all["temporal_resolution_raw"] == "cadence").sum())
+    monthly_daily_contra = int(
+        (
+            df_all["title"].fillna("").str.contains(r"\bmonthly\b", case=False, regex=True)
+            & ~df_all["title"].fillna("").str.contains(r"\bdaily\b|\bhourly\b", case=False, regex=True)
+            & (df_all["temporal_cadence_class"] == "sub_daily_or_daily")
+        ).sum()
+    )
+    title_l4_to_l3 = int(
+        (
+            df_all["title"].fillna("").str.contains(r"\b(?:L4[ab]?|level[- ]?4)\b", case=False, regex=True)
+            & (df_all["processing_level"] == "L3")
+        ).sum()
+    )
+    sent_pos_ids = {
+        "01_copernicus_cmems::GLOBAL_MULTIYEAR_WAV_001_032",
+        "01_copernicus_cmems::SEALEVEL_GLO_PHY_L3_MY_008_062",
+        "01_copernicus_cmems::WAVE_GLO_PHY_SPC_L3_MY_014_006",
+        "16_nasa_cmr::C3126327092-ORNL_CLOUD",
+        "10_cdse_stac::clms_ndvi_global_300m_10daily_v1_cog",
+    }
+    sent_pos_sub = df_all[df_all["record_id"].isin(sent_pos_ids)]
+    sent_pos_ok = len(sent_pos_sub) == len(sent_pos_ids) and bool(sent_pos_sub["uses_sentinel_data"].all())
+    lpj_sub = df_all[df_all["title"].fillna("").str.contains("LPJ-EOSIM", case=False)]
+    lpj_ok = len(lpj_sub) >= 4 and bool((lpj_sub["processing_level"] == "L4").all())
+    merra2_sub = df_all[df_all["record_id"] == "16_nasa_cmr::C2531963170-GES_DISC"]
+    merra2_ok = bool(
+        len(merra2_sub) == 1
+        and "10.5067/o8ax56do60mi" in str(merra2_sub.iloc[0]["access_url"]).lower()
+        and "0.625 x 0.5" in str(merra2_sub.iloc[0]["spatial_resolution_raw"])
+    )
+    qa.append((
+        "17. Structured GEE intervals, monthly cadence, Sentinel positive lineage & MERRA-2 DOI URL",
+        bool(gee_cad_lit == 0 and monthly_daily_contra == 0 and title_l4_to_l3 == 0 and sent_pos_ok and lpj_ok and merra2_ok),
+        f"gee_cad={gee_cad_lit}, mo_contra={monthly_daily_contra}, l4_to_l3={title_l4_to_l3}, sent_pos={sent_pos_ok}, lpj_l4={lpj_ok}, merra2={merra2_ok}",
+    ))
+
     return qa
 
 
@@ -444,7 +484,7 @@ def audit_eu_policy_benchmark(df_all: pd.DataFrame, df_excl: pd.DataFrame) -> pd
 
 GCOS_ECV_EXPLICIT_PATTERNS: dict[str, str] = {
     "Above-ground biomass": r"\b(?:above[- ]?ground\s+biomass|\bagb\b|forest\s+biomass|woody\s+biomass|biomass\s+density|gedi04_b|cci\s+biomass|globbiomass)\b",
-    "Aerosols properties": r"\b(?:aerosols?|optical\s+depth|\baod\b|\baai\b|absorbing\s+aerosol|particulate\s+matter|pm2\.5|pm10)\b",
+    "Aerosols properties": r"\b(?:aerosols?|aerosol\s+optical\s+depth|(?<!vegetation\s)optical\s+depth\s+of\s+aerosol|\baod\b|\baai\b|absorbing\s+aerosol|particulate\s+matter|pm2\.5|pm10)\b",
     "Albedo": r"\b(?:albedo|surface\s+albedo|black[- ]sky\s+albedo|white[- ]sky\s+albedo|blue[- ]sky\s+albedo|mcd43)\b",
     "Carbon Dioxide, Methane and other greenhouse gases": r"\b(?:carbon\s+dioxide|\bco2\b|\bxco2\b|\bmethane\b|\bch4\b|\bxch4\b|\bn2o\b|nitrous\s+oxide|greenhouse\s+gas(?:es)?)\b",
     "Cloud properties": r"\b(?:cloud\s+(?:properties|fraction|cover|optical|top|mask|phase|water|amount|droplet|effective\s+radius)|isccp|clara[- ]a)\b",

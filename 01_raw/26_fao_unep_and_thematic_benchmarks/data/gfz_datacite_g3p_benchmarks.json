@@ -4760,6 +4760,571 @@
       }
     },
     {
+      "id": "10.5281/zenodo.10212472",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5281/zenodo.10212472",
+        "prefix": "10.5281",
+        "suffix": "zenodo.10212472",
+        "identifiers": [
+          {
+            "identifier": "oai:zenodo.org:10212472",
+            "identifierType": "oai"
+          }
+        ],
+        "alternateIdentifiers": [
+          {
+            "alternateIdentifierType": "oai",
+            "alternateIdentifier": "oai:zenodo.org:10212472"
+          }
+        ],
+        "creators": [
+          {
+            "name": "De Canniere, Simon",
+            "nameType": "Personal",
+            "givenName": "Simon",
+            "familyName": "De Canniere",
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0003-1528-6702",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ],
+            "affiliation": []
+          },
+          {
+            "name": "Jonard, François",
+            "nameType": "Personal",
+            "givenName": "François",
+            "familyName": "Jonard",
+            "nameIdentifiers": [],
+            "affiliation": []
+          }
+        ],
+        "titles": [
+          {
+            "title": "Global fluorescence yield based on TROPOSIF data, normalized with the NIRvP (2019-2021)"
+          }
+        ],
+        "publisher": "Zenodo",
+        "container": {},
+        "publicationYear": 2023,
+        "subjects": [],
+        "contributors": [
+          {
+            "name": "Baur, Martin",
+            "nameType": "Personal",
+            "givenName": "Martin",
+            "familyName": "Baur",
+            "contributorType": "Researcher",
+            "nameIdentifiers": [],
+            "affiliation": []
+          },
+          {
+            "name": "Chaparro, David",
+            "nameType": "Personal",
+            "givenName": "David",
+            "familyName": "Chaparro",
+            "contributorType": "Researcher",
+            "nameIdentifiers": [],
+            "affiliation": []
+          },
+          {
+            "name": "Jagdhuber, Thomas",
+            "nameType": "Personal",
+            "givenName": "Thomas",
+            "familyName": "Jagdhuber",
+            "contributorType": "Researcher",
+            "nameIdentifiers": [],
+            "affiliation": []
+          }
+        ],
+        "dates": [
+          {
+            "date": "2023-11-28",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "ris": "DATA",
+          "bibtex": "misc",
+          "citeproc": "dataset",
+          "schemaOrg": "Dataset",
+          "resourceType": "",
+          "resourceTypeGeneral": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsVersionOf",
+            "relatedIdentifier": "10.5281/zenodo.10212471",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "1",
+        "rightsList": [
+          {
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rightsIdentifier": "cc-by-4.0",
+            "rightsIdentifierScheme": "SPDX"
+          }
+        ],
+        "descriptions": [
+          {
+            "description": "TROPOMI based SIF data normalized by NIRvP. The data come in a daily temporal resolution and are projected on a 9 km EASE 2 grid for the period 2019-2021. \nThe fluorescence yield (φF) is linked to the photosynthetic electron transport. \n \nThe dataset is the backbone of the publication of De Cannière et al., (2024).\n \nLearn more on the publication dataset\nDe Canniere S., Baur M., Chaparro D., Jagdhuber T., Jonard F., Water availability and atmospheric dryness controls on spaceborne sun-induced chlorophyll fluorescence yield, accepted by Remote Sensing of Environment\n \nLearn more on the NIRvP\nDechant B., Ryu Y., Badgley G., Köhler P., Rascher U., Migliavacca M., Zhang Y., Tagliabue G., Guan K,, Rossini M., Goulas Y., Zeng Y., Frankenberg C., Berry J.A. (2022),\nNIRVP: A robust structural proxy for sun-induced chlorophyll fluorescence and photosynthesis across scales, Remote Sensing of Environment, Volume 268,\n2022, 112763, doi.org/10.1016/j.rse.2021.112763.\n \nLearn more on the TROPOSIF dataset\nGuanter, L. and Bacour, C. and Schneider, A. and Aben, I. and van Kempen, T. A. and Maignan, F. and Retscher, C. and Köhler, P. and Frankenberg, C. and Joiner, J. and Zhang, Y. (2021), The TROPOSIF global sun-induced fluorescence dataset from the Sentinel-5P TROPOMI mission, Earth System Science Data, Volume 13, 11, 5423--5440, doi.org/10.5194/essd-13-5423-2021\n ",
+            "descriptionType": "Abstract"
+          }
+        ],
+        "geoLocations": [],
+        "fundingReferences": [],
+        "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC00L21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS9aRU5PRE8uMTAyMTI0NzI8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPkRlIENhbm5pZXJlLCBTaW1vbjwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+U2ltb248L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+RGUgQ2FubmllcmU8L2ZhbWlseU5hbWU+CiAgICAgIDxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiIHNjaGVtZVVSST0iIj4wMDAwLTAwMDMtMTUyOC02NzAyPC9uYW1lSWRlbnRpZmllcj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5Kb25hcmQsIEZyYW7Dp29pczwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+RnJhbsOnb2lzPC9naXZlbk5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPkpvbmFyZDwvZmFtaWx5TmFtZT4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+R2xvYmFsIGZsdW9yZXNjZW5jZSB5aWVsZCBiYXNlZCBvbiBUUk9QT1NJRiBkYXRhLCBub3JtYWxpemVkIHdpdGggdGhlIE5JUnZQICgyMDE5LTIwMjEpPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPlplbm9kbzwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAyMzwvcHVibGljYXRpb25ZZWFyPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCIvPgogIDxjb250cmlidXRvcnM+CiAgICA8Y29udHJpYnV0b3IgY29udHJpYnV0b3JUeXBlPSJSZXNlYXJjaGVyIj4KICAgICAgPGNvbnRyaWJ1dG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPkJhdXIsIE1hcnRpbjwvY29udHJpYnV0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPk1hcnRpbjwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5CYXVyPC9mYW1pbHlOYW1lPgogICAgPC9jb250cmlidXRvcj4KICAgIDxjb250cmlidXRvciBjb250cmlidXRvclR5cGU9IlJlc2VhcmNoZXIiPgogICAgICA8Y29udHJpYnV0b3JOYW1lIG5hbWVUeXBlPSJQZXJzb25hbCI+Q2hhcGFycm8sIERhdmlkPC9jb250cmlidXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+RGF2aWQ8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+Q2hhcGFycm88L2ZhbWlseU5hbWU+CiAgICA8L2NvbnRyaWJ1dG9yPgogICAgPGNvbnRyaWJ1dG9yIGNvbnRyaWJ1dG9yVHlwZT0iUmVzZWFyY2hlciI+CiAgICAgIDxjb250cmlidXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5KYWdkaHViZXIsIFRob21hczwvY29udHJpYnV0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlRob21hczwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5KYWdkaHViZXI8L2ZhbWlseU5hbWU+CiAgICA8L2NvbnRyaWJ1dG9yPgogIDwvY29udHJpYnV0b3JzPgogIDxkYXRlcz4KICAgIDxkYXRlIGRhdGVUeXBlPSJJc3N1ZWQiPjIwMjMtMTEtMjg8L2RhdGU+CiAgPC9kYXRlcz4KICA8YWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgICA8YWx0ZXJuYXRlSWRlbnRpZmllciBhbHRlcm5hdGVJZGVudGlmaWVyVHlwZT0ib2FpIj5vYWk6emVub2RvLm9yZzoxMDIxMjQ3MjwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiIHJlbGF0aW9uVHlwZT0iSXNWZXJzaW9uT2YiPjEwLjUyODEvemVub2RvLjEwMjEyNDcxPC9yZWxhdGVkSWRlbnRpZmllcj4KICA8L3JlbGF0ZWRJZGVudGlmaWVycz4KICA8c2l6ZXMvPgogIDxmb3JtYXRzLz4KICA8dmVyc2lvbj4xPC92ZXJzaW9uPgogIDxyaWdodHNMaXN0PgogICAgPHJpZ2h0cyByaWdodHNVUkk9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS80LjAvbGVnYWxjb2RlIiByaWdodHNJZGVudGlmaWVyPSJjYy1ieS00LjAiIHJpZ2h0c0lkZW50aWZpZXJTY2hlbWU9InNwZHgiPkNyZWF0aXZlIENvbW1vbnMgQXR0cmlidXRpb24gNC4wIEludGVybmF0aW9uYWw8L3JpZ2h0cz4KICA8L3JpZ2h0c0xpc3Q+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9IkFic3RyYWN0Ij5UUk9QT01JIGJhc2VkIFNJRiBkYXRhIG5vcm1hbGl6ZWQgYnkgTklSdlAuIFRoZSBkYXRhIGNvbWUgaW4gYSBkYWlseSB0ZW1wb3JhbCByZXNvbHV0aW9uIGFuZCBhcmUgcHJvamVjdGVkIG9uIGEgOSBrbSBFQVNFIDIgZ3JpZCBmb3IgdGhlIHBlcmlvZCAyMDE5LTIwMjEuwqAKVGhlIGZsdW9yZXNjZW5jZSB5aWVsZCAoz4ZGKSBpcyBsaW5rZWQgdG8gdGhlIHBob3Rvc3ludGhldGljIGVsZWN0cm9uIHRyYW5zcG9ydC7CoArCoApUaGUgZGF0YXNldCBpcyB0aGUgYmFja2JvbmUgb2YgdGhlIHB1YmxpY2F0aW9uIG9mIERlIENhbm5pw6hyZSBldCBhbC4sICgyMDI0KS4KwqAKTGVhcm4gbW9yZSBvbiB0aGUgcHVibGljYXRpb24gZGF0YXNldApEZSBDYW5uaWVyZSBTLiwgQmF1ciBNLiwgQ2hhcGFycm8gRC4sIEphZ2RodWJlciBULiwgSm9uYXJkIEYuLCBXYXRlciBhdmFpbGFiaWxpdHkgYW5kIGF0bW9zcGhlcmljIGRyeW5lc3MgY29udHJvbHMgb24gc3BhY2Vib3JuZSBzdW4taW5kdWNlZCBjaGxvcm9waHlsbCBmbHVvcmVzY2VuY2UgeWllbGQsIGFjY2VwdGVkIGJ5IFJlbW90ZSBTZW5zaW5nIG9mIEVudmlyb25tZW50CsKgCkxlYXJuIG1vcmUgb24gdGhlIE5JUnZQCkRlY2hhbnQgQi4sIFJ5dSBZLiwgQmFkZ2xleSBHLiwgS8O2aGxlciBQLiwgUmFzY2hlciBVLiwgTWlnbGlhdmFjY2EgTS4sIFpoYW5nIFkuLCBUYWdsaWFidWUgRy4sIEd1YW4gSywsIFJvc3NpbmkgTS4sIEdvdWxhcyBZLiwgWmVuZyBZLiwgRnJhbmtlbmJlcmcgQy4sIEJlcnJ5IEouQS4gKDIwMjIpLApOSVJWUDogQSByb2J1c3Qgc3RydWN0dXJhbCBwcm94eSBmb3Igc3VuLWluZHVjZWQgY2hsb3JvcGh5bGwgZmx1b3Jlc2NlbmNlIGFuZCBwaG90b3N5bnRoZXNpcyBhY3Jvc3Mgc2NhbGVzLCBSZW1vdGUgU2Vuc2luZyBvZiBFbnZpcm9ubWVudCwgVm9sdW1lIDI2OCwKMjAyMiwgMTEyNzYzLCBkb2kub3JnLzEwLjEwMTYvai5yc2UuMjAyMS4xMTI3NjMuCsKgCkxlYXJuIG1vcmUgb24gdGhlIFRST1BPU0lGIGRhdGFzZXQKR3VhbnRlciwgTC4gYW5kIEJhY291ciwgQy4gYW5kIFNjaG5laWRlciwgQS4gYW5kIEFiZW4sIEkuIGFuZCB2YW4gS2VtcGVuLCBULiBBLiBhbmQgTWFpZ25hbiwgRi4gYW5kIFJldHNjaGVyLCBDLiBhbmQgS8O2aGxlciwgUC4gYW5kIEZyYW5rZW5iZXJnLCBDLiBhbmQgSm9pbmVyLCBKLiBhbmQgWmhhbmcsIFkuICgyMDIxKSwgVGhlIFRST1BPU0lGIGdsb2JhbCBzdW4taW5kdWNlZCBmbHVvcmVzY2VuY2UgZGF0YXNldCBmcm9tIHRoZSBTZW50aW5lbC01UCBUUk9QT01JIG1pc3Npb24sIEVhcnRoIFN5c3RlbSBTY2llbmNlIERhdGEsIFZvbHVtZSAxMywgMTEsIDU0MjMtLTU0NDAsIGRvaS5vcmcvMTAuNTE5NC9lc3NkLTEzLTU0MjMtMjAyMQrCoDwvZGVzY3JpcHRpb24+CiAgPC9kZXNjcmlwdGlvbnM+CjwvcmVzb3VyY2U+Cg==",
+        "url": "https://zenodo.org/doi/10.5281/zenodo.10212472",
+        "contentUrl": null,
+        "metadataVersion": 0,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "api",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "viewsOverTime": [],
+        "downloadCount": 0,
+        "downloadsOverTime": [],
+        "referenceCount": 0,
+        "citationCount": 0,
+        "citationsOverTime": [],
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 1,
+        "created": "2025-01-02T12:51:30.000Z",
+        "registered": "2025-01-02T12:51:30.000Z",
+        "published": "2023",
+        "updated": "2025-01-02T12:51:31.000Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "cern.zenodo",
+            "type": "clients"
+          }
+        },
+        "provider": {
+          "data": {
+            "id": "cern",
+            "type": "providers"
+          }
+        },
+        "media": {
+          "data": {
+            "id": "10.5281/zenodo.10212472",
+            "type": "media"
+          }
+        },
+        "references": {
+          "data": []
+        },
+        "citations": {
+          "data": []
+        },
+        "parts": {
+          "data": []
+        },
+        "partOf": {
+          "data": []
+        },
+        "versions": {
+          "data": []
+        },
+        "versionOf": {
+          "data": [
+            {
+              "id": "10.5281/zenodo.10212471",
+              "type": "dois"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "10.15454/tihhyp",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.15454/tihhyp",
+        "prefix": "10.15454",
+        "suffix": "tihhyp",
+        "identifiers": [],
+        "alternateIdentifiers": [],
+        "creators": [
+          {
+            "name": "Wigneron, Jean-Pierre",
+            "nameType": "Personal",
+            "givenName": "Jean-Pierre",
+            "familyName": "Wigneron",
+            "affiliation": [
+              "(INRA - Institut National de la Recherche Agronomique)"
+            ],
+            "nameIdentifiers": [
+              {
+                "schemeUri": "https://orcid.org",
+                "nameIdentifier": "https://orcid.org/0000-0001-5345-3618",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Li, Xiaojun",
+            "nameType": "Personal",
+            "givenName": "Xiaojun",
+            "familyName": "Li",
+            "affiliation": [
+              "(INRA - Institut National de la Recherche Agronomique)"
+            ],
+            "nameIdentifiers": [
+              {
+                "schemeUri": "https://orcid.org",
+                "nameIdentifier": "https://orcid.org/0000-0002-3831-4852",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "SMOS-IC v2"
+          }
+        ],
+        "publisher": "Portail Data INRAE",
+        "container": {},
+        "publicationYear": 2021,
+        "subjects": [],
+        "contributors": [
+          {
+            "name": "Wigneron, Jean-Pierre",
+            "nameType": "Personal",
+            "givenName": "Jean-Pierre",
+            "familyName": "Wigneron",
+            "affiliation": [
+              "(INRA - Institut National de la Recherche Agronomique)"
+            ],
+            "contributorType": "ContactPerson",
+            "nameIdentifiers": []
+          },
+          {
+            "name": "Frappart, Frédéric",
+            "nameType": "Personal",
+            "givenName": "Frédéric",
+            "familyName": "Frappart",
+            "affiliation": [
+              "(LEGOS - Laboratoire d'Etudes en Géophysique et Océanographie Spatiale)"
+            ],
+            "contributorType": "ContactPerson",
+            "nameIdentifiers": []
+          }
+        ],
+        "dates": [
+          {
+            "date": "2021",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "ris": "DATA",
+          "bibtex": "misc",
+          "citeproc": "dataset",
+          "schemaOrg": "Dataset",
+          "resourceTypeGeneral": "Dataset"
+        },
+        "relatedIdentifiers": [],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": null,
+        "rightsList": [],
+        "descriptions": [
+          {
+            "description": "The SMOS-IC v2 product includes both a soil moisture (SM) and a L-band vegetation optical depth (L-VOD) data set which are currently at the basis of several studies evaluating the impact of climate and anthropogenic activities on aboveground carbon stocks. Since the release of the first version, the algorithm has been significantly changed in support to key applications. It has a spatial resolution is around 0.25° and a daily temporal resolution. All the details concerning the SMOS-IC v2 product can be found in: Jean-Pierre Wigneron, Xiaojun Li, Frédéric Frappart, Lei Fan, Amen Al-Yaari, Gabrielle De Lannoy, Xiangzhuo Liu, Mengjia Wang, Erwan Le Masson, Christophe Moisy, SMOS-IC data record of soil moisture and L-VOD: Historical development, applications and perspectives, Remote Sensing of Environment, Volume 254, 2021, 112238, ISSN 0034-4257, https://doi.org/10.1016/j.rse.2020.112238. (https://www.sciencedirect.com/science/article/pii/S0034425720306118)",
+            "descriptionType": "Abstract"
+          }
+        ],
+        "geoLocations": [],
+        "fundingReferences": [],
+        "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC00L21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuMTU0NTQvVElISFlQPC9pZGVudGlmaWVyPgogIDxjcmVhdG9ycz4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+V2lnbmVyb24sIEplYW4tUGllcnJlPC9jcmVhdG9yTmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIHNjaGVtZVVSST0iaHR0cHM6Ly9vcmNpZC5vcmcvIiBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiPjAwMDAtMDAwMS01MzQ1LTM2MTg8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24+KElOUkEgLSBJbnN0aXR1dCBOYXRpb25hbCBkZSBsYSBSZWNoZXJjaGUgQWdyb25vbWlxdWUpPC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWU+TGksIFhpYW9qdW48L2NyZWF0b3JOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgc2NoZW1lVVJJPSJodHRwczovL29yY2lkLm9yZy8iIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCI+MDAwMC0wMDAyLTM4MzEtNDg1MjwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbj4oSU5SQSAtIEluc3RpdHV0IE5hdGlvbmFsIGRlIGxhIFJlY2hlcmNoZSBBZ3Jvbm9taXF1ZSk8L2FmZmlsaWF0aW9uPgogICAgPC9jcmVhdG9yPgogIDwvY3JlYXRvcnM+CiAgPHRpdGxlcz4KICAgIDx0aXRsZT5TTU9TLUlDIHYyPC90aXRsZT4KICA8L3RpdGxlcz4KICA8cHVibGlzaGVyPlBvcnRhaWwgRGF0YSBJTlJBRTwvcHVibGlzaGVyPgogIDxwdWJsaWNhdGlvblllYXI+MjAyMTwvcHVibGljYXRpb25ZZWFyPgogIDxyZXNvdXJjZVR5cGUgcmVzb3VyY2VUeXBlR2VuZXJhbD0iRGF0YXNldCIvPgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+VGhlIFNNT1MtSUMgdjIgcHJvZHVjdCBpbmNsdWRlcyBib3RoIGEgc29pbCBtb2lzdHVyZSAoU00pIGFuZCBhIEwtYmFuZCB2ZWdldGF0aW9uIG9wdGljYWwgZGVwdGggKEwtVk9EKSBkYXRhIHNldCB3aGljaCBhcmUgY3VycmVudGx5IGF0IHRoZSBiYXNpcyBvZiBzZXZlcmFsIHN0dWRpZXMgZXZhbHVhdGluZyB0aGUgaW1wYWN0IG9mIGNsaW1hdGUgYW5kIGFudGhyb3BvZ2VuaWMgYWN0aXZpdGllcyBvbiBhYm92ZWdyb3VuZCBjYXJib24gc3RvY2tzLiBTaW5jZSB0aGUgcmVsZWFzZSBvZiB0aGUgZmlyc3QgdmVyc2lvbiwgdGhlIGFsZ29yaXRobSBoYXMgYmVlbiBzaWduaWZpY2FudGx5IGNoYW5nZWQgaW4gc3VwcG9ydCB0byBrZXkgYXBwbGljYXRpb25zLiBJdCBoYXMgYSBzcGF0aWFsIHJlc29sdXRpb24gaXMgYXJvdW5kIDAuMjXCsCBhbmQgYSBkYWlseSB0ZW1wb3JhbCByZXNvbHV0aW9uLiBBbGwgdGhlIGRldGFpbHMgY29uY2VybmluZyB0aGUgU01PUy1JQyB2MiBwcm9kdWN0IGNhbiBiZSBmb3VuZCBpbjogSmVhbi1QaWVycmUgV2lnbmVyb24sIFhpYW9qdW4gTGksIEZyw6lkw6lyaWMgRnJhcHBhcnQsIExlaSBGYW4sIEFtZW4gQWwtWWFhcmksIEdhYnJpZWxsZSBEZSBMYW5ub3ksIFhpYW5nemh1byBMaXUsIE1lbmdqaWEgV2FuZywgRXJ3YW4gTGUgTWFzc29uLCBDaHJpc3RvcGhlIE1vaXN5LCBTTU9TLUlDIGRhdGEgcmVjb3JkIG9mIHNvaWwgbW9pc3R1cmUgYW5kIEwtVk9EOiBIaXN0b3JpY2FsIGRldmVsb3BtZW50LCBhcHBsaWNhdGlvbnMgYW5kIHBlcnNwZWN0aXZlcywgUmVtb3RlIFNlbnNpbmcgb2YgRW52aXJvbm1lbnQsIFZvbHVtZSAyNTQsIDIwMjEsIDExMjIzOCwgSVNTTiAwMDM0LTQyNTcsIGh0dHBzOi8vZG9pLm9yZy8xMC4xMDE2L2oucnNlLjIwMjAuMTEyMjM4LiAoaHR0cHM6Ly93d3cuc2NpZW5jZWRpcmVjdC5jb20vc2NpZW5jZS9hcnRpY2xlL3BpaS9TMDAzNDQyNTcyMDMwNjExOCk8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgogIDxjb250cmlidXRvcnM+CiAgICA8Y29udHJpYnV0b3IgY29udHJpYnV0b3JUeXBlPSJDb250YWN0UGVyc29uIj4KICAgICAgPGNvbnRyaWJ1dG9yTmFtZT5XaWduZXJvbiwgSmVhbi1QaWVycmU8L2NvbnRyaWJ1dG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPihJTlJBIC0gSW5zdGl0dXQgTmF0aW9uYWwgZGUgbGEgUmVjaGVyY2hlIEFncm9ub21pcXVlKTwvYWZmaWxpYXRpb24+CiAgICA8L2NvbnRyaWJ1dG9yPgogICAgPGNvbnRyaWJ1dG9yIGNvbnRyaWJ1dG9yVHlwZT0iQ29udGFjdFBlcnNvbiI+CiAgICAgIDxjb250cmlidXRvck5hbWU+RnJhcHBhcnQsIEZyw6lkw6lyaWM8L2NvbnRyaWJ1dG9yTmFtZT4KICAgICAgPGFmZmlsaWF0aW9uPihMRUdPUyAtIExhYm9yYXRvaXJlIGQnRXR1ZGVzIGVuIEfDqW9waHlzaXF1ZSBldCBPY8OpYW5vZ3JhcGhpZSBTcGF0aWFsZSk8L2FmZmlsaWF0aW9uPgogICAgPC9jb250cmlidXRvcj4KICA8L2NvbnRyaWJ1dG9ycz4KPC9yZXNvdXJjZT4=",
+        "url": "https://data.inrae.fr/citation?persistentId=doi:10.15454/TIHHYP",
+        "contentUrl": null,
+        "metadataVersion": 1,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 598,
+        "viewsOverTime": [
+          {
+            "yearMonth": "2022-02",
+            "total": 4
+          },
+          {
+            "yearMonth": "2022-04",
+            "total": 2
+          },
+          {
+            "yearMonth": "2022-06",
+            "total": 1
+          },
+          {
+            "yearMonth": "2022-08",
+            "total": 1
+          },
+          {
+            "yearMonth": "2022-09",
+            "total": 1
+          },
+          {
+            "yearMonth": "2022-10",
+            "total": 1
+          },
+          {
+            "yearMonth": "2023-01",
+            "total": 2
+          },
+          {
+            "yearMonth": "2023-02",
+            "total": 2
+          },
+          {
+            "yearMonth": "2023-03",
+            "total": 6
+          },
+          {
+            "yearMonth": "2023-04",
+            "total": 8
+          },
+          {
+            "yearMonth": "2023-05",
+            "total": 7
+          },
+          {
+            "yearMonth": "2023-06",
+            "total": 11
+          },
+          {
+            "yearMonth": "2023-07",
+            "total": 8
+          },
+          {
+            "yearMonth": "2023-08",
+            "total": 6
+          },
+          {
+            "yearMonth": "2023-09",
+            "total": 2
+          },
+          {
+            "yearMonth": "2023-10",
+            "total": 2
+          },
+          {
+            "yearMonth": "2023-11",
+            "total": 3
+          },
+          {
+            "yearMonth": "2023-12",
+            "total": 6
+          },
+          {
+            "yearMonth": "2024-01",
+            "total": 6
+          },
+          {
+            "yearMonth": "2024-02",
+            "total": 6
+          },
+          {
+            "yearMonth": "2024-03",
+            "total": 7
+          },
+          {
+            "yearMonth": "2024-04",
+            "total": 7
+          },
+          {
+            "yearMonth": "2024-05",
+            "total": 1
+          },
+          {
+            "yearMonth": "2024-06",
+            "total": 6
+          },
+          {
+            "yearMonth": "2024-07",
+            "total": 2
+          },
+          {
+            "yearMonth": "2024-08",
+            "total": 8
+          },
+          {
+            "yearMonth": "2024-09",
+            "total": 4
+          },
+          {
+            "yearMonth": "2024-10",
+            "total": 4
+          },
+          {
+            "yearMonth": "2024-11",
+            "total": 6
+          },
+          {
+            "yearMonth": "2024-12",
+            "total": 2
+          },
+          {
+            "yearMonth": "2025-01",
+            "total": 4
+          },
+          {
+            "yearMonth": "2025-02",
+            "total": 1
+          },
+          {
+            "yearMonth": "2025-03",
+            "total": 45
+          },
+          {
+            "yearMonth": "2025-04",
+            "total": 26
+          },
+          {
+            "yearMonth": "2025-05",
+            "total": 15
+          },
+          {
+            "yearMonth": "2025-06",
+            "total": 30
+          },
+          {
+            "yearMonth": "2025-07",
+            "total": 29
+          },
+          {
+            "yearMonth": "2025-08",
+            "total": 7
+          },
+          {
+            "yearMonth": "2025-09",
+            "total": 6
+          },
+          {
+            "yearMonth": "2025-10",
+            "total": 12
+          },
+          {
+            "yearMonth": "2025-11",
+            "total": 19
+          },
+          {
+            "yearMonth": "2025-12",
+            "total": 17
+          },
+          {
+            "yearMonth": "2026-01",
+            "total": 23
+          },
+          {
+            "yearMonth": "2026-02",
+            "total": 8
+          },
+          {
+            "yearMonth": "2026-03",
+            "total": 33
+          },
+          {
+            "yearMonth": "2026-04",
+            "total": 46
+          },
+          {
+            "yearMonth": "2026-05",
+            "total": 35
+          },
+          {
+            "yearMonth": "2026-06",
+            "total": 21
+          },
+          {
+            "yearMonth": "2026-07",
+            "total": 19
+          },
+          {
+            "yearMonth": "2026-08",
+            "total": 51
+          },
+          {
+            "yearMonth": "2026-09",
+            "total": 19
+          }
+        ],
+        "downloadCount": 0,
+        "downloadsOverTime": [],
+        "referenceCount": 0,
+        "citationCount": 0,
+        "citationsOverTime": [],
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 0,
+        "created": "2021-02-23T11:55:25.000Z",
+        "registered": "2021-03-05T15:34:50.000Z",
+        "published": "2021",
+        "updated": "2025-06-11T03:05:22.000Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "rdg.prod",
+            "type": "clients"
+          }
+        },
+        "provider": {
+          "data": {
+            "id": "rdg",
+            "type": "providers"
+          }
+        },
+        "media": {
+          "data": {
+            "id": "10.15454/tihhyp",
+            "type": "media"
+          }
+        },
+        "references": {
+          "data": []
+        },
+        "citations": {
+          "data": []
+        },
+        "parts": {
+          "data": []
+        },
+        "partOf": {
+          "data": []
+        },
+        "versions": {
+          "data": []
+        },
+        "versionOf": {
+          "data": []
+        }
+      }
+    },
+    {
       "id": "10.1594/pangaea.911944",
       "type": "dois",
       "attributes": {

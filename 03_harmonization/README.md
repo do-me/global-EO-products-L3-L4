@@ -1,7 +1,7 @@
 # `03_harmonization` — Unified L3/L4 Schema & Harmonized Catalogue
 
 ## Purpose
-Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`37,822` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`43` record columns; `45` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
+Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`38,059` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`43` record columns; `45` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
 
 ## How to Run
 ```bash
@@ -40,7 +40,7 @@ uv run 03_harmonization/harmonize_catalogue.py
 | `doi`, `license`, `access_url` | `string \| null` | Persistent identifier, upstream product license, and role-prioritized non-image landing page URL. |
 
 ## Outputs
-- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `37,822` harmonized L3/L4 records across all 28 product sources (`43` columns).
-- `./data/eo_l3_l4_canonical_products.parquet` — `37,264` conservatively deduplicated canonical L3/L4 products (`45` columns; `534` mirror groups collapsing `558` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
+- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `38,059` harmonized L3/L4 records across all 28 product sources (`43` columns).
+- `./data/eo_l3_l4_canonical_products.parquet` — `37,505` conservatively deduplicated canonical L3/L4 products (`45` columns; `530` mirror groups collapsing `554` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
 - `./provider_pool_and_sentinel_summary.csv` — Breakdown of canonical products by `provider_pool`, `processing_level`, and `uses_sentinel_data`.
 - `./schema_completeness_report.csv` — Exact non-null and null counts across all `43` harmonized record columns.

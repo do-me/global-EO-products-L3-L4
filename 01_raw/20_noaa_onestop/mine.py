@@ -205,6 +205,15 @@ def fetch_query_records(
                 if iid and iid not in by_id:
                     by_id[iid] = item
 
+    if total_hits > 20000:
+        raise RuntimeError(
+            f"NOAA OneStop query '{query}' returned {total_hits} hits, exceeding the 20,000 dual-sort pagination window."
+        )
+    if len(by_id) != total_hits:
+        raise RuntimeError(
+            f"Incomplete NOAA OneStop harvest for query '{query}': retrieved {len(by_id)} unique IDs vs {total_hits} expected hits."
+        )
+
     return list(by_id.values()), total_hits
 
 

@@ -287,6 +287,7 @@ SWATH_L1_L2_ID_PATTERNS = re.compile(
     r"(L0L1Products|L1Products|L2Products|L2Validated|L2InstChecked|^l2-along-track|"
     r"^swath-elelvation-|^ccm-|^CEOS_ARD_NRB_S1_SAMPLES$|^SENTINEL1_(?:SCENE_)?GMR0$|^SENTINEL1_SIG0_20M$|^SENTINEL1_MPLIA$|"
     r"^COPERNICUS/S3/OLCI$|^JAXA/ALOS/AVNIR-2/ORI$|^LANDSAT/.*/C0[12]/T[12](?:_RT)?(?:_TOA)?$|^LANDSAT/GLS\d{4}(?:_L[57])?$|"
+    r"^C12205679(?:06|07|69|85|86)-USGS_LTA$|^(?:AMZ1|CB4A?)-(?:MUX|WFI)-L4-SR-1$|"
     r"^MODIS/(?:006|061)/M[OY]D09G[AQ]$|^NOAA/VIIRS/.*/VNP09GA$)",
     re.IGNORECASE,
 )
@@ -309,7 +310,7 @@ AERIAL_ORTHOPHOTO_PATTERNS = re.compile(
 
 # Multi-temporal composites, gridded syntheses, or L2-tagged CDRs that represent spatially gridded/composited EO products
 COMPOSITE_OR_L3_OVERRIDE_PATTERNS = re.compile(
-    r"(\b(?:level[- ]?[34][abc]?\b|l3[abc]?\b|l4[abc]?\b|l2 and l3\b|l2/3\b|"
+    r"(\b(?:level[- ]?[34][abc]?\b(?!(?:[-_ ]?sr)?\s*-\s*cloud optimized)|l3[abc]?\b|l4[abc]?\b(?![-_]?5\b)(?!-sr-1\b)|l2 and l3\b|l2/3\b|"
     r"global mosaic|cloudless mosaic|monthly mosaic|quarterly mosaic|annual mosaic|"
     r"cloud-free annual composites?|s2mosaic|pixel based image composite|"
     r"8-day.*composite|10-day.*composite|16-day.*composite|32-day.*composite|monthly.*composite|annual.*composite|"
@@ -317,7 +318,7 @@ COMPOSITE_OR_L3_OVERRIDE_PATTERNS = re.compile(
     r"harmonized landsat sentinel|hlsl30|hlss30|gweldmo|gweldyr|global web-enabled landsat|"
     r"daily synthesis|10-daily synthesis|1-day surface reflectance|10-day surface reflectance|"
     r"l2 statistics|gridded user friendly product|gravity field models and grids|"
-    r"ghrsst level 2p gridded|ghrsst l2p gridded|data cube.*lcf \d+ days|"
+    r"ghrsst level 2p gridded|ghrsst l2p gridded|data cube.*lcf \d+ (?:days|months)|"
     r"daily surface albedo|gsa level 2|10-day surface albedo|"
     r"fire radiative power grid|gridded fire radiative power|"
     r"daily shortwave solar irradiance|daily downward longwave irradiance|daily surface solar irradiance|"
@@ -507,7 +508,7 @@ _TEXT_CADENCE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\b(hourly|1[- ]?hour(?:ly)?|3[- ]?hour(?:ly)?|6[- ]?hour(?:ly)?|every\s+[136]\s*hours?)\b", re.I), "hourly"),
     (re.compile(r"\b(10[- ]?da(?:y|ily|ys)|8[- ]?da(?:y|ily|ys)|16[- ]?da(?:y|ily|ys)|5[- ]?da(?:y|ily|ys)|dekad(?:al|e)?|three times a month|fortnightly|bi[- ]?weekly)\b", re.I), "10-daily"),
     (re.compile(r"\b(weekly|7[- ]?da(?:y|ily|ys))\b", re.I), "weekly"),
-    (re.compile(r"(?<!\d[- ])(?<!\bmulti[- ])\b(daily|1[- ]?day|day[- ]?by[- ]?day|diurnal)\b", re.I), "daily"),
+    (re.compile(r"(?<!\d[- ])(?<!\bmulti[- ])\b(daily|1[- ]?day|day[- ]?by[- ]?day|diurnal(?!\s+cycle))\b", re.I), "daily"),
     (re.compile(r"\b(monthly|1[- ]?month|month[- ]?by[- ]?month)\b", re.I), "monthly"),
     (re.compile(r"\b(seasonal|quarterly|3[- ]?month)\b", re.I), "seasonal"),
     (re.compile(r"\b(annual(?:ly)?|yearly|1[- ]?year)\b", re.I), "annual"),
@@ -516,26 +517,36 @@ _TEXT_CADENCE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
 
 def _extract_cadence_from_text(title: str | None, desc: str | None = None) -> str | None:
     """Extract explicit product temporal sampling/composite cadence from title (or explicit cadence clauses in description),
-    without confusing dataset publication/update schedule with product temporal support."""
+    preserving multi-cadence declarations (e.g. 'daily; monthly') and avoiding publication-frequency confusion."""
     if title:
-        for pat, label in _TEXT_CADENCE_PATTERNS:
+        matched_t = []
+        for pat, _ in _TEXT_CADENCE_PATTERNS:
             m = pat.search(title)
             if m:
-                return m.group(0)
+                tok = m.group(0)
+                if tok.lower() not in [x.lower() for x in matched_t]:
+                    matched_t.append(tok)
+        if matched_t:
+            return "; ".join(matched_t)
     if desc:
         # Look for explicit temporal resolution/composite sentences in description
         for clause_m in re.finditer(
             r"(?:temporal\s+(?:resolution|coverage|sampling|step|aggregation)|"
             r"(?:daily|monthly|annual|hourly|3-hourly|6-hourly|8-day|10-day|10-daily|dekadal|weekly|seasonal)\s+"
-            r"(?:and\s+(?:daily|monthly|annual|seasonal)\s+)?(?:composites?|means?|averages?|grids?|products?|estimates?|fields?|data))[^.;]{0,80}",
+            r"(?:(?:and|or|,)\s+(?:daily|monthly|annual|seasonal|hourly)\s+)?(?:composites?|means?|averages?|grids?|products?|estimates?|fields?|data))[^.;]{0,80}",
             desc,
             re.IGNORECASE,
         ):
             clause = clause_m.group(0)
+            matched_c = []
             for pat, _ in _TEXT_CADENCE_PATTERNS:
                 m = pat.search(clause)
                 if m:
-                    return m.group(0)
+                    tok = m.group(0)
+                    if tok.lower() not in [x.lower() for x in matched_c]:
+                        matched_c.append(tok)
+            if matched_c:
+                return "; ".join(matched_c)
     return None
 
 
@@ -578,9 +589,16 @@ def parse_01_cmems() -> list[dict[str, Any]]:
                 gr = d.get("geoResolution")
                 spat_raw = None
                 if isinstance(gr, dict):
-                    rc = gr.get("row") or gr.get("column") or {}
-                    if isinstance(rc, dict) and rc.get("magnitude") is not None:
-                        spat_raw = clean_str(f"{rc['magnitude']} {rc.get('units') or ''}")
+                    r_d = gr.get("row") if isinstance(gr.get("row"), dict) else {}
+                    c_d = gr.get("column") if isinstance(gr.get("column"), dict) else {}
+                    r_mag = r_d.get("magnitude")
+                    c_mag = c_d.get("magnitude")
+                    units = r_d.get("units") or c_d.get("units") or ""
+                    if r_mag is not None and c_mag is not None and str(r_mag) != str(c_mag):
+                        spat_raw = clean_str(f"{r_mag} x {c_mag} {units}")
+                    elif r_mag is not None or c_mag is not None:
+                        mag = r_mag if r_mag is not None else c_mag
+                        spat_raw = clean_str(f"{mag} {units}")
                 if not spat_raw and not isinstance(gr, dict):
                     spat_raw = clean_str(gr)
                 rows.append({
@@ -692,9 +710,9 @@ def parse_cads_stac(source_id: str, filename: str, default_org: str) -> list[dic
         desc_str = clean_str(c.get("description"))
         lvl_raw = clean_str(c.get("processing:level"))
         if not lvl_raw and desc_str:
-            m_lvl = re.search(r"\b(Level[- ]?[34][A-Z]?|L[34][A-Z]?)\b", desc_str)
-            if m_lvl:
-                lvl_raw = m_lvl.group(1)
+            lvls = list(dict.fromkeys(m.group(1) for m in re.finditer(r"\b(Level[- ]?[34][A-Z]?|L[34][A-Z]?)\b", desc_str)))
+            if lvls:
+                lvl_raw = "; ".join(lvls)
         temp_res = _extract_cadence_from_text(title_str, desc_str)
         rows.append({
             "source_id": source_id,
@@ -716,6 +734,20 @@ def parse_cads_stac(source_id: str, filename: str, default_org: str) -> list[dic
             "keywords_raw": clean_str(c.get("keywords")),
         })
     return rows
+
+
+def _format_gee_interval(gi: Any) -> str | None:
+    if isinstance(gi, list) and gi:
+        gi = gi[0]
+    if isinstance(gi, dict):
+        iv = gi.get("interval")
+        unit = clean_str(gi.get("unit"))
+        if iv is not None and unit:
+            return f"{iv} {unit}"
+        if unit:
+            return unit
+        return None
+    return clean_str(gi)
 
 
 def parse_generic_stac_collections(source_id: str, collections: list[dict[str, Any]], default_org: str | None = None) -> list[dict[str, Any]]:
@@ -740,10 +772,9 @@ def parse_generic_stac_collections(source_id: str, collections: list[dict[str, A
             or summaries.get("constellation")
             or c.get("osc:missions")
         )
-        temp_res = clean_str(
-            c.get("gee:interval")
-            or summaries.get("temporal_resolution")
-            or c.get("temporal_resolution")
+        temp_res = (
+            _format_gee_interval(c.get("gee:interval"))
+            or clean_str(summaries.get("temporal_resolution") or c.get("temporal_resolution"))
         )
         rows.append({
             "source_id": source_id,
@@ -1191,14 +1222,20 @@ def _extract_umm_spatial_resolution(umm: dict[str, Any], title: str | None = Non
                                 unit = clean_str(it.get("Unit"))
                                 if not unit or unit.lower() in ("not provided", "na", "n/a"):
                                     continue
-                                dim = (
+                                xdim = (
                                     it.get("XDimension")
-                                    or it.get("YDimension")
-                                    or it.get("MinimumXDimension")
-                                    or it.get("MaximumXDimension")
-                                    or it.get("MinimumYDimension")
-                                    or it.get("MaximumYDimension")
+                                    if it.get("XDimension") is not None
+                                    else (it.get("MinimumXDimension") or it.get("MaximumXDimension"))
                                 )
+                                ydim = (
+                                    it.get("YDimension")
+                                    if it.get("YDimension") is not None
+                                    else (it.get("MinimumYDimension") or it.get("MaximumYDimension"))
+                                )
+                                if xdim is not None and ydim is not None and str(xdim) != str(ydim):
+                                    cand = f"{xdim} x {ydim} {unit}"
+                                    break
+                                dim = xdim if xdim is not None else ydim
                                 if dim is not None:
                                     cand = f"{dim} {unit}"
                                     break
@@ -1214,21 +1251,24 @@ def _extract_umm_spatial_resolution(umm: dict[str, Any], title: str | None = Non
                     if val:
                         cand = f"{val} {unit}".strip() if unit else val
                         break
-    if cand and title:
-        # Guard against upstream UMM unit typos where UMM enters Kilometers for a degree grid (e.g. '0.625 Kilometers'
-        # on MERRA-2 '0.625 x 0.5 degree', or '10 Kilometers' L2 granule resolution on '1 x 1 degree Gridded L3')
-        tl = title.lower()
-        cl = cand.lower()
-        if "0.625 kilometers" in cl and "0.625 x 0.5 degree" in tl:
-            return "0.5 Decimal Degrees"
-        if "10 kilometers" in cl and re.search(r"\b1\s*x\s*1\s*degree\b", tl):
-            return "1 Decimal Degrees"
-        if "1 decimal degrees" in cl and "0.05 deg" in tl:
-            return "0.05 Decimal Degrees"
     return cand
 
 
-def _extract_umm_temporal_resolution(umm: dict[str, Any]) -> str | None:
+def _gcmd_temporal_contradicts_title(tkw_str: str | None, title: str | None) -> bool:
+    """Return True if fallback GCMD TemporalKeywords state sub-daily/hourly/daily scan rates on an explicitly Monthly/Annual titled product."""
+    if not tkw_str or not title:
+        return False
+    tl = title.lower()
+    kl = tkw_str.lower()
+    if re.search(r"\b(monthly|annual|yearly|seasonal|quarterly)\b", tl) and not re.search(
+        r"\b(daily|hourly|sub-daily|minute|second|3-hour|6-hour)\b", tl
+    ):
+        if re.search(r"\b(second|minute|hour|hourly|daily)\b", kl) and not re.search(r"\b(month|monthly|annual|year)\b", kl):
+            return True
+    return False
+
+
+def _extract_umm_temporal_resolution(umm: dict[str, Any], title: str | None = None) -> str | None:
     for te in (umm.get("TemporalExtents") or []):
         if not isinstance(te, dict):
             continue
@@ -1243,26 +1283,51 @@ def _extract_umm_temporal_resolution(umm: dict[str, Any]) -> str | None:
     tkws = [clean_str(k) for k in (umm.get("TemporalKeywords") or []) if clean_str(k)]
     tkws = [k for k in tkws if k and k.lower() not in ("not provided", "varies", "other")]
     if tkws:
-        return "; ".join(dict.fromkeys(tkws))
+        joined = "; ".join(dict.fromkeys(tkws))
+        if _gcmd_temporal_contradicts_title(joined, title):
+            return None
+        return joined
     return None
 
 
+def _is_mismatched_earthdata_catalog_url(u: str, short_name: str | None) -> bool:
+    """Guard against upstream GES_DISC UMM copy-paste errors where earthdata.nasa.gov/data/catalog/<slug> points to a different dataset's short_name."""
+    if "earthdata.nasa.gov/data/catalog/" not in u.lower() or not short_name:
+        return False
+    slug = u.lower().split("earthdata.nasa.gov/data/catalog/", 1)[1].strip("/")
+    slug_norm = re.sub(r"[^a-z0-9]+", "", slug)
+    sn_norm = re.sub(r"[^a-z0-9]+", "", short_name.lower())
+    if len(sn_norm) >= 4 and sn_norm not in slug_norm:
+        return True
+    return False
+
+
 def _select_cmr_landing_url(e: dict[str, Any], umm: dict[str, Any], doi: str | None, cid: str, short_name: str | None) -> str:
-    # 1. Explicit DATA SET LANDING PAGE or CollectionURL from UMM RelatedUrls
+    # 1. Explicit dataset-specific DATA SET LANDING PAGE from UMM RelatedUrls (excluding cross-dataset slug mismatches)
     for ru in (umm.get("RelatedUrls") or []):
         if not isinstance(ru, dict):
             continue
         u = clean_url(ru.get("URL"))
-        if not u:
+        if not u or _is_mismatched_earthdata_catalog_url(u, short_name):
             continue
         utype = str(ru.get("Type") or "").upper()
-        uct = str(ru.get("URLContentType") or "").upper()
-        if utype in ("DATA SET LANDING PAGE", "COLLECTION URL") or uct == "COLLECTIONURL":
+        if utype == "DATA SET LANDING PAGE":
             return u
     # 2. DOI resolver URL if canonical DOI exists
     doi_clean = clean_doi(doi)
     if doi_clean:
         return f"https://doi.org/{doi_clean}"
+    # 3. CollectionURL / Project Home Page from UMM RelatedUrls
+    for ru in (umm.get("RelatedUrls") or []):
+        if not isinstance(ru, dict):
+            continue
+        u = clean_url(ru.get("URL"))
+        if not u or _is_mismatched_earthdata_catalog_url(u, short_name):
+            continue
+        utype = str(ru.get("Type") or "").upper()
+        uct = str(ru.get("URLContentType") or "").upper()
+        if utype == "COLLECTION URL" or uct == "COLLECTIONURL":
+            return u
     # 3. Typed links from CMR Atom-JSON entry (excluding browse# and image URLs)
     for preferred_suffix in ("/data#", "/service#", "/metadata#", "/documentation#"):
         for lk in (e.get("links") or []):
@@ -1349,7 +1414,7 @@ def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") 
 
                 lvl_raw = clean_str(e.get("processing_level_id") or (umm.get("ProcessingLevel") or {}).get("Id"))
                 spat_raw = _extract_umm_spatial_resolution(umm, title)
-                temp_raw = _extract_umm_temporal_resolution(umm)
+                temp_raw = _extract_umm_temporal_resolution(umm, title)
 
                 t_start = clean_str(e.get("time_start"))
                 t_end = clean_str(e.get("time_end"))
@@ -1362,7 +1427,23 @@ def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") 
 
                 coll_prog = clean_str(umm.get("CollectionProgress"))
                 coll_dt = clean_str(e.get("collection_data_type") or umm.get("CollectionDataType"))
-                upd_parts = [x for x in (f"CollectionProgress:{coll_prog}" if coll_prog else None, coll_dt) if x]
+                # Do not label update_frequency_raw as CollectionProgress:ACTIVE when the collection has a closed historical end date <= 2024
+                # or is a static single-epoch mask/DEM or future USAP grant period (CollectionProgress:ACTIVE in CMR denotes archive availability, not ongoing temporal updates)
+                is_closed_or_static_cmr = bool(
+                    (t_end and not ends_at_present and str(t_end)[:4] <= "2024")
+                    or (t_start and str(t_start)[:4] >= "2025" and cid.endswith("-AMD_USAPDC"))
+                    or re.search(
+                        r"\b(srtm|land/sea static mask|landseamask|mod44w|static layers|proba-v)\b",
+                        f"{short_name or ''} {title or ''}",
+                        re.IGNORECASE,
+                    )
+                )
+                prog_token = (
+                    f"CollectionProgress:{coll_prog}"
+                    if (coll_prog and not (coll_prog.upper() == "ACTIVE" and is_closed_or_static_cmr))
+                    else None
+                )
+                upd_parts = [x for x in (prog_token, coll_dt) if x]
                 upd_raw = "; ".join(upd_parts) if upd_parts else None
 
                 # Platforms & Instruments from UMM or Atom-JSON
@@ -1527,8 +1608,11 @@ def parse_20_noaa() -> list[dict[str, Any]]:
                 if not url and doi:
                     url = f"https://doi.org/{doi}"
 
+                title_noaa = clean_str(a.get("title"))
                 spat_raw = _clean_gcmd_list(a.get("gcmdHorizontalResolution"))
                 temp_raw = _clean_gcmd_list(a.get("gcmdTemporalResolution"))
+                if _gcmd_temporal_contradicts_title(temp_raw, title_noaa):
+                    temp_raw = None
                 plat_raw = _clean_gcmd_list((a.get("gcmdPlatforms") or a.get("platforms") or []) + (a.get("gcmdInstruments") or a.get("instruments") or []))
                 org_raw = _clean_gcmd_list(a.get("gcmdDataCenters") or a.get("organizationNames")) or "NOAA (NESDIS / NCEI / STAR)"
                 kw_raw = _clean_gcmd_list((a.get("gcmdScience") or []) + (a.get("keywords") or []) + (a.get("gcmdScienceServices") or []))
@@ -1536,7 +1620,7 @@ def parse_20_noaa() -> list[dict[str, Any]]:
                 rows.append({
                     "source_id": "20_noaa_onestop",
                     "raw_id": rid,
-                    "title": clean_str(a.get("title")),
+                    "title": title_noaa,
                     "description": clean_str(a.get("description")),
                     "processing_level_raw": clean_str(a.get("dataProcessingLevel")),
                     "spatial_resolution_raw": spat_raw,
@@ -1729,15 +1813,16 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 host_dc = "ICOS Carbon Portal (DataCite)"
                 plat_dc = "MODIS; FLUXNET; ICOS"
                 kw_dc = clean_str(subjects) or "FLUXCOM-X-BASE; gross primary production; GPP; NEE; evapotranspiration; carbon flux; energy flux"
-                if bbox_dc is None:
-                    bbox_dc = [-180.0, -90.0, 180.0, 90.0]
+            elif doi_low.startswith("10.15454/"):
+                org_dc = "INRAE / CESBIO (Institut National de Recherche pour l'Agriculture, l'Alimentation et l'Environnement)"
+                host_dc = "Recherche Data Gouv / Portail Data INRAE (DataCite)"
+                plat_dc = "SMOS"
+                kw_dc = clean_str(subjects) or "SMOS-IC; soil moisture; vegetation optical depth; L-VOD; global"
             else:
                 org_dc = clean_str(creators[:3]) or publisher_dc or "Scientific EO Benchmark Consortium"
                 host_dc = f"{publisher_dc} (DataCite)" if publisher_dc else "DataCite Scientific Repository"
                 plat_dc = None
                 kw_dc = clean_str(subjects) or clean_str(title_dc)
-                if bbox_dc is None and "global" in f"{title_dc or ''} {desc_dc or ''}".lower():
-                    bbox_dc = [-180.0, -90.0, 180.0, 90.0]
 
             rows.append({
                 "source_id": "26_fao_unep_and_thematic_benchmarks",
