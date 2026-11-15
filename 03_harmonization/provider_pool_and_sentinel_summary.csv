@@ -4,10 +4,10 @@ copernicus_services,L3,True,583
 copernicus_services,L4,False,727
 copernicus_services,L4,True,87
 eu_non_copernicus,L3,False,4363
-eu_non_copernicus,L3,True,545
+eu_non_copernicus,L3,True,548
 eu_non_copernicus,L4,False,164
-eu_non_copernicus,L4,True,28
-non_eu,L3,False,25697
-non_eu,L3,True,892
+eu_non_copernicus,L4,True,29
+non_eu,L3,False,25692
+non_eu,L3,True,890
 non_eu,L4,False,2250
-non_eu,L4,True,46
+non_eu,L4,True,45

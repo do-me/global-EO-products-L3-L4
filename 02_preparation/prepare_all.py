@@ -1739,14 +1739,25 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
             "keywords_raw": clean_str(m.get("tags")),
         })
 
+    seen_zenodo_ids: set[str] = set()
+    seen_zenodo_dois: set[str] = set()
     z_path = RAW_DIR / "26_fao_unep_and_thematic_benchmarks/data/zenodo_thematic_benchmarks.jsonl"
     with z_path.open(encoding="utf-8") as f:
         for line in f:
             h = json.loads(line)
             md = h.get("metadata", {}) or {}
+            z_id_str = str(h.get("id") or "")
+            if z_id_str:
+                seen_zenodo_ids.add(z_id_str)
+            doi_z = clean_str(h.get("doi") or md.get("doi"))
+            if doi_z:
+                seen_zenodo_dois.add(doi_z.lower())
             creators = [c.get("name") for c in (md.get("creators") or []) if isinstance(c, dict) and c.get("name")]
             affils = [c.get("affiliation") for c in (md.get("creators") or []) if isinstance(c, dict) and c.get("affiliation")]
-            org = "; ".join(dict.fromkeys(affils[:3])) if affils else ("; ".join(creators[:3]) if creators else "Zenodo Scientific Benchmark")
+            if z_id_str == "10212472":
+                org = "UCLouvain / University of Liège / Forschungszentrum Jülich (ESA TROPOSIF)"
+            else:
+                org = "; ".join(dict.fromkeys(affils[:3])) if affils else ("; ".join(creators[:3]) if creators else "Zenodo Scientific Benchmark")
             title_z = clean_str(md.get("title") or h.get("title"))
             desc_z = clean_str(md.get("description"))
             rows.append({
@@ -1764,7 +1775,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "producing_org_raw": org,
                 "hosting_platform_raw": "Zenodo (CERN)",
                 "platform_sensor_raw": None,
-                "doi_raw": clean_str(h.get("doi") or md.get("doi")),
+                "doi_raw": doi_z,
                 "license_raw": clean_str((md.get("license") or {}).get("id") if isinstance(md.get("license"), dict) else md.get("license")),
                 "landing_url_raw": clean_str((h.get("links") or {}).get("html")),
                 "keywords_raw": clean_str(md.get("keywords")),
@@ -1787,6 +1798,12 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
             desc_dc = clean_str(descs[0] if descs else None)
             publisher_dc = clean_str(attr.get("publisher"))
             doi_low = (doi_id or "").lower()
+
+            if doi_low in seen_zenodo_dois or (
+                doi_low.startswith("10.5281/zenodo.")
+                and doi_low.split("10.5281/zenodo.")[-1] in seen_zenodo_ids
+            ):
+                continue
 
             bbox_dc = None
             for gl in (attr.get("geoLocations") or []):
@@ -1818,6 +1835,11 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 host_dc = "Recherche Data Gouv / Portail Data INRAE (DataCite)"
                 plat_dc = "SMOS"
                 kw_dc = clean_str(subjects) or "SMOS-IC; soil moisture; vegetation optical depth; L-VOD; global"
+            elif doi_low == "10.1594/pangaea.911944":
+                org_dc = "Finnish Meteorological Institute (FMI) / ESA GlobSnow (Luojus et al.)"
+                host_dc = "PANGAEA (DataCite)"
+                plat_dc = "SMMR; SSM/I; SSMIS"
+                kw_dc = clean_str(subjects) or "GlobSnow; snow water equivalent; SWE; Northern Hemisphere"
             else:
                 org_dc = clean_str(creators[:3]) or publisher_dc or "Scientific EO Benchmark Consortium"
                 host_dc = f"{publisher_dc} (DataCite)" if publisher_dc else "DataCite Scientific Repository"

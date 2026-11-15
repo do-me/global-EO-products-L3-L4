@@ -293,6 +293,30 @@ def main() -> None:
         and "10.5067/o8ax56do60mi" in str(merra_2.iloc[0]["access_url"]).lower()
         and "0.625 x 0.5" in str(merra_2.iloc[0]["spatial_resolution_raw"])
     )
+    op_closed_cnt = int(
+        (
+            (df_canon["operational_maturity_class"] == "operational_ongoing_series")
+            & (df_canon["temporal_end_year"].fillna(9999) <= 2024)
+        ).sum()
+    )
+    one_day_null_cnt = int(
+        (
+            df_canon["temporal_resolution_raw"].isin(["1 Day", "1 day", "1 year", "1 Year", "1-month", "0.5 days"])
+            & df_canon["temporal_cadence_class"].isna()
+        ).sum()
+    )
+    eu_global_cnt = int(
+        (
+            df_canon["record_id"].str.contains("_europe_|^05_copernicus_cems_ewds::efas-", case=False, regex=True)
+            & (df_canon["geographic_coverage_class"] == "global")
+        ).sum()
+    )
+    s26_dup_cnt = int(
+        df_all[df_all["source_catalogue"] == "26_fao_unep_and_thematic_benchmarks"]["doi"]
+        .dropna()
+        .duplicated()
+        .sum()
+    )
 
     if (
         noaa_desc_rate >= 0.98
@@ -311,20 +335,25 @@ def main() -> None:
         and cds_oc_ok
         and gee_cadence_literal == 0
         and merra_2_ok
+        and op_closed_cnt == 0
+        and one_day_null_cnt == 0
+        and eu_global_cnt == 0
+        and s26_dup_cnt == 0
     ):
         checks_passed += 1
         benchmarks.append(
             (
                 "UMM/OneStop Deep Metadata, Cadence, Maturity & Lineage",
                 "PASS",
-                f"noaa_desc={noaa_desc_rate:.1%}, cmr_doi={cmr_doi_rate:.1%}, cmr_spat={cmr_spat_cnt}, contra={cadence_contra_cnt}, op_null={op_null_cnt}",
+                f"noaa_desc={noaa_desc_rate:.1%}, cmr_doi={cmr_doi_rate:.1%}, cmr_spat={cmr_spat_cnt}, contra={cadence_contra_cnt}, op_closed={op_closed_cnt}, eu_glob={eu_global_cnt}, s26_dup={s26_dup_cnt}",
             )
         )
     else:
         issues_found.append(
             f"Check P failed: noaa_desc={noaa_desc_rate:.3f}, noaa_bbox={noaa_bbox_rate:.3f}, cmr_doi={cmr_doi_rate:.3f}, "
             f"cmr_spat={cmr_spat_cnt}, img_urls={img_url_cnt}, cadence_contra={cadence_contra_cnt}, op_null={op_null_cnt}, "
-            f"pre2014_sent={pre2014_sent_cnt}, eum_0088={has_eum_0088}, fluxcom={has_fluxcom}, lcspp={has_lcspp}, cds_oc={cds_oc_ok}"
+            f"pre2014_sent={pre2014_sent_cnt}, eum_0088={has_eum_0088}, fluxcom={has_fluxcom}, lcspp={has_lcspp}, cds_oc={cds_oc_ok}, "
+            f"op_closed={op_closed_cnt}, one_day_null={one_day_null_cnt}, eu_global={eu_global_cnt}, s26_dup={s26_dup_cnt}"
         )
 
     print("=" * 92)

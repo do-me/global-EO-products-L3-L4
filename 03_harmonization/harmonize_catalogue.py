@@ -188,51 +188,73 @@ def parse_year(date_str: str | None) -> int | None:
     return int(m.group(1)) if m else None
 
 
+_NUM_GUARD = r"(?<![a-zA-Z0-9][-_./])(?<!\blevel\s)(?<!\bl)(?<!\bch\s)(?<!\bchannel\s)(?<!\bband\s)(?<!\bversion\s)(?<!\bv)(?<!\bstage\s)"
+
 _MULTI_DAY_RE = re.compile(
-    r"\b(?:8[- ]?da(?:y|ily|ys)|10[- ]?da(?:y|ily|ys)|16[- ]?da(?:y|ily|ys)|5[- ]?da(?:y|ily|ys)|"
-    r"7[- ]?da(?:y|ily|ys)|15[- ]?da(?:y|ily|ys)|20[- ]?da(?:y|ily|ys)|"
-    r"dekad(?:al|e|s)?|three times a month|weekly|bi[- ]?weekly|fortnightly)\b|"
-    r"\b(?:[2-9]|1\d|2\d)\s*days?\b",
+    r"\b(?:[2-9]|[12]\d|32)-da(?:y|ily|ys)\b|"
+    rf"{_NUM_GUARD}\b(?:[2-9]|[12]\d|32)\s*da(?:y|ily|ys)\b|"
+    r"\b(?:dekad(?:al|e|s)?|three times a month|weekly|bi[- ]?weekly|twice[- ]?weekly|fortnightly|semi[- ]?monthly|twice[- ]?monthly)\b",
     re.IGNORECASE,
 )
 
 _SUB_DAILY_OR_DAILY_RE = re.compile(
     r"\b(?:sub[- ]?hourly|hourly|1[- ]?hour(?:ly)?|3[- ]?hour(?:ly)?|6[- ]?hour(?:ly)?|12[- ]?hour(?:ly)?|"
-    r"every\s+[136]\s*hours?|sub[- ]?daily|diurnal(?!\s+cycle)|1\s*days?|p1d|pt\d+[hm])\b|"
-    r"(?<!\d[- ])(?<!\d)(?<!\bmulti[- ])\bdaily\b|"
+    r"every\s+[136]\s*hours?|sub[- ]?daily|twice[- ]?daily|diurnal(?!\s+cycle)|0\.\d+\s*days?|1-days?|p1d|pt\d+[hm])\b|"
+    rf"{_NUM_GUARD}\b1\s*days?\b|"
+    r"(?<!\d-)(?<!\bmulti[- ])\bdaily\b|"
     r"\b\d+(?:\.\d+)?\s*(?:hours?|minutes?|seconds?)\b",
     re.IGNORECASE,
 )
 
 _MONTHLY_OR_SEASONAL_RE = re.compile(
-    r"\b(?:monthly|1\s*months?|p1m|p3m|quarterly|seasonal|3[- ]?month(?:ly)?|30\s*days?|1?\d\s*months?)\b",
+    r"(?<!semi[- ])(?<!twice[- ])(?<!bi[- ])(?<!bi)\b(?:monthly|quarterly|seasonal|1-months?|3-month(?:ly)?|p1m|p3m)\b|"
+    rf"{_NUM_GUARD}\b(?:1\s*months?|3\s*month(?:ly)?|30[- ]*days?|(?:[2-9]|1[01])\s*months?)(?!\s+accumulation)\b",
     re.IGNORECASE,
 )
 
 _MULTI_YEAR_RE = re.compile(
-    r"\b(?:[2-9][- ]?year(?:ly|s)?|multi[- ]?year|decadal|\d{2,}\s*years?)\b",
+    r"(?<!multi-)\b(?:[2-9]-year(?:ly|s)?|10-year(?:ly|s)?|decadal)\b|"
+    rf"{_NUM_GUARD}\b(?:[2-9]\s*year(?:ly|s)?|10\s*year(?:ly|s)?)(?!\s+(?:time\s+series|period|record|span|archive|dataset))\b",
     re.IGNORECASE,
 )
 
 _ANNUAL_RE = re.compile(
-    r"(?<!semi)(?<!semi-)(?<!bi)(?<!bi-)\b(?:annual(?:ly)?|yearly|1\s*years?|p1y)\b",
+    r"(?<!semi)(?<!semi-)(?<!bi)(?<!bi-)(?<!multi)(?<!multi-)(?<!\d-)\b(?:annual(?:ly)?|yearly|1-years?|p1y)\b|"
+    rf"(?<!period of ){_NUM_GUARD}\b1\s*years?\b",
+    re.IGNORECASE,
+)
+
+_GCMD_UPPER_BOUND_RE = re.compile(
+    r"\s*-\s*<\s*(?:hourly|daily|weekly|monthly|annual|yearly|decadal)\b",
+    re.IGNORECASE,
+)
+
+_ORBIT_SWATH_PAREN_RE = re.compile(
+    r"\([^)]*orbit\s+swath[^)]*\)|\b\d+\s+(?:days?|months?|years?)\s+ago\b",
+    re.IGNORECASE,
+)
+
+_STRIP_MULTIDAY_FOR_DAILY_RE = re.compile(
+    r"\b(?:[2-9]|[1-9]\d+)-da(?:y|ily|ys)\b|"
+    rf"{_NUM_GUARD}\b(?:[2-9]|[1-9]\d+)\s*da(?:y|ily|ys)\b",
     re.IGNORECASE,
 )
 
 
 def _match_cadence_classes(txt: str) -> list[str]:
+    txt_clean = _GCMD_UPPER_BOUND_RE.sub("", _ORBIT_SWATH_PAREN_RE.sub(" ", txt))
     classes: list[str] = []
-    if _MULTI_DAY_RE.search(txt):
+    if _MULTI_DAY_RE.search(txt_clean):
         classes.append("multi_day_or_dekadal")
-    if _SUB_DAILY_OR_DAILY_RE.search(re.sub(r"\b\d+[- ]?da(?:y|ily|ys)\b", " ", txt, flags=re.I)):
+    if _SUB_DAILY_OR_DAILY_RE.search(_STRIP_MULTIDAY_FOR_DAILY_RE.sub(" ", txt_clean)):
         classes.append("sub_daily_or_daily")
-    if _MONTHLY_OR_SEASONAL_RE.search(txt):
+    if _MONTHLY_OR_SEASONAL_RE.search(txt_clean):
         classes.append("monthly_or_seasonal")
-    if _MULTI_YEAR_RE.search(txt):
+    if _MULTI_YEAR_RE.search(txt_clean):
         classes.append("multi_year_periodic")
-    if _ANNUAL_RE.search(re.sub(r"\b\d+[- ]?year(?:ly|s)?\b", " ", txt, flags=re.I)):
+    if _ANNUAL_RE.search(_MULTI_YEAR_RE.sub(" ", txt_clean)):
         classes.append("annual")
-    if re.search(r"\b(?:static|single[- ]epoch|one[- ]off|once)\b", txt, re.I):
+    if re.search(r"\b(?:static|single[- ]epoch|one[- ]off|once)\b", txt_clean, re.I):
         classes.append("static_or_single_epoch")
     return classes
 
@@ -258,13 +280,19 @@ def classify_cadence(
     if "multi_day_or_dekadal" in title_classes and "monthly_or_seasonal" not in title_classes:
         return "multi_day_or_dekadal"
 
-    # 2. Evaluate explicit temporal_resolution_raw (returning None if it lists multiple distinct cadence classes without title disambiguation)
+    # 2. Evaluate explicit temporal_resolution_raw (returning None if it lists multiple distinct cadence classes or is a single-epoch multi-year acquisition span)
     if tr:
-        tr_classes = _match_cadence_classes(tr)
-        if len(tr_classes) == 1:
-            return tr_classes[0]
-        if len(tr_classes) > 1:
-            return None
+        m_nyr = re.match(r"^(\d+)\s*years?$", tr)
+        if m_nyr and int(m_nyr.group(1)) >= 3:
+            n_yr = int(m_nyr.group(1))
+            if start_year is not None and end_year is not None and (end_year - start_year) <= n_yr:
+                tr = ""
+        if tr:
+            tr_classes = _match_cadence_classes(tr)
+            if len(tr_classes) == 1:
+                return tr_classes[0]
+            if len(tr_classes) > 1:
+                return None
 
     # 3. Explicit static / single-epoch indicators in update_freq_raw ONLY when not a multi-year time series
     if any(k in uf for k in ("static", "single-epoch", "one-off", "once")) and not (
@@ -279,8 +307,11 @@ def classify_cadence(
 # 3. Geographic Coverage Classifier (from bbox_raw; null stays null)
 # ---------------------------------------------------------------------------
 _EXPLICIT_EUROPE_SCOPE_RE = re.compile(
-    r"(?:,\s*Europe\b|\bPan-European\b|\bEEA39\b|\bin Europe(?:'s)?\s+Seas\b|\balong European coastlines\b|"
-    r"\bEuropean soil database\b|\bfor Europe\b|\bacross Europe\b|\b Baltic Sea\b|\bMediterranean Sea\b|\bBlack Sea\b)",
+    r"(?:,\s*Europe\b|\bEurope\s+\d+\s*[mkm]+\b|-\s*Europe\s*$|\bPan-European\b|\bEEA39\b|"
+    r"\bin Europe(?:'s)?\s+Seas\b|\balong European coastlines\b|"
+    r"\bEuropean\s+(?:soil\s+database|Flood\s+Awareness|Primary\s+Forest|Drought\s+Observatory|Forest\s+Fire)\b|"
+    r"\bNO2\s+European\b|\bfor Europe\b|\bacross Europe\b|\bBaltic Sea\b|\bMediterranean Sea\b|\bBlack Sea\b|"
+    r"\bin\s+(?:Austria|Belgium|Bulgaria|Croatia|Cyprus|Czechia|Denmark|Estonia|Finland|France|Germany|Greece|Hungary|Ireland|Italy|Latvia|Lithuania|Luxembourg|Malta|Netherlands|Poland|Portugal|Romania|Slovakia|Slovenia|Spain|Sweden)\b)",
     re.IGNORECASE,
 )
 
@@ -292,11 +323,19 @@ _EXPLICIT_REGIONAL_SCOPE_RE = re.compile(
     re.IGNORECASE,
 )
 
+_EXPLICIT_POLAR_HEMISPHERIC_RE = re.compile(
+    r"\b(?:arctic|pan-arctic|antarctic(?!\s+research\s+facility)|antarctica|southern ocean|"
+    r"northern hemisphere|southern hemisphere|boreal|circumpolar)\b",
+    re.IGNORECASE,
+)
+
 
 def classify_geographic_coverage(
     bbox: Any,
     title: str | None = None,
     desc: str | None = None,
+    raw_id: str | None = None,
+    source_id: str | None = None,
 ) -> tuple[float | None, float | None, float | None, float | None, str | None]:
     if not isinstance(bbox, (list, tuple)) or len(bbox) < 4:
         return None, None, None, None, None
@@ -312,21 +351,32 @@ def classify_geographic_coverage(
     dlat = abs(n - s)
 
     title_str = title or ""
-    has_global_in_title = bool(re.search(r"\b(?:global|world|worldwide|quasi-global|near-global)\b", title_str, re.IGNORECASE))
+    rid_str = raw_id or ""
+    has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_str, re.IGNORECASE))
+    has_both_hemispheres = bool(
+        re.search(
+            r"\bnorthern\s+(?:hemisphere\s+)?and\s+southern\s+hemispheres?\b|\b(?:arctic.*antarctic|antarctic.*arctic)\b",
+            title_str,
+            re.IGNORECASE,
+        )
+    )
 
     # Guard against nominal [-180, -90, 180, 90] provider bounding boxes on explicitly regional products
     if not has_global_in_title:
-        if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str):
+        if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
             return w, s, e, n, "europe_regional"
         if _EXPLICIT_REGIONAL_SCOPE_RE.search(title_str):
             return w, s, e, n, "regional_or_local"
         if desc and re.search(r"\b(?:across the contiguous U\.?S\.?\s*\(CONUS\)|for the conterminous United States)\b", desc, re.IGNORECASE):
             return w, s, e, n, "regional_or_local"
 
-    if dlon >= 300.0 and dlat >= 120.0:
-        cov = "global"
-    elif dlon >= 300.0 and dlat >= 90.0:
-        cov = "quasi_global"
+    if dlon >= 300.0 and dlat >= 90.0:
+        if s >= -5.0 or n <= 5.0 or (not has_global_in_title and not has_both_hemispheres and _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str)):
+            return w, s, e, n, "hemispheric_or_pantropical"
+        if dlat >= 120.0:
+            cov = "global"
+        else:
+            cov = "quasi_global"
     elif (dlon >= 300.0 and dlat >= 40.0) or (dlon >= 120.0 and dlat >= 120.0):
         cov = "hemispheric_or_pantropical"
     elif not (w > e) and -65.0 <= w <= 45.0 and 10.0 <= s <= 75.0 and -10.0 <= e <= 85.0 and 35.0 <= n <= 90.0:
@@ -414,7 +464,9 @@ EU_PRODUCER_RE = re.compile(
     r"opengeohub|openlandmap|isric|soilgrids|wageningen|ghent university|ugent|"
     r"vrije universiteit amsterdam|miralles, diego|\bgleam4\b|global land evaporation amsterdam model|"
     r"ifremer|mercator oc[eé]an|helmholtz|alfred wegener institute|potsdam institute for climate impact|"
-    r"tu wien|deltares|technical university of denmark|deutscher wetterdienst|"
+    r"tu wien|technical university of vienna|vienna university of technology|vandersat|"
+    r"uclouvain|university of li[eè]ge|forschungszentrum j[uü]lich|\bmpi-bgc\b|\blsce\b|"
+    r"deltares|technical university of denmark|deutscher wetterdienst|"
     r"university of bremen|goethe university|max planck|collecte localisation satellites)\b",
     re.IGNORECASE,
 )
@@ -728,9 +780,9 @@ def detect_sentinel_usage(
     if re.search(r"\b(hurricane and severe storm sentinel|hs3[a-z0-9_-]*)\b", f"{rid_str} {ttl_str}", re.IGNORECASE):
         return False, None
 
-    # Check whether the title itself pins a single pre-2014 reference year/range (ignoring EEA publication month-year suffixes like ', Feb. 2024')
+    # Check whether the title itself pins a single pre-2014 reference year/range (ignoring EEA publication month-year suffixes like ', Feb. 2024' and literature citations like 'et al. 2005')
     ttl_no_pub = re.sub(
-        r",\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z.]*\s+20[12]\d\b",
+        r",\s*(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z.]*\s+20[12]\d\b|\bet\s+al\.?\s*,?\s*\(?(?:19\d\d|20\d\d)\)?",
         "",
         ttl_str,
         flags=re.IGNORECASE,
@@ -845,11 +897,16 @@ IN_SITU_GRIDDED_RE = re.compile(
     r"^npp_[a-z0-9_-]+:\s*npp\b|"
     r"\b(?:derived from in[- ]situ observations|global ocean in situ|lucas\s+copernicus|"
     r"integrated global radiosonde archive|\bradiosonde\b|argo float|java ocean atlas|"
-    r"oceanographic profile|benthic macrofauna|multibeam survey|hydrographic survey|coastal survey|"
+    r"oceanographic profile|from in[- ]situ oceanographic subsurface profile|"
+    r"benthic macrofauna|multibeam survey|hydrographic survey|coastal survey|"
     r"polarstern cruise|discrete.*stations|towed behind.*ship|in[- ]situ.*measurements|"
     r"ctd casts?|collected (?:by|from|using) (?:ctd|xbt)|using [\w\s,]*(?:ctd|xbt)\b|xbt casts?|"
     r"sensor depth:\s*[\d.]+\s*m|wave and tide recorder|temperature and conductivity recorder|"
     r"coral reef early warning system.*buoy|sst\)?\s+buoy|mooring\s+tao|from\s+moorings?\b|"
+    r"marine environmental buoy database|c-man and moored|from moored buoy|"
+    r"archive of geosample data|based on in[- ]situ raingauge observations|"
+    r"east india company logbooks|global land surface temperature databank|"
+    r"aerial photograph(?:y|s)|aerial photo single frames|single frame records|"
     r"gppdi_npp|bigfoot gpp surfaces|"
     r"fluxnet|eddy covariance|airborne lidar|airborne radar|uavsar|airsar|drone imagery|\bsuas\b|"
     r"aircraft campaign|shipboard)\b)",
@@ -1047,6 +1104,7 @@ def classify_operational_maturity(
         re.search(r"\b(19\d\d|20[0-2]\d)\s*[-–—]\s*(?:present|ongoing)\b", head, re.IGNORECASE)
         and not is_future_proj
         and "[archived]" not in head.lower()
+        and (end_year is None or end_year >= 2025)
     )
 
     # Determine is_ongoing_archive strictly from raw dates and explicit update status
@@ -1208,7 +1266,7 @@ def main() -> None:
             cadence_cls = classify_cadence(temp_res_raw, uf_raw, title, start_yr, end_yr, desc)
 
             # 3. Geographic coverage
-            bw, bs, be, bn, geo_cls = classify_geographic_coverage(bbox_raw, title, desc)
+            bw, bs, be, bn, geo_cls = classify_geographic_coverage(bbox_raw, title, desc, raw_id, sid)
 
             # 4. Producer vs Host, Provider Pool & Institutional Jurisdiction Tier
             prod_inst, host_plat, pool, cop_srv, is_un, tier = classify_producer_and_pool(

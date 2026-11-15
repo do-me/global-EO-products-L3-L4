@@ -405,6 +405,66 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"gee_cad={gee_cad_lit}, mo_contra={monthly_daily_contra}, l4_to_l3={title_l4_to_l3}, sent_pos={sent_pos_ok}, lpj_l4={lpj_ok}, merra2={merra2_ok}",
     ))
 
+    # 18. Deep scientific QA invariants (closed archives, European/polar geo scope, EU benchmark pool, strict-EO physical exclusions, citation-year Sentinel)
+    op_closed = int(
+        (
+            (df_all["operational_maturity_class"] == "operational_ongoing_series")
+            & (df_all["temporal_end_year"].fillna(9999) <= 2024)
+        ).sum()
+    )
+    eu_nom_glob = int(
+        (
+            df_all["record_id"].str.contains("_europe_|^05_copernicus_cems_ewds::efas-", case=False, regex=True)
+            & (df_all["geographic_coverage_class"] == "global")
+        ).sum()
+    )
+    polar_bad = int(
+        (
+            df_all["raw_id"].isin([
+                "satellite-sea-ice-thickness",
+                "C3291000765-NSIDC_CPRD",
+                "ANTARCTIC_OMI_SI_extent",
+            ])
+            & df_all["geographic_coverage_class"].isin(["global", "quasi_global"])
+        ).sum()
+    )
+    eu_bench = df_all[df_all["raw_id"].isin(["ZENODO:2575599", "ZENODO:10212472", "DATACITE:10.1594/pangaea.911944"])]
+    eu_bench_ok = len(eu_bench) == 3 and bool((eu_bench["provider_pool"] == "eu_non_copernicus").all())
+    bicep_sub = df_all[df_all["raw_id"].isin([
+        "export-production-bicep",
+        "monthly-global-export-production-based-on-henson-et-al-2011-dataset-9-km-oc-cci-v42",
+    ])]
+    bicep_ok = len(bicep_sub) == 2 and bool(bicep_sub["uses_sentinel_data"].all())
+    phys_bad = int(
+        (
+            df_all["title"].fillna("").str.contains(
+                r"Archive of Geosample Data|NOAA Marine Environmental Buoy Database|based on in-situ raingauge observations|USGSPHOTOS|NASAPHOTOS",
+                case=False,
+                regex=True,
+            )
+            & (df_all["strict_eo_c1_eligible"] == True)  # noqa: E712
+        ).sum()
+    )
+    single_epoch_my_bad = int(
+        (
+            df_all["raw_id"].isin(["C1711961296-LPCLOUD", "C2763261621-LPCLOUD", "C3543456364-LPCLOUD", "C2763264663-LPCLOUD", "C3206501379-NSIDC_CPRD", "C3297995634-NSIDC_CPRD"])
+            & (df_all["temporal_cadence_class"] == "multi_year_periodic")
+        ).sum()
+    )
+    qa.append((
+        "18. Deep scientific invariants (closed-end maturity, EU/polar geo, EU benchmarks, physical strict-EO, BICEP S3, single-epoch windows)",
+        bool(
+            op_closed == 0
+            and eu_nom_glob == 0
+            and polar_bad == 0
+            and eu_bench_ok
+            and bicep_ok
+            and phys_bad == 0
+            and single_epoch_my_bad == 0
+        ),
+        f"op_closed={op_closed}, eu_glob={eu_nom_glob}, polar_bad={polar_bad}, eu_bench={eu_bench_ok}, bicep_s3={bicep_ok}, phys_bad={phys_bad}, epoch_my_bad={single_epoch_my_bad}",
+    ))
+
     return qa
 
 

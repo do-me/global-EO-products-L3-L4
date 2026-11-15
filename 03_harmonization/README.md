@@ -1,7 +1,7 @@
 # `03_harmonization` — Unified L3/L4 Schema & Harmonized Catalogue
 
 ## Purpose
-Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`38,059` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`43` record columns; `45` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
+Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`38,055` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`43` record columns; `45` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
 
 ## How to Run
 ```bash
@@ -33,14 +33,14 @@ uv run 03_harmonization/harmonize_catalogue.py
 | `title_token_resolution_meters` | `float \| null` | Explicit resolution tokens (e.g., `10m`, `30m`, `250m`, `1km`) parsed from `title`/`raw_id` without modifying `spatial_resolution_meters`. |
 | `temporal_cadence_class` | `string \| null` | `sub_daily_or_daily` \| `multi_day_or_dekadal` \| `monthly_or_seasonal` \| `annual` \| `multi_year_periodic` \| `static_or_single_epoch` \| `null`. |
 | `temporal_start_year`, `temporal_end_year` | `int \| null` | Extracted strictly from `temporal_start_raw` / `temporal_end_raw` (`null` if omitted). |
-| `is_ongoing_archive` | `bool \| null` | `True` if open-ended active series (`temporal_end_raw >= 2025` or open-ended with ongoing/regular cadence), `False` if completed/planned/deprecated or release-dated without ongoing updates, `null` if timestamps and upstream status are omitted. |
+| `is_ongoing_archive` | `bool \| null` | `True` if open-ended active series (`temporal_end_raw >= 2025` or open-ended with `end_year >= 2025` / null end date and ongoing/regular cadence), `False` if completed/planned/deprecated or release-dated without ongoing updates, `null` if timestamps and upstream status are omitted. |
 | `operational_maturity_class` | `string` | `operational_ongoing_series` \| `completed_or_mission_bounded_release` \| `research_or_benchmark_release` \| `planned_or_preoperational` \| `deprecated_or_superseded` \| `unknown` (never assigns `operational_ongoing_series` when `is_ongoing_archive` is `null`). |
 | `bbox_west`, `bbox_south`, `bbox_east`, `bbox_north` | `float \| null` | Bounding box coordinates (`null` if omitted). |
 | `geographic_coverage_class` | `string \| null` | `global` \| `quasi_global` \| `hemispheric_or_pantropical` \| `europe_regional` \| `regional_or_local` \| `null`. |
 | `doi`, `license`, `access_url` | `string \| null` | Persistent identifier, upstream product license, and role-prioritized non-image landing page URL. |
 
 ## Outputs
-- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `38,059` harmonized L3/L4 records across all 28 product sources (`43` columns).
-- `./data/eo_l3_l4_canonical_products.parquet` — `37,505` conservatively deduplicated canonical L3/L4 products (`45` columns; `530` mirror groups collapsing `554` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
+- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `38,055` harmonized L3/L4 records across all 28 product sources (`43` columns).
+- `./data/eo_l3_l4_canonical_products.parquet` — `37,501` conservatively deduplicated canonical L3/L4 products (`45` columns; `530` mirror groups collapsing `554` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
 - `./provider_pool_and_sentinel_summary.csv` — Breakdown of canonical products by `provider_pool`, `processing_level`, and `uses_sentinel_data`.
 - `./schema_completeness_report.csv` — Exact non-null and null counts across all `43` harmonized record columns.
