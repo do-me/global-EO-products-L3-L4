@@ -27,6 +27,7 @@ Key Scientific & Methodological Principles:
 
 from __future__ import annotations
 
+import html
 import json
 import re
 from pathlib import Path
@@ -62,10 +63,13 @@ def clean_str(val: Any) -> str | None:
     s = str(val).strip()
     if not s or s.lower() in ("none", "null", "n/a", "not provided", "unknown", "nan"):
         return None
-    # Strip HTML tags if present in descriptions
-    if "<p>" in s or "<div" in s or "<br" in s or "</" in s:
+    # Strip HTML tags if present in descriptions, then decode HTML entities cleanly
+    if re.search(r"</?(?:p|div|br|ul|ol|li|strong|em|b|i|span|a|h[1-6]|table|tr|td|th)\b", s, re.IGNORECASE):
         s = re.sub(r"<[^>]+>", " ", s)
-        s = re.sub(r"\s+", " ", s).strip()
+    if "&" in s:
+        s = html.unescape(s)
+    s = s.replace("\xa0", " ")
+    s = re.sub(r"\s+", " ", s).strip()
     return s if s else None
 
 
@@ -505,46 +509,94 @@ def _extract_geojson_bbox(geom_obj: Any, primary_only: bool = False) -> list[flo
 
 _TEXT_CADENCE_PATTERNS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"\b(sub[- ]?hourly|\d+\s*min(?:ute)?s?|half[- ]?hourly|every\s+(?:15|30)\s*min)\b", re.I), "sub-hourly"),
-    (re.compile(r"\b(hourly|1[- ]?hour(?:ly)?|3[- ]?hour(?:ly)?|6[- ]?hour(?:ly)?|every\s+[136]\s*hours?)\b", re.I), "hourly"),
-    (re.compile(r"\b(10[- ]?da(?:y|ily|ys)|8[- ]?da(?:y|ily|ys)|16[- ]?da(?:y|ily|ys)|5[- ]?da(?:y|ily|ys)|dekad(?:al|e)?|three times a month|fortnightly|bi[- ]?weekly)\b", re.I), "10-daily"),
-    (re.compile(r"\b(weekly|7[- ]?da(?:y|ily|ys))\b", re.I), "weekly"),
-    (re.compile(r"(?<!\d[- ])(?<!\bmulti[- ])\b(daily|1[- ]?day|day[- ]?by[- ]?day|diurnal(?!\s+cycle))\b", re.I), "daily"),
-    (re.compile(r"\b(monthly|1[- ]?month|month[- ]?by[- ]?month)\b", re.I), "monthly"),
+    (re.compile(r"(?<!sub[- ])\b(hourly|1[- ]?hour(?:ly)?|3[- ]?hour(?:ly)?|6[- ]?hour(?:ly)?|every\s+[136]\s*hours?)\b", re.I), "hourly"),
+    (re.compile(r"\b(bi[- ]?weekly|fortnightly|semi[- ]?monthly|twice[- ]?monthly)\b", re.I), "biweekly"),
+    (re.compile(r"\b(10[- ]?da(?:y|ily|ys)|ten[- ]?da(?:y|ily|ys)|8[- ]?da(?:y|ily|ys)|16[- ]?da(?:y|ily|ys)|5[- ]?da(?:y|ily|ys)|dekad(?:al|e)?|three times a month)\b", re.I), "10-daily"),
+    (re.compile(r"(?<!bi[- ])(?<!bi)\b(weekly|7[- ]?da(?:y|ily|ys))\b", re.I), "weekly"),
+    (re.compile(r"(?<!\d[- ])(?<!ten[- ])(?<!\bmulti[- ])(?<!\bsub[- ])\b(daily|1[- ]?day|day[- ]?by[- ]?day|diurnal(?!\s+cycle))\b", re.I), "daily"),
+    (re.compile(r"(?<!semi[- ])(?<!twice[- ])(?<!bi[- ])(?<!bi)\b(monthly|1[- ]?month|month[- ]?by[- ]?month)\b", re.I), "monthly"),
     (re.compile(r"\b(seasonal|quarterly|3[- ]?month)\b", re.I), "seasonal"),
-    (re.compile(r"\b(annual(?:ly)?|yearly|1[- ]?year)\b", re.I), "annual"),
+    (re.compile(r"(?<!semi[- ])(?<!semi)(?<!bi[- ])(?<!bi)\b(annual(?:ly)?|yearly|1[- ]?year)\b", re.I), "annual"),
 ]
+
+_NON_CADENCE_SEASONAL_PHRASE_RE = re.compile(
+    r"\bseasonal\s+trajector(?:y|ies)\b|"
+    r"\bseasonal\s+productivit(?:y|ies)(?=.*\b(?:yearly|annual)\b)|"
+    r"\bseasonal\s+(?:cycle|variability|dynamics|amplitude|growth|decline|integral)\b|"
+    r"\b(?:growing|cropping)\s+seasons?\b",
+    re.IGNORECASE,
+)
+
+_CADENCE_EXCLUDE_CONTEXT_RE = re.compile(
+    r"\b(?:no longer archived|no longer produced|previously\s+(?:provided|archived)|"
+    r"aggregated\s+(?:\w+\s+){0,2}from|derived\s+(?:\w+\s+){0,2}from|"
+    r"interpolated\s+from|instead\s+of|compared\s+(?:to|with)|"
+    r"retrieved\s+over|retrieval\s+period)\b",
+    re.IGNORECASE,
+)
+
+_CLAUSE_CADENCE_WORD = (
+    r"(?:sub[- ]?hourly|hourly|[136][- ]?hour(?:ly)?|half[- ]?hourly|\d+[- ]?min|"
+    r"daily|weekly|bi[- ]?weekly|fortnightly|semi[- ]?monthly|twice[- ]?monthly|"
+    r"5[- ]?da(?:y|ily|ys)|7[- ]?da(?:y|ily|ys)|8[- ]?da(?:y|ily|ys)|"
+    r"10[- ]?da(?:y|ily|ys)|ten[- ]?da(?:y|ily|ys)|16[- ]?da(?:y|ily|ys)|dekad(?:al|e)?|"
+    r"monthly|quarterly|seasonal|annual(?:ly)?|yearly)"
+)
+
+
+def _scan_cadence_tokens(text_fragment: str) -> list[str]:
+    clean_frag = _NON_CADENCE_SEASONAL_PHRASE_RE.sub(" ", text_fragment)
+    matched: list[str] = []
+    for pat, _ in _TEXT_CADENCE_PATTERNS:
+        for m in pat.finditer(clean_frag):
+            tok = m.group(0).strip()
+            if tok and tok.lower() not in [x.lower() for x in matched]:
+                matched.append(tok)
+    return matched
 
 
 def _extract_cadence_from_text(title: str | None, desc: str | None = None) -> str | None:
     """Extract explicit product temporal sampling/composite cadence from title (or explicit cadence clauses in description),
-    preserving multi-cadence declarations (e.g. 'daily; monthly') and avoiding publication-frequency confusion."""
+    preserving multi-cadence declarations (e.g. 'daily; monthly', 'biweekly; annual') while guarding product-name false
+    positives ('Seasonal Trajectories'), substring leaks ('productivity' -> 'product'), and non-output input/archived notes."""
     if title:
-        matched_t = []
-        for pat, _ in _TEXT_CADENCE_PATTERNS:
-            m = pat.search(title)
-            if m:
-                tok = m.group(0)
-                if tok.lower() not in [x.lower() for x in matched_t]:
-                    matched_t.append(tok)
+        matched_t = _scan_cadence_tokens(title)
         if matched_t:
             return "; ".join(matched_t)
     if desc:
-        # Look for explicit temporal resolution/composite sentences in description
-        for clause_m in re.finditer(
-            r"(?:temporal\s+(?:resolution|coverage|sampling|step|aggregation)|"
-            r"(?:daily|monthly|annual|hourly|3-hourly|6-hourly|8-day|10-day|10-daily|dekadal|weekly|seasonal)\s+"
-            r"(?:(?:and|or|,)\s+(?:daily|monthly|annual|seasonal|hourly)\s+)?(?:composites?|means?|averages?|grids?|products?|estimates?|fields?|data))[^.;]{0,80}",
+        # Tier 1: Explicit key-value metadata lines (e.g. "Temporal resolution: 8 day")
+        for kv_m in re.finditer(r"\btemporal\s+(?:resolution|sampling|step|granularity|interval)\s*[:=]\s*([^\n.;]+)", desc, re.IGNORECASE):
+            matched_kv = _scan_cadence_tokens(kv_m.group(1))
+            if matched_kv:
+                return "; ".join(matched_kv)
+
+        # Tier 2: Explicit "temporal resolution" phrasing with preceding or following cadence (e.g. "daily temporal resolution")
+        for tr_m in re.finditer(
+            rf"(?:\b{_CLAUSE_CADENCE_WORD}\b[^.;]{{0,35}})?\btemporal\s+(?:resolution|sampling|step|aggregation)\b[^.;]{{0,80}}",
             desc,
             re.IGNORECASE,
         ):
-            clause = clause_m.group(0)
-            matched_c = []
-            for pat, _ in _TEXT_CADENCE_PATTERNS:
-                m = pat.search(clause)
-                if m:
-                    tok = m.group(0)
-                    if tok.lower() not in [x.lower() for x in matched_c]:
-                        matched_c.append(tok)
+            clause = tr_m.group(0)
+            if _CADENCE_EXCLUDE_CONTEXT_RE.search(clause):
+                continue
+            matched_tr = _scan_cadence_tokens(clause)
+            if matched_tr:
+                return "; ".join(matched_tr)
+
+        # Tier 3: Explicit output composite / grid / product clauses with strict word boundaries
+        clause_re = re.compile(
+            rf"\b{_CLAUSE_CADENCE_WORD}\b"
+            rf"(?:\s*(?:and|or|,|/)\s*\b{_CLAUSE_CADENCE_WORD}\b){{0,3}}"
+            rf"(?:\s+\w+){{0,2}}\s+\b(?:composites?|means?|averages?|grids?|products?|estimates?|fields?|time[- ]?series|maps?|rasters?)\b",
+            re.IGNORECASE,
+        )
+        for clause_m in clause_re.finditer(desc):
+            start_ctx = max(0, clause_m.start() - 45)
+            end_ctx = min(len(desc), clause_m.end() + 40)
+            window = desc[start_ctx:end_ctx]
+            if _CADENCE_EXCLUDE_CONTEXT_RE.search(window):
+                continue
+            matched_c = _scan_cadence_tokens(clause_m.group(0))
             if matched_c:
                 return "; ".join(matched_c)
     return None
@@ -1760,6 +1812,15 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 org = "; ".join(dict.fromkeys(affils[:3])) if affils else ("; ".join(creators[:3]) if creators else "Zenodo Scientific Benchmark")
             title_z = clean_str(md.get("title") or h.get("title"))
             desc_z = clean_str(md.get("description"))
+            links_z = h.get("links") or {}
+            landing_z = clean_str(
+                links_z.get("self_html")
+                or links_z.get("html")
+                or links_z.get("latest_html")
+                or links_z.get("doi")
+                or links_z.get("self_doi_html")
+                or (f"https://zenodo.org/records/{z_id_str}" if z_id_str else None)
+            )
             rows.append({
                 "source_id": "26_fao_unep_and_thematic_benchmarks",
                 "raw_id": f"ZENODO:{h.get('id')}",
@@ -1777,7 +1838,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "platform_sensor_raw": None,
                 "doi_raw": doi_z,
                 "license_raw": clean_str((md.get("license") or {}).get("id") if isinstance(md.get("license"), dict) else md.get("license")),
-                "landing_url_raw": clean_str((h.get("links") or {}).get("html")),
+                "landing_url_raw": landing_z,
                 "keywords_raw": clean_str(md.get("keywords")),
             })
 

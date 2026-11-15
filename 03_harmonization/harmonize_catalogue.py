@@ -172,6 +172,8 @@ def parse_title_token_resolution_meters(raw_id: str | None, title: str | None) -
     txt = re.sub(r"\b\d+(?:\.\d+)?\s*(?:m|meters?)\s+urban\s+and\s+", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"\bin\s+\d+(?:\.\d+)?\s*m\.?\s*transect\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"\b\d+\s*M\s+[\w\s]*Mosaic\b", " ", txt)
+    txt = re.sub(r"\bcbers4[a-z]*-[a-z0-9]+-\d+m(?:-\d+)?\b", " ", txt, flags=re.IGNORECASE)
+    txt = re.sub(r"\b\d+(?:\.\d+)?\s*(?:mo|mos|months?|mths?)\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"mosaic-cbers4[a-z]*-[a-z-]+-\d+m\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"\bdegree\s+of\s+[a-z\s]+?\([a-z]+\)\s*\d{4}\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"\b[a-zA-Z0-9_]*[a-zA-Z]\d+(?:\.\d+)?(?:m|km|deg)\b", " ", txt, flags=re.IGNORECASE)
@@ -193,7 +195,8 @@ _NUM_GUARD = r"(?<![a-zA-Z0-9][-_./])(?<!\blevel\s)(?<!\bl)(?<!\bch\s)(?<!\bchan
 _MULTI_DAY_RE = re.compile(
     r"\b(?:[2-9]|[12]\d|32)-da(?:y|ily|ys)\b|"
     rf"{_NUM_GUARD}\b(?:[2-9]|[12]\d|32)\s*da(?:y|ily|ys)\b|"
-    r"\b(?:dekad(?:al|e|s)?|three times a month|weekly|bi[- ]?weekly|twice[- ]?weekly|fortnightly|semi[- ]?monthly|twice[- ]?monthly)\b",
+    r"\b(?:ten[- ]?day(?:ly)?|eight[- ]?day|sixteen[- ]?day|dekad(?:al|e|s)?|"
+    r"three times a month|weekly|bi[- ]?weekly|twice[- ]?weekly|fortnightly|semi[- ]?monthly|twice[- ]?monthly)\b",
     re.IGNORECASE,
 )
 
@@ -209,6 +212,12 @@ _SUB_DAILY_OR_DAILY_RE = re.compile(
 _MONTHLY_OR_SEASONAL_RE = re.compile(
     r"(?<!semi[- ])(?<!twice[- ])(?<!bi[- ])(?<!bi)\b(?:monthly|quarterly|seasonal|1-months?|3-month(?:ly)?|p1m|p3m)\b|"
     rf"{_NUM_GUARD}\b(?:1\s*months?|3\s*month(?:ly)?|30[- ]*days?|(?:[2-9]|1[01])\s*months?)(?!\s+accumulation)\b",
+    re.IGNORECASE,
+)
+
+_NON_CADENCE_SEASONAL_PHRASE_RE = re.compile(
+    r"\b(?:seasonal\s+trajector(?:y|ies)|seasonal\s+productivity|seasonal\s+cycle|"
+    r"growing\s+season|dry\s+season|wet\s+season|fire\s+season|summer\s+season|winter\s+season)\b",
     re.IGNORECASE,
 )
 
@@ -242,7 +251,9 @@ _STRIP_MULTIDAY_FOR_DAILY_RE = re.compile(
 
 
 def _match_cadence_classes(txt: str) -> list[str]:
-    txt_clean = _GCMD_UPPER_BOUND_RE.sub("", _ORBIT_SWATH_PAREN_RE.sub(" ", txt))
+    txt_clean = _NON_CADENCE_SEASONAL_PHRASE_RE.sub(
+        " ", _GCMD_UPPER_BOUND_RE.sub("", _ORBIT_SWATH_PAREN_RE.sub(" ", txt))
+    )
     classes: list[str] = []
     if _MULTI_DAY_RE.search(txt_clean):
         classes.append("multi_day_or_dekadal")
@@ -266,12 +277,20 @@ def classify_cadence(
     start_year: int | None,
     end_year: int | None,
     desc: str | None = None,
+    raw_id: str | None = None,
 ) -> str | None:
     """Classify product temporal support/sampling cadence strictly separately from archival publication frequency.
     Accepts None (null) when temporal_resolution_raw and title contain multiple distinct cadences or lack explicit cadence tokens."""
     tr = (temp_res_raw or "").strip().lower()
     title_l = (title or "").strip().lower()
+    rid_l = (raw_id or "").strip().lower()
     uf = (update_freq_raw or "").strip().lower()
+
+    # 0. Rolling BRDF/albedo/NBAR daily outputs whose title names the 16-day retrieval window (MCD43/VNP43 v006/061)
+    if tr and re.search(r"\b(?:mcd43|vnp43)[a-z0-9_]*\b", f"{rid_l} {title_l}") and re.search(r"\b(?:daily|1\s*days?|1-days?)\b", tr):
+        tr_classes_chk = _match_cadence_classes(tr)
+        if tr_classes_chk == ["sub_daily_or_daily"]:
+            return "sub_daily_or_daily"
 
     # 1. Explicit single-cadence token in title takes priority (resolving multi-cadence collection tags when title is specific)
     title_classes = _match_cadence_classes(title_l)
@@ -303,6 +322,40 @@ def classify_cadence(
     return None
 
 
+def extract_temporal_output_details(
+    raw_id: str | None,
+    title: str | None,
+    desc: str | None,
+    temp_res_raw: str | None,
+    cadence_cls: str | None,
+) -> tuple[str | None, str | None]:
+    """Separates output step interval(s) from rolling retrieval/compositing/accumulation windows."""
+    tr = (temp_res_raw or "").strip().lower()
+    tr_classes = _match_cadence_classes(tr) if tr else []
+    if tr_classes:
+        out_cadences = "; ".join(tr_classes)
+    elif cadence_cls:
+        out_cadences = cadence_cls
+    else:
+        out_cadences = None
+
+    agg_window: str | None = None
+    blob = f"{raw_id or ''} {title or ''} {desc or ''}"
+    if re.search(r"\b(?:mcd43|vnp43)[a-z0-9_]*\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE) and re.search(
+        r"\b16[- ]?days?(?:\s+of\b)?", blob, re.IGNORECASE
+    ):
+        agg_window = "16-day retrieval/compositing window"
+    else:
+        m_win = re.search(
+            r"\b(\d{1,3}[- ]?day(?:s)?)\s+(?:retrieval|moving|compositing|rolling|accumulation)\s+(?:period|window)\b",
+            blob,
+            re.IGNORECASE,
+        )
+        if m_win:
+            agg_window = f"{m_win.group(1).lower().replace(' ', '-')} retrieval/compositing window"
+    return out_cadences, agg_window
+
+
 # ---------------------------------------------------------------------------
 # 3. Geographic Coverage Classifier (from bbox_raw; null stays null)
 # ---------------------------------------------------------------------------
@@ -329,6 +382,23 @@ _EXPLICIT_POLAR_HEMISPHERIC_RE = re.compile(
     re.IGNORECASE,
 )
 
+_MULTI_GEO_GLOBAL_MERGE_RE = re.compile(
+    r"\b(?:geoleo_merged|ostia|gpcp|isccp|hursat|gridsat|coral reef watch|crw\b|"
+    r"girafe|entrain|odyssea|dmi_oi|k10_sst|g1sst|global landuse modeling|eoswebster_glm|"
+    r"multi[- ]?(?:sensor|satellite|mission)|merged[-_ ]?(?:geo|leo|global)|io[- ]?geo[- ]?mosaic)\b",
+    re.IGNORECASE,
+)
+
+_SINGLE_GEO_DISK_RE = re.compile(
+    r"(?:_abi_g1[6789]\b|_ahi_h0[89]\b|\bglm[mh]th\b|"
+    r"\bseviri_m0?\d+\b|\bsndr[a-z0-9]*_g\d+\b|-(?:m(?:8|9|10|11)|g1[0-9]|h0[89])-(?:iasia|iasi|cris|airs)\b|"
+    r"\bgoes[-_ ]?(?:east|west|[0-9]{1,2}|r|i-m)\b|\bhimawari[-_ ]?[89]?\b|"
+    r"\b(?:meteosat|msg[-_ ]?[1-4]?|mtg|indian ocean data coverage|iodc)\b|"
+    r"\b(?:seviri|vissr|fci)\b|\b0\s*(?:degree|deg)\b|"
+    r"\beo:eum:dat:(?:msg:|mtg:|model:bmd\b))",
+    re.IGNORECASE,
+)
+
 
 def classify_geographic_coverage(
     bbox: Any,
@@ -336,13 +406,13 @@ def classify_geographic_coverage(
     desc: str | None = None,
     raw_id: str | None = None,
     source_id: str | None = None,
-) -> tuple[float | None, float | None, float | None, float | None, str | None]:
+) -> tuple[float | None, float | None, float | None, float | None, str | None, str | None]:
     if not isinstance(bbox, (list, tuple)) or len(bbox) < 4:
-        return None, None, None, None, None
+        return None, None, None, None, None, None
     try:
         w, s, e, n = float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])
     except Exception:
-        return None, None, None, None, None
+        return None, None, None, None, None, None
     # Antimeridian wrap-around spans east -> west across 180 deg
     if w > e:
         dlon = 360.0 - (w - e)
@@ -352,6 +422,7 @@ def classify_geographic_coverage(
 
     title_str = title or ""
     rid_str = raw_id or ""
+    head_geo = f"{rid_str} {title_str}"
     has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_str, re.IGNORECASE))
     has_both_hemispheres = bool(
         re.search(
@@ -361,31 +432,50 @@ def classify_geographic_coverage(
         )
     )
 
-    # Guard against nominal [-180, -90, 180, 90] provider bounding boxes on explicitly regional products
+    is_multi_geo_family = bool(
+        _MULTI_GEO_GLOBAL_MERGE_RE.search(head_geo)
+        or (source_id in ("02_copernicus_clms",) and "global" in title_str.lower())
+        or (
+            re.search(r"\bgoes\b", head_geo, re.IGNORECASE)
+            and re.search(r"\b(?:meteosat|himawari|msg|mtsat|seviri|ahi)\b", head_geo, re.IGNORECASE)
+        )
+    )
+    is_single_geo_disk = bool(not is_multi_geo_family and _SINGLE_GEO_DISK_RE.search(head_geo))
+
+    # Guard against nominal [-180, -90, 180, 90] provider bounding boxes on explicitly regional or single-GEO disk products
+    if is_single_geo_disk and dlon >= 300.0:
+        return w, s, e, n, "regional_or_local", "geostationary_disk_or_sector"
+
     if not has_global_in_title:
         if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
-            return w, s, e, n, "europe_regional"
+            domain = "geostationary_disk_or_sector" if is_single_geo_disk else "europe_regional"
+            return w, s, e, n, "europe_regional", domain
         if _EXPLICIT_REGIONAL_SCOPE_RE.search(title_str):
-            return w, s, e, n, "regional_or_local"
+            domain = "geostationary_disk_or_sector" if is_single_geo_disk else "regional_or_local"
+            return w, s, e, n, "regional_or_local", domain
         if desc and re.search(r"\b(?:across the contiguous U\.?S\.?\s*\(CONUS\)|for the conterminous United States)\b", desc, re.IGNORECASE):
-            return w, s, e, n, "regional_or_local"
+            domain = "geostationary_disk_or_sector" if is_single_geo_disk else "regional_or_local"
+            return w, s, e, n, "regional_or_local", domain
 
     if dlon >= 300.0 and dlat >= 90.0:
         if s >= -5.0 or n <= 5.0 or (not has_global_in_title and not has_both_hemispheres and _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str)):
-            return w, s, e, n, "hemispheric_or_pantropical"
+            return w, s, e, n, "hemispheric_or_pantropical", "hemispheric_or_pantropical"
         if dlat >= 120.0:
-            cov = "global"
+            cov, domain = "global", "global_nominal_envelope"
         else:
-            cov = "quasi_global"
+            cov, domain = "quasi_global", "quasi_global_envelope"
     elif (dlon >= 300.0 and dlat >= 40.0) or (dlon >= 120.0 and dlat >= 120.0):
-        cov = "hemispheric_or_pantropical"
+        cov, domain = "hemispheric_or_pantropical", "hemispheric_or_pantropical"
     elif not (w > e) and -65.0 <= w <= 45.0 and 10.0 <= s <= 75.0 and -10.0 <= e <= 85.0 and 35.0 <= n <= 90.0:
         cov = "europe_regional"
+        domain = "geostationary_disk_or_sector" if is_single_geo_disk else "europe_regional"
     elif dlon < 300.0 and title and _EXPLICIT_EUROPE_SCOPE_RE.search(title):
         cov = "europe_regional"
+        domain = "geostationary_disk_or_sector" if is_single_geo_disk else "europe_regional"
     else:
         cov = "regional_or_local"
-    return w, s, e, n, cov
+        domain = "geostationary_disk_or_sector" if is_single_geo_disk else "regional_or_local"
+    return w, s, e, n, cov, domain
 
 
 # ---------------------------------------------------------------------------
@@ -735,10 +825,10 @@ S2_RE = re.compile(
     re.IGNORECASE,
 )
 S3_RE = re.compile(
-    r"\b(sentinel[-_ ]?3[abc]?|olci|slstr|sral)\b|burnt area\s+20(?:1[89]|2\d)-present\s*\(raster 300\s*m\)",
+    r"\b(sentinel[-_ ]?3[abc]?|olcis?|slstrs?|srals?)\b|burnt area\s+20(?:1[89]|2\d)-present\s*\(raster 300\s*m\)",
     re.IGNORECASE,
 )
-S5P_RE = re.compile(r"\b(sentinel[-_ ]?5p|s5p|tropomi)\b", re.IGNORECASE)
+S5P_RE = re.compile(r"\b(sentinel[-_ ]?5p|s5p|tropomis?)\b", re.IGNORECASE)
 S6_RE = re.compile(r"\b(sentinel[-_ ]?6[ab]?|poseidon-4)\b", re.IGNORECASE)
 
 _SENTINEL_LAUNCH_YEAR = {
@@ -759,9 +849,7 @@ _CONTEXTUAL_NON_SENTINEL_DESC_RE = re.compile(
     r"detectable across some european sentinel platforms[^.;]*|"
     r"taking advantage of the availability of sentinel[-_ ]?2 data,\s*whereas earlier layers[^.;]*|"
     r"transition to sentinel[-_ ]?2 imagery in 2018[^.;]*|"
-    r"tropospheric monitoring instrument\s*\(\s*tropomi\s*\)[^.;]*|"
-    r"harmonized landsat and sentinel-2\s*\(\s*hls\s*\)\s*project[^.;]*|"
-    r"sentinel-2a and sentinel-2b[^.;]*?landsat 8 and landsat 9[^.;]*)",
+    r"tropospheric monitoring instrument\s*\(\s*tropomi\s*\)[^.;]*)",
     re.IGNORECASE,
 )
 
@@ -774,11 +862,24 @@ def detect_sentinel_usage(
     kw_raw: str | None,
     end_year: int | None = None,
     is_ongoing: bool | None = None,
-) -> tuple[bool, str | None]:
+    start_year: int | None = None,
+) -> tuple[bool, str | None, str]:
     rid_str = raw_id or ""
     ttl_str = title or ""
     if re.search(r"\b(hurricane and severe storm sentinel|hs3[a-z0-9_-]*)\b", f"{rid_str} {ttl_str}", re.IGNORECASE):
-        return False, None
+        return False, None, "non_sentinel"
+
+    # Explicit Landsat-only HLS stream (HLSL30 / hls2-l30 / L30HLS): harmonized to S2 tiling/bandpass, not S2 input observations
+    is_landsat_only_hls = bool(
+        re.search(r"\b(?:hlsl30|hls2[-_]?l30)\b", f"{rid_str} {ttl_str}", re.IGNORECASE)
+        or (
+            "l30hls" in (desc or "").lower()
+            and "s30hls" not in (desc or "").lower()
+            and "hlss30" not in (desc or "").lower()
+        )
+    )
+    if is_landsat_only_hls:
+        return False, None, "target_grid_or_harmonization_reference_only"
 
     # Check whether the title itself pins a single pre-2014 reference year/range (ignoring EEA publication month-year suffixes like ', Feb. 2024' and literature citations like 'et al. 2005')
     ttl_no_pub = re.sub(
@@ -799,7 +900,7 @@ def detect_sentinel_usage(
         )
     )
     if title_pinned_pre2014:
-        return False, None
+        return False, None, "non_sentinel"
 
     is_retrospective_fusion = bool(
         re.search(r"\b(biomass_cci|cci\s+biomass|gedi[-_ ]?fusion|wsci|gfm|worldcover)\b", f"{rid_str} {ttl_str}", re.IGNORECASE)
@@ -810,19 +911,17 @@ def detect_sentinel_usage(
         else None
     )
     if bounded_end is not None and bounded_end < 2014:
-        return False, None
+        return False, None, "non_sentinel"
 
     head_blob = f"{rid_str} {ttl_str} {plat_raw or ''} {kw_raw or ''}"
 
     # Strip known non-input contextual/comparison clauses from description rather than suppressing description via platform_sensor_raw
+    had_contextual_sentinel = bool(desc and _CONTEXTUAL_NON_SENTINEL_DESC_RE.search(desc))
     desc_clean = _CONTEXTUAL_NON_SENTINEL_DESC_RE.sub(" ", desc or "")
-    # Explicit Landsat-only HLS component (HLSL30 / L30HLS) or ENVISAT-only v1 LWQ reprocessing (2002-2012)
-    if (
-        re.search(r"\bhlsl30\b", f"{rid_str} {ttl_str}", re.IGNORECASE)
-        or ("l30hls" in (desc or "").lower() and "s30hls" not in (desc or "").lower())
-        or re.search(r"^clms_lwq-reproc_global_300m_10daily_v1_", rid_str, re.IGNORECASE)
-    ):
+    # ENVISAT-only v1 LWQ reprocessing (2002-2012)
+    if re.search(r"^clms_lwq-reproc_global_300m_10daily_v1_", rid_str, re.IGNORECASE):
         desc_clean = ""
+        had_contextual_sentinel = True
 
     blob = f"{head_blob} {desc_clean}"
 
@@ -850,8 +949,21 @@ def detect_sentinel_usage(
         missions = [m for m in missions if bounded_end >= _SENTINEL_LAUNCH_YEAR.get(m, 2014)]
 
     if missions:
-        return True, "; ".join(missions)
-    return False, None
+        min_launch = min(_SENTINEL_LAUNCH_YEAR.get(m, 2014) for m in missions)
+        spans_pre_sentinel = bool(
+            start_year is not None
+            and start_year < min_launch
+            and (is_ongoing is True or end_year is None or end_year >= min_launch)
+        )
+        status = (
+            "retrospective_or_mixed_epoch_series"
+            if (is_retrospective_fusion or spans_pre_sentinel)
+            else "confirmed_input_mission"
+        )
+        return True, "; ".join(missions), status
+    if had_contextual_sentinel:
+        return False, None, "target_grid_or_harmonization_reference_only"
+    return False, None, "non_sentinel"
 
 
 # ---------------------------------------------------------------------------
@@ -859,8 +971,21 @@ def detect_sentinel_usage(
 # ---------------------------------------------------------------------------
 ARD_REFLECTANCE_RE = re.compile(
     r"\b(surface reflectance|boa reflectance|bottom[- ]of[- ]atmosphere|global mosaic|cloudless mosaic|"
-    r"sentinel-2.*mosaic|s2gm|hlsl30|hlss30|harmonized landsat.*sentinel|mod09|myd09|vnp09|"
+    r"sentinel-2.*mosaic|s2gm|hlsl30|hlss30|hls2[-_]?[ls]30|harmonized landsat.*sentinel|mod09|myd09|vnp09|"
+    r"mcd43a4\w*|nadir brdf[- ]?adjusted ref(?:lectance)?|brdf[- ]?adjusted reflectance|"
+    r"lcref[-_ ]?(?:modis|avhrr)|long-term continuous red and near-infrared channel reflectance|"
     r"8-day.*composite|32-day.*composite|annual.*composite|pixel based image composite|nbar)\b",
+    re.IGNORECASE,
+)
+
+_NOT_ARD_REFLECTANCE_RE = re.compile(
+    r"(?:_(?:bai|nbr|ndsi|ndwi|ndvi|evi)\b|"
+    r"\b(?:level[- ]?[124][a-d]?|l[124][a-d]?|land cover|burned area|burn area|flood|water extent|surface water|"
+    r"dswx|wetland|eowetmet|biomass|leaf area|\blai\b|ndvi|evi|bai\b|nbr\b|ndwi|ndsi|ndmi|"
+    r"gpp\b|sif\b|solar-induced|fluorescence|photosynthesis proxy|lcspp|lcsif|vegetation index|"
+    r"water quality|turbidity|chlorophyll|lake.*color|growing season green surface reflectance trends|"
+    r"spectral library|soil\s+propert\w*|soil[- ]?suite|soilsuite|co2.*emission|emission.*inventor\w*|coco2|"
+    r"non-gridded intermediate|brdf.*model parameters|mcd43a[123]|in[- ]?situ|spectroradiometer|parabola)\b)",
     re.IGNORECASE,
 )
 
@@ -884,6 +1009,7 @@ HYBRID_EO_CONSTRAINED_RE = re.compile(
 NON_EO_INVENTORY_RE = re.compile(
     r"(^FAO_GISMGR:GLEAM3:|SOCIO-ECONOMIC-FORCING|"
     r"\b(?:gridded population of the world|gpwv[34]|edgar|emissions database for global atmospheric research|"
+    r"coco2[-_ ]?mosaic|bottom[- ]up[^.;]*co2 emission inventor\w*|fossil and biofuel co2 emission inventor\w*|prior emission inventor\w*|"
     r"faostat|gdp per capita|gridded gdp|gross domestic product|ardeco|human development index|nighttime lights socioeconomic|census|"
     r"unemployment rate|employment in agriculture|forestry employment|tenure security|national law|"
     r"eurobarometer|harmonised lucas in-situ|cruise ports|suprema|agmip|policy relevant modelling|"
@@ -894,7 +1020,7 @@ NON_EO_INVENTORY_RE = re.compile(
 
 IN_SITU_GRIDDED_RE = re.compile(
     r"(^insitu[-_]|^EO[:.]MO[:.]DAT[:.]INSITU_|^EO[:.]ECMWF[:.]DAT[:.]INSITU_GRIDDED_|^INSITU_GLO_PHY_|"
-    r"^npp_[a-z0-9_-]+:\s*npp\b|"
+    r"^npp_[a-z0-9_-]+:\s*npp\b|\bdeltax_insitu_reflectance\w*|"
     r"\b(?:derived from in[- ]situ observations|global ocean in situ|lucas\s+copernicus|"
     r"integrated global radiosonde archive|\bradiosonde\b|argo float|java ocean atlas|"
     r"oceanographic profile|from in[- ]situ oceanographic subsurface profile|"
@@ -907,7 +1033,8 @@ IN_SITU_GRIDDED_RE = re.compile(
     r"archive of geosample data|based on in[- ]situ raingauge observations|"
     r"east india company logbooks|global land surface temperature databank|"
     r"aerial photograph(?:y|s)|aerial photo single frames|single frame records|"
-    r"gppdi_npp|bigfoot gpp surfaces|"
+    r"gppdi_npp|bigfoot gpp surfaces|boreas.*parabola|spectral library|field spectroradiometer|"
+    r"non-gridded intermediate products|water quality data collected from a boat|"
     r"fluxnet|eddy covariance|airborne lidar|airborne radar|uavsar|airsar|drone imagery|\bsuas\b|"
     r"aircraft campaign|shipboard)\b)",
     re.IGNORECASE,
@@ -927,36 +1054,47 @@ def classify_level_and_ontology(
     desc: str | None,
     lvl_raw: str | None,
     kw_raw: str | None,
-) -> tuple[str, str, str, bool]:
+) -> tuple[str | None, str, str, bool, str | None, str, str]:
     """
     Returns:
-      (processing_level, product_level_subtype, product_ontology_class, is_ard_reflectance_only)
+      (processing_level, product_level_subtype, product_ontology_class, is_ard_reflectance_only,
+       processing_levels_available, processing_level_provenance, product_output_category)
     """
     rid = (raw_id or "").strip()
     ttl = (title or "").strip()
-    lvl = (lvl_raw or "").strip().lower()
+    lvl_clean = (lvl_raw or "").strip().lower()
+    if lvl_clean in ("not provided", "na", "n/a", "unknown", "none", "null", "unlabelled"):
+        lvl_clean = ""
     head = f"{rid} {ttl} {kw_raw or ''}"
-    full = f"{head} {desc or ''}"
+    head_lvl = f"{rid} {ttl}"
 
-    # 1. Check ARD Surface Reflectance Mosaic (Question 2 symmetric category; exclude explicit Level-4 or vegetation-index cubes)
-    if ARD_REFLECTANCE_RE.search(head) and not re.search(
-        r"\b(level[- ]?4\b|l4[a-d]?\b|land cover|burned area|flood|biomass|leaf area|ndvi|evi|fapar|albedo|vegetation index)\b",
-        head,
-        re.IGNORECASE,
-    ):
-        return "L3", "L3_ARD_REFLECTANCE", "eo_ard_surface_reflectance_mosaic", True
+    # 1. Ontology & non-satellite checks
+    is_ref_geom = bool(REFERENCE_GEOMETRY_RE.search(head))
+    is_insitu = bool(IN_SITU_GRIDDED_RE.search(head_lvl))
+    is_non_eo = bool(NON_EO_INVENTORY_RE.search(head))
+    is_hybrid = bool(HYBRID_EO_CONSTRAINED_RE.search(head) or source_id in ("24_openlandmap_stac", "25_worldpop_and_ciesin_stac"))
+    is_non_satellite = is_ref_geom or is_insitu or is_non_eo
 
-    # 2. Check Level 4 vs Level 3 (preserving L4 for multi-level L3/L4 collections such as C3S satellite-sea-surface-temperature so L4 queries discover them)
-    is_explicit_l4 = bool(re.search(r"\b(?:level[- ]?|l)?4[a-d]?\b", lvl))
-    is_explicit_l3 = (
-        bool(re.search(r"^(?:level[- ]?|l)?3[abcgs]?\b", lvl))
-        and not bool(re.search(r"4", lvl))
-        and not bool(re.search(
-            r"\b(level[- ]?4|l4[a-d]?|reanalysis|era5|merra-2|jra-55|glofas|efas|mod16|mod17|myd17|vnp17|gross primary product|net primary product|gedi04_[a-d]|gedi l4[a-d]|soilgrids)\b",
-            head,
-            re.IGNORECASE,
-        ))
+    # 2. Extract explicit processing levels from lvl_raw, title/id, or explicit multi-level description
+    has_raw_l1 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?1[abc]?\b", lvl_clean))
+    has_raw_l2 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?2[abcs]?\b", lvl_clean))
+    has_raw_l3 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?3[abcgs]?\b", lvl_clean))
+    has_raw_l4 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?4[a-d]?\b", lvl_clean))
+    raw_levels_list = [
+        lbl for lbl, flg in (("L1", has_raw_l1), ("L2", has_raw_l2), ("L3", has_raw_l3), ("L4", has_raw_l4)) if flg
+    ]
+
+    explicit_l4_title = bool(re.search(r"\b(?:level[- ]?4|l4[a-d]?)\b", head_lvl, re.IGNORECASE))
+    explicit_l3_title = bool(re.search(r"\b(?:level[- ]?3|l3[abcgs]?)\b", head_lvl, re.IGNORECASE))
+    explicit_l1_title = bool(re.search(r"\b(?:level[- ]?1[abc]?|l1[abc]?)\b", head_lvl, re.IGNORECASE))
+    explicit_l2_title = bool(re.search(r"\b(?:level[- ]?2[ab]?|l2[ab]?)\b", head_lvl, re.IGNORECASE))
+    title_has_l3_l4 = bool(re.search(r"\bL3[/;]L4\b|\bLevel[- ]?3\s*[/;&]\s*(?:Level[- ]?)?4\b", head_lvl, re.IGNORECASE))
+    desc_has_l2_l3 = bool(
+        desc
+        and re.search(r"\b(?:two\s+types\b[^.]{0,140}\blevel[- ]?2\b|\blevel[- ]?2\s+datasets?\s+is\s+provided)", desc, re.IGNORECASE)
+        and re.search(r"\blevel[- ]?3\s+datasets?\b", desc, re.IGNORECASE)
     )
+
     is_cads_model_or_reanalysis = (
         source_id in ("04_copernicus_cams_ads", "05_copernicus_cems_ewds")
         or (
@@ -972,28 +1110,106 @@ def classify_level_and_ontology(
             )
         )
     )
-    if is_explicit_l4 or is_cads_model_or_reanalysis or (not is_explicit_l3 and L4_MODEL_RE.search(head)):
+
+    # 3. Determine ARD Surface Reflectance Mosaic eligibility (strictly EO gridded reflectance outputs)
+    is_nbar_product = bool(re.search(r"\b(?:mcd43a4|nbar|nadir brdf[- ]?adjusted)\b", head, re.IGNORECASE))
+    is_ard = bool(
+        not is_non_satellite
+        and ARD_REFLECTANCE_RE.search(head)
+        and not _NOT_ARD_REFLECTANCE_RE.search(head)
+        and (is_nbar_product or not re.search(r"\balbedo\b", head, re.IGNORECASE))
+    )
+
+    # 4. Harmonize processing_level without overwriting L3+L4 collections or silently inventing L3 on unlabelled records
+    if ((has_raw_l3 and has_raw_l4) or title_has_l3_l4) and not re.search(r"ensemble|mass-balance", rid, re.IGNORECASE):
+        p_level: str | None = "L3; L4"
+        subtype = "L3_L4_MULTI_LEVEL"
+        levels_avail: str | None = "; ".join(raw_levels_list) if len(raw_levels_list) >= 2 else "L3; L4"
+        lvl_prov = "explicit_raw_multi_level"
+    elif is_ard:
+        p_level = "L3"
+        subtype = "L3_ARD_REFLECTANCE"
+        levels_avail = "; ".join(raw_levels_list) if raw_levels_list else ("L3" if explicit_l3_title else None)
+        lvl_prov = "explicit_raw_metadata" if has_raw_l3 else "inferred_from_ard_reflectance"
+    elif (
+        (has_raw_l4 and not has_raw_l3)
+        or is_cads_model_or_reanalysis
+        or explicit_l4_title
+        or (not has_raw_l3 and not explicit_l3_title and L4_MODEL_RE.search(head) and not is_non_satellite)
+    ):
         p_level = "L4"
         subtype = "L4_MODEL_REANALYSIS_SYNTHESIS"
-    else:
+        if explicit_l4_title and has_raw_l3:
+            levels_avail = "L3; L4"
+            lvl_prov = "explicit_title_l4_over_raw_l3"
+        elif has_raw_l4:
+            levels_avail = "; ".join(raw_levels_list)
+            lvl_prov = "explicit_raw_metadata"
+        elif explicit_l4_title:
+            levels_avail = "L4"
+            lvl_prov = "explicit_title_or_id"
+        else:
+            levels_avail = None
+            lvl_prov = "inferred_from_model_or_service"
+    elif has_raw_l3 or explicit_l3_title or desc_has_l2_l3:
         p_level = "L3"
         subtype = "L3_THEMATIC_BIOPHYSICAL"
+        if raw_levels_list:
+            levels_avail = "; ".join(raw_levels_list)
+            lvl_prov = "explicit_raw_metadata"
+        elif explicit_l3_title:
+            levels_avail = "L3"
+            lvl_prov = "explicit_title_or_id"
+        else:
+            levels_avail = "L2; L3"
+            lvl_prov = "explicit_description_multi_level"
+    elif has_raw_l1 or has_raw_l2 or explicit_l1_title or explicit_l2_title:
+        if raw_levels_list:
+            p_level = "; ".join(raw_levels_list)
+            lvl_prov = "explicit_raw_metadata"
+        else:
+            up_lvls = [lbl for lbl, flg in (("L1", explicit_l1_title), ("L2", explicit_l2_title)) if flg]
+            p_level = "; ".join(up_lvls) if up_lvls else "L1"
+            lvl_prov = "explicit_title_or_id"
+        subtype = "NON_L3_L4_UPSTREAM_LEVEL"
+        levels_avail = p_level
+    else:
+        p_level = None
+        levels_avail = None
+        if is_non_satellite:
+            subtype = "NOT_APPLICABLE_NON_EO_OR_INSITU"
+            lvl_prov = "not_applicable_non_satellite_eo"
+        else:
+            subtype = "UNLABELLED_PROCESSING_LEVEL"
+            lvl_prov = "unlabelled_no_explicit_level"
 
-    # 3. Classify EO vs. hybrid/in-situ/inventory/reference ontology
-    if REFERENCE_GEOMETRY_RE.search(head):
+    # 5. Classify EO ontology & output role separately from input sensors
+    if is_ref_geom:
         ont = "authoritative_reference_geometry"
-    elif IN_SITU_GRIDDED_RE.search(f"{rid} {ttl}"):
+        out_cat = "reference_geometry"
+    elif is_insitu:
         ont = "in_situ_gridded_interpolation"
-    elif NON_EO_INVENTORY_RE.search(head):
+        out_cat = "in_situ_or_survey"
+    elif is_non_eo:
         ont = "non_eo_inventory_or_census"
-    elif HYBRID_EO_CONSTRAINED_RE.search(head) or source_id in ("24_openlandmap_stac", "25_worldpop_and_ciesin_stac"):
+        out_cat = "non_eo_inventory"
+    elif subtype == "NON_L3_L4_UPSTREAM_LEVEL":
+        ont = "eo_thematic_or_biophysical"
+        out_cat = "upstream_l1_l2_product"
+    elif is_hybrid:
         ont = "eo_constrained_hybrid"
+        out_cat = "eo_hybrid_output"
+    elif is_ard:
+        ont = "eo_ard_surface_reflectance_mosaic"
+        out_cat = "eo_ard_reflectance_output"
     elif p_level == "L4":
         ont = "eo_reanalysis_or_model"
+        out_cat = "eo_model_or_reanalysis_output"
     else:
         ont = "eo_thematic_or_biophysical"
+        out_cat = "eo_derived_thematic_or_biophysical_output"
 
-    return p_level, subtype, ont, False
+    return p_level, subtype, ont, is_ard, levels_avail, lvl_prov, out_cat
 
 
 # ---------------------------------------------------------------------------
@@ -1028,6 +1244,7 @@ def classify_operational_maturity(
     end_year: int | None,
     temporal_end_raw: str | None,
     kw_raw: str | None = None,
+    desc: str | None = None,
 ) -> tuple[str, bool | None]:
     """
     Returns (operational_maturity_class, is_ongoing_archive).
@@ -1038,6 +1255,7 @@ def classify_operational_maturity(
     """
     head = f"{raw_id or ''} {title or ''}"
     uf = (update_freq_raw or "").strip().lower()
+    desc_head = (desc or "")[:350].lower()
 
     if uf == "planned" or "collectionprogress:planned" in uf:
         return "planned_or_preoperational", False
@@ -1046,17 +1264,33 @@ def classify_operational_maturity(
         "collectionprogress:deprecated" in uf
         or any(k in uf for k in ("deprecated", "superseded", "obsolete", "retired"))
         or any(k in head.lower() for k in ("**superseded**", "[deprecated]", "[archived]", "version superseded", "dismissed)"))
+        or any(
+            p in desc_head
+            for p in (
+                "this is a legacy data version",
+                "this is a legacy version",
+                "has been superseded by",
+                "is superseded by",
+                "this dataset is obsolete",
+            )
+        )
     ):
         return "deprecated_or_superseded", False
 
-    is_jrc_single_event = (
+    is_discrete_event_or_survey = (
         source_id == "07_ec_jrc_data_catalogue"
         and bool(
             re.search(r"\(\d{4}-\d{2}-\d{2}\)\s*$", title or "")
             or re.search(r"\b(emsr\d+|emsn\d+|rapid mapping|risk and recovery)\b", f"{title or ''} {kw_raw or ''}", re.IGNORECASE)
         )
+    ) or bool(
+        re.search(
+            r"\b(?:nos\s+hydrographic\s+survey|hydrographic\s+survey|multibeam\s+survey|polarstern\s+cruise)\b",
+            head,
+            re.IGNORECASE,
+        )
     )
-    if is_jrc_single_event:
+    if is_discrete_event_or_survey:
         return "completed_or_mission_bounded_release", False
 
     has_ongoing_uf = any(
@@ -1077,22 +1311,15 @@ def classify_operational_maturity(
             "near_real_time",
         )
     )
-    has_non_ongoing_uf = any(
-        k in uf
-        for k in (
-            "collectionprogress:complete",
-            "completed",
-            "archived",
-            "not updated",
-            "no updates",
-            "notplanned",
-            "not_planned",
-            "once",
-            "static",
-            "one-off",
-            "single",
+    has_non_ongoing_uf = bool(
+        re.search(
+            r"\b(?:collectionprogress:complete|completed|archived|not\s*updated|no\s*updates|"
+            r"not\s*planned|not_planned|discontinued|never|once|static|one-off|single)\b",
+            uf,
+            re.IGNORECASE,
         )
     )
+    has_unknown_uf = bool(re.search(r"(?:^|/)unknown$", uf))
 
     is_future_proj = bool(
         FUTURE_PROJECTION_OR_STATIC_RELEASE_RE.search(head)
@@ -1112,6 +1339,8 @@ def classify_operational_maturity(
         is_ongoing = False
     elif has_non_ongoing_uf or "[archived]" in head.lower() or COMPLETED_MISSION_OR_STATIC_RE.search(head):
         is_ongoing = False
+    elif has_unknown_uf and not is_explicit_present_series and (end_year is None or end_year < 2025):
+        is_ongoing = None
     elif is_explicit_present_series:
         is_ongoing = True
     elif end_year is not None:
@@ -1231,13 +1460,30 @@ def main() -> None:
             url_raw = r.get("landing_url_raw")
             kw_raw = r.get("keywords_raw")
 
-            # 1. Spatial resolution (strictly from spat_raw; accept null when upstream UMM unit conflicts >10x with title token)
-            spat_m = parse_resolution_meters(spat_raw)
+            # 1. Spatial resolution (strictly from spat_raw; accept null when upstream UMM unit conflicts >=10x with title token)
+            raw_spat_m = parse_resolution_meters(spat_raw)
+            spat_m = raw_spat_m
             title_spat_m = parse_title_token_resolution_meters(raw_id, title)
+            spat_conflict = False
+            spat_conflict_reason: str | None = None
             if spat_m is not None and title_spat_m is not None:
                 res_ratio = spat_m / title_spat_m
-                if res_ratio > 10.0 or res_ratio < 0.1:
+                if res_ratio >= 10.0 or res_ratio <= 0.1:
+                    spat_conflict = True
+                    spat_conflict_reason = f"raw_vs_title_ratio_ge_10x ({raw_spat_m}m vs {title_spat_m}m)"
                     spat_m = None
+            if spat_conflict:
+                adj_spat_m: float | None = None
+                adj_spat_src: str | None = None
+            elif spat_m is not None:
+                adj_spat_m = spat_m
+                adj_spat_src = "upstream_spatial_resolution_raw"
+            elif title_spat_m is not None:
+                adj_spat_m = title_spat_m
+                adj_spat_src = "title_token_fallback"
+            else:
+                adj_spat_m = None
+                adj_spat_src = None
 
             # 2. Temporal years & cadence (strictly from raw dates; accept null when raw date is a future placeholder or conflicts with explicit title bounds)
             start_yr = parse_year(t_start_raw)
@@ -1263,10 +1509,15 @@ def main() -> None:
                         end_yr = None
             if start_yr is not None and end_yr is not None and start_yr > end_yr:
                 end_yr = None
-            cadence_cls = classify_cadence(temp_res_raw, uf_raw, title, start_yr, end_yr, desc)
+            cadence_cls = classify_cadence(temp_res_raw, uf_raw, title, start_yr, end_yr, desc, raw_id=raw_id)
+            out_cadences, agg_window_raw = extract_temporal_output_details(
+                raw_id, title, desc, temp_res_raw, cadence_cls
+            )
 
-            # 3. Geographic coverage
-            bw, bs, be, bn, geo_cls = classify_geographic_coverage(bbox_raw, title, desc, raw_id, sid)
+            # 3. Geographic coverage & observation domain
+            bw, bs, be, bn, geo_cls, obs_domain = classify_geographic_coverage(
+                bbox_raw, title, desc, raw_id, sid
+            )
 
             # 4. Producer vs Host, Provider Pool & Institutional Jurisdiction Tier
             prod_inst, host_plat, pool, cop_srv, is_un, tier = classify_producer_and_pool(
@@ -1275,16 +1526,16 @@ def main() -> None:
 
             # 5. Operational maturity (computed before Sentinel detector so bounded end_year & is_ongoing are available)
             mat_cls, is_ongoing = classify_operational_maturity(
-                sid, raw_id, title, uf_raw, cadence_cls, start_yr, end_yr, t_end_raw, kw_raw
+                sid, raw_id, title, uf_raw, cadence_cls, start_yr, end_yr, t_end_raw, kw_raw, desc
             )
 
-            # 6. Sentinel data dependency (with launch-year and explicit non-Sentinel platform guards)
-            uses_sent, sent_missions = detect_sentinel_usage(
-                raw_id, title, desc, plat_raw, kw_raw, end_yr, is_ongoing
+            # 6. Sentinel data dependency (with launch-year, HLS-L30, and retrospective provenance)
+            uses_sent, sent_missions, sent_status = detect_sentinel_usage(
+                raw_id, title, desc, plat_raw, kw_raw, end_yr, is_ongoing, start_yr
             )
 
-            # 7. Processing level, subtype & EO ontology
-            p_lvl, p_subtype, ont_cls, is_ard = classify_level_and_ontology(
+            # 7. Processing level, subtype, provenance & EO ontology
+            p_lvl, p_subtype, ont_cls, is_ard, lvls_avail, lvl_prov, out_cat = classify_level_and_ontology(
                 sid, raw_id, title, desc, lvl_raw, kw_raw
             )
             if (
@@ -1317,35 +1568,98 @@ def main() -> None:
                 "is_un_or_international_body": is_un,
                 "processing_level_raw": lvl_raw,
                 "processing_level": p_lvl,
+                "processing_levels_available": lvls_avail,
+                "processing_level_provenance": lvl_prov,
                 "product_level_subtype": p_subtype,
                 "product_ontology_class": ont_cls,
+                "product_output_category": out_cat,
                 "is_ard_reflectance_only": is_ard,
                 "strict_eo_c1_eligible": ont_cls in ("eo_thematic_or_biophysical", "eo_reanalysis_or_model", "eo_ard_surface_reflectance_mosaic"),
                 "uses_sentinel_data": uses_sent,
                 "sentinel_missions": sent_missions,
+                "sentinel_lineage_status": sent_status,
                 "spatial_resolution_raw": spat_raw,
                 "spatial_resolution_meters": spat_m,
                 "title_token_resolution_meters": title_spat_m,
+                "spatial_resolution_conflict": spat_conflict,
+                "spatial_resolution_conflict_reason": spat_conflict_reason,
+                "adjudicated_output_grid_meters": adj_spat_m,
+                "adjudicated_spatial_resolution_source": adj_spat_src,
                 "temporal_resolution_raw": temp_res_raw,
                 "update_frequency_raw": uf_raw,
                 "temporal_cadence_class": cadence_cls,
+                "temporal_output_cadences": out_cadences,
+                "temporal_aggregation_window_raw": agg_window_raw,
                 "temporal_start_raw": t_start_raw,
                 "temporal_end_raw": t_end_raw,
                 "temporal_start_year": start_yr,
                 "temporal_end_year": end_yr,
                 "is_ongoing_archive": is_ongoing,
                 "operational_maturity_class": mat_cls,
+                "is_superseded_edition": mat_cls == "deprecated_or_superseded",
+                "superseded_by_record": None,
                 "bbox_west": bw,
                 "bbox_south": bs,
                 "bbox_east": be,
                 "bbox_north": bn,
                 "geographic_coverage_class": geo_cls,
+                "observation_domain_class": obs_domain,
                 "platform_sensor_raw": plat_raw,
                 "doi": doi_raw,
                 "license": lic_raw,
                 "access_url": url_raw,
                 "keywords": kw_raw,
             })
+
+    # Post-pass: conservative within-catalogue edition supersession detection (SOCAT & closed-period -> -present CLMS series)
+    socat_entries: list[tuple[int, int, str]] = []
+    clms_present_map: dict[tuple[str, str, int], str] = {}
+    clms_closed_candidates: list[tuple[int, tuple[str, str, int]]] = []
+    for idx_r, row in enumerate(harmonized_rows):
+        ttl_s = row.get("title") or ""
+        ttl_l = ttl_s.lower()
+        if "surface ocean co2 atlas" in ttl_l and "based on the surface ocean co2 atlas" not in ttl_l:
+            m_yr = re.search(r"\bsocat\s*v?(20\d{2})\b", ttl_l)
+            m_ver = re.search(r"\bversion\s+(\d{1,2})\b", ttl_l)
+            if m_yr:
+                socat_entries.append((idx_r, int(m_yr.group(1)), row["record_id"]))
+            elif m_ver:
+                socat_entries.append((idx_r, 1000 + int(m_ver.group(1)), row["record_id"]))
+        if row.get("source_catalogue") in ("02_copernicus_clms", "11_eea_and_emodnet", "08_destine_dedl_stac", "09_wekeo_dias"):
+            m_pres = re.match(
+                r"^(.*?\S)\s+(20\d\d)\s*[-–—]\s*present\s*(\([^)]*\))",
+                ttl_s,
+                re.IGNORECASE,
+            )
+            if m_pres:
+                key_p = (m_pres.group(1).strip().lower(), m_pres.group(3).strip().lower(), int(m_pres.group(2)))
+                clms_present_map.setdefault(key_p, row["record_id"])
+            else:
+                m_cls = re.match(
+                    r"^(.*?\S)\s+(20\d\d)\s*[-–—]\s*(20\d\d)\s*(\([^)]*\))",
+                    ttl_s,
+                    re.IGNORECASE,
+                )
+                if m_cls:
+                    key_c = (m_cls.group(1).strip().lower(), m_cls.group(4).strip().lower(), int(m_cls.group(3)))
+                    clms_closed_candidates.append((idx_r, key_c))
+
+    if socat_entries:
+        max_socat_ver = max(v for _, v, _ in socat_entries)
+        latest_socat_id = next(rid for _, v, rid in socat_entries if v == max_socat_ver)
+        for idx_r, ver, _ in socat_entries:
+            if ver < max_socat_ver:
+                harmonized_rows[idx_r]["operational_maturity_class"] = "deprecated_or_superseded"
+                harmonized_rows[idx_r]["is_ongoing_archive"] = False
+                harmonized_rows[idx_r]["is_superseded_edition"] = True
+                harmonized_rows[idx_r]["superseded_by_record"] = latest_socat_id
+
+    for idx_r, key_c in clms_closed_candidates:
+        if key_c in clms_present_map:
+            harmonized_rows[idx_r]["operational_maturity_class"] = "deprecated_or_superseded"
+            harmonized_rows[idx_r]["is_ongoing_archive"] = False
+            harmonized_rows[idx_r]["is_superseded_edition"] = True
+            harmonized_rows[idx_r]["superseded_by_record"] = clms_present_map[key_c]
 
     # Disambiguate shared collection/paper DOIs & prevent distinct-record collisions within any single catalogue
     doi_title_slugs: dict[tuple[str, str], set[str]] = {}

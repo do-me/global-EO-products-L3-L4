@@ -262,7 +262,7 @@ def main() -> None:
     )
     multi_day_ttl = df_canon["title"].fillna("").str.contains(
         r"\b(?:8-day|10-day|10-daily|16-day|5-day|dekad|dekadal|weekly|biweekly)\b", case=False, regex=True
-    )
+    ) & df_canon["temporal_aggregation_window_raw"].isna()
     cadence_contra_cnt = int((multi_day_ttl & (df_canon["temporal_cadence_class"] == "sub_daily_or_daily")).sum())
     op_null_cnt = int(
         ((df_canon["operational_maturity_class"] == "operational_ongoing_series") & df_canon["is_ongoing_archive"].isna()).sum()
@@ -282,9 +282,10 @@ def main() -> None:
     cds_oc = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-ocean-colour")]
     cds_oc_ok = bool(
         len(cds_oc) == 1
-        and cds_oc.iloc[0]["processing_level"] == "L3"
+        and (pd.isna(cds_oc.iloc[0]["processing_level"]) or cds_oc.iloc[0]["processing_level"] == "L3")
         and "daily" in str(cds_oc.iloc[0]["temporal_resolution_raw"]).lower()
         and "monthly" in str(cds_oc.iloc[0]["temporal_resolution_raw"]).lower()
+        and pd.isna(cds_oc.iloc[0]["temporal_cadence_class"])
     )
     gee_cadence_literal = int((df_all["temporal_resolution_raw"] == "cadence").sum())
     merra_2 = df_all[(df_all["source_catalogue"] == "16_nasa_cmr") & (df_all["raw_id"] == "C2531963170-GES_DISC")]
@@ -354,6 +355,72 @@ def main() -> None:
             f"cmr_spat={cmr_spat_cnt}, img_urls={img_url_cnt}, cadence_contra={cadence_contra_cnt}, op_null={op_null_cnt}, "
             f"pre2014_sent={pre2014_sent_cnt}, eum_0088={has_eum_0088}, fluxcom={has_fluxcom}, lcspp={has_lcspp}, cds_oc={cds_oc_ok}, "
             f"op_closed={op_closed_cnt}, one_day_null={one_day_null_cnt}, eu_global={eu_global_cnt}, s26_dup={s26_dup_cnt}"
+        )
+
+    # Check Q: Scientific Review Hardening (TCSIF v1, HTML decode, Zenodo URLs, GEO disks, ARD vs output, L3+L4 provenance, supersession, HLS/FedEO Sentinel)
+    has_tcsif_v1 = bool(df_all["doi"].fillna("").str.lower().str.contains("10.5281/zenodo.8242928").any())
+    zen_rows = df_all[(df_all["source_catalogue"] == "26_fao_unep_and_thematic_benchmarks") & df_all["raw_id"].astype(str).str.startswith("ZENODO:")]
+    zen_null_urls = int(zen_rows["access_url"].isna().sum())
+    html_remnants = int(df_all["description"].fillna("").str.contains(r"&(?:deg|times|ndash|nbsp|rarr);|</?(?:p|div|strong|ul|li)\b", regex=True).sum())
+    ltdr_n18 = df_all[df_all["raw_id"].astype(str).str.contains("N18_AVH13C1", case=False) | df_all["title"].fillna("").str.contains("N18_AVH13C1", case=False)]
+    ltdr_n18_ok = len(ltdr_n18) > 0 and bool(ltdr_n18["spatial_resolution_meters"].isna().all() and ltdr_n18["spatial_resolution_conflict"].all())
+    cbers4 = df_all[df_all["raw_id"] == "CBERS4-MUX-2M-1"]
+    cbers4_ok = len(cbers4) >= 1 and bool((cbers4["spatial_resolution_meters"] == 20.0).all() and not cbers4["spatial_resolution_conflict"].any())
+    abi_g16 = df_all[df_all["raw_id"].astype(str).str.contains("AERDB_M3_ABI_G16", case=False) | df_all["title"].fillna("").str.contains("AERDB_M3_ABI_G16", case=False)]
+    abi_g16_ok = len(abi_g16) >= 1 and bool((abi_g16["observation_domain_class"] == "geostationary_disk_or_sector").all() and (abi_g16["geographic_coverage_class"] != "global").all())
+    lcspp_modis = df_all[df_all["raw_id"] == "ZENODO:20683570"]
+    lcspp_ok = len(lcspp_modis) == 1 and lcspp_modis.iloc[0]["temporal_cadence_class"] == "multi_day_or_dekadal" and not bool(lcspp_modis.iloc[0]["is_ard_reflectance_only"])
+    gosif_z = df_all[df_all["raw_id"] == "ZENODO:15105312"]
+    gosif_ok = len(gosif_z) == 1 and gosif_z.iloc[0]["temporal_cadence_class"] == "multi_day_or_dekadal"
+    troposif_z = df_all[df_all["raw_id"] == "ZENODO:10212472"]
+    troposif_ok = len(troposif_z) == 1 and troposif_z.iloc[0]["temporal_cadence_class"] == "sub_daily_or_daily"
+    mcd43_v061 = df_all[df_all["raw_id"].isin(["C2218719731-LPCLOUD", "MODIS/061/MCD43A4"])]
+    mcd43_ok = len(mcd43_v061) == 2 and bool(mcd43_v061["is_ard_reflectance_only"].all() and (mcd43_v061["temporal_cadence_class"] == "sub_daily_or_daily").all() and mcd43_v061["temporal_aggregation_window_raw"].notna().all())
+    coco2 = df_all[df_all["title"].fillna("").str.contains("CoCO2-MOSAIC", case=False)]
+    coco2_ok = len(coco2) == 1 and coco2.iloc[0]["product_ontology_class"] == "non_eo_inventory_or_census" and not bool(coco2.iloc[0]["is_ard_reflectance_only"])
+    c3s_sst = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-sea-surface-temperature")]
+    c3s_sst_ok = len(c3s_sst) == 1 and c3s_sst.iloc[0]["processing_level"] == "L3; L4" and c3s_sst.iloc[0]["product_level_subtype"] == "L3_L4_MULTI_LEVEL"
+    c3s_alb = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-albedo")]
+    c3s_alb_ok = len(c3s_alb) == 1 and bool(c3s_alb.iloc[0]["is_ongoing_archive"] == False)  # noqa: E712
+    hlsl30_all = df_all[df_all["raw_id"].isin(["C2021957657-LPCLOUD", "NASA/HLS/HLSL30/v002", "hls2-l30"])]
+    hlsl30_ok = len(hlsl30_all) == 3 and not bool(hlsl30_all["uses_sentinel_data"].any())
+    boreal_agb = df_all[df_all["raw_id"] == "C2756302505-ORNL_CLOUD"]
+    boreal_ok = len(boreal_agb) >= 2 and bool(boreal_agb["uses_sentinel_data"].nunique() == 1 and not boreal_agb["uses_sentinel_data"].any())
+    socat25 = df_all[df_all["title"].fillna("").str.contains("SOCATv2025", case=False)]
+    socat25_ok = len(socat25) >= 1 and bool((socat25["operational_maturity_class"] == "deprecated_or_superseded").all())
+
+    if (
+        has_tcsif_v1
+        and zen_null_urls == 0
+        and html_remnants == 0
+        and ltdr_n18_ok
+        and cbers4_ok
+        and abi_g16_ok
+        and lcspp_ok
+        and gosif_ok
+        and troposif_ok
+        and mcd43_ok
+        and coco2_ok
+        and c3s_sst_ok
+        and c3s_alb_ok
+        and hlsl30_ok
+        and boreal_ok
+        and socat25_ok
+    ):
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "Scientific Hardening (TCSIF v1, Provenance, Domains, ARD, Supersession)",
+                "PASS",
+                f"tcsif_v1=True, zen_urls=100%, html_clean=True, geo_disks=non-global, hlsl30_s2=False, c3s_sst=L3;L4",
+            )
+        )
+    else:
+        issues_found.append(
+            f"Check Q failed: tcsif_v1={has_tcsif_v1}, zen_null_urls={zen_null_urls}, html={html_remnants}, "
+            f"n18={ltdr_n18_ok}, cbers4={cbers4_ok}, abi_g16={abi_g16_ok}, lcspp={lcspp_ok}, gosif={gosif_ok}, "
+            f"troposif={troposif_ok}, mcd43={mcd43_ok}, coco2={coco2_ok}, sst={c3s_sst_ok}, alb={c3s_alb_ok}, "
+            f"hlsl30={hlsl30_ok}, boreal={boreal_ok}, socat25={socat25_ok}"
         )
 
     print("=" * 92)

@@ -10685,6 +10685,24 @@
     },
     {
       "workspaceCode": "GLW4",
+      "code": "N-DA-10KM",
+      "caption": "Animal Number (GLW4-2015, 10KM)",
+      "defaultStyleCode": "D-DA",
+      "measureCaption": "Animal Number",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4/mapsets/N-DA-10KM"
+        }
+      ],
+      "_workspace_caption": "Gridded Livestock of the World (GLW4, 2015)"
+    },
+    {
+      "workspaceCode": "GLW4",
       "code": "D-DA",
       "caption": "Animal Density (GLW4)",
       "defaultStyleCode": null,
@@ -10700,24 +10718,6 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4/mapsets/D-DA"
-        }
-      ],
-      "_workspace_caption": "Gridded Livestock of the World (GLW4, 2015)"
-    },
-    {
-      "workspaceCode": "GLW4",
-      "code": "N-DA-10KM",
-      "caption": "Animal Number (GLW4-2015, 10KM)",
-      "defaultStyleCode": "D-DA",
-      "measureCaption": "Animal Number",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4/mapsets/N-DA-10KM"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW4, 2015)"
@@ -18606,29 +18606,6 @@
     },
     {
       "workspaceCode": "CAS",
-      "code": "DLMF",
-      "caption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
-      "defaultStyleCode": "DLMF",
-      "measureCaption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
-      "measureUnit": "class",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "CATA0RISK",
-        "DESERT",
-        "LOCUST",
-        "PEST"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/DLMF"
-        }
-      ],
-      "_workspace_caption": "Chinese Academy of Sciences"
-    },
-    {
-      "workspaceCode": "CAS",
       "code": "GET",
       "caption": "Global daily 1-km actual evapotranspiration from 2000 to 2021",
       "defaultStyleCode": "ETMONITOR",
@@ -18649,6 +18626,28 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/GET"
+        }
+      ],
+      "_workspace_caption": "Chinese Academy of Sciences"
+    },
+    {
+      "workspaceCode": "CAS",
+      "code": "WHEAT-PDMF",
+      "caption": "Wheat pest and disease monitoring and forecasting",
+      "defaultStyleCode": "PDMF",
+      "measureCaption": "Wheat pest and disease monitoring and forecasting",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "DISEASE",
+        "PEST",
+        "WHEAT"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/WHEAT-PDMF"
         }
       ],
       "_workspace_caption": "Chinese Academy of Sciences"
@@ -18677,22 +18676,23 @@
     },
     {
       "workspaceCode": "CAS",
-      "code": "WHEAT-PDMF",
-      "caption": "Wheat pest and disease monitoring and forecasting",
-      "defaultStyleCode": "PDMF",
-      "measureCaption": "Wheat pest and disease monitoring and forecasting",
+      "code": "DLMF",
+      "caption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "defaultStyleCode": "DLMF",
+      "measureCaption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
       "tags": [
-        "DISEASE",
-        "PEST",
-        "WHEAT"
+        "CATA0RISK",
+        "DESERT",
+        "LOCUST",
+        "PEST"
       ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/WHEAT-PDMF"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/DLMF"
         }
       ],
       "_workspace_caption": "Chinese Academy of Sciences"
@@ -22395,10 +22395,10 @@
     },
     {
       "workspaceCode": "CAVA",
-      "code": "TN-ANOM-HATCHING-SIMPLE",
-      "caption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
+      "code": "PR-ANOM-HATCHING-SIMPLE",
+      "caption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
       "defaultStyleCode": "PR-ANOM-HATCHING-SIMPLE",
-      "measureCaption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
+      "measureCaption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
@@ -22406,25 +22406,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TN-ANOM-HATCHING-SIMPLE"
-        }
-      ],
-      "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
-    },
-    {
-      "workspaceCode": "CAVA",
-      "code": "TN-ANOM",
-      "caption": "CAVA – Minimum Temperature Anomaly (tn_anom)",
-      "defaultStyleCode": "TN-ANOM",
-      "measureCaption": "CAVA – Minimum Temperature Anomaly (tn_anom)",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TN-ANOM"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/PR-ANOM-HATCHING-SIMPLE"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
@@ -22449,28 +22431,28 @@
     },
     {
       "workspaceCode": "CAVA",
-      "code": "PR-ANOM-HATCHING-SIMPLE",
-      "caption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
-      "defaultStyleCode": "PR-ANOM-HATCHING-SIMPLE",
-      "measureCaption": "CAVA – Precipitation Anomaly Hatching (Simple) (pr_anom_hatching_simple)",
-      "measureUnit": "class",
+      "code": "TN-ANOM",
+      "caption": "CAVA – Minimum Temperature Anomaly (tn_anom)",
+      "defaultStyleCode": "TN-ANOM",
+      "measureCaption": "CAVA – Minimum Temperature Anomaly (tn_anom)",
+      "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
       "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/PR-ANOM-HATCHING-SIMPLE"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TN-ANOM"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
     },
     {
       "workspaceCode": "CAVA",
-      "code": "TX-ANOM-HATCHING-SIMPLE",
-      "caption": "CAVA – Maximum Temperature Anomaly Hatching (Simple) (tx_anom_hatching_simple)",
+      "code": "TN-ANOM-HATCHING-SIMPLE",
+      "caption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
       "defaultStyleCode": "PR-ANOM-HATCHING-SIMPLE",
-      "measureCaption": "CAVA – Maximum Temperature Anomaly Hatching (Simple) (tx_anom_hatching_simple)",
+      "measureCaption": "CAVA – Minimum Temperature Anomaly Hatching (Simple) (tn_anom_hatching_simple)",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
@@ -22478,7 +22460,7 @@
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TX-ANOM-HATCHING-SIMPLE"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TN-ANOM-HATCHING-SIMPLE"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
@@ -22497,6 +22479,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TX-ANOM"
+        }
+      ],
+      "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
+    },
+    {
+      "workspaceCode": "CAVA",
+      "code": "TX-ANOM-HATCHING-SIMPLE",
+      "caption": "CAVA – Maximum Temperature Anomaly Hatching (Simple) (tx_anom_hatching_simple)",
+      "defaultStyleCode": "PR-ANOM-HATCHING-SIMPLE",
+      "measureCaption": "CAVA – Maximum Temperature Anomaly Hatching (Simple) (tx_anom_hatching_simple)",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAVA/mapsets/TX-ANOM-HATCHING-SIMPLE"
         }
       ],
       "_workspace_caption": "Climate and Agriculture Risk Visualization and Assessment"
@@ -22762,24 +22762,6 @@
     },
     {
       "workspaceCode": "RVF-MRT",
-      "code": "MCDA-SW",
-      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Mauritania - 2026)",
-      "defaultStyleCode": "RVF-MCDA",
-      "measureCaption": "MCDA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-MRT/mapsets/MCDA-SW"
-        }
-      ],
-      "_workspace_caption": "RVF Mauritania"
-    },
-    {
-      "workspaceCode": "RVF-MRT",
       "code": "MCDA",
       "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Mauritania - 2026)",
       "defaultStyleCode": "RVF-MCDA",
@@ -22792,6 +22774,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-MRT/mapsets/MCDA"
+        }
+      ],
+      "_workspace_caption": "RVF Mauritania"
+    },
+    {
+      "workspaceCode": "RVF-MRT",
+      "code": "MCDA-SW",
+      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Mauritania - 2026)",
+      "defaultStyleCode": "RVF-MCDA",
+      "measureCaption": "MCDA",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-MRT/mapsets/MCDA-SW"
         }
       ],
       "_workspace_caption": "RVF Mauritania"
@@ -22834,24 +22834,6 @@
     },
     {
       "workspaceCode": "RVF-GIN",
-      "code": "MCDA-SW",
-      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Guinea - 2026)",
-      "defaultStyleCode": "RVF-MCDA",
-      "measureCaption": "MCDA",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GIN/mapsets/MCDA-SW"
-        }
-      ],
-      "_workspace_caption": "RVF Guinea"
-    },
-    {
-      "workspaceCode": "RVF-GIN",
       "code": "MCDA",
       "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Variable Weights (Guinea - 2026)",
       "defaultStyleCode": "RVF-MCDA",
@@ -22869,24 +22851,37 @@
       "_workspace_caption": "RVF Guinea"
     },
     {
-      "workspaceCode": "OCB",
-      "code": "ASIS-DROUGHT-PROBABILITY",
-      "caption": "Drought probability maps ",
-      "defaultStyleCode": "ASIS-DROUGHT-PROBABILITY",
-      "measureCaption": "Probability",
-      "measureUnit": "%",
+      "workspaceCode": "RVF-GIN",
+      "code": "MCDA-SW",
+      "caption": "Multi Criteria Decision Analysis for the RVF with Heatmap and Similar Weights (Guinea - 2026)",
+      "defaultStyleCode": "RVF-MCDA",
+      "measureCaption": "MCDA",
+      "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": [
-        "CROPLAND",
-        "DROUGHT",
-        "PASTURELAND",
-        "PROBABILITY"
-      ],
+      "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/ASIS-DROUGHT-PROBABILITY"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/RVF-GIN/mapsets/MCDA-SW"
+        }
+      ],
+      "_workspace_caption": "RVF Guinea"
+    },
+    {
+      "workspaceCode": "OCB",
+      "code": "FORECAST-FLOOD-COMBINED-RISK",
+      "caption": "Forecast FLOOD IPC combined risk maps 2026",
+      "defaultStyleCode": "FORECAST-FLOOD-COMBINED-RISK",
+      "measureCaption": "Forecast flood IPC combined risk maps 2026",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/FORECAST-FLOOD-COMBINED-RISK"
         }
       ],
       "_workspace_caption": "Geospatial datasets from Climate Division (OCB)"
@@ -22911,18 +22906,23 @@
     },
     {
       "workspaceCode": "OCB",
-      "code": "FORECAST-FLOOD-COMBINED-RISK",
-      "caption": "Forecast FLOOD IPC combined risk maps 2026",
-      "defaultStyleCode": "FORECAST-FLOOD-COMBINED-RISK",
-      "measureCaption": "Forecast flood IPC combined risk maps 2026",
-      "measureUnit": null,
+      "code": "ASIS-DROUGHT-PROBABILITY",
+      "caption": "Drought probability maps ",
+      "defaultStyleCode": "ASIS-DROUGHT-PROBABILITY",
+      "measureCaption": "Probability",
+      "measureUnit": "%",
       "scale": 1.0,
       "offset": 0.0,
-      "tags": null,
+      "tags": [
+        "CROPLAND",
+        "DROUGHT",
+        "PASTURELAND",
+        "PROBABILITY"
+      ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/FORECAST-FLOOD-COMBINED-RISK"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/ASIS-DROUGHT-PROBABILITY"
         }
       ],
       "_workspace_caption": "Geospatial datasets from Climate Division (OCB)"

@@ -1,0 +1,298 @@
+{
+  "page_size": 25,
+  "max_pages_per_query": 20,
+  "total_unique_zenodo_records": 597,
+  "truncated_query_count": 0,
+  "queries": [
+    {
+      "query": "+\"Global Mangrove Watch\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 23,
+      "pages_fetched": 1,
+      "fetched_records": 23,
+      "new_unique_records": 23,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global Pasture Watch\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 53,
+      "pages_fetched": 3,
+      "fetched_records": 53,
+      "new_unique_records": 53,
+      "truncated": false
+    },
+    {
+      "query": "+ETH +\"Global Canopy Height\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 11,
+      "pages_fetched": 1,
+      "fetched_records": 11,
+      "new_unique_records": 11,
+      "truncated": false
+    },
+    {
+      "query": "+SoilGrids +(250m OR global)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 64,
+      "pages_fetched": 3,
+      "fetched_records": 64,
+      "new_unique_records": 64,
+      "truncated": false
+    },
+    {
+      "query": "+HydroSHEDS +global",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 36,
+      "pages_fetched": 2,
+      "fetched_records": 36,
+      "new_unique_records": 34,
+      "truncated": false
+    },
+    {
+      "query": "+GLC_FCS30D",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 43,
+      "pages_fetched": 2,
+      "fetched_records": 43,
+      "new_unique_records": 42,
+      "truncated": false
+    },
+    {
+      "query": "+OpenLandMap",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 147,
+      "pages_fetched": 6,
+      "fetched_records": 147,
+      "new_unique_records": 147,
+      "truncated": false
+    },
+    {
+      "query": "+WorldCereal +global",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 12,
+      "pages_fetched": 1,
+      "fetched_records": 12,
+      "new_unique_records": 10,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global Surface Water Explorer\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 1,
+      "pages_fetched": 1,
+      "fetched_records": 1,
+      "new_unique_records": 1,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global Dam Watch\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 17,
+      "pages_fetched": 1,
+      "fetched_records": 17,
+      "new_unique_records": 12,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global Wetlands\" +map",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 2,
+      "pages_fetched": 1,
+      "fetched_records": 2,
+      "new_unique_records": 1,
+      "truncated": false
+    },
+    {
+      "query": "+WAD2M",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 6,
+      "pages_fetched": 1,
+      "fetched_records": 6,
+      "new_unique_records": 6,
+      "truncated": false
+    },
+    {
+      "query": "+kelp +(global OR map) +dataset",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 15,
+      "pages_fetched": 1,
+      "fetched_records": 15,
+      "new_unique_records": 15,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global Land Evaporation Amsterdam Model\" OR +GLEAM4",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 2,
+      "pages_fetched": 1,
+      "fetched_records": 2,
+      "new_unique_records": 2,
+      "truncated": false
+    },
+    {
+      "query": "+VODCA +\"Vegetation Optical Depth\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 4,
+      "pages_fetched": 1,
+      "fetched_records": 4,
+      "new_unique_records": 4,
+      "truncated": false
+    },
+    {
+      "query": "+\"OceanSODA-ETHZ\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 6,
+      "pages_fetched": 1,
+      "fetched_records": 6,
+      "new_unique_records": 6,
+      "truncated": false
+    },
+    {
+      "query": "+\"WCRP\" +\"Sea Level Budget\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 1,
+      "pages_fetched": 1,
+      "fetched_records": 1,
+      "new_unique_records": 1,
+      "truncated": false
+    },
+    {
+      "query": "+LAI4g OR (+GLOBMAP +\"Leaf Area Index\")",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 41,
+      "pages_fetched": 2,
+      "fetched_records": 41,
+      "new_unique_records": 41,
+      "truncated": false
+    },
+    {
+      "query": "+FLUXCOM",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 15,
+      "pages_fetched": 1,
+      "fetched_records": 15,
+      "new_unique_records": 15,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global Carbon Budget\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 69,
+      "pages_fetched": 3,
+      "fetched_records": 69,
+      "new_unique_records": 67,
+      "truncated": false
+    },
+    {
+      "query": "+TCSIF +\"GOME-2\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 2,
+      "pages_fetched": 1,
+      "fetched_records": 2,
+      "new_unique_records": 2,
+      "truncated": false
+    },
+    {
+      "query": "+\"Solar-Induced Fluorescence\" +global",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 16,
+      "pages_fetched": 1,
+      "fetched_records": 16,
+      "new_unique_records": 15,
+      "truncated": false
+    },
+    {
+      "query": "+CSIF +\"Solar-Induced Fluorescence\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 2,
+      "pages_fetched": 1,
+      "fetched_records": 2,
+      "new_unique_records": 0,
+      "truncated": false
+    },
+    {
+      "query": "+GOSIF +OCO-2",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 3,
+      "pages_fetched": 1,
+      "fetched_records": 3,
+      "new_unique_records": 3,
+      "truncated": false
+    },
+    {
+      "query": "+TROPOSIF",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 9,
+      "pages_fetched": 1,
+      "fetched_records": 9,
+      "new_unique_records": 8,
+      "truncated": false
+    },
+    {
+      "query": "+LCREF +(AVHRR OR MODIS)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 7,
+      "pages_fetched": 1,
+      "fetched_records": 7,
+      "new_unique_records": 6,
+      "truncated": false
+    },
+    {
+      "query": "+LCSIF +(AVHRR OR MODIS)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 5,
+      "pages_fetched": 1,
+      "fetched_records": 5,
+      "new_unique_records": 0,
+      "truncated": false
+    },
+    {
+      "query": "+LCSPP +(AVHRR OR MODIS)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 5,
+      "pages_fetched": 1,
+      "fetched_records": 5,
+      "new_unique_records": 0,
+      "truncated": false
+    },
+    {
+      "query": "+\"GLAST\" +\"Lake Surface\"",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 1,
+      "pages_fetched": 1,
+      "fetched_records": 1,
+      "new_unique_records": 1,
+      "truncated": false
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 # `03_harmonization` — Unified L3/L4 Schema & Harmonized Catalogue
 
 ## Purpose
-Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`38,055` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`43` record columns; `45` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology classes, Sentinel-dependency indicators, and conservative canonical deduplication.
+Harmonizes all 28 prepared Earth Observation (EO) L3/L4 product sources (`38,169` records) from `../02_preparation/data/` into a unified, reproducible metadata schema (`56` record columns; `58` canonical columns) with two-layer producer-origin institutional attribution (`provider_pool` + `provider_jurisdiction_tier`), processing-level ontology and provenance classes (`null` preserved for unlabelled records), Sentinel-dependency lineage indicators, spatial conflict flagging, cadence vs. rolling-window separation, supersession tracking, and conservative canonical deduplication.
 
 ## How to Run
 ```bash
@@ -22,25 +22,42 @@ uv run 03_harmonization/harmonize_catalogue.py
 | `provider_jurisdiction_tier` | `string` | Granular institutional tier enabling policy-boundary sensitivity analysis: `copernicus_service` \| `eu27_national_or_eu_agency` \| `european_space_met_igo` \| `copernicus_associated_state` \| `european_esa_non_copernicus_state` \| `un_or_international_body` \| `third_country_non_european`. |
 | `copernicus_service` | `string \| null` | `CMEMS` \| `CLMS` \| `C3S` \| `CAMS` \| `CEMS` \| `COP_DEM` \| `null`. |
 | `is_un_or_international_body` | `bool` | Flags UN and international multilateral bodies (`FAO`, `UNEP-WCMC`, `WMO`, `GEO BON`, `CGIAR`, `World Bank`) for transparent attribution filtering. |
-| `processing_level` | `string` | `L3` \| `L4`. |
-| `product_level_subtype` | `string` | `L3_THEMATIC_BIOPHYSICAL` \| `L4_MODEL_REANALYSIS_SYNTHESIS` \| `L3_ARD_REFLECTANCE` (retains surface-reflectance mosaics symmetrically across pools). |
+| `processing_level_raw` | `string \| null` | Exact upstream processing level tag prior to harmonization (`null` if omitted upstream). |
+| `processing_level` | `string \| null` | `L1` \| `L2` \| `L3` \| `L3; L4` \| `L4` \| `null` (retains `null` where upstream metadata lacks explicit evidence rather than defaulting unlabelled rows to `L3`). |
+| `processing_levels_available` | `string \| null` | Multi-level deliverables disclosed in upstream metadata/descriptions (e.g., `L2; L3`, `L3; L4`). |
+| `processing_level_provenance` | `string` | Explicit provenance of `processing_level` (`explicit_raw_metadata`, `explicit_title_or_id`, `explicit_raw_multi_level`, `explicit_description_multi_level`, `explicit_title_l4_over_raw_l3`, `inferred_from_model_or_service`, `inferred_from_ard_reflectance`, `not_applicable_non_satellite_eo`, `unlabelled_no_explicit_level`). |
+| `product_level_subtype` | `string` | `L3_THEMATIC_BIOPHYSICAL` \| `L4_MODEL_REANALYSIS_SYNTHESIS` \| `L3_ARD_REFLECTANCE` \| `L3_L4_MULTI_LEVEL` \| `UPSTREAM_L1_OR_L2_UNFILTERED` \| `UNLABELLED_LEVEL`. |
 | `product_ontology_class` | `string` | `eo_thematic_or_biophysical` \| `eo_reanalysis_or_model` \| `eo_ard_surface_reflectance_mosaic` \| `eo_constrained_hybrid` \| `in_situ_gridded_interpolation` \| `non_eo_inventory_or_census` \| `authoritative_reference_geometry`. |
+| `product_output_category` | `string` | Output thematic domain/variable category separated from input sensor descriptions. |
+| `is_ard_reflectance_only` | `bool` | `True` strictly for L3 ARD surface reflectance mosaics (`HLSL30`, `MCD43A4` NBAR, `S2GM`, `LCREF`) without leaking derived biophysical indices. |
 | `strict_eo_c1_eligible` | `bool` | `True` for strict satellite/model EO products; `False` for hybrid demographic/soil models, gridded in-situ interpolations, non-EO inventories, and reference boundaries. |
-| `uses_sentinel_data` | `bool` | `True` if the product uses Copernicus Sentinel (`S1`, `S2`, `S3`, `S5P`, `S6`) observations as input. |
+| `uses_sentinel_data` | `bool` | `True` if the product uses Copernicus Sentinel (`S1`, `S2`, `S3`, `S5P`, `S6`) observations as input (excludes `HLSL30` Landsat-only target-grid references). |
 | `sentinel_missions` | `string \| null` | Semicolon-separated list of Sentinel missions used (`S1`, `S2`, `S3`, `S5P`, `S6`). |
+| `sentinel_lineage_status` | `string` | Disambiguates `direct_sentinel_input`, `target_grid_or_harmonization_reference_only` (`HLSL30`), `retrospective_or_context_only`, and `no_sentinel_lineage`. |
 | `spatial_resolution_raw` | `string \| null` | Exact upstream spatial resolution string (`null` if omitted by upstream API). |
-| `spatial_resolution_meters` | `float \| null` | Deterministically parsed from `spatial_resolution_raw` (`null` if omitted upstream). |
+| `spatial_resolution_meters` | `float \| null` | Deterministically parsed from `spatial_resolution_raw` (`null` on >=10x/<=0.1x metadata conflicts or upstream omission). |
 | `title_token_resolution_meters` | `float \| null` | Explicit resolution tokens (e.g., `10m`, `30m`, `250m`, `1km`) parsed from `title`/`raw_id` without modifying `spatial_resolution_meters`. |
+| `spatial_resolution_conflict` | `bool` | Flags `True` when `spatial_resolution_meters` and `title_token_resolution_meters` diverge by >=10x (`null`s `spatial_resolution_meters` instead of guessing). |
+| `spatial_resolution_conflict_reason` | `string \| null` | Diagnostic description of detected spatial resolution unit/metadata conflict. |
+| `adjudicated_output_grid_meters` | `float \| null` | Reconciled output grid spacing when unconflicted; `null` under metadata conflict or omission. |
+| `adjudicated_spatial_resolution_source` | `string \| null` | Provenance of `adjudicated_output_grid_meters` (`raw_metadata`, `title_token`, `null` on conflict). |
+| `temporal_resolution_raw`, `update_frequency_raw` | `string \| null` | Upstream observation/product step vs. archive update/publication cadence. |
 | `temporal_cadence_class` | `string \| null` | `sub_daily_or_daily` \| `multi_day_or_dekadal` \| `monthly_or_seasonal` \| `annual` \| `multi_year_periodic` \| `static_or_single_epoch` \| `null`. |
+| `temporal_output_cadences` | `string \| null` | Normalized output sampling step(s) (separated from rolling compositing windows). |
+| `temporal_aggregation_window_raw` | `string \| null` | Extracted rolling retrieval/compositing window (e.g., `16-day retrieval/compositing window` for `MCD43A4` daily output). |
+| `temporal_start_raw`, `temporal_end_raw` | `string \| null` | Cleaned raw temporal start/end ISO strings (`null` if omitted). |
 | `temporal_start_year`, `temporal_end_year` | `int \| null` | Extracted strictly from `temporal_start_raw` / `temporal_end_raw` (`null` if omitted). |
-| `is_ongoing_archive` | `bool \| null` | `True` if open-ended active series (`temporal_end_raw >= 2025` or open-ended with `end_year >= 2025` / null end date and ongoing/regular cadence), `False` if completed/planned/deprecated or release-dated without ongoing updates, `null` if timestamps and upstream status are omitted. |
+| `is_ongoing_archive` | `bool \| null` | `True` if open-ended active series (`temporal_end_raw >= 2025` or open-ended with `end_year >= 2025` / null end date and ongoing/regular cadence), `False` if completed/planned/deprecated/not-planned or release-dated without ongoing updates, `null` if timestamps and upstream status are omitted. |
 | `operational_maturity_class` | `string` | `operational_ongoing_series` \| `completed_or_mission_bounded_release` \| `research_or_benchmark_release` \| `planned_or_preoperational` \| `deprecated_or_superseded` \| `unknown` (never assigns `operational_ongoing_series` when `is_ongoing_archive` is `null`). |
+| `is_superseded_edition`, `superseded_by_record` | `bool`, `string \| null` | Identifies superseded editions (`SOCATv1.5..v2025`, closed CLMS/EEA v1 series) and links to active successor `record_id`. |
 | `bbox_west`, `bbox_south`, `bbox_east`, `bbox_north` | `float \| null` | Bounding box coordinates (`null` if omitted). |
-| `geographic_coverage_class` | `string \| null` | `global` \| `quasi_global` \| `hemispheric_or_pantropical` \| `europe_regional` \| `regional_or_local` \| `null`. |
+| `geographic_coverage_class` | `string \| null` | `global` \| `quasi_global` \| `hemispheric_or_pantropical` \| `europe_regional` \| `regional_or_local` \| `null` (downgrades single-sensor GEO disks to `regional_or_local`). |
+| `observation_domain_class` | `string \| null` | Physical observation domain (e.g., `geostationary_disk_or_sector`, `full_global_domain`, `quasi_global_band`, `european_regional`, `sub_global_or_regional`). |
+| `platform_sensor_raw`, `keywords` | `string \| null` | Raw platform/sensor strings and normalized upstream keyword lists. |
 | `doi`, `license`, `access_url` | `string \| null` | Persistent identifier, upstream product license, and role-prioritized non-image landing page URL. |
 
 ## Outputs
-- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `38,055` harmonized L3/L4 records across all 28 product sources (`43` columns).
-- `./data/eo_l3_l4_canonical_products.parquet` — `37,501` conservatively deduplicated canonical L3/L4 products (`45` columns; `530` mirror groups collapsing `554` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
+- `./data/eo_l3_l4_all_catalogue_records.parquet` (and chunked `.jsonl` files) — All `38,169` harmonized L3/L4 records across all 28 product sources (`56` columns).
+- `./data/eo_l3_l4_canonical_products.parquet` — `37,605` conservatively deduplicated canonical L3/L4 products (`58` columns; `540` mirror groups collapsing `564` duplicate records) prioritizing primary-agency metadata over secondary cloud mirrors.
 - `./provider_pool_and_sentinel_summary.csv` — Breakdown of canonical products by `provider_pool`, `processing_level`, and `uses_sentinel_data`.
-- `./schema_completeness_report.csv` — Exact non-null and null counts across all `43` harmonized record columns.
+- `./schema_completeness_report.csv` — Exact non-null and null counts across all `56` harmonized record columns.

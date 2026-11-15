@@ -103,40 +103,69 @@ def write_last_access(
     LAST_ACCESS_FILE.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"[{SOURCE_ID}] Wrote {LAST_ACCESS_FILE.name} ({total_records} records across {len(files_info)} files)")
 
+ZENODO_PAGE_SIZE = 25  # Zenodo REST API anonymous limit (size > 25 returns HTTP 400)
+ZENODO_MAX_PAGES = 20   # Up to 500 hits per scoped query with full pagination audit
+
 ZENODO_QUERIES = [
-    "Global Mangrove Watch",
-    "Global Pasture Watch",
-    "ETH Global Canopy Height 10m",
-    "SoilGrids 250m",
-    "HydroSHEDS global",
-    "Global Land Cover 30m GLC_FCS30D",
-    "OpenLandMap Soil Organic Carbon",
-    "WorldCereal global",
-    "Global Surface Water Explorer",
-    "Global Dam Watch",
-    "Global Wetlands Map",
-    "Global Kelp Forest",
-    "Global Land Evaporation Amsterdam Model",
-    "LCSPP LCSIF LCREF",
-    "GOSIF Global OCO-2 SIF",
-    "CSIF Contiguous Solar-Induced Fluorescence",
-    "GLOBMAP Leaf Area Index",
-    "TROPOSIF fluorescence",
+    '+"Global Mangrove Watch"',
+    '+"Global Pasture Watch"',
+    '+ETH +"Global Canopy Height"',
+    '+SoilGrids +(250m OR global)',
+    '+HydroSHEDS +global',
+    '+GLC_FCS30D',
+    '+OpenLandMap',
+    '+WorldCereal +global',
+    '+"Global Surface Water Explorer"',
+    '+"Global Dam Watch"',
+    '+"Global Wetlands" +map',
+    '+WAD2M',
+    '+kelp +(global OR map) +dataset',
+    '+"Global Land Evaporation Amsterdam Model" OR +GLEAM4',
+    '+VODCA +"Vegetation Optical Depth"',
+    '+"OceanSODA-ETHZ"',
+    '+"WCRP" +"Sea Level Budget"',
+    '+LAI4g OR (+GLOBMAP +"Leaf Area Index")',
+    '+FLUXCOM',
+    '+"Global Carbon Budget"',
+    '+TCSIF +"GOME-2"',
+    '+"Solar-Induced Fluorescence" +global',
+    '+CSIF +"Solar-Induced Fluorescence"',
+    '+GOSIF +OCO-2',
+    '+TROPOSIF',
+    '+LCREF +(AVHRR OR MODIS)',
+    '+LCSIF +(AVHRR OR MODIS)',
+    '+LCSPP +(AVHRR OR MODIS)',
+    '+"GLAST" +"Lake Surface"',
 ]
 
 ZENODO_PINNED_RECORD_IDS = [
+    8242928,   # TCSIF v1: Temporally consistent global GOME-2A SIF dataset (doi:10.5281/zenodo.8242928)
+    14460914,  # TCSIF_005: Temporally consistent multi-sensor global SIF 0.05 deg (doi:10.5281/zenodo.14460914)
     14724263,  # GLEAM4 (Miralles et al. / Ghent University, doi:10.5281/zenodo.14724263)
-    20683570,  # Global LCREF, LCSIF, and LCSPP (latest version, doi:10.5281/zenodo.20683570)
-    13922379,  # Global LCREF, LCSIF, and LCSPP (v2, doi:10.5281/zenodo.13922379)
-    7916879,   # Global LCREF, LCSIF, and LCSPP (v1, doi:10.5281/zenodo.7916879)
+    20682040,  # LCREF-MODIS v3.3 (doi:10.5281/zenodo.20682040)
+    14586458,  # LCREF-AVHRR v3.2 (doi:10.5281/zenodo.14586458)
+    20683570,  # Global LCSPP-MODIS v3.3 (doi:10.5281/zenodo.20683570)
+    14568024,  # Global LCSPP-AVHRR 1982-2000 (doi:10.5281/zenodo.14568024)
+    14568491,  # Global LCSPP-AVHRR 2001-2023 (doi:10.5281/zenodo.14568491)
+    13922379,  # Global LCSIF-MODIS v2 (doi:10.5281/zenodo.13922379)
+    7916879,   # Global LCREF/LCSIF/LCSPP v1 (doi:10.5281/zenodo.7916879)
     10212472,  # Global fluorescence yield based on TROPOSIF data, normalized with NIRvP (doi:10.5281/zenodo.10212472)
     7331411,   # eSIF product: enhanced SIF by combining TROPOSIF, MODIS reflectance and ERA-5 (doi:10.5281/zenodo.7331411)
+    15105312,  # GOSIF - Global, OCO-2 based SIF product (doi:10.5281/zenodo.15105312)
+    12698637,  # GLOBMAP global Leaf Area Index since 1981 (doi:10.5281/zenodo.12698637)
+    16394372,  # LHSIF Long-Term Harmonized Multi-Satellite SIF (doi:10.5281/zenodo.16394372)
     2575599,   # VODCA Global Long-term Microwave Vegetation Optical Depth Climate Archive (doi:10.5281/zenodo.2575599)
     11206366,  # OceanSODA-ETHZ-v2 Surface ocean sea-air CO2 fluxes (doi:10.5281/zenodo.11206366)
+    5553187,   # WAD2M Wetland Area and Dynamics for Methane Modeling (doi:10.5281/zenodo.5553187)
+    14816612,  # Global floating kelp forest marine heatwave dataset (doi:10.5281/zenodo.14816612)
+    5825755,   # Beagle kelp maps (doi:10.5281/zenodo.5825755)
 ]
 
 DATACITE_PINNED_DOIS = [
     "10.18160/5NZG-JMJE",        # FLUXCOM-X-BASE global carbon & energy fluxes (ICOS Carbon Portal)
+    "10.5281/zenodo.8242928",    # TCSIF v1 GOME-2A SIF (cross-verified via DataCite)
+    "10.5281/zenodo.14586458",   # LCREF-AVHRR v3.2
+    "10.5281/zenodo.20682040",   # LCREF-MODIS v3.3
     "10.5281/zenodo.20683570",   # LCSPP / LCSIF / LCREF global SIF & GPP
     "10.5281/zenodo.13922379",   # LCSPP / LCSIF / LCREF v2
     "10.5281/zenodo.7916879",    # LCSPP / LCSIF / LCREF v1
@@ -146,6 +175,42 @@ DATACITE_PINNED_DOIS = [
     "10.1594/PANGAEA.897399",    # Global EO biophysical benchmark (PANGAEA)
     "10.7910/DVN/EJSXHS",        # CSIF Contiguous Solar-Induced Fluorescence (Harvard Dataverse)
 ]
+
+
+def _zenodo_get_with_rate_limit(
+    session: requests.Session,
+    url: str,
+    params: dict[str, Any] | None = None,
+    timeout: int = 60,
+    max_attempts: int = 5,
+) -> requests.Response:
+    """GET Zenodo REST endpoint while honoring X-RateLimit-Remaining / X-RateLimit-Reset headers."""
+    last_resp: requests.Response | None = None
+    for attempt in range(max_attempts):
+        resp = session.get(url, params=params, timeout=timeout)
+        last_resp = resp
+        rem_hdr = resp.headers.get("X-RateLimit-Remaining")
+        reset_hdr = resp.headers.get("X-RateLimit-Reset")
+        if resp.status_code == 429:
+            try:
+                wait_s = max(5.0, float(reset_hdr) - time.time() + 1.5) if reset_hdr else 20.0 * (attempt + 1)
+            except Exception:
+                wait_s = 20.0 * (attempt + 1)
+            wait_s = min(wait_s, 75.0)
+            print(f"[{SOURCE_ID}] Zenodo rate limit (429) on {url}; sleeping {wait_s:.1f}s")
+            time.sleep(wait_s)
+            continue
+        if rem_hdr is not None and reset_hdr is not None:
+            try:
+                if int(rem_hdr) <= 1:
+                    wait_s = max(0.0, float(reset_hdr) - time.time() + 1.2)
+                    if wait_s > 0:
+                        time.sleep(min(wait_s, 65.0))
+            except Exception:
+                pass
+        return resp
+    assert last_resp is not None
+    return last_resp
 
 
 def main() -> None:
@@ -197,43 +262,101 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    # 2. Zenodo REST API for flagship global L3/L4 EO datasets (paginated across pages 1..2)
+    # 2. Zenodo REST API for flagship global L3/L4 EO datasets (complete pagination + audit)
     zenodo_records: list[dict[str, Any]] = []
-    seen_zenodo: set[int] = set()
+    zenodo_by_id: dict[int, dict[str, Any]] = {}
+    pagination_audit: list[dict[str, Any]] = []
+    z_url = "https://zenodo.org/api/records"
+
     for q in ZENODO_QUERIES:
-        z_url = "https://zenodo.org/api/records"
-        for z_page in (1, 2):
-            rz = session.get(
+        hits_total: int | None = None
+        pages_fetched = 0
+        fetched_for_q = 0
+        new_unique_for_q = 0
+        last_status = 0
+        truncated = False
+
+        for z_page in range(1, ZENODO_MAX_PAGES + 1):
+            rz = _zenodo_get_with_rate_limit(
+                session,
                 z_url,
-                params={"q": q, "type": "dataset", "size": "15", "page": str(z_page)},
+                params={"q": q, "type": "dataset", "size": str(ZENODO_PAGE_SIZE), "page": str(z_page)},
                 timeout=60,
             )
+            last_status = rz.status_code
             if rz.status_code != 200:
+                truncated = True
+                print(f"[{SOURCE_ID}] WARN Zenodo HTTP {rz.status_code} on q={q!r} page={z_page}: {rz.text[:160]}")
                 break
-            hits = rz.json().get("hits", {}).get("hits", [])
+            payload = rz.json().get("hits", {}) or {}
+            if hits_total is None:
+                hits_total = int(payload.get("total", 0))
+            hits = payload.get("hits", []) or []
+            pages_fetched += 1
+            fetched_for_q += len(hits)
             for h in hits:
                 zid = h.get("id")
-                if zid and zid not in seen_zenodo:
-                    seen_zenodo.add(zid)
+                if not zid:
+                    continue
+                if zid not in zenodo_by_id:
                     h["_matched_benchmark_query"] = q
+                    h["_matched_benchmark_queries"] = [q]
+                    zenodo_by_id[zid] = h
                     zenodo_records.append(h)
-            time.sleep(0.3)
-            if len(hits) < 15:
+                    new_unique_for_q += 1
+                else:
+                    mq = zenodo_by_id[zid].setdefault("_matched_benchmark_queries", [])
+                    if q not in mq:
+                        mq.append(q)
+            time.sleep(0.25)
+            if not hits or len(hits) < ZENODO_PAGE_SIZE or (hits_total is not None and z_page * ZENODO_PAGE_SIZE >= hits_total):
                 break
+        else:
+            if hits_total is not None and ZENODO_MAX_PAGES * ZENODO_PAGE_SIZE < hits_total:
+                truncated = True
+
+        pagination_audit.append({
+            "query": q,
+            "http_status": last_status,
+            "page_size": ZENODO_PAGE_SIZE,
+            "hits_total": hits_total,
+            "pages_fetched": pages_fetched,
+            "fetched_records": fetched_for_q,
+            "new_unique_records": new_unique_for_q,
+            "truncated": truncated,
+        })
 
     for z_rec_id in ZENODO_PINNED_RECORD_IDS:
-        if z_rec_id in seen_zenodo:
+        if z_rec_id in zenodo_by_id:
             continue
-        r_pin = session.get(f"https://zenodo.org/api/records/{z_rec_id}", timeout=30)
+        r_pin = _zenodo_get_with_rate_limit(session, f"https://zenodo.org/api/records/{z_rec_id}", timeout=30)
         if r_pin.status_code == 200:
             h = r_pin.json()
             zid = h.get("id")
-            if zid and zid not in seen_zenodo:
-                seen_zenodo.add(zid)
+            if zid and zid not in zenodo_by_id:
                 h["_matched_benchmark_query"] = "pinned_authoritative_eo_flagship"
+                h["_matched_benchmark_queries"] = ["pinned_authoritative_eo_flagship"]
+                zenodo_by_id[zid] = h
                 zenodo_records.append(h)
+        else:
+            print(f"[{SOURCE_ID}] WARN pinned Zenodo record {z_rec_id} HTTP {r_pin.status_code}")
 
-    queried.append("https://zenodo.org/api/records?type=dataset (thematic L3/L4 benchmark queries)")
+    (DATA_DIR / "zenodo_pagination_audit.json").write_text(
+        json.dumps(
+            {
+                "page_size": ZENODO_PAGE_SIZE,
+                "max_pages_per_query": ZENODO_MAX_PAGES,
+                "total_unique_zenodo_records": len(zenodo_records),
+                "truncated_query_count": sum(1 for a in pagination_audit if a["truncated"]),
+                "queries": pagination_audit,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+
+    queried.append("https://zenodo.org/api/records?type=dataset (scoped boolean queries, full pagination + audit)")
     with (DATA_DIR / "zenodo_thematic_benchmarks.jsonl").open("w", encoding="utf-8") as f:
         for rec in zenodo_records:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")

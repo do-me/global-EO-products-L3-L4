@@ -173,7 +173,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     ]
     both_res = df_all[df_all["spatial_resolution_meters"].notna() & df_all["title_token_resolution_meters"].notna()]
     res_ratio = both_res["spatial_resolution_meters"] / both_res["title_token_resolution_meters"]
-    bad_title_res = both_res[(res_ratio > 10.0) | (res_ratio < 0.1)]
+    bad_title_res = both_res[(res_ratio >= 10.0) | (res_ratio <= 0.1)]
     qa.append(
         ("4. Zero implausible STAC/EEA scale or title-token resolution artifacts", len(bad_res) == 0 and len(eea_scale) == 0 and len(bad_title_res) == 0, f">600km: {len(bad_res)}, EEA_scale>=500km: {len(eea_scale)}, title_mismatch: {len(bad_title_res)}"),
     )
@@ -341,8 +341,13 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     ))
 
     # 16. Cadence support, operational status & Sentinel lineage invariants
-    multi_day_ttl = df_all["title"].fillna("").str.contains(
-        r"\b(?:8-day|10-day|10-daily|16-day|5-day|dekad|dekadal|weekly|biweekly)\b", case=False, regex=True
+    multi_day_ttl = (
+        df_all["title"]
+        .fillna("")
+        .str.contains(
+            r"\b(?:8-day|10-day|10-daily|16-day|5-day|dekad|dekadal|weekly|biweekly)\b", case=False, regex=True
+        )
+        & df_all["temporal_aggregation_window_raw"].isna()
     )
     cadence_contra = int((multi_day_ttl & (df_all["temporal_cadence_class"] == "sub_daily_or_daily")).sum())
     op_null_ongoing = int(
@@ -465,6 +470,39 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"op_closed={op_closed}, eu_glob={eu_nom_glob}, polar_bad={polar_bad}, eu_bench={eu_bench_ok}, bicep_s3={bicep_ok}, phys_bad={phys_bad}, epoch_my_bad={single_epoch_my_bad}",
     ))
 
+    # 19. Independent scientific review hardening (HTML/URLs, >=10x spatial conflicts, GEO disks, ARD vs output, L3+L4, Sentinel HLS, supersession)
+    html_rem = int(df_all["description"].fillna("").str.contains(r"&(?:deg|times|ndash|nbsp|rarr);|</?(?:p|div|strong|ul|li)\b", regex=True).sum())
+    zen_url_nulls = int(df_all[(df_all["source_catalogue"] == "26_fao_unep_and_thematic_benchmarks") & df_all["raw_id"].astype(str).str.startswith("ZENODO:")]["access_url"].isna().sum())
+    tcsif_v1_ok = bool(df_all["doi"].fillna("").str.lower().str.contains("10.5281/zenodo.8242928").any())
+    cbers_sub = df_all[df_all["raw_id"] == "CBERS4-MUX-2M-1"]
+    cbers_ok = len(cbers_sub) >= 1 and bool((cbers_sub["spatial_resolution_meters"] == 20.0).all())
+    abi_g16_sub = df_all[df_all["raw_id"].astype(str).str.contains("AERDB_M3_ABI_G16|AERDB_D3_AHI_H08", case=False) | df_all["title"].fillna("").str.contains("AERDB_M3_ABI_G16|AERDB_D3_AHI_H08", case=False)]
+    abi_g16_glob = int((abi_g16_sub["geographic_coverage_class"] == "global").sum())
+    abi_g16_dom_ok = len(abi_g16_sub) >= 2 and bool((abi_g16_sub["observation_domain_class"] == "geostationary_disk_or_sector").all())
+    non_ard_leak = int((df_all["raw_id"].isin(["ZENODO:20683570", "ZENODO:13922379", "ZENODO:14568024", "C2617126679-POCLOUD", "MODIS/MCD43A4_006_BAI"]) & (df_all["is_ard_reflectance_only"] == True)).sum())  # noqa: E712
+    mcd43_ard_ok = bool(df_all[df_all["raw_id"].isin(["C2218719731-LPCLOUD", "MODIS/061/MCD43A4"])]["is_ard_reflectance_only"].all())
+    hlsl30_s2 = int((df_all["raw_id"].isin(["C2021957657-LPCLOUD", "NASA/HLS/HLSL30/v002", "hls2-l30"]) & (df_all["uses_sentinel_data"] == True)).sum())  # noqa: E712
+    c3s_sst = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-sea-surface-temperature")]
+    c3s_sst_ok = len(c3s_sst) == 1 and c3s_sst.iloc[0]["processing_level"] == "L3; L4"
+    c3s_alb_ongoing = int(((df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"].isin(["satellite-albedo", "satellite-lai-fapar"])) & (df_all["is_ongoing_archive"] == True)).sum())  # noqa: E712
+    qa.append((
+        "19. Independent review hardening (TCSIF v1, HTML/URLs, GEO disks, ARD NBAR, HLSL30, L3+L4, not-planned)",
+        bool(
+            html_rem == 0
+            and zen_url_nulls == 0
+            and tcsif_v1_ok
+            and cbers_ok
+            and abi_g16_glob == 0
+            and abi_g16_dom_ok
+            and non_ard_leak == 0
+            and mcd43_ard_ok
+            and hlsl30_s2 == 0
+            and c3s_sst_ok
+            and c3s_alb_ongoing == 0
+        ),
+        f"html={html_rem}, zen_null_url={zen_url_nulls}, tcsif_v1={tcsif_v1_ok}, cbers4={cbers_ok}, geo_glob={abi_g16_glob}, ard_leak={non_ard_leak}, hlsl30_s2={hlsl30_s2}, c3s_sst={c3s_sst_ok}",
+    ))
+
     return qa
 
 
@@ -576,7 +614,7 @@ GCOS_ECV_EXPLICIT_PATTERNS: dict[str, str] = {
     "Snow": r"\b(?:snow\s+(?:cover|water\s+equivalent|depth|extent|melt|albedo|fraction)|\bswe\b|\bfsca\b|mod10|myd10)\b",
     "Soil moisture": r"\b(?:soil\s+moisture|soil\s+water\s+index|\bswi\b|\bssm\b|root[- ]zone\s+soil\s+moisture)\b",
     "Surface currents": r"\b(?:surface\s+currents?|ocean\s+currents?|geostrophic\s+currents?|oscar.*currents?|globcurrent)\b",
-    "Surface radiation budget": r"\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|photosynthetically\s+active\s+radiation|\bpar\b|surface\s+net\s+radiation)\b",
+    "Surface radiation budget": r"\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|(?<!absorbed\s)photosynthetically\s+active\s+radiation(?!\s*\(?fapar\b)|\bpar\b|surface\s+net\s+radiation)\b",
     "Surface stress": r"\b(?:surface\s+wind\s+stress|ocean\s+wind\s+stress|wind\s+stress\s+curl|momentum\s+flux)\b",
     "Surface wind speed and direction": r"\b(?:surface\s+winds?|10[- ]?m(?:eter)?\s+winds?|ocean\s+surface\s+winds?|scatterometer\s+winds?|ccmp\s+winds?|ascat.*winds?|quikscat)\b",
     "Terrestrial Water Storage": r"\b(?:terrestrial\s+water\s+storage|\btws\b|liquid\s+water\s+equivalent\s+thickness|grace.*mascon|grace.*tellus)\b",
@@ -608,6 +646,13 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
         if not pat:
             pat = r"\b" + re.escape(ecv.lower()) + r"\b"
         hit_mask = blob.str.contains(pat, case=False, regex=True, na=False)
+        if ecv == "Surface radiation budget":
+            hit_mask = hit_mask & ~blob.str.contains(
+                r"\b(?:fapar|fraction of absorbed photosynthetically active radiation)\b",
+                case=False,
+                regex=True,
+                na=False,
+            )
         matched = int(hit_mask.sum())
         matched_non_wgc = int((hit_mask & is_non_wgc).sum())
         rows.append({
@@ -616,6 +661,60 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
             "canonical_catalogue_matches": matched,
             "independent_non_wgclimate_matches": matched_non_wgc,
             "matching_pattern": pat,
+        })
+    return pd.DataFrame(rows)
+
+
+def audit_independent_version_benchmark(df_all: pd.DataFrame) -> pd.DataFrame:
+    bench_path = BASE_DIR / "independent_product_version_benchmark.csv"
+    df_bench = pd.read_csv(bench_path, dtype=str).fillna("")
+    rows = []
+    for _, spec in df_bench.iterrows():
+        id_type = spec["identifier_type"]
+        pat = spec["identifier_pattern"]
+        if id_type == "doi":
+            sub = df_all[df_all["doi"].fillna("").str.contains(pat, case=False, regex=True)]
+        elif id_type == "raw_id":
+            sub = df_all[df_all["raw_id"].fillna("").str.contains(pat, case=False, regex=True)]
+        elif id_type == "record_id":
+            sub = df_all[df_all["record_id"].fillna("").str.contains(pat, case=False, regex=True)]
+        else:
+            sub = df_all[df_all["title"].fillna("").str.contains(pat, case=False, regex=True)]
+
+        min_m = int(spec["expected_min_matches"] or "1")
+        recalled = len(sub) >= min_m
+        field_mismatches: list[str] = []
+        if recalled:
+            if spec["expected_processing_level"]:
+                if not bool((sub["processing_level"].fillna("") == spec["expected_processing_level"]).all()):
+                    field_mismatches.append(f"level={list(sub['processing_level'].unique())}")
+            if spec["expected_is_ard"]:
+                exp_ard = spec["expected_is_ard"].lower() == "true"
+                if not bool((sub["is_ard_reflectance_only"] == exp_ard).all()):
+                    field_mismatches.append(f"ard={list(sub['is_ard_reflectance_only'].unique())}")
+            if spec["expected_cadence"]:
+                if not bool((sub["temporal_cadence_class"].fillna("") == spec["expected_cadence"]).all()):
+                    field_mismatches.append(f"cadence={list(sub['temporal_cadence_class'].unique())}")
+            if spec["expected_geo_not_global"].lower() == "true":
+                if bool((sub["geographic_coverage_class"] == "global").any()):
+                    field_mismatches.append(f"geo={list(sub['geographic_coverage_class'].unique())}")
+            if spec["expected_uses_sentinel"]:
+                exp_s = spec["expected_uses_sentinel"].lower() == "true"
+                if not bool((sub["uses_sentinel_data"] == exp_s).all()):
+                    field_mismatches.append(f"sentinel={list(sub['uses_sentinel_data'].unique())}")
+            if spec["expected_maturity"]:
+                if not bool((sub["operational_maturity_class"] == spec["expected_maturity"]).all()):
+                    field_mismatches.append(f"maturity={list(sub['operational_maturity_class'].unique())}")
+
+        status = "PASS" if (recalled and not field_mismatches) else ("MISSING" if not recalled else "FIELD_MISMATCH")
+        rows.append({
+            "case_id": spec["case_id"],
+            "product_name": spec["product_name"],
+            "matched_records": len(sub),
+            "recalled": recalled,
+            "scientific_attributes_ok": len(field_mismatches) == 0,
+            "status": status,
+            "mismatches": "; ".join(field_mismatches) if field_mismatches else None,
         })
     return pd.DataFrame(rows)
 
@@ -657,9 +756,22 @@ def main() -> None:
     df_ecv.to_csv(BASE_DIR / "gcos_ecv_domain_coverage.csv", index=False)
     print(f"Audited {len(df_ecv)} GCOS/WGClimate ECV groups; {(df_ecv['canonical_catalogue_matches'] > 0).sum()} / {len(df_ecv)} have canonical matches.")
 
+    # 4. Independent Version-Level Product Recall & Attribute Correctness Benchmark
+    print("\n--- 4. EXTERNAL BENCHMARK 3: INDEPENDENT PRODUCT & VERSION RECALL / ACCURACY ---")
+    df_ind = audit_independent_version_benchmark(df_all)
+    df_ind.to_csv(BASE_DIR / "independent_product_version_audit.csv", index=False)
+    n_rec = int(df_ind["recalled"].sum())
+    n_pass = int((df_ind["status"] == "PASS").sum())
+    print(f"Version-level recall: {n_rec} / {len(df_ind)} | Exact attribute accuracy: {n_pass} / {len(df_ind)}")
+    ind_fails = df_ind[df_ind["status"] != "PASS"]
+    if len(ind_fails) > 0:
+        failures += len(ind_fails)
+        for _, fr in ind_fails.iterrows():
+            print(f"  [FAIL] {fr['case_id']}: status={fr['status']}, mismatches={fr['mismatches']}")
+
     if failures > 0:
         sys.exit(1)
-    print("\nALL INTERNAL QA ASSERTIONS PASSED.")
+    print("\nALL INTERNAL QA ASSERTIONS & BENCHMARKS PASSED.")
 
 
 if __name__ == "__main__":

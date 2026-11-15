@@ -4100,6 +4100,692 @@
       }
     },
     {
+      "id": "10.5281/zenodo.8242928",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5281/zenodo.8242928",
+        "prefix": "10.5281",
+        "suffix": "zenodo.8242928",
+        "identifiers": [
+          {
+            "identifier": "oai:zenodo.org:8242928",
+            "identifierType": "oai"
+          }
+        ],
+        "alternateIdentifiers": [
+          {
+            "alternateIdentifierType": "oai",
+            "alternateIdentifier": "oai:zenodo.org:8242928"
+          }
+        ],
+        "creators": [
+          {
+            "name": "Chu Zou",
+            "nameType": "Personal",
+            "familyName": "Chu Zou",
+            "affiliation": [
+              "CHinese academy of sciences"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-5758-8576",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Shanshan Du",
+            "nameType": "Personal",
+            "familyName": "Shanshan Du",
+            "affiliation": [
+              "CHinese academy of sciences"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0001-6889-116X",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Xinjie Liu",
+            "nameType": "Personal",
+            "familyName": "Xinjie Liu",
+            "affiliation": [
+              "CHinese academy of sciences"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-7689-3031",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Liangyun Liu",
+            "nameType": "Personal",
+            "familyName": "Liangyun Liu",
+            "affiliation": [
+              "CHinese academy of sciencesc"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-7987-037X",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "TCSIF: A temporally consistent global GOME-2A SIF dataset with correction of sensor degradation"
+          }
+        ],
+        "publisher": "Zenodo",
+        "container": {},
+        "publicationYear": 2023,
+        "subjects": [
+          {
+            "subject": "SIF"
+          },
+          {
+            "subject": "GOME-2"
+          },
+          {
+            "subject": "temporally consistent"
+          }
+        ],
+        "contributors": [],
+        "dates": [
+          {
+            "date": "2023-08-13",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "ris": "DATA",
+          "bibtex": "misc",
+          "citeproc": "dataset",
+          "schemaOrg": "Dataset",
+          "resourceType": "",
+          "resourceTypeGeneral": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsVersionOf",
+            "relatedIdentifier": "10.5281/zenodo.8242927",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "v1",
+        "rightsList": [
+          {
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rightsIdentifier": "cc-by-4.0",
+            "rightsIdentifierScheme": "SPDX"
+          }
+        ],
+        "descriptions": [
+          {
+            "description": "TCSIF: A temporally consistent global GOME-2A SIF dataset with correction of sensor degradation\n\n \n\nDescription:\n\nThe global monthly GOME-2A SIF dataset (2007–2021) with correction of temporal degradation. The corrected global GOME-2 SIF dataset can be obtained in two types. The daily level2 dataset is provided in hdf5 format(compressed in the zip files named \"{Year}{Quater}.zip\"). The name of the hdf5 files was SIF_daily_YYYYMMDD.h5, YYYY, MM, and DD represent the year, month, and date, respectively. The level3 datasets which were aggregated monthly from the level2 dataset, have a spatial resolution of 0.5°and were saved in TIFF format in chronological order from 2007 to 2021 (compressed in the file \"Level3.zip\"). The name of the files was SIFpar_evi_monthly _YYYYMM.tif, where SIF was product type, par, and evi represented upscaled parameters, monthly represented temporal scale, YYYY and MM was the year and month, respectively. The SIF output was stored in the hdf5 files along with other variables of interest for further processing and visualization. See the appendix for the structure of the hdf5 file.\n\n \n\ncloud_fraction[float]:\n\nDescription: Effective cloud fraction derived from GOME-2 Level1B product.\n\nUnits: none\n\nlatitude[float]:\n\nDescription: Pixel center latitude.\n\nUnits: degrees N\n\nlongitude[float]:\n\nDescription: Pixel center longitude.\n\nUnits: degrees E\n\nlatitude_bounds[float]:\n\nDescription: Latitude of the boundary corners for each pixel.\n\nUnits: degrees N\n\nlongitude _bounds[float]:\n\nDescription: Longitude of the boundary corners.\n\nUnits: degrees E\n\nSIF_740[float]:\n\nDescription: SIF signal at 740nm retrieved using the 735–758 nm fitting window.\n\nUnits: mW m-2 nm-1 sr-1\n\nSIF_daily [float]:\n\nDescription: SIF signal at 740nm with correction of day-length.\n\nUnits: mW m-2 nm-1 sr-1\n\nSigma_i[float]:\n\nDescription:  The squre of single retrieval error of SIF_740.\n\nUnits: (mW m-2 nm-1 sr-1)2\n\nSolar_zenith_angle [float]:\n\nDescription:  Solar zenith angle.\n\nUnits: degrees\n\nSolar_azimuth_angle [float]:\n\nDescription: Solar azimuth angle.\n\nUnits: degrees\n\nViewing _zenith_angle [float]:\n\nDescription: Viewing zenith angle.\n\nUnits: degrees\n\nViewing_azimuth_angle[float]:\n\nDescription: Viewing azimuth angle.\n\nUnits: degrees\n\nchi2[float]:\n\nDescription: The reduced chi-square value calculated based on the the fitting residuals.\n\nUnits: None\n\nRad_NIR[float]:\n\nDescription: The average radiance within the 735~758 nm window\n\nUnits: mW m-2 nm-1 sr-1\n\nps_NIR[float]:\n\nDescription: The average reflectance within at around 780 nm.\n\nUnits: None\n\nps_red[float]:\n\nDescription: The average reflectance within the 665~680 nm window\n\nUnits: None\n\nNDVI[float]:\n\nDescription: Calculated by the TOA reflectance at red band (around 680 nm) and near-infrared band (around 780nm).\n\nUnits: None",
+            "descriptionType": "Abstract"
+          }
+        ],
+        "geoLocations": [],
+        "fundingReferences": [],
+        "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC00L21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS9aRU5PRE8uODI0MjkyODwvaWRlbnRpZmllcj4KICA8Y3JlYXRvcnM+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lIG5hbWVUeXBlPSJQZXJzb25hbCI+Q2h1IFpvdTwvY3JlYXRvck5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPkNodSBab3U8L2ZhbWlseU5hbWU+CiAgICAgIDxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiIHNjaGVtZVVSST0iIj4wMDAwLTAwMDItNTc1OC04NTc2PC9uYW1lSWRlbnRpZmllcj4KICAgICAgPGFmZmlsaWF0aW9uPkNIaW5lc2UgYWNhZGVteSBvZiBzY2llbmNlczwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lIG5hbWVUeXBlPSJQZXJzb25hbCI+U2hhbnNoYW4gRHU8L2NyZWF0b3JOYW1lPgogICAgICA8ZmFtaWx5TmFtZT5TaGFuc2hhbiBEdTwvZmFtaWx5TmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCIgc2NoZW1lVVJJPSIiPjAwMDAtMDAwMS02ODg5LTExNlg8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24+Q0hpbmVzZSBhY2FkZW15IG9mIHNjaWVuY2VzPC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5YaW5qaWUgTGl1PC9jcmVhdG9yTmFtZT4KICAgICAgPGZhbWlseU5hbWU+WGluamllIExpdTwvZmFtaWx5TmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCIgc2NoZW1lVVJJPSIiPjAwMDAtMDAwMi03Njg5LTMwMzE8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24+Q0hpbmVzZSBhY2FkZW15IG9mIHNjaWVuY2VzPC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5MaWFuZ3l1biBMaXU8L2NyZWF0b3JOYW1lPgogICAgICA8ZmFtaWx5TmFtZT5MaWFuZ3l1biBMaXU8L2ZhbWlseU5hbWU+CiAgICAgIDxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiIHNjaGVtZVVSST0iIj4wMDAwLTAwMDItNzk4Ny0wMzdYPC9uYW1lSWRlbnRpZmllcj4KICAgICAgPGFmZmlsaWF0aW9uPkNIaW5lc2UgYWNhZGVteSBvZiBzY2llbmNlc2M8L2FmZmlsaWF0aW9uPgogICAgPC9jcmVhdG9yPgogIDwvY3JlYXRvcnM+CiAgPHRpdGxlcz4KICAgIDx0aXRsZT5UQ1NJRjogQSB0ZW1wb3JhbGx5IGNvbnNpc3RlbnQgZ2xvYmFsIEdPTUUtMkEgU0lGIGRhdGFzZXQgd2l0aCBjb3JyZWN0aW9uIG9mIHNlbnNvciBkZWdyYWRhdGlvbjwvdGl0bGU+CiAgPC90aXRsZXM+CiAgPHB1Ymxpc2hlcj5aZW5vZG88L3B1Ymxpc2hlcj4KICA8cHVibGljYXRpb25ZZWFyPjIwMjM8L3B1YmxpY2F0aW9uWWVhcj4KICA8cmVzb3VyY2VUeXBlIHJlc291cmNlVHlwZUdlbmVyYWw9IkRhdGFzZXQiLz4KICA8c3ViamVjdHM+CiAgICA8c3ViamVjdD5TSUY8L3N1YmplY3Q+CiAgICA8c3ViamVjdD5HT01FLTI8L3N1YmplY3Q+CiAgICA8c3ViamVjdD50ZW1wb3JhbGx5IGNvbnNpc3RlbnQ8L3N1YmplY3Q+CiAgPC9zdWJqZWN0cz4KICA8ZGF0ZXM+CiAgICA8ZGF0ZSBkYXRlVHlwZT0iSXNzdWVkIj4yMDIzLTA4LTEzPC9kYXRlPgogIDwvZGF0ZXM+CiAgPGFsdGVybmF0ZUlkZW50aWZpZXJzPgogICAgPGFsdGVybmF0ZUlkZW50aWZpZXIgYWx0ZXJuYXRlSWRlbnRpZmllclR5cGU9Im9haSI+b2FpOnplbm9kby5vcmc6ODI0MjkyODwvYWx0ZXJuYXRlSWRlbnRpZmllcj4KICA8L2FsdGVybmF0ZUlkZW50aWZpZXJzPgogIDxyZWxhdGVkSWRlbnRpZmllcnM+CiAgICA8cmVsYXRlZElkZW50aWZpZXIgcmVsYXRlZElkZW50aWZpZXJUeXBlPSJET0kiIHJlbGF0aW9uVHlwZT0iSXNWZXJzaW9uT2YiPjEwLjUyODEvemVub2RvLjgyNDI5Mjc8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcy8+CiAgPGZvcm1hdHMvPgogIDx2ZXJzaW9uPnYxPC92ZXJzaW9uPgogIDxyaWdodHNMaXN0PgogICAgPHJpZ2h0cyByaWdodHNVUkk9Imh0dHBzOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS80LjAvbGVnYWxjb2RlIiByaWdodHNJZGVudGlmaWVyPSJjYy1ieS00LjAiIHJpZ2h0c0lkZW50aWZpZXJTY2hlbWU9InNwZHgiPkNyZWF0aXZlIENvbW1vbnMgQXR0cmlidXRpb24gNC4wIEludGVybmF0aW9uYWw8L3JpZ2h0cz4KICA8L3JpZ2h0c0xpc3Q+CiAgPGRlc2NyaXB0aW9ucz4KICAgIDxkZXNjcmlwdGlvbiBkZXNjcmlwdGlvblR5cGU9IkFic3RyYWN0Ij5UQ1NJRjogQSB0ZW1wb3JhbGx5IGNvbnNpc3RlbnQgZ2xvYmFsIEdPTUUtMkEgU0lGIGRhdGFzZXQgd2l0aCBjb3JyZWN0aW9uIG9mIHNlbnNvciBkZWdyYWRhdGlvbgoKwqAKCkRlc2NyaXB0aW9uOgoKVGhlIGdsb2JhbCBtb250aGx5IEdPTUUtMkEgU0lGIGRhdGFzZXQgKDIwMDfigJMyMDIxKSB3aXRoIGNvcnJlY3Rpb24gb2YgdGVtcG9yYWwgZGVncmFkYXRpb24uwqBUaGUgY29ycmVjdGVkIGdsb2JhbCBHT01FLTIgU0lGIGRhdGFzZXQgY2FuIGJlIG9idGFpbmVkIGluIHR3byB0eXBlcy4gVGhlIGRhaWx5IGxldmVsMiBkYXRhc2V0IGlzIHByb3ZpZGVkIGluIGhkZjUgZm9ybWF0KGNvbXByZXNzZWQgaW4gdGhlIHppcCBmaWxlcyBuYW1lZCAie1llYXJ9e1F1YXRlcn0uemlwIikuIFRoZSBuYW1lIG9mIHRoZSBoZGY1IGZpbGVzIHdhcyBTSUZfZGFpbHlfWVlZWU1NREQuaDUsIFlZWVksIE1NLCBhbmQgREQgcmVwcmVzZW50IHRoZSB5ZWFyLCBtb250aCwgYW5kIGRhdGUsIHJlc3BlY3RpdmVseS4gVGhlIGxldmVsMyBkYXRhc2V0cyB3aGljaCB3ZXJlIGFnZ3JlZ2F0ZWQgbW9udGhseSBmcm9tIHRoZSBsZXZlbDIgZGF0YXNldCwgaGF2ZSBhIHNwYXRpYWwgcmVzb2x1dGlvbiBvZiAwLjXCsGFuZCB3ZXJlIHNhdmVkIGluIFRJRkYgZm9ybWF0IGluIGNocm9ub2xvZ2ljYWwgb3JkZXIgZnJvbSAyMDA3IHRvIDIwMjEgKGNvbXByZXNzZWQgaW4gdGhlIGZpbGUgIkxldmVsMy56aXAiKS4gVGhlIG5hbWUgb2YgdGhlIGZpbGVzIHdhcyBTSUZwYXJfZXZpX21vbnRobHkgX1lZWVlNTS50aWYsIHdoZXJlIFNJRiB3YXMgcHJvZHVjdCB0eXBlLCBwYXIsIGFuZCBldmkgcmVwcmVzZW50ZWQgdXBzY2FsZWQgcGFyYW1ldGVycywgbW9udGhseSByZXByZXNlbnRlZCB0ZW1wb3JhbCBzY2FsZSwgWVlZWSBhbmQgTU0gd2FzIHRoZSB5ZWFyIGFuZCBtb250aCwgcmVzcGVjdGl2ZWx5LiBUaGUgU0lGIG91dHB1dCB3YXMgc3RvcmVkIGluIHRoZSBoZGY1IGZpbGVzIGFsb25nIHdpdGggb3RoZXIgdmFyaWFibGVzIG9mIGludGVyZXN0IGZvciBmdXJ0aGVyIHByb2Nlc3NpbmcgYW5kIHZpc3VhbGl6YXRpb24uIFNlZSB0aGUgYXBwZW5kaXggZm9yIHRoZSBzdHJ1Y3R1cmUgb2YgdGhlIGhkZjUgZmlsZS4KCsKgCgpjbG91ZF9mcmFjdGlvbltmbG9hdF06CgpEZXNjcmlwdGlvbjogRWZmZWN0aXZlIGNsb3VkIGZyYWN0aW9uIGRlcml2ZWQgZnJvbSBHT01FLTIgTGV2ZWwxQiBwcm9kdWN0LgoKVW5pdHM6IG5vbmUKCmxhdGl0dWRlW2Zsb2F0XToKCkRlc2NyaXB0aW9uOiBQaXhlbCBjZW50ZXIgbGF0aXR1ZGUuCgpVbml0czogZGVncmVlcyBOCgpsb25naXR1ZGVbZmxvYXRdOgoKRGVzY3JpcHRpb246IFBpeGVsIGNlbnRlciBsb25naXR1ZGUuCgpVbml0czogZGVncmVlcyBFCgpsYXRpdHVkZV9ib3VuZHNbZmxvYXRdOgoKRGVzY3JpcHRpb246IExhdGl0dWRlIG9mIHRoZSBib3VuZGFyeSBjb3JuZXJzIGZvciBlYWNoIHBpeGVsLgoKVW5pdHM6IGRlZ3JlZXMgTgoKbG9uZ2l0dWRlIF9ib3VuZHNbZmxvYXRdOgoKRGVzY3JpcHRpb246IExvbmdpdHVkZSBvZiB0aGUgYm91bmRhcnkgY29ybmVycy4KClVuaXRzOiBkZWdyZWVzIEUKClNJRl83NDBbZmxvYXRdOgoKRGVzY3JpcHRpb246IFNJRiBzaWduYWwgYXQgNzQwbm0gcmV0cmlldmVkIHVzaW5nIHRoZSA3MzXigJM3NTggbm0gZml0dGluZyB3aW5kb3cuCgpVbml0czogbVcgbS0yIG5tLTEgc3ItMQoKU0lGX2RhaWx5IFtmbG9hdF06CgpEZXNjcmlwdGlvbjogU0lGIHNpZ25hbCBhdCA3NDBubSB3aXRoIGNvcnJlY3Rpb24gb2YgZGF5LWxlbmd0aC4KClVuaXRzOiBtVyBtLTIgbm0tMSBzci0xCgpTaWdtYV9pW2Zsb2F0XToKCkRlc2NyaXB0aW9uOsKgIFRoZSBzcXVyZSBvZiBzaW5nbGUgcmV0cmlldmFsIGVycm9yIG9mIFNJRl83NDAuCgpVbml0czogKG1XIG0tMiBubS0xIHNyLTEpMgoKU29sYXJfemVuaXRoX2FuZ2xlIFtmbG9hdF06CgpEZXNjcmlwdGlvbjrCoCBTb2xhciB6ZW5pdGggYW5nbGUuCgpVbml0czogZGVncmVlcwoKU29sYXJfYXppbXV0aF9hbmdsZSBbZmxvYXRdOgoKRGVzY3JpcHRpb246IFNvbGFyIGF6aW11dGggYW5nbGUuCgpVbml0czogZGVncmVlcwoKVmlld2luZyBfemVuaXRoX2FuZ2xlIFtmbG9hdF06CgpEZXNjcmlwdGlvbjogVmlld2luZyB6ZW5pdGggYW5nbGUuCgpVbml0czogZGVncmVlcwoKVmlld2luZ19hemltdXRoX2FuZ2xlW2Zsb2F0XToKCkRlc2NyaXB0aW9uOiBWaWV3aW5nIGF6aW11dGggYW5nbGUuCgpVbml0czogZGVncmVlcwoKY2hpMltmbG9hdF06CgpEZXNjcmlwdGlvbjogVGhlIHJlZHVjZWQgY2hpLXNxdWFyZSB2YWx1ZSBjYWxjdWxhdGVkIGJhc2VkIG9uIHRoZSB0aGUgZml0dGluZyByZXNpZHVhbHMuCgpVbml0czogTm9uZQoKUmFkX05JUltmbG9hdF06CgpEZXNjcmlwdGlvbjogVGhlIGF2ZXJhZ2UgcmFkaWFuY2Ugd2l0aGluIHRoZSA3MzV+NzU4IG5tIHdpbmRvdwoKVW5pdHM6IG1XIG0tMiBubS0xIHNyLTEKCnBzX05JUltmbG9hdF06CgpEZXNjcmlwdGlvbjogVGhlIGF2ZXJhZ2UgcmVmbGVjdGFuY2Ugd2l0aGluIGF0IGFyb3VuZCA3ODAgbm0uCgpVbml0czogTm9uZQoKcHNfcmVkW2Zsb2F0XToKCkRlc2NyaXB0aW9uOiBUaGUgYXZlcmFnZSByZWZsZWN0YW5jZSB3aXRoaW4gdGhlIDY2NX42ODAgbm0gd2luZG93CgpVbml0czogTm9uZQoKTkRWSVtmbG9hdF06CgpEZXNjcmlwdGlvbjogQ2FsY3VsYXRlZCBieSB0aGUgVE9BIHJlZmxlY3RhbmNlIGF0IHJlZCBiYW5kIChhcm91bmQgNjgwIG5tKSBhbmQgbmVhci1pbmZyYXJlZCBiYW5kIChhcm91bmQgNzgwbm0pLgoKVW5pdHM6IE5vbmU8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=",
+        "url": "https://zenodo.org/doi/10.5281/zenodo.8242928",
+        "contentUrl": null,
+        "metadataVersion": 2,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "mds",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "viewsOverTime": [],
+        "downloadCount": 0,
+        "downloadsOverTime": [],
+        "referenceCount": 0,
+        "citationCount": 0,
+        "citationsOverTime": [],
+        "partCount": 1,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 1,
+        "created": "2023-08-15T10:57:54.000Z",
+        "registered": "2023-08-15T10:57:54.000Z",
+        "published": "2023",
+        "updated": "2024-01-02T15:01:18.000Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "cern.zenodo",
+            "type": "clients"
+          }
+        },
+        "provider": {
+          "data": {
+            "id": "cern",
+            "type": "providers"
+          }
+        },
+        "media": {
+          "data": {
+            "id": "10.5281/zenodo.8242928",
+            "type": "media"
+          }
+        },
+        "references": {
+          "data": []
+        },
+        "citations": {
+          "data": []
+        },
+        "parts": {
+          "data": [
+            {
+              "id": "10.5194/essd-16-2789-2024",
+              "type": "dois"
+            }
+          ]
+        },
+        "partOf": {
+          "data": []
+        },
+        "versions": {
+          "data": []
+        },
+        "versionOf": {
+          "data": [
+            {
+              "id": "10.5281/zenodo.8242927",
+              "type": "dois"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "10.5281/zenodo.14586458",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5281/zenodo.14586458",
+        "prefix": "10.5281",
+        "suffix": "zenodo.14586458",
+        "identifiers": [
+          {
+            "identifier": "oai:zenodo.org:14586458",
+            "identifierType": "oai"
+          }
+        ],
+        "alternateIdentifiers": [
+          {
+            "alternateIdentifierType": "oai",
+            "alternateIdentifier": "oai:zenodo.org:14586458"
+          }
+        ],
+        "creators": [
+          {
+            "name": "Fang, Jianing",
+            "nameType": "Personal",
+            "givenName": "Jianing",
+            "familyName": "Fang",
+            "affiliation": [
+              "Columbia University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-1642-5797",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Lian, Xu",
+            "nameType": "Personal",
+            "givenName": "Xu",
+            "familyName": "Lian",
+            "affiliation": [
+              "Columbia University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-1428-3529",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Ryu, Youngryel",
+            "nameType": "Personal",
+            "givenName": "Youngryel",
+            "familyName": "Ryu",
+            "affiliation": [
+              "Seoul National University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0001-6238-2479",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Jeong, Sungchan",
+            "nameType": "Personal",
+            "givenName": "Sungchan",
+            "familyName": "Jeong",
+            "affiliation": [
+              "Seoul National University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0009-0008-9520-1986",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Jiang, Chongya",
+            "nameType": "Personal",
+            "givenName": "Chongya",
+            "familyName": "Jiang",
+            "affiliation": [
+              "University of Illinois Urbana-Champaign"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-1660-7320",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Gentine, Pierre",
+            "nameType": "Personal",
+            "givenName": "Pierre",
+            "familyName": "Gentine",
+            "affiliation": [
+              "Columbia University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-0845-8345",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "Long-term Continuous Red and Near-infrared Channel Reflectance from AVHRR, 1982-2023 (LCREF-AVHRR)"
+          }
+        ],
+        "publisher": "Zenodo",
+        "container": {},
+        "publicationYear": 2025,
+        "subjects": [],
+        "contributors": [],
+        "dates": [
+          {
+            "date": "2025-01-08",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "ris": "DATA",
+          "bibtex": "misc",
+          "citeproc": "dataset",
+          "schemaOrg": "Dataset",
+          "resourceType": "",
+          "resourceTypeGeneral": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsVersionOf",
+            "relatedIdentifier": "10.5281/zenodo.11905959",
+            "relatedIdentifierType": "DOI"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "3.2",
+        "rightsList": [
+          {
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rightsIdentifier": "cc-by-4.0",
+            "rightsIdentifierScheme": "SPDX"
+          }
+        ],
+        "descriptions": [
+          {
+            "description": "Usage Notes:This is the updated LCREF dataset (v3.2) consists of calibrated AVHRR surface reflectance record for the red and near-infrared channel. \n\nKey updates in version 3.2 include:\n\n\n\nImproved Calibration: Enhanced consistency in calibration methods, addressing technical limitations in version 3.1 including applying more stringent quality filtering and snow masks.\n\nQuality Flags: New quality flag layer enables users to identify whether a pixel is derived from observed surface reflectance (QA=0), high-quality gap-filled values (QA=1), lower-quality gap-filled based on the mean seasonal cycle (QA=2), or missing entirely (QA=3). We advice the user to rely only on observed and high-quality gap-filled values for their analyses.\n\nExtension to include observations from the year of 2023.\n\n\nThe user can choose between LCREF-AVHRR and LCREF-MODIS for the overlapping period from 2001-2023. The two datasets are generally consistent during this overlapping period, although LCREF-MODIS shows a stronger greening trend between 2001-2023. For studies exploring the long-term vegetation dynamics, the user can either use only LCREF-AVHRR or use a blend dataset of LCREF-AVHRR and LCREF-MODIS as a sensitivity test. \n\n\n\nThe LCREF-MODIS v3.2 (2001-2023) is available at 10.5281/zenodo.11657458.\n\n\nThe LCREF-AVHRR dataset was used as the input to generate LCSPP-AVHRR (previously known as LCSIF-AVHRR), and it can also be used to derive temporally consistant records of NDVI, NIRv, kNDVI, and other vegetation indices based on red and NIR surface reflectance variables. The user can access LCSPP products at:\n\n\n\nLCSPP-AVHRR v3.2 (1982-2000): 10.5281/zenodo.7916850\n\nLCSPP-AVHRR v3.2 (2001-2023): 10.5281/zenodo.11906675\n\nLCSPP-MODIS v3.2(2001-2023): 10.5281/zenodo.11658088\n\n\nA manuscript describing the technical details is available at https://arxiv.org/abs/2311.14987, which detailed the uses and limitations of the dataset. All data outputs from this study are available at 0.05° spatial resolution and biweekly temporal resolution in NetCDF format. Each month is divided into two files, with the first file “a” representative of the 1st day to the 15th day of a month, and the second file “b” representative of the 16th day to the last day of a month.\n\nAbstract:\n\nSatellite-observed solar-induced chlorophyll fluorescence (SIF) is a powerful proxy for the photosynthetic characteristics of terrestrial ecosystems. Direct SIF observations are primarily limited to the recent decade, impeding their application in detecting long-term dynamics of ecosystem function. In this study, we leverage two surface reflectance bands available both from Advanced Very High-Resolution Radiometer (AVHRR, 1982-2023) and MODerate-resolution Imaging Spectroradiometer (MODIS, 2001-2023). Importantly, we calibrate and orbit-correct the AVHRR bands against their MODIS counterparts during their overlapping period. Using the long-term bias-corrected reflectance data from AVHRR and MODIS, a neural network is trained to produce a Long-term Continuous SIF-informed Photosynthesis Proxy (LCSPP) by emulating Orbiting Carbon Observatory-2 SIF, mapping it globally over the 1982-2023 period. Compared with previous SIF-informed photosynthesis proxies, LCSPP has similar skill but can be advantageously extended to the AVHRR period. Further comparison with three widely used vegetation indices (NDVI, kNDVI, NIRv) shows a higher or comparable correlation of LCSPP with satellite SIF and site-level GPP estimates across vegetation types, ensuring a greater capacity for representing long-term photosynthetic activity.",
+            "descriptionType": "Abstract"
+          }
+        ],
+        "geoLocations": [],
+        "fundingReferences": [],
+        "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC00L21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS9aRU5PRE8uMTQ1ODY0NTg8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPkZhbmcsIEppYW5pbmc8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPkppYW5pbmc8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+RmFuZzwvZmFtaWx5TmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCIgc2NoZW1lVVJJPSIiPjAwMDAtMDAwMi0xNjQyLTU3OTc8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24gYWZmaWxpYXRpb25JZGVudGlmaWVyPSJodHRwczovL3Jvci5vcmcvMDBoajhzMTcyIiBhZmZpbGlhdGlvbklkZW50aWZpZXJTY2hlbWU9IlJPUiI+Q29sdW1iaWEgVW5pdmVyc2l0eTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lIG5hbWVUeXBlPSJQZXJzb25hbCI+TGlhbiwgWHU8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlh1PC9naXZlbk5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPkxpYW48L2ZhbWlseU5hbWU+CiAgICAgIDxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiIHNjaGVtZVVSST0iIj4wMDAwLTAwMDItMTQyOC0zNTI5PC9uYW1lSWRlbnRpZmllcj4KICAgICAgPGFmZmlsaWF0aW9uIGFmZmlsaWF0aW9uSWRlbnRpZmllcj0iaHR0cHM6Ly9yb3Iub3JnLzAwaGo4czE3MiIgYWZmaWxpYXRpb25JZGVudGlmaWVyU2NoZW1lPSJST1IiPkNvbHVtYmlhIFVuaXZlcnNpdHk8L2FmZmlsaWF0aW9uPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPlJ5dSwgWW91bmdyeWVsPC9jcmVhdG9yTmFtZT4KICAgICAgPGdpdmVuTmFtZT5Zb3VuZ3J5ZWw8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+Unl1PC9mYW1pbHlOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIiBzY2hlbWVVUkk9IiI+MDAwMC0wMDAxLTYyMzgtMjQ3OTwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbiBhZmZpbGlhdGlvbklkZW50aWZpZXI9Imh0dHBzOi8vcm9yLm9yZy8wNGg5cG41NDIiIGFmZmlsaWF0aW9uSWRlbnRpZmllclNjaGVtZT0iUk9SIj5TZW91bCBOYXRpb25hbCBVbml2ZXJzaXR5PC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5KZW9uZywgU3VuZ2NoYW48L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlN1bmdjaGFuPC9naXZlbk5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPkplb25nPC9mYW1pbHlOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIiBzY2hlbWVVUkk9IiI+MDAwOS0wMDA4LTk1MjAtMTk4NjwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbiBhZmZpbGlhdGlvbklkZW50aWZpZXI9Imh0dHBzOi8vcm9yLm9yZy8wNGg5cG41NDIiIGFmZmlsaWF0aW9uSWRlbnRpZmllclNjaGVtZT0iUk9SIj5TZW91bCBOYXRpb25hbCBVbml2ZXJzaXR5PC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5KaWFuZywgQ2hvbmd5YTwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+Q2hvbmd5YTwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5KaWFuZzwvZmFtaWx5TmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCIgc2NoZW1lVVJJPSIiPjAwMDAtMDAwMi0xNjYwLTczMjA8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24gYWZmaWxpYXRpb25JZGVudGlmaWVyPSJodHRwczovL3Jvci5vcmcvMDQ3NDI2bTI4IiBhZmZpbGlhdGlvbklkZW50aWZpZXJTY2hlbWU9IlJPUiI+VW5pdmVyc2l0eSBvZiBJbGxpbm9pcyBVcmJhbmEtQ2hhbXBhaWduPC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5HZW50aW5lLCBQaWVycmU8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlBpZXJyZTwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5HZW50aW5lPC9mYW1pbHlOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIiBzY2hlbWVVUkk9IiI+MDAwMC0wMDAyLTA4NDUtODM0NTwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbiBhZmZpbGlhdGlvbklkZW50aWZpZXI9Imh0dHBzOi8vcm9yLm9yZy8wMGhqOHMxNzIiIGFmZmlsaWF0aW9uSWRlbnRpZmllclNjaGVtZT0iUk9SIj5Db2x1bWJpYSBVbml2ZXJzaXR5PC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+TG9uZy10ZXJtIENvbnRpbnVvdXMgUmVkIGFuZCBOZWFyLWluZnJhcmVkIENoYW5uZWwgUmVmbGVjdGFuY2UgZnJvbSBBVkhSUiwgMTk4Mi0yMDIzIChMQ1JFRi1BVkhSUik8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDI1PC9wdWJsaWNhdGlvblllYXI+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ii8+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAyNS0wMS0wODwvZGF0ZT4KICA8L2RhdGVzPgogIDxhbHRlcm5hdGVJZGVudGlmaWVycz4KICAgIDxhbHRlcm5hdGVJZGVudGlmaWVyIGFsdGVybmF0ZUlkZW50aWZpZXJUeXBlPSJvYWkiPm9haTp6ZW5vZG8ub3JnOjE0NTg2NDU4PC9hbHRlcm5hdGVJZGVudGlmaWVyPgogIDwvYWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgPHJlbGF0ZWRJZGVudGlmaWVycz4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSIgcmVsYXRpb25UeXBlPSJJc1ZlcnNpb25PZiI+MTAuNTI4MS96ZW5vZG8uMTE5MDU5NTk8L3JlbGF0ZWRJZGVudGlmaWVyPgogIDwvcmVsYXRlZElkZW50aWZpZXJzPgogIDxzaXplcy8+CiAgPGZvcm1hdHMvPgogIDx2ZXJzaW9uPjMuMjwvdmVyc2lvbj4KICA8cmlnaHRzTGlzdD4KICAgIDxyaWdodHMgcmlnaHRzVVJJPSJodHRwczovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvNC4wL2xlZ2FsY29kZSIgcmlnaHRzSWRlbnRpZmllcj0iY2MtYnktNC4wIiByaWdodHNJZGVudGlmaWVyU2NoZW1lPSJzcGR4Ij5DcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uIDQuMCBJbnRlcm5hdGlvbmFsPC9yaWdodHM+CiAgPC9yaWdodHNMaXN0PgogIDxkZXNjcmlwdGlvbnM+CiAgICA8ZGVzY3JpcHRpb24gZGVzY3JpcHRpb25UeXBlPSJBYnN0cmFjdCI+VXNhZ2UgTm90ZXM6VGhpcyBpcyB0aGUgdXBkYXRlZCBMQ1JFRiBkYXRhc2V0ICh2My4yKSBjb25zaXN0cyBvZiBjYWxpYnJhdGVkIEFWSFJSIHN1cmZhY2UgcmVmbGVjdGFuY2UgcmVjb3JkIGZvciB0aGUgcmVkIGFuZCBuZWFyLWluZnJhcmVkIGNoYW5uZWwuwqAKCktleSB1cGRhdGVzIGluIHZlcnNpb24gMy4yIGluY2x1ZGU6CgoKCkltcHJvdmVkIENhbGlicmF0aW9uOiBFbmhhbmNlZCBjb25zaXN0ZW5jeSBpbiBjYWxpYnJhdGlvbiBtZXRob2RzLCBhZGRyZXNzaW5nIHRlY2huaWNhbCBsaW1pdGF0aW9ucyBpbiB2ZXJzaW9uIDMuMSBpbmNsdWRpbmcgYXBwbHlpbmcgbW9yZSBzdHJpbmdlbnQgcXVhbGl0eSBmaWx0ZXJpbmcgYW5kIHNub3cgbWFza3MuCgpRdWFsaXR5IEZsYWdzOiBOZXcgcXVhbGl0eSBmbGFnIGxheWVyIGVuYWJsZXMgdXNlcnMgdG8gaWRlbnRpZnkgd2hldGhlciBhIHBpeGVsIGlzIGRlcml2ZWQgZnJvbSBvYnNlcnZlZCBzdXJmYWNlIHJlZmxlY3RhbmNlIChRQT0wKSwgaGlnaC1xdWFsaXR5IGdhcC1maWxsZWQgdmFsdWVzIChRQT0xKSwgbG93ZXItcXVhbGl0eSBnYXAtZmlsbGVkIGJhc2VkIG9uIHRoZSBtZWFuIHNlYXNvbmFsIGN5Y2xlIChRQT0yKSwgb3IgbWlzc2luZyBlbnRpcmVseSAoUUE9MykuIFdlIGFkdmljZSB0aGUgdXNlciB0byByZWx5IG9ubHkgb24gb2JzZXJ2ZWQgYW5kIGhpZ2gtcXVhbGl0eSBnYXAtZmlsbGVkIHZhbHVlcyBmb3IgdGhlaXIgYW5hbHlzZXMuCgpFeHRlbnNpb24gdG8gaW5jbHVkZSBvYnNlcnZhdGlvbnMgZnJvbSB0aGUgeWVhciBvZiAyMDIzLgoKClRoZSB1c2VyIGNhbiBjaG9vc2UgYmV0d2VlbiBMQ1JFRi1BVkhSUiBhbmQgTENSRUYtTU9ESVMgZm9yIHRoZSBvdmVybGFwcGluZyBwZXJpb2QgZnJvbSAyMDAxLTIwMjMuIFRoZSB0d28gZGF0YXNldHMgYXJlIGdlbmVyYWxseSBjb25zaXN0ZW50IGR1cmluZyB0aGlzIG92ZXJsYXBwaW5nIHBlcmlvZCwgYWx0aG91Z2ggTENSRUYtTU9ESVMgc2hvd3MgYSBzdHJvbmdlciBncmVlbmluZyB0cmVuZCBiZXR3ZWVuIDIwMDEtMjAyMy4gRm9yIHN0dWRpZXMgZXhwbG9yaW5nIHRoZSBsb25nLXRlcm0gdmVnZXRhdGlvbiBkeW5hbWljcywgdGhlIHVzZXIgY2FuIGVpdGhlciB1c2Ugb25seSBMQ1JFRi1BVkhSUiBvciB1c2UgYSBibGVuZCBkYXRhc2V0IG9mIExDUkVGLUFWSFJSIGFuZCBMQ1JFRi1NT0RJUyBhcyBhIHNlbnNpdGl2aXR5IHRlc3QuwqAKCgoKVGhlIExDUkVGLU1PRElTIHYzLjIgKDIwMDEtMjAyMykgaXMgYXZhaWxhYmxlIGF0IDEwLjUyODEvemVub2RvLjExNjU3NDU4LgoKClRoZSBMQ1JFRi1BVkhSUiBkYXRhc2V0IHdhcyB1c2VkIGFzIHRoZSBpbnB1dCB0byBnZW5lcmF0ZSBMQ1NQUC1BVkhSUiAocHJldmlvdXNseSBrbm93biBhcyBMQ1NJRi1BVkhSUiksIGFuZCBpdCBjYW4gYWxzbyBiZSB1c2VkIHRvIGRlcml2ZSB0ZW1wb3JhbGx5IGNvbnNpc3RhbnQgcmVjb3JkcyBvZiBORFZJLCBOSVJ2LCBrTkRWSSwgYW5kIG90aGVyIHZlZ2V0YXRpb24gaW5kaWNlcyBiYXNlZCBvbiByZWQgYW5kIE5JUiBzdXJmYWNlIHJlZmxlY3RhbmNlIHZhcmlhYmxlcy4gVGhlIHVzZXIgY2FuIGFjY2VzcyBMQ1NQUCBwcm9kdWN0cyBhdDoKCgoKTENTUFAtQVZIUlIgdjMuMiAoMTk4Mi0yMDAwKTogMTAuNTI4MS96ZW5vZG8uNzkxNjg1MAoKTENTUFAtQVZIUlIgdjMuMiAoMjAwMS0yMDIzKTogMTAuNTI4MS96ZW5vZG8uMTE5MDY2NzUKCkxDU1BQLU1PRElTIHYzLjIoMjAwMS0yMDIzKTogMTAuNTI4MS96ZW5vZG8uMTE2NTgwODgKCgpBIG1hbnVzY3JpcHQgZGVzY3JpYmluZyB0aGUgdGVjaG5pY2FsIGRldGFpbHMgaXMgYXZhaWxhYmxlIGF0IGh0dHBzOi8vYXJ4aXYub3JnL2Ficy8yMzExLjE0OTg3LCB3aGljaCBkZXRhaWxlZCB0aGUgdXNlcyBhbmQgbGltaXRhdGlvbnMgb2YgdGhlIGRhdGFzZXQuIEFsbCBkYXRhIG91dHB1dHMgZnJvbSB0aGlzIHN0dWR5IGFyZSBhdmFpbGFibGUgYXQgMC4wNcKwIHNwYXRpYWwgcmVzb2x1dGlvbiBhbmQgYml3ZWVrbHkgdGVtcG9yYWwgcmVzb2x1dGlvbiBpbiBOZXRDREYgZm9ybWF0LiBFYWNoIG1vbnRoIGlzIGRpdmlkZWQgaW50byB0d28gZmlsZXMsIHdpdGggdGhlIGZpcnN0IGZpbGUg4oCcYeKAnSByZXByZXNlbnRhdGl2ZSBvZiB0aGUgMXN0IGRheSB0byB0aGUgMTV0aCBkYXkgb2YgYSBtb250aCwgYW5kIHRoZSBzZWNvbmQgZmlsZSDigJxi4oCdIHJlcHJlc2VudGF0aXZlIG9mIHRoZSAxNnRoIGRheSB0byB0aGUgbGFzdCBkYXkgb2YgYSBtb250aC4KCkFic3RyYWN0OgoKU2F0ZWxsaXRlLW9ic2VydmVkIHNvbGFyLWluZHVjZWQgY2hsb3JvcGh5bGwgZmx1b3Jlc2NlbmNlIChTSUYpIGlzIGEgcG93ZXJmdWwgcHJveHkgZm9yIHRoZSBwaG90b3N5bnRoZXRpYyBjaGFyYWN0ZXJpc3RpY3Mgb2YgdGVycmVzdHJpYWwgZWNvc3lzdGVtcy4gRGlyZWN0IFNJRiBvYnNlcnZhdGlvbnMgYXJlIHByaW1hcmlseSBsaW1pdGVkIHRvIHRoZSByZWNlbnQgZGVjYWRlLCBpbXBlZGluZyB0aGVpciBhcHBsaWNhdGlvbiBpbiBkZXRlY3RpbmcgbG9uZy10ZXJtIGR5bmFtaWNzIG9mIGVjb3N5c3RlbSBmdW5jdGlvbi4gSW4gdGhpcyBzdHVkeSwgd2UgbGV2ZXJhZ2UgdHdvIHN1cmZhY2UgcmVmbGVjdGFuY2UgYmFuZHMgYXZhaWxhYmxlIGJvdGggZnJvbSBBZHZhbmNlZCBWZXJ5IEhpZ2gtUmVzb2x1dGlvbiBSYWRpb21ldGVyIChBVkhSUiwgMTk4Mi0yMDIzKSBhbmQgTU9EZXJhdGUtcmVzb2x1dGlvbiBJbWFnaW5nIFNwZWN0cm9yYWRpb21ldGVyIChNT0RJUywgMjAwMS0yMDIzKS4gSW1wb3J0YW50bHksIHdlIGNhbGlicmF0ZSBhbmQgb3JiaXQtY29ycmVjdCB0aGUgQVZIUlIgYmFuZHMgYWdhaW5zdCB0aGVpciBNT0RJUyBjb3VudGVycGFydHMgZHVyaW5nIHRoZWlyIG92ZXJsYXBwaW5nIHBlcmlvZC4gVXNpbmcgdGhlIGxvbmctdGVybSBiaWFzLWNvcnJlY3RlZCByZWZsZWN0YW5jZSBkYXRhIGZyb20gQVZIUlIgYW5kIE1PRElTLCBhIG5ldXJhbCBuZXR3b3JrIGlzIHRyYWluZWQgdG8gcHJvZHVjZSBhIExvbmctdGVybSBDb250aW51b3VzIFNJRi1pbmZvcm1lZCBQaG90b3N5bnRoZXNpcyBQcm94eSAoTENTUFApIGJ5IGVtdWxhdGluZyBPcmJpdGluZyBDYXJib24gT2JzZXJ2YXRvcnktMiBTSUYsIG1hcHBpbmcgaXQgZ2xvYmFsbHkgb3ZlciB0aGUgMTk4Mi0yMDIzIHBlcmlvZC4gQ29tcGFyZWQgd2l0aCBwcmV2aW91cyBTSUYtaW5mb3JtZWQgcGhvdG9zeW50aGVzaXMgcHJveGllcywgTENTUFAgaGFzIHNpbWlsYXIgc2tpbGwgYnV0IGNhbiBiZSBhZHZhbnRhZ2VvdXNseSBleHRlbmRlZCB0byB0aGUgQVZIUlIgcGVyaW9kLiBGdXJ0aGVyIGNvbXBhcmlzb24gd2l0aCB0aHJlZSB3aWRlbHkgdXNlZCB2ZWdldGF0aW9uIGluZGljZXMgKE5EVkksIGtORFZJLCBOSVJ2KSBzaG93cyBhIGhpZ2hlciBvciBjb21wYXJhYmxlIGNvcnJlbGF0aW9uIG9mIExDU1BQIHdpdGggc2F0ZWxsaXRlIFNJRiBhbmQgc2l0ZS1sZXZlbCBHUFAgZXN0aW1hdGVzIGFjcm9zcyB2ZWdldGF0aW9uIHR5cGVzLCBlbnN1cmluZyBhIGdyZWF0ZXIgY2FwYWNpdHkgZm9yIHJlcHJlc2VudGluZyBsb25nLXRlcm0gcGhvdG9zeW50aGV0aWMgYWN0aXZpdHkuPC9kZXNjcmlwdGlvbj4KICA8L2Rlc2NyaXB0aW9ucz4KPC9yZXNvdXJjZT4K",
+        "url": "https://zenodo.org/doi/10.5281/zenodo.14586458",
+        "contentUrl": null,
+        "metadataVersion": 0,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "api",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "viewsOverTime": [],
+        "downloadCount": 0,
+        "downloadsOverTime": [],
+        "referenceCount": 0,
+        "citationCount": 0,
+        "citationsOverTime": [],
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 1,
+        "created": "2025-01-08T08:05:52.000Z",
+        "registered": "2025-01-08T08:05:52.000Z",
+        "published": "2025",
+        "updated": "2025-01-08T08:05:53.000Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "cern.zenodo",
+            "type": "clients"
+          }
+        },
+        "provider": {
+          "data": {
+            "id": "cern",
+            "type": "providers"
+          }
+        },
+        "media": {
+          "data": {
+            "id": "10.5281/zenodo.14586458",
+            "type": "media"
+          }
+        },
+        "references": {
+          "data": []
+        },
+        "citations": {
+          "data": []
+        },
+        "parts": {
+          "data": []
+        },
+        "partOf": {
+          "data": []
+        },
+        "versions": {
+          "data": []
+        },
+        "versionOf": {
+          "data": [
+            {
+              "id": "10.5281/zenodo.11905959",
+              "type": "dois"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "10.5281/zenodo.20682040",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5281/zenodo.20682040",
+        "prefix": "10.5281",
+        "suffix": "zenodo.20682040",
+        "identifiers": [
+          {
+            "identifier": "oai:zenodo.org:20682040",
+            "identifierType": "oai"
+          }
+        ],
+        "alternateIdentifiers": [
+          {
+            "alternateIdentifierType": "oai",
+            "alternateIdentifier": "oai:zenodo.org:20682040"
+          }
+        ],
+        "creators": [
+          {
+            "name": "Fang, Jianing",
+            "nameType": "Personal",
+            "givenName": "Jianing",
+            "familyName": "Fang",
+            "affiliation": [
+              "Columbia University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-1642-5797",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Lian, Xu",
+            "nameType": "Personal",
+            "givenName": "Xu",
+            "familyName": "Lian",
+            "affiliation": [
+              "Columbia University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-1428-3529",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Ryu, Youngryel",
+            "nameType": "Personal",
+            "givenName": "Youngryel",
+            "familyName": "Ryu",
+            "affiliation": [
+              "Seoul National University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0001-6238-2479",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Jeong, Sungchan",
+            "nameType": "Personal",
+            "givenName": "Sungchan",
+            "familyName": "Jeong",
+            "affiliation": [
+              "Seoul National University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0009-0008-9520-1986",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Jiang, Chongya",
+            "nameType": "Personal",
+            "givenName": "Chongya",
+            "familyName": "Jiang",
+            "affiliation": [
+              "University of Illinois Urbana-Champaign"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-1660-7320",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          },
+          {
+            "name": "Gentine, Pierre",
+            "nameType": "Personal",
+            "givenName": "Pierre",
+            "familyName": "Gentine",
+            "affiliation": [
+              "Columbia University"
+            ],
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "0000-0002-0845-8345",
+                "nameIdentifierScheme": "ORCID"
+              }
+            ]
+          }
+        ],
+        "titles": [
+          {
+            "title": "Long-term Continuous Red and Near-infrared Channel Reflectance from MODIS, 2001-2026 (LCREF-MODIS)"
+          }
+        ],
+        "publisher": "Zenodo",
+        "container": {},
+        "publicationYear": 2026,
+        "subjects": [],
+        "contributors": [],
+        "dates": [
+          {
+            "date": "2026-06-13",
+            "dateType": "Issued"
+          }
+        ],
+        "language": null,
+        "types": {
+          "ris": "DATA",
+          "bibtex": "misc",
+          "citeproc": "dataset",
+          "schemaOrg": "Dataset",
+          "resourceType": "",
+          "resourceTypeGeneral": "Dataset"
+        },
+        "relatedIdentifiers": [
+          {
+            "relationType": "IsVersionOf",
+            "relatedIdentifier": "10.5281/zenodo.11657458",
+            "relatedIdentifierType": "DOI"
+          },
+          {
+            "relationType": "IsPartOf",
+            "relatedIdentifier": "2052-4463",
+            "resourceTypeGeneral": "Collection",
+            "relatedIdentifierType": "ISSN"
+          }
+        ],
+        "relatedItems": [],
+        "sizes": [],
+        "formats": [],
+        "version": "3.3",
+        "rightsList": [
+          {
+            "rights": "Creative Commons Attribution 4.0 International",
+            "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+            "schemeUri": "https://spdx.org/licenses/",
+            "rightsIdentifier": "cc-by-4.0",
+            "rightsIdentifierScheme": "SPDX"
+          }
+        ],
+        "descriptions": [
+          {
+            "description": "Version 3.3 update (June 2026): This version extends LCREF-MODIS (BRDF-normalized red and near-infrared reflectance) from the original 2001-01–2023-12 record through 2026-05-31 (new observations 2024-01-01 to 2026-05-31; biweeks 202401a–202605b) and refines the global land mask. The v3.2 baseline production (Fang et al. 2025) is unchanged: MCD43C1.061 BRDF → biweekly max-NDVI composite normalized to SZA=45° → snow masking → HANTS gap-fill → red/NIR reflectance. Updates in v3.3:\n\n\n\nTemporal extension: new MODIS observations (MCD43C1.061) for 2024-01 through 2026-05.\n\nGap-filling: HANTS is now applied over a 9-year moving window (±4 years, 216 biweeks) instead of a single full-series fit, better capturing low-frequency variability and accommodating the open-ended record. Windows are best-effort centered and clamped to complete years at the record end; the incomplete 2026 is isolated to one shifted window preserving full annual periodicity. The QA layers (red_qa, nir_qa) are unchanged: 0 = observation, 1 = high-quality HANTS gap-fill, 2 = climatology fill, 3 = no data.\n\nSnow ancillary layer: a snow_masked layer (1 = snow-contaminated pixel masked before gap-fill) is provided for the 2024-onward biweeks (0 over the 2001-2023 record).\n\nLand mask: all pixels are clamped to the MODIS IGBP land mask (MCD12C1, unioned with the LCREF-v3.2 land footprint), removing ocean/coastal bleed.\n\nValidation (v3.3 vs v3.2, 2001–2023 overlap): observed (QA=0) pixels reproduce v3.2 essentially exactly; pixelwise spatial correlation r ≈ 0.998. Differences are confined to gap-filled pixels, plus an expected increase in trailing-window climatology (QA=2) coverage during 2020–2023.\n\n\n \n\nThe original version 3.2 description follows below.\n\nPaper Reference: \n\nFang, J., Lian, X., Ryu, Y., Jeong, S., Jiang, C., & Gentine, P. (2025). A long-term reconstruction of a global photosynthesis proxy over 1982–2023. Scientific data, 12(1), 372. https://doi.org/10.1038/s41597-025-04686-6\n\nUsage Notes:This is the updated LCREF-MODIS dataset (v3.2) consists of BRDF-normalized MODIS red and near-infrared surface reflectance. The LCREF-MODIS product was used to calibrate and benchmark the AVHRR surface reflectance to produce a temporally consistent record of surface reflectance prior to the MODIS era. It was also used to generate LCSPP-MODIS (previously known as LCSIF-MODIS) as a benchmark.\n\nKey updates in version 3.2 include:\n\n\n\nQuality Flags: New quality flag layer enables users to identify whether a pixel is derived from observed surface reflectance (QA=0), high-quality gap-filled values (QA=1), lower-quality gap-filled based on the mean seasonal cycle (QA=2), or missing entirely (QA=3). We advice the user to rely only on observed and high-quality gap-filled values for their analyses.\n\nExtension: to include observations from the year of 2023.\n\nSnow mask: we note that all pixels marked with percent_snow >0 in the original MCD43C1.v061 have been removed. This conservative approach was applied to reduce bias during cross-calibration, since unlike MODIS, AVHRR does not have a reliable snow detection algorithm. Therefore, surface reflectance values in high latitude regions are almost entirely gap-filled and should never be used for analysis for both LCREF-AVHRR and LCREF-MODIS. We encourage users to use only QA=0 and QA=1 pixels for their analysis. Alternatively, users can use LCREF-MODIS from the previous version for high latitude regions (v3.1), which did not mask out snow-covered pixles. \n\n\nThe user can choose between LCREF-AVHRR and LCREF-MODIS for the overlapping period from 2001-2023. The two datasets are generally consistent during this overlapping period, although LCREF-MODIS shows a stronger greening trend between 2001-2023. For studies exploring the long-term vegetation dynamics, the user can either use only LCREF-AVHRR or use a blend dataset of LCREF-AVHRR and LCREF-MODIS as a sensitivity test. \n\n\n\nThe LCREF-AVHRR v3.2 (1982-2023) is available at 10.5281/zenodo.11905959\n\n\nThe LCREF-AVHRR dataset was used as the input to generate LCSPP-AVHRR (previously known as LCSIF-AVHRR), and it can also be used to derive temporally consistant records of NDVI, NIRv, kNDVI, and other vegetation indices based on red and NIR surface reflectance variables. The user can access LCSPP products at:\n\n\n\nLCSPP-AVHRR v3.2 (1982-2000): 10.5281/zenodo.7916850\n\nLCSPP-AVHRR v3.2 (2001-2023): 10.5281/zenodo.11906675\n\nLCSPP-MODIS v3.2(2001-2023): 10.5281/zenodo.11657458\n\n\nA paper describing the technical details is available at https://doi.org/10.1038/s41597-025-04686-6, which detailed the uses and limitations of the dataset. All data outputs from this study are available at 0.05° spatial resolution and biweekly temporal resolution in NetCDF format. Each month is divided into two files, with the first file “a” representative of the 1st day to the 15th day of a month, and the second file “b” representative of the 16th day to the last day of a month.\n\nAbstract:\n\nSatellite-observed solar-induced chlorophyll fluorescence (SIF) is a powerful proxy for the photosynthetic characteristics of terrestrial ecosystems. Direct SIF observations are primarily limited to the recent decade, impeding their application in detecting long-term dynamics of ecosystem function. In this study, we leverage two surface reflectance bands available both from Advanced Very High-Resolution Radiometer (AVHRR, 1982-2023) and MODerate-resolution Imaging Spectroradiometer (MODIS, 2001-2023). Importantly, we calibrate and orbit-correct the AVHRR bands against their MODIS counterparts during their overlapping period. Using the long-term bias-corrected reflectance data from AVHRR and MODIS, a neural network is trained to produce a Long-term Continuous SIF-informed Photosynthesis Proxy (LCSPP) by emulating Orbiting Carbon Observatory-2 SIF, mapping it globally over the 1982-2023 period. Compared with previous SIF-informed photosynthesis proxies, LCSPP has similar skill but can be advantageously extended to the AVHRR period. Further comparison with three widely used vegetation indices (NDVI, kNDVI, NIRv) shows a higher or comparable correlation of LCSPP with satellite SIF and site-level GPP estimates across vegetation types, ensuring a greater capacity for representing long-term photosynthetic activity.\n\n ",
+            "descriptionType": "Abstract"
+          }
+        ],
+        "geoLocations": [],
+        "fundingReferences": [],
+        "xml": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHJlc291cmNlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCIgeHNpOnNjaGVtYUxvY2F0aW9uPSJodHRwOi8vZGF0YWNpdGUub3JnL3NjaGVtYS9rZXJuZWwtNCBodHRwOi8vc2NoZW1hLmRhdGFjaXRlLm9yZy9tZXRhL2tlcm5lbC00L21ldGFkYXRhLnhzZCI+CiAgPGlkZW50aWZpZXIgaWRlbnRpZmllclR5cGU9IkRPSSI+MTAuNTI4MS9aRU5PRE8uMjA2ODIwNDA8L2lkZW50aWZpZXI+CiAgPGNyZWF0b3JzPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPkZhbmcsIEppYW5pbmc8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPkppYW5pbmc8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+RmFuZzwvZmFtaWx5TmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCIgc2NoZW1lVVJJPSIiPjAwMDAtMDAwMi0xNjQyLTU3OTc8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24+Q29sdW1iaWEgVW5pdmVyc2l0eTwvYWZmaWxpYXRpb24+CiAgICA8L2NyZWF0b3I+CiAgICA8Y3JlYXRvcj4KICAgICAgPGNyZWF0b3JOYW1lIG5hbWVUeXBlPSJQZXJzb25hbCI+TGlhbiwgWHU8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlh1PC9naXZlbk5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPkxpYW48L2ZhbWlseU5hbWU+CiAgICAgIDxuYW1lSWRlbnRpZmllciBuYW1lSWRlbnRpZmllclNjaGVtZT0iT1JDSUQiIHNjaGVtZVVSST0iIj4wMDAwLTAwMDItMTQyOC0zNTI5PC9uYW1lSWRlbnRpZmllcj4KICAgICAgPGFmZmlsaWF0aW9uPkNvbHVtYmlhIFVuaXZlcnNpdHk8L2FmZmlsaWF0aW9uPgogICAgPC9jcmVhdG9yPgogICAgPGNyZWF0b3I+CiAgICAgIDxjcmVhdG9yTmFtZSBuYW1lVHlwZT0iUGVyc29uYWwiPlJ5dSwgWW91bmdyeWVsPC9jcmVhdG9yTmFtZT4KICAgICAgPGdpdmVuTmFtZT5Zb3VuZ3J5ZWw8L2dpdmVuTmFtZT4KICAgICAgPGZhbWlseU5hbWU+Unl1PC9mYW1pbHlOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIiBzY2hlbWVVUkk9IiI+MDAwMC0wMDAxLTYyMzgtMjQ3OTwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbj5TZW91bCBOYXRpb25hbCBVbml2ZXJzaXR5PC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5KZW9uZywgU3VuZ2NoYW48L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlN1bmdjaGFuPC9naXZlbk5hbWU+CiAgICAgIDxmYW1pbHlOYW1lPkplb25nPC9mYW1pbHlOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIiBzY2hlbWVVUkk9IiI+MDAwOS0wMDA4LTk1MjAtMTk4NjwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbj5TZW91bCBOYXRpb25hbCBVbml2ZXJzaXR5PC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5KaWFuZywgQ2hvbmd5YTwvY3JlYXRvck5hbWU+CiAgICAgIDxnaXZlbk5hbWU+Q2hvbmd5YTwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5KaWFuZzwvZmFtaWx5TmFtZT4KICAgICAgPG5hbWVJZGVudGlmaWVyIG5hbWVJZGVudGlmaWVyU2NoZW1lPSJPUkNJRCIgc2NoZW1lVVJJPSIiPjAwMDAtMDAwMi0xNjYwLTczMjA8L25hbWVJZGVudGlmaWVyPgogICAgICA8YWZmaWxpYXRpb24+VW5pdmVyc2l0eSBvZiBJbGxpbm9pcyBVcmJhbmEtQ2hhbXBhaWduPC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICAgIDxjcmVhdG9yPgogICAgICA8Y3JlYXRvck5hbWUgbmFtZVR5cGU9IlBlcnNvbmFsIj5HZW50aW5lLCBQaWVycmU8L2NyZWF0b3JOYW1lPgogICAgICA8Z2l2ZW5OYW1lPlBpZXJyZTwvZ2l2ZW5OYW1lPgogICAgICA8ZmFtaWx5TmFtZT5HZW50aW5lPC9mYW1pbHlOYW1lPgogICAgICA8bmFtZUlkZW50aWZpZXIgbmFtZUlkZW50aWZpZXJTY2hlbWU9Ik9SQ0lEIiBzY2hlbWVVUkk9IiI+MDAwMC0wMDAyLTA4NDUtODM0NTwvbmFtZUlkZW50aWZpZXI+CiAgICAgIDxhZmZpbGlhdGlvbj5Db2x1bWJpYSBVbml2ZXJzaXR5PC9hZmZpbGlhdGlvbj4KICAgIDwvY3JlYXRvcj4KICA8L2NyZWF0b3JzPgogIDx0aXRsZXM+CiAgICA8dGl0bGU+TG9uZy10ZXJtIENvbnRpbnVvdXMgUmVkIGFuZCBOZWFyLWluZnJhcmVkIENoYW5uZWwgUmVmbGVjdGFuY2UgZnJvbSBNT0RJUywgMjAwMS0yMDI2IChMQ1JFRi1NT0RJUyk8L3RpdGxlPgogIDwvdGl0bGVzPgogIDxwdWJsaXNoZXI+WmVub2RvPC9wdWJsaXNoZXI+CiAgPHB1YmxpY2F0aW9uWWVhcj4yMDI2PC9wdWJsaWNhdGlvblllYXI+CiAgPHJlc291cmNlVHlwZSByZXNvdXJjZVR5cGVHZW5lcmFsPSJEYXRhc2V0Ii8+CiAgPGRhdGVzPgogICAgPGRhdGUgZGF0ZVR5cGU9Iklzc3VlZCI+MjAyNi0wNi0xMzwvZGF0ZT4KICA8L2RhdGVzPgogIDxhbHRlcm5hdGVJZGVudGlmaWVycz4KICAgIDxhbHRlcm5hdGVJZGVudGlmaWVyIGFsdGVybmF0ZUlkZW50aWZpZXJUeXBlPSJvYWkiPm9haTp6ZW5vZG8ub3JnOjIwNjgyMDQwPC9hbHRlcm5hdGVJZGVudGlmaWVyPgogIDwvYWx0ZXJuYXRlSWRlbnRpZmllcnM+CiAgPHJlbGF0ZWRJZGVudGlmaWVycz4KICAgIDxyZWxhdGVkSWRlbnRpZmllciByZWxhdGVkSWRlbnRpZmllclR5cGU9IkRPSSIgcmVsYXRpb25UeXBlPSJJc1ZlcnNpb25PZiI+MTAuNTI4MS96ZW5vZG8uMTE2NTc0NTg8L3JlbGF0ZWRJZGVudGlmaWVyPgogICAgPHJlbGF0ZWRJZGVudGlmaWVyIHJlbGF0ZWRJZGVudGlmaWVyVHlwZT0iSVNTTiIgcmVsYXRpb25UeXBlPSJJc1BhcnRPZiIgcmVzb3VyY2VUeXBlR2VuZXJhbD0iQ29sbGVjdGlvbiI+MjA1Mi00NDYzPC9yZWxhdGVkSWRlbnRpZmllcj4KICA8L3JlbGF0ZWRJZGVudGlmaWVycz4KICA8c2l6ZXMvPgogIDxmb3JtYXRzLz4KICA8dmVyc2lvbj4zLjM8L3ZlcnNpb24+CiAgPHJpZ2h0c0xpc3Q+CiAgICA8cmlnaHRzIHJpZ2h0c1VSST0iaHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzQuMC9sZWdhbGNvZGUiIHJpZ2h0c0lkZW50aWZpZXI9ImNjLWJ5LTQuMCIgcmlnaHRzSWRlbnRpZmllclNjaGVtZT0ic3BkeCI+Q3JlYXRpdmUgQ29tbW9ucyBBdHRyaWJ1dGlvbiA0LjAgSW50ZXJuYXRpb25hbDwvcmlnaHRzPgogIDwvcmlnaHRzTGlzdD4KICA8ZGVzY3JpcHRpb25zPgogICAgPGRlc2NyaXB0aW9uIGRlc2NyaXB0aW9uVHlwZT0iQWJzdHJhY3QiPlZlcnNpb24gMy4zIHVwZGF0ZSAoSnVuZSAyMDI2KTogVGhpcyB2ZXJzaW9uIGV4dGVuZHMgTENSRUYtTU9ESVMgKEJSREYtbm9ybWFsaXplZCByZWQgYW5kIG5lYXItaW5mcmFyZWQgcmVmbGVjdGFuY2UpIGZyb20gdGhlIG9yaWdpbmFsIDIwMDEtMDHigJMyMDIzLTEyIHJlY29yZCB0aHJvdWdoIDIwMjYtMDUtMzEgKG5ldyBvYnNlcnZhdGlvbnMgMjAyNC0wMS0wMSB0byAyMDI2LTA1LTMxOyBiaXdlZWtzIDIwMjQwMWHigJMyMDI2MDViKSBhbmQgcmVmaW5lcyB0aGUgZ2xvYmFsIGxhbmQgbWFzay4gVGhlIHYzLjIgYmFzZWxpbmUgcHJvZHVjdGlvbiAoRmFuZyBldCBhbC4gMjAyNSkgaXMgdW5jaGFuZ2VkOiBNQ0Q0M0MxLjA2MSBCUkRGIOKGkiBiaXdlZWtseSBtYXgtTkRWSSBjb21wb3NpdGUgbm9ybWFsaXplZCB0byBTWkE9NDXCsCDihpIgc25vdyBtYXNraW5nIOKGkiBIQU5UUyBnYXAtZmlsbCDihpIgcmVkL05JUiByZWZsZWN0YW5jZS4gVXBkYXRlcyBpbiB2My4zOgoKCgpUZW1wb3JhbCBleHRlbnNpb246IG5ldyBNT0RJUyBvYnNlcnZhdGlvbnMgKE1DRDQzQzEuMDYxKSBmb3IgMjAyNC0wMSB0aHJvdWdoIDIwMjYtMDUuCgpHYXAtZmlsbGluZzogSEFOVFMgaXMgbm93IGFwcGxpZWQgb3ZlciBhIDkteWVhciBtb3Zpbmcgd2luZG93ICjCsTQgeWVhcnMsIDIxNiBiaXdlZWtzKSBpbnN0ZWFkIG9mIGEgc2luZ2xlIGZ1bGwtc2VyaWVzIGZpdCwgYmV0dGVyIGNhcHR1cmluZyBsb3ctZnJlcXVlbmN5IHZhcmlhYmlsaXR5IGFuZCBhY2NvbW1vZGF0aW5nIHRoZSBvcGVuLWVuZGVkIHJlY29yZC4gV2luZG93cyBhcmUgYmVzdC1lZmZvcnQgY2VudGVyZWQgYW5kIGNsYW1wZWQgdG8gY29tcGxldGUgeWVhcnMgYXQgdGhlIHJlY29yZCBlbmQ7IHRoZSBpbmNvbXBsZXRlIDIwMjYgaXMgaXNvbGF0ZWQgdG8gb25lIHNoaWZ0ZWQgd2luZG93IHByZXNlcnZpbmcgZnVsbCBhbm51YWwgcGVyaW9kaWNpdHkuIFRoZSBRQSBsYXllcnMgKHJlZF9xYSwgbmlyX3FhKSBhcmUgdW5jaGFuZ2VkOiAwID0gb2JzZXJ2YXRpb24sIDEgPSBoaWdoLXF1YWxpdHkgSEFOVFMgZ2FwLWZpbGwsIDIgPSBjbGltYXRvbG9neSBmaWxsLCAzID0gbm8gZGF0YS4KClNub3cgYW5jaWxsYXJ5IGxheWVyOiBhIHNub3dfbWFza2VkIGxheWVyICgxID0gc25vdy1jb250YW1pbmF0ZWQgcGl4ZWwgbWFza2VkIGJlZm9yZSBnYXAtZmlsbCkgaXMgcHJvdmlkZWQgZm9yIHRoZSAyMDI0LW9ud2FyZCBiaXdlZWtzICgwIG92ZXIgdGhlIDIwMDEtMjAyMyByZWNvcmQpLgoKTGFuZCBtYXNrOiBhbGwgcGl4ZWxzIGFyZSBjbGFtcGVkIHRvIHRoZSBNT0RJUyBJR0JQIGxhbmQgbWFzayAoTUNEMTJDMSwgdW5pb25lZCB3aXRoIHRoZSBMQ1JFRi12My4yIGxhbmQgZm9vdHByaW50KSwgcmVtb3Zpbmcgb2NlYW4vY29hc3RhbCBibGVlZC4KClZhbGlkYXRpb24gKHYzLjMgdnMgdjMuMiwgMjAwMeKAkzIwMjMgb3ZlcmxhcCk6IG9ic2VydmVkIChRQT0wKSBwaXhlbHMgcmVwcm9kdWNlIHYzLjIgZXNzZW50aWFsbHkgZXhhY3RseTsgcGl4ZWx3aXNlIHNwYXRpYWwgY29ycmVsYXRpb24gciDiiYggMC45OTguIERpZmZlcmVuY2VzIGFyZSBjb25maW5lZCB0byBnYXAtZmlsbGVkIHBpeGVscywgcGx1cyBhbiBleHBlY3RlZCBpbmNyZWFzZSBpbiB0cmFpbGluZy13aW5kb3cgY2xpbWF0b2xvZ3kgKFFBPTIpIGNvdmVyYWdlIGR1cmluZyAyMDIw4oCTMjAyMy4KCgrCoAoKVGhlIG9yaWdpbmFsIHZlcnNpb24gMy4yIGRlc2NyaXB0aW9uIGZvbGxvd3MgYmVsb3cuCgpQYXBlciBSZWZlcmVuY2U6wqAKCkZhbmcsIEouLCBMaWFuLCBYLiwgUnl1LCBZLiwgSmVvbmcsIFMuLCBKaWFuZywgQy4sICZhbXA7IEdlbnRpbmUsIFAuICgyMDI1KS4gQSBsb25nLXRlcm0gcmVjb25zdHJ1Y3Rpb24gb2YgYSBnbG9iYWwgcGhvdG9zeW50aGVzaXMgcHJveHkgb3ZlciAxOTgy4oCTMjAyMy7CoFNjaWVudGlmaWMgZGF0YSzCoDEyKDEpLCAzNzIuIGh0dHBzOi8vZG9pLm9yZy8xMC4xMDM4L3M0MTU5Ny0wMjUtMDQ2ODYtNgoKVXNhZ2UgTm90ZXM6VGhpcyBpcyB0aGUgdXBkYXRlZCBMQ1JFRi1NT0RJUyBkYXRhc2V0ICh2My4yKSBjb25zaXN0cyBvZiBCUkRGLW5vcm1hbGl6ZWQgTU9ESVMgcmVkIGFuZCBuZWFyLWluZnJhcmVkIHN1cmZhY2UgcmVmbGVjdGFuY2UuIFRoZSBMQ1JFRi1NT0RJUyBwcm9kdWN0IHdhcyB1c2VkIHRvIGNhbGlicmF0ZSBhbmQgYmVuY2htYXJrIHRoZSBBVkhSUiBzdXJmYWNlIHJlZmxlY3RhbmNlIHRvIHByb2R1Y2UgYSB0ZW1wb3JhbGx5IGNvbnNpc3RlbnQgcmVjb3JkIG9mIHN1cmZhY2UgcmVmbGVjdGFuY2UgcHJpb3IgdG8gdGhlIE1PRElTIGVyYS4gSXQgd2FzIGFsc28gdXNlZCB0byBnZW5lcmF0ZSBMQ1NQUC1NT0RJUyAocHJldmlvdXNseSBrbm93biBhcyBMQ1NJRi1NT0RJUykgYXMgYSBiZW5jaG1hcmsuCgpLZXkgdXBkYXRlcyBpbiB2ZXJzaW9uIDMuMiBpbmNsdWRlOgoKCgpRdWFsaXR5IEZsYWdzOiBOZXcgcXVhbGl0eSBmbGFnIGxheWVyIGVuYWJsZXMgdXNlcnMgdG8gaWRlbnRpZnkgd2hldGhlciBhIHBpeGVsIGlzIGRlcml2ZWQgZnJvbSBvYnNlcnZlZCBzdXJmYWNlIHJlZmxlY3RhbmNlIChRQT0wKSwgaGlnaC1xdWFsaXR5IGdhcC1maWxsZWQgdmFsdWVzIChRQT0xKSwgbG93ZXItcXVhbGl0eSBnYXAtZmlsbGVkIGJhc2VkIG9uIHRoZSBtZWFuIHNlYXNvbmFsIGN5Y2xlIChRQT0yKSwgb3IgbWlzc2luZyBlbnRpcmVseSAoUUE9MykuIFdlIGFkdmljZSB0aGUgdXNlciB0byByZWx5IG9ubHkgb24gb2JzZXJ2ZWQgYW5kIGhpZ2gtcXVhbGl0eSBnYXAtZmlsbGVkIHZhbHVlcyBmb3IgdGhlaXIgYW5hbHlzZXMuCgpFeHRlbnNpb246IHRvIGluY2x1ZGUgb2JzZXJ2YXRpb25zIGZyb20gdGhlIHllYXIgb2YgMjAyMy4KClNub3cgbWFzazrCoHdlIG5vdGUgdGhhdCBhbGwgcGl4ZWxzIG1hcmtlZCB3aXRoIHBlcmNlbnRfc25vdyAmZ3Q7MCBpbiB0aGUgb3JpZ2luYWwgTUNENDNDMS52MDYxIGhhdmUgYmVlbiByZW1vdmVkLiBUaGlzIGNvbnNlcnZhdGl2ZSBhcHByb2FjaCB3YXMgYXBwbGllZCB0byByZWR1Y2UgYmlhcyBkdXJpbmcgY3Jvc3MtY2FsaWJyYXRpb24sIHNpbmNlIHVubGlrZSBNT0RJUywgQVZIUlIgZG9lcyBub3QgaGF2ZSBhIHJlbGlhYmxlIHNub3cgZGV0ZWN0aW9uIGFsZ29yaXRobS4gVGhlcmVmb3JlLCBzdXJmYWNlIHJlZmxlY3RhbmNlIHZhbHVlcyBpbiBoaWdoIGxhdGl0dWRlIHJlZ2lvbnMgYXJlIGFsbW9zdCBlbnRpcmVseSBnYXAtZmlsbGVkIGFuZCBzaG91bGQgbmV2ZXIgYmUgdXNlZCBmb3IgYW5hbHlzaXMgZm9yIGJvdGggTENSRUYtQVZIUlIgYW5kIExDUkVGLU1PRElTLiBXZSBlbmNvdXJhZ2UgdXNlcnMgdG8gdXNlIG9ubHkgUUE9MCBhbmQgUUE9MSBwaXhlbHMgZm9yIHRoZWlyIGFuYWx5c2lzLiBBbHRlcm5hdGl2ZWx5LCB1c2VycyBjYW4gdXNlIExDUkVGLU1PRElTIGZyb20gdGhlIHByZXZpb3VzIHZlcnNpb24gZm9yIGhpZ2ggbGF0aXR1ZGUgcmVnaW9ucyAodjMuMSksIHdoaWNoIGRpZCBub3QgbWFzayBvdXQgc25vdy1jb3ZlcmVkIHBpeGxlcy7CoAoKClRoZSB1c2VyIGNhbiBjaG9vc2UgYmV0d2VlbiBMQ1JFRi1BVkhSUiBhbmQgTENSRUYtTU9ESVMgZm9yIHRoZSBvdmVybGFwcGluZyBwZXJpb2QgZnJvbSAyMDAxLTIwMjMuIFRoZSB0d28gZGF0YXNldHMgYXJlIGdlbmVyYWxseSBjb25zaXN0ZW50IGR1cmluZyB0aGlzIG92ZXJsYXBwaW5nIHBlcmlvZCwgYWx0aG91Z2ggTENSRUYtTU9ESVMgc2hvd3MgYSBzdHJvbmdlciBncmVlbmluZyB0cmVuZCBiZXR3ZWVuIDIwMDEtMjAyMy4gRm9yIHN0dWRpZXMgZXhwbG9yaW5nIHRoZSBsb25nLXRlcm0gdmVnZXRhdGlvbiBkeW5hbWljcywgdGhlIHVzZXIgY2FuIGVpdGhlciB1c2Ugb25seSBMQ1JFRi1BVkhSUiBvciB1c2UgYSBibGVuZCBkYXRhc2V0IG9mIExDUkVGLUFWSFJSIGFuZCBMQ1JFRi1NT0RJUyBhcyBhIHNlbnNpdGl2aXR5IHRlc3QuwqAKCgoKVGhlIExDUkVGLUFWSFJSIHYzLjIgKDE5ODItMjAyMykgaXMgYXZhaWxhYmxlIGF0IDEwLjUyODEvemVub2RvLjExOTA1OTU5CgoKVGhlIExDUkVGLUFWSFJSIGRhdGFzZXQgd2FzIHVzZWQgYXMgdGhlIGlucHV0IHRvIGdlbmVyYXRlIExDU1BQLUFWSFJSIChwcmV2aW91c2x5IGtub3duIGFzIExDU0lGLUFWSFJSKSwgYW5kIGl0IGNhbiBhbHNvIGJlIHVzZWQgdG8gZGVyaXZlIHRlbXBvcmFsbHkgY29uc2lzdGFudCByZWNvcmRzIG9mIE5EVkksIE5JUnYsIGtORFZJLCBhbmQgb3RoZXIgdmVnZXRhdGlvbiBpbmRpY2VzIGJhc2VkIG9uIHJlZCBhbmQgTklSIHN1cmZhY2UgcmVmbGVjdGFuY2UgdmFyaWFibGVzLiBUaGUgdXNlciBjYW4gYWNjZXNzIExDU1BQIHByb2R1Y3RzIGF0OgoKCgpMQ1NQUC1BVkhSUiB2My4yICgxOTgyLTIwMDApOiAxMC41MjgxL3plbm9kby43OTE2ODUwCgpMQ1NQUC1BVkhSUiB2My4yICgyMDAxLTIwMjMpOiAxMC41MjgxL3plbm9kby4xMTkwNjY3NQoKTENTUFAtTU9ESVMgdjMuMigyMDAxLTIwMjMpOiAxMC41MjgxL3plbm9kby4xMTY1NzQ1OAoKCkEgcGFwZXIgZGVzY3JpYmluZyB0aGUgdGVjaG5pY2FsIGRldGFpbHMgaXMgYXZhaWxhYmxlIGF0IGh0dHBzOi8vZG9pLm9yZy8xMC4xMDM4L3M0MTU5Ny0wMjUtMDQ2ODYtNiwgd2hpY2ggZGV0YWlsZWQgdGhlIHVzZXMgYW5kIGxpbWl0YXRpb25zIG9mIHRoZSBkYXRhc2V0LiBBbGwgZGF0YSBvdXRwdXRzIGZyb20gdGhpcyBzdHVkeSBhcmUgYXZhaWxhYmxlIGF0IDAuMDXCsCBzcGF0aWFsIHJlc29sdXRpb24gYW5kIGJpd2Vla2x5IHRlbXBvcmFsIHJlc29sdXRpb24gaW4gTmV0Q0RGIGZvcm1hdC4gRWFjaCBtb250aCBpcyBkaXZpZGVkIGludG8gdHdvIGZpbGVzLCB3aXRoIHRoZSBmaXJzdCBmaWxlIOKAnGHigJ0gcmVwcmVzZW50YXRpdmUgb2YgdGhlIDFzdCBkYXkgdG8gdGhlIDE1dGggZGF5IG9mIGEgbW9udGgsIGFuZCB0aGUgc2Vjb25kIGZpbGUg4oCcYuKAnSByZXByZXNlbnRhdGl2ZSBvZiB0aGUgMTZ0aCBkYXkgdG8gdGhlIGxhc3QgZGF5IG9mIGEgbW9udGguCgpBYnN0cmFjdDoKClNhdGVsbGl0ZS1vYnNlcnZlZCBzb2xhci1pbmR1Y2VkIGNobG9yb3BoeWxsIGZsdW9yZXNjZW5jZSAoU0lGKSBpcyBhIHBvd2VyZnVsIHByb3h5IGZvciB0aGUgcGhvdG9zeW50aGV0aWMgY2hhcmFjdGVyaXN0aWNzIG9mIHRlcnJlc3RyaWFsIGVjb3N5c3RlbXMuIERpcmVjdCBTSUYgb2JzZXJ2YXRpb25zIGFyZSBwcmltYXJpbHkgbGltaXRlZCB0byB0aGUgcmVjZW50IGRlY2FkZSwgaW1wZWRpbmcgdGhlaXIgYXBwbGljYXRpb24gaW4gZGV0ZWN0aW5nIGxvbmctdGVybSBkeW5hbWljcyBvZiBlY29zeXN0ZW0gZnVuY3Rpb24uIEluIHRoaXMgc3R1ZHksIHdlIGxldmVyYWdlIHR3byBzdXJmYWNlIHJlZmxlY3RhbmNlIGJhbmRzIGF2YWlsYWJsZSBib3RoIGZyb20gQWR2YW5jZWQgVmVyeSBIaWdoLVJlc29sdXRpb24gUmFkaW9tZXRlciAoQVZIUlIsIDE5ODItMjAyMykgYW5kIE1PRGVyYXRlLXJlc29sdXRpb24gSW1hZ2luZyBTcGVjdHJvcmFkaW9tZXRlciAoTU9ESVMsIDIwMDEtMjAyMykuIEltcG9ydGFudGx5LCB3ZSBjYWxpYnJhdGUgYW5kIG9yYml0LWNvcnJlY3QgdGhlIEFWSFJSIGJhbmRzIGFnYWluc3QgdGhlaXIgTU9ESVMgY291bnRlcnBhcnRzIGR1cmluZyB0aGVpciBvdmVybGFwcGluZyBwZXJpb2QuIFVzaW5nIHRoZSBsb25nLXRlcm0gYmlhcy1jb3JyZWN0ZWQgcmVmbGVjdGFuY2UgZGF0YSBmcm9tIEFWSFJSIGFuZCBNT0RJUywgYSBuZXVyYWwgbmV0d29yayBpcyB0cmFpbmVkIHRvIHByb2R1Y2UgYSBMb25nLXRlcm0gQ29udGludW91cyBTSUYtaW5mb3JtZWQgUGhvdG9zeW50aGVzaXMgUHJveHkgKExDU1BQKSBieSBlbXVsYXRpbmcgT3JiaXRpbmcgQ2FyYm9uIE9ic2VydmF0b3J5LTIgU0lGLCBtYXBwaW5nIGl0IGdsb2JhbGx5IG92ZXIgdGhlIDE5ODItMjAyMyBwZXJpb2QuIENvbXBhcmVkIHdpdGggcHJldmlvdXMgU0lGLWluZm9ybWVkIHBob3Rvc3ludGhlc2lzIHByb3hpZXMsIExDU1BQIGhhcyBzaW1pbGFyIHNraWxsIGJ1dCBjYW4gYmUgYWR2YW50YWdlb3VzbHkgZXh0ZW5kZWQgdG8gdGhlIEFWSFJSIHBlcmlvZC4gRnVydGhlciBjb21wYXJpc29uIHdpdGggdGhyZWUgd2lkZWx5IHVzZWQgdmVnZXRhdGlvbiBpbmRpY2VzIChORFZJLCBrTkRWSSwgTklSdikgc2hvd3MgYSBoaWdoZXIgb3IgY29tcGFyYWJsZSBjb3JyZWxhdGlvbiBvZiBMQ1NQUCB3aXRoIHNhdGVsbGl0ZSBTSUYgYW5kIHNpdGUtbGV2ZWwgR1BQIGVzdGltYXRlcyBhY3Jvc3MgdmVnZXRhdGlvbiB0eXBlcywgZW5zdXJpbmcgYSBncmVhdGVyIGNhcGFjaXR5IGZvciByZXByZXNlbnRpbmcgbG9uZy10ZXJtIHBob3Rvc3ludGhldGljIGFjdGl2aXR5LgoKwqA8L2Rlc2NyaXB0aW9uPgogIDwvZGVzY3JpcHRpb25zPgo8L3Jlc291cmNlPgo=",
+        "url": "https://zenodo.org/doi/10.5281/zenodo.20682040",
+        "contentUrl": null,
+        "metadataVersion": 0,
+        "schemaVersion": "http://datacite.org/schema/kernel-4",
+        "source": "api",
+        "isActive": true,
+        "state": "findable",
+        "reason": null,
+        "viewCount": 0,
+        "viewsOverTime": [],
+        "downloadCount": 0,
+        "downloadsOverTime": [],
+        "referenceCount": 0,
+        "citationCount": 0,
+        "citationsOverTime": [],
+        "partCount": 0,
+        "partOfCount": 0,
+        "versionCount": 0,
+        "versionOfCount": 1,
+        "created": "2026-06-13T23:11:42.000Z",
+        "registered": "2026-06-13T23:11:43.000Z",
+        "published": "2026",
+        "updated": "2026-08-16T18:47:17.000Z"
+      },
+      "relationships": {
+        "client": {
+          "data": {
+            "id": "cern.zenodo",
+            "type": "clients"
+          }
+        },
+        "provider": {
+          "data": {
+            "id": "cern",
+            "type": "providers"
+          }
+        },
+        "media": {
+          "data": {
+            "id": "10.5281/zenodo.20682040",
+            "type": "media"
+          }
+        },
+        "references": {
+          "data": []
+        },
+        "citations": {
+          "data": []
+        },
+        "parts": {
+          "data": []
+        },
+        "partOf": {
+          "data": []
+        },
+        "versions": {
+          "data": []
+        },
+        "versionOf": {
+          "data": [
+            {
+              "id": "10.5281/zenodo.11657458",
+              "type": "dois"
+            }
+          ]
+        }
+      }
+    },
+    {
       "id": "10.5281/zenodo.20683570",
       "type": "dois",
       "attributes": {
