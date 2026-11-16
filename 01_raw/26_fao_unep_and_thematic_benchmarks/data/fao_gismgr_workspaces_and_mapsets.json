@@ -10685,24 +10685,6 @@
     },
     {
       "workspaceCode": "GLW4",
-      "code": "N-DA-10KM",
-      "caption": "Animal Number (GLW4-2015, 10KM)",
-      "defaultStyleCode": "D-DA",
-      "measureCaption": "Animal Number",
-      "measureUnit": null,
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": null,
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4/mapsets/N-DA-10KM"
-        }
-      ],
-      "_workspace_caption": "Gridded Livestock of the World (GLW4, 2015)"
-    },
-    {
-      "workspaceCode": "GLW4",
       "code": "D-DA",
       "caption": "Animal Density (GLW4)",
       "defaultStyleCode": null,
@@ -10718,6 +10700,24 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4/mapsets/D-DA"
+        }
+      ],
+      "_workspace_caption": "Gridded Livestock of the World (GLW4, 2015)"
+    },
+    {
+      "workspaceCode": "GLW4",
+      "code": "N-DA-10KM",
+      "caption": "Animal Number (GLW4-2015, 10KM)",
+      "defaultStyleCode": "D-DA",
+      "measureCaption": "Animal Number",
+      "measureUnit": null,
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4/mapsets/N-DA-10KM"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW4, 2015)"
@@ -14042,18 +14042,21 @@
     },
     {
       "workspaceCode": "GLW4-2020",
-      "code": "GLW4-N-DA-10KM",
-      "caption": "Animal Number (GLW4-2020, 10KM)",
-      "defaultStyleCode": "D-DA",
-      "measureCaption": "Animal Number ",
+      "code": "D-DA",
+      "caption": "Animal Density (GLW4-2020)",
+      "defaultStyleCode": "D-DA-ALL",
+      "measureCaption": "Animal Density",
       "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": null,
+      "tags": [
+        "GLW4_2020",
+        "LIVESTOCK"
+      ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/GLW4-N-DA-10KM"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/D-DA"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW4, 2020)"
@@ -14081,21 +14084,18 @@
     },
     {
       "workspaceCode": "GLW4-2020",
-      "code": "D-DA",
-      "caption": "Animal Density (GLW4-2020)",
-      "defaultStyleCode": "D-DA-ALL",
-      "measureCaption": "Animal Density",
+      "code": "GLW4-N-DA-10KM",
+      "caption": "Animal Number (GLW4-2020, 10KM)",
+      "defaultStyleCode": "D-DA",
+      "measureCaption": "Animal Number ",
       "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": [
-        "GLW4_2020",
-        "LIVESTOCK"
-      ],
+      "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/D-DA"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/GLW4-2020/mapsets/GLW4-N-DA-10KM"
         }
       ],
       "_workspace_caption": "Gridded Livestock of the World (GLW4, 2020)"
@@ -18606,6 +18606,29 @@
     },
     {
       "workspaceCode": "CAS",
+      "code": "DLMF",
+      "caption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "defaultStyleCode": "DLMF",
+      "measureCaption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "measureUnit": "class",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "CATA0RISK",
+        "DESERT",
+        "LOCUST",
+        "PEST"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/DLMF"
+        }
+      ],
+      "_workspace_caption": "Chinese Academy of Sciences"
+    },
+    {
+      "workspaceCode": "CAS",
       "code": "GET",
       "caption": "Global daily 1-km actual evapotranspiration from 2000 to 2021",
       "defaultStyleCode": "ETMONITOR",
@@ -18626,28 +18649,6 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/GET"
-        }
-      ],
-      "_workspace_caption": "Chinese Academy of Sciences"
-    },
-    {
-      "workspaceCode": "CAS",
-      "code": "WHEAT-PDMF",
-      "caption": "Wheat pest and disease monitoring and forecasting",
-      "defaultStyleCode": "PDMF",
-      "measureCaption": "Wheat pest and disease monitoring and forecasting",
-      "measureUnit": "class",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "DISEASE",
-        "PEST",
-        "WHEAT"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/WHEAT-PDMF"
         }
       ],
       "_workspace_caption": "Chinese Academy of Sciences"
@@ -18676,23 +18677,22 @@
     },
     {
       "workspaceCode": "CAS",
-      "code": "DLMF",
-      "caption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
-      "defaultStyleCode": "DLMF",
-      "measureCaption": "Desert Locust Vegetation Damage (Africa and Southwest Asia - Monthly - 500m)",
+      "code": "WHEAT-PDMF",
+      "caption": "Wheat pest and disease monitoring and forecasting",
+      "defaultStyleCode": "PDMF",
+      "measureCaption": "Wheat pest and disease monitoring and forecasting",
       "measureUnit": "class",
       "scale": 1.0,
       "offset": 0.0,
       "tags": [
-        "CATA0RISK",
-        "DESERT",
-        "LOCUST",
-        "PEST"
+        "DISEASE",
+        "PEST",
+        "WHEAT"
       ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/DLMF"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/CAS/mapsets/WHEAT-PDMF"
         }
       ],
       "_workspace_caption": "Chinese Academy of Sciences"
@@ -22870,18 +22870,23 @@
     },
     {
       "workspaceCode": "OCB",
-      "code": "FORECAST-FLOOD-COMBINED-RISK",
-      "caption": "Forecast FLOOD IPC combined risk maps 2026",
-      "defaultStyleCode": "FORECAST-FLOOD-COMBINED-RISK",
-      "measureCaption": "Forecast flood IPC combined risk maps 2026",
-      "measureUnit": null,
+      "code": "ASIS-DROUGHT-PROBABILITY",
+      "caption": "Drought probability maps ",
+      "defaultStyleCode": "ASIS-DROUGHT-PROBABILITY",
+      "measureCaption": "Probability",
+      "measureUnit": "%",
       "scale": 1.0,
       "offset": 0.0,
-      "tags": null,
+      "tags": [
+        "CROPLAND",
+        "DROUGHT",
+        "PASTURELAND",
+        "PROBABILITY"
+      ],
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/FORECAST-FLOOD-COMBINED-RISK"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/ASIS-DROUGHT-PROBABILITY"
         }
       ],
       "_workspace_caption": "Geospatial datasets from Climate Division (OCB)"
@@ -22906,23 +22911,18 @@
     },
     {
       "workspaceCode": "OCB",
-      "code": "ASIS-DROUGHT-PROBABILITY",
-      "caption": "Drought probability maps ",
-      "defaultStyleCode": "ASIS-DROUGHT-PROBABILITY",
-      "measureCaption": "Probability",
-      "measureUnit": "%",
+      "code": "FORECAST-FLOOD-COMBINED-RISK",
+      "caption": "Forecast FLOOD IPC combined risk maps 2026",
+      "defaultStyleCode": "FORECAST-FLOOD-COMBINED-RISK",
+      "measureCaption": "Forecast flood IPC combined risk maps 2026",
+      "measureUnit": null,
       "scale": 1.0,
       "offset": 0.0,
-      "tags": [
-        "CROPLAND",
-        "DROUGHT",
-        "PASTURELAND",
-        "PROBABILITY"
-      ],
+      "tags": null,
       "links": [
         {
           "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/ASIS-DROUGHT-PROBABILITY"
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/OCB/mapsets/FORECAST-FLOOD-COMBINED-RISK"
         }
       ],
       "_workspace_caption": "Geospatial datasets from Climate Division (OCB)"
@@ -23055,27 +23055,6 @@
     },
     {
       "workspaceCode": "EARTHDATA",
-      "code": "SSMC-10-CP",
-      "caption": "FLDAS Monthly Global Surface Soil Moisture (0-10cm)",
-      "defaultStyleCode": "SMC",
-      "measureCaption": "Soil Moisture Content",
-      "measureUnit": "m³ m⁻³",
-      "scale": 1.0,
-      "offset": 0.0,
-      "tags": [
-        "FLDAS",
-        "NASA"
-      ],
-      "links": [
-        {
-          "rel": "self",
-          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-CP"
-        }
-      ],
-      "_workspace_caption": "NASA Earth Observation Data"
-    },
-    {
-      "workspaceCode": "EARTHDATA",
       "code": "SSMC-10-C",
       "caption": "FLDAS Long-Term Historical Global Surface Soil Moisture (0-10cm)",
       "defaultStyleCode": "SMC",
@@ -23091,6 +23070,27 @@
         {
           "rel": "self",
           "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-C"
+        }
+      ],
+      "_workspace_caption": "NASA Earth Observation Data"
+    },
+    {
+      "workspaceCode": "EARTHDATA",
+      "code": "SSMC-10-CP",
+      "caption": "FLDAS Monthly Global Surface Soil Moisture (0-10cm)",
+      "defaultStyleCode": "SMC",
+      "measureCaption": "Soil Moisture Content",
+      "measureUnit": "m³ m⁻³",
+      "scale": 1.0,
+      "offset": 0.0,
+      "tags": [
+        "FLDAS",
+        "NASA"
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces/EARTHDATA/mapsets/SSMC-10-CP"
         }
       ],
       "_workspace_caption": "NASA Earth Observation Data"

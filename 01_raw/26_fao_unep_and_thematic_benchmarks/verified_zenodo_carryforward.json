@@ -1,0 +1,2440 @@
+{
+  "description": "Verified EO/environmental Zenodo records carried forward from f652943 baseline to guarantee zero silent release regressions across query tightening.",
+  "baseline_commit": "f6529433ede2e5b177df8df3abaf97ac642d36eb",
+  "carry_forward_count": 468,
+  "intentionally_excluded_count": 15,
+  "carry_forward_records": [
+    {
+      "id": 61758,
+      "doi": "10.5281/zenodo.61758",
+      "title": "A simple global river bankfull width and depth database"
+    },
+    {
+      "id": 581395,
+      "doi": "10.5281/zenodo.581395",
+      "title": "Subbasin division"
+    },
+    {
+      "id": 581396,
+      "doi": "10.5281/zenodo.581396",
+      "title": "Level A Pan Europe Subbasins, E-HYPE 2.5"
+    },
+    {
+      "id": 581397,
+      "doi": "10.5281/zenodo.581397",
+      "title": "Level A Pan Europe Subbasins, E-HYPE 3.0"
+    },
+    {
+      "id": 581432,
+      "doi": "10.5281/zenodo.581432",
+      "title": "CD_topography_35408_E-HYPE"
+    },
+    {
+      "id": 581451,
+      "doi": "10.5281/zenodo.581451",
+      "title": "EHYPE3_subbasins.zip"
+    },
+    {
+      "id": 883100,
+      "doi": "10.5281/zenodo.883100",
+      "title": "Input and Output files for \"Contributions to Streamflow and Sea Level Rise in High Mountain Asia from 2003-2009 Glacier Recession\""
+    },
+    {
+      "id": 1215310,
+      "doi": "10.5281/zenodo.1215310",
+      "title": "ACOS GOSAT SIF data version b35"
+    },
+    {
+      "id": 1315471,
+      "doi": "10.5281/zenodo.1315471",
+      "title": "G³M 1.0 steady-state model output"
+    },
+    {
+      "id": 1805610,
+      "doi": "10.5281/zenodo.1805610",
+      "title": "Geomorpho90m, empirical evaluation and accuracy assessment of global high-resolution geomorphometric layers"
+    },
+    {
+      "id": 1807125,
+      "doi": "10.5281/zenodo.1807125",
+      "title": "Geomorpho90m, empirical evaluation and accuracy assessment of global high-resolution geomorphometric layers"
+    },
+    {
+      "id": 2575599,
+      "doi": "10.5281/zenodo.2575599",
+      "title": "The Global Long-term Microwave Vegetation Optical Depth Climate Archive VODCA"
+    },
+    {
+      "id": 2582500,
+      "doi": "10.5281/zenodo.2582500",
+      "title": "Global database of river width, slope, catchment area, meander wavelength, sinuosity, and discharge"
+    },
+    {
+      "id": 3355007,
+      "doi": "10.5281/zenodo.3355007",
+      "title": "Global river density, seasonal and surface water occurrence and upstream area at 250 m in the Goode Homolosine projection"
+    },
+    {
+      "id": 3403005,
+      "doi": "10.5281/zenodo.3403005",
+      "title": "Hydroperiod map of Camargue for 2016/2017 and its accompanying INSPIRE metadata XML file"
+    },
+    {
+      "id": 3403010,
+      "doi": "10.5281/zenodo.3403010",
+      "title": "Hydroperiod map of Danube Delta for 2016/2017 and its accompanying INSPIRE metadata XML file"
+    },
+    {
+      "id": 3446747,
+      "doi": "10.5281/zenodo.3446747",
+      "title": "Grid tiles for identifying EU-SoilHydroGrids tiles"
+    },
+    {
+      "id": 3466123,
+      "doi": "10.5281/zenodo.3466123",
+      "title": "Data for \"Trend and variability in global upper-ocean stratification since the 1960s\""
+    },
+    {
+      "id": 3551995,
+      "doi": "10.5281/zenodo.3551995",
+      "title": "A Dataset of Global Land Cover Validation Samples"
+    },
+    {
+      "id": 3564787,
+      "doi": "10.5281/zenodo.3564787",
+      "title": "Contiguous SIF dataset"
+    },
+    {
+      "id": 3564792,
+      "doi": "10.5281/zenodo.3564792",
+      "title": "Contiguous SIF dataset"
+    },
+    {
+      "id": 3568428,
+      "doi": "10.5281/zenodo.3568428",
+      "title": "OCO-2 lowermost troposphere partial column"
+    },
+    {
+      "id": 3735379,
+      "doi": "10.5281/zenodo.3735379",
+      "title": "Database of global dam detections"
+    },
+    {
+      "id": 3862526,
+      "doi": "10.5281/zenodo.3862526",
+      "title": "Restore Centre of Excellence: High-resolution mapping of Louisina vegetation remote sensing data for surge modelling"
+    },
+    {
+      "id": 3883434,
+      "doi": "10.5281/zenodo.3883434",
+      "title": "TanSat Solar-Induced Chlorophyll Fluorescence Product"
+    },
+    {
+      "id": 3887120,
+      "doi": "10.5281/zenodo.3887120",
+      "title": "Significant baseflow reduction in the Sao Francisco River Basin, Brazil. Is it time to call for attention on groundwater withdrawals?"
+    },
+    {
+      "id": 3969536,
+      "doi": "10.5061/dryad.n02v6wwtd",
+      "title": "Plant intraspecific functional trait variation is related to within-habitat heterogeneity and genetic diversity in Trifolium montanum L."
+    },
+    {
+      "id": 3981658,
+      "doi": "10.5061/dryad.9w0vt4bc3",
+      "title": "Fluorescence‐based detection of field targets using an autonomous unmanned aerial vehicle system"
+    },
+    {
+      "id": 4008765,
+      "doi": "10.5281/zenodo.4008765",
+      "title": "3D cloud metrics for OCO-2 observations"
+    },
+    {
+      "id": 4244647,
+      "doi": "10.5281/zenodo.4244647",
+      "title": "Time series of fluxes, biochemical and spectral variables simulated SCOPE model"
+    },
+    {
+      "id": 4251217,
+      "doi": "10.5281/zenodo.4251217",
+      "title": "Global color maps of dwarf planet (1) Ceres from Dawn Framing Camera images"
+    },
+    {
+      "id": 4264724,
+      "doi": "10.5281/zenodo.4264724",
+      "title": "Microsatellites Lysimachia arvensis"
+    },
+    {
+      "id": 4280923,
+      "doi": "10.5281/zenodo.4280923",
+      "title": "GLC_FCS30-2020:Global Land Cover with Fine Classification System at 30m in 2020"
+    },
+    {
+      "id": 4326702,
+      "doi": "10.5281/zenodo.4326702",
+      "title": "Wetland delineation and characterization layers 2014-2017, Rwanda"
+    },
+    {
+      "id": 4393164,
+      "doi": "10.5281/zenodo.4393164",
+      "title": "LAI_TS_Val: LAI time-series validation datasets in the 1-km pixel grid at global scale from 2001 to 2011"
+    },
+    {
+      "id": 4472831,
+      "doi": "10.5281/zenodo.4472831",
+      "title": "Surface Water Loss map and Urbanization map"
+    },
+    {
+      "id": 4506788,
+      "doi": "10.5061/dryad.9ghx3ffgj",
+      "title": "Persistence of tropical herbivores in temperate reefs constrain kelp resilience to cryptic habitats"
+    },
+    {
+      "id": 4544319,
+      "doi": "10.5281/zenodo.4544319",
+      "title": "A Harmonized Global Land Evaporation Dataset from Reanalysis Products Covering 1980-2017"
+    },
+    {
+      "id": 4549715,
+      "doi": "10.5061/dryad.cvdncjt3q",
+      "title": "Testing small scale ecological gradients and intraspecific differentiation for hundreds of kelp forest species using haplotypes from metabarcoding"
+    },
+    {
+      "id": 4558467,
+      "doi": "10.5281/zenodo.4558467",
+      "title": "Global estimates of drought stress in soils using SMAP"
+    },
+    {
+      "id": 4595941,
+      "doi": "10.5281/zenodo.4595941",
+      "title": "A Harmonized Global Land Evaporation Dataset from Model-based Products Covering 1980-2017"
+    },
+    {
+      "id": 4625358,
+      "doi": "10.5281/zenodo.4625358",
+      "title": "Finnish and Swedish NFI data intersected with GFC"
+    },
+    {
+      "id": 4662935,
+      "doi": "10.5281/zenodo.4662935",
+      "title": "Global aerodynamic parameters in 1982-2017 based on GIMMS LAI"
+    },
+    {
+      "id": 4681865,
+      "doi": "10.5061/dryad.z612jm6bt",
+      "title": "Data from: Long-term (1979-present) total water storage anomalies over the global land derived by reconstructing GRACE data"
+    },
+    {
+      "id": 4723395,
+      "doi": "10.5281/zenodo.4723395",
+      "title": "Ecuador Flash Flood Susceptibility Index (FFSI) based on catchment hypsometry, drainage and surface characteristics"
+    },
+    {
+      "id": 4770157,
+      "doi": "10.5281/zenodo.4770157",
+      "title": "Canopy height to canopy density relationship"
+    },
+    {
+      "id": 4826421,
+      "doi": "10.5061/dryad.fn2z34ttg",
+      "title": "Data from: Genotype-environment mismatch of kelp forests under climate change"
+    },
+    {
+      "id": 4915752,
+      "doi": "10.5281/zenodo.4915752",
+      "title": "Annual 30-m land cover maps of Beijing from 2001 to 2020"
+    },
+    {
+      "id": 4916509,
+      "doi": "10.5281/zenodo.4916509",
+      "title": "Leaf area index for WRF over China"
+    },
+    {
+      "id": 4922190,
+      "doi": "10.25914/606e9120c5ebe",
+      "title": "Derived Optimal Linear Combination Evapotranspiration - DOLCE"
+    },
+    {
+      "id": 4933099,
+      "doi": "10.5061/dryad.171q4",
+      "title": "Data from: Ranking quantitative resistance to Septoria tritici blotch in elite wheat cultivars using automated image analysis"
+    },
+    {
+      "id": 4933747,
+      "doi": "10.5061/dryad.s90b488",
+      "title": "Data from: Global patterns of tree stem growth and stand aboveground wood production in mangrove forests"
+    },
+    {
+      "id": 4934622,
+      "doi": "10.5068/D17W9M",
+      "title": "Data from: Tropical tree size-frequency distributions from airborne lidar"
+    },
+    {
+      "id": 4938296,
+      "doi": "10.5061/dryad.hg5473q",
+      "title": "Data from: Body size shifts influence effects of increasing temperatures on ectotherm metabolism"
+    },
+    {
+      "id": 4942187,
+      "doi": "10.5061/dryad.m62gj",
+      "title": "Data from: The hydrological legacy of deforestation on global wetlands"
+    },
+    {
+      "id": 4945802,
+      "doi": "10.5061/dryad.b7f53",
+      "title": "Data from: Arbuscular mycorrhizal fungi increase organic carbon decomposition under elevated CO2"
+    },
+    {
+      "id": 4950627,
+      "doi": "10.5061/dryad.1v72g43",
+      "title": "Data from: Prediction of forest aboveground net primary production from high-resolution vertical leaf-area profiles"
+    },
+    {
+      "id": 4956823,
+      "doi": "10.5061/dryad.v5s0j",
+      "title": "Data from: Estimation of woody and herbaceous leaf area index in Sub-Saharan Africa using MODIS data"
+    },
+    {
+      "id": 4957861,
+      "doi": "10.5061/dryad.hq229kc",
+      "title": "Data from: Cobble community DNA as a tool to monitor patterns of biodiversity within kelp forest ecosystems"
+    },
+    {
+      "id": 4958299,
+      "doi": "10.5061/dryad.5n8v4",
+      "title": "Data from: Responses of macroinvertebrate communities to small dam removals: implications for bioassessment and restoration"
+    },
+    {
+      "id": 4959782,
+      "doi": "10.5061/dryad.8kd35",
+      "title": "Data from: Unravelling the life history of Amazonian fishes through otolith microchemistry"
+    },
+    {
+      "id": 4961204,
+      "doi": "10.5061/dryad.65k7g",
+      "title": "Data from: Inter-annual variability and long-term trends in breeding success in a declining population of migratory swans"
+    },
+    {
+      "id": 4963614,
+      "doi": "10.5061/dryad.sv2j191",
+      "title": "Data from: Nonlinearity of root trait relationships and the root economics spectrum"
+    },
+    {
+      "id": 4963873,
+      "doi": "10.5061/dryad.ch10ss4",
+      "title": "Data from: Soil organic carbon dynamics matching ecological equilibrium theory"
+    },
+    {
+      "id": 4964463,
+      "doi": "10.5061/dryad.ft55t",
+      "title": "Data from: Leaf trait variations associated with habitat affinity of tropical karst tree species"
+    },
+    {
+      "id": 4965017,
+      "doi": "10.5061/dryad.37qc017",
+      "title": "Data from: New regionally modelled soil layers improve prediction of vegetation type relative to that based on global soil models"
+    },
+    {
+      "id": 4970877,
+      "doi": "10.5061/dryad.jm63xsj6k",
+      "title": "Management of urban wetlands for conservation can reduce aquatic biodiversity and increase mosquito risk"
+    },
+    {
+      "id": 4975644,
+      "doi": "10.5061/dryad.p8br3r4",
+      "title": "Data from: Future climate change is predicted to affect the microbiome and condition of habitat-forming kelp"
+    },
+    {
+      "id": 4977882,
+      "doi": "10.5061/dryad.689hp02",
+      "title": "Data from: Plant functional diversity modulates global environmental change effects on grassland productivity"
+    },
+    {
+      "id": 4979855,
+      "doi": "10.5061/dryad.8703q25",
+      "title": "Data from: Spatial-temporal variability and related factors of soil organic carbon in Henan province"
+    },
+    {
+      "id": 4982185,
+      "doi": "10.5061/dryad.7wm37pvnt",
+      "title": "Data from: Factors influencing herpetofauna abundance and diversity in a tropical agricultural landscape mosaic"
+    },
+    {
+      "id": 4989869,
+      "doi": "10.5061/dryad.7fc8c",
+      "title": "Data from: Signatures of human impact: size distributions and spatial organization of wetlands in the prairie pothole landscape"
+    },
+    {
+      "id": 4989927,
+      "doi": "10.5061/dryad.v36v0",
+      "title": "Data from: Predicting biotic interactions and their variability in a changing environment"
+    },
+    {
+      "id": 4991156,
+      "doi": "10.5061/dryad.kp59g3p",
+      "title": "Data from: Human disturbance promotes herbivory by leaf-cutting ants in the Caatinga dry forest"
+    },
+    {
+      "id": 5002426,
+      "doi": "10.5061/dryad.5637n",
+      "title": "Data from: Persistent differences between coastal and offshore kelp forest communities in a warming Gulf of Maine"
+    },
+    {
+      "id": 5003294,
+      "doi": "10.5061/dryad.9gs8k",
+      "title": "Data from: Tissue culture as a source of replicates in non-model plants: variation in cold response in Arabidopsis lyrata ssp. petraea"
+    },
+    {
+      "id": 5008662,
+      "doi": "10.5061/dryad.38m3dc6",
+      "title": "Data from: Sea urchins mediate the availability of kelp detritus to benthic consumers"
+    },
+    {
+      "id": 5010038,
+      "doi": "10.5061/dryad.54k37",
+      "title": "Data from: Patterns and biases in climate change research on amphibians and reptiles: a systematic review"
+    },
+    {
+      "id": 5012994,
+      "doi": "10.5061/dryad.q447c",
+      "title": "Data from: Who's downloading pirated papers? Everyone"
+    },
+    {
+      "id": 5089529,
+      "doi": "10.5061/dryad.dv920",
+      "title": "Data from: Near-global freshwater-specific environmental variables for biodiversity analyses in 1km resolution"
+    },
+    {
+      "id": 5091251,
+      "doi": "10.5281/zenodo.5091251",
+      "title": "ValLAI_Crop: Validation dataset for coarse-resolution satellite LAI product over Chinese Cropland"
+    },
+    {
+      "id": 5279644,
+      "doi": "10.5061/dryad.n02v6wwxd",
+      "title": "Isotopic data of kelps and particulate organic matter (POM) from relevant studies and estimated contributions of kelps to local consumers"
+    },
+    {
+      "id": 5507109,
+      "doi": "10.5281/zenodo.5507109",
+      "title": "Success of coastal wetlands restoration is driven by sediment availability"
+    },
+    {
+      "id": 5508371,
+      "doi": "10.5061/dryad.1g1jwstx3",
+      "title": "Data from: Grazing and nitrogen addition restructure the spatial heterogeneity of soil microbial community structure and enzymatic activities"
+    },
+    {
+      "id": 5519919,
+      "doi": "10.5281/zenodo.5519919",
+      "title": "Workflow notebooks for deriving parameter of SUEWS v2020 based on FLUXNET2015 dataset"
+    },
+    {
+      "id": 5544386,
+      "doi": "10.6078/D1399Q",
+      "title": "Data from: Terrestrial evaporation and global climate: lessons from Northland, a planet with a hemispheric continent"
+    },
+    {
+      "id": 5553187,
+      "doi": "10.5281/zenodo.5553187",
+      "title": "Development of a global dataset of Wetland Area and Dynamics for Methane Modeling (WAD2M)"
+    },
+    {
+      "id": 5658808,
+      "doi": "10.5281/zenodo.5658808",
+      "title": "Global Mangrove Watch (1996 - 2016) Version 2.0"
+    },
+    {
+      "id": 5704852,
+      "doi": "10.5281/zenodo.5704852",
+      "title": "Global canopy top height estimates from GEDI LIDAR waveforms for 2019"
+    },
+    {
+      "id": 5722428,
+      "doi": "10.25349/D9Z89D",
+      "title": "Parasites in kelp-forest food webs increase food-chain length, complexity, and specialization, but reduce connectance"
+    },
+    {
+      "id": 5765435,
+      "doi": "10.5061/dryad.b8gtht7bg",
+      "title": "Global patterns in leaf stoichiometry across coastal wetlands"
+    },
+    {
+      "id": 5768436,
+      "doi": "10.5061/dryad.1zcrjdft7",
+      "title": "Effects of harvesting on subtidal kelp forests (Lessonia trabeculata) in Central Chile"
+    },
+    {
+      "id": 5773208,
+      "doi": "10.5281/zenodo.5773208",
+      "title": "Heatwave breaks down the linearity between sun-induced fluorescence and gross primary production. Reproducible workflow"
+    },
+    {
+      "id": 5791229,
+      "doi": "10.5061/dryad.4f4qrfjd9",
+      "title": "Data from: Establishing community-wide DNA barcode references for conserving mangrove forests in China"
+    },
+    {
+      "id": 5793918,
+      "doi": "10.5281/zenodo.5793918",
+      "title": "Global River Obstruction Database v1.1"
+    },
+    {
+      "id": 5825755,
+      "doi": "10.5061/dryad.bcc2fqzck",
+      "title": "Beagle kelp maps from: One of the least disturbed marine coastal ecosystems on Earth: Spatial and temporal persistence of Darwin's sub-Antarctic giant kelp forests"
+    },
+    {
+      "id": 5828339,
+      "doi": "10.5281/zenodo.5828339",
+      "title": "Global Mangrove Watch 2010 Baseline (v2.5)"
+    },
+    {
+      "id": 5886608,
+      "doi": "10.5281/zenodo.5886608",
+      "title": "A Deep Learning-Based Hybrid Model of Global Terrestrial Evaporation"
+    },
+    {
+      "id": 5888283,
+      "doi": "10.5281/zenodo.5888283",
+      "title": "A Reconstructed Global Daily Seamless TROPOMI SIF dataset at  a 0.05-degree Resolution (SDSIF) using the ML approach"
+    },
+    {
+      "id": 5917527,
+      "doi": "10.5281/zenodo.5917527",
+      "title": "Supplementary dataset for \"Rising CO2 and warming reduce global canopy demand for nitrogen\""
+    },
+    {
+      "id": 6321987,
+      "doi": "10.5281/zenodo.6321987",
+      "title": "TROPOMI SIF high resolution data at 0.005° for CONUS as estimated by the convolutional neural network SIFnet"
+    },
+    {
+      "id": 6326640,
+      "doi": "10.5281/zenodo.6326640",
+      "title": "Widespread glacier advances across the Tian Shan during Marine Isotope Stage 3 not supported by climate-glaciation simulations"
+    },
+    {
+      "id": 6345234,
+      "doi": "10.5281/zenodo.6345234",
+      "title": "Surface Water Area Variations of Global Lakes and Reservoirs"
+    },
+    {
+      "id": 6387586,
+      "doi": "10.5281/zenodo.6387586",
+      "title": "Global Spatially Continuous TanSat Solar-Induced Chlorophyll Fluorescence Product"
+    },
+    {
+      "id": 6399181,
+      "doi": "10.5281/zenodo.6399181",
+      "title": "An improved downscaled sun-induced chlorophyll fluorescence (DSIF) product of GOME-2 dataset"
+    },
+    {
+      "id": 6403174,
+      "doi": "10.6078/D16H6K",
+      "title": "Data for: Radiative feedbacks on land surface change and associated tropical precipitation shifts"
+    },
+    {
+      "id": 6405564,
+      "doi": "10.5281/zenodo.6405564",
+      "title": "A global land surface 250-m 8-day Fraction of Absorbed Photosynthetically Active Radiation (FAPAR) product (2022-part1)"
+    },
+    {
+      "id": 6409309,
+      "doi": "10.5281/zenodo.6409309",
+      "title": "Dynamics of global wetlands by TOPMODEL"
+    },
+    {
+      "id": 6422669,
+      "doi": "10.5061/dryad.sqv9s4n3r",
+      "title": "Metabolic depression in sea urchin barrens associated with food deprivation"
+    },
+    {
+      "id": 6430925,
+      "doi": "10.5281/zenodo.6430925",
+      "title": "A global land surface 250-m 8-day Fraction of Absorbed Photosynthetically Active Radiation (FAPAR) product (2022-part2)"
+    },
+    {
+      "id": 6484939,
+      "doi": "10.5281/zenodo.6484939",
+      "title": "The Surface Water Chemistry (SWatCh) database"
+    },
+    {
+      "id": 6499171,
+      "doi": "10.5061/dryad.mkkwh712k",
+      "title": "Coordination of care by breeders and helpers in the cooperatively breeding long-tailed tit, Aegithalos caudatus"
+    },
+    {
+      "id": 6518002,
+      "doi": "10.5061/dryad.dfn2z352k",
+      "title": "A global 0.05° dataset for gross primary production of sunlit and shaded vegetation canopies (1992–2020)"
+    },
+    {
+      "id": 6591520,
+      "doi": "10.5281/zenodo.6591520",
+      "title": "Global aerodynamic parameters in 1982-2017 based on GLASS LAI (v1.1 update to 2020)"
+    },
+    {
+      "id": 6599673,
+      "doi": "10.5281/zenodo.6599673",
+      "title": "Surface Water Maps of Pune District in India"
+    },
+    {
+      "id": 6813710,
+      "doi": "10.5281/zenodo.6813710",
+      "title": "Simulated datasets of twelve satellites capable for SIF monitoring."
+    },
+    {
+      "id": 6819942,
+      "doi": "10.5061/dryad.fqz612jvs",
+      "title": "Shield wall: Kelps are the last stand against corals in tropicalised reefs"
+    },
+    {
+      "id": 6894273,
+      "doi": "10.5281/zenodo.6894273",
+      "title": "Global Mangrove Watch (1996 - 2020) Version 3.0 Dataset"
+    },
+    {
+      "id": 6908255,
+      "doi": "10.5281/zenodo.6908255",
+      "title": "3D models (4) of historic buildings Marine Etablissement Amsterdam"
+    },
+    {
+      "id": 6969809,
+      "doi": "10.5281/zenodo.6969809",
+      "title": "Standardized Dataset of the Ecosystem's Water Use Efficiency, Gross Primary Productivity  and the Evapotranspiration Deficit Index for 1982–2017 over the Middle East"
+    },
+    {
+      "id": 7040223,
+      "doi": "10.5281/zenodo.7040223",
+      "title": "Global net ecosystem exchange of CO2 inferred from the OCO-2 XCO2 retrievals (GCAS OCO-2 inversion)"
+    },
+    {
+      "id": 7045974,
+      "doi": "10.5061/dryad.n02v6wwzs",
+      "title": "Using Unoccupied Aerial Vehicles (UAVs) to map and monitor changes in emergent kelp canopy after an ecological regime shift"
+    },
+    {
+      "id": 7067699,
+      "doi": "10.5281/zenodo.7067699",
+      "title": "Limitations of Catchment Area Estimates and River Basin Boundaries from CWC and WRIS"
+    },
+    {
+      "id": 7071660,
+      "doi": "10.5281/zenodo.7071660",
+      "title": "Development of a global inundation map at high spatial resolution from topographic downscaling of coarse-scale remote sensing data"
+    },
+    {
+      "id": 7117732,
+      "doi": "10.5061/dryad.05qfttf5z",
+      "title": "The legacies of land-clearance and trophic downgrading accumulate to affect structure and function of kelp forests"
+    },
+    {
+      "id": 7182607,
+      "doi": "10.5061/dryad.cjsxksn8g",
+      "title": "A biogeographical approach to characterising the climatic, physical and geomorphic niche of the most widely distributed mangrove species, Avicennia marina"
+    },
+    {
+      "id": 7189509,
+      "doi": "10.5281/zenodo.7189509",
+      "title": "diFUME Leaf Area Index V0.1"
+    },
+    {
+      "id": 7244183,
+      "doi": "10.5281/zenodo.7244183",
+      "title": "Canopy solar-induces chlorophyll fluorescence measurements at seven sites"
+    },
+    {
+      "id": 7271888,
+      "doi": "10.5061/dryad.s4mw6m990",
+      "title": "Global lake surface water temperature layers"
+    },
+    {
+      "id": 7331411,
+      "doi": "10.5281/zenodo.7331411",
+      "title": "eSIF product: enhanced SIF by combining TROPOSIF, MODIS reflectance and ERA-5 shorwave radiation"
+    },
+    {
+      "id": 7459306,
+      "doi": "10.5281/zenodo.7459306",
+      "title": "Global Mangrove Watch: Monthly Alerts of Mangrove Loss for Africa 2019--2022"
+    },
+    {
+      "id": 7477879,
+      "doi": "10.5281/zenodo.7477879",
+      "title": "Supporting biophysical data for \"The ecosystem wilting point defines drought response and recovery of a Quercus-Carya forest\""
+    },
+    {
+      "id": 7593734,
+      "doi": "10.5281/zenodo.7593734",
+      "title": "WorldCereal open global harmonized reference data repository (CC-BY licensed data sets)"
+    },
+    {
+      "id": 7609500,
+      "doi": "10.5281/zenodo.7609500",
+      "title": "WorldCereal open global harmonized reference data repository (CC-BY-NC licensed data sets)"
+    },
+    {
+      "id": 7609546,
+      "doi": "10.5281/zenodo.7609546",
+      "title": "WorldCereal open global harmonized reference data repository (CC-BY-SA licensed data sets)"
+    },
+    {
+      "id": 7616852,
+      "doi": "10.5281/zenodo.7616852",
+      "title": "Global Dam Tracker: A database of more than 35,000 dams with location, catchment, and attribute information"
+    },
+    {
+      "id": 7643403,
+      "doi": "10.5281/zenodo.7643403",
+      "title": "The global 30-m forest canopy height map for 2020"
+    },
+    {
+      "id": 7662773,
+      "doi": "10.5061/dryad.zcrjdfngr",
+      "title": "Sunflower sea star predation on urchins can facilitate kelp forest recovery"
+    },
+    {
+      "id": 7697253,
+      "doi": "10.5281/zenodo.7697253",
+      "title": "Comparison of high-resolution global canopy height maps and their applicability to biodiversity modelling - dataset"
+    },
+    {
+      "id": 7708236,
+      "doi": "10.5281/zenodo.7708236",
+      "title": "Data of global wetland carbon sinks"
+    },
+    {
+      "id": 7727569,
+      "doi": "10.5281/zenodo.7727569",
+      "title": "Predicted soil organic carbon stock at 30 m in t/ha for 0-100 cm depth global / update of the map of mangrove forest soil carbon"
+    },
+    {
+      "id": 7728509,
+      "doi": "10.5281/zenodo.7728509",
+      "title": "L4F - Training dataset and layers for biomass prediction"
+    },
+    {
+      "id": 7729492,
+      "doi": "10.5281/zenodo.7729492",
+      "title": "Global mangrove soil carbon data set at 30 m resolution for year 2020 (0-100 cm)"
+    },
+    {
+      "id": 7737869,
+      "doi": "10.5281/zenodo.7737869",
+      "title": "Global canopy top height estimates from GEDI LIDAR waveforms for 2020"
+    },
+    {
+      "id": 7737946,
+      "doi": "10.5281/zenodo.7737946",
+      "title": "Filtered canopy top height estimates from GEDI LIDAR waveforms for 2019 and 2020"
+    },
+    {
+      "id": 7743881,
+      "doi": "10.5281/zenodo.7743881",
+      "title": "In situ SIF dataset for validating OCO2/3 SIF products"
+    },
+    {
+      "id": 7746643,
+      "doi": "10.5281/zenodo.7746643",
+      "title": "'Does crown sheltering effect the vulnerability of trees to wind damage in tropical forests? ' project dataset"
+    },
+    {
+      "id": 7778165,
+      "doi": "10.5061/dryad.70rxwdc3d",
+      "title": "Data from: Monitoring temporal and spatial trends of illegal and legal fishing in Canada's marine conservation areas using vessel tracking datasets"
+    },
+    {
+      "id": 7825628,
+      "doi": "10.5281/zenodo.7825628",
+      "title": "Global Crop Type Validation Data Set for ESA WorldCereal System"
+    },
+    {
+      "id": 7837480,
+      "doi": "10.5281/zenodo.7837480",
+      "title": "Global reference data set for validating ESA WorldCereal temporary cropland extent"
+    },
+    {
+      "id": 7855477,
+      "doi": "10.5281/zenodo.7855477",
+      "title": "Global Reservoir Storage (GRS) dataset"
+    },
+    {
+      "id": 7875105,
+      "doi": "10.5281/zenodo.7875105",
+      "title": "ESA WorldCereal 10 m 2021 v100"
+    },
+    {
+      "id": 7884827,
+      "doi": "10.5281/zenodo.7884827",
+      "title": "MUSES Leaf Area Index (LAI) Monthly Global 1km SIN Grid in 2010"
+    },
+    {
+      "id": 7885610,
+      "doi": "10.5281/zenodo.7885610",
+      "title": "Demo data for global-canopy-height-model"
+    },
+    {
+      "id": 7885699,
+      "doi": "10.5281/zenodo.7885699",
+      "title": "Canopy top height models at 10m GSD from airborne LIDAR (derived from LVIS and small-footprint ALS)"
+    },
+    {
+      "id": 7916264,
+      "doi": "10.5061/dryad.mgqnk9949",
+      "title": "Data for: Exogenous carbon turnover within the soil food web strengthens soil carbon sequestration through microbial necromass accumulation"
+    },
+    {
+      "id": 7916879,
+      "doi": "10.5281/zenodo.7916879",
+      "title": "LEGACY DATASET"
+    },
+    {
+      "id": 7924816,
+      "doi": "10.5281/zenodo.7924816",
+      "title": "Groundwater is a globally-threatened keystone ecosystem"
+    },
+    {
+      "id": 7954622,
+      "doi": "10.5281/zenodo.7954622",
+      "title": "CMLR: A mechanistic global 0.05° Gross Primary Production dataset using TROPOMI Solar-induced fluorescence observations"
+    },
+    {
+      "id": 7980604,
+      "doi": "10.5281/zenodo.7980604",
+      "title": "Average monthly backward moisture footprints for 40 Ramsar wetland basins under potential and current vegetation scenarios (2008 - 2017)"
+    },
+    {
+      "id": 7983721,
+      "doi": "10.5281/zenodo.7983721",
+      "title": "STEAM evaporation and precipitation for potential vegetation and current land use scenarios"
+    },
+    {
+      "id": 8035647,
+      "doi": "10.5281/zenodo.8035647",
+      "title": "GCB-2023-Wang-Satellite-Data"
+    },
+    {
+      "id": 8062625,
+      "doi": "10.5281/zenodo.8062625",
+      "title": "Statistical blending of global-gridded climatological products: an approach to inverse hydrological model"
+    },
+    {
+      "id": 8074846,
+      "doi": "10.5281/zenodo.8074846",
+      "title": "Baseline soil organic carbon data"
+    },
+    {
+      "id": 8078476,
+      "doi": "10.5281/zenodo.8078476",
+      "title": "coSIF Input Data"
+    },
+    {
+      "id": 8078560,
+      "doi": "10.5281/zenodo.8078560",
+      "title": "coSIF Fitted Model Parameters"
+    },
+    {
+      "id": 8078592,
+      "doi": "10.5281/zenodo.8078592",
+      "title": "coSIF Data Product for February, April, July, and October 2021"
+    },
+    {
+      "id": 8121174,
+      "doi": "10.5281/zenodo.8121174",
+      "title": "A Global Lake/Reservoir Surface Extent Dataset (GLRSED)"
+    },
+    {
+      "id": 8142545,
+      "doi": "10.5281/zenodo.8142545",
+      "title": "Global SIF-based GPP estimates"
+    },
+    {
+      "id": 8157897,
+      "doi": "10.5061/dryad.vhhmgqnzq",
+      "title": "Data from: Pre‐adaptation and adaptation shape trait‐environment matching in the Neotropics"
+    },
+    {
+      "id": 8194045,
+      "doi": "10.5281/zenodo.8194045",
+      "title": "Supplementary material/Organic carbon dynamics in clay soils: impact of management practices on microorganism structure and abundance under semi-arid conditions"
+    },
+    {
+      "id": 8194083,
+      "doi": "10.5281/zenodo.8194083",
+      "title": "Organic carbon dynamics in clay soils: impact of management practices on microorganism structure and abundance under semi-arid conditions"
+    },
+    {
+      "id": 8267708,
+      "doi": "10.5281/zenodo.8267708",
+      "title": "Companion data for RAT 3.0: Global Database, Test data, Parameter files and Routing Script"
+    },
+    {
+      "id": 8322038,
+      "doi": "10.5281/zenodo.8322038",
+      "title": "Global LAke Surface water Temperature (GLAST): Global lakes are warming slower than surface air temperature due to accelerated evaporation"
+    },
+    {
+      "id": 8324697,
+      "doi": "10.5061/dryad.j3tx95xmg",
+      "title": "Water and Planetary Health Analytics (WAPHA) global metal mines database"
+    },
+    {
+      "id": 8339655,
+      "doi": "10.5281/zenodo.8339655",
+      "title": "ET-WB: water balance-based estimations of terrestrial evaporation over global land and major global basins"
+    },
+    {
+      "id": 8340259,
+      "doi": "10.5281/zenodo.8340259",
+      "title": "A global biophysical typology of mangroves version 3"
+    },
+    {
+      "id": 8399080,
+      "doi": "10.5281/zenodo.8399080",
+      "title": "LEGACY DATASET: Reconstructed global long-term contiguous solar-induced fluorescence (LCSIF), MODIS period (2001-2021)"
+    },
+    {
+      "id": 8432070,
+      "doi": "10.5281/zenodo.8432070",
+      "title": "Hydro-meteorological database for watersheds across the CIS"
+    },
+    {
+      "id": 10014495,
+      "doi": "10.5281/zenodo.10014495",
+      "title": "Kelp forest biomass, species composition and depth distribution survey at Hansneset in Kongsfjorden, Svalbard"
+    },
+    {
+      "id": 10044764,
+      "doi": "10.5281/zenodo.10044764",
+      "title": "SIF datasets (50 m) and demos of network structure designs on the study of the STP-SIF issue"
+    },
+    {
+      "id": 10055966,
+      "doi": "10.5281/zenodo.10055966",
+      "title": "Widespread warming of Earth's estuaries"
+    },
+    {
+      "id": 10060550,
+      "doi": "10.5281/zenodo.10060550",
+      "title": "TroDSIF: an improved spatially downscaled solar-induced chlorophyll fluorescence product of TROPOMI dataset"
+    },
+    {
+      "id": 10060593,
+      "doi": "10.5281/zenodo.10060593",
+      "title": "GRWSE-global river  water surface elevation from sentinel-3"
+    },
+    {
+      "id": 10078287,
+      "doi": "10.5061/dryad.dv41ns23c",
+      "title": "Non-trophic interactions amplify kelp harvest-induced biomass oscillations and biomass changes in a kelp forest ecological network model"
+    },
+    {
+      "id": 10122920,
+      "doi": "10.5281/zenodo.10122920",
+      "title": "Future monthly discharge and water temperature simulations under global change (CMIP6)"
+    },
+    {
+      "id": 10211505,
+      "doi": "10.5061/dryad.djh9w0w67",
+      "title": "Data for: Stabilisation of soil organic matter with rock dust partially counteracted by plants"
+    },
+    {
+      "id": 10212472,
+      "doi": "10.5281/zenodo.10212472",
+      "title": "Global fluorescence yield based on TROPOSIF data, normalized with the NIRvP (2019-2021)"
+    },
+    {
+      "id": 10229587,
+      "doi": "10.5281/zenodo.10229587",
+      "title": "Duncroisk_3"
+    },
+    {
+      "id": 10246787,
+      "doi": "10.5281/zenodo.10246787",
+      "title": "Hyperspectral imager acquisitions from SMART Soils Test Bed, 2022-04-18"
+    },
+    {
+      "id": 10253413,
+      "doi": "10.5281/zenodo.10253413",
+      "title": "Solar-induced chlorophyll fluorescence study in Bibai Wetland"
+    },
+    {
+      "id": 10255327,
+      "doi": "10.5061/dryad.51c59zwfs",
+      "title": "A meta-analysis reveals increases in soil organic carbon following the restoration and recovery of croplands in Southwest China"
+    },
+    {
+      "id": 10348476,
+      "doi": "10.5281/zenodo.10348476",
+      "title": "Upper_Duncroisk_1"
+    },
+    {
+      "id": 10373967,
+      "doi": "10.5281/zenodo.10373967",
+      "title": "Data for Wildfire-induced Increases in Photosynthesis in Boreal Forest Ecosystems of North America"
+    },
+    {
+      "id": 10402096,
+      "doi": "10.5281/zenodo.10402096",
+      "title": "Maximum Water Area Extent of the Rainwater Harvesting System in Telangana from GSW"
+    },
+    {
+      "id": 10456916,
+      "doi": "10.5281/zenodo.10456916",
+      "title": "Hyperspectral and photodiode retrievals of nighttime LED-induced chlorophyll fluorescence (LEDIF) for tracking photosynthetic phenology in a vineyard"
+    },
+    {
+      "id": 10461703,
+      "doi": "10.5281/zenodo.10461703",
+      "title": "UFLUX European ensemble 0.25deg daily carbon, water, and energy fluxes from 2000 - 2020"
+    },
+    {
+      "id": 10500535,
+      "doi": "10.5281/zenodo.10500535",
+      "title": "Gridded dataset of nitrogen and phosphorus point sources from wastewater in Germany (1950-2019)"
+    },
+    {
+      "id": 10691444,
+      "doi": "10.5281/zenodo.10691444",
+      "title": "2021 Water Surface in the Hindu Kush Himalaya"
+    },
+    {
+      "id": 10708054,
+      "doi": "10.5281/zenodo.10708054",
+      "title": "Grassland Hyperspectral Dataset and Code Notebook for Soil Organic Carbon Modeling"
+    },
+    {
+      "id": 10731819,
+      "doi": "10.5281/zenodo.10731819",
+      "title": "Leaf Area Index (open loop)"
+    },
+    {
+      "id": 10736614,
+      "doi": "10.5281/zenodo.10736614",
+      "title": "Leaf Area Index (assimilated data)"
+    },
+    {
+      "id": 10811003,
+      "doi": "10.5061/dryad.7d7wm380c",
+      "title": "Land use change converts temperate dryland landscape into a net methane source"
+    },
+    {
+      "id": 10815170,
+      "doi": "10.5281/zenodo.10815170",
+      "title": "Global 1km Land Surface Parameters for Kilometer-Scale Earth System Modeling"
+    },
+    {
+      "id": 10818824,
+      "doi": "10.5281/zenodo.10818824",
+      "title": "A new global hybrid map of annual herbaceous cropland at a 500 m resolution for the year 2019: Accompanying file."
+    },
+    {
+      "id": 10839533,
+      "doi": "10.5281/zenodo.10839533",
+      "title": "Example input data GLEAMv4: 2004-01"
+    },
+    {
+      "id": 10894363,
+      "doi": "10.5281/zenodo.10894363",
+      "title": "Datasets and R code for Liu et al. A global meta-analysis on the drivers of salt marsh planting success and implications for ecosystem services"
+    },
+    {
+      "id": 10932901,
+      "doi": "10.5281/zenodo.10932901",
+      "title": "METIS case study PSHA:  openquake hdf5 output files for Conditional Spectra"
+    },
+    {
+      "id": 10984397,
+      "doi": "10.5281/zenodo.10984397",
+      "title": "Data for the comparing microbial CUE in POM and MAOM in 25 natural ecosystem sites across China"
+    },
+    {
+      "id": 11058509,
+      "doi": "10.5281/zenodo.11058509",
+      "title": "Harmonized livestock number dataset for Europe"
+    },
+    {
+      "id": 11081591,
+      "doi": "10.5281/zenodo.11081591",
+      "title": "Dataset for: A reproduction of C. Vita-Finzi and E. S. Higgs's Prehistoric Economy in the Mount Carmel Area of Palestine: Site Catchment Analysis"
+    },
+    {
+      "id": 11082615,
+      "doi": "10.5061/dryad.v9s4mw73q",
+      "title": "Data from: Ocean warming undermines the recovery resilience of New England kelp forests following a fishery-induced trophic cascade"
+    },
+    {
+      "id": 11206366,
+      "doi": "10.5281/zenodo.11206366",
+      "title": "OceanSODA-ETHZ-v2: Surface ocean sea-air CO2 fluxes from 1982 to 2022 (8-day by 0.25° x 0.25°)"
+    },
+    {
+      "id": 11206627,
+      "doi": "10.5281/zenodo.11206627",
+      "title": "Distribution of Biophysical Feasibility of Mangrove Reforestation in China and Southeast Asia"
+    },
+    {
+      "id": 11236850,
+      "doi": "10.5281/zenodo.11236850",
+      "title": "The global 30-m mangrove canopy height map for 2020"
+    },
+    {
+      "id": 11517296,
+      "doi": "10.5281/zenodo.11517296",
+      "title": "Reference data set used to validate the hybrid cropland map at 500m (Fritz, S. 2024)"
+    },
+    {
+      "id": 11654477,
+      "doi": "10.5281/zenodo.11654477",
+      "title": "LEGACY DATASET: Cross-calibrated AVHRR and MODIS long-term contiguous reflectance parameters (LCREF), 1982-2021"
+    },
+    {
+      "id": 12527546,
+      "doi": "10.5281/zenodo.12527546",
+      "title": "Global cropland extent (fractions) annual 2000-2022 at 250 m and 1 km"
+    },
+    {
+      "id": 12636602,
+      "doi": "10.5281/zenodo.12636602",
+      "title": "Methane mean emissions from wetlands in Mexico for the period 2000-2017"
+    },
+    {
+      "id": 12698637,
+      "doi": "10.5281/zenodo.12698637",
+      "title": "GLOBMAP global Leaf Area Index since 1981"
+    },
+    {
+      "id": 12756047,
+      "doi": "10.5281/zenodo.12756047",
+      "title": "Global Mangrove Watch: Annual Mangrove Extent"
+    },
+    {
+      "id": 12811118,
+      "doi": "10.5281/zenodo.12811118",
+      "title": "Projected fire cycle (yrs) for Canada at a 0.25 degree resolution"
+    },
+    {
+      "id": 13221555,
+      "doi": "10.5281/zenodo.13221555",
+      "title": "Model calibration and streamflow simulations for the extreme drought event of 2018 on the Rhine River Basin using WRF-Hydro 5.2.0"
+    },
+    {
+      "id": 13363746,
+      "doi": "10.5281/zenodo.13363746",
+      "title": "Kruger National Park Boundary And Environmental Predictors"
+    },
+    {
+      "id": 13383360,
+      "doi": "10.5281/zenodo.13383360",
+      "title": "Bayesian hierarchical model gridded solar-induced fluorescence (BHM gridded SIF) data product"
+    },
+    {
+      "id": 13712048,
+      "doi": "10.5281/zenodo.13712048",
+      "title": "Tree Cover and Canopy Height median data of the Western Ghats, India"
+    },
+    {
+      "id": 13922379,
+      "doi": "10.5281/zenodo.13922379",
+      "title": "A Reconstruction of Long-Term Spatially Contiguous Solar-Induced Fluorescence Proxy over 2001-2022 Using MODIS Surface Reflectance (LCSIF-MODIS)"
+    },
+    {
+      "id": 13928962,
+      "doi": "10.5281/zenodo.13928962",
+      "title": "BlockMAP"
+    },
+    {
+      "id": 13964023,
+      "doi": "10.5281/zenodo.13964023",
+      "title": "Global OCO-2 SIF from 2001 to 2022"
+    },
+    {
+      "id": 13982339,
+      "doi": "10.1016/j.eiar.2023.107396",
+      "title": "Pakistan 30m land use land cover and carbon storage dataset (1990-2020)"
+    },
+    {
+      "id": 13993045,
+      "doi": "10.5281/zenodo.13993045",
+      "title": "SERENA EJPSOIL BE Flanders SOCLOSS SOC 0-20cm cookbook"
+    },
+    {
+      "id": 14002242,
+      "doi": "10.5281/zenodo.14002242",
+      "title": "Data underlying submission \"Tracing stream flow in confluent rivers – a journey from chaos to order\""
+    },
+    {
+      "id": 14015772,
+      "doi": "10.5281/zenodo.14015772",
+      "title": "Original data"
+    },
+    {
+      "id": 14179418,
+      "doi": "10.5281/zenodo.14179418",
+      "title": "2019_Herbaceous_Wetlands_Copernicus"
+    },
+    {
+      "id": 14225893,
+      "doi": "10.5281/zenodo.14225893",
+      "title": "OmniSegger - Figure data files"
+    },
+    {
+      "id": 14439377,
+      "doi": "10.5281/zenodo.14439377",
+      "title": "Global tree percent cover and impervious surfaces (urban) cover based on GLC_FCS30D for years 1985 and 2022 at 30 m spatial resolution"
+    },
+    {
+      "id": 14460914,
+      "doi": "10.5281/zenodo.14460914",
+      "title": "TCSIF_005: A Temporally Consistent Global SIF Dataset with 0.05° Spatial Resolution (1995–2023)"
+    },
+    {
+      "id": 14538184,
+      "doi": "10.5281/zenodo.14538184",
+      "title": "MeanDRS River Width Sampling: Data products corresponding to \"Intrinsic spatial scales of river stores and fluxes and their relative contributions to the global water cycle\""
+    },
+    {
+      "id": 14563816,
+      "doi": "10.5281/zenodo.14563816",
+      "title": "Transformation Rate Maps of Dissolved Organic Carbon in the Contiguous U.S."
+    },
+    {
+      "id": 14568024,
+      "doi": "10.5281/zenodo.14568024",
+      "title": "Long-term Continuous SIF-informed Photosynthesis Proxy reconstructed with calibrated AVHRR surface reflectance (LCSPP-AVHRR), 1982-2000"
+    },
+    {
+      "id": 14568491,
+      "doi": "10.5281/zenodo.14568491",
+      "title": "Long-term Continuous SIF-informed Photosynthesis Proxy reconstructed with calibrated AVHRR surface reflectance (LCSPP-AVHRR), 2001-2023"
+    },
+    {
+      "id": 14586458,
+      "doi": "10.5281/zenodo.14586458",
+      "title": "Long-term Continuous Red and Near-infrared Channel Reflectance from AVHRR, 1982-2023 (LCREF-AVHRR)"
+    },
+    {
+      "id": 14617556,
+      "doi": "10.5281/zenodo.14617556",
+      "title": "In situ data for GLEAM4 validation"
+    },
+    {
+      "id": 14709655,
+      "doi": "10.5281/zenodo.14709655",
+      "title": "Global urban tree LAI/SAI dataset for urban climate modeling"
+    },
+    {
+      "id": 14724263,
+      "doi": "10.5281/zenodo.14724263",
+      "title": "GLEAM4"
+    },
+    {
+      "id": 14765911,
+      "doi": "10.5281/zenodo.14765911",
+      "title": "Data Release: Evaluating the Robustness of PCMCI+ for Causal Discovery of Flood Drivers"
+    },
+    {
+      "id": 14773934,
+      "doi": "10.5281/zenodo.14773934",
+      "title": "WORCC-PMOD/WRC quality assured aerosol optical depth and Ångström exponent for Ny-Ålesund GAW-PFR station (2002- 2023)"
+    },
+    {
+      "id": 14773994,
+      "doi": "10.5281/zenodo.14773994",
+      "title": "WORCC-PMOD/WRC quality assured aerosol optical depth and Ångström exponent for Troll/Trolhaugen GAW-PFR station (2007- 2023)"
+    },
+    {
+      "id": 14774040,
+      "doi": "10.5281/zenodo.14774040",
+      "title": "WORCC-PMOD/WRC quality assured aerosol optical depth and Ångström exponent for Marambio GAW-PFR station (2005- 2016)"
+    },
+    {
+      "id": 14816612,
+      "doi": "10.5281/zenodo.14816612",
+      "title": "Intensifying marine heatwaves and limited protection threaten floating kelp forests globally_Data"
+    },
+    {
+      "id": 14838476,
+      "doi": "10.5281/zenodo.14838476",
+      "title": "Molecular Identification of mealybugs species (Hemiptera: Pseudococcidae) by qPCR melting curve analysis"
+    },
+    {
+      "id": 14854185,
+      "doi": "10.5281/zenodo.14854185",
+      "title": "LHSIF: the Long-Term Harmonized Multi-Satellite SIF dataset with a resolution of 0.05° spanning 1995 to 2023"
+    },
+    {
+      "id": 14866520,
+      "doi": "10.5281/zenodo.14866520",
+      "title": "OCO-2 10 Sec Average Data Product"
+    },
+    {
+      "id": 14868935,
+      "doi": "10.5281/zenodo.14868935",
+      "title": "Global development data from GDL"
+    },
+    {
+      "id": 14871853,
+      "doi": "10.5281/zenodo.14871853",
+      "title": "GOME-2A and GOME-2B solar induced fluorescence (SIF) noise reduced datasets (daily orbital and monthly averages)"
+    },
+    {
+      "id": 14885587,
+      "doi": "10.5281/zenodo.14885587",
+      "title": "Giant kelp forests act as natural barriers to motorboat noise: Dataset"
+    },
+    {
+      "id": 14947737,
+      "doi": "10.5281/zenodo.14947737",
+      "title": "Metabolomics Dataset: Turf algae redefine the chemical landscape of temperate reefs, limiting kelp forest recovery."
+    },
+    {
+      "id": 14981706,
+      "doi": "10.5281/zenodo.14981706",
+      "title": "Global EarthquakE ScEnarios (GEESE): An OpenQuake Engine-Based Rupture Matching Algorithm and Scenarios Database"
+    },
+    {
+      "id": 14982712,
+      "doi": "10.5281/zenodo.14982712",
+      "title": "Global AIS-based Apparent Fishing Effort Dataset"
+    },
+    {
+      "id": 14989467,
+      "doi": "10.5281/zenodo.14989467",
+      "title": "Metabolomics Dataset Surface Extracts: Turf algae redefine the chemical landscape of temperate reefs, limiting kelp forest recovery"
+    },
+    {
+      "id": 15001078,
+      "doi": "10.5281/zenodo.15001078",
+      "title": "Global Reservoir Sedimentation Rate (GRSR) dataset"
+    },
+    {
+      "id": 15021713,
+      "doi": "10.5281/zenodo.15021713",
+      "title": "PATRIS (Parameterization of Trentino forest types by rapid forest inventory)"
+    },
+    {
+      "id": 15063683,
+      "doi": "10.5281/zenodo.15063683",
+      "title": "GLC_FCS30D: the first global 30-m land-cover dynamic monitoring product with fine classification system from 1985 to 2022"
+    },
+    {
+      "id": 15064024,
+      "doi": "10.5281/zenodo.15064024",
+      "title": "Database and Interviews for New Business Models for Pharmaceutical Innovation and Access to Medicines Research Project - Antibiotics R&D Analysis"
+    },
+    {
+      "id": 15085179,
+      "doi": "10.5281/zenodo.15085179",
+      "title": "Uncertainty-aware Machine Learning Bias Correction and Filtering for OCO-2 | 2014-2024"
+    },
+    {
+      "id": 15105312,
+      "doi": "10.5281/zenodo.15105312",
+      "title": "GOSIF - Global, OCO-2 based SIF product"
+    },
+    {
+      "id": 15123702,
+      "doi": "10.5281/zenodo.15123702",
+      "title": "Photosynthetic carbon assimilation drives leaf area expansion but not growth duration across northern ecosystems"
+    },
+    {
+      "id": 15198654,
+      "doi": "10.5281/zenodo.15198654",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198656,
+      "doi": "10.5281/zenodo.15198656",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198658,
+      "doi": "10.5281/zenodo.15198658",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198660,
+      "doi": "10.5281/zenodo.15198660",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198662,
+      "doi": "10.5281/zenodo.15198662",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198664,
+      "doi": "10.5281/zenodo.15198664",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198668,
+      "doi": "10.5281/zenodo.15198668",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198670,
+      "doi": "10.5281/zenodo.15198670",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198672,
+      "doi": "10.5281/zenodo.15198672",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198674,
+      "doi": "10.5281/zenodo.15198674",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198676,
+      "doi": "10.5281/zenodo.15198676",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15198700,
+      "doi": "10.5281/zenodo.15198700",
+      "title": "Global Pasture Watch - Annual short vegetation height maps at 30-m spatial resolution (2000—2022)"
+    },
+    {
+      "id": 15201316,
+      "doi": "10.5281/zenodo.15201316",
+      "title": "ForestCO2 project: Canopy Height data"
+    },
+    {
+      "id": 15222062,
+      "doi": "10.5281/zenodo.15222062",
+      "title": "A global standardized high-resolution Leaf Area Index validation product"
+    },
+    {
+      "id": 15252136,
+      "doi": "10.5281/zenodo.15252136",
+      "title": "soilgrids 0-30cm"
+    },
+    {
+      "id": 15264639,
+      "doi": "10.5281/zenodo.15264639",
+      "title": "Fort McMurray Wildfire First 8 Days Dataset"
+    },
+    {
+      "id": 15267245,
+      "doi": "10.5281/zenodo.15267245",
+      "title": "Raster dataset of trees outside forests in C40 cities"
+    },
+    {
+      "id": 15302184,
+      "doi": "10.5281/zenodo.15302184",
+      "title": "The European Wetland Map ('EWM')"
+    },
+    {
+      "id": 15310655,
+      "doi": "10.5281/zenodo.15310655",
+      "title": "TABLE 1 in Habitat Suitability of the Sand Lizard (Lacerta agilis) at Its Distribution Limit-An Analysis Based on Citizen Science Data and Machine Learning"
+    },
+    {
+      "id": 15349578,
+      "doi": "10.5281/zenodo.15349578",
+      "title": "Global EC Flux Tower Bimonthly GPP Time Series from FluxNet2015, ICOS, AmeriFlux, OzFlux, and ChinaFlux for Product Validation"
+    },
+    {
+      "id": 15350094,
+      "doi": "10.5281/zenodo.15350094",
+      "title": "Dam Impoundment Database"
+    },
+    {
+      "id": 15382965,
+      "doi": "10.5281/zenodo.15382965",
+      "title": "Global modeling diurnal gross primary production from OCO-3 solar-induced chlorophyll fluorescence"
+    },
+    {
+      "id": 15412114,
+      "doi": "10.5281/zenodo.15412114",
+      "title": "Global Mangrove Land-Sea Migration Patterns"
+    },
+    {
+      "id": 15412175,
+      "doi": "10.5281/zenodo.15412175",
+      "title": "Global Water-Surface Solar Photovoltaic Dataset from 2019 to 2022"
+    },
+    {
+      "id": 15471027,
+      "doi": "10.5281/zenodo.15471027",
+      "title": "OpenLandMap-soildb: soil organic carbon density (mg/cm3) 2020-2022 0-30cm below ground"
+    },
+    {
+      "id": 15471031,
+      "doi": "10.5281/zenodo.15471031",
+      "title": "OpenLandMap-soildb: soil organic carbon density (mg/cm3) 2020-2022 30-60cm below ground"
+    },
+    {
+      "id": 15471033,
+      "doi": "10.5281/zenodo.15471033",
+      "title": "OpenLandMap-soildb: soil organic carbon density (mg/cm3) 2000-2005 60-100cm below ground"
+    },
+    {
+      "id": 15471035,
+      "doi": "10.5281/zenodo.15471035",
+      "title": "OpenLandMap-soildb: soil organic carbon density (mg/cm3) 2020-2022 60-100cm below ground"
+    },
+    {
+      "id": 15527618,
+      "doi": "10.5281/zenodo.15527618",
+      "title": "Global distribution of the mineral-associated to total soil organic carbon ratio"
+    },
+    {
+      "id": 15535764,
+      "doi": "10.5281/zenodo.15535764",
+      "title": "OpenLandMap-soildb: soil organic carbon content (g/kg) 2000-2005 30-60cm below ground"
+    },
+    {
+      "id": 15535766,
+      "doi": "10.5281/zenodo.15535766",
+      "title": "OpenLandMap-soildb: soil organic carbon content (g/kg) 2020-2022 30-60cm below ground"
+    },
+    {
+      "id": 15535768,
+      "doi": "10.5281/zenodo.15535768",
+      "title": "OpenLandMap-soildb: soil organic carbon content (g/kg) 2000-2005 60-100cm below ground"
+    },
+    {
+      "id": 15535773,
+      "doi": "10.5281/zenodo.15535773",
+      "title": "OpenLandMap-soildb: soil organic carbon content (g/kg) 2020-2022 60-100cm below ground"
+    },
+    {
+      "id": 15549157,
+      "doi": "10.5281/zenodo.15549157",
+      "title": "Kelp forest collapse alters the reef microbiome and its associated metabolome"
+    },
+    {
+      "id": 15591825,
+      "doi": "10.5281/zenodo.15591825",
+      "title": "PHALK - A global dataset of estimated pH and alkalinity in inland waters at basin-scale"
+    },
+    {
+      "id": 15609417,
+      "doi": "10.5281/zenodo.15609417",
+      "title": "Raw data : \"Soil organic carbon stocks and dynamics under contrasting organic matter management practices - Results from a 65-year-old experiment in Belgium\""
+    },
+    {
+      "id": 15644486,
+      "doi": "10.5281/zenodo.15644486",
+      "title": "Global Pasture Watch - Annual grassland class and extent maps at 30-m spatial resolution (2000—2024)"
+    },
+    {
+      "id": 15693706,
+      "doi": "10.5281/zenodo.15693706",
+      "title": "Multi-Sensor Harmful Algal Bloom Severity and Speciation Dataset"
+    },
+    {
+      "id": 15834840,
+      "doi": "10.5281/zenodo.15834840",
+      "title": "Dataset used in \"Grazing by sea urchins is a potential co-driver of Greenland kelp forest distribution\""
+    },
+    {
+      "id": 15876167,
+      "doi": "10.5281/zenodo.15876167",
+      "title": "Future Global Lake Evaporation"
+    },
+    {
+      "id": 15978041,
+      "doi": "10.5281/zenodo.15978041",
+      "title": "ResOpsUS+CARS: Reservoir Operations US and CAtchment and Reservoir Static attributes"
+    },
+    {
+      "id": 16096623,
+      "doi": "10.5281/zenodo.16096623",
+      "title": "ResOpsBR+CARS: Reservoir Operations Brazil and CAtchment and Reservoir Static attributes"
+    },
+    {
+      "id": 16394372,
+      "doi": "10.5281/zenodo.16394372",
+      "title": "LHSIF: the Long-Term Harmonized Multi-Satellite SIF dataset with a resolution of 0.05° spanning 1995 to 2024"
+    },
+    {
+      "id": 16418717,
+      "doi": "10.5281/zenodo.16418717",
+      "title": "GCTB : a high-resolution global annual city and town boundaries dataset (1985-2022) derived from GLC_FCS30D land cover product"
+    },
+    {
+      "id": 16787900,
+      "doi": "10.5281/zenodo.16787900",
+      "title": "RSIF: A 0.005° Global SIF Dataset Based on an End-to-End Convolutional Neural Network with Spatial Redistribution – 2018"
+    },
+    {
+      "id": 16788564,
+      "doi": "10.5281/zenodo.16788564",
+      "title": "RSIF: A 0.005° Global SIF Dataset Based on an End-to-End Convolutional Neural Network with Spatial Redistribution – 2019"
+    },
+    {
+      "id": 16788879,
+      "doi": "10.5281/zenodo.16788879",
+      "title": "RSIF: A 0.005° Global SIF Dataset Based on an End-to-End Convolutional Neural Network with Spatial Redistribution – 2020"
+    },
+    {
+      "id": 16893375,
+      "doi": "10.5281/zenodo.16893375",
+      "title": "Global Steel Plant Tracker"
+    },
+    {
+      "id": 16893480,
+      "doi": "10.5281/zenodo.16893480",
+      "title": "Europe Gas Tracker"
+    },
+    {
+      "id": 16931209,
+      "doi": "10.5281/zenodo.16931209",
+      "title": "A global gridded CO2 flux dataset inferred from OCO-2 retrievals using the GONGGA inversion system (v2025)"
+    },
+    {
+      "id": 17064291,
+      "doi": "10.5281/zenodo.17064291",
+      "title": "Soil organic carbon and soil organic matter measurements across habitats from the UK and Spain"
+    },
+    {
+      "id": 17109112,
+      "doi": "10.5281/zenodo.17109112",
+      "title": "Global Nuclear Power Tracker (GNPT) 2024-07"
+    },
+    {
+      "id": 17119432,
+      "doi": "10.5281/zenodo.17119432",
+      "title": "dataset: Integrating connectivity and habitat availability to identify key wetlands for a critically endangered marsh passerine and guide its national-scale conservation"
+    },
+    {
+      "id": 17119635,
+      "doi": "10.5281/zenodo.17119635",
+      "title": "Extended LamaH-CE: LArge-SaMple DAta for Hydrology and Environmental Sciences for Central Europe"
+    },
+    {
+      "id": 17122842,
+      "doi": "10.5281/zenodo.17122842",
+      "title": "LAI measurements for the assessment of successional trajectories in submontane non-serotinous Pinus spp. forests"
+    },
+    {
+      "id": 17279151,
+      "doi": "10.5281/zenodo.17279151",
+      "title": "CY-Bench: A comprehensive benchmark dataset for subnational crop yield forecasting"
+    },
+    {
+      "id": 17305831,
+      "doi": "10.5281/zenodo.17305831",
+      "title": "Soil organic carbon and soil organic matter measurements across European habitats, including permafrost regions and global seagrass sediments"
+    },
+    {
+      "id": 17343790,
+      "doi": "10.5281/zenodo.17343790",
+      "title": "1-km Global Arable Land Fraction (GALF) in 2000, 2010, and 2020"
+    },
+    {
+      "id": 17363432,
+      "doi": "10.5281/zenodo.17363432",
+      "title": "Hierarchical eco-zone delineation in data-scarce Afrotropical River landscapes using global datasets"
+    },
+    {
+      "id": 17394267,
+      "doi": "10.5281/zenodo.17394267",
+      "title": "Global Mangrove Watch v4 Reference Samples"
+    },
+    {
+      "id": 17456991,
+      "doi": "10.5281/zenodo.17456991",
+      "title": "ETH Global Canopy Height 2020 — North America (250 m Mosaic)"
+    },
+    {
+      "id": 17460923,
+      "doi": "10.5281/zenodo.17460923",
+      "title": "QeRSIF: A quality-enhanced red solar-induced chlorophyll fluorescence dataset for TROPOMI satellite"
+    },
+    {
+      "id": 17467221,
+      "doi": "10.5281/zenodo.17467221",
+      "title": "Global Data Lab SHDI and regions with codes"
+    },
+    {
+      "id": 17503891,
+      "doi": "10.5281/zenodo.17503891",
+      "title": "Continental HydroLAKES Subset Shapefiles (Africa, Asia, Australia, Europe, Eurasia, Holarctic, Indo-Pacific, North America, South America, New World, Old World)"
+    },
+    {
+      "id": 17665040,
+      "doi": "10.5281/zenodo.17665040",
+      "title": "Global Pasture Watch - Livestock reference samples based on multi-source sub-national census data (2000—2024)"
+    },
+    {
+      "id": 17747720,
+      "doi": "10.5281/zenodo.17747720",
+      "title": "\" Linking fractal scaling of river networks to self-organisation and optimality - data \" by Erwin Zehe, Samuel Schroers and Hubert Savenije."
+    },
+    {
+      "id": 17793698,
+      "doi": "10.5281/zenodo.17793698",
+      "title": "Canada1Water hydraulic parametrized integrated soil, bedrock and peatlands dataset: Soilmap 1: 000to050cm"
+    },
+    {
+      "id": 17796326,
+      "doi": "10.5281/zenodo.17796326",
+      "title": "Canada1Water hydraulic parametrized integrated soil, bedrock and peatlands dataset: Soilmap 2: 050to100cm"
+    },
+    {
+      "id": 17803534,
+      "doi": "10.5281/zenodo.17803534",
+      "title": "ENCORE Insights: Country Dashboard"
+    },
+    {
+      "id": 17917481,
+      "doi": "10.5281/zenodo.17917481",
+      "title": "Soil data files for Hunter et al (in revision) - Widespread ancient bedrock landslides"
+    },
+    {
+      "id": 17926443,
+      "doi": "10.5281/zenodo.17926443",
+      "title": "Global Monthly Reach-Level Water Surface Slopes from SWOT"
+    },
+    {
+      "id": 17938603,
+      "doi": "10.5281/zenodo.17938603",
+      "title": "Eskuche-Keith et al.: Abundance-based distribution modelling reveals climate-driven loss of functionally important kelp forest habitat"
+    },
+    {
+      "id": 17992142,
+      "doi": "10.5281/zenodo.17992142",
+      "title": "High-Resolution Canopy Height and Cover of Vancouver Island, Canada"
+    },
+    {
+      "id": 18016416,
+      "doi": "10.5281/zenodo.18016416",
+      "title": "Usage and Impact of Global Biodata Resources: Supplementary Materials Tables"
+    },
+    {
+      "id": 18056032,
+      "doi": "10.5281/zenodo.18056032",
+      "title": "WHiCH (Western Himalaya Canopy Height) Map 2020, Pakistan"
+    },
+    {
+      "id": 18086963,
+      "doi": "10.5281/zenodo.18086963",
+      "title": "High-resolution China Coastal Wetland (HCCW, 2016–2024) Version 1.0 Dataset"
+    },
+    {
+      "id": 18169910,
+      "doi": "10.5281/zenodo.18169910",
+      "title": "Kelp biomass turnover"
+    },
+    {
+      "id": 18244519,
+      "doi": "10.5281/zenodo.18244519",
+      "title": "Global Mangrove Watch: Mangrove Habitat Mask"
+    },
+    {
+      "id": 18339573,
+      "doi": "10.5281/zenodo.18339573",
+      "title": "A map of high-altitude wetlands in the world's major mountain regions (v1.1)"
+    },
+    {
+      "id": 18350936,
+      "doi": "10.5281/zenodo.18350936",
+      "title": "Source Data for: Spectroscopic limits of diamond anvils to 520 GPa and projected bandgap closure"
+    },
+    {
+      "id": 18382534,
+      "doi": "10.5281/zenodo.18382534",
+      "title": "Model outputs presented in the JAMES paper: Modelling sub-grid peatland vegetation dynamics in the ORCHIDEE-PEAT land surface model"
+    },
+    {
+      "id": 18426236,
+      "doi": "10.5281/zenodo.18426236",
+      "title": "DFC30"
+    },
+    {
+      "id": 18545092,
+      "doi": "10.5281/zenodo.18545092",
+      "title": "Global hydrology and water quality data from 1980-2019, derived from the dynamical surface water quality model (DynQual) at 5 arcmin spatial resolution"
+    },
+    {
+      "id": 18621604,
+      "doi": "10.5281/zenodo.18621604",
+      "title": "Continuous Global Mangrove Dynamics: Annual mangrove fractional canopy cover during 1993-2001"
+    },
+    {
+      "id": 18641949,
+      "doi": "10.5281/zenodo.18641949",
+      "title": "Continuous Global Mangrove Dynamics: Annual mangrove fractional canopy cover during 2002-2011"
+    },
+    {
+      "id": 18732598,
+      "doi": "10.5281/zenodo.18732598",
+      "title": "Continuous Global Mangrove Dynamics: Annual mangrove fractional canopy cover during 2012-2023"
+    },
+    {
+      "id": 18769612,
+      "doi": "10.5281/zenodo.18769612",
+      "title": "WorldCereal harmonized reference datasets - extended and updated"
+    },
+    {
+      "id": 18782581,
+      "doi": "10.5281/zenodo.18782581",
+      "title": "Neighborhood methods to deal with unresolved scales of motion and systematic errors in the assimilation of cloud-affected satellite radiances"
+    },
+    {
+      "id": 18958229,
+      "doi": "10.5281/zenodo.18958229",
+      "title": "Improving GOME-2C Red Solar-Induced Chlorophyll Fluorescence Retrieval by Denoising on Radiance Spectra"
+    },
+    {
+      "id": 18977176,
+      "doi": "10.5281/zenodo.18977176",
+      "title": "The  global surface water bacterial and archaeal genome catalog"
+    },
+    {
+      "id": 19002227,
+      "doi": "10.5281/zenodo.19002227",
+      "title": "METEOR: Nepal seismic hazard map with mean Peak Ground Acceleration (PGA) in g for a 10% and 2% probability of exceedence in 50 years."
+    },
+    {
+      "id": 19003922,
+      "doi": "10.5281/zenodo.19003922",
+      "title": "METEOR: Tanzania seismic hazard map with mean Peak Ground Acceleration (PGA) in g for a 10% and 2% probability of exceedence in 50 years."
+    },
+    {
+      "id": 19247997,
+      "doi": "10.5281/zenodo.19247997",
+      "title": "Table 8 in Drought Stress in Millets and Its Response Mechanism"
+    },
+    {
+      "id": 19367383,
+      "doi": "10.5281/zenodo.19367383",
+      "title": "Structural, thermal and spectroscopic properties of Tm3+ doped TeO2-Bi2O3-ZnO glasses - Dataset"
+    },
+    {
+      "id": 19614207,
+      "doi": "10.5281/zenodo.19614207",
+      "title": "Soil variable rasters (SoilGrids) - continental subsets"
+    },
+    {
+      "id": 19665366,
+      "doi": "10.5281/zenodo.19665366",
+      "title": "Canada1Water Leaf Area Index - Monthly Normals"
+    },
+    {
+      "id": 19686625,
+      "doi": "10.5281/zenodo.19686625",
+      "title": "Canopy height 250m - continental subsets"
+    },
+    {
+      "id": 19705126,
+      "doi": "10.5281/zenodo.19705126",
+      "title": "EURATOM METIS case study PSHA input files for OQ"
+    },
+    {
+      "id": 19711351,
+      "doi": "10.5281/zenodo.19711351",
+      "title": "Stahl–Johnstone seed graph"
+    },
+    {
+      "id": 19712206,
+      "doi": "10.5281/zenodo.19712206",
+      "title": "Continuous Global Mangrove Dynamics: Mangrove change layers, 1984-2023"
+    },
+    {
+      "id": 19725372,
+      "doi": "10.5281/zenodo.19725372",
+      "title": "Global monthly land surface water mapping using three water indices from Landsat-8 and Sentinel-2"
+    },
+    {
+      "id": 19814596,
+      "doi": "10.5281/zenodo.19814596",
+      "title": "Forest Canopy Height"
+    },
+    {
+      "id": 20091684,
+      "doi": "10.5281/zenodo.20091684",
+      "title": "LAI dataset from multiple products (MOD15A2H/GIMMS LAI4g/GLOBMAP LAI V3/GLASS-AVHRR/GLASS-MODIS/HIQ/GEOV2) for the Tibetan Plateau – Data supporting \"How Consistent Are Satellite LAI Products in Characterizing Vegetation Dynamics Over the Tibetan Plateau?\" (under review)"
+    },
+    {
+      "id": 20115386,
+      "doi": "10.5281/zenodo.20115386",
+      "title": "The synthetic dataset used to train, validate, and test the FSIF-PINN full-spectrum solar-induced chlorophyll fluorescence (SIF) reconstruction algorithm."
+    },
+    {
+      "id": 20277923,
+      "doi": "10.5281/zenodo.20277923",
+      "title": "OCO-2/3 v10/11 10-second average XCO2 data used in a recent v11-v10 comparison"
+    },
+    {
+      "id": 20281361,
+      "doi": "10.5281/zenodo.20281361",
+      "title": "Vineyard's Leaf Area / Photosynthesis Service – High Resolution"
+    },
+    {
+      "id": 20281495,
+      "doi": "10.5281/zenodo.20281495",
+      "title": "Vineyard's Leaf Area / Photosynthesis Service – Very High Resolution"
+    },
+    {
+      "id": 20394143,
+      "doi": "10.5281/zenodo.20394143",
+      "title": "IN UZBEKISTAN  FREE ECONOMIC ZONES PRACTICAL ANALYSIS"
+    },
+    {
+      "id": 20401744,
+      "doi": "10.5281/zenodo.20401744",
+      "title": "Data from: New Data-Driven Estimation of Terrestrial Carbon Fluxes by Integrating Bottom-Up and Top-Down Information"
+    },
+    {
+      "id": 20406523,
+      "doi": "10.5281/zenodo.20406523",
+      "title": "GS4S skills survey database"
+    },
+    {
+      "id": 20534811,
+      "doi": "10.5281/zenodo.20534811",
+      "title": "Global Fishing Watch IUU Fishing Risk Insight v1 2012-2025"
+    },
+    {
+      "id": 20560772,
+      "doi": "10.5281/zenodo.20560772",
+      "title": "Associational defense reduces grazing and deforestation in a kelp forest ecosystem: implications for restoration"
+    },
+    {
+      "id": 20596616,
+      "doi": "10.5281/zenodo.20596616",
+      "title": "Tanguro Area 1 LAI"
+    },
+    {
+      "id": 20617284,
+      "doi": "10.5281/zenodo.20617284",
+      "title": "Continuous Global Mangrove Dynamics: Annual mangrove extent, 1984-2023"
+    },
+    {
+      "id": 20618586,
+      "doi": "10.5281/zenodo.20618586",
+      "title": "Canopy fuel maps for Pinus pinaster in interior Spain"
+    },
+    {
+      "id": 20628959,
+      "doi": "10.5281/zenodo.20628959",
+      "title": "CHMv2: Improvements in Global Canopy Height Mapping using DINOv3"
+    },
+    {
+      "id": 20659142,
+      "doi": "10.5281/zenodo.20659142",
+      "title": "Remote Sensing Covariate Stacks for Soil Degradation Hotspot Identification Across Five European Pilot Sites"
+    },
+    {
+      "id": 20682040,
+      "doi": "10.5281/zenodo.20682040",
+      "title": "Long-term Continuous Red and Near-infrared Channel Reflectance from MODIS, 2001-2026 (LCREF-MODIS)"
+    },
+    {
+      "id": 20683570,
+      "doi": "10.5281/zenodo.20683570",
+      "title": "Long-term Continuous SIF-informed Photosynthesis Proxy reconstructed with MODIS surface reflectance (LCSPP-MODIS), 2001-2026"
+    },
+    {
+      "id": 20688228,
+      "doi": "10.5281/zenodo.20688228",
+      "title": "GLC_FCS60: the first global 60-m land cover product with a fine classification system for 1975 and 1980"
+    },
+    {
+      "id": 20730225,
+      "doi": "10.5281/zenodo.20730225",
+      "title": "Global Seismic Vulnerability Model (v2026.0.0)"
+    },
+    {
+      "id": 20844375,
+      "doi": "10.5281/zenodo.20844375",
+      "title": "Reconciling SoilGrids bulk density and organic carbon estimates: implications for land surface model simulations"
+    },
+    {
+      "id": 21107810,
+      "doi": "10.5281/zenodo.21107810",
+      "title": "GIS dataset for climate adaptation territorial profiles and territorial planning units in Nuova Pescara"
+    },
+    {
+      "id": 21234759,
+      "doi": "10.5281/zenodo.21234759",
+      "title": "Sport and Gender Based Violence Policy and Legislation"
+    },
+    {
+      "id": 21346457,
+      "doi": "10.5281/zenodo.21346457",
+      "title": "Global Mangrove Watch: Timeseries of Mangrove Extent"
+    },
+    {
+      "id": 21372793,
+      "doi": "10.5281/zenodo.21372793",
+      "title": "A 1-km annual dataset of vegetation and soil carbon density across China's terrestrial ecosystems from 1990 to 2023"
+    },
+    {
+      "id": 21404222,
+      "doi": "10.5281/zenodo.21404222",
+      "title": "GeoTIFF Raster Datasets of 11 Airborne Laser Scanning–Derived Canopy Height Metrics for 13 Urban Forest Parks in Chiayi, Vancouver, and Madrid"
+    },
+    {
+      "id": 21669655,
+      "doi": "10.5281/zenodo.21669655",
+      "title": "Global Mangrove Watch: Country Boundaries"
+    },
+    {
+      "id": 21727385,
+      "doi": "10.5281/zenodo.21727385",
+      "title": "Processed data for a matched-basin diagnostic of reservoir-mediated drought propagation"
+    },
+    {
+      "id": 21799090,
+      "doi": "10.5281/zenodo.21799090",
+      "title": "Proxy Threshold Determination and TROPOMI SIF Validation Datasets"
+    },
+    {
+      "id": 21872180,
+      "doi": "10.5281/zenodo.21872180",
+      "title": "Land management map of the Russian Federation (2020)"
+    },
+    {
+      "id": 21931209,
+      "doi": "10.5281/zenodo.21931209",
+      "title": "HERA-WB: a multi-decadal, sub-daily water balance dataset for Europe (1951-2020)"
+    },
+    {
+      "id": 22086092,
+      "doi": "10.5281/zenodo.22086092",
+      "title": "Geospatial Layers of Urban Water Producing Systems in the State of Rio Grande do Sul - Brazil"
+    },
+    {
+      "id": 22205940,
+      "doi": "10.5281/zenodo.22205940",
+      "title": "AquaEdge"
+    },
+    {
+      "id": 22231616,
+      "doi": "10.5281/zenodo.22231616",
+      "title": "AquaEdge"
+    },
+    {
+      "id": 22260295,
+      "doi": "10.5281/zenodo.22260295",
+      "title": "Unprecedented warming and increased herbivory drive collapse of Japan's kelp forests"
+    },
+    {
+      "id": 22307970,
+      "doi": "10.5281/zenodo.22307970",
+      "title": "Global Reservoir Sedimentation Rate (GRSR) dataset"
+    },
+    {
+      "id": 22642178,
+      "doi": "10.5281/zenodo.22642178",
+      "title": "First insights into the invasion status of South African kelp forests"
+    },
+    {
+      "id": 22651493,
+      "doi": "10.5281/zenodo.22651493",
+      "title": "Dataset for \"Characteristics of the Fluorescence of Water-Soluble Organic Matter in Forest, Remote, and Urban Aerosols in Japan, Atmos. Environ.\""
+    },
+    {
+      "id": 22833075,
+      "doi": "10.5281/zenodo.22833075",
+      "title": "Urban Morphology and Land Surface Temperature: A 30-Meter Pixel-Level Dataset for Guadalajara, Mexico"
+    },
+    {
+      "id": 22888293,
+      "doi": "10.5281/zenodo.22888293",
+      "title": "Global Mangrove Migration"
+    },
+    {
+      "id": 22981938,
+      "doi": "10.5281/zenodo.22981938",
+      "title": "Forested Wetland Inundation Extent and Change over Time (2015-2025) – South America N & Central Africa"
+    },
+    {
+      "id": 22985725,
+      "doi": "10.5281/zenodo.22985725",
+      "title": "Developing a dynamic semi-distributed hydrological model considering interactions between soil moisture and evapotranspiration: application of bulk transfer method"
+    },
+    {
+      "id": 23016179,
+      "doi": "10.5281/zenodo.23016179",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2003): Terra firma short vegetation cover (part 1 of 7)"
+    },
+    {
+      "id": 23033110,
+      "doi": "10.5281/zenodo.23033110",
+      "title": "Global ensemble of land cover indicators at 100 m (2004-2007): Terra firma short vegetation cover (part 2 of 7)"
+    },
+    {
+      "id": 23035469,
+      "doi": "10.5281/zenodo.23035469",
+      "title": "Global ensemble of land cover indicators at 100 m (2008-2011): Terra firma short vegetation cover (part 3 of 7)"
+    },
+    {
+      "id": 23041764,
+      "doi": "10.5281/zenodo.23041764",
+      "title": "Global ensemble of land cover indicators at 100 m (2012-2015): Terra firma short vegetation cover (part 4 of 7)"
+    },
+    {
+      "id": 23044731,
+      "doi": "10.5281/zenodo.23044731",
+      "title": "Global ensemble of land cover indicators at 100 m (2016-2019): Terra firma short vegetation cover (part 5 of 7)"
+    },
+    {
+      "id": 23045629,
+      "doi": "10.5281/zenodo.23045629",
+      "title": "Global ensemble of land cover indicators at 100 m (2020-2023): Terra firma short vegetation cover (part 6 of 7)"
+    },
+    {
+      "id": 23045925,
+      "doi": "10.5281/zenodo.23045925",
+      "title": "Global ensemble of land cover indicators at 100 m (2024): Terra firma short vegetation cover (part 7 of 7)"
+    },
+    {
+      "id": 23046261,
+      "doi": "10.5281/zenodo.23046261",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2010): Terra firma tree cover height (part 1 of 3)"
+    },
+    {
+      "id": 23046925,
+      "doi": "10.5281/zenodo.23046925",
+      "title": "Global ensemble of land cover indicators at 100 m (2011-2020): Terra firma tree cover height (part 2 of 3)"
+    },
+    {
+      "id": 23047620,
+      "doi": "10.5281/zenodo.23047620",
+      "title": "Global ensemble of land cover indicators at 100 m (2021-2024): Terra firma tree cover height (part 3 of 3)"
+    },
+    {
+      "id": 23047741,
+      "doi": "10.5281/zenodo.23047741",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2013): Wetland short vegetation cover (part 1 of 2)"
+    },
+    {
+      "id": 23047923,
+      "doi": "10.5281/zenodo.23047923",
+      "title": "Global ensemble of land cover indicators at 100 m (2014-2024): Wetland short vegetation cover (part 2 of 2)"
+    },
+    {
+      "id": 23048237,
+      "doi": "10.5281/zenodo.23048237",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2024): Wetland tree cover height"
+    },
+    {
+      "id": 23048624,
+      "doi": "10.5281/zenodo.23048624",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2024): Surface water"
+    },
+    {
+      "id": 23049044,
+      "doi": "10.5281/zenodo.23049044",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2011): Cropland (part 1 of 3)"
+    },
+    {
+      "id": 23049498,
+      "doi": "10.5281/zenodo.23049498",
+      "title": "Global ensemble of land cover indicators at 100 m (2012-2022): Cropland (part 2 of 3)"
+    },
+    {
+      "id": 23049841,
+      "doi": "10.5281/zenodo.23049841",
+      "title": "Global ensemble of land cover indicators at 100 m (2023-2024): Cropland (part 3 of 3)"
+    },
+    {
+      "id": 23049923,
+      "doi": "10.5281/zenodo.23049923",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2024): Snow and ice"
+    },
+    {
+      "id": 23049937,
+      "doi": "10.5281/zenodo.23049937",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2019): Built-up (part 1 of 2)"
+    },
+    {
+      "id": 23050240,
+      "doi": "10.5281/zenodo.23050240",
+      "title": "Global ensemble of land cover indicators at 100 m (2020-2024): Built-up (part 2 of 2)"
+    },
+    {
+      "id": 23056941,
+      "doi": "10.5281/zenodo.23056941",
+      "title": "Global ensemble of land cover indicators at 100 m (2000-2024)"
+    },
+    {
+      "id": 23063212,
+      "doi": "10.5281/zenodo.23063212",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for croplands at 30m (2020)"
+    },
+    {
+      "id": 23063214,
+      "doi": "10.5281/zenodo.23063214",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for croplands at 30m (2021)"
+    },
+    {
+      "id": 23063216,
+      "doi": "10.5281/zenodo.23063216",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for croplands at 30m (2022)"
+    },
+    {
+      "id": 23063218,
+      "doi": "10.5281/zenodo.23063218",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for croplands at 30m (2023)"
+    },
+    {
+      "id": 23063220,
+      "doi": "10.5281/zenodo.23063220",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for croplands at 30m (2024)"
+    },
+    {
+      "id": 23063224,
+      "doi": "10.5281/zenodo.23063224",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for grasslands at 30m (2020)"
+    },
+    {
+      "id": 23063226,
+      "doi": "10.5281/zenodo.23063226",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for grasslands at 30m (2021)"
+    },
+    {
+      "id": 23063228,
+      "doi": "10.5281/zenodo.23063228",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for grasslands at 30m (2022)"
+    },
+    {
+      "id": 23063230,
+      "doi": "10.5281/zenodo.23063230",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for grasslands at 30m (2023)"
+    },
+    {
+      "id": 23063232,
+      "doi": "10.5281/zenodo.23063232",
+      "title": "Global Pasture Watch: Pantropical calibrated Gross Primary Productivity (GPP) for grasslands at 30m (2024)"
+    },
+    {
+      "id": 23087114,
+      "doi": "10.5281/zenodo.23087114",
+      "title": "Code and data for: Ignoring plant responses to rising CO₂ overestimates dryland expansion under high emissions in a Brazilian Cerrado agricultural frontier (MATOPIBA)"
+    },
+    {
+      "id": 23099496,
+      "doi": "10.5281/zenodo.23099496",
+      "title": "Replication package for \"Drought, soil and administrative history in France's natural-disaster recognition of clay shrink–swell: an open-data spatial validation\"."
+    },
+    {
+      "id": 23118930,
+      "doi": "10.5281/zenodo.23118930",
+      "title": "Mapping crown length and canopy depth across global forests at 1 km from multi-platform lidar and satellite data"
+    },
+    {
+      "id": 23168754,
+      "doi": "10.5281/zenodo.23168754",
+      "title": "A global dataset of potential habitat areas in populated landscapes"
+    },
+    {
+      "id": 23335678,
+      "doi": "10.5281/zenodo.23335678",
+      "title": "Processed data and code: woody protected-area SIF lag-1 TAC matching analysis"
+    },
+    {
+      "id": 23342241,
+      "doi": "10.5281/zenodo.23342241",
+      "title": "Global gridded canopy height and height distributions from GEDI and ICESat-2 for EDv3 initialization at 0.01° resolution"
+    },
+    {
+      "id": 23356034,
+      "doi": "10.5281/zenodo.23356034",
+      "title": "Global patterns and stocks of particulate and mineral-associated organic carbon across grasslands"
+    },
+    {
+      "id": 23378678,
+      "doi": "10.5281/zenodo.23378678",
+      "title": "Three Registries, Two Rivers — Oyapock zone (Z-OYA): results at D-OYA, 14 October 2026"
+    },
+    {
+      "id": 23415117,
+      "doi": "10.5281/zenodo.23415117",
+      "title": "Data and Code for \"Dominant Controls on Soil Carbon and Nutrient Dynamics Across Ecosystems: A Global Sensitivity Analysis\""
+    },
+    {
+      "id": 23463271,
+      "doi": "10.5281/zenodo.23463271",
+      "title": "TROFSIF: A global full-spectrum solar-induced chlorophyll fluorescence dataset from TROPOMI enabled by radiance-spectrum denoising (Part 1: May 2018–October 2022)"
+    },
+    {
+      "id": 23474531,
+      "doi": "10.5281/zenodo.23474531",
+      "title": "202609 - Vessel detections from Sentinel 2"
+    },
+    {
+      "id": 23507248,
+      "doi": "10.5281/zenodo.23507248",
+      "title": "Supplementary dataset: GCBR funding horizons"
+    },
+    {
+      "id": 23507986,
+      "doi": "10.5281/zenodo.23507986",
+      "title": "Copper River Delta Wetlands Vegetation"
+    },
+    {
+      "id": 23568513,
+      "doi": "10.5281/zenodo.23568513",
+      "title": "Zooplankton Samples Collected in the Bering Sea On Board the F/V Northwest Explorer from September to October, 2002"
+    },
+    {
+      "id": 23663860,
+      "doi": "10.5281/zenodo.23663860",
+      "title": "Downscaled GRACE Total Water Storage Change (TWSC) Dataset on a 1 km grid at daily intervals for Naryn – Kara Darya basins and Fergana valley (2002–2023)"
+    },
+    {
+      "id": 23678875,
+      "doi": "10.5281/zenodo.23678875",
+      "title": "Open surface water gauging stations, Queensland"
+    },
+    {
+      "id": 23790437,
+      "doi": "10.5281/zenodo.23790437",
+      "title": "Global water-surface photovoltaic types and installation years"
+    },
+    {
+      "id": 23806787,
+      "doi": "10.5281/zenodo.23806787",
+      "title": "Global Mangrove Watch: GMW v4.0 Reference Samples 2020"
+    },
+    {
+      "id": 23807962,
+      "doi": "10.5281/zenodo.23807962",
+      "title": "Harmonised fractional land cover time series for the Mediterranean region derived from ESA CCI LC and GLC_FCS30D"
+    },
+    {
+      "id": 23848971,
+      "doi": "10.5281/zenodo.23848971",
+      "title": "EUSFlux: Mapping Forest Carbon Uptake in the Eastern US from Upscaled Flux Tower Data"
+    },
+    {
+      "id": 23869156,
+      "doi": "10.5281/zenodo.23869156",
+      "title": "Continuous Global Mangrove Dynamics: Global mangrove stand age in 2023"
+    },
+    {
+      "id": 23870534,
+      "doi": "10.5281/zenodo.23870534",
+      "title": "Mangrove canopy height measurements from GEDI spaceborne LiDAR in 2023 and 2024"
+    },
+    {
+      "id": 24025972,
+      "doi": "10.5281/zenodo.24025972",
+      "title": "Simulated OCO-2 data, split tables, trained model weights, and predictive artifacts for amortized probabilistic CO2 retrieval"
+    },
+    {
+      "id": 24097505,
+      "doi": "10.5281/zenodo.24097505",
+      "title": "Global-scale streamflow simulation framework used in the paper of \"Abrupt surface water decline during 2023–2024 record warming\""
+    },
+    {
+      "id": 24115406,
+      "doi": "10.5281/zenodo.24115406",
+      "title": "THALLOS:  THracian Agricultural Leaf-area-index (LAI) and Leaf-chlorophyll-index (CCI) Observation Set"
+    },
+    {
+      "id": 24117247,
+      "doi": "10.5281/zenodo.24117247",
+      "title": "Ranked ephemeral wetland candidates for South Carolina, USA, derived from lidar, Sentinel-1 SAR, and soil survey data"
+    },
+    {
+      "id": 24117426,
+      "doi": "10.5281/zenodo.24117426",
+      "title": "Key dataset and code used in the paper \"Abrupt surface water decline during 2023–2024 record warming\""
+    }
+  ],
+  "intentionally_excluded_non_eo": [
+    {
+      "id": 1009488,
+      "doi": "10.5281/zenodo.1009488",
+      "title": "Blind Sparse Deconvolution for Spike Inference from Fluorescence: Larval Zebrafish fluorescence recordings",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 1475292,
+      "doi": "10.5281/zenodo.1475292",
+      "title": "Characterization of NADH fluorescence properties under one-photon excitation with respect to temperature, pH and binding to lactate dehydrogenase",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 1477672,
+      "doi": "10.5281/zenodo.1477672",
+      "title": "Dataset for the 20181106 study group lesson (data visualisation)",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 4999137,
+      "doi": "10.5061/dryad.sm72f",
+      "title": "Data from: Controlled fluorescence in a beetle's photonic structure and its sensitivity to environmentally induced changes",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 5023763,
+      "doi": "10.5061/dryad.t7m7g",
+      "title": "Data from: Red fluorescence of the triplefin Tripterygion delaisi is increasingly visible against background light with increasing depth",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 5504653,
+      "doi": "10.5061/dryad.rxwdbrv7w",
+      "title": "Lens fluorescence and skin fluorescence in the Copenhagen Twin Cohort Eye Study: Covariates and heritability",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 6782161,
+      "doi": "10.5281/zenodo.6782161",
+      "title": "BrightEyes-TTM Datasets",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 7392153,
+      "doi": "10.5281/zenodo.7392153",
+      "title": "fluorescenceCorrelation_Mmm1_Mdm12_Mdm34",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 8235843,
+      "doi": "10.5281/zenodo.8235843",
+      "title": "PaviaATN",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 10046694,
+      "doi": "10.5281/zenodo.10046694",
+      "title": "Example dataset for single-photon microscopy",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 17151196,
+      "doi": "10.5281/zenodo.17151196",
+      "title": "Cell-free immuno-profiling on a genetically programmed biochip",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 17465630,
+      "doi": "10.5281/zenodo.17465630",
+      "title": "Confocal microscopy data (fluorescence quantification for p65 images)",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 17465774,
+      "doi": "10.5281/zenodo.17465774",
+      "title": "Confocal microscopy data (fluorescence quantification for STAT2 images)",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 18014041,
+      "doi": "10.5281/zenodo.18014041",
+      "title": "Python code and example data to resolve the contributions of photosystem II, photosystem I, and phycobilisomes to the in vivo fluorescence yield",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    },
+    {
+      "id": 18285025,
+      "doi": "10.5281/zenodo.18285025",
+      "title": "Excitonic Origin of Long-Wavelength Fluorescence in Crystalline DAST",
+      "reason": "non_eo_biomedical_microscopy_or_generic_course"
+    }
+  ]
+}

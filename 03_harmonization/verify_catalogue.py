@@ -282,7 +282,9 @@ def main() -> None:
     cds_oc = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"] == "satellite-ocean-colour")]
     cds_oc_ok = bool(
         len(cds_oc) == 1
-        and (pd.isna(cds_oc.iloc[0]["processing_level"]) or cds_oc.iloc[0]["processing_level"] == "L3")
+        and cds_oc.iloc[0]["processing_level"] == "L3"
+        and cds_oc.iloc[0]["processing_level_provenance"] == "provider_documented_specification"
+        and cds_oc.iloc[0]["adjudication_source_citation"] == "https://climate.copernicus.eu/ocean"
         and "daily" in str(cds_oc.iloc[0]["temporal_resolution_raw"]).lower()
         and "monthly" in str(cds_oc.iloc[0]["temporal_resolution_raw"]).lower()
         and pd.isna(cds_oc.iloc[0]["temporal_cadence_class"])
@@ -421,6 +423,69 @@ def main() -> None:
             f"n18={ltdr_n18_ok}, cbers4={cbers4_ok}, abi_g16={abi_g16_ok}, lcspp={lcspp_ok}, gosif={gosif_ok}, "
             f"troposif={troposif_ok}, mcd43={mcd43_ok}, coco2={coco2_ok}, sst={c3s_sst_ok}, alb={c3s_alb_ok}, "
             f"hlsl30={hlsl30_ok}, boreal={boreal_ok}, socat25={socat25_ok}"
+        )
+
+    # Check R: Variant Table, Cited Adjudications, Semimonthly/Prose Cadence, GEO Global Restoration & Sentinel Split
+    var_pq = BASE_DIR / "data" / "eo_l3_l4_product_variants.parquet"
+    var_jl = BASE_DIR / "data" / "eo_l3_l4_product_variants.jsonl"
+    var_ok = False
+    n_vars = 0
+    if var_pq.exists() and var_jl.exists():
+        df_var = pd.read_parquet(var_pq)
+        n_vars = len(df_var)
+        v_tcsif = df_var[df_var["raw_id"] == "ZENODO:8242928"]
+        v_sst = df_var[df_var["raw_id"] == "satellite-sea-surface-temperature"]
+        var_ok = (
+            n_vars >= 50
+            and set(v_tcsif["variant_level"]) >= {"L2", "L3"}
+            and bool((v_tcsif[v_tcsif["variant_level"] == "L3"]["variant_spatial_resolution_meters"] == 55660.0).all())
+            and set(v_sst["variant_level"]) >= {"L3", "L4"}
+        )
+
+    geo_restored = df_all[df_all["raw_id"].isin(["C1233767575-GES_DISC", "C1266136072-GES_DISC"])]
+    sndrd_glob = df_all[df_all["raw_id"].astype(str).str.contains(r"^C3944483", regex=True)]
+    merra_geo = int((df_all["title"].fillna("").str.contains(r"\bmerra[-_ ]?2\b", case=False, regex=True) & (df_all["observation_domain_class"] == "geostationary_disk_or_sector")).sum())
+    geo_restore_ok = len(geo_restored) == 2 and bool((geo_restored["geographic_coverage_class"] == "global").all()) and len(sndrd_glob) >= 16 and bool((sndrd_glob["geographic_coverage_class"] == "global").all()) and merra_geo == 0
+
+    sm_ok = (
+        bool((df_all[df_all["raw_id"] == "C2759076389-ORNL_CLOUD"]["temporal_output_cadences"] == "semimonthly").all())
+        and bool((df_all[df_all["raw_id"] == "ZENODO:8253971"]["temporal_output_cadences"] == "semimonthly").all())
+        and int((df_all["raw_id"].astype(str).str.contains("bimonthly", case=False) & (df_all["temporal_output_cadences"] == "semimonthly")).sum()) == 0
+        and bool((df_all[df_all["raw_id"] == "ZENODO:7479028"]["spatial_resolution_meters"] == 5566.0).all())
+        and bool((df_all[df_all["raw_id"] == "ZENODO:15382965"]["temporal_cadence_class"] == "monthly_or_seasonal").all())
+    )
+
+    conf_r = df_all[df_all["spatial_resolution_conflict"] == True]  # noqa: E712
+    cited_conf = conf_r[conf_r["adjudication_source_citation"].notna()]
+    unres_conf = conf_r[conf_r["adjudication_source_citation"].isna()]
+    cite_ok = (
+        len(cited_conf) >= 33
+        and bool(conf_r["spatial_resolution_meters"].isna().all())
+        and bool(cited_conf["adjudicated_output_grid_meters"].notna().all())
+        and bool(cited_conf["adjudicated_spatial_grid_units"].notna().all())
+        and bool(cited_conf["adjudicated_spatial_grid_axes"].notna().all())
+        and bool(cited_conf["adjudication_source_citation"].astype(str).str.startswith("https://doi.org/").all())
+        and bool(unres_conf["adjudicated_output_grid_meters"].isna().all())
+    )
+
+    sent_vc = df_all["sentinel_lineage_status"].value_counts().to_dict()
+    sent_split_ok = sent_vc.get("no_sentinel_lineage", 0) == 0 and sent_vc.get("explicit_non_sentinel", 0) >= 20000 and sent_vc.get("unassessed_no_platform_metadata", 0) >= 10000
+    msat_r = df_all[df_all["raw_id"].astype(str).str.startswith("projects/edf-methanesat-ee/assets/msat/")]
+    mebd_r = df_all[df_all["raw_id"].isin(["a49dc43a-d799-11f1-8257-02ffd92199af", "d4e9b21f-6991-48ba-9b32-d1b4a08d76f0"])]
+    op25_ok = len(msat_r) >= 3 and bool((msat_r["operational_maturity_class"] == "unknown").all()) and len(mebd_r) == 2 and bool((mebd_r["operational_maturity_class"] == "completed_or_mission_bounded_release").all())
+
+    if var_ok and geo_restore_ok and sm_ok and cite_ok and sent_split_ok and op25_ok:
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "Variants, Cited Adjudications, Semimonthly & Sentinel Split",
+                "PASS",
+                f"variants={n_vars}, geo_restored=True, semimonthly=True, conflict_cites={len(cited_conf)}/{len(conf_r)}, sent_explicit={sent_vc.get('explicit_non_sentinel', 0)}",
+            )
+        )
+    else:
+        issues_found.append(
+            f"Check R failed: var_ok={var_ok} (n={n_vars}), geo_restore={geo_restore_ok}, sm={sm_ok}, cite={cite_ok}, sent_split={sent_split_ok}, op25={op25_ok}"
         )
 
     print("=" * 92)

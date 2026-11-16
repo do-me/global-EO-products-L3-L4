@@ -1,27 +1,46 @@
-case_id,product_name,identifier_type,identifier_pattern,expected_in_catalogue,expected_min_matches,expected_processing_level,expected_is_ard,expected_cadence,expected_geo_not_global,expected_uses_sentinel,expected_maturity
-tcsif_v1,TCSIF v1 GOME-2A SIF (2007-2021),doi,10\.5281/zenodo\.8242928,True,1,L3,False,,,False,
-tcsif_005,TCSIF_005 0.05 deg SIF (1995-2023),doi,10\.5281/zenodo\.14460914,True,1,,False,,,False,
-gosif,GOSIF Global OCO-2 SIF,doi,10\.5281/zenodo\.15105312,True,1,,False,multi_day_or_dekadal,,False,
-troposif_yield,TROPOSIF Global Fluorescence Yield,doi,10\.5281/zenodo\.10212472,True,1,,False,sub_daily_or_daily,,True,
-lcspp_modis,LCSPP-MODIS v3.3 Photosynthesis Proxy,doi,10\.5281/zenodo\.20683570,True,1,,False,multi_day_or_dekadal,,False,
-lcref_modis,LCREF-MODIS v3.3 Red/NIR Reflectance,doi,10\.5281/zenodo\.20682040,True,1,L3,True,multi_day_or_dekadal,,False,
-lcref_avhrr,LCREF-AVHRR v3.2 Red/NIR Reflectance,doi,10\.5281/zenodo\.14586458,True,1,L3,True,multi_day_or_dekadal,,False,
-lcsif_legacy,LCSIF-MODIS Legacy Proxy (superseded),doi,10\.5281/zenodo\.13922379,True,1,,False,,,False,deprecated_or_superseded
-mcd43a4_v061_cmr,MCD43A4 v061 NBAR Daily 500m (CMR),raw_id,^C2218719731-LPCLOUD$,True,1,L3,True,sub_daily_or_daily,,False,
-mcd43a4_v061_gee,MCD43A4 v061 NBAR Daily 500m (GEE),raw_id,^MODIS/061/MCD43A4$,True,1,L3,True,sub_daily_or_daily,,False,
-mcd43a4_bai,MCD43A4_006_BAI Spectral Index (GEE),raw_id,^MODIS/MCD43A4_006_BAI$,True,1,,False,sub_daily_or_daily,,False,
-n18_avh13c1,LTDR NOAA-18 AVH13C1 Daily (resolution conflict cleared),title,N18_AVH13C1,True,1,L3,False,sub_daily_or_daily,,False,
-cbers4_mux_2m,CBERS-4 MUX 2-Month Mosaic 20m,raw_id,^CBERS4-MUX-2M-1$,True,1,,False,,,False,
-aerdb_abi_g16,NASA Deep Blue ABI GOES-16 Aerosol (single GEO disk),title,AERDB_M3_ABI_G16,True,1,L3,False,monthly_or_seasonal,True,False,
-c3s_sst,C3S Satellite Sea Surface Temperature (multi-level L3; L4),raw_id,^satellite-sea-surface-temperature$,True,1,L3; L4,False,,,,
-c3s_albedo,C3S Satellite Albedo (completed not planned),raw_id,^satellite-albedo$,True,1,,False,,,,completed_or_mission_bounded_release
-socat_v2025,SOCATv2025 (superseded by SOCATv2026),title,\bSOCATv2025\b,True,1,,,,,,deprecated_or_superseded
-socat_v2026,SOCATv2026 (latest SOCAT edition),title,\bSOCATv2026\b,True,1,,,,,,
-lake_ice_2021_2025,CLMS Lake Ice Extent 2021-2025 (superseded by 2025-present),title,Lake Ice Extent 2021-2025,True,1,,,,,,deprecated_or_superseded
-seasonal_traj,CLMS HR-VPP Seasonal Trajectories 10-daily,title,Seasonal Trajectories.*10-daily,True,5,,False,multi_day_or_dekadal,,True,
-coco2_mosaic,CoCO2-MOSAIC 1.0 Emission Inventory,title,CoCO2-MOSAIC,True,1,,False,,,,
-hlsl30_cmr,HLS Landsat L30 (CMR - no S2 input),raw_id,^C2021957657-LPCLOUD$,True,1,L3,True,sub_daily_or_daily,,False,
-hlsl30_gee,HLS Landsat L30 (GEE - no S2 input),raw_id,^NASA/HLS/HLSL30/v002$,True,1,L3,True,sub_daily_or_daily,,False,
-hlsl30_pc,HLS Landsat L30 (PC - no S2 input),raw_id,^hls2-l30$,True,1,L3,True,,,False,
-boreal_agb_cmr,Boreal AGB ICESat-2 + HLS L30HLS (CMR consistent False),record_id,^16_nasa_cmr::C2756302505-ORNL_CLOUD$,True,1,L4,False,,,False,
-boreal_agb_fedeo,Boreal AGB ICESat-2 + HLS L30HLS (FedEO consistent False),record_id,^14_ceos_fedeo_agencies::C2756302505-ORNL_CLOUD$,True,1,L4,False,,,False,
+case_id,product_name,identifier_type,identifier_pattern,expected_in_catalogue,expected_min_matches,expected_processing_level,expected_is_ard,expected_cadence,expected_geo_not_global,expected_uses_sentinel,expected_maturity,expected_geo_class,expected_output_cadence,expected_adjudicated_grid_meters,expected_sentinel_status
+tcsif_v1,TCSIF v1 GOME-2A SIF (2007-2021),doi,10\.5281/zenodo\.8242928,True,1,L3,False,,,False,,,,,
+tcsif_005,TCSIF_005 0.05 deg SIF (1995-2023),doi,10\.5281/zenodo\.14460914,True,1,,False,,,False,,,,,
+gosif,GOSIF Global OCO-2 SIF,doi,10\.5281/zenodo\.15105312,True,1,,False,multi_day_or_dekadal,,False,,,,,
+troposif_yield,TROPOSIF Global Fluorescence Yield,doi,10\.5281/zenodo\.10212472,True,1,,False,sub_daily_or_daily,,True,,,,,
+lcspp_modis,LCSPP-MODIS v3.3 Photosynthesis Proxy,doi,10\.5281/zenodo\.20683570,True,1,,False,multi_day_or_dekadal,,False,,,,,
+lcref_modis,LCREF-MODIS v3.3 Red/NIR Reflectance,doi,10\.5281/zenodo\.20682040,True,1,L3,True,multi_day_or_dekadal,,False,,,,,
+lcref_avhrr,LCREF-AVHRR v3.2 Red/NIR Reflectance,doi,10\.5281/zenodo\.14586458,True,1,L3,True,multi_day_or_dekadal,,False,,,,,
+lcsif_legacy,LCSIF-MODIS Legacy Proxy (superseded),doi,10\.5281/zenodo\.13922379,True,1,,False,,,False,deprecated_or_superseded,,,,
+mcd43a4_v061_cmr,MCD43A4 v061 NBAR Daily 500m (CMR),raw_id,^C2218719731-LPCLOUD$,True,1,L3,True,sub_daily_or_daily,,False,,,,,
+mcd43a4_v061_gee,MCD43A4 v061 NBAR Daily 500m (GEE),raw_id,^MODIS/061/MCD43A4$,True,1,L3,True,sub_daily_or_daily,,False,,,,,
+mcd43a4_bai,MCD43A4_006_BAI Spectral Index (GEE),raw_id,^MODIS/MCD43A4_006_BAI$,True,1,,False,sub_daily_or_daily,,False,,,,,
+n18_avh13c1,LTDR NOAA-18 AVH13C1 Daily (resolution conflict cleared),title,N18_AVH13C1,True,1,L3,False,sub_daily_or_daily,,False,,,,5566.0,
+cbers4_mux_2m,CBERS-4 MUX 2-Month Mosaic 20m,raw_id,^CBERS4-MUX-2M-1$,True,1,,False,,,False,,,,,
+aerdb_abi_g16,NASA Deep Blue ABI GOES-16 Aerosol (single GEO disk),title,AERDB_M3_ABI_G16,True,1,L3,False,monthly_or_seasonal,True,False,,,,,
+c3s_sst,C3S Satellite Sea Surface Temperature (multi-level L3; L4),raw_id,^satellite-sea-surface-temperature$,True,1,L3; L4,False,,,,,,,,
+c3s_albedo,C3S Satellite Albedo (completed not planned),raw_id,^satellite-albedo$,True,1,,False,,,,completed_or_mission_bounded_release,,,,
+socat_v2025,SOCATv2025 (superseded by SOCATv2026),title,\bSOCATv2025\b,True,1,,,,,,deprecated_or_superseded,,,,
+socat_v2026,SOCATv2026 (latest SOCAT edition),title,\bSOCATv2026\b,True,1,,,,,,,,,,
+lake_ice_2021_2025,CLMS Lake Ice Extent 2021-2025 (superseded by 2025-present),title,Lake Ice Extent 2021-2025,True,1,,,,,,deprecated_or_superseded,,,,
+seasonal_traj,CLMS HR-VPP Seasonal Trajectories 10-daily,title,Seasonal Trajectories.*10-daily,True,5,,False,multi_day_or_dekadal,,True,,,,,
+coco2_mosaic,CoCO2-MOSAIC 1.0 Emission Inventory,title,CoCO2-MOSAIC,True,1,,False,,,,,,,,
+hlsl30_cmr,HLS Landsat L30 (CMR - no S2 input),raw_id,^C2021957657-LPCLOUD$,True,1,L3,True,sub_daily_or_daily,,False,,,,,
+hlsl30_gee,HLS Landsat L30 (GEE - no S2 input),raw_id,^NASA/HLS/HLSL30/v002$,True,1,L3,True,sub_daily_or_daily,,False,,,,,
+hlsl30_pc,HLS Landsat L30 (PC - no S2 input),raw_id,^hls2-l30$,True,1,L3,True,,,False,,,,,
+boreal_agb_cmr,Boreal AGB ICESat-2 + HLS L30HLS (CMR consistent False),record_id,^16_nasa_cmr::C2756302505-ORNL_CLOUD$,True,1,L4,False,,,False,,,,,
+boreal_agb_fedeo,Boreal AGB ICESat-2 + HLS L30HLS (FedEO consistent False),record_id,^14_ceos_fedeo_agencies::C2756302505-ORNL_CLOUD$,True,1,L4,False,,,False,,,,,
+gldas_noah10_m,NASA GLDAS Noah 1.0 deg Monthly L4 (global restored),raw_id,^C1233767575-GES_DISC$,True,1,L4,False,monthly_or_seasonal,,False,completed_or_mission_bounded_release,global,monthly_or_seasonal,111320.0,explicit_non_sentinel
+omi_uv_daily,Aura OMI Global Daily UV Surface Irradiance L3 (global restored),raw_id,^C1266136072-GES_DISC$,True,1,L3,False,sub_daily_or_daily,,False,operational_ongoing_series,global,sub_daily_or_daily,111320.0,explicit_non_sentinel
+merra2_sndrd_g11,MERRA-2 Monthly SNDRD1_G11 Global Reanalysis (non-GEO global),raw_id,^C3944483199-GES_DISC$,True,1,L4,False,monthly_or_seasonal,,False,completed_or_mission_bounded_release,global,monthly_or_seasonal,55660.0,explicit_non_sentinel
+c3s_ocean_colour,C3S Ocean Colour (cited L3 + S3 lineage),record_id,^03_copernicus_c3s_cds::satellite-ocean-colour$,True,1,L3,False,,,True,operational_ongoing_series,global,sub_daily_or_daily; monthly_or_seasonal,,retrospective_or_mixed_epoch_series
+wekeo_ocean_colour,WEkEO Mirror C3S Ocean Colour (cited L3),record_id,^09_wekeo_dias::EO:ECMWF:DAT:SATELLITE_OCEAN_COLOUR$,True,1,L3,False,,,True,operational_ongoing_series,global,,,retrospective_or_mixed_epoch_series
+muses_ndvi_7479028,MUSES 8-day 0.05 deg Global NDVI Gap-Filled (Zenodo 7479028),raw_id,^ZENODO:7479028$,True,1,,False,multi_day_or_dekadal,,False,research_or_benchmark_release,,multi_day_or_dekadal,5566.0,unassessed_no_platform_metadata
+pku_gimms_8253971,PKU GIMMS NDVI v1.2 Semimonthly 1/12 deg (Zenodo 8253971),raw_id,^ZENODO:8253971$,True,1,,False,multi_day_or_dekadal,,False,research_or_benchmark_release,,semimonthly,9276.67,unassessed_no_platform_metadata
+gimms3g_plus,ORNL GIMMS-3G+ Semimonthly NDVI L3 (C2759076389-ORNL_CLOUD),raw_id,^C2759076389-ORNL_CLOUD$,True,1,L3,False,multi_day_or_dekadal,,False,completed_or_mission_bounded_release,global,semimonthly,9272.96,explicit_non_sentinel
+oco3_diurnal_gpp_15382965,OCO-3 Diurnal GPP Monthly Composite 0.5 deg (Zenodo 15382965),raw_id,^ZENODO:15382965$,True,1,L4,False,monthly_or_seasonal,,False,research_or_benchmark_release,,monthly_or_seasonal,55660.0,explicit_non_sentinel
+globemch_11236850,GlobeMCH 30m Global Canopy Height (Zenodo 11236850),raw_id,^ZENODO:11236850$,True,1,,False,,,True,research_or_benchmark_release,,,30.0,confirmed_input_mission
+merra2_const_2d,MERRA-2 Time-Invariant 0.625 x 0.5 deg (cited anisotropic grid),raw_id,^C1276812819-GES_DISC$,True,1,L4,False,,,False,completed_or_mission_bounded_release,global,,62617.5,explicit_non_sentinel
+fluxsat_mgpp_daily,FluxSat Daily GPP 0.5 x 0.625 deg L3 (cited anisotropic grid),raw_id,^C3464727089-GES_DISC$,True,1,L3,False,sub_daily_or_daily,,False,operational_ongoing_series,global,sub_daily_or_daily,62617.5,explicit_non_sentinel
+methanesat_l3_msat,MethaneSAT L3 Concentration GEE (mission paused - unknown maturity),raw_id,^projects/edf-methanesat-ee/assets/msat/L3concentration$,True,1,L3,False,,,False,unknown,global,,46.38,unassessed_no_platform_metadata
+noaa_mebd_buoy,NOAA Marine Environmental Buoy Database (completed not ongoing),raw_id,^a49dc43a-d799-11f1-8257-02ffd92199af$,True,1,,False,,,False,completed_or_mission_bounded_release,,,,explicit_non_sentinel
+noaa_rfr_lme,NOAA RFR LME Regional Surface Currents (completed not ongoing),raw_id,^d4e9b21f-6991-48ba-9b32-d1b4a08d76f0$,True,1,,False,,True,False,completed_or_mission_bounded_release,regional_or_local,,27830.0,explicit_non_sentinel
+firecci_20346362,ESA FireCCI v5.1 Burned Area 0.25 deg Grid (Zenodo 20346362),raw_id,^ZENODO:20346362$,True,1,,False,,,False,research_or_benchmark_release,,,27830.0,explicit_non_sentinel
+occci_19555449,ESA OC-CCI v6.0 Monthly 0.25 deg Grid (Zenodo 19555449),raw_id,^ZENODO:19555449$,True,1,,False,monthly_or_seasonal,,False,research_or_benchmark_release,,monthly_or_seasonal,27830.0,unassessed_no_platform_metadata
+qersif_17460923,QeRSIF 8-day 0.05 deg Reconstructed SIF (Zenodo 17460923),raw_id,^ZENODO:17460923$,True,1,,False,multi_day_or_dekadal,,True,research_or_benchmark_release,,multi_day_or_dekadal,5566.0,confirmed_input_mission
+tansat_sif_6387586,TanSat Global SIF 0.05 deg (Zenodo 6387586),raw_id,^ZENODO:6387586$,True,1,,False,,,False,research_or_benchmark_release,,,5566.0,explicit_non_sentinel

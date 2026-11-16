@@ -326,7 +326,127 @@ def main() -> None:
             "truncated": truncated,
         })
 
-    for z_rec_id in ZENODO_PINNED_RECORD_IDS:
+    supplemental_queries = [
+        "+MUSES +NDVI +Global",
+        '+"PKU GIMMS" +NDVI',
+        "+OCO-3 +(GPP OR SIF)",
+        '+"mangrove canopy height" +global',
+        '+"Solar-Induced Chlorophyll Fluorescence" +(global OR satellite OR TROPOMI OR OCO OR TanSat OR GOME-2)',
+        '+"Global" +("glacier thickness" OR "glacier mass balance" OR "permafrost" OR "Active Layer Thickness") +(satellite OR ESA OR CCI)',
+        '+"Global" +("burned area" OR "fireCCI" OR "Fire_cci") +(MODIS OR Sentinel OR VIIRS OR AVHRR)',
+        '+"Global" +("sea surface salinity" OR "ocean color" OR "ocean colour" OR "chlorophyll-a") +(satellite OR CCI OR SMOS OR SMAP)',
+        '+"Global" +("evapotranspiration" OR "latent heat flux") +(MODIS OR ERA5 OR FLUXCOM OR satellite) +gridded',
+        '+"Global" +("surface solar radiation" OR "downward shortwave" OR "PAR") +(satellite OR CERES OR HIMAWARI OR MSG)',
+        '+"Global" +("snow water equivalent" OR "snow cover extent") +(satellite OR GlobSnow OR MODIS OR ESA)',
+    ]
+    for q in supplemental_queries:
+        hits_total = None
+        pages_fetched = 0
+        fetched_for_q = 0
+        new_unique_for_q = 0
+        last_status = None
+        truncated = False
+        for z_page in range(1, ZENODO_MAX_PAGES + 1):
+            rz = _zenodo_get_with_rate_limit(
+                session,
+                z_url,
+                params={"q": q, "type": "dataset", "size": str(ZENODO_PAGE_SIZE), "page": str(z_page)},
+                timeout=60,
+            )
+            last_status = rz.status_code
+            if rz.status_code != 200:
+                truncated = True
+                print(f"[{SOURCE_ID}] WARN Zenodo HTTP {rz.status_code} on supplemental q={q!r} page={z_page}: {rz.text[:160]}")
+                break
+            payload = rz.json().get("hits", {}) or {}
+            if hits_total is None:
+                hits_total = int(payload.get("total", 0))
+            hits = payload.get("hits", []) or []
+            pages_fetched += 1
+            fetched_for_q += len(hits)
+            for h in hits:
+                zid = h.get("id")
+                if not zid:
+                    continue
+                if zid not in zenodo_by_id:
+                    h["_matched_benchmark_query"] = q
+                    h["_matched_benchmark_queries"] = [q]
+                    zenodo_by_id[zid] = h
+                    zenodo_records.append(h)
+                    new_unique_for_q += 1
+                else:
+                    mq = zenodo_by_id[zid].setdefault("_matched_benchmark_queries", [])
+                    if q not in mq:
+                        mq.append(q)
+            time.sleep(0.25)
+            if not hits or len(hits) < ZENODO_PAGE_SIZE or (hits_total is not None and z_page * ZENODO_PAGE_SIZE >= hits_total):
+                break
+        else:
+            if hits_total is not None and ZENODO_MAX_PAGES * ZENODO_PAGE_SIZE < hits_total:
+                truncated = True
+
+        pagination_audit.append({
+            "query": q,
+            "http_status": last_status,
+            "page_size": ZENODO_PAGE_SIZE,
+            "hits_total": hits_total,
+            "pages_fetched": pages_fetched,
+            "fetched_records": fetched_for_q,
+            "new_unique_records": new_unique_for_q,
+            "truncated": truncated,
+        })
+
+    # Carry forward verified EO Zenodo IDs from prior baseline so tightened queries never drop indexed releases
+    carryforward_path = BASE_DIR / "verified_zenodo_carryforward.json"
+    carry_restored = 0
+    carry_missing_ids: list[int] = []
+    if carryforward_path.exists():
+        cf_data = json.loads(carryforward_path.read_text(encoding="utf-8"))
+        cf_ids = [int(item["id"]) for item in cf_data.get("carry_forward_records", []) if int(item["id"]) not in zenodo_by_id]
+        for start in range(0, len(cf_ids), ZENODO_PAGE_SIZE):
+            batch = cf_ids[start : start + ZENODO_PAGE_SIZE]
+            q_batch = "id:(" + " OR ".join(str(x) for x in batch) + ")"
+            rb = _zenodo_get_with_rate_limit(
+                session,
+                z_url,
+                params={"q": q_batch, "size": str(ZENODO_PAGE_SIZE)},
+                timeout=60,
+            )
+            found_in_batch: set[int] = set()
+            if rb.status_code == 200:
+                for h in (rb.json().get("hits", {}) or {}).get("hits", []) or []:
+                    zid = h.get("id")
+                    if not zid:
+                        continue
+                    found_in_batch.add(int(zid))
+                    if zid not in zenodo_by_id:
+                        h["_matched_benchmark_query"] = "verified_carryforward_f652943"
+                        h["_matched_benchmark_queries"] = ["verified_carryforward_f652943"]
+                        zenodo_by_id[zid] = h
+                        zenodo_records.append(h)
+                        carry_restored += 1
+                    else:
+                        mq = zenodo_by_id[zid].setdefault("_matched_benchmark_queries", [])
+                        if "verified_carryforward_f652943" not in mq:
+                            mq.append("verified_carryforward_f652943")
+            time.sleep(0.25)
+            for zid in batch:
+                if zid not in zenodo_by_id and zid not in found_in_batch:
+                    r_ind = _zenodo_get_with_rate_limit(session, f"https://zenodo.org/api/records/{zid}", timeout=30)
+                    if r_ind.status_code == 200:
+                        h = r_ind.json()
+                        hid = h.get("id") or zid
+                        if hid not in zenodo_by_id:
+                            h["_matched_benchmark_query"] = "verified_carryforward_f652943_direct"
+                            h["_matched_benchmark_queries"] = ["verified_carryforward_f652943_direct"]
+                            zenodo_by_id[hid] = h
+                            zenodo_records.append(h)
+                            carry_restored += 1
+                    else:
+                        carry_missing_ids.append(zid)
+                    time.sleep(0.15)
+
+    for z_rec_id in list(dict.fromkeys([*ZENODO_PINNED_RECORD_IDS, 7479028, 8253971, 15382965, 11236850])):
         if z_rec_id in zenodo_by_id:
             continue
         r_pin = _zenodo_get_with_rate_limit(session, f"https://zenodo.org/api/records/{z_rec_id}", timeout=30)
@@ -348,6 +468,8 @@ def main() -> None:
                 "max_pages_per_query": ZENODO_MAX_PAGES,
                 "total_unique_zenodo_records": len(zenodo_records),
                 "truncated_query_count": sum(1 for a in pagination_audit if a["truncated"]),
+                "carry_forward_restored_records": carry_restored,
+                "carry_forward_missing_ids": carry_missing_ids,
                 "queries": pagination_audit,
             },
             ensure_ascii=False,

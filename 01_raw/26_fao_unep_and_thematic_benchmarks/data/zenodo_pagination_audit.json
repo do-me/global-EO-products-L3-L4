@@ -1,8 +1,10 @@
 {
   "page_size": 25,
   "max_pages_per_query": 20,
-  "total_unique_zenodo_records": 597,
+  "total_unique_zenodo_records": 1347,
   "truncated_query_count": 0,
+  "carry_forward_restored_records": 281,
+  "carry_forward_missing_ids": [],
   "queries": [
     {
       "query": "+\"Global Mangrove Watch\"",
@@ -292,6 +294,116 @@
       "pages_fetched": 1,
       "fetched_records": 1,
       "new_unique_records": 1,
+      "truncated": false
+    },
+    {
+      "query": "+MUSES +NDVI +Global",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 236,
+      "pages_fetched": 10,
+      "fetched_records": 236,
+      "new_unique_records": 236,
+      "truncated": false
+    },
+    {
+      "query": "+\"PKU GIMMS\" +NDVI",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 5,
+      "pages_fetched": 1,
+      "fetched_records": 5,
+      "new_unique_records": 4,
+      "truncated": false
+    },
+    {
+      "query": "+OCO-3 +(GPP OR SIF)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 48,
+      "pages_fetched": 2,
+      "fetched_records": 48,
+      "new_unique_records": 40,
+      "truncated": false
+    },
+    {
+      "query": "+\"mangrove canopy height\" +global",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 3,
+      "pages_fetched": 1,
+      "fetched_records": 3,
+      "new_unique_records": 3,
+      "truncated": false
+    },
+    {
+      "query": "+\"Solar-Induced Chlorophyll Fluorescence\" +(global OR satellite OR TROPOMI OR OCO OR TanSat OR GOME-2)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 56,
+      "pages_fetched": 3,
+      "fetched_records": 56,
+      "new_unique_records": 31,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global\" +(\"glacier thickness\" OR \"glacier mass balance\" OR \"permafrost\" OR \"Active Layer Thickness\") +(satellite OR ESA OR CCI)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 24,
+      "pages_fetched": 1,
+      "fetched_records": 24,
+      "new_unique_records": 24,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global\" +(\"burned area\" OR \"fireCCI\" OR \"Fire_cci\") +(MODIS OR Sentinel OR VIIRS OR AVHRR)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 39,
+      "pages_fetched": 2,
+      "fetched_records": 39,
+      "new_unique_records": 38,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global\" +(\"sea surface salinity\" OR \"ocean color\" OR \"ocean colour\" OR \"chlorophyll-a\") +(satellite OR CCI OR SMOS OR SMAP)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 69,
+      "pages_fetched": 3,
+      "fetched_records": 69,
+      "new_unique_records": 65,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global\" +(\"evapotranspiration\" OR \"latent heat flux\") +(MODIS OR ERA5 OR FLUXCOM OR satellite) +gridded",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 14,
+      "pages_fetched": 1,
+      "fetched_records": 14,
+      "new_unique_records": 13,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global\" +(\"surface solar radiation\" OR \"downward shortwave\" OR \"PAR\") +(satellite OR CERES OR HIMAWARI OR MSG)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 40,
+      "pages_fetched": 2,
+      "fetched_records": 40,
+      "new_unique_records": 12,
+      "truncated": false
+    },
+    {
+      "query": "+\"Global\" +(\"snow water equivalent\" OR \"snow cover extent\") +(satellite OR GlobSnow OR MODIS OR ESA)",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 14,
+      "pages_fetched": 1,
+      "fetched_records": 14,
+      "new_unique_records": 10,
       "truncated": false
     }
   ]

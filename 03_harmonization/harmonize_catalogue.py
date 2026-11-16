@@ -90,13 +90,31 @@ def parse_resolution_meters(res_str: str | None) -> float | None:
     """
     if not res_str:
         return None
-    s = str(res_str).lower().replace("&deg;", "°").strip()
+    s = (
+        str(res_str)
+        .lower()
+        .replace("&deg;", "°")
+        .replace("\u00ba", "°")
+        .replace("&#186;", "°")
+        .replace("&ordm;", "°")
+        .strip()
+    )
     # Direct numeric string (e.g. from STAC summaries.gsd like "10" or "30.0")
     if re.match(r"^\d+(\.\d+)?$", s):
         val = float(s)
         return val if 0 < val <= 600_000.0 else None
 
     candidates: list[float] = []
+    # Explicit fractional degree grids such as "1/12°" or "1/20 degree" (prevent misreading denominator as integer deg)
+    frac_deg_pat = re.compile(
+        r"(?<![\d.])(\d+)\s*/\s*(\d+)\s*(?:°|(?:decimal\s+)?(?:deg|degrees?)\b)(?![\s°]*[cfknswe]\b)"
+    )
+    for fm in frac_deg_pat.finditer(s):
+        num, den = float(fm.group(1)), float(fm.group(2))
+        if den > 0:
+            val = (num / den) * 111_320.0
+            if 0 < val <= 600_000.0:
+                candidates.append(round(val, 2))
     # 1. Explicit fractional degree notations: e.g. "1°/112", "1/336°", "5°/112", "1/24°", "1/8th degree", "1/4 deg"
     frac_deg_pat = re.compile(
         r"(?<![\d.])(\d+(?:\.\d+)?)\s*(?:(°)|\s*(deg|degree|degrees))?\s*/\s*(\d+(?:\.\d+)?)\s*(?:(th)\b)?\s*(?:(deg|degree|degrees)\b|(°)(?!\s*[cfknswe]\b))?"
@@ -196,7 +214,8 @@ _MULTI_DAY_RE = re.compile(
     r"\b(?:[2-9]|[12]\d|32)-da(?:y|ily|ys)\b|"
     rf"{_NUM_GUARD}\b(?:[2-9]|[12]\d|32)\s*da(?:y|ily|ys)\b|"
     r"\b(?:ten[- ]?day(?:ly)?|eight[- ]?day|sixteen[- ]?day|dekad(?:al|e|s)?|"
-    r"three times a month|weekly|bi[- ]?weekly|twice[- ]?weekly|fortnightly|semi[- ]?monthly|twice[- ]?monthly)\b",
+    r"three times a month|weekly|bi[- ]?weekly|twice[- ]?weekly|fortnightly|"
+    r"semi[- ]?monthly|twice[- ]?(?:monthly|a\s+month)|half[- ]?month(?:ly)?|two\s+(?:values|composites)\s+per\s+month)\b",
     re.IGNORECASE,
 )
 
@@ -292,6 +311,11 @@ def classify_cadence(
         if tr_classes_chk == ["sub_daily_or_daily"]:
             return "sub_daily_or_daily"
 
+    # 0b. Monthly composite products whose title names a diurnal physical quantity (e.g. OCO-3 diurnal GPP monthly composite maps)
+    if tr and desc and re.search(r"\bmonthly\s+composite\s+maps?\b", desc, re.IGNORECASE):
+        if _match_cadence_classes(tr) == ["monthly_or_seasonal"]:
+            return "monthly_or_seasonal"
+
     # 1. Explicit single-cadence token in title takes priority (resolving multi-cadence collection tags when title is specific)
     title_classes = _match_cadence_classes(title_l)
     if len(title_classes) == 1:
@@ -332,8 +356,19 @@ def extract_temporal_output_details(
     """Separates output step interval(s) from rolling retrieval/compositing/accumulation windows."""
     tr = (temp_res_raw or "").strip().lower()
     tr_classes = _match_cadence_classes(tr) if tr else []
+    has_exact_semi = bool(
+        re.search(
+            r"\b(?:semi[- ]?monthly|half[- ]?month(?:ly)?|twice[- ]?(?:monthly|a\s+month)|two\s+(?:values|composites)\s+per\s+month)\b",
+            tr,
+            re.IGNORECASE,
+        )
+    )
     if tr_classes:
-        out_cadences = "; ".join(tr_classes)
+        refined = [
+            "semimonthly" if (c == "multi_day_or_dekadal" and has_exact_semi) else c
+            for c in tr_classes
+        ]
+        out_cadences: str | None = "; ".join(dict.fromkeys(refined))
     elif cadence_cls:
         out_cadences = cadence_cls
     else:
@@ -394,7 +429,7 @@ _SINGLE_GEO_DISK_RE = re.compile(
     r"\bseviri_m0?\d+\b|\bsndr[a-z0-9]*_g\d+\b|-(?:m(?:8|9|10|11)|g1[0-9]|h0[89])-(?:iasia|iasi|cris|airs)\b|"
     r"\bgoes[-_ ]?(?:east|west|[0-9]{1,2}|r|i-m)\b|\bhimawari[-_ ]?[89]?\b|"
     r"\b(?:meteosat|msg[-_ ]?[1-4]?|mtg|indian ocean data coverage|iodc)\b|"
-    r"\b(?:seviri|vissr|fci)\b|\b0\s*(?:degree|deg)\b|"
+    r"\b(?:seviri|vissr|fci)\b|"
     r"\beo:eum:dat:(?:msg:|mtg:|model:bmd\b))",
     re.IGNORECASE,
 )
@@ -440,7 +475,11 @@ def classify_geographic_coverage(
             and re.search(r"\b(?:meteosat|himawari|msg|mtsat|seviri|ahi)\b", head_geo, re.IGNORECASE)
         )
     )
-    is_single_geo_disk = bool(not is_multi_geo_family and _SINGLE_GEO_DISK_RE.search(head_geo))
+    is_single_geo_disk = bool(
+        not is_multi_geo_family
+        and not re.search(r"\bmerra[-_ ]?2\b", head_geo, re.IGNORECASE)
+        and _SINGLE_GEO_DISK_RE.search(head_geo)
+    )
 
     # Guard against nominal [-180, -90, 180, 90] provider bounding boxes on explicitly regional or single-GEO disk products
     if is_single_geo_disk and dlon >= 300.0:
@@ -854,6 +893,24 @@ _CONTEXTUAL_NON_SENTINEL_DESC_RE = re.compile(
 )
 
 
+_EXPLICIT_NON_SENTINEL_SENSOR_RE = re.compile(
+    r"\b(?:avhrr|modis|viirs|landsat|seawifs|meris|envisat|ers[- ]?[12]|spot[- ]?(?:[1-5]|vgt|vegetation)|proba[- ]?v|"
+    r"goes[-_ ]?\d*|himawari|meteosat|msg|mtg|gms|mtsat|seviri|ceres|trmm|gpm|smap|smos|aquarius|grace|"
+    r"icesat|gedi|toms|omi\b|omps|sbuv|buv|gome|sciamachy|iasi|airs|cris|amsu|mhs|amsr[2e]?|ssmi|ssmis|smmr|"
+    r"ascat|quikscat|jason|topex|poseidon|cryosat|radarsat|alos|palsar|aster|misr|mopitt|oco[-_ ]?[23]|tansat|"
+    r"cbers|gf[- ]?\d+|zy[- ]?\d+|terra\b|aqua\b|suomi[- ]?npp|noaa[-_ ]?\d+|metop|aura|cloudsat|calipso|"
+    r"rapideye|planetscope|worldview|geoeye|ikonos|pleiades|spot[- ]?(?:[1-7]|vgt|vegetation))\b",
+    re.IGNORECASE,
+)
+
+
+def _has_explicit_platform_evidence(plat_raw: str | None, title: str | None, raw_id: str | None) -> bool:
+    """Return True when upstream platform_sensor_raw or title/ID explicitly names an instrument/satellite."""
+    if plat_raw and str(plat_raw).strip() and str(plat_raw).strip().lower() not in ("not applicable", "not provided", "unknown", "none", "null"):
+        return True
+    return bool(_EXPLICIT_NON_SENTINEL_SENSOR_RE.search(f"{raw_id or ''} {title or ''}"))
+
+
 def detect_sentinel_usage(
     raw_id: str | None,
     title: str | None,
@@ -866,8 +923,12 @@ def detect_sentinel_usage(
 ) -> tuple[bool, str | None, str]:
     rid_str = raw_id or ""
     ttl_str = title or ""
+    plat_str = (plat_raw or "").strip()
+    has_plat_evidence = _has_explicit_platform_evidence(plat_raw, ttl_str, rid_str)
+    non_sent_status = "explicit_non_sentinel" if has_plat_evidence else "unassessed_no_platform_metadata"
+
     if re.search(r"\b(hurricane and severe storm sentinel|hs3[a-z0-9_-]*)\b", f"{rid_str} {ttl_str}", re.IGNORECASE):
-        return False, None, "non_sentinel"
+        return False, None, "explicit_non_sentinel"
 
     # Explicit Landsat-only HLS stream (HLSL30 / hls2-l30 / L30HLS): harmonized to S2 tiling/bandpass, not S2 input observations
     is_landsat_only_hls = bool(
@@ -880,6 +941,19 @@ def detect_sentinel_usage(
     )
     if is_landsat_only_hls:
         return False, None, "target_grid_or_harmonization_reference_only"
+
+    # Inspect explicit platform_sensor_raw FIRST so structured Sentinel platforms are never skipped before checking dates
+    plat_has_explicit_sentinel = bool(
+        plat_str
+        and (
+            S1_RE.search(plat_str)
+            or S2_RE.search(plat_str)
+            or S3_RE.search(plat_str)
+            or S5P_RE.search(plat_str)
+            or S6_RE.search(plat_str)
+            or re.search(r"\bsentinel\b", plat_str, re.IGNORECASE)
+        )
+    )
 
     # Check whether the title itself pins a single pre-2014 reference year/range (ignoring EEA publication month-year suffixes like ', Feb. 2024' and literature citations like 'et al. 2005')
     ttl_no_pub = re.sub(
@@ -899,8 +973,8 @@ def detect_sentinel_usage(
             re.IGNORECASE,
         )
     )
-    if title_pinned_pre2014:
-        return False, None, "non_sentinel"
+    if title_pinned_pre2014 and not plat_has_explicit_sentinel:
+        return False, None, non_sent_status
 
     is_retrospective_fusion = bool(
         re.search(r"\b(biomass_cci|cci\s+biomass|gedi[-_ ]?fusion|wsci|gfm|worldcover)\b", f"{rid_str} {ttl_str}", re.IGNORECASE)
@@ -910,8 +984,8 @@ def detect_sentinel_usage(
         if (end_year is not None and is_ongoing is not True and not title_has_post2014_year and not is_retrospective_fusion)
         else None
     )
-    if bounded_end is not None and bounded_end < 2014:
-        return False, None, "non_sentinel"
+    if bounded_end is not None and bounded_end < 2014 and not plat_has_explicit_sentinel:
+        return False, None, non_sent_status
 
     head_blob = f"{rid_str} {ttl_str} {plat_raw or ''} {kw_raw or ''}"
 
@@ -963,7 +1037,7 @@ def detect_sentinel_usage(
         return True, "; ".join(missions), status
     if had_contextual_sentinel:
         return False, None, "target_grid_or_harmonization_reference_only"
-    return False, None, "non_sentinel"
+    return False, None, non_sent_status
 
 
 # ---------------------------------------------------------------------------
@@ -1039,6 +1113,24 @@ IN_SITU_GRIDDED_RE = re.compile(
     r"aircraft campaign|shipboard)\b)",
     re.IGNORECASE,
 )
+
+PROVIDER_DOCUMENTED_LEVEL_SPECS: dict[tuple[str, str], dict[str, str]] = {
+    ("03_copernicus_c3s_cds", "satellite-ocean-colour"): {
+        "processing_level": "L3",
+        "product_level_subtype": "L3_THEMATIC_BIOPHYSICAL",
+        "processing_levels_available": "L3",
+        "processing_level_provenance": "provider_documented_specification",
+        "citation": "https://climate.copernicus.eu/ocean",
+    },
+    ("09_wekeo_dias", "EO:ECMWF:DAT:SATELLITE_OCEAN_COLOUR"): {
+        "processing_level": "L3",
+        "product_level_subtype": "L3_THEMATIC_BIOPHYSICAL",
+        "processing_levels_available": "L3",
+        "processing_level_provenance": "provider_documented_specification",
+        "citation": "https://climate.copernicus.eu/ocean",
+    },
+}
+
 
 REFERENCE_GEOMETRY_RE = re.compile(
     r"\b(wdpa|wdoecm|protected planet|world database on protected areas|natura 2000|natura2000|"
@@ -1173,6 +1265,12 @@ def classify_level_and_ontology(
             lvl_prov = "explicit_title_or_id"
         subtype = "NON_L3_L4_UPSTREAM_LEVEL"
         levels_avail = p_level
+    elif (source_id, rid) in PROVIDER_DOCUMENTED_LEVEL_SPECS:
+        spec = PROVIDER_DOCUMENTED_LEVEL_SPECS[(source_id, rid)]
+        p_level = spec["processing_level"]
+        subtype = spec["product_level_subtype"]
+        levels_avail = spec["processing_levels_available"]
+        lvl_prov = spec["processing_level_provenance"]
     else:
         p_level = None
         levels_avail = None
@@ -1293,24 +1391,32 @@ def classify_operational_maturity(
     if is_discrete_event_or_survey:
         return "completed_or_mission_bounded_release", False
 
-    has_ongoing_uf = any(
+    has_strong_active_uf = any(
         k in uf
         for k in (
             "collectionprogress:active",
+            "operational",
             "continual",
+            "frequency/cont",
             "ongoing",
             "daily",
             "weekly",
             "monthly",
-            "quarterly",
-            "annual",
-            "yearly",
             "update_cont",
-            "regular",
             "near real time",
             "near_real_time",
         )
     )
+    has_periodic_annual_uf = bool(
+        any(k in uf for k in ("annually", "annual", "yearly", "semiannual", "quarterly"))
+        and not re.search(
+            r"\b(?:v\d+[_.-]?20(?:1\d|2[0-4])|\(20(?:1\d|2[0-5])\))\b|"
+            r"\bfrom\s+(?:19\d\d|20\d\d)\s+to\s+(?:19\d\d|20(?:[01]\d|2[0-5]))\b",
+            head,
+            re.IGNORECASE,
+        )
+    )
+    has_ongoing_uf = has_strong_active_uf or has_periodic_annual_uf
     has_non_ongoing_uf = bool(
         re.search(
             r"\b(?:collectionprogress:complete|completed|archived|not\s*updated|no\s*updates|"
@@ -1319,7 +1425,7 @@ def classify_operational_maturity(
             re.IGNORECASE,
         )
     )
-    has_unknown_uf = bool(re.search(r"(?:^|/)unknown$", uf))
+    has_unknown_uf = bool(re.search(r"(?:^|/)unknown$|\bready\b|\bbeta\b", uf))
 
     is_future_proj = bool(
         FUTURE_PROJECTION_OR_STATIC_RELEASE_RE.search(head)
@@ -1328,23 +1434,39 @@ def classify_operational_maturity(
     )
 
     is_explicit_present_series = bool(
-        re.search(r"\b(19\d\d|20[0-2]\d)\s*[-–—]\s*(?:present|ongoing)\b", head, re.IGNORECASE)
+        re.search(r"\b(19\d\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(?:present|ongoing)\b", head, re.IGNORECASE)
         and not is_future_proj
         and "[archived]" not in head.lower()
         and (end_year is None or end_year >= 2025)
     )
+    # Explicit closed year range or historical edition ending <= 2025 without ongoing/present cues (e.g. MEBD 1970-2024, RFR-LME 1998-2025, HDGM 2025)
+    has_closed_title_range_le_2025 = bool(
+        not is_explicit_present_series
+        and (
+            re.search(r"\b(?:19\d\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(?:19\d\d|20(?:[01]\d|2[0-5]))\b", head, re.IGNORECASE)
+            or re.search(r"\b(?:geomagnetic\s+model\s+202[0-5]|v\d+[_.-]?202[0-4])\b", head, re.IGNORECASE)
+        )
+    )
 
-    # Determine is_ongoing_archive strictly from raw dates and explicit update status
+    # Determine is_ongoing_archive strictly from raw dates and explicit update status relative to Nov 2026 harvest
     if is_future_proj:
         is_ongoing = False
     elif has_non_ongoing_uf or "[archived]" in head.lower() or COMPLETED_MISSION_OR_STATIC_RE.search(head):
         is_ongoing = False
-    elif has_unknown_uf and not is_explicit_present_series and (end_year is None or end_year < 2025):
+    elif has_closed_title_range_le_2025 and not (has_strong_active_uf or "operational" in uf):
+        is_ongoing = False
+    elif has_unknown_uf and not is_explicit_present_series and (end_year is None or end_year <= 2025):
         is_ongoing = None
     elif is_explicit_present_series:
         is_ongoing = True
     elif end_year is not None:
-        is_ongoing = end_year >= 2025
+        if end_year >= 2026:
+            is_ongoing = True
+        elif end_year == 2025:
+            # 2025 end dates (>10 months before Nov 2026 harvest) require explicit active/ongoing or expected annual cadence
+            is_ongoing = True if has_ongoing_uf else None
+        else:
+            is_ongoing = False
     elif start_year is None and end_year is None:
         if has_ongoing_uf and source_id not in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community"):
             is_ongoing = True
@@ -1428,9 +1550,215 @@ def norm_none(val: Any) -> Any:
     return val
 
 
+def _resolve_cited_spatial_adjudication(
+    raw_id: str | None,
+    title: str | None,
+    doi_raw: str | None,
+    url_raw: str | None,
+) -> tuple[float, str, str, str, str, str] | None:
+    """
+    For verified CMR UMM vs. title/documentation spatial resolution conflicts,
+    return (meters, grid_value, units, axes, source_tag, citation_url).
+    `spatial_resolution_meters` remains None so conflict transparency is preserved.
+    """
+    head = f"{raw_id or ''} {title or ''}"
+    cite = f"https://doi.org/{doi_raw}" if doi_raw else (url_raw or "")
+    if re.search(r"\bN\d{2}_AVH\d{2}C1\b", head, re.IGNORECASE):
+        return (
+            5566.0,
+            "0.05 x 0.05",
+            "degrees",
+            "lon x lat",
+            "provider_documented_errata_adjudication",
+            cite or "https://ltdr.modaps.eosdis.nasa.gov/ltdr/docs/AVHRR_LTDR_V5_Document.pdf",
+        )
+    if re.search(r"\bAERDB_[DM]3_", head, re.IGNORECASE):
+        return (
+            111320.0,
+            "1.0 x 1.0",
+            "degrees",
+            "lon x lat",
+            "provider_documented_errata_adjudication",
+            cite,
+        )
+    if re.search(r"\bconst_2d_(?:asm|lnd|ctm)_Nx\b", head, re.IGNORECASE):
+        return (
+            62617.5,  # Mean equatorial spacing of 0.625 deg lon x 0.5 deg lat grid (0.5625 * 111320 m)
+            "0.625 x 0.5",
+            "degrees",
+            "lon x lat",
+            "provider_documented_errata_adjudication",
+            cite,
+        )
+    if re.search(r"\bFluxSatMGPP_L3_Daily_p5deg\b", head, re.IGNORECASE) or (raw_id or "") == "C3464727089-GES_DISC":
+        return (
+            62617.5,  # Mean equatorial spacing of 0.5 deg lat x 0.625 deg lon grid
+            "0.5 x 0.625",
+            "degrees",
+            "lat x lon",
+            "provider_documented_errata_adjudication",
+            cite,
+        )
+    return None
+
+
+def _extract_product_variants(
+    rec_uid: str,
+    c_key: str,
+    sid: str,
+    raw_id: str | None,
+    title: str | None,
+    desc: str | None,
+    lvls_avail: str | None,
+    p_lvl: str | None,
+    out_cadences: str | None,
+    adj_spat_m: float | None,
+    spat_raw: str | None,
+    doi_raw: str | None,
+    url_raw: str | None,
+) -> tuple[str | None, list[dict[str, Any]]]:
+    """
+    Build normalized variant rows for mixed-level/mixed-tier collections (e.g. TCSIF v1 L3+L2,
+    C3S SST L3C+L4, multi-level STAC/CMR bundles) and return a concise summary string + variant dicts.
+    """
+    cite = url_raw or (f"https://doi.org/{doi_raw}" if doi_raw else None)
+    rid = (raw_id or "").strip()
+    dsc = desc or ""
+    variants: list[dict[str, Any]] = []
+
+    if rid == "ZENODO:8242928" or (doi_raw or "").lower() == "10.5281/zenodo.8242928":
+        variants.extend([
+            {
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": 1,
+                "variant_level": "L3",
+                "variant_role": "monthly_aggregated_grid",
+                "variant_cadence": "monthly",
+                "variant_spatial_resolution_raw": "0.5°",
+                "variant_spatial_resolution_meters": 55660.0,
+                "variant_spatial_grid_axes": "lon x lat",
+                "variant_units": "mW m-2 nm-1 sr-1",
+                "variant_file_format": "GeoTIFF",
+                "variant_archive_name": "Level3.zip",
+                "variant_citation": cite,
+            },
+            {
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": 2,
+                "variant_level": "L2",
+                "variant_role": "daily_orbital_retrieval",
+                "variant_cadence": "daily",
+                "variant_spatial_resolution_raw": None,
+                "variant_spatial_resolution_meters": None,
+                "variant_spatial_grid_axes": None,
+                "variant_units": "mW m-2 nm-1 sr-1",
+                "variant_file_format": "HDF5",
+                "variant_archive_name": "{Year}{Quater}.zip",
+                "variant_citation": cite,
+            },
+        ])
+    elif rid in ("satellite-sea-surface-temperature", "EO:ECMWF:DAT:SATELLITE_SEA_SURFACE_TEMPERATURE"):
+        variants.extend([
+            {
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": 1,
+                "variant_level": "L3",
+                "variant_role": "l3c_single_sensor_collated_grid",
+                "variant_cadence": "daily",
+                "variant_spatial_resolution_raw": spat_raw,
+                "variant_spatial_resolution_meters": adj_spat_m,
+                "variant_spatial_grid_axes": "lon x lat",
+                "variant_units": "K",
+                "variant_file_format": "NetCDF",
+                "variant_archive_name": None,
+                "variant_citation": cite,
+            },
+            {
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": 2,
+                "variant_level": "L4",
+                "variant_role": "l4_multi_sensor_gap_filled_analysis",
+                "variant_cadence": "daily; monthly",
+                "variant_spatial_resolution_raw": spat_raw,
+                "variant_spatial_resolution_meters": adj_spat_m,
+                "variant_spatial_grid_axes": "lon x lat",
+                "variant_units": "K",
+                "variant_file_format": "NetCDF",
+                "variant_archive_name": None,
+                "variant_citation": cite,
+            },
+        ])
+    elif lvls_avail and ";" in lvls_avail:
+        parts = [p.strip() for p in lvls_avail.split(";") if p.strip()]
+        if len(parts) >= 2:
+            for i, lv in enumerate(parts, start=1):
+                variants.append({
+                    "record_id": rec_uid,
+                    "canonical_product_key": c_key,
+                    "source_catalogue": sid,
+                    "raw_id": raw_id,
+                    "title": title,
+                    "variant_index": i,
+                    "variant_level": lv,
+                    "variant_role": "multi_level_collection_member",
+                    "variant_cadence": out_cadences if lv == p_lvl else None,
+                    "variant_spatial_resolution_raw": spat_raw,
+                    "variant_spatial_resolution_meters": adj_spat_m,
+                    "variant_spatial_grid_axes": None,
+                    "variant_units": None,
+                    "variant_file_format": None,
+                    "variant_archive_name": None,
+                    "variant_citation": cite,
+                })
+    elif re.search(r"\bcomposite\s+maps?\s+of\s+the\s+hourly\b", dsc, re.IGNORECASE):
+        variants.append({
+            "record_id": rec_uid,
+            "canonical_product_key": c_key,
+            "source_catalogue": sid,
+            "raw_id": raw_id,
+            "title": title,
+            "variant_index": 1,
+            "variant_level": p_lvl or "L3",
+            "variant_role": "monthly_diurnal_hour_stratified_grid",
+            "variant_cadence": "monthly",
+            "variant_spatial_resolution_raw": spat_raw,
+            "variant_spatial_resolution_meters": adj_spat_m,
+            "variant_spatial_grid_axes": "lon x lat",
+            "variant_units": None,
+            "variant_file_format": None,
+            "variant_archive_name": None,
+            "variant_citation": cite,
+        })
+
+    if not variants:
+        return None, []
+    summary_parts = []
+    for v in variants:
+        bits = [b for b in (v["variant_cadence"], v["variant_spatial_resolution_raw"], v["variant_file_format"], v["variant_units"]) if b]
+        summary_parts.append(f"{v['variant_level']} ({', '.join(bits)})" if bits else str(v["variant_level"]))
+    return "; ".join(summary_parts), variants
+
+
 def main() -> None:
     OUT_DATA_DIR.mkdir(parents=True, exist_ok=True)
     harmonized_rows: list[dict[str, Any]] = []
+    product_variant_rows: list[dict[str, Any]] = []
 
     for p in sorted(PREP_DATA_DIR.glob("*.parquet")):
         if p.name == "excluded_records_log.parquet":
@@ -1472,9 +1800,17 @@ def main() -> None:
                     spat_conflict = True
                     spat_conflict_reason = f"raw_vs_title_ratio_ge_10x ({raw_spat_m}m vs {title_spat_m}m)"
                     spat_m = None
+            adj_grid_val: str | None = None
+            adj_grid_units: str | None = None
+            adj_grid_axes: str | None = None
+            adj_citation: str | None = None
             if spat_conflict:
-                adj_spat_m: float | None = None
-                adj_spat_src: str | None = None
+                resolved_adj = _resolve_cited_spatial_adjudication(raw_id, title, doi_raw, url_raw)
+                if resolved_adj:
+                    adj_spat_m, adj_grid_val, adj_grid_units, adj_grid_axes, adj_spat_src, adj_citation = resolved_adj
+                else:
+                    adj_spat_m = None
+                    adj_spat_src = None
             elif spat_m is not None:
                 adj_spat_m = spat_m
                 adj_spat_src = "upstream_spatial_resolution_raw"
@@ -1551,6 +1887,26 @@ def main() -> None:
 
             c_key = build_canonical_key(doi_raw, title, raw_id, pool)
             rec_uid = f"{sid}::{raw_id or idx}"
+            if (sid, raw_id or "") in PROVIDER_DOCUMENTED_LEVEL_SPECS and not adj_citation:
+                adj_citation = PROVIDER_DOCUMENTED_LEVEL_SPECS[(sid, raw_id or "")]["citation"]
+
+            variant_summary, rec_variants = _extract_product_variants(
+                rec_uid,
+                c_key,
+                sid,
+                raw_id,
+                title,
+                desc,
+                lvls_avail,
+                p_lvl,
+                out_cadences,
+                adj_spat_m,
+                spat_raw,
+                doi_raw,
+                url_raw,
+            )
+            if rec_variants:
+                product_variant_rows.extend(rec_variants)
 
             harmonized_rows.append({
                 "record_id": rec_uid,
@@ -1584,7 +1940,12 @@ def main() -> None:
                 "spatial_resolution_conflict": spat_conflict,
                 "spatial_resolution_conflict_reason": spat_conflict_reason,
                 "adjudicated_output_grid_meters": adj_spat_m,
+                "adjudicated_spatial_grid_value": adj_grid_val,
+                "adjudicated_spatial_grid_units": adj_grid_units,
+                "adjudicated_spatial_grid_axes": adj_grid_axes,
                 "adjudicated_spatial_resolution_source": adj_spat_src,
+                "adjudication_source_citation": adj_citation,
+                "level_variant_specifications": variant_summary,
                 "temporal_resolution_raw": temp_res_raw,
                 "update_frequency_raw": uf_raw,
                 "temporal_cadence_class": cadence_cls,
@@ -1685,6 +2046,12 @@ def main() -> None:
         if src_key_counts[sk] > 1:
             row["canonical_product_key"] = f"{row['canonical_product_key']}::{row['raw_id'] or row['record_id']}"
 
+    # Keep variant table canonical_product_key synchronized after disambiguation
+    rec_to_ck = {r["record_id"]: r["canonical_product_key"] for r in harmonized_rows}
+    for vr in product_variant_rows:
+        if vr["record_id"] in rec_to_ck:
+            vr["canonical_product_key"] = rec_to_ck[vr["record_id"]]
+
     df_all = pd.DataFrame(harmonized_rows)
     df_all = df_all.sort_values(["source_authority_rank", "source_catalogue", "raw_id"])
 
@@ -1724,6 +2091,16 @@ def main() -> None:
     df_canon = df_canon.merge(agg_catalogues, on="canonical_product_key", how="left")
     df_canon = df_canon.merge(agg_counts, on="canonical_product_key", how="left")
     df_canon.to_parquet(OUT_DATA_DIR / "eo_l3_l4_canonical_products.parquet", index=False)
+
+    # Export normalized variant-level table for mixed-level/mixed-tier collections (e.g. TCSIF v1 L3+L2, C3S SST L3C+L4)
+    if product_variant_rows:
+        df_variants = pd.DataFrame(product_variant_rows).sort_values(
+            ["source_catalogue", "raw_id", "variant_index"]
+        )
+        df_variants.to_parquet(OUT_DATA_DIR / "eo_l3_l4_product_variants.parquet", index=False)
+        with (OUT_DATA_DIR / "eo_l3_l4_product_variants.jsonl").open("w", encoding="utf-8") as f:
+            for item in df_variants.to_dict(orient="records"):
+                f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
     # Export pool and completeness summaries
     pool_summary = (

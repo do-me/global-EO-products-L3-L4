@@ -2169,6 +2169,64 @@ def main() -> None:
     agee_rows = parse_29_awesome_gee()
     source_raw_batches.append(("29_awesome_gee_community", agee_rows, len(agee_rows), 0))
 
+    import html as _html
+
+    _PROSE_SPAT_PATS = [
+        re.compile(
+            r"(?:with\s+a\s+)?(?:spatial|horizontal|grid)\s+resolution\s*(?:of|is|at|:)\s*"
+            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?\s*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
+            r"(?![\s°º]*[cfknswe]\b)",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"(?:with\s+a\s+|at\s+a?\s*)resolution\s+(?:of|is|:)\s*"
+            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?\s*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
+            r"(?![\s°º]*[cfknswe]\b)",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"(\d+\s*/\s*\d+\s*[°º]|(?:0\.\d+|1\.\d+|2\.\d+|5\.0)\s*[°º])(?:\s*(?:geographic\s+)?grid)?(?![\s°º]*(?:[cfknswe]|lat|lon)\b)",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"\b(\d{1,3}(?:\.\d+)?\s*[- ]?(?:km|kilometers?|m)\b)\s+(?:resolution|grid|global\s+map|canopy|land\s+cover|product)",
+            re.IGNORECASE,
+        ),
+    ]
+    _SEMIMONTHLY_RE = re.compile(
+        r"\b(?:semi[- ]?monthly|half[- ]?month(?:ly)?|twice[- ]?(?:monthly|a\s+month)|two\s+(?:values|composites)\s+per\s+month)\b",
+        re.IGNORECASE,
+    )
+
+    def _enrich_prose_spatial_and_cadence(rec: dict[str, Any]) -> None:
+        ttl_s = clean_str(rec.get("title")) or ""
+        dsc_s = clean_str(rec.get("description")) or ""
+        raw_text = _html.unescape(re.sub(r"<[^>]+>", " ", f"{ttl_s} {dsc_s}")).replace("\xa0", " ")
+        raw_text = re.sub(r"\s+", " ", raw_text).strip()
+
+        if not clean_str(rec.get("spatial_resolution_raw")):
+            for pat_sp in _PROSE_SPAT_PATS:
+                m_sp = pat_sp.search(raw_text)
+                if m_sp:
+                    cand = m_sp.group(1).strip()
+                    # Avoid capturing wavelength bands like 740 nm or generic "10 m depth" when not spatial
+                    if not re.search(r"\bnm\b|\bdepth\b", cand, re.IGNORECASE):
+                        rec["spatial_resolution_raw"] = cand
+                        break
+
+        cur_t = clean_str(rec.get("temporal_resolution_raw"))
+        if _SEMIMONTHLY_RE.search(raw_text) and (not cur_t or "semimonthly" not in cur_t.lower()):
+            rec["temporal_resolution_raw"] = "semimonthly"
+        elif cur_t and cur_t.lower() in ("diurnal", "hourly") and re.search(
+            r"\bmonthly\s+composite\s+maps?\b", raw_text, re.IGNORECASE
+        ):
+            rec["temporal_resolution_raw"] = "monthly"
+        elif not cur_t:
+            if re.search(r"\bdaily\s+level\s*2\b", raw_text, re.IGNORECASE) and re.search(
+                r"\blevel\s*3\b.*\bmonthly\b|\baggregated\s+monthly\b", raw_text, re.IGNORECASE
+            ):
+                rec["temporal_resolution_raw"] = "monthly; daily"
+
     # -----------------------------------------------------------------------
     # Apply deterministic L3/L4 filtering & write per-source prepared outputs
     # -----------------------------------------------------------------------
@@ -2188,6 +2246,7 @@ def main() -> None:
                     continue
                 seen_raw_ids.add(rid_val)
             # Apply uniform deterministic normalization across all 28 product sources
+            _enrich_prose_spatial_and_cadence(r)
             r["bbox_raw"] = clean_bbox(r.get("bbox_raw"))
             r["doi_raw"] = clean_doi(r.get("doi_raw"))
             r["landing_url_raw"] = clean_url(r.get("landing_url_raw"))

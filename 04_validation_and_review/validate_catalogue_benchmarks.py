@@ -503,6 +503,156 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"html={html_rem}, zen_null_url={zen_url_nulls}, tcsif_v1={tcsif_v1_ok}, cbers4={cbers_ok}, geo_glob={abi_g16_glob}, ard_leak={non_ard_leak}, hlsl30_s2={hlsl30_s2}, c3s_sst={c3s_sst_ok}",
     ))
 
+    # 20. Deep regression & adjudication invariants (GEO global restore, MERRA-2 SNDRD, OC L3, semimonthly, variants, cited conflicts, op25, Sentinel split, ECV negative controls)
+    gldas_omi = df_all[df_all["raw_id"].isin(["C1233767575-GES_DISC", "C1266136072-GES_DISC"])]
+    sndrd_rows = df_all[df_all["raw_id"].astype(str).str.contains(r"^C3944483", regex=True)]
+    merra2_geo_bad = int(
+        (
+            df_all["title"].fillna("").str.contains(r"\bmerra[-_ ]?2\b", case=False, regex=True)
+            & (df_all["observation_domain_class"] == "geostationary_disk_or_sector")
+        ).sum()
+    )
+    gldas_omi_sndrd_ok = (
+        len(gldas_omi) == 2
+        and bool((gldas_omi["geographic_coverage_class"] == "global").all())
+        and len(sndrd_rows) >= 16
+        and bool((sndrd_rows["geographic_coverage_class"] == "global").all())
+        and merra2_geo_bad == 0
+    )
+
+    oc_rows = df_all[df_all["record_id"].isin(["03_copernicus_c3s_cds::satellite-ocean-colour", "09_wekeo_dias::EO:ECMWF:DAT:SATELLITE_OCEAN_COLOUR"])]
+    c3s_unlab_sat = df_all[(df_all["source_catalogue"] == "03_copernicus_c3s_cds") & df_all["raw_id"].astype(str).str.startswith("satellite-") & df_all["processing_level"].isna()]
+    oc_cited_l3_ok = (
+        len(oc_rows) == 2
+        and bool((oc_rows["processing_level"] == "L3").all())
+        and bool((oc_rows["processing_level_provenance"] == "provider_documented_specification").all())
+        and bool((oc_rows["adjudication_source_citation"] == "https://climate.copernicus.eu/ocean").all())
+        and len(c3s_unlab_sat) >= 20
+    )
+
+    sm_rows = df_all[df_all["raw_id"].isin(["C2759076389-ORNL_CLOUD", "ZENODO:8253971"])]
+    bimonthly_sm = int((df_all["raw_id"].astype(str).str.contains("bimonthly", case=False) & (df_all["temporal_output_cadences"] == "semimonthly")).sum())
+    muses_r = df_all[df_all["raw_id"] == "ZENODO:7479028"]
+    oco3_r = df_all[df_all["raw_id"] == "ZENODO:15382965"]
+    semimonthly_prose_ok = (
+        len(sm_rows) == 2
+        and bool((sm_rows["temporal_output_cadences"] == "semimonthly").all())
+        and bimonthly_sm == 0
+        and len(muses_r) == 1
+        and float(muses_r.iloc[0]["spatial_resolution_meters"]) == 5566.0
+        and len(oco3_r) == 1
+        and oco3_r.iloc[0]["temporal_cadence_class"] == "monthly_or_seasonal"
+    )
+
+    variants_path = HARM_DIR / "eo_l3_l4_product_variants.parquet"
+    variants_ok = False
+    if variants_path.exists():
+        df_var = pd.read_parquet(variants_path)
+        vtcsif = df_var[df_var["raw_id"] == "ZENODO:8242928"]
+        vsst = df_var[df_var["raw_id"] == "satellite-sea-surface-temperature"]
+        variants_ok = (
+            len(df_var) >= 50
+            and set(vtcsif["variant_level"]) >= {"L2", "L3"}
+            and set(vsst["variant_level"]) >= {"L3", "L4"}
+        )
+
+    conf_rows = df_all[df_all["spatial_resolution_conflict"] == True]  # noqa: E712
+    cited_conf = conf_rows[conf_rows["adjudication_source_citation"].notna()]
+    unres_conf = conf_rows[conf_rows["adjudication_source_citation"].isna()]
+    spatial_cite_ok = (
+        len(cited_conf) >= 33
+        and bool(conf_rows["spatial_resolution_meters"].isna().all())
+        and bool(cited_conf["adjudicated_output_grid_meters"].notna().all())
+        and bool(cited_conf["adjudicated_spatial_grid_units"].notna().all())
+        and bool(cited_conf["adjudicated_spatial_grid_axes"].notna().all())
+        and bool(cited_conf["adjudication_source_citation"].astype(str).str.startswith("https://doi.org/").all())
+        and bool(unres_conf["adjudicated_output_grid_meters"].isna().all())
+    )
+
+    msat_rows = df_all[df_all["raw_id"].astype(str).str.startswith("projects/edf-methanesat-ee/assets/msat/")]
+    closed_2025_rows = df_all[df_all["raw_id"].isin(["a49dc43a-d799-11f1-8257-02ffd92199af", "d4e9b21f-6991-48ba-9b32-d1b4a08d76f0"])]
+    op25_ok = (
+        len(msat_rows) >= 3
+        and bool((msat_rows["operational_maturity_class"] == "unknown").all())
+        and len(closed_2025_rows) == 2
+        and bool((closed_2025_rows["operational_maturity_class"] == "completed_or_mission_bounded_release").all())
+        and bool((closed_2025_rows["is_ongoing_archive"] == False).all())  # noqa: E712
+    )
+
+    sent_status_vc = df_all["sentinel_lineage_status"].value_counts().to_dict()
+    sentinel_split_ok = (
+        sent_status_vc.get("no_sentinel_lineage", 0) == 0
+        and sent_status_vc.get("explicit_non_sentinel", 0) >= 20000
+        and sent_status_vc.get("unassessed_no_platform_metadata", 0) >= 10000
+    )
+
+    # ECV cross-domain leak guards on canonical table
+    c_ttl = df_canon["title"].fillna("").str.lower()
+    c_blob = (df_canon["title"].fillna("") + " " + df_canon["description"].fillna("") + " " + df_canon["keywords"].fillna("")).str.lower()
+    rad_pat = dict(GCOS_ECV_EXPLICIT_PATTERNS)["Surface radiation budget"]
+    rad_hits = c_blob.str.contains(rad_pat, regex=True, na=False) & ~c_blob.str.contains(r"\b(?:fapar|fraction\s+(?:of\s+)?absorbed(?:\s+of)?\s+photosynthetically\s+active\s+radiation)\b", regex=True, na=False)
+    rad_fapar_leak = int((rad_hits & c_ttl.str.contains(r"\b(?:fapar|fpar|leaf\s+area\s+index|safari)\b", regex=True, na=False) & ~c_ttl.str.contains(r"radiation|irradiance", regex=True, na=False)).sum())
+    ohf_pat = dict(GCOS_ECV_EXPLICIT_PATTERNS)["Ocean-surface heat flux"]
+    ohf_et_leak = int((c_blob.str.contains(ohf_pat, regex=True, na=False) & c_blob.str.contains(r"\b(?:ocean|marine|sea|air[- ]sea|oaflux|tropflux|seaflux)\b", regex=True, na=False) & c_blob.str.contains(r"\b(?:evapotranspiration|mod16|myd16|vnp17|vj117|nacp)\b", regex=True, na=False)).sum())
+    # Verify actual audit_gcos_ecv excludes those via domain rules
+    ecv_df_chk = audit_gcos_ecv(df_canon)
+    ecv_40_ok = len(ecv_df_chk) == 40 and int((ecv_df_chk["canonical_catalogue_matches"] > 0).sum()) == 40 and int((ecv_df_chk["independent_non_wgclimate_matches"] > 0).sum()) == 40
+    ecv_neg_ok = ecv_40_ok and rad_fapar_leak >= 0 and ohf_et_leak >= 0  # checked strictly inside audit_gcos_ecv + negative sample test below
+    # Direct negative-control check against audit_gcos_ecv logic using synthetic & real rows
+    neg_sample = pd.DataFrame([
+        {"title": "SAFARI 2000 FAPAR PAR 1-km Grid", "raw_id": "SYNTH_FAPAR", "keywords": "par fapar", "description": "absorbed photosynthetically active radiation par", "product_output_category": "", "source_catalogue": "synthetic", "provider_pool": "non_eu"},
+        {"title": "MOD16A2 Terrestrial Evapotranspiration & Latent Heat Flux", "raw_id": "SYNTH_MOD16", "keywords": "latent heat flux", "description": "terrestrial evapotranspiration mod16 global land", "product_output_category": "", "source_catalogue": "synthetic", "provider_pool": "non_eu"},
+        {"title": "GLAS Specific Leaf Area and Biomass Map", "raw_id": "SYNTH_SLA", "keywords": "sla leaf", "description": "specific leaf area sla forest", "product_output_category": "", "source_catalogue": "synthetic", "provider_pool": "non_eu"},
+    ])
+    neg_ecv = audit_gcos_ecv(neg_sample).set_index("gcos_ecv_name")
+    ecv_neg_ok = (
+        ecv_40_ok
+        and int(neg_ecv.loc["Surface radiation budget", "canonical_catalogue_matches"]) == 0
+        and int(neg_ecv.loc["Ocean-surface heat flux", "canonical_catalogue_matches"]) == 0
+        and int(neg_ecv.loc["Sea level", "canonical_catalogue_matches"]) == 0
+    )
+
+    qa.append((
+        "20. Regression & adjudication invariants (GEO global restore, OC L3, semimonthly, variants, cite, op25, ECV)",
+        bool(gldas_omi_sndrd_ok and oc_cited_l3_ok and semimonthly_prose_ok and variants_ok and spatial_cite_ok and op25_ok and sentinel_split_ok and ecv_neg_ok),
+        f"geo={gldas_omi_sndrd_ok}, oc_l3={oc_cited_l3_ok}, sm_prose={semimonthly_prose_ok}, var={variants_ok}, cite={spatial_cite_ok}, op25={op25_ok}, sent_split={sentinel_split_ok}, ecv_neg={ecv_neg_ok}",
+    ))
+
+    # 21. Verified-release regression baseline & Source 26 Zenodo pagination completeness
+    baseline_path = BASE_DIR / "verified_releases_baseline.json"
+    pag_audit_path = BASE_DIR.parent / "01_raw" / "26_fao_unep_and_thematic_benchmarks" / "data" / "zenodo_pagination_audit.json"
+    baseline_ok = False
+    pag_ok = False
+    base_detail = "missing baseline files"
+    if baseline_path.exists() and pag_audit_path.exists():
+        base_data = json.loads(baseline_path.read_text(encoding="utf-8"))
+        pag_data = json.loads(pag_audit_path.read_text(encoding="utf-8"))
+        zen_present = set(df_all[df_all["raw_id"].astype(str).str.startswith("ZENODO:")]["raw_id"].astype(str).str.replace("ZENODO:", "", regex=False))
+        cf_missing = set(str(x) for x in base_data.get("zenodo_carryforward_ids", [])) - zen_present
+        idx_df = df_all.set_index("record_id")
+        drift: list[str] = []
+        for spec in base_data.get("anchored_records", []):
+            rid = spec["record_id"]
+            if rid not in idx_df.index:
+                drift.append(f"MISSING:{rid}")
+                continue
+            row = idx_df.loc[rid]
+            if isinstance(row, pd.DataFrame):
+                row = row.iloc[0]
+            for fld in ("geographic_coverage_class", "processing_level", "temporal_cadence_class", "operational_maturity_class", "sentinel_lineage_status"):
+                got = None if pd.isna(row[fld]) else str(row[fld])
+                exp = spec.get(fld)
+                if got != exp:
+                    drift.append(f"{rid}:{fld}={got}!={exp}")
+        baseline_ok = len(df_all) >= int(base_data.get("min_harmonized_records", 0)) and len(cf_missing) == 0 and len(drift) == 0
+        pag_ok = int(pag_data.get("truncated_query_count", -1)) == 0 and len(pag_data.get("carry_forward_missing_ids", ["x"])) == 0
+        base_detail = f"cf_missing={len(cf_missing)}, drift={len(drift)}, trunc={pag_data.get('truncated_query_count')}"
+    qa.append((
+        "21. Verified-release baseline delta & Source 26 Zenodo pagination completeness",
+        bool(baseline_ok and pag_ok),
+        base_detail,
+    ))
+
     return qa
 
 
@@ -599,7 +749,7 @@ GCOS_ECV_EXPLICIT_PATTERNS: dict[str, str] = {
     "Leaf area index": r"\b(?:leaf\s+area\s+index|\blai\b|mod15|vnp15)\b",
     "Lightning": r"\b(?:lightning\s+(?:flashes|imaging|detection|flash|density)|lis/otd|\bglm\b.*lightning)\b",
     "Ocean colour": r"\b(?:ocean\s+colou?r|water[- ]leaving\s+radiance|remote[- ]sensing\s+reflectance|\brrs\b|globcolour|chlorophyll[- ]a)\b",
-    "Ocean-surface heat flux": r"\b(?:ocean[- ]surface\s+heat\s+flux|latent\s+heat\s+flux|sensible\s+heat\s+flux|air[- ]sea\s+heat\s+flux|oaflux)\b",
+    "Ocean-surface heat flux": r"\b(?:ocean[- ]surface\s+heat\s+flux|air[- ]sea\s+heat\s+flux|sea[- ]surface\s+heat\s+flux|\boaflux\b|seaflux|tropflux|latent\s+heat\s+flux|sensible\s+heat\s+flux)\b",
     "Ozone": r"\b(?:ozone|\bo3\b|total\s+column\s+ozone|stratospheric\s+ozone|tropospheric\s+ozone)\b",
     "Permafrost": r"\b(?:permafrost|active\s+layer\s+thickness|rock\s+glacier|frozen\s+ground)\b",
     "Plankton": r"\b(?:plankton|phytoplankton|zooplankton|chlorophyll|primary\s+production.*ocean|marine\s+biogeochemistry)\b",
@@ -607,14 +757,14 @@ GCOS_ECV_EXPLICIT_PATTERNS: dict[str, str] = {
     "Precursors (supporting the aerosol and ozone ECVs)": r"\b(?:nitrogen\s+dioxide|\bno2\b|sulfur\s+dioxide|sulphur\s+dioxide|\bso2\b|formaldehyde|\bhcho\b|carbon\s+monoxide|\bco\b\s+column|aerosol\s+precursors?|ozone\s+precursors?)\b",
     "River Discharge": r"\b(?:river\s+discharge|streamflow|runoff|glofas|efas)\b",
     "Sea ice": r"\b(?:sea[- ]ice|ice\s+concentration|ice\s+extent|ice\s+thickness|ice\s+drift|ice\s+edge)\b",
-    "Sea level": r"\b(?:sea[- ]level|sea\s+surface\s+height|\bssh\b|\bsla\b|mean\s+dynamic\s+topography|\bmdt\b)\b",
+    "Sea level": r"\b(?:sea[- ]level|sea\s+surface\s+height|\bssh\b|sea\s+level\s+anomaly|mean\s+dynamic\s+topography|\bmdt\b)\b",
     "Sea state": r"\b(?:sea\s+state|significant\s+wave\s+height|ocean\s+waves?|wave\s+period|swell\s+height)\b",
-    "Sea-surface salinity": r"\b(?:sea[- ]surface\s+salinity|\bsss\b|ocean\s+salinity|smos.*salinity|smap.*salinity|aquarius.*salinity)\b",
+    "Sea-surface salinity": r"\b(?:sea[- ]surface\s+salinity|\bsss\b|ocean\s+salinity|(?:smos|smap|aquarius).{0,35}salinity)\b",
     "Sea-surface temperature": r"\b(?:sea[- ]surface\s+temperature|\bsst\b|ghrsst|oisst|ostia|pathfinder\s+sst)\b",
     "Snow": r"\b(?:snow\s+(?:cover|water\s+equivalent|depth|extent|melt|albedo|fraction)|\bswe\b|\bfsca\b|mod10|myd10)\b",
     "Soil moisture": r"\b(?:soil\s+moisture|soil\s+water\s+index|\bswi\b|\bssm\b|root[- ]zone\s+soil\s+moisture)\b",
     "Surface currents": r"\b(?:surface\s+currents?|ocean\s+currents?|geostrophic\s+currents?|oscar.*currents?|globcurrent)\b",
-    "Surface radiation budget": r"\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|(?<!absorbed\s)photosynthetically\s+active\s+radiation(?!\s*\(?fapar\b)|\bpar\b|surface\s+net\s+radiation)\b",
+    "Surface radiation budget": r"\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|(?<!absorbed\s)(?<!absorbed\s\bof\s)(?<!fraction\s)(?<!fraction\sabsorbed\s)photosynthetically\s+active\s+radiation(?!\s*\(?fapar\b)|surface\s+net\s+radiation)\b",
     "Surface stress": r"\b(?:surface\s+wind\s+stress|ocean\s+wind\s+stress|wind\s+stress\s+curl|momentum\s+flux)\b",
     "Surface wind speed and direction": r"\b(?:surface\s+winds?|10[- ]?m(?:eter)?\s+winds?|ocean\s+surface\s+winds?|scatterometer\s+winds?|ccmp\s+winds?|ascat.*winds?|quikscat)\b",
     "Terrestrial Water Storage": r"\b(?:terrestrial\s+water\s+storage|\btws\b|liquid\s+water\s+equivalent\s+thickness|grace.*mascon|grace.*tellus)\b",
@@ -647,11 +797,50 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
             pat = r"\b" + re.escape(ecv.lower()) + r"\b"
         hit_mask = blob.str.contains(pat, case=False, regex=True, na=False)
         if ecv == "Surface radiation budget":
-            hit_mask = hit_mask & ~blob.str.contains(
-                r"\b(?:fapar|fraction of absorbed photosynthetically active radiation)\b",
-                case=False,
+            ttl_low = df_canon["title"].fillna("").str.lower()
+            has_rad_budget = blob.str.contains(
+                r"\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|surface\s+net\s+radiation)\b",
                 regex=True,
                 na=False,
+            )
+            veg_fapar_mask = blob.str.contains(
+                r"\b(?:fapar|fpar|fraction\s+(?:of\s+)?absorbed(?:\s+of)?\s+photosynthetically\s+active\s+radiation|leaf\s+area\s+index)\b",
+                regex=True,
+                na=False,
+            )
+            rad_ttl_mask = ttl_low.str.contains(
+                r"\b(?:surface\s+(?:solar\s+)?(?:radiation|irradiance)|downward\s+(?:shortwave|longwave)|net\s+radiation|radiation\s+budget|solar\s+irradiance)\b",
+                regex=True,
+                na=False,
+            )
+            hit_mask = hit_mask & (~veg_fapar_mask | has_rad_budget | rad_ttl_mask)
+            hit_mask = hit_mask & ~(
+                blob.str.contains(
+                    r"\b(?:fapar|fraction\s+(?:of\s+)?absorbed(?:\s+of)?\s+photosynthetically\s+active\s+radiation)\b",
+                    regex=True,
+                    na=False,
+                )
+                & ~rad_ttl_mask
+            )
+        elif ecv == "Ocean-surface heat flux":
+            is_marine = blob.str.contains(r"\b(?:ocean|marine|sea|air[- ]sea|oaflux|tropflux|seaflux)\b", regex=True, na=False)
+            is_land_et = blob.str.contains(
+                r"\b(?:evapotranspiration|mod16|myd16|vnp17|vj117|vj217|terrestrial|land\s+surface\s+evap|canopy|ameriflux|fluxnet|nacp)\b",
+                regex=True,
+                na=False,
+            )
+            hit_mask = hit_mask & is_marine & ~is_land_et
+        elif ecv == "Sea-surface salinity":
+            ttl_low = df_canon["title"].fillna("").str.lower()
+            hit_mask = hit_mask & ~(
+                ttl_low.str.contains(r"\b(?:soil\s+moisture|wetland|forest)\b", regex=True, na=False)
+                & ~ttl_low.str.contains(r"\b(?:salinity|sss)\b", regex=True, na=False)
+            )
+        elif ecv == "Sea-surface temperature":
+            ttl_low = df_canon["title"].fillna("").str.lower()
+            hit_mask = hit_mask & ~(
+                ttl_low.str.contains(r"\b(?:wetland|soil\s+organic|fire\s+weather)\b", regex=True, na=False)
+                & ~ttl_low.str.contains(r"\b(?:sea[- ]surface\s+temperature|sst)\b", regex=True, na=False)
             )
         matched = int(hit_mask.sum())
         matched_non_wgc = int((hit_mask & is_non_wgc).sum())
@@ -705,6 +894,19 @@ def audit_independent_version_benchmark(df_all: pd.DataFrame) -> pd.DataFrame:
             if spec["expected_maturity"]:
                 if not bool((sub["operational_maturity_class"] == spec["expected_maturity"]).all()):
                     field_mismatches.append(f"maturity={list(sub['operational_maturity_class'].unique())}")
+            if spec.get("expected_geo_class"):
+                if not bool((sub["geographic_coverage_class"].fillna("") == spec["expected_geo_class"]).all()):
+                    field_mismatches.append(f"geo_class={list(sub['geographic_coverage_class'].unique())}")
+            if spec.get("expected_output_cadence"):
+                if not bool((sub["temporal_output_cadences"].fillna("") == spec["expected_output_cadence"]).all()):
+                    field_mismatches.append(f"out_cad={list(sub['temporal_output_cadences'].unique())}")
+            if spec.get("expected_adjudicated_grid_meters"):
+                exp_g = float(spec["expected_adjudicated_grid_meters"])
+                if not bool((sub["adjudicated_output_grid_meters"].fillna(-1.0).sub(exp_g).abs() < 0.05).all()):
+                    field_mismatches.append(f"adj_grid={list(sub['adjudicated_output_grid_meters'].unique())}")
+            if spec.get("expected_sentinel_status"):
+                if not bool((sub["sentinel_lineage_status"].fillna("") == spec["expected_sentinel_status"]).all()):
+                    field_mismatches.append(f"sent_status={list(sub['sentinel_lineage_status'].unique())}")
 
         status = "PASS" if (recalled and not field_mismatches) else ("MISSING" if not recalled else "FIELD_MISMATCH")
         rows.append({
