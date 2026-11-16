@@ -451,7 +451,8 @@ def main() -> None:
         bool((df_all[df_all["raw_id"] == "C2759076389-ORNL_CLOUD"]["temporal_output_cadences"] == "semimonthly").all())
         and bool((df_all[df_all["raw_id"] == "ZENODO:8253971"]["temporal_output_cadences"] == "semimonthly").all())
         and int((df_all["raw_id"].astype(str).str.contains("bimonthly", case=False) & (df_all["temporal_output_cadences"] == "semimonthly")).sum()) == 0
-        and bool((df_all[df_all["raw_id"] == "ZENODO:7479028"]["spatial_resolution_meters"] == 5566.0).all())
+        and bool((df_all[df_all["raw_id"] == "ZENODO:7479028"]["adjudicated_output_grid_meters"] == 5566.0).all())
+        and bool(df_all[df_all["raw_id"] == "ZENODO:7479028"]["spatial_resolution_meters"].isna().all())
         and bool((df_all[df_all["raw_id"] == "ZENODO:15382965"]["temporal_cadence_class"] == "monthly_or_seasonal").all())
     )
 
@@ -469,7 +470,13 @@ def main() -> None:
     )
 
     sent_vc = df_all["sentinel_lineage_status"].value_counts().to_dict()
-    sent_split_ok = sent_vc.get("no_sentinel_lineage", 0) == 0 and sent_vc.get("explicit_non_sentinel", 0) >= 20000 and sent_vc.get("unassessed_no_platform_metadata", 0) >= 10000
+    gee29_sent_vc = df_all[df_all["source_catalogue"] == "29_awesome_gee_community"]["sentinel_lineage_status"].value_counts().to_dict()
+    sent_split_ok = (
+        sent_vc.get("no_sentinel_lineage", 0) == 0
+        and sent_vc.get("explicit_non_sentinel", 0) >= 19000
+        and sent_vc.get("unassessed_no_platform_metadata", 0) >= 16000
+        and gee29_sent_vc.get("unassessed_no_platform_metadata", 0) >= 4200
+    )
     msat_r = df_all[df_all["raw_id"].astype(str).str.startswith("projects/edf-methanesat-ee/assets/msat/")]
     mebd_r = df_all[df_all["raw_id"].isin(["a49dc43a-d799-11f1-8257-02ffd92199af", "d4e9b21f-6991-48ba-9b32-d1b4a08d76f0"])]
     op25_ok = len(msat_r) >= 3 and bool((msat_r["operational_maturity_class"] == "unknown").all()) and len(mebd_r) == 2 and bool((mebd_r["operational_maturity_class"] == "completed_or_mission_bounded_release").all())
@@ -486,6 +493,59 @@ def main() -> None:
     else:
         issues_found.append(
             f"Check R failed: var_ok={var_ok} (n={n_vars}), geo_restore={geo_restore_ok}, sm={sm_ok}, cite={cite_ok}, sent_split={sent_split_ok}, op25={op25_ok}"
+        )
+
+    # Check S: Prose Provenance Separation, Zenodo Additions, Variant Conflict Guards & EUMETSAT Crosswalk
+    amsr2_r = df_all[df_all["raw_id"] == "C1886605828-LANCEAMSR2"]
+    remo_r = df_all[df_all["raw_id"] == "cd0b21c3-dc1c-4e44-860d-eeb714da19c6"]
+    gedi4a_r = df_all[df_all["record_id"] == "16_nasa_cmr::C4212593885-ORNL_CLOUD"]
+    gl_lai_r = df_all[df_all["raw_id"] == "ZENODO:12698637"]
+    wk_0088_r = df_all[df_all["record_id"] == "09_wekeo_dias::EO:EUM:DAT:0088"]
+    new_zen_ok = all(bool((df_all["raw_id"] == z).any()) for z in ("ZENODO:10589730", "ZENODO:5546316", "ZENODO:6659543", "ZENODO:8210518"))
+    snpp_end_on = int((df_all["title"].fillna("").str.contains(r"end of mission|2026-11-02", case=False, regex=True) & (df_all["operational_maturity_class"] == "operational_ongoing_series")).sum())
+    s_prose_ok = (
+        len(amsr2_r) == 1 and pd.isna(amsr2_r.iloc[0]["spatial_resolution_raw"]) and float(amsr2_r.iloc[0]["adjudicated_output_grid_meters"]) == 6250.0
+        and len(remo_r) == 1 and pd.isna(remo_r.iloc[0]["spatial_resolution_raw"]) and float(remo_r.iloc[0]["adjudicated_output_grid_meters"]) == 5566.0
+        and pd.isna(remo_r.iloc[0]["observation_domain_mask"])
+        and len(gl_lai_r) == 1 and gl_lai_r.iloc[0]["temporal_output_cadences"] == "semimonthly; 8-day"
+        and "1981-2000: semimonthly" in str(gl_lai_r.iloc[0]["temporal_cadence_by_epoch"])
+    )
+    s_var_ok = False
+    if var_pq.exists():
+        df_var_s = pd.read_parquet(var_pq)
+        v_821 = df_var_s[df_var_s["raw_id"] == "ZENODO:8210518"]
+        v_sst_s = df_var_s[df_var_s["raw_id"] == "satellite-sea-surface-temperature"]
+        v_gl_s = df_var_s[df_var_s["raw_id"] == "ZENODO:12698637"]
+        s_var_ok = (
+            len(gedi4a_r) == 1
+            and bool(gedi4a_r.iloc[0]["processing_level_conflict"])
+            and float(gedi4a_r.iloc[0]["spatial_footprint_meters"]) == 25.0
+            and pd.isna(gedi4a_r.iloc[0]["adjudicated_output_grid_meters"])
+            and len(df_var_s[df_var_s["raw_id"] == "C4212593885-ORNL_CLOUD"]) == 0
+            and set(v_821["variant_level"]) == {"L2", "L3"}
+            and bool(v_821[v_821["variant_level"] == "L2"]["variant_spatial_resolution_meters"].isna().all())
+            and bool((v_821[v_821["variant_level"] == "L3"]["variant_spatial_resolution_meters"] == 55660.0).all())
+            and len(v_sst_s) == 2 and bool((v_sst_s["variant_spatial_resolution_meters"] == 5566.0).all())
+            and len(v_gl_s) == 2
+        )
+    s_wk_ok = (
+        len(wk_0088_r) == 1
+        and wk_0088_r.iloc[0]["processing_level"] == "L3"
+        and wk_0088_r.iloc[0]["processing_level_provenance"] == "crosswalked_primary_eumetsat_navigator"
+        and wk_0088_r.iloc[0]["temporal_cadence_class"] == "sub_daily_or_daily"
+    )
+    if new_zen_ok and s_prose_ok and s_var_ok and s_wk_ok and snpp_end_on == 0:
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "Prose Separation, Zenodo Domain Expansion, Variant & EUMETSAT Crosswalk",
+                "PASS",
+                f"amsr2=6250m, remo=5566m, globmap=epochs, gedi4a=footprint25m, sst_var=5566m, wekeo_0088=L3/15min, snpp_ended_on={snpp_end_on}",
+            )
+        )
+    else:
+        issues_found.append(
+            f"Check S failed: new_zen={new_zen_ok}, s_prose={s_prose_ok}, s_var={s_var_ok}, s_wk={s_wk_ok}, snpp_end_on={snpp_end_on}"
         )
 
     print("=" * 92)

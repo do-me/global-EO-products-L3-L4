@@ -971,6 +971,42 @@ def parse_07_jrc() -> tuple[list[dict[str, Any]], int]:
     return rows, non_eo_excluded
 
 
+def _map_eumetsat_transfer_frequency(freqs: list[str], text_hint: str = "") -> str | None:
+    """Map unambiguous EUMETSAT/WEkEO digitalTransfers frequency counts to canonical cadence strings.
+    Per-orbit/granule file counts (e.g. '14-15 (per day)', '~150 (per day)') return None."""
+    if not freqs:
+        return None
+    hint_l = text_hint.lower()
+    joined = " ; ".join(str(x).lower() for x in freqs if x)
+    if re.search(r"\b1\s*\(\s*every\s+10\s+days\s*\)", joined):
+        return "10-day"
+    if re.search(r"\b1\s*\(\s*per\s+month\s*\)", joined):
+        return "monthly"
+    if re.search(r"\b1\s*\(\s*per\s+day\s*\)", joined) and not re.search(r"per\s+satellite", joined):
+        return "daily"
+    if re.search(r"\b96\s*\(\s*per\s+day\s*\)", joined) and re.search(r"\b(?:15[- ]?min(?:ute)?|msg|seviri|fci|mtg)\b", hint_l):
+        return "15 min"
+    if re.search(r"\b48\s*\(\s*per\s+day\s*\)", joined) and re.search(r"\b(?:30[- ]?min|half[- ]?hour|seviri|msg)\b", hint_l):
+        return "30 min"
+    if re.search(r"\b24\s*\(\s*per\s+day\s*\)", joined) and re.search(r"\b(?:hourly|1[- ]?hour)\b", hint_l):
+        return "hourly"
+    return None
+
+
+def _extract_eumetsat_dt_freqs(dt_list: Any) -> list[str]:
+    out: list[str] = []
+    for dt in (dt_list if isinstance(dt_list, list) else []):
+        if not isinstance(dt, dict):
+            continue
+        fmts = dt.get("formats") or dt.get("format") or []
+        if isinstance(fmts, dict):
+            fmts = [fmts]
+        for fm in (fmts if isinstance(fmts, list) else []):
+            if isinstance(fm, dict) and fm.get("frequency"):
+                out.append(str(fm["frequency"]).strip())
+    return out
+
+
 def parse_09_wekeo() -> list[dict[str, Any]]:
     rows = []
     seen = set()
@@ -996,27 +1032,88 @@ def parse_09_wekeo() -> list[dict[str, Any]]:
                         bbox = None
                 kws = md.get("keywords") or []
                 lvls: list[str] = []
-                for k in (kws if isinstance(kws, list) else []):
-                    ks = str(k).lower()
-                    if ks in ("level-3", "level-4", "level-2", "level-1", "level-0", "l3", "l4", "l2", "l1"):
-                        lvls.append(str(k))
+                raw_plvl = clean_str(md.get("processingLevels") or md.get("processingLevel"))
+                if raw_plvl:
+                    lvls.append(raw_plvl)
+                else:
+                    for k in (kws if isinstance(kws, list) else []):
+                        ks = str(k).lower()
+                        if ks in ("level-3", "level-4", "level-2", "level-1", "level-0", "l3", "l4", "l2", "l1"):
+                            lvls.append(str(k))
                 lvl = "; ".join(dict.fromkeys(lvls)) if lvls else None
+
+                # Recover structured DOI, platform/sensor, spatial resolution, and unambiguous transfer cadence
+                doi_wk = None
+                raw_doi_obj = md.get("doi")
+                if isinstance(raw_doi_obj, list):
+                    for item in raw_doi_obj:
+                        if isinstance(item, dict) and (item.get("identifier") or item.get("id") or item.get("url")):
+                            doi_wk = clean_str(item.get("identifier") or item.get("id") or item.get("url"))
+                            break
+                        elif isinstance(item, str):
+                            doi_wk = clean_str(item)
+                            break
+                elif isinstance(raw_doi_obj, dict):
+                    doi_wk = clean_str(raw_doi_obj.get("identifier") or raw_doi_obj.get("id") or raw_doi_obj.get("url"))
+                else:
+                    doi_wk = clean_str(raw_doi_obj)
+
+                plat_parts: list[str] = []
+                for pk in ("satellite", "instrument"):
+                    pv = md.get(pk)
+                    if isinstance(pv, list):
+                        for elem in pv:
+                            es = clean_str(elem.get("name") or elem.get("seriesName") if isinstance(elem, dict) else elem)
+                            if es:
+                                plat_parts.append(es)
+                    elif isinstance(pv, dict):
+                        es = clean_str(pv.get("name") or pv.get("seriesName"))
+                        if es:
+                            plat_parts.append(es)
+                    elif pv:
+                        es = clean_str(pv)
+                        if es:
+                            plat_parts.append(es)
+                plat_wk = "; ".join(dict.fromkeys(plat_parts)) if plat_parts else None
+
+                spat_wk = None
+                sr_objs = md.get("spatialResolutionAsObjects")
+                if isinstance(sr_objs, list) and sr_objs:
+                    sr_labels = [clean_str(o.get("label")) for o in sr_objs if isinstance(o, dict) and o.get("label")]
+                    spat_wk = "; ".join(dict.fromkeys(x for x in sr_labels if x)) or None
+                elif isinstance(sr_objs, dict) and sr_objs.get("label"):
+                    spat_wk = clean_str(sr_objs.get("label"))
+                if not spat_wk and md.get("spatialResolution") is not None:
+                    sr_val = clean_str(md.get("spatialResolution"))
+                    sr_uom = clean_str(md.get("spatialResolutionUom"))
+                    if sr_val and sr_uom and not any(u in sr_val.lower() for u in ("m", "km", "deg", "°")):
+                        spat_wk = f"{sr_val} {sr_uom}"
+                    elif sr_val and any(u in sr_val.lower() for u in ("m", "km", "deg", "°")):
+                        spat_wk = sr_val
+
+                ttl_wk = clean_str(md.get("datasetTitle") or md.get("title") or did)
+                dsc_wk = clean_str(md.get("abstract") or md.get("description"))
+                freqs_wk = _extract_eumetsat_dt_freqs(md.get("digitalTransfers"))
+                if md.get("frequency"):
+                    freqs_wk.append(str(md["frequency"]))
+                temp_wk = _map_eumetsat_transfer_frequency(freqs_wk, f"{ttl_wk or ''} {dsc_wk or ''}")
+
                 rows.append({
                     "source_id": "09_wekeo_dias",
                     "raw_id": did,
-                    "title": clean_str(md.get("datasetTitle") or md.get("title") or did),
-                    "description": clean_str(md.get("abstract") or md.get("description")),
+                    "title": ttl_wk,
+                    "description": dsc_wk,
                     "processing_level_raw": lvl,
-                    "spatial_resolution_raw": None,
-                    "temporal_resolution_raw": None,
+                    "spatial_resolution_raw": spat_wk,
+                    "temporal_resolution_raw": temp_wk,
                     "temporal_start_raw": clean_str(md.get("tempextent_begin")),
                     "temporal_end_raw": clean_str(md.get("tempextent_end")),
                     "update_frequency_raw": clean_str(md.get("productStatus")),
                     "bbox_raw": bbox,
                     "producing_org_raw": clean_str(md.get("responsible_org") or md.get("responsibleParty")),
                     "hosting_platform_raw": "WEkEO Copernicus DIAS",
-                    "platform_sensor_raw": None,
-                    "doi_raw": None,
+                    "platform_sensor_raw": plat_wk,
+                    "doi_raw": doi_wk,
                     "license_raw": clean_str(ft.get("terms") or md.get("conditions")),
                     "landing_url_raw": f"https://www.wekeo.eu/data?view=dataset&dataset={did}",
                     "keywords_raw": clean_str(kws),
@@ -1564,21 +1661,33 @@ def parse_17_eumetsat() -> list[dict[str, Any]]:
             t_end = clean_str((te.get("end") or te.get("endDate")) if not te.get("isOngoing") else None)
             if t_start and t_end and str(t_start)[:10] > str(t_end)[:10]:
                 t_end = None
+            doi_eum = None
+            raw_doi_e = s.get("doi")
+            if isinstance(raw_doi_e, dict):
+                doi_eum = clean_str(raw_doi_e.get("id") or raw_doi_e.get("href"))
+            elif raw_doi_e:
+                doi_eum = clean_str(raw_doi_e)
+            ttl_eum = clean_str(s.get("datasetTitle"))
+            dsc_eum = clean_str(s.get("abstract") or s.get("summary"))
+            temp_eum = _map_eumetsat_transfer_frequency(
+                _extract_eumetsat_dt_freqs(s.get("digitalTransfers")),
+                f"{ttl_eum or ''} {clean_str(s.get('summary')) or ''} {dsc_eum or ''}",
+            )
             rows.append({
                 "source_id": "17_eumetsat_product_navigator",
                 "raw_id": clean_str(s.get("id") or hit.get("_id")),
-                "title": clean_str(s.get("datasetTitle")),
-                "description": clean_str(s.get("abstract") or s.get("summary")),
+                "title": ttl_eum,
+                "description": dsc_eum,
                 "processing_level_raw": clean_str(s.get("processingLevels")),
                 "spatial_resolution_raw": clean_str(s.get("spatialResolutions")),
-                "temporal_resolution_raw": None,
+                "temporal_resolution_raw": temp_eum,
                 "temporal_start_raw": t_start,
                 "temporal_end_raw": t_end,
                 "update_frequency_raw": clean_str(s.get("productStatus")),
                 "bbox_raw": bbox,
                 "producing_org_raw": clean_str(s.get("originator") or s.get("distributors") or "EUMETSAT"),
                 "platform_sensor_raw": clean_str(s.get("satellites")),
-                "doi_raw": None,
+                "doi_raw": doi_eum,
                 "license_raw": clean_str(s.get("dataPolicies")),
                 "landing_url_raw": f"https://user.eumetsat.int/catalogue/{s.get('id')}" if s.get("id") else None,
                 "keywords_raw": clean_str(s.get("parameters") or s.get("services")),
@@ -1828,7 +1937,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "description": desc_z,
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
-                "temporal_resolution_raw": _extract_cadence_from_text(title_z, desc_z),
+                "temporal_resolution_raw": None,
                 "temporal_start_raw": None,  # Zenodo deposit publication_date is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
@@ -1914,7 +2023,7 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "description": desc_dc,
                 "processing_level_raw": None,
                 "spatial_resolution_raw": None,
-                "temporal_resolution_raw": _extract_cadence_from_text(title_dc, desc_dc),
+                "temporal_resolution_raw": None,
                 "temporal_start_raw": None,  # DataCite publicationYear is not observation start year
                 "temporal_end_raw": None,
                 "update_frequency_raw": None,
@@ -1951,7 +2060,8 @@ def parse_29_awesome_gee() -> list[dict[str, Any]]:
             "bbox_raw": None,
             "producing_org_raw": clean_str(it.get("provider")),
             "hosting_platform_raw": "Google Earth Engine Community Catalog",
-            "platform_sensor_raw": clean_str(it.get("type")),
+            "platform_sensor_raw": None,
+            "asset_type_raw": clean_str(it.get("type")),
             "doi_raw": clean_str(it.get("doi")),
             "license_raw": clean_str(it.get("license")),
             "landing_url_raw": clean_str(it.get("docs") or it.get("sample_code")),
@@ -2174,18 +2284,18 @@ def main() -> None:
     _PROSE_SPAT_PATS = [
         re.compile(
             r"(?:with\s+a\s+)?(?:spatial|horizontal|grid)\s+resolution\s*(?:of|is|at|:)\s*"
-            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?\s*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
+            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
             r"(?![\s°º]*[cfknswe]\b)",
             re.IGNORECASE,
         ),
         re.compile(
             r"(?:with\s+a\s+|at\s+a?\s*)resolution\s+(?:of|is|:)\s*"
-            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?\s*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
+            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
             r"(?![\s°º]*[cfknswe]\b)",
             re.IGNORECASE,
         ),
         re.compile(
-            r"(\d+\s*/\s*\d+\s*[°º]|(?:0\.\d+|1\.\d+|2\.\d+|5\.0)\s*[°º])(?:\s*(?:geographic\s+)?grid)?(?![\s°º]*(?:[cfknswe]|lat|lon)\b)",
+            r"(\d+\s*/\s*\d+\s*[°º]|(?:0\.\d+|1\.\d+|2\.\d+|5\.0)[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg))(?:\s*(?:geographic\s+)?grid)?(?![\s°º]*(?:[cfknswe]|lat|lon)\b)",
             re.IGNORECASE,
         ),
         re.compile(
@@ -2197,35 +2307,294 @@ def main() -> None:
         r"\b(?:semi[- ]?monthly|half[- ]?month(?:ly)?|twice[- ]?(?:monthly|a\s+month)|two\s+(?:values|composites)\s+per\s+month)\b",
         re.IGNORECASE,
     )
+    _INPUT_BEFORE_SPAT_RE = re.compile(
+        r"\b(?:derived\s+(?:\w+\s+){0,2}from|interpolated\s+(?:\w+\s+){0,2}from|"
+        r"resampled\s+from|downscaled\s+from|upscaled\s+from|"
+        r"ancillary\s+\S+(?:\s+\S+){0,3}|"
+        r"using\s+(?:trmm|tmi|amsr|ssmi|modis|avhrr|viirs|goes|seviri|landsat|sentinel|clumping\s+index\s+map)[^.]{0,30}\bat\s*$|"
+        r"\b(?:trmm|tmi)\b[^.]{0,45}\bspatial\s+resolution\s+of\s*$)",
+        re.IGNORECASE,
+    )
+    _INPUT_OR_DOWNSTREAM_SENT_RE = re.compile(
+        r"\b(?:sea[- ]?ice\s+concentration|downstream|higher[- ]resolution|coarser|compared\s+(?:to|with)|"
+        r"instead\s+of|level[- ]?4b|l4b|l4a.*footprint|footprint\s+level|sampled\s+geolocated\s+laser\s+footprint|"
+        r"clumping\s+index\s+map\s+at|trmm\s+was\s+launched|orbital\s+inclination|input\s+data)\b",
+        re.IGNORECASE,
+    )
+    _OUTPUT_GRID_SENT_RE = re.compile(
+        r"(?:(?:spatial|horizontal|grid)\s+resolution\s*[:=]\s*[\d.]|"
+        r"\b(?:this\s+dataset|the\s+product|dataset|data|analysis|composite\s+maps?|maps?|grid|product)\b.{0,120}"
+        r"\b(?:produced|delivered|distributed|provided|generated|posted|mapped|gridded|has|had|is|with|at|on)\b.{0,100}"
+        r"(?:spatial\s+resolution|horizontal\s+resolution|grid\s+resolution|resolution\s+(?:of|is)|on\s+a\s+(?:regional|global|regular|geographic).{0,30}grid|gridded\s+at)|"
+        r"\bwith\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
+        r"\b(?:at|with)\s+\d+(?:\.\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|m)\s+(?:spatial|horizontal|grid)\s+resolution\b|"
+        r"\b(?:have|had)\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
+        r"\bon\s+a\s+(?:regional\s+|global\s+|regular\s+|geographic\s+)?\d+(?:\.\d+)?[-\s]*(?:[°º]|degrees?|km|m)(?:\s*(?:by|[x×])\s*\d+(?:\.\d+)?[-\s]*(?:[°º]|degrees?|km|m))?\s+(?:spatial\s+|geographic\s+)?grid\b)",
+        re.IGNORECASE,
+    )
+    _EPOCH_CADENCE_PAIR_RE = re.compile(
+        r"(half[- ]?month(?:ly)?|semi[- ]?monthly|8[- ]?day(?:s)?|16[- ]?day(?:s)?|10[- ]?day(?:s)?|dekad(?:al)?|"
+        r"daily|weekly|bi[- ]?weekly|monthly|annual(?:ly)?|yearly)\s*\(\s*(19\d\d|20\d\d)\s*[-–—~]\s*(19\d\d|20\d\d|present)?\s*\)",
+        re.IGNORECASE,
+    )
 
-    def _enrich_prose_spatial_and_cadence(rec: dict[str, Any]) -> None:
-        ttl_s = clean_str(rec.get("title")) or ""
-        dsc_s = clean_str(rec.get("description")) or ""
-        raw_text = _html.unescape(re.sub(r"<[^>]+>", " ", f"{ttl_s} {dsc_s}")).replace("\xa0", " ")
-        raw_text = re.sub(r"\s+", " ", raw_text).strip()
+    def _clean_prose_text(txt: str | None) -> str:
+        s = _html.unescape(re.sub(r"<[^>]+>", " ", txt or "")).replace("\xa0", " ")
+        return re.sub(r"\s+", " ", s).strip()
 
-        if not clean_str(rec.get("spatial_resolution_raw")):
+    def _cand_to_approx_m(cand: str) -> float | None:
+        c = cand.lower().replace("º", "°").strip()
+        mf = re.match(r"^(\d+)\s*/\s*(\d+)\s*(?:°|deg|degree|degrees)$", c)
+        if mf and float(mf.group(2)) > 0:
+            return (float(mf.group(1)) / float(mf.group(2))) * 111320.0
+        m = re.match(r"^(\d+(?:\.\d+)?)\s*[- ]?(km|kilometers?|kilometres?|m|meters?|metres?|°|deg|degrees?|decimal\s+degrees?)$", c)
+        if not m:
+            return None
+        v, u = float(m.group(1)), m.group(2)
+        if u.startswith("km") or "kilomet" in u:
+            return v * 1000.0
+        if u in ("m", "meter", "meters", "metre", "metres"):
+            return v
+        return v * 111320.0
+
+    def _split_prose_sentences(dsc: str) -> list[str]:
+        s = _html.unescape(re.sub(r"</?(?:p|li|br|tr|div|h\d)\b[^>]*>", "\n", dsc or "")).replace("\xa0", " ")
+        s = re.sub(r"<[^>]+>", " ", s)
+        parts = []
+        for line in re.split(r"\n+|(?<=[.!?])\s+", s):
+            c = re.sub(r"\s+", " ", line).strip()
+            if c:
+                parts.append(c)
+        return parts
+
+    def _extract_prose_spatial(clean_dsc: str) -> tuple[str | None, str | None, str | None]:
+        # 0. Check explicit key-value "Spatial Resolution:" specification anywhere in cleaned text first
+        clean_full = _clean_prose_text(clean_dsc)
+        kv_m = re.search(
+            r"\b(?:spatial|horizontal|grid)\s+resolution\s*[:=]\s*"
+            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?\s*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))",
+            clean_full,
+            re.IGNORECASE,
+        )
+        if kv_m:
+            kv_cand = kv_m.group(1).strip()
+            kv_ctx = clean_full[max(0, kv_m.start() - 60) : min(len(clean_full), kv_m.end() + 80)]
+            if not _INPUT_OR_DOWNSTREAM_SENT_RE.search(kv_ctx) and not re.search(r"\b(?:nm|depth|height|wavelength|diameter)\b", kv_cand, re.IGNORECASE):
+                return kv_cand, "delivered_output_grid", kv_ctx[:300]
+
+        sentences = _split_prose_sentences(clean_dsc)
+        out_hits: list[tuple[str, str]] = []
+        in_hits: list[tuple[str, str]] = []
+        for sent in sentences:
             for pat_sp in _PROSE_SPAT_PATS:
-                m_sp = pat_sp.search(raw_text)
-                if m_sp:
-                    cand = m_sp.group(1).strip()
-                    # Avoid capturing wavelength bands like 740 nm or generic "10 m depth" when not spatial
-                    if not re.search(r"\bnm\b|\bdepth\b", cand, re.IGNORECASE):
-                        rec["spatial_resolution_raw"] = cand
-                        break
+                m_sp = pat_sp.search(sent)
+                if not m_sp:
+                    continue
+                cand = m_sp.group(1).strip()
+                if re.search(r"\b(?:nm|depth|height|elevation|altitude|wavelength|tile|buffer|diameter|radius)\b", cand, re.IGNORECASE):
+                    continue
+                win_around = sent[max(0, m_sp.start() - 25) : min(len(sent), m_sp.end() + 25)]
+                if re.search(r"\b(?:nm|water\s+depth|depth|height\s+of|buffer|tile|swath\s+width|diameter|above\s+ground)\b", win_around, re.IGNORECASE):
+                    continue
+                if re.search(r"resolution", win_around, re.IGNORECASE) and re.search(r"\d+\s*[°º]\s*[x×]\s*\d+\s*[°º]", win_around):
+                    continue
+                before_local = sent[max(0, m_sp.start() - 75) : m_sp.start()]
+                is_input = bool(
+                    _INPUT_BEFORE_SPAT_RE.search(before_local)
+                    or _INPUT_OR_DOWNSTREAM_SENT_RE.search(sent)
+                )
+                is_out = bool(_OUTPUT_GRID_SENT_RE.search(sent)) and not is_input
+                if is_out:
+                    out_hits.append((cand, sent[:300]))
+                elif is_input:
+                    in_hits.append((cand, sent[:300]))
+                break
+        if out_hits:
+            vals = [v for v in (_cand_to_approx_m(c) for c, _ in out_hits) if v and v > 0]
+            if vals and max(vals) / min(vals) >= 2.0:
+                return None, "ambiguous_multiple_resolutions", out_hits[0][1]
+            return out_hits[0][0], "delivered_output_grid", out_hits[0][1]
+        if in_hits:
+            return in_hits[0][0], "input_or_downstream_mention", in_hits[0][1]
+        return None, None, None
 
-        cur_t = clean_str(rec.get("temporal_resolution_raw"))
-        if _SEMIMONTHLY_RE.search(raw_text) and (not cur_t or "semimonthly" not in cur_t.lower()):
-            rec["temporal_resolution_raw"] = "semimonthly"
-        elif cur_t and cur_t.lower() in ("diurnal", "hourly") and re.search(
-            r"\bmonthly\s+composite\s+maps?\b", raw_text, re.IGNORECASE
+    def _norm_cadence_tok(tok: str) -> str:
+        t = tok.strip().lower()
+        if _SEMIMONTHLY_RE.search(t) or "half month" in t:
+            return "semimonthly"
+        if re.search(r"8[- ]?day", t):
+            return "8-day"
+        if re.search(r"16[- ]?day", t):
+            return "16-day"
+        if re.search(r"10[- ]?day|ten[- ]?day|dekad", t):
+            return "10-day"
+        if "daily" in t or re.search(r"1[- ]?day", t):
+            return "daily"
+        if "monthly" in t or re.search(r"1[- ]?month", t):
+            return "monthly"
+        if "annual" in t or "yearly" in t or re.search(r"1[- ]?year", t):
+            return "annual"
+        return tok.strip()
+
+    def _extract_prose_cadence(clean_ttl: str, clean_dsc: str) -> tuple[str | None, str | None, str | None, str | None]:
+        # 1. Epoch-qualified cadences (e.g. "Half month (1981-2000), 8-day (2001-)")
+        for sent in _split_prose_sentences(clean_dsc):
+            ep_matches = list(_EPOCH_CADENCE_PAIR_RE.finditer(sent))
+            if len(ep_matches) >= 2:
+                ep_parts = []
+                cad_toks = []
+                for m_ep in ep_matches:
+                    c_norm = _norm_cadence_tok(m_ep.group(1))
+                    y1, y2 = m_ep.group(2), m_ep.group(3) or "present"
+                    ep_parts.append(f"{y1}-{y2}: {c_norm}")
+                    if c_norm not in cad_toks:
+                        cad_toks.append(c_norm)
+                return "; ".join(cad_toks), "epoch_dependent_multi_cadence", "; ".join(ep_parts), sent[:300]
+
+        # 2. Multi-level deliverables (e.g. TCSIF daily L2 + monthly L3)
+        full_txt = _clean_prose_text(f"{clean_ttl} {clean_dsc}")
+        if re.search(r"\bdaily\s+level\s*2\b", full_txt, re.IGNORECASE) and re.search(
+            r"\blevel\s*3\b.*\bmonthly\b|\baggregated\s+monthly\b", full_txt, re.IGNORECASE
         ):
-            rec["temporal_resolution_raw"] = "monthly"
-        elif not cur_t:
-            if re.search(r"\bdaily\s+level\s*2\b", raw_text, re.IGNORECASE) and re.search(
-                r"\blevel\s*3\b.*\bmonthly\b|\baggregated\s+monthly\b", raw_text, re.IGNORECASE
-            ):
-                rec["temporal_resolution_raw"] = "monthly; daily"
+            return "monthly; daily", "level_dependent_multi_cadence", None, "Level 2 (daily HDF5) + Level 3 (monthly aggregated grid)"
+
+        # 2b. Monthly composite maps override before generic title diurnal token (e.g. OCO-3 diurnal GPP monthly composites)
+        if re.search(r"\bmonthly\s+composite\s+maps?\b", full_txt, re.IGNORECASE):
+            for sent in _split_prose_sentences(clean_dsc):
+                if re.search(r"\bmonthly\s+composite\s+maps?\b", sent, re.IGNORECASE):
+                    return "monthly", "delivered_output_cadence", None, sent[:300]
+
+        # 3. Title or explicit output/characteristic line cadence (preserving semimonthly + all step tokens)
+        if _SEMIMONTHLY_RE.search(full_txt) and not re.search(r"\bcompared\s+to\s+semi[- ]?monthly\b", full_txt, re.IGNORECASE):
+            for sent in _split_prose_sentences(clean_dsc):
+                if _SEMIMONTHLY_RE.search(sent):
+                    extra_toks = ["semimonthly"]
+                    for t in _scan_cadence_tokens(sent):
+                        tn = _norm_cadence_tok(t)
+                        if tn not in extra_toks:
+                            extra_toks.append(tn)
+                    return "; ".join(extra_toks), "delivered_output_cadence", None, sent[:300]
+
+        cad_s = _extract_cadence_from_text(clean_ttl, _clean_prose_text(clean_dsc))
+        if cad_s:
+            ev_s = None
+            for sent in _split_prose_sentences(clean_dsc):
+                if re.search(r"temporal\s+(?:resolution|sampling|step|granularity)", sent, re.IGNORECASE):
+                    ev_s = sent[:300]
+                    break
+            if not ev_s:
+                ev_s = f"title/output clause: {clean_ttl[:220]}"
+            return cad_s, "delivered_output_cadence", None, ev_s
+        return None, None, None, None
+
+    _LON_SPAN_RE = re.compile(
+        r"(\d+(?:\.\d+)?)\s*[°º]?\s*([WE])\s*(?:[-–—~]|to)\s*(\d+(?:\.\d+)?)\s*[°º]?\s*([WE])",
+        re.IGNORECASE,
+    )
+    _LAT_SPAN_RE = re.compile(
+        r"(\d+(?:\.\d+)?)\s*[°º]?\s*([NS])\s*(?:[-–—~]|to)\s*(\d+(?:\.\d+)?)\s*[°º]?\s*([NS])",
+        re.IGNORECASE,
+    )
+
+    def _extract_prose_bbox(clean_dsc: str) -> tuple[list[float] | None, str | None]:
+        for sent in _split_prose_sentences(clean_dsc):
+            mlon = _LON_SPAN_RE.search(sent)
+            mlat = _LAT_SPAN_RE.search(sent)
+            if not (mlon and mlat):
+                continue
+            x1 = float(mlon.group(1)) * (-1.0 if mlon.group(2).upper() == "W" else 1.0)
+            x2 = float(mlon.group(3)) * (-1.0 if mlon.group(4).upper() == "W" else 1.0)
+            y1 = float(mlat.group(1)) * (-1.0 if mlat.group(2).upper() == "S" else 1.0)
+            y2 = float(mlat.group(3)) * (-1.0 if mlat.group(4).upper() == "S" else 1.0)
+            w, e = min(x1, x2), max(x1, x2)
+            s, n = min(y1, y2), max(y1, y2)
+            if -180.0 <= w < e <= 180.0 and -90.0 <= s < n <= 90.0 and (e - w) >= 5.0 and (n - s) >= 5.0:
+                return [w, s, e, n], sent[:300]
+        return None, None
+
+    _MONTH_YEAR_END_RE = re.compile(
+        r"(?:temporal\s+(?:coverage|extent|period|span)|time\s+(?:period|span|coverage))\s*[:=]\s*([^\n;]+)",
+        re.IGNORECASE,
+    )
+
+    def _extract_prose_temporal_span(clean_ttl: str, clean_dsc: str) -> tuple[int | None, int | None, bool, str | None]:
+        clean_full = _clean_prose_text(clean_dsc)
+        mk_full = _MONTH_YEAR_END_RE.search(clean_full)
+        if mk_full:
+            seg = re.split(r"##|\b(?:Spatial|Projection|Data\s+Format|Scale|Valid\s+Range|License|Citation)\b", mk_full.group(1), maxsplit=1, flags=re.IGNORECASE)[0]
+            yrs = [int(y) for y in re.findall(r"\b(19\d\d|20[0-2]\d)\b", seg)]
+            is_ong = bool(re.search(r"\b(?:present|ongoing|continuously\s+updated)\b|(?:\d{4}\s*[-–—]\s*\))", seg, re.IGNORECASE))
+            if yrs:
+                sy = min(yrs)
+                ey = None if (is_ong and len(yrs) == 1) else max(yrs)
+                return sy, ey, is_ong, f"Temporal coverage: {seg.strip()}"[:300]
+
+        # Explicit sentence range in first 4 prose sentences (takes precedence over "since YYYY" title phrasing when both years are closed)
+        sent_rng_hit: tuple[int, int | None, bool, str] | None = None
+        for sent in _split_prose_sentences(clean_dsc)[:4]:
+            if re.search(r"\b(?:et\s+al|citation|cite|doi:|remotely?\s+sens|\bvol\.|\bpp\.)", sent, re.IGNORECASE):
+                continue
+            m_d = re.search(
+                r"(?:from\s+|spanning\s+|period\s*\(?|series\s*\(?|\()(19[5-9]\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(19[5-9]\d|20[0-2]\d|present|ongoing)\b",
+                sent,
+                re.IGNORECASE,
+            )
+            if m_d:
+                sy = int(m_d.group(1))
+                rhs = m_d.group(2).lower()
+                is_ong = rhs in ("present", "ongoing") or "continuously updated" in sent.lower()
+                ey = None if rhs in ("present", "ongoing") else int(rhs)
+                sent_rng_hit = (sy, ey, is_ong, sent[:300])
+                break
+
+        # Non-citation title ranges
+        ttl_no_cite = re.sub(r"\bet\s+al\.?", "", clean_ttl)
+        m_ttl_rng = re.search(r"\b(19[5-9]\d|20[0-2]\d)\s*(?:[-–—]|to)\s*(19[5-9]\d|20[0-2]\d|present|ongoing)\b", ttl_no_cite, re.IGNORECASE)
+        if m_ttl_rng:
+            sy = int(m_ttl_rng.group(1))
+            rhs = m_ttl_rng.group(2).lower()
+            if rhs in ("present", "ongoing"):
+                return sy, None, True, clean_ttl[:260]
+            return sy, int(rhs), False, clean_ttl[:260]
+        if sent_rng_hit:
+            return sent_rng_hit
+        m_ttl_since = re.search(r"\bsince\s+(19[5-9]\d|20[0-2]\d)\b", clean_ttl, re.IGNORECASE)
+        if m_ttl_since:
+            return int(m_ttl_since.group(1)), None, True, clean_ttl[:260]
+        m_ttl_for = re.search(r"\b(?:for|in)\s+(20[0-2]\d)\b", clean_ttl, re.IGNORECASE)
+        if m_ttl_for:
+            yr = int(m_ttl_for.group(1))
+            return yr, yr, False, clean_ttl[:260]
+        return None, None, False, None
+
+    def _extract_prose_metadata_with_provenance(rec: dict[str, Any]) -> None:
+        """Extract separated prose-inferred metadata + evidence without mutating native upstream fields."""
+        clean_ttl = _clean_prose_text(clean_str(rec.get("title")))
+        raw_dsc = clean_str(rec.get("description")) or ""
+
+        sp_cand, sp_role, sp_ev = _extract_prose_spatial(raw_dsc)
+        rec["prose_spatial_candidate_raw"] = sp_cand
+        rec["prose_spatial_role"] = sp_role
+        rec["prose_spatial_evidence_sentence"] = sp_ev
+
+        cad_cand, cad_role, cad_epoch, cad_ev = _extract_prose_cadence(clean_ttl, raw_dsc)
+        rec["prose_cadence_raw"] = cad_cand
+        rec["prose_cadence_role"] = cad_role
+        rec["prose_cadence_by_epoch"] = cad_epoch
+        rec["prose_cadence_evidence_sentence"] = cad_ev
+
+        p_bbox, p_bbox_ev = _extract_prose_bbox(raw_dsc)
+        rec["prose_bbox_raw"] = p_bbox
+        rec["prose_bbox_evidence_sentence"] = p_bbox_ev
+
+        p_sy, p_ey, p_ong, p_temp_ev = _extract_prose_temporal_span(clean_ttl, raw_dsc)
+        rec["prose_temporal_start_year"] = p_sy
+        rec["prose_temporal_end_year"] = p_ey
+        rec["prose_temporal_is_ongoing"] = p_ong
+        rec["prose_temporal_evidence_sentence"] = p_temp_ev
+
+        if "asset_type_raw" not in rec:
+            rec["asset_type_raw"] = None
 
     # -----------------------------------------------------------------------
     # Apply deterministic L3/L4 filtering & write per-source prepared outputs
@@ -2245,8 +2614,8 @@ def main() -> None:
                 if rid_val in seen_raw_ids:
                     continue
                 seen_raw_ids.add(rid_val)
-            # Apply uniform deterministic normalization across all 28 product sources
-            _enrich_prose_spatial_and_cadence(r)
+            # Apply uniform deterministic normalization across all 28 product sources (native fields preserved!)
+            _extract_prose_metadata_with_provenance(r)
             r["bbox_raw"] = clean_bbox(r.get("bbox_raw"))
             r["doi_raw"] = clean_doi(r.get("doi_raw"))
             r["landing_url_raw"] = clean_url(r.get("landing_url_raw"))

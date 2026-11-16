@@ -8,14 +8,15 @@ copernicus_services,L4,False,722
 copernicus_services,L4,True,86
 copernicus_services,,False,2019
 copernicus_services,,True,444
+eu_non_copernicus,L1,False,6
 eu_non_copernicus,L1,True,1
-eu_non_copernicus,L2,False,26
+eu_non_copernicus,L2,False,23
 eu_non_copernicus,L2,True,11
-eu_non_copernicus,L3,False,301
-eu_non_copernicus,L3,True,111
+eu_non_copernicus,L3,False,298
+eu_non_copernicus,L3,True,112
 eu_non_copernicus,L4,False,179
 eu_non_copernicus,L4,True,31
-eu_non_copernicus,,False,4224
+eu_non_copernicus,,False,4207
 eu_non_copernicus,,True,433
 non_eu,L1,False,13
 non_eu,L2,False,113
@@ -24,5 +25,5 @@ non_eu,L3,False,5321
 non_eu,L3,True,619
 non_eu,L4,False,2270
 non_eu,L4,True,47
-non_eu,,False,20816
+non_eu,,False,20831
 non_eu,,True,315

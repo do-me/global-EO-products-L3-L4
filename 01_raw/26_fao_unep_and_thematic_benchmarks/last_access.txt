@@ -1,14 +1,14 @@
 source_id: 26_fao_unep_and_thematic_benchmarks
 source_title: FAO GISMGR v2 (WaPOR, GAEZ, ASAP, GSOC) & Zenodo Authoritative Global EO L3/L4 Benchmarks
-retrieved_at_utc: 2026-11-15T19:47:22Z
+retrieved_at_utc: 2026-11-16T04:07:42Z
 http_status_summary: 200 OK
-total_records_retrieved: 2391
+total_records_retrieved: 2406
 endpoints_queried:
   - https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces?size=100&page=0..N
   - https://zenodo.org/api/records?type=dataset (scoped boolean queries, full pagination + audit)
   - https://api.datacite.org/dois?prefix=10.5880&query=g3p
   - https://api.datacite.org/dois?prefix=10.18160&query=FLUXCOM
-notes: FAO GISMGR mapsets (all pages): 1028, Zenodo benchmark datasets: 1347, DataCite benchmark records (G3P, FLUXCOM-X, LCSPP, PANGAEA, CSIF): 16
+notes: FAO GISMGR mapsets (all pages): 1028, Zenodo benchmark datasets: 1362, DataCite benchmark records (G3P, FLUXCOM-X, LCSPP, PANGAEA, CSIF): 16
 files_written:
   - path: data/fao_gismgr_workspaces_and_mapsets.json
     bytes: 688608
@@ -17,8 +17,8 @@ files_written:
     bytes: 296501
     sha256: 323df37dbc7fd73e3202f80e7af37e1cbf34d0af794d14a95eb2c3597362698c
   - path: data/zenodo_pagination_audit.json
-    bytes: 10479
-    sha256: a50b6dfb18fb2ca409c3f6f5902de5f7a0c17631fd724b32478c7fbc9fb42df2
+    bytes: 11327
+    sha256: b9d42565f9f4a16b65e42f1dbf216542c93f5b0ef75bb919262d4f97bee69907
   - path: data/zenodo_thematic_benchmarks.jsonl
-    bytes: 34557270
-    sha256: 8d2dbc22be33d6f89ee6af387ad87d6f9c7e37efa03c2d98cc00063c7216b471
+    bytes: 34698787
+    sha256: 6c48cccf6540f07c8d70728120c37810fb238d3195ce7453970fa9af3c1f0346

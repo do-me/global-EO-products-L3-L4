@@ -338,6 +338,9 @@ def main() -> None:
         '+"Global" +("evapotranspiration" OR "latent heat flux") +(MODIS OR ERA5 OR FLUXCOM OR satellite) +gridded',
         '+"Global" +("surface solar radiation" OR "downward shortwave" OR "PAR") +(satellite OR CERES OR HIMAWARI OR MSG)',
         '+"Global" +("snow water equivalent" OR "snow cover extent") +(satellite OR GlobSnow OR MODIS OR ESA)',
+        '+GLOBMAP +("Leaf Area Index" OR "fractional tree cover")',
+        '+AVHRR +"net radiation" +(global OR "all-wave")',
+        '+GRACE +"terrestrial water storage" +(reconstruction OR "cyclostationary" OR CSEOF) +global',
     ]
     for q in supplemental_queries:
         hits_total = None

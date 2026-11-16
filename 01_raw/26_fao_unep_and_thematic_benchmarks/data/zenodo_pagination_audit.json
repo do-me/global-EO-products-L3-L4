@@ -1,9 +1,9 @@
 {
   "page_size": 25,
   "max_pages_per_query": 20,
-  "total_unique_zenodo_records": 1347,
+  "total_unique_zenodo_records": 1362,
   "truncated_query_count": 0,
-  "carry_forward_restored_records": 281,
+  "carry_forward_restored_records": 278,
   "carry_forward_missing_ids": [],
   "queries": [
     {
@@ -404,6 +404,36 @@
       "pages_fetched": 1,
       "fetched_records": 14,
       "new_unique_records": 10,
+      "truncated": false
+    },
+    {
+      "query": "+GLOBMAP +(\"Leaf Area Index\" OR \"fractional tree cover\")",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 7,
+      "pages_fetched": 1,
+      "fetched_records": 7,
+      "new_unique_records": 6,
+      "truncated": false
+    },
+    {
+      "query": "+AVHRR +\"net radiation\" +(global OR \"all-wave\")",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 7,
+      "pages_fetched": 1,
+      "fetched_records": 7,
+      "new_unique_records": 7,
+      "truncated": false
+    },
+    {
+      "query": "+GRACE +\"terrestrial water storage\" +(reconstruction OR \"cyclostationary\" OR CSEOF) +global",
+      "http_status": 200,
+      "page_size": 25,
+      "hits_total": 6,
+      "pages_fetched": 1,
+      "fetched_records": 6,
+      "new_unique_records": 5,
       "truncated": false
     }
   ]

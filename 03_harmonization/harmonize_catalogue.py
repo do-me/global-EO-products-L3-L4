@@ -155,7 +155,7 @@ def parse_resolution_meters(res_str: str | None) -> float | None:
 
     # 2. Standard decimal/integer value + unit (excluding numerator/denominator numbers adjacent to '/')
     pattern = re.compile(
-        r"(?<![\d.])(?<!\d/)(?<!\d\s/)(\.\d+|\d+(?:\.\d+)?)\s*(?:(km|kilometers?|kilometres?|m|meters?|metres?|(?:decimal\s+)?(?:deg|degrees?)|arcsec|arc-seconds?|arcseconds?|arcmin|arc-minutes?|arcminutes?)\b|(°)(?!\s*[cfknswe]\b))(?![\s°]*\/)"
+        r"(?<![\d.])(?<!\d/)(?<!\d\s/)(\.\d+|\d+(?:\.\d+)?)[-\s]*(?:(km|kilometers?|kilometres?|m|meters?|metres?|(?:decimal\s+)?(?:deg|degrees?)|arcsec|arc-seconds?|arcseconds?|arcmin|arc-minutes?|arcminutes?)\b|(°)(?!\s*[cfknswe]\b))(?![\s°]*\/)"
     )
     for m in pattern.finditer(s):
         val = float(m.group(1))
@@ -224,7 +224,7 @@ _SUB_DAILY_OR_DAILY_RE = re.compile(
     r"every\s+[136]\s*hours?|sub[- ]?daily|twice[- ]?daily|diurnal(?!\s+cycle)|0\.\d+\s*days?|1-days?|p1d|pt\d+[hm])\b|"
     rf"{_NUM_GUARD}\b1\s*days?\b|"
     r"(?<!\d-)(?<!\bmulti[- ])\bdaily\b|"
-    r"\b\d+(?:\.\d+)?\s*(?:hours?|minutes?|seconds?)\b",
+    r"\b\d+(?:\.\d+)?\s*(?:hr|hrs|min|mins|hours?|minutes?|seconds?)\b",
     re.IGNORECASE,
 )
 
@@ -297,10 +297,19 @@ def classify_cadence(
     end_year: int | None,
     desc: str | None = None,
     raw_id: str | None = None,
+    prose_cadence_raw: str | None = None,
+    prose_cadence_role: str | None = None,
 ) -> str | None:
     """Classify product temporal support/sampling cadence strictly separately from archival publication frequency.
-    Accepts None (null) when temporal_resolution_raw and title contain multiple distinct cadences or lack explicit cadence tokens."""
-    tr = (temp_res_raw or "").strip().lower()
+    Uses native `temporal_resolution_raw`, explicit title tokens, or verified output/epoch prose cadences;
+    accepts None (null) when multiple distinct coarse cadence classes coexist or evidence is absent."""
+    tr_native = (temp_res_raw or "").strip().lower()
+    use_prose = bool(
+        not tr_native
+        and prose_cadence_raw
+        and prose_cadence_role in ("delivered_output_cadence", "epoch_dependent_multi_cadence", "level_dependent_multi_cadence")
+    )
+    tr = tr_native or ((prose_cadence_raw or "").strip().lower() if use_prose else "")
     title_l = (title or "").strip().lower()
     rid_l = (raw_id or "").strip().lower()
     uf = (update_freq_raw or "").strip().lower()
@@ -316,6 +325,14 @@ def classify_cadence(
         if _match_cadence_classes(tr) == ["monthly_or_seasonal"]:
             return "monthly_or_seasonal"
 
+    # 0c. Epoch-dependent or multi-level verified prose cadences take priority over partial title hints (e.g. GLOBMAP LAI semimonthly + 8-day)
+    if tr and use_prose and prose_cadence_role in ("epoch_dependent_multi_cadence", "level_dependent_multi_cadence"):
+        tr_classes_p = _match_cadence_classes(tr)
+        if len(tr_classes_p) == 1:
+            return tr_classes_p[0]
+        if len(tr_classes_p) > 1:
+            return None
+
     # 1. Explicit single-cadence token in title takes priority (resolving multi-cadence collection tags when title is specific)
     title_classes = _match_cadence_classes(title_l)
     if len(title_classes) == 1:
@@ -323,7 +340,7 @@ def classify_cadence(
     if "multi_day_or_dekadal" in title_classes and "monthly_or_seasonal" not in title_classes:
         return "multi_day_or_dekadal"
 
-    # 2. Evaluate explicit temporal_resolution_raw (returning None if it lists multiple distinct cadence classes or is a single-epoch multi-year acquisition span)
+    # 2. Evaluate explicit temporal_resolution_raw or verified prose cadence
     if tr:
         m_nyr = re.match(r"^(\d+)\s*years?$", tr)
         if m_nyr and int(m_nyr.group(1)) >= 3:
@@ -352,9 +369,15 @@ def extract_temporal_output_details(
     desc: str | None,
     temp_res_raw: str | None,
     cadence_cls: str | None,
+    prose_cadence_raw: str | None = None,
+    prose_cadence_role: str | None = None,
 ) -> tuple[str | None, str | None]:
-    """Separates output step interval(s) from rolling retrieval/compositing/accumulation windows."""
-    tr = (temp_res_raw or "").strip().lower()
+    """Separates output step interval(s) from rolling retrieval/compositing/accumulation windows,
+    retaining both semimonthly and distinct multi-day steps (e.g. 8-day) when both occur across epochs."""
+    tr_src = temp_res_raw
+    if not tr_src and prose_cadence_raw and prose_cadence_role in ("delivered_output_cadence", "epoch_dependent_multi_cadence", "level_dependent_multi_cadence"):
+        tr_src = prose_cadence_raw
+    tr = (tr_src or "").strip().lower()
     tr_classes = _match_cadence_classes(tr) if tr else []
     has_exact_semi = bool(
         re.search(
@@ -363,11 +386,22 @@ def extract_temporal_output_details(
             re.IGNORECASE,
         )
     )
+    has_8d = bool(re.search(r"\b(?:8[- ]?da(?:y|ily|ys)|eight[- ]?day)\b", tr, re.IGNORECASE))
+    has_16d = bool(re.search(r"\b(?:16[- ]?da(?:y|ily|ys)|sixteen[- ]?day)\b", tr, re.IGNORECASE))
+    has_10d = bool(re.search(r"\b(?:10[- ]?da(?:y|ily|ys)|ten[- ]?day|dekad(?:al)?)\b", tr, re.IGNORECASE))
     if tr_classes:
-        refined = [
-            "semimonthly" if (c == "multi_day_or_dekadal" and has_exact_semi) else c
-            for c in tr_classes
-        ]
+        refined: list[str] = []
+        for c in tr_classes:
+            if c == "multi_day_or_dekadal" and has_exact_semi:
+                refined.append("semimonthly")
+                if has_8d:
+                    refined.append("8-day")
+                if has_16d:
+                    refined.append("16-day")
+                if has_10d:
+                    refined.append("10-day")
+            else:
+                refined.append(c)
         out_cadences: str | None = "; ".join(dict.fromkeys(refined))
     elif cadence_cls:
         out_cadences = cadence_cls
@@ -435,29 +469,33 @@ _SINGLE_GEO_DISK_RE = re.compile(
 )
 
 
+def _detect_observation_domain_mask(raw_id: str | None, title: str | None, kw_raw: str | None = None) -> str | None:
+    """Identify biome-, cryosphere-, wetland-, or urban-masked domains strictly from product title/ID (avoiding ancillary mask keywords on global SST)."""
+    head = f"{raw_id or ''} {title or ''}"
+    if re.search(r"\bmangroves?\b|\bglobemch\b|\bgmw\b", head, re.IGNORECASE):
+        return "mangrove_biome_mask"
+    if re.search(r"\b(?:glacier|ice\s+sheet|ice\s+shel(?:f|ves)|permafrost|sea[- ]?ice|snow\s+cover)\b", head, re.IGNORECASE):
+        return "cryosphere_or_glacier_mask"
+    if re.search(r"\b(?:wetlands?|inland\s+water|global\s+lakes?|hydrolakes|hydrorivers|surface\s+water\s+(?:explorer|occurrence|extent))\b", head, re.IGNORECASE):
+        return "inland_water_or_wetland_mask"
+    if re.search(r"\b(?:world\s+settlement\s+footprint|wsf\b|ghs[-_ ]?built|built[- ]?up|urban\s+(?:extent|footprint))\b", head, re.IGNORECASE):
+        return "urban_settlement_mask"
+    return None
+
+
 def classify_geographic_coverage(
     bbox: Any,
     title: str | None = None,
     desc: str | None = None,
     raw_id: str | None = None,
     source_id: str | None = None,
-) -> tuple[float | None, float | None, float | None, float | None, str | None, str | None]:
-    if not isinstance(bbox, (list, tuple)) or len(bbox) < 4:
-        return None, None, None, None, None, None
-    try:
-        w, s, e, n = float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3])
-    except Exception:
-        return None, None, None, None, None, None
-    # Antimeridian wrap-around spans east -> west across 180 deg
-    if w > e:
-        dlon = 360.0 - (w - e)
-    else:
-        dlon = abs(e - w)
-    dlat = abs(n - s)
-
+    prose_bbox: Any = None,
+    kw_raw: str | None = None,
+) -> tuple[float | None, float | None, float | None, float | None, str | None, str | None, str, str | None]:
     title_str = title or ""
     rid_str = raw_id or ""
     head_geo = f"{rid_str} {title_str}"
+    domain_mask = _detect_observation_domain_mask(raw_id, title, kw_raw)
     has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_str, re.IGNORECASE))
     has_both_hemispheres = bool(
         re.search(
@@ -466,7 +504,6 @@ def classify_geographic_coverage(
             re.IGNORECASE,
         )
     )
-
     is_multi_geo_family = bool(
         _MULTI_GEO_GLOBAL_MERGE_RE.search(head_geo)
         or (source_id in ("02_copernicus_clms",) and "global" in title_str.lower())
@@ -481,24 +518,58 @@ def classify_geographic_coverage(
         and _SINGLE_GEO_DISK_RE.search(head_geo)
     )
 
+    use_bbox = bbox if (isinstance(bbox, (list, tuple)) and len(bbox) >= 4) else None
+    bbox_prov = "upstream_bbox" if use_bbox is not None else None
+    if use_bbox is None and isinstance(prose_bbox, (list, tuple)) and len(prose_bbox) >= 4:
+        use_bbox = prose_bbox
+        bbox_prov = "prose_coordinate_span"
+
+    if use_bbox is None:
+        if is_single_geo_disk:
+            return None, None, None, None, "regional_or_local", "geostationary_disk_or_sector", "geostationary_sensor_or_id", domain_mask
+        if not has_global_in_title:
+            if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
+                return None, None, None, None, "europe_regional", "europe_regional", "explicit_title_or_abstract_scope", domain_mask
+            if _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str) and not has_both_hemispheres:
+                return None, None, None, None, "hemispheric_or_pantropical", "hemispheric_or_pantropical", "explicit_title_or_abstract_scope", domain_mask
+            if _EXPLICIT_REGIONAL_SCOPE_RE.search(title_str):
+                return None, None, None, None, "regional_or_local", "regional_or_local", "explicit_title_or_abstract_scope", domain_mask
+            return None, None, None, None, None, None, "unassessed_no_spatial_extent", domain_mask
+        if not (_EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or _EXPLICIT_REGIONAL_SCOPE_RE.search(title_str) or _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str)):
+            if re.search(r"\b(?:quasi-global|near-global)\b", title_str, re.IGNORECASE):
+                return None, None, None, None, "quasi_global", "quasi_global_title_declared", "explicit_title_or_abstract_scope", domain_mask
+            return None, None, None, None, "global", "global_title_declared", "explicit_title_or_abstract_scope", domain_mask
+        return None, None, None, None, None, None, "unassessed_no_spatial_extent", domain_mask
+
+    try:
+        w, s, e, n = float(use_bbox[0]), float(use_bbox[1]), float(use_bbox[2]), float(use_bbox[3])
+    except Exception:
+        return None, None, None, None, None, None, "unassessed_no_spatial_extent", domain_mask
+    # Antimeridian wrap-around spans east -> west across 180 deg
+    if w > e:
+        dlon = 360.0 - (w - e)
+    else:
+        dlon = abs(e - w)
+    dlat = abs(n - s)
+
     # Guard against nominal [-180, -90, 180, 90] provider bounding boxes on explicitly regional or single-GEO disk products
     if is_single_geo_disk and dlon >= 300.0:
-        return w, s, e, n, "regional_or_local", "geostationary_disk_or_sector"
+        return w, s, e, n, "regional_or_local", "geostationary_disk_or_sector", bbox_prov or "upstream_bbox", domain_mask
 
     if not has_global_in_title:
         if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
             domain = "geostationary_disk_or_sector" if is_single_geo_disk else "europe_regional"
-            return w, s, e, n, "europe_regional", domain
+            return w, s, e, n, "europe_regional", domain, bbox_prov or "upstream_bbox", domain_mask
         if _EXPLICIT_REGIONAL_SCOPE_RE.search(title_str):
             domain = "geostationary_disk_or_sector" if is_single_geo_disk else "regional_or_local"
-            return w, s, e, n, "regional_or_local", domain
+            return w, s, e, n, "regional_or_local", domain, bbox_prov or "upstream_bbox", domain_mask
         if desc and re.search(r"\b(?:across the contiguous U\.?S\.?\s*\(CONUS\)|for the conterminous United States)\b", desc, re.IGNORECASE):
             domain = "geostationary_disk_or_sector" if is_single_geo_disk else "regional_or_local"
-            return w, s, e, n, "regional_or_local", domain
+            return w, s, e, n, "regional_or_local", domain, bbox_prov or "upstream_bbox", domain_mask
 
     if dlon >= 300.0 and dlat >= 90.0:
         if s >= -5.0 or n <= 5.0 or (not has_global_in_title and not has_both_hemispheres and _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str)):
-            return w, s, e, n, "hemispheric_or_pantropical", "hemispheric_or_pantropical"
+            return w, s, e, n, "hemispheric_or_pantropical", "hemispheric_or_pantropical", bbox_prov or "upstream_bbox", domain_mask
         if dlat >= 120.0:
             cov, domain = "global", "global_nominal_envelope"
         else:
@@ -514,7 +585,7 @@ def classify_geographic_coverage(
     else:
         cov = "regional_or_local"
         domain = "geostationary_disk_or_sector" if is_single_geo_disk else "regional_or_local"
-    return w, s, e, n, cov, domain
+    return w, s, e, n, cov, domain, bbox_prov or "upstream_bbox", domain_mask
 
 
 # ---------------------------------------------------------------------------
@@ -904,10 +975,35 @@ _EXPLICIT_NON_SENTINEL_SENSOR_RE = re.compile(
 )
 
 
+_NON_PLATFORM_ASSET_TOKENS = {
+    "not applicable",
+    "not provided",
+    "unknown",
+    "none",
+    "null",
+    "n/a",
+    "na",
+    "table",
+    "image",
+    "image_collection",
+    "table_collection",
+    "feature_collection",
+    "raster",
+    "vector",
+    "grid",
+    "collection",
+    "netcdf",
+    "geotiff",
+    "cog",
+}
+
+
 def _has_explicit_platform_evidence(plat_raw: str | None, title: str | None, raw_id: str | None) -> bool:
-    """Return True when upstream platform_sensor_raw or title/ID explicitly names an instrument/satellite."""
-    if plat_raw and str(plat_raw).strip() and str(plat_raw).strip().lower() not in ("not applicable", "not provided", "unknown", "none", "null"):
-        return True
+    """Return True when upstream platform_sensor_raw or title/ID explicitly names a real instrument/satellite (ignoring asset/format types)."""
+    if plat_raw:
+        tokens = [t.strip().lower() for t in re.split(r"[;|,]+", str(plat_raw)) if t.strip()]
+        if any(t not in _NON_PLATFORM_ASSET_TOKENS for t in tokens):
+            return True
     return bool(_EXPLICIT_NON_SENTINEL_SENSOR_RE.search(f"{raw_id or ''} {title or ''}"))
 
 
@@ -1146,11 +1242,13 @@ def classify_level_and_ontology(
     desc: str | None,
     lvl_raw: str | None,
     kw_raw: str | None,
-) -> tuple[str | None, str, str, bool, str | None, str, str]:
+    eumetsat_primary: dict[str, Any] | None = None,
+) -> tuple[str | None, str, str, bool, str | None, str, str, bool, str | None]:
     """
     Returns:
       (processing_level, product_level_subtype, product_ontology_class, is_ard_reflectance_only,
-       processing_levels_available, processing_level_provenance, product_output_category)
+       processing_levels_available, processing_level_provenance, product_output_category,
+       processing_level_conflict, processing_level_conflict_reason)
     """
     rid = (raw_id or "").strip()
     ttl = (title or "").strip()
@@ -1213,6 +1311,8 @@ def classify_level_and_ontology(
     )
 
     # 4. Harmonize processing_level without overwriting L3+L4 collections or silently inventing L3 on unlabelled records
+    lvl_conflict = False
+    lvl_conflict_reason: str | None = None
     if ((has_raw_l3 and has_raw_l4) or title_has_l3_l4) and not re.search(r"ensemble|mass-balance", rid, re.IGNORECASE):
         p_level: str | None = "L3; L4"
         subtype = "L3_L4_MULTI_LEVEL"
@@ -1232,8 +1332,11 @@ def classify_level_and_ontology(
         p_level = "L4"
         subtype = "L4_MODEL_REANALYSIS_SYNTHESIS"
         if explicit_l4_title and has_raw_l3:
-            levels_avail = "L3; L4"
+            # Do NOT fabricate an L3+L4 multi-level collection from a raw L3 vs title L4 disagreement (e.g. GEDI L4A)
+            levels_avail = "L4"
             lvl_prov = "explicit_title_l4_over_raw_l3"
+            lvl_conflict = True
+            lvl_conflict_reason = f"raw_metadata_{'_'.join(raw_levels_list)}_conflicts_with_explicit_title_L4"
         elif has_raw_l4:
             levels_avail = "; ".join(raw_levels_list)
             lvl_prov = "explicit_raw_metadata"
@@ -1246,6 +1349,9 @@ def classify_level_and_ontology(
     elif has_raw_l3 or explicit_l3_title or desc_has_l2_l3:
         p_level = "L3"
         subtype = "L3_THEMATIC_BIOPHYSICAL"
+        if explicit_l3_title and has_raw_l4 and not title_has_l3_l4:
+            lvl_conflict = True
+            lvl_conflict_reason = f"raw_metadata_{'_'.join(raw_levels_list)}_conflicts_with_explicit_title_L3"
         if raw_levels_list:
             levels_avail = "; ".join(raw_levels_list)
             lvl_prov = "explicit_raw_metadata"
@@ -1265,6 +1371,11 @@ def classify_level_and_ontology(
             lvl_prov = "explicit_title_or_id"
         subtype = "NON_L3_L4_UPSTREAM_LEVEL"
         levels_avail = p_level
+    elif eumetsat_primary and eumetsat_primary.get("processing_level"):
+        p_level = eumetsat_primary["processing_level"]
+        subtype = eumetsat_primary["product_level_subtype"]
+        levels_avail = eumetsat_primary["processing_levels_available"]
+        lvl_prov = "crosswalked_primary_eumetsat_navigator"
     elif (source_id, rid) in PROVIDER_DOCUMENTED_LEVEL_SPECS:
         spec = PROVIDER_DOCUMENTED_LEVEL_SPECS[(source_id, rid)]
         p_level = spec["processing_level"]
@@ -1307,7 +1418,7 @@ def classify_level_and_ontology(
         ont = "eo_thematic_or_biophysical"
         out_cat = "eo_derived_thematic_or_biophysical_output"
 
-    return p_level, subtype, ont, is_ard, levels_avail, lvl_prov, out_cat
+    return p_level, subtype, ont, is_ard, levels_avail, lvl_prov, out_cat, lvl_conflict, lvl_conflict_reason
 
 
 # ---------------------------------------------------------------------------
@@ -1433,6 +1544,17 @@ def classify_operational_maturity(
         or (end_year is not None and end_year >= 2028)
     )
 
+    is_ended_mission_note = bool(
+        re.search(
+            r"\b(?:end\s+of\s+mission|mission\s+ended|decommissioned|ceased\s+operations)\b|"
+            r"\b(?:19\d\d|20\d\d)\s*(?:to|[-–—])\s*2026-(?:0\d-\d\d|10-\d\d|11-0\d)\b",
+            head,
+            re.IGNORECASE,
+        )
+    )
+    if is_ended_mission_note:
+        return "completed_or_mission_bounded_release", False
+
     is_explicit_present_series = bool(
         re.search(r"\b(19\d\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(?:present|ongoing)\b", head, re.IGNORECASE)
         and not is_future_proj
@@ -1448,6 +1570,14 @@ def classify_operational_maturity(
         )
     )
 
+    is_recent_2026_stream = bool(
+        end_year is not None
+        and end_year >= 2026
+        and temporal_end_raw
+        and re.match(r"^2026-(?:0[6-9]|1[0-2])", str(temporal_end_raw).strip())
+    )
+    has_nrt_or_active_title = bool(re.search(r"\b(?:near[- ]?real[- ]?time|nrt|operational|daily|monitoring)\b", head, re.IGNORECASE))
+
     # Determine is_ongoing_archive strictly from raw dates and explicit update status relative to Nov 2026 harvest
     if is_future_proj:
         is_ongoing = False
@@ -1461,10 +1591,11 @@ def classify_operational_maturity(
         is_ongoing = True
     elif end_year is not None:
         if end_year >= 2026:
-            is_ongoing = True
+            # Require explicit ongoing frequency/title cue OR end timestamp within 6 months of Nov 2026 harvest (not 'existing'/unknown)
+            is_ongoing = True if (has_ongoing_uf or (is_recent_2026_stream and not has_unknown_uf) or has_nrt_or_active_title) else None
         elif end_year == 2025:
-            # 2025 end dates (>10 months before Nov 2026 harvest) require explicit active/ongoing or expected annual cadence
-            is_ongoing = True if has_ongoing_uf else None
+            # 2025 end dates (>10 months before Nov 2026 harvest) strictly require explicit active/periodic update metadata
+            is_ongoing = True if (has_ongoing_uf and "existing" not in uf and "irregular" not in uf) else None
         else:
             is_ongoing = False
     elif start_year is None and end_year is None:
@@ -1486,17 +1617,20 @@ def classify_operational_maturity(
     if COMPLETED_MISSION_OR_STATIC_RE.search(head) or "[archived]" in head.lower() or has_non_ongoing_uf:
         return "completed_or_mission_bounded_release", False
 
-    if is_explicit_present_series:
+    if is_explicit_present_series and source_id not in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks"):
         return "operational_ongoing_series", True
 
     if cadence_class == "static_or_single_epoch":
         return "completed_or_mission_bounded_release", False
 
+    if source_id in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks") and not has_ongoing_uf:
+        return "research_or_benchmark_release", is_ongoing
+
+    if source_id == "29_awesome_gee_community" and is_ongoing is not True:
+        return "research_or_benchmark_release", is_ongoing
+
     if is_ongoing is False and end_year is not None and end_year <= 2024:
         return "completed_or_mission_bounded_release", False
-
-    if source_id in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community") and is_ongoing is not True:
-        return "research_or_benchmark_release", is_ongoing
 
     if is_ongoing is False:
         return "completed_or_mission_bounded_release", False
@@ -1616,17 +1750,34 @@ def _extract_product_variants(
     spat_raw: str | None,
     doi_raw: str | None,
     url_raw: str | None,
+    lvl_conflict: bool = False,
+    prose_cadence_by_epoch: str | None = None,
+    prose_spat_cand: str | None = None,
+    prose_spat_role: str | None = None,
+    spatial_footprint_m: float | None = None,
 ) -> tuple[str | None, list[dict[str, Any]]]:
     """
-    Build normalized variant rows for mixed-level/mixed-tier collections (e.g. TCSIF v1 L3+L2,
-    C3S SST L3C+L4, multi-level STAC/CMR bundles) and return a concise summary string + variant dicts.
+    Build evidence-backed variant rows for genuinely multi-deliverable collections (e.g., TCSIF L3+L2,
+    C3S SST L3C+L4, multi-epoch GLOBMAP LAI) while never fabricating multi-level variants from raw-vs-title
+    processing-level contradictions (e.g. GEDI L4A) or leaking L3 grids onto L2 orbital soundings.
     """
     cite = url_raw or (f"https://doi.org/{doi_raw}" if doi_raw else None)
     rid = (raw_id or "").strip()
+    ttl_l = (title or "").lower()
     dsc = desc or ""
+    eff_spat_raw = spat_raw or (prose_spat_cand if prose_spat_role == "delivered_output_grid" else None)
     variants: list[dict[str, Any]] = []
 
-    if rid == "ZENODO:8242928" or (doi_raw or "").lower() == "10.5281/zenodo.8242928":
+    is_tcsif_family = bool(
+        rid in ("ZENODO:8242928", "ZENODO:8210518")
+        or (doi_raw or "").lower() in ("10.5281/zenodo.8242928", "10.5281/zenodo.8210518")
+        or ("tcsif" in ttl_l and "level3.zip" in dsc.lower() and "{year}{quater}.zip" in dsc.lower())
+    )
+    if is_tcsif_family:
+        tcsif_ev = (
+            "The daily level2 dataset is provided in hdf5 format ({Year}{Quater}.zip); "
+            "the level3 datasets are aggregated monthly at 0.5 deg in TIFF format (Level3.zip)."
+        )
         variants.extend([
             {
                 "record_id": rec_uid,
@@ -1638,12 +1789,15 @@ def _extract_product_variants(
                 "variant_level": "L3",
                 "variant_role": "monthly_aggregated_grid",
                 "variant_cadence": "monthly",
+                "variant_epoch": "2007-2021",
                 "variant_spatial_resolution_raw": "0.5°",
                 "variant_spatial_resolution_meters": 55660.0,
+                "variant_footprint_meters": None,
                 "variant_spatial_grid_axes": "lon x lat",
                 "variant_units": "mW m-2 nm-1 sr-1",
                 "variant_file_format": "GeoTIFF",
                 "variant_archive_name": "Level3.zip",
+                "variant_evidence": tcsif_ev,
                 "variant_citation": cite,
             },
             {
@@ -1656,16 +1810,21 @@ def _extract_product_variants(
                 "variant_level": "L2",
                 "variant_role": "daily_orbital_retrieval",
                 "variant_cadence": "daily",
+                "variant_epoch": "2007-2021",
                 "variant_spatial_resolution_raw": None,
                 "variant_spatial_resolution_meters": None,
+                "variant_footprint_meters": None,
                 "variant_spatial_grid_axes": None,
                 "variant_units": "mW m-2 nm-1 sr-1",
                 "variant_file_format": "HDF5",
                 "variant_archive_name": "{Year}{Quater}.zip",
+                "variant_evidence": tcsif_ev,
                 "variant_citation": cite,
             },
         ])
     elif rid in ("satellite-sea-surface-temperature", "EO:ECMWF:DAT:SATELLITE_SEA_SURFACE_TEMPERATURE"):
+        sst_cite = "https://cds.climate.copernicus.eu/datasets/satellite-sea-surface-temperature?tab=overview"
+        sst_ev = "C3S CDS SST specification: Level 3C (daily) and Level 4 (daily/monthly) on a 0.05 deg x 0.05 deg regular lon-lat grid."
         variants.extend([
             {
                 "record_id": rec_uid,
@@ -1677,13 +1836,16 @@ def _extract_product_variants(
                 "variant_level": "L3",
                 "variant_role": "l3c_single_sensor_collated_grid",
                 "variant_cadence": "daily",
-                "variant_spatial_resolution_raw": spat_raw,
-                "variant_spatial_resolution_meters": adj_spat_m,
+                "variant_epoch": None,
+                "variant_spatial_resolution_raw": "0.05° × 0.05°",
+                "variant_spatial_resolution_meters": 5566.0,
+                "variant_footprint_meters": None,
                 "variant_spatial_grid_axes": "lon x lat",
                 "variant_units": "K",
                 "variant_file_format": "NetCDF",
                 "variant_archive_name": None,
-                "variant_citation": cite,
+                "variant_evidence": sst_ev,
+                "variant_citation": sst_cite,
             },
             {
                 "record_id": rec_uid,
@@ -1695,19 +1857,48 @@ def _extract_product_variants(
                 "variant_level": "L4",
                 "variant_role": "l4_multi_sensor_gap_filled_analysis",
                 "variant_cadence": "daily; monthly",
-                "variant_spatial_resolution_raw": spat_raw,
-                "variant_spatial_resolution_meters": adj_spat_m,
+                "variant_epoch": None,
+                "variant_spatial_resolution_raw": "0.05° × 0.05°",
+                "variant_spatial_resolution_meters": 5566.0,
+                "variant_footprint_meters": None,
                 "variant_spatial_grid_axes": "lon x lat",
                 "variant_units": "K",
                 "variant_file_format": "NetCDF",
                 "variant_archive_name": None,
-                "variant_citation": cite,
+                "variant_evidence": sst_ev,
+                "variant_citation": sst_cite,
             },
         ])
-    elif lvls_avail and ";" in lvls_avail:
+    elif prose_cadence_by_epoch and ";" in prose_cadence_by_epoch:
+        ep_items = [x.strip() for x in prose_cadence_by_epoch.split(";") if ":" in x]
+        for i, item in enumerate(ep_items, start=1):
+            ep_span, ep_cad = [s.strip() for s in item.split(":", 1)]
+            variants.append({
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": i,
+                "variant_level": p_lvl or "UNLABELLED",
+                "variant_role": f"temporal_epoch_{i}",
+                "variant_cadence": ep_cad,
+                "variant_epoch": ep_span,
+                "variant_spatial_resolution_raw": eff_spat_raw,
+                "variant_spatial_resolution_meters": adj_spat_m,
+                "variant_footprint_meters": spatial_footprint_m,
+                "variant_spatial_grid_axes": "lon x lat" if eff_spat_raw and ("°" in eff_spat_raw or "º" in eff_spat_raw or "deg" in eff_spat_raw.lower()) else None,
+                "variant_units": None,
+                "variant_file_format": None,
+                "variant_archive_name": None,
+                "variant_evidence": f"Epoch-split temporal cadence declared in deposit metadata: {prose_cadence_by_epoch}",
+                "variant_citation": cite,
+            })
+    elif lvls_avail and ";" in lvls_avail and not lvl_conflict:
         parts = [p.strip() for p in lvls_avail.split(";") if p.strip()]
         if len(parts) >= 2:
             for i, lv in enumerate(parts, start=1):
+                is_swath_member = lv in ("L1", "L2")
                 variants.append({
                     "record_id": rec_uid,
                     "canonical_product_key": c_key,
@@ -1718,12 +1909,15 @@ def _extract_product_variants(
                     "variant_level": lv,
                     "variant_role": "multi_level_collection_member",
                     "variant_cadence": out_cadences if lv == p_lvl else None,
-                    "variant_spatial_resolution_raw": spat_raw,
-                    "variant_spatial_resolution_meters": adj_spat_m,
+                    "variant_epoch": None,
+                    "variant_spatial_resolution_raw": None if is_swath_member else eff_spat_raw,
+                    "variant_spatial_resolution_meters": None if is_swath_member else adj_spat_m,
+                    "variant_footprint_meters": spatial_footprint_m if is_swath_member else None,
                     "variant_spatial_grid_axes": None,
                     "variant_units": None,
                     "variant_file_format": None,
                     "variant_archive_name": None,
+                    "variant_evidence": f"Declared multi-level collection metadata ({lvls_avail}); spatial grid retained only for matching gridded deliverable.",
                     "variant_citation": cite,
                 })
     elif re.search(r"\bcomposite\s+maps?\s+of\s+the\s+hourly\b", dsc, re.IGNORECASE):
@@ -1737,12 +1931,15 @@ def _extract_product_variants(
             "variant_level": p_lvl or "L3",
             "variant_role": "monthly_diurnal_hour_stratified_grid",
             "variant_cadence": "monthly",
-            "variant_spatial_resolution_raw": spat_raw,
+            "variant_epoch": "2000-02 to 2022-12",
+            "variant_spatial_resolution_raw": eff_spat_raw,
             "variant_spatial_resolution_meters": adj_spat_m,
+            "variant_footprint_meters": None,
             "variant_spatial_grid_axes": "lon x lat",
             "variant_units": None,
             "variant_file_format": None,
             "variant_archive_name": None,
+            "variant_evidence": "Monthly composite maps of hourly local-time diurnal SIFtotal and GPP strata (06:00-18:00 local time).",
             "variant_citation": cite,
         })
 
@@ -1750,7 +1947,7 @@ def _extract_product_variants(
         return None, []
     summary_parts = []
     for v in variants:
-        bits = [b for b in (v["variant_cadence"], v["variant_spatial_resolution_raw"], v["variant_file_format"], v["variant_units"]) if b]
+        bits = [b for b in (v.get("variant_cadence"), v.get("variant_epoch"), v.get("variant_spatial_resolution_raw"), v.get("variant_file_format"), v.get("variant_units")) if b]
         summary_parts.append(f"{v['variant_level']} ({', '.join(bits)})" if bits else str(v["variant_level"]))
     return "; ".join(summary_parts), variants
 
@@ -1759,6 +1956,34 @@ def main() -> None:
     OUT_DATA_DIR.mkdir(parents=True, exist_ok=True)
     harmonized_rows: list[dict[str, Any]] = []
     product_variant_rows: list[dict[str, Any]] = []
+
+    # Build primary EUMETSAT Product Navigator lookup so WEkEO/DestinE broker mirrors retain primary citations & L3/L4 metadata
+    eum_primary_map: dict[str, dict[str, Any]] = {}
+    eum_prep_path = PREP_DATA_DIR / "17_eumetsat_product_navigator.parquet"
+    if eum_prep_path.exists():
+        for er_raw in pd.read_parquet(eum_prep_path).to_dict(orient="records"):
+            er = {k: norm_none(v) for k, v in er_raw.items()}
+            e_rid = er.get("raw_id")
+            if not e_rid:
+                continue
+            ep_lvl, ep_sub, _, _, ep_avail, _, _, _, _ = classify_level_and_ontology(
+                "17_eumetsat_product_navigator",
+                e_rid,
+                er.get("title"),
+                er.get("description"),
+                er.get("processing_level_raw"),
+                er.get("keywords_raw"),
+            )
+            eum_primary_map[e_rid] = {
+                "processing_level": ep_lvl,
+                "product_level_subtype": ep_sub,
+                "processing_levels_available": ep_avail,
+                "spatial_resolution_raw": er.get("spatial_resolution_raw"),
+                "temporal_resolution_raw": er.get("temporal_resolution_raw"),
+                "doi_raw": er.get("doi_raw"),
+                "platform_sensor_raw": er.get("platform_sensor_raw"),
+                "landing_url_raw": er.get("landing_url_raw") or f"https://user.eumetsat.int/catalogue/{e_rid}",
+            }
 
     for p in sorted(PREP_DATA_DIR.glob("*.parquet")):
         if p.name == "excluded_records_log.parquet":
@@ -1783,15 +2008,53 @@ def main() -> None:
             org_raw = r.get("producing_org_raw")
             host_raw = r.get("hosting_platform_raw")
             plat_raw = r.get("platform_sensor_raw")
+            asset_type_raw = r.get("asset_type_raw")
             doi_raw = r.get("doi_raw")
             lic_raw = r.get("license_raw")
             url_raw = r.get("landing_url_raw")
             kw_raw = r.get("keywords_raw")
 
-            # 1. Spatial resolution (strictly from spat_raw; accept null when upstream UMM unit conflicts >=10x with title token)
-            raw_spat_m = parse_resolution_meters(spat_raw)
+            prose_spat_cand = r.get("prose_spatial_candidate_raw")
+            prose_spat_role = r.get("prose_spatial_role")
+            prose_spat_ev = r.get("prose_spatial_evidence_sentence")
+            prose_cad_raw = r.get("prose_cadence_raw")
+            prose_cad_role = r.get("prose_cadence_role")
+            prose_cad_epoch = r.get("prose_cadence_by_epoch")
+            prose_cad_ev = r.get("prose_cadence_evidence_sentence")
+            prose_bbox = r.get("prose_bbox_raw")
+            if hasattr(prose_bbox, "tolist"):
+                prose_bbox = prose_bbox.tolist()
+            prose_sy = r.get("prose_temporal_start_year")
+            prose_ey = r.get("prose_temporal_end_year")
+            prose_temp_ev = r.get("prose_temporal_evidence_sentence")
+
+            # Primary EUMETSAT Navigator crosswalk for WEkEO / DestinE mirrors omitting upstream fields
+            eum_p = eum_primary_map.get(raw_id or "") if sid in ("09_wekeo_dias", "08_destine_dedl_stac") else None
+            if eum_p:
+                if not spat_raw and eum_p.get("spatial_resolution_raw"):
+                    spat_raw = eum_p["spatial_resolution_raw"]
+                if not temp_res_raw and eum_p.get("temporal_resolution_raw"):
+                    temp_res_raw = eum_p["temporal_resolution_raw"]
+                if not plat_raw and eum_p.get("platform_sensor_raw"):
+                    plat_raw = eum_p["platform_sensor_raw"]
+                if not doi_raw and eum_p.get("doi_raw"):
+                    doi_raw = eum_p["doi_raw"]
+
+            # 1. Spatial resolution & footprint separation (native `spatial_resolution_raw` never mutated by prose!)
+            head_txt = f"{raw_id or ''} {title or ''} {desc or ''}"
+            is_discrete_footprint = bool(
+                re.search(r"\b(?:gedi[_ -]?l?(?:2a|2b|4a)|footprint\s+level|laser\s+footprint)\b", head_txt, re.IGNORECASE)
+                and not re.search(r"\bgridded\b|\bgedi04_b\b|\bgedi\s+l4b\b|\bl4b\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE)
+            )
+            spatial_footprint_m = 25.0 if (is_discrete_footprint and re.search(r"\bgedi\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE)) else None
+            raw_spat_m = None if is_discrete_footprint else parse_resolution_meters(spat_raw)
             spat_m = raw_spat_m
-            title_spat_m = parse_title_token_resolution_meters(raw_id, title)
+            title_spat_m = None if is_discrete_footprint else parse_title_token_resolution_meters(raw_id, title)
+            prose_spat_m = (
+                parse_resolution_meters(prose_spat_cand)
+                if (not is_discrete_footprint and prose_spat_role == "delivered_output_grid" and prose_spat_cand)
+                else None
+            )
             spat_conflict = False
             spat_conflict_reason: str | None = None
             if spat_m is not None and title_spat_m is not None:
@@ -1814,6 +2077,10 @@ def main() -> None:
             elif spat_m is not None:
                 adj_spat_m = spat_m
                 adj_spat_src = "upstream_spatial_resolution_raw"
+            elif prose_spat_m is not None and (title_spat_m is None or (0.4 <= (prose_spat_m / title_spat_m) <= 2.5)):
+                adj_spat_m = prose_spat_m
+                adj_spat_src = "prose_delivered_output_grid"
+                adj_citation = url_raw or (f"https://doi.org/{doi_raw}" if doi_raw else None)
             elif title_spat_m is not None:
                 adj_spat_m = title_spat_m
                 adj_spat_src = "title_token_fallback"
@@ -1821,7 +2088,7 @@ def main() -> None:
                 adj_spat_m = None
                 adj_spat_src = None
 
-            # 2. Temporal years & cadence (strictly from raw dates; accept null when raw date is a future placeholder or conflicts with explicit title bounds)
+            # 2. Temporal years, provenance & cadence
             start_yr = parse_year(t_start_raw)
             end_yr = parse_year(t_end_raw)
             if start_yr is not None and start_yr > 2026:
@@ -1845,14 +2112,27 @@ def main() -> None:
                         end_yr = None
             if start_yr is not None and end_yr is not None and start_yr > end_yr:
                 end_yr = None
-            cadence_cls = classify_cadence(temp_res_raw, uf_raw, title, start_yr, end_yr, desc, raw_id=raw_id)
+            if start_yr is not None or end_yr is not None:
+                temp_span_prov = "upstream_temporal_extent"
+            elif prose_sy is not None or prose_ey is not None:
+                start_yr = int(prose_sy) if prose_sy is not None and pd.notna(prose_sy) else None
+                end_yr = int(prose_ey) if prose_ey is not None and pd.notna(prose_ey) else None
+                temp_span_prov = "prose_temporal_coverage_span"
+            else:
+                temp_span_prov = "unassessed_no_temporal_span"
+
+            cadence_cls = classify_cadence(
+                temp_res_raw, uf_raw, title, start_yr, end_yr, desc, raw_id=raw_id,
+                prose_cadence_raw=prose_cad_raw, prose_cadence_role=prose_cad_role,
+            )
             out_cadences, agg_window_raw = extract_temporal_output_details(
-                raw_id, title, desc, temp_res_raw, cadence_cls
+                raw_id, title, desc, temp_res_raw, cadence_cls,
+                prose_cadence_raw=prose_cad_raw, prose_cadence_role=prose_cad_role,
             )
 
-            # 3. Geographic coverage & observation domain
-            bw, bs, be, bn, geo_cls, obs_domain = classify_geographic_coverage(
-                bbox_raw, title, desc, raw_id, sid
+            # 3. Geographic coverage, observation domain & biome mask
+            bw, bs, be, bn, geo_cls, obs_domain, geo_prov, domain_mask = classify_geographic_coverage(
+                bbox_raw, title, desc, raw_id, sid, prose_bbox=prose_bbox, kw_raw=kw_raw
             )
 
             # 4. Producer vs Host, Provider Pool & Institutional Jurisdiction Tier
@@ -1865,14 +2145,14 @@ def main() -> None:
                 sid, raw_id, title, uf_raw, cadence_cls, start_yr, end_yr, t_end_raw, kw_raw, desc
             )
 
-            # 6. Sentinel data dependency (with launch-year, HLS-L30, and retrospective provenance)
+            # 6. Sentinel data dependency (with launch-year, HLS-L30, asset-type filtering, and retrospective provenance)
             uses_sent, sent_missions, sent_status = detect_sentinel_usage(
                 raw_id, title, desc, plat_raw, kw_raw, end_yr, is_ongoing, start_yr
             )
 
-            # 7. Processing level, subtype, provenance & EO ontology
-            p_lvl, p_subtype, ont_cls, is_ard, lvls_avail, lvl_prov, out_cat = classify_level_and_ontology(
-                sid, raw_id, title, desc, lvl_raw, kw_raw
+            # 7. Processing level, subtype, conflict provenance & EO ontology
+            p_lvl, p_subtype, ont_cls, is_ard, lvls_avail, lvl_prov, out_cat, lvl_conflict, lvl_conflict_reason = classify_level_and_ontology(
+                sid, raw_id, title, desc, lvl_raw, kw_raw, eumetsat_primary=eum_p
             )
             if (
                 sid == "07_ec_jrc_data_catalogue"
@@ -1887,7 +2167,9 @@ def main() -> None:
 
             c_key = build_canonical_key(doi_raw, title, raw_id, pool)
             rec_uid = f"{sid}::{raw_id or idx}"
-            if (sid, raw_id or "") in PROVIDER_DOCUMENTED_LEVEL_SPECS and not adj_citation:
+            if lvl_prov == "crosswalked_primary_eumetsat_navigator" and eum_p and not adj_citation:
+                adj_citation = eum_p.get("landing_url_raw")
+            elif (sid, raw_id or "") in PROVIDER_DOCUMENTED_LEVEL_SPECS and not adj_citation:
                 adj_citation = PROVIDER_DOCUMENTED_LEVEL_SPECS[(sid, raw_id or "")]["citation"]
 
             variant_summary, rec_variants = _extract_product_variants(
@@ -1904,6 +2186,11 @@ def main() -> None:
                 spat_raw,
                 doi_raw,
                 url_raw,
+                lvl_conflict=lvl_conflict,
+                prose_cadence_by_epoch=prose_cad_epoch,
+                prose_spat_cand=prose_spat_cand,
+                prose_spat_role=prose_spat_role,
+                spatial_footprint_m=spatial_footprint_m,
             )
             if rec_variants:
                 product_variant_rows.extend(rec_variants)
@@ -1926,6 +2213,8 @@ def main() -> None:
                 "processing_level": p_lvl,
                 "processing_levels_available": lvls_avail,
                 "processing_level_provenance": lvl_prov,
+                "processing_level_conflict": lvl_conflict,
+                "processing_level_conflict_reason": lvl_conflict_reason,
                 "product_level_subtype": p_subtype,
                 "product_ontology_class": ont_cls,
                 "product_output_category": out_cat,
@@ -1936,7 +2225,11 @@ def main() -> None:
                 "sentinel_lineage_status": sent_status,
                 "spatial_resolution_raw": spat_raw,
                 "spatial_resolution_meters": spat_m,
+                "spatial_footprint_meters": spatial_footprint_m,
                 "title_token_resolution_meters": title_spat_m,
+                "prose_spatial_candidate_raw": prose_spat_cand,
+                "prose_spatial_role": prose_spat_role,
+                "prose_spatial_evidence_sentence": prose_spat_ev,
                 "spatial_resolution_conflict": spat_conflict,
                 "spatial_resolution_conflict_reason": spat_conflict_reason,
                 "adjudicated_output_grid_meters": adj_spat_m,
@@ -1950,11 +2243,15 @@ def main() -> None:
                 "update_frequency_raw": uf_raw,
                 "temporal_cadence_class": cadence_cls,
                 "temporal_output_cadences": out_cadences,
+                "temporal_cadence_by_epoch": prose_cad_epoch,
+                "prose_cadence_role": prose_cad_role,
+                "prose_cadence_evidence_sentence": prose_cad_ev,
                 "temporal_aggregation_window_raw": agg_window_raw,
                 "temporal_start_raw": t_start_raw,
                 "temporal_end_raw": t_end_raw,
                 "temporal_start_year": start_yr,
                 "temporal_end_year": end_yr,
+                "temporal_span_provenance": temp_span_prov,
                 "is_ongoing_archive": is_ongoing,
                 "operational_maturity_class": mat_cls,
                 "is_superseded_edition": mat_cls == "deprecated_or_superseded",
@@ -1964,8 +2261,11 @@ def main() -> None:
                 "bbox_east": be,
                 "bbox_north": bn,
                 "geographic_coverage_class": geo_cls,
+                "geographic_coverage_provenance": geo_prov,
                 "observation_domain_class": obs_domain,
+                "observation_domain_mask": domain_mask,
                 "platform_sensor_raw": plat_raw,
+                "asset_type_raw": asset_type_raw,
                 "doi": doi_raw,
                 "license": lic_raw,
                 "access_url": url_raw,
