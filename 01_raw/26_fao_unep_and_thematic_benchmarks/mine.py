@@ -19,7 +19,9 @@ from __future__ import annotations
 
 import datetime as dt
 import hashlib
+import html
 import json
+import re
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -159,6 +161,7 @@ ZENODO_PINNED_RECORD_IDS = [
     5553187,   # WAD2M Wetland Area and Dynamics for Methane Modeling (doi:10.5281/zenodo.5553187)
     14816612,  # Global floating kelp forest marine heatwave dataset (doi:10.5281/zenodo.14816612)
     5825755,   # Beagle kelp maps (doi:10.5281/zenodo.5825755)
+    18385275,  # PML-V2.2 companion calibration/validation/simulation archive (doi:10.5281/zenodo.18385275)
 ]
 
 DATACITE_PINNED_DOIS = [
@@ -174,6 +177,45 @@ DATACITE_PINNED_DOIS = [
     "10.1594/PANGAEA.911944",    # Global terrestrial carbon/water flux EO benchmark (PANGAEA)
     "10.1594/PANGAEA.897399",    # Global EO biophysical benchmark (PANGAEA)
     "10.7910/DVN/EJSXHS",        # CSIF Contiguous Solar-Induced Fluorescence (Harvard Dataverse)
+    "10.20783/DIAS.667",         # J-OFURO3 Ver.1.2 (DIAS: global ice-free ocean heat, momentum & freshwater fluxes)
+    "10.20783/DIAS.612",         # J-OFURO3 V1.1 (DIAS)
+    "10.57760/sciencedb.27228",  # CoSEB global land surface radiation and heat fluxes (ScienceDB)
+    "10.57760/sciencedb.35001",  # HSIF Global Harmonized SIF 0.05° Daily (ScienceDB)
+    "10.57760/sciencedb.018aw",  # GOME-LSIF Global SIF 1995-2011 (ScienceDB)
+    "10.57760/sciencedb.019ud",  # FY-3F MERSI-III global LAI/FPAR v1.0 (ScienceDB)
+    "10.57760/sciencedb.014ku",  # Quasi-global SSS-RecNet sea surface salinity (ScienceDB)
+    "10.57760/sciencedb.018ot",  # HGRR Global MODIS-consistent 1 km LST (ScienceDB)
+    "10.57760/sciencedb.30916",  # FY-3 VIRR Global LST 2008-2019 (ScienceDB)
+    "10.57760/sciencedb.16933",  # Global 1h 10km Surface Solar Radiation (ScienceDB)
+    "10.57760/sciencedb.17942",  # FY-3 Global Microwave Integrated Drought Index (ScienceDB)
+    "10.6096/13",                # Theia Hugonnet et al. Accelerated global glacier mass loss (2000-2019)
+    "10.6096/1007",              # Theia Millan et al. Ice velocity and thickness of the world's glaciers
+    "10.6096/ctoh_sit_2023_01",  # Theia CTOH Arctic & Antarctic sea ice thickness CDR
+    "10.6096/3008",              # Theia Snow Depth on Sea Ice CryoSat-2 + ICESat-2
+    "10.6084/m9.figshare.26861767.v2",  # Global ocean latent & sensible heat fluxes (Figshare)
+    "10.5281/zenodo.18385275",   # PML-V2.2 calibration & extended dataset companion (Zenodo)
+]
+
+DOI_CSL_PINNED = [
+    "10.11888/Terre.tpdc.303314",  # TPDC PML-V2.2: 0.1° PML-V2.2a/b/c (1982-near present) via DOI CSL-JSON negotiation
+]
+
+DATACITE_EO_PREFIX_QUERIES = [
+    {"prefix": "10.5880", "query": "g3p", "page[size]": "25"},
+    {"prefix": "10.18160", "query": "FLUXCOM", "page[size]": "50"},
+    {"prefix": "10.20783", "resource-type-id": "dataset", "query": "+(\"J-OFURO\" OR GSMaP OR \"surface flux\")", "page[size]": "25"},
+    {
+        "prefix": "10.57760",
+        "resource-type-id": "dataset",
+        "query": "+global +(CoSEB OR \"solar-induced chlorophyll fluorescence\" OR \"surface radiation\" OR \"sea surface salinity\" OR \"LAI/FPAR\" OR \"land surface temperature\") +(satellite OR MODIS OR FY-3 OR GOME OR SMOS OR GLASS)",
+        "page[size]": "25",
+    },
+    {
+        "prefix": "10.6096",
+        "resource-type-id": "dataset",
+        "query": "+(glacier OR \"sea-ice\" OR \"snow depth\") +(global OR hemisphere OR CryoSat OR Envisat OR Sentinel OR ASTER OR world)",
+        "page[size]": "25",
+    },
 ]
 
 
@@ -213,10 +255,155 @@ def _zenodo_get_with_rate_limit(
     return last_resp
 
 
+def _fetch_dias_landing_metadata(session: requests.Session, landing_url: str) -> dict[str, Any] | None:
+    """Extract structured resolution, temporal extent, and keywords from an official DIAS dataset page."""
+    if not landing_url or "search.diasjp.net/" not in landing_url:
+        return None
+    try:
+        r = session.get(landing_url, timeout=20)
+        if r.status_code != 200:
+            return None
+        html_txt = r.text
+    except Exception:
+        return None
+
+    out: dict[str, Any] = {}
+    for ld_raw in re.findall(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html_txt, re.S | re.I):
+        try:
+            obj = json.loads(html.unescape(ld_raw))
+        except Exception:
+            continue
+        if isinstance(obj, dict) and obj.get("@type") == "Dataset":
+            if isinstance(obj.get("keywords"), list):
+                out["keywords"] = [str(k).strip() for k in obj["keywords"] if k]
+            break
+
+    clean = re.sub(r"<[^>]+>", "\n", html_txt)
+    lines = [re.sub(r"\s+", " ", html.unescape(ln)).strip() for ln in clean.splitlines()]
+    lines = [ln for ln in lines if ln]
+
+    m_beg = re.search(r"Begin\s+Date\s*(\d{4}-\d{2}-\d{2})", " ".join(lines), re.I)
+    m_end = re.search(r"End\s+Date\s*(\d{4}-\d{2}-\d{2})", " ".join(lines), re.I)
+    if m_beg:
+        out["temporal_start_raw"] = m_beg.group(1)
+    if m_end:
+        out["temporal_end_raw"] = m_end.group(1)
+
+    joined = " | ".join(lines)
+    m_deg = re.search(r"\brow\s*\|\s*\d+\s*\|\s*(\d+(?:\.\d+)?)\s*\(?(deg|degree|degrees|km|m)\)?", joined, re.I)
+    if m_deg:
+        out["spatial_resolution_raw"] = f"{m_deg.group(1)} {m_deg.group(2)}"
+    m_time = re.search(r"\btime\s*\|\s*([a-z0-9,\s/-]+?)(?:\s*\(|\s*\|\s*Keyword)", joined, re.I)
+    if m_time:
+        t_clean = re.sub(r"\s+", " ", m_time.group(1)).strip(" ,|")
+        if t_clean and not t_clean.isdigit():
+            out["temporal_resolution_raw"] = "; ".join(p.strip() for p in t_clean.split(",") if p.strip())
+    return out or None
+
+
+def _fetch_datacite_and_csl(session: requests.Session, queried: list[str]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    g3p_url = "https://api.datacite.org/dois"
+    g3p_records: list[dict[str, Any]] = []
+    seen_dc_ids: set[str] = set()
+
+    for dc_params in DATACITE_EO_PREFIX_QUERIES:
+        r_dc = session.get(g3p_url, params=dc_params, timeout=60)
+        if r_dc.status_code == 200:
+            queried.append(f"{g3p_url}?prefix={dc_params['prefix']}&query={dc_params['query']}")
+            for item in r_dc.json().get("data", []):
+                dc_id = str(item.get("id", "")).lower()
+                if not dc_id or dc_id in seen_dc_ids:
+                    continue
+                if "mistrals-hymex." in dc_id:
+                    continue
+                seen_dc_ids.add(dc_id)
+                g3p_records.append(item)
+
+    for doi in DATACITE_PINNED_DOIS:
+        if doi.lower() in seen_dc_ids:
+            continue
+        r_doi = session.get(f"{g3p_url}/{doi}", timeout=30)
+        if r_doi.status_code == 200:
+            item = r_doi.json().get("data")
+            if isinstance(item, dict) and item.get("id"):
+                seen_dc_ids.add(str(item["id"]).lower())
+                g3p_records.append(item)
+
+    # Enrich DIAS DataCite items directly with structured DIAS catalogue resolution & temporal extent
+    for item in g3p_records:
+        dc_id = str(item.get("id") or "").lower()
+        u_attr = str((item.get("attributes") or {}).get("url") or "")
+        if dc_id.startswith("10.20783/") and "search.diasjp.net/" in u_attr:
+            dias_md = _fetch_dias_landing_metadata(session, u_attr)
+            if dias_md:
+                item["_dias_metadata"] = dias_md
+
+    (DATA_DIR / "gfz_datacite_g3p_benchmarks.json").write_text(
+        json.dumps({"data": g3p_records}, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+
+    csl_records: list[dict[str, Any]] = []
+    for csl_doi in DOI_CSL_PINNED:
+        r_csl = session.get(f"https://doi.org/{csl_doi}", headers={"Accept": "application/vnd.citationstyles.csl+json"}, timeout=25)
+        if r_csl.status_code == 200:
+            try:
+                obj = r_csl.json()
+                if isinstance(obj, dict) and obj.get("DOI"):
+                    csl_records.append(obj)
+                    queried.append(f"https://doi.org/{csl_doi} (Accept: application/vnd.citationstyles.csl+json)")
+            except Exception:
+                pass
+    (DATA_DIR / "doi_csl_benchmarks.json").write_text(
+        json.dumps({"data": csl_records}, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return g3p_records, csl_records
+
+
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     session = build_session()
     queried: list[str] = []
+    if "--datacite-and-csl-only" in sys.argv[1:]:
+        fao_path = DATA_DIR / "fao_gismgr_workspaces_and_mapsets.json"
+        fao_mapsets = json.loads(fao_path.read_text(encoding="utf-8")).get("mapsets", []) if fao_path.exists() else []
+        z_path = DATA_DIR / "zenodo_thematic_benchmarks.jsonl"
+        zenodo_records = [json.loads(line) for line in z_path.open(encoding="utf-8")] if z_path.exists() else []
+        zenodo_ids = {int(r["id"]) for r in zenodo_records if r.get("id")}
+        for z_rec_id in ZENODO_PINNED_RECORD_IDS:
+            if z_rec_id not in zenodo_ids:
+                r_pin = _zenodo_get_with_rate_limit(session, f"https://zenodo.org/api/records/{z_rec_id}", timeout=30)
+                if r_pin.status_code == 200:
+                    h = r_pin.json()
+                    if h.get("id") and int(h["id"]) not in zenodo_ids:
+                        h["_matched_benchmark_query"] = "pinned_authoritative_eo_flagship"
+                        h["_matched_benchmark_queries"] = ["pinned_authoritative_eo_flagship"]
+                        zenodo_records.append(h)
+                        zenodo_ids.add(int(h["id"]))
+        with z_path.open("w", encoding="utf-8") as f:
+            for rec in zenodo_records:
+                f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        # Keep zenodo_pagination_audit total synchronized if a pinned Zenodo record was added
+        pag_path = DATA_DIR / "zenodo_pagination_audit.json"
+        if pag_path.exists():
+            pag_obj = json.loads(pag_path.read_text(encoding="utf-8"))
+            pag_obj["total_unique_zenodo_records"] = len(zenodo_records)
+            pag_path.write_text(json.dumps(pag_obj, ensure_ascii=False, indent=2), encoding="utf-8")
+        g3p_records, csl_records = _fetch_datacite_and_csl(session, queried)
+        prior_eps = []
+        if LAST_ACCESS_FILE.exists():
+            prior_eps = [ln.strip()[2:].strip() for ln in LAST_ACCESS_FILE.read_text(encoding="utf-8").splitlines() if ln.strip().startswith("- https://")]
+        all_eps = list(dict.fromkeys([*prior_eps, *queried]))
+        write_last_access(
+            all_eps,
+            len(fao_mapsets) + len(zenodo_records) + len(g3p_records) + len(csl_records),
+            "200 OK",
+            notes=(
+                f"FAO GISMGR mapsets (all pages): {len(fao_mapsets)}, Zenodo benchmark datasets: {len(zenodo_records)}, "
+                f"DataCite benchmark records (incl. DIAS, ScienceDB, Theia, GFZ, ICOS, PANGAEA): {len(g3p_records)}, "
+                f"DOI CSL-JSON records (TPDC): {len(csl_records)}"
+            ),
+        )
+        return
 
     # 1. FAO GISMGR v2 workspaces and mapsets (with full pagination across all pages)
     workspaces: list[dict[str, Any]] = []
@@ -486,45 +673,17 @@ def main() -> None:
         for rec in zenodo_records:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-    # 3. DataCite API for G3P (GFZ), FLUXCOM-X-BASE (ICOS), LCSPP/LCSIF, CSIF, and PANGAEA benchmarks
-    g3p_url = "https://api.datacite.org/dois"
-    g3p_records: list[dict[str, Any]] = []
-    seen_dc_ids: set[str] = set()
-
-    for dc_params in [
-        {"prefix": "10.5880", "query": "g3p", "page[size]": "25"},
-        {"prefix": "10.18160", "query": "FLUXCOM", "page[size]": "50"},
-    ]:
-        r_dc = session.get(g3p_url, params=dc_params, timeout=60)
-        if r_dc.status_code == 200:
-            queried.append(f"{g3p_url}?prefix={dc_params['prefix']}&query={dc_params['query']}")
-            for item in r_dc.json().get("data", []):
-                dc_id = str(item.get("id", "")).lower()
-                if dc_id and dc_id not in seen_dc_ids:
-                    seen_dc_ids.add(dc_id)
-                    g3p_records.append(item)
-
-    for doi in DATACITE_PINNED_DOIS:
-        if doi.lower() in seen_dc_ids:
-            continue
-        r_doi = session.get(f"{g3p_url}/{doi}", timeout=30)
-        if r_doi.status_code == 200:
-            item = r_doi.json().get("data")
-            if isinstance(item, dict) and item.get("id"):
-                seen_dc_ids.add(str(item["id"]).lower())
-                g3p_records.append(item)
-
-    (DATA_DIR / "gfz_datacite_g3p_benchmarks.json").write_text(
-        json.dumps({"data": g3p_records}, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    # 3. DataCite API (G3P, FLUXCOM-X-BASE, J-OFURO3, CoSEB, Theia, ScienceDB, PANGAEA) & DOI CSL-JSON (TPDC)
+    g3p_records, csl_records = _fetch_datacite_and_csl(session, queried)
 
     write_last_access(
         queried,
-        len(fao_mapsets) + len(zenodo_records) + len(g3p_records),
+        len(fao_mapsets) + len(zenodo_records) + len(g3p_records) + len(csl_records),
         "200 OK",
         notes=(
             f"FAO GISMGR mapsets (all pages): {len(fao_mapsets)}, Zenodo benchmark datasets: {len(zenodo_records)}, "
-            f"DataCite benchmark records (G3P, FLUXCOM-X, LCSPP, PANGAEA, CSIF): {len(g3p_records)}"
+            f"DataCite benchmark records (incl. DIAS, ScienceDB, Theia, GFZ, ICOS, PANGAEA): {len(g3p_records)}, "
+            f"DOI CSL-JSON records (TPDC): {len(csl_records)}"
         ),
     )
 

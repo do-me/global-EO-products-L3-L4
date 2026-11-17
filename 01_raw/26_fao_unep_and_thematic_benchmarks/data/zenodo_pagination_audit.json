@@ -1,7 +1,7 @@
 {
   "page_size": 25,
   "max_pages_per_query": 20,
-  "total_unique_zenodo_records": 1362,
+  "total_unique_zenodo_records": 1363,
   "truncated_query_count": 0,
   "carry_forward_restored_records": 278,
   "carry_forward_missing_ids": [],

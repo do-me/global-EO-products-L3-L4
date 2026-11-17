@@ -141,23 +141,102 @@ def fetch_agency(session: requests.Session, slug: str, parent_id: str) -> tuple[
     return slug, cols
 
 
+def resolve_ceda_datacite_crosswalk(
+    session: requests.Session,
+    ceda_collections: list[dict[str, Any]],
+) -> dict[str, dict[str, Any]]:
+    """
+    Resolve primary CEDA dataset DOIs (`10.5285/<uuid>`) directly via the DataCite REST API
+    instead of falling back to STAC `describedby` links (which frequently point to input L1/L2
+    products or methodology journal articles rather than the dataset itself).
+    """
+    uuids = [
+        str(c.get("id")).strip()
+        for c in ceda_collections
+        if isinstance(c, dict) and c.get("id") and len(str(c.get("id")).strip()) == 32
+    ]
+    uuids = list(dict.fromkeys(uuids))
+    by_uuid: dict[str, dict[str, Any]] = {}
+    dc_api = "https://api.datacite.org/dois"
+    for i in range(0, len(uuids), 40):
+        batch = uuids[i : i + 40]
+        q = "doi:(" + " OR ".join(f"10.5285/{u}" for u in batch) + ")"
+        r = session.get(dc_api, params={"query": q, "page[size]": 100}, timeout=30)
+        if r.status_code != 200:
+            continue
+        for item in r.json().get("data", []):
+            did = str(item.get("id") or "").strip().lower()
+            if not did.startswith("10.5285/"):
+                continue
+            uid = did.split("10.5285/", 1)[1]
+            attr = item.get("attributes", {}) or {}
+            titles = [t.get("title") for t in (attr.get("titles") or []) if isinstance(t, dict) and t.get("title")]
+            by_uuid[uid] = {
+                "doi": did,
+                "url": attr.get("url") or f"https://catalogue.ceda.ac.uk/uuid/{uid}/",
+                "publisher": attr.get("publisher"),
+                "publicationYear": attr.get("publicationYear"),
+                "title": titles[0] if titles else None,
+            }
+    return {
+        "source": "https://api.datacite.org/dois?query=doi:(10.5285/<uuid>)",
+        "queried_uuid_count": len(uuids),
+        "matched_count": len(by_uuid),
+        "by_uuid": by_uuid,
+    }
+
+
 def main() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     session = build_session(pool_maxsize=16)
+    crosswalk_only = "--crosswalk-only" in sys.argv[1:]
+
+    if crosswalk_only:
+        ceda_path = DATA_DIR / "fedeo_ceda_cci.jsonl"
+        ceda_cols = [json.loads(line) for line in ceda_path.open(encoding="utf-8")] if ceda_path.exists() else []
+        cw = resolve_ceda_datacite_crosswalk(session, ceda_cols)
+        (DATA_DIR / "ceda_datacite_doi_crosswalk.json").write_text(
+            json.dumps(cw, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        # Preserve prior queried endpoint counts & append DataCite crosswalk cleanly
+        prior_lines = LAST_ACCESS_FILE.read_text(encoding="utf-8").splitlines() if LAST_ACCESS_FILE.exists() else []
+        prior_eps = [ln.strip()[2:].strip() for ln in prior_lines if ln.strip().startswith("- https://")]
+        prior_eps = [ep for ep in prior_eps if "api.datacite.org/dois" not in ep]
+        prior_eps.append(f"https://api.datacite.org/dois?prefix=10.5285 ({cw['matched_count']}/{cw['queried_uuid_count']} CEDA UUIDs)")
+        total = 0
+        for p in DATA_DIR.glob("fedeo_*.jsonl"):
+            total += sum(1 for _ in p.open(encoding="utf-8"))
+        if (DATA_DIR / "ceda_native_stac.json").exists():
+            total += len(json.loads((DATA_DIR / "ceda_native_stac.json").read_text(encoding="utf-8")).get("collections", []))
+        if (DATA_DIR / "esa_maap_stac.json").exists():
+            total += len(json.loads((DATA_DIR / "esa_maap_stac.json").read_text(encoding="utf-8")).get("collections", []))
+        write_last_access(sorted(dict.fromkeys(prior_eps)), total, "200 OK", notes="Added CEDA DataCite 10.5285/<uuid> primary DOI crosswalk.")
+        return
+
     total = 0
     queried: list[str] = []
 
+    ceda_cols_for_cw: list[dict[str, Any]] = []
     with ThreadPoolExecutor(max_workers=6) as ex:
         futs = {ex.submit(fetch_agency, session, slug, pid): (slug, pid) for slug, pid in AGENCIES}
         for fut in as_completed(futs):
             slug, pid = futs[fut]
             _, cols = fut.result()
+            if slug == "ceda_cci":
+                ceda_cols_for_cw = cols
             total += len(cols)
             queried.append(f"https://fedeo.ceos.org/collections?parentIdentifier={pid} ({len(cols)} collections)")
             out_path = DATA_DIR / f"fedeo_{slug}.jsonl"
             with out_path.open("w", encoding="utf-8") as f:
                 for c in cols:
                     f.write(json.dumps(c, ensure_ascii=False) + "\n")
+
+    if ceda_cols_for_cw:
+        cw = resolve_ceda_datacite_crosswalk(session, ceda_cols_for_cw)
+        (DATA_DIR / "ceda_datacite_doi_crosswalk.json").write_text(
+            json.dumps(cw, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        queried.append(f"https://api.datacite.org/dois?prefix=10.5285 ({cw['matched_count']}/{cw['queried_uuid_count']} CEDA UUIDs)")
 
     # Also fetch native UK CEDA STAC API
     ceda_url = "https://api.stac.ceda.ac.uk/collections"

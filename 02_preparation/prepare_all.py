@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import html
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -45,6 +46,34 @@ TAXONOMY_DIR = BASE_DIR / "reference_taxonomies"
 # ---------------------------------------------------------------------------
 # Helper utilities (strictly deterministic, zero manual imputation)
 # ---------------------------------------------------------------------------
+def strict_json_sanitize(obj: Any) -> Any:
+    """Recursively replace NaN/Inf/NA/numpy scalars with strict RFC 8259 JSON values."""
+    if obj is None:
+        return None
+    if isinstance(obj, bool):
+        return obj
+    if isinstance(obj, int):
+        return obj
+    if isinstance(obj, float):
+        return None if (math.isnan(obj) or math.isinf(obj)) else obj
+    if isinstance(obj, str):
+        return obj
+    if hasattr(obj, "tolist") and not isinstance(obj, (dict, list, tuple)):
+        return strict_json_sanitize(obj.tolist())
+    if isinstance(obj, dict):
+        return {str(k): strict_json_sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [strict_json_sanitize(v) for v in obj]
+    try:
+        if pd.isna(obj):
+            return None
+    except Exception:
+        pass
+    if hasattr(obj, "item"):
+        return strict_json_sanitize(obj.item())
+    return str(obj)
+
+
 def clean_str(val: Any) -> str | None:
     if val is None:
         return None
@@ -63,7 +92,10 @@ def clean_str(val: Any) -> str | None:
     s = str(val).strip()
     if not s or s.lower() in ("none", "null", "n/a", "not provided", "unknown", "nan"):
         return None
-    # Strip HTML tags if present in descriptions, then decode HTML entities cleanly
+    # Unescape double-encoded HTML entities safely, strip HTML tags, then decode entities cleanly
+    for _ in range(2):
+        if "&" in s:
+            s = html.unescape(s)
     if re.search(r"</?(?:p|div|br|ul|ol|li|strong|em|b|i|span|a|h[1-6]|table|tr|td|th)\b", s, re.IGNORECASE):
         s = re.sub(r"<[^>]+>", " ", s)
     if "&" in s:
@@ -255,9 +287,25 @@ def extract_stac_providers(rec: dict[str, Any]) -> tuple[str | None, str | None]
     return prod_str, host_str
 
 
-def extract_stac_doi_and_url(rec: dict[str, Any]) -> tuple[str | None, str | None]:
-    doi = clean_str(rec.get("sci:doi") or rec.get("doi"))
-    url = None
+def extract_stac_doi_provenance(rec: dict[str, Any]) -> dict[str, str | None]:
+    """
+    Extract verified primary dataset DOI and non-primary related DOIs (inputs, journal papers)
+    from a STAC Collection without promoting `describedby`/`related` citations into `doi`.
+    """
+    explicit_doi = clean_doi(rec.get("sci:doi") or rec.get("doi"))
+    doi = explicit_doi
+    doi_source: str | None = "stac_explicit_field" if doi else None
+    doi_relation: str | None = "is_primary_dataset" if doi else None
+    related_dois: list[str] = []
+    preferred_url: str | None = None
+    fallback_url: str | None = None
+
+    for pub in (rec.get("sci:publications") or []):
+        if isinstance(pub, dict):
+            pd_c = clean_doi(pub.get("doi") or pub.get("citation"))
+            if pd_c and pd_c != doi:
+                related_dois.append(pd_c)
+
     for lk in (rec.get("links") or []):
         if not isinstance(lk, dict):
             continue
@@ -265,11 +313,50 @@ def extract_stac_doi_and_url(rec: dict[str, Any]) -> tuple[str | None, str | Non
         href = clean_str(lk.get("href"))
         if not href:
             continue
-        if "doi.org/" in href and not doi:
-            doi = href
-        if rel in ("canonical", "alternate", "about", "describedby", "self") and not url and href.startswith("http"):
-            url = href
-    return doi, url
+        if "doi.org/" in href:
+            d_href = clean_doi(href)
+            if d_href:
+                if not doi and rel in ("cite-as", "canonical"):
+                    doi = d_href
+                    doi_source = f"stac_link_{rel}"
+                    doi_relation = "is_primary_dataset"
+                elif d_href != doi:
+                    related_dois.append(d_href)
+        if href.startswith("http"):
+            if rel in ("canonical", "about", "alternate") and "httpAccept=" not in href and not preferred_url:
+                preferred_url = clean_url(href)
+            elif rel == "describedby" and "catalogue.ceda.ac.uk/uuid/" in href and not preferred_url:
+                preferred_url = clean_url(href)
+            elif rel in ("canonical", "alternate", "about", "describedby", "self") and not fallback_url:
+                fallback_url = clean_url(href)
+
+    rel_str = "; ".join(dict.fromkeys(related_dois)) if related_dois else None
+    return {
+        "doi": doi,
+        "url": preferred_url or fallback_url,
+        "doi_source": doi_source,
+        "doi_relation": doi_relation,
+        "related_dois": rel_str,
+    }
+
+
+def extract_stac_doi_and_url(rec: dict[str, Any]) -> tuple[str | None, str | None]:
+    info = extract_stac_doi_provenance(rec)
+    return info["doi"], info["url"]
+
+
+def _load_ceda_doi_crosswalk() -> dict[str, str]:
+    cw_path = RAW_DIR / "14_ceos_fedeo_agencies/data/ceda_datacite_doi_crosswalk.json"
+    if not cw_path.exists():
+        return {}
+    try:
+        data = json.loads(cw_path.read_text(encoding="utf-8")).get("by_uuid", {})
+        return {str(k).strip().lower(): str(v["doi"]).strip() for k, v in data.items() if isinstance(v, dict) and v.get("doi")}
+    except Exception:
+        return {}
+
+
+_CEDA_DOI_CROSSWALK = _load_ceda_doi_crosswalk()
 
 
 # ---------------------------------------------------------------------------
@@ -314,7 +401,7 @@ AERIAL_ORTHOPHOTO_PATTERNS = re.compile(
 
 # Multi-temporal composites, gridded syntheses, or L2-tagged CDRs that represent spatially gridded/composited EO products
 COMPOSITE_OR_L3_OVERRIDE_PATTERNS = re.compile(
-    r"(\b(?:level[- ]?[34][abc]?\b(?!(?:[-_ ]?sr)?\s*-\s*cloud optimized)|l3[abc]?\b|l4[abc]?\b(?![-_]?5\b)(?!-sr-1\b)|l2 and l3\b|l2/3\b|"
+    r"(\b(?:level[- ]?[34][abcgsup]?\b(?!(?:[-_ ]?sr)?\s*-\s*cloud optimized)|l3[abcgsup]?\b|l4[a-d]?\b(?![-_]?5\b)(?!-sr-1\b)|l2 and l3\b|l2/3\b|"
     r"global mosaic|cloudless mosaic|monthly mosaic|quarterly mosaic|annual mosaic|"
     r"cloud-free annual composites?|s2mosaic|pixel based image composite|"
     r"8-day.*composite|10-day.*composite|16-day.*composite|32-day.*composite|monthly.*composite|annual.*composite|"
@@ -373,7 +460,7 @@ def check_l3_l4_eligibility(
     if lvl:
         lvl_tokens = [t.strip().lower() for t in re.split(r"[;,/|]", lvl) if t.strip()]
         has_l3_l4 = any(
-            re.match(r"^(?:level[- ]?|l)?[34][abcgs]?$", t)
+            re.match(r"^(?:level[- ]?|l)?[34][abcgsup]?$", t)
             or "level 3" in t
             or "level 4" in t
             for t in lvl_tokens
@@ -756,7 +843,8 @@ def parse_cads_stac(source_id: str, filename: str, default_org: str) -> list[dic
     for c in data.get("collections", []):
         t_start, t_end = extract_stac_temporal(c.get("extent"))
         bbox = extract_stac_bbox(c.get("extent"))
-        doi, url = extract_stac_doi_and_url(c)
+        d_info = extract_stac_doi_provenance(c)
+        doi, url = d_info["doi"], d_info["url"]
         prod, _ = extract_stac_providers(c)
         title_str = clean_str(c.get("title"))
         desc_str = clean_str(c.get("description"))
@@ -781,6 +869,9 @@ def parse_cads_stac(source_id: str, filename: str, default_org: str) -> list[dic
             "producing_org_raw": prod or default_org,
             "platform_sensor_raw": None,
             "doi_raw": doi,
+            "doi_source_raw": d_info["doi_source"],
+            "doi_relation_type_raw": d_info["doi_relation"],
+            "related_dois_raw": d_info["related_dois"],
             "license_raw": clean_str(c.get("license")),
             "landing_url_raw": url,
             "keywords_raw": clean_str(c.get("keywords")),
@@ -809,7 +900,18 @@ def parse_generic_stac_collections(source_id: str, collections: list[dict[str, A
             continue
         t_start, t_end = extract_stac_temporal(c.get("extent"))
         bbox = extract_stac_bbox(c.get("extent"))
-        doi, url = extract_stac_doi_and_url(c)
+        d_info = extract_stac_doi_provenance(c)
+        doi, url = d_info["doi"], d_info["url"]
+        doi_src, doi_rel = d_info["doi_source"], d_info["doi_relation"]
+        rel_dois = d_info["related_dois"]
+        cid = clean_str(c.get("id"))
+        if source_id == "14_ceos_fedeo_agencies" and not doi and cid and cid.lower() in _CEDA_DOI_CROSSWALK:
+            doi = _CEDA_DOI_CROSSWALK[cid.lower()]
+            doi_src = "datacite_primary_ceda_uuid"
+            doi_rel = "is_primary_dataset"
+            if rel_dois:
+                rel_parts = [x.strip() for x in rel_dois.split(";") if x.strip() and x.strip().lower() != doi.lower()]
+                rel_dois = "; ".join(rel_parts) if rel_parts else None
         prod, host = extract_stac_providers(c)
         summaries = c.get("summaries", {}) if isinstance(c.get("summaries"), dict) else {}
         lvl = clean_str(
@@ -830,7 +932,7 @@ def parse_generic_stac_collections(source_id: str, collections: list[dict[str, A
         )
         rows.append({
             "source_id": source_id,
-            "raw_id": clean_str(c.get("id")),
+            "raw_id": cid,
             "title": clean_str(c.get("title") or c.get("id")),
             "description": clean_str(c.get("description")),
             "processing_level_raw": lvl,
@@ -844,6 +946,9 @@ def parse_generic_stac_collections(source_id: str, collections: list[dict[str, A
             "hosting_platform_raw": host,
             "platform_sensor_raw": plat,
             "doi_raw": doi,
+            "doi_source_raw": doi_src,
+            "doi_relation_type_raw": doi_rel,
+            "related_dois_raw": rel_dois,
             "license_raw": clean_str(c.get("license")),
             "landing_url_raw": url,
             "keywords_raw": clean_str(c.get("keywords") or c.get("gee:categories") or c.get("osc:variables") or c.get("Theme")),
@@ -1623,6 +1728,13 @@ def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") 
                 kw_str = "; ".join(dict.fromkeys(skw_items)) if skw_items else None
 
                 url = _select_cmr_landing_url(e, umm, doi, cid, short_name)
+                doi_c = clean_doi(doi)
+                cmr_rel_dois: list[str] = []
+                for ru in (umm.get("RelatedUrls") or []):
+                    if isinstance(ru, dict) and str(ru.get("Type") or "").upper() == "VIEW RELATED INFORMATION":
+                        d_ru = clean_doi(ru.get("URL"))
+                        if d_ru and d_ru != doi_c:
+                            cmr_rel_dois.append(d_ru)
 
                 rows.append({
                     "source_id": source_id,
@@ -1640,6 +1752,9 @@ def parse_16_nasa_cmr(source_id: str = "16_nasa_cmr", pattern: str = "*.jsonl") 
                     "producing_org_raw": clean_str(e.get("organizations") or e.get("archive_center") or e.get("data_center")),
                     "platform_sensor_raw": plat_str,
                     "doi_raw": doi,
+                    "doi_source_raw": "nasa_cmr_umm_doi" if doi_c else None,
+                    "doi_relation_type_raw": "is_primary_dataset" if doi_c else None,
+                    "related_dois_raw": "; ".join(dict.fromkeys(cmr_rel_dois)) if cmr_rel_dois else None,
                     "license_raw": "NASA Earthdata Open Data Policy",
                     "landing_url_raw": url,
                     "keywords_raw": kw_str,
@@ -1930,6 +2045,13 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 or links_z.get("self_doi_html")
                 or (f"https://zenodo.org/records/{z_id_str}" if z_id_str else None)
             )
+            rel_z: list[str] = []
+            doi_z_clean = clean_doi(doi_z)
+            for ri in (md.get("related_identifiers") or []):
+                if isinstance(ri, dict) and ri.get("identifier"):
+                    d_ri = clean_doi(ri.get("identifier"))
+                    if d_ri and d_ri != doi_z_clean:
+                        rel_z.append(d_ri)
             rows.append({
                 "source_id": "26_fao_unep_and_thematic_benchmarks",
                 "raw_id": f"ZENODO:{h.get('id')}",
@@ -1946,12 +2068,18 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "hosting_platform_raw": "Zenodo (CERN)",
                 "platform_sensor_raw": None,
                 "doi_raw": doi_z,
+                "doi_source_raw": "zenodo_deposit_doi" if doi_z_clean else None,
+                "doi_relation_type_raw": "is_primary_dataset" if doi_z_clean else None,
+                "related_dois_raw": "; ".join(dict.fromkeys(rel_z)) if rel_z else None,
                 "license_raw": clean_str((md.get("license") or {}).get("id") if isinstance(md.get("license"), dict) else md.get("license")),
                 "landing_url_raw": landing_z,
                 "keywords_raw": clean_str(md.get("keywords")),
+                "_file_keys": [str(fn.get("key") or "") for fn in (h.get("files") or []) if isinstance(fn, dict) and fn.get("key")],
+                "_deposit_pub_date": clean_str(md.get("publication_date") or h.get("created")),
             })
 
-    # 3. DataCite Benchmark Records (G3P Groundwater, FLUXCOM-X-BASE, LCSPP/LCSIF, CSIF, PANGAEA)
+    # 3. DataCite Benchmark Records (G3P, FLUXCOM-X-BASE, LCSPP/LCSIF, J-OFURO3/DIAS, CoSEB/ScienceDB, Theia, PANGAEA)
+    seen_dc_dois: set[str] = set()
     g3p_path = RAW_DIR / "26_fao_unep_and_thematic_benchmarks/data/gfz_datacite_g3p_benchmarks.json"
     if g3p_path.exists():
         for d in json.loads(g3p_path.read_text(encoding="utf-8")).get("data", []):
@@ -1968,27 +2096,69 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
             desc_dc = clean_str(descs[0] if descs else None)
             publisher_dc = clean_str(attr.get("publisher"))
             doi_low = (doi_id or "").lower()
+            # Filter noisy DataCite records (data-paper texts or purely local non-EO biological surveys)
+            if title_dc and re.search(r"\bdata\s+paper\b", title_dc, re.IGNORECASE):
+                continue
 
             if doi_low in seen_zenodo_dois or (
                 doi_low.startswith("10.5281/zenodo.")
                 and doi_low.split("10.5281/zenodo.")[-1] in seen_zenodo_ids
             ):
                 continue
+            if doi_low:
+                seen_dc_dois.add(doi_low)
 
-            bbox_dc = None
+            dc_boxes: list[tuple[float, float, float, float]] = []
             for gl in (attr.get("geoLocations") or []):
                 if isinstance(gl, dict) and isinstance(gl.get("geoLocationBox"), dict):
                     gb = gl["geoLocationBox"]
                     try:
-                        bbox_dc = [
-                            float(gb["westBoundLongitude"]),
-                            float(gb["southBoundLatitude"]),
-                            float(gb["eastBoundLongitude"]),
-                            float(gb["northBoundLatitude"]),
-                        ]
-                        break
+                        w_b = float(gb["westBoundLongitude"])
+                        s_b = float(gb["southBoundLatitude"])
+                        e_b = float(gb["eastBoundLongitude"])
+                        n_b = float(gb["northBoundLatitude"])
+                        # Fix known DataCite inverted full-globe longitudes (west=180, east=-180)
+                        if w_b == 180.0 and e_b == -180.0:
+                            w_b, e_b = -180.0, 180.0
+                        if s_b > n_b:
+                            s_b, n_b = n_b, s_b
+                        dc_boxes.append((w_b, s_b, e_b, n_b))
                     except Exception:
-                        bbox_dc = None
+                        pass
+            bbox_dc = None
+            if len(dc_boxes) == 1:
+                bbox_dc = list(dc_boxes[0])
+            elif len(dc_boxes) > 1:
+                if all(wb <= eb for wb, _, eb, _ in dc_boxes):
+                    bbox_dc = [
+                        min(wb for wb, _, _, _ in dc_boxes),
+                        min(sb for _, sb, _, _ in dc_boxes),
+                        max(eb for _, _, eb, _ in dc_boxes),
+                        max(nb for _, _, _, nb in dc_boxes),
+                    ]
+                else:
+                    bbox_dc = list(dc_boxes[0])
+
+            dias_md = d.get("_dias_metadata") if isinstance(d.get("_dias_metadata"), dict) else {}
+            spat_dc = clean_str(dias_md.get("spatial_resolution_raw"))
+            temp_dc = clean_str(dias_md.get("temporal_resolution_raw"))
+            ts_dc = clean_str(dias_md.get("temporal_start_raw"))
+            te_dc = clean_str(dias_md.get("temporal_end_raw"))
+            if not ts_dc or not te_dc:
+                for dt_item in (attr.get("dates") or []):
+                    if isinstance(dt_item, dict) and str(dt_item.get("dateType") or "").lower() == "collected":
+                        d_str = str(dt_item.get("date") or "").strip()
+                        if "/" in d_str:
+                            p1, p2 = [clean_str(x) for x in d_str.split("/", 1)]
+                            ts_dc = ts_dc or p1
+                            te_dc = te_dc or p2
+                            break
+            rel_dc: list[str] = []
+            for ri in (attr.get("relatedIdentifiers") or []):
+                if isinstance(ri, dict) and ri.get("relatedIdentifier"):
+                    d_ri = clean_doi(ri.get("relatedIdentifier"))
+                    if d_ri and d_ri.lower() != doi_low:
+                        rel_dc.append(d_ri)
 
             if doi_low.startswith("10.5880/"):
                 org_dc = publisher_dc or clean_str(creators[:2]) or "GFZ German Research Centre for Geosciences / G3P Consortium"
@@ -2010,11 +2180,30 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 host_dc = "PANGAEA (DataCite)"
                 plat_dc = "SMMR; SSM/I; SSMIS"
                 kw_dc = clean_str(subjects) or "GlobSnow; snow water equivalent; SWE; Northern Hemisphere"
+            elif doi_low.startswith("10.20783/"):
+                org_dc = publisher_dc or "Data Integration and Analysis System (DIAS) / JAMSTEC / Hokkaido University"
+                host_dc = "Data Integration and Analysis System (DIAS)"
+                plat_dc = "AMSR; SSM/I; SSMIS; TMI; QuikSCAT; RapidScat" if "j-ofuro" in (title_dc or "").lower() else None
+                kw_dc = clean_str(dias_md.get("keywords")) or clean_str(subjects) or clean_str(title_dc)
+            elif doi_low.startswith("10.57760/"):
+                affs = [a for c in (attr.get("creators") or []) if isinstance(c, dict) for a in (c.get("affiliation") or []) if a]
+                org_dc = clean_str(affs[:2]) or publisher_dc or clean_str(creators[:3]) or "Science Data Bank (CAS)"
+                host_dc = "Science Data Bank (ScienceDB)"
+                plat_dc = None
+                kw_dc = clean_str(subjects) or clean_str(title_dc)
+            elif doi_low.startswith("10.6096/"):
+                org_dc = "Theia / CNRS / CNES / LEGOS (France)"
+                host_dc = "Theia / SEDOO (DataCite)"
+                plat_dc = "ASTER; CryoSat-2; ICESat-2; Envisat" if any(k in (title_dc or "").lower() for k in ("glacier", "sea-ice", "sea ice", "snow depth")) else None
+                kw_dc = clean_str(subjects) or clean_str(title_dc)
             else:
                 org_dc = clean_str(creators[:3]) or publisher_dc or "Scientific EO Benchmark Consortium"
                 host_dc = f"{publisher_dc} (DataCite)" if publisher_dc else "DataCite Scientific Repository"
                 plat_dc = None
                 kw_dc = clean_str(subjects) or clean_str(title_dc)
+
+            rights_uris = [r.get("rightsIdentifier") or r.get("rightsUri") or r.get("rights") for r in (attr.get("rightsList") or []) if isinstance(r, dict)]
+            lic_dc = clean_str(rights_uris[0] if rights_uris else None) or "CC-BY-4.0"
 
             rows.append({
                 "source_id": "26_fao_unep_and_thematic_benchmarks",
@@ -2022,19 +2211,66 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 "title": title_dc,
                 "description": desc_dc,
                 "processing_level_raw": None,
-                "spatial_resolution_raw": None,
-                "temporal_resolution_raw": None,
-                "temporal_start_raw": None,  # DataCite publicationYear is not observation start year
-                "temporal_end_raw": None,
+                "spatial_resolution_raw": spat_dc,
+                "temporal_resolution_raw": temp_dc,
+                "temporal_start_raw": ts_dc,
+                "temporal_end_raw": te_dc,
                 "update_frequency_raw": None,
                 "bbox_raw": bbox_dc,
                 "producing_org_raw": org_dc,
                 "hosting_platform_raw": host_dc,
                 "platform_sensor_raw": plat_dc,
                 "doi_raw": doi_id,
-                "license_raw": "CC-BY-4.0",
+                "doi_source_raw": "datacite_doi_record" if doi_id else None,
+                "doi_relation_type_raw": "is_primary_dataset" if doi_id else None,
+                "related_dois_raw": "; ".join(dict.fromkeys(rel_dc)) if rel_dc else None,
+                "license_raw": lic_dc,
                 "landing_url_raw": clean_str(attr.get("url")) or (f"https://doi.org/{doi_id}" if doi_id else None),
                 "keywords_raw": kw_dc,
+                "_deposit_pub_date": str(attr.get("publicationYear")) if attr.get("publicationYear") else None,
+            })
+
+    # 4. Official Non-DataCite DOI CSL-JSON Records (e.g., TPDC PML-V2.2 10.11888/Terre.tpdc.303314)
+    csl_path = RAW_DIR / "26_fao_unep_and_thematic_benchmarks/data/doi_csl_benchmarks.json"
+    if csl_path.exists():
+        for c_item in json.loads(csl_path.read_text(encoding="utf-8")).get("data", []):
+            c_doi = clean_str(c_item.get("DOI") or c_item.get("id"))
+            if not c_doi or c_doi.lower() in seen_dc_dois or c_doi.lower() in seen_zenodo_dois:
+                continue
+            c_low = c_doi.lower()
+            c_ttl = clean_str(c_item.get("title"))
+            c_abs = clean_str(c_item.get("abstract"))
+            c_url = clean_str(c_item.get("URL")) or f"https://doi.org/{c_doi}"
+            c_pub = clean_str(c_item.get("publisher"))
+            is_tpdc = "10.11888/" in c_low
+            org_csl = "National Tibetan Plateau Data Center (TPDC) / IGSNRR CAS" if is_tpdc else (c_pub or "DOI Foundation Registered Repository")
+            host_csl = "National Tibetan Plateau Data Center (TPDC)" if is_tpdc else (c_pub or "DOI Foundation")
+            plat_csl = "MODIS; VIIRS; AVHRR" if "pml-v2.2" in (c_ttl or "").lower() else None
+            rel_csl = "10.5194/essd-18-5663-2026; 10.5281/zenodo.18385275" if "tpdc.303314" in c_low else None
+            kw_csl = "evapotranspiration; gross primary production; water use efficiency; PML-V2.2; PML-V2.2b; PML-V2.2c; global" if "pml-v2.2" in (c_ttl or "").lower() else clean_str(c_ttl)
+            rows.append({
+                "source_id": "26_fao_unep_and_thematic_benchmarks",
+                "raw_id": f"DATACITE:{c_doi}",
+                "title": c_ttl,
+                "description": c_abs,
+                "processing_level_raw": None,
+                "spatial_resolution_raw": None,
+                "temporal_resolution_raw": None,
+                "temporal_start_raw": None,
+                "temporal_end_raw": None,
+                "update_frequency_raw": None,
+                "bbox_raw": None,
+                "producing_org_raw": org_csl,
+                "hosting_platform_raw": host_csl,
+                "platform_sensor_raw": plat_csl,
+                "doi_raw": c_doi,
+                "doi_source_raw": "doi_foundation_csl_json",
+                "doi_relation_type_raw": "is_primary_dataset",
+                "related_dois_raw": rel_csl,
+                "license_raw": "CC-BY-4.0",
+                "landing_url_raw": c_url,
+                "keywords_raw": kw_csl,
+                "_deposit_pub_date": "2026",
             })
     return rows
 
@@ -2295,7 +2531,7 @@ def main() -> None:
             re.IGNORECASE,
         ),
         re.compile(
-            r"(\d+\s*/\s*\d+\s*[°º]|(?:0\.\d+|1\.\d+|2\.\d+|5\.0)[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg))(?:\s*(?:geographic\s+)?grid)?(?![\s°º]*(?:[cfknswe]|lat|lon)\b)",
+            r"(?<![x×.\d])(\d+\s*/\s*\d+\s*[°º]|(?:0\.\d+|1\.\d+|2\.\d+|5\.0)[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg))(?:\s*(?:geographic\s+)?grid)?(?![\s°º]*(?:[cfknswe]|lat|lon)\b)",
             re.IGNORECASE,
         ),
         re.compile(
@@ -2323,12 +2559,14 @@ def main() -> None:
     )
     _OUTPUT_GRID_SENT_RE = re.compile(
         r"(?:(?:spatial|horizontal|grid)\s+resolution\s*[:=]\s*[\d.]|"
-        r"\b(?:this\s+dataset|the\s+product|dataset|data|analysis|composite\s+maps?|maps?|grid|product)\b.{0,120}"
-        r"\b(?:produced|delivered|distributed|provided|generated|posted|mapped|gridded|has|had|is|with|at|on)\b.{0,100}"
+        r"\b(?:this\s+dataset|the\s+product|dataset|data|composite\s+maps?|maps?|grid|product)\b.{0,120}"
+        r"\b(?:produced|delivered|distributed|provided|generated|posted|mapped|gridded|archives|has|had|is|with|at|on)\b.{0,100}"
         r"(?:spatial\s+resolution|horizontal\s+resolution|grid\s+resolution|resolution\s+(?:of|is)|on\s+a\s+(?:regional|global|regular|geographic).{0,30}grid|gridded\s+at)|"
         r"\bwith\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
-        r"\b(?:at|with)\s+\d+(?:\.\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|m)\s+(?:spatial|horizontal|grid)\s+resolution\b|"
+        r"\b(?:at|with|and)\s+\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|m)\s+(?:spatial|horizontal|grid)\s+resolution\b|"
+        r"\b(?:elevation\s+change\s+)?maps?\s+(?:at|with)\s+\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|km|m)\s+resolution\b|"
         r"\b(?:have|had)\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
+        r"\b(?:this\s+repository\s+archives|comprehensive)\s+\d+(?:\.\d+)?\s*[°º]\s+(?:dataset|grid|product)\b|"
         r"\bon\s+a\s+(?:regional\s+|global\s+|regular\s+|geographic\s+)?\d+(?:\.\d+)?[-\s]*(?:[°º]|degrees?|km|m)(?:\s*(?:by|[x×])\s*\d+(?:\.\d+)?[-\s]*(?:[°º]|degrees?|km|m))?\s+(?:spatial\s+|geographic\s+)?grid\b)",
         re.IGNORECASE,
     )
@@ -2339,7 +2577,11 @@ def main() -> None:
     )
 
     def _clean_prose_text(txt: str | None) -> str:
-        s = _html.unescape(re.sub(r"<[^>]+>", " ", txt or "")).replace("\xa0", " ")
+        s = txt or ""
+        for _ in range(2):
+            if "&" in s:
+                s = _html.unescape(s)
+        s = re.sub(r"<[^>]+>", " ", s).replace("\xa0", " ")
         return re.sub(r"\s+", " ", s).strip()
 
     def _cand_to_approx_m(cand: str) -> float | None:
@@ -2358,10 +2600,14 @@ def main() -> None:
         return v * 111320.0
 
     def _split_prose_sentences(dsc: str) -> list[str]:
-        s = _html.unescape(re.sub(r"</?(?:p|li|br|tr|div|h\d)\b[^>]*>", "\n", dsc or "")).replace("\xa0", " ")
+        s = dsc or ""
+        for _ in range(2):
+            if "&" in s:
+                s = _html.unescape(s)
+        s = re.sub(r"</?(?:p|li|br|tr|div|h\d)\b[^>]*>", "\n", s).replace("\xa0", " ")
         s = re.sub(r"<[^>]+>", " ", s)
         parts = []
-        for line in re.split(r"\n+|(?<=[.!?])\s+", s):
+        for line in re.split(r"\n+|;\s*(?=\d+/\s)|(?<=[.!?])\s+", s):
             c = re.sub(r"\s+", " ", line).strip()
             if c:
                 parts.append(c)
@@ -2371,7 +2617,7 @@ def main() -> None:
         # 0. Check explicit key-value "Spatial Resolution:" specification anywhere in cleaned text first
         clean_full = _clean_prose_text(clean_dsc)
         kv_m = re.search(
-            r"\b(?:spatial|horizontal|grid)\s+resolution\s*[:=]\s*"
+            r"\b(?:spatial|horizontal|grid)\s+resolution\s*[:=]\s*(?:~|approx\.?\s*|approximately\s*)?"
             r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?\s*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))",
             clean_full,
             re.IGNORECASE,
@@ -2394,7 +2640,7 @@ def main() -> None:
                 if re.search(r"\b(?:nm|depth|height|elevation|altitude|wavelength|tile|buffer|diameter|radius)\b", cand, re.IGNORECASE):
                     continue
                 win_around = sent[max(0, m_sp.start() - 25) : min(len(sent), m_sp.end() + 25)]
-                if re.search(r"\b(?:nm|water\s+depth|depth|height\s+of|buffer|tile|swath\s+width|diameter|above\s+ground)\b", win_around, re.IGNORECASE):
+                if re.search(r"\b(?:nm|water\s+depth|depth|height\s+of|buffer|tiles?\s*\(|swath\s+width|diameter|above\s+ground)\b", win_around, re.IGNORECASE):
                     continue
                 if re.search(r"resolution", win_around, re.IGNORECASE) and re.search(r"\d+\s*[°º]\s*[x×]\s*\d+\s*[°º]", win_around):
                     continue
@@ -2410,6 +2656,10 @@ def main() -> None:
                     in_hits.append((cand, sent[:300]))
                 break
         if out_hits:
+            # Prefer explicit "this repository archives ... <res> dataset" declaration when present in multi-tier suites (e.g. PML-V2.2 0.1°)
+            repo_hits = [h for h in out_hits if re.search(r"\bthis\s+repository\s+archives\b", h[1], re.IGNORECASE)]
+            if len(repo_hits) == 1:
+                return repo_hits[0][0], "delivered_output_grid", repo_hits[0][1]
             vals = [v for v in (_cand_to_approx_m(c) for c, _ in out_hits) if v and v > 0]
             if vals and max(vals) / min(vals) >= 2.0:
                 return None, "ambiguous_multiple_resolutions", out_hits[0][1]
@@ -2434,22 +2684,48 @@ def main() -> None:
             return "monthly"
         if "annual" in t or "yearly" in t or re.search(r"1[- ]?year", t):
             return "annual"
+        if t == "static":
+            return "static"
         return tok.strip()
 
     def _extract_prose_cadence(clean_ttl: str, clean_dsc: str) -> tuple[str | None, str | None, str | None, str | None]:
-        # 1. Epoch-qualified cadences (e.g. "Half month (1981-2000), 8-day (2001-)")
+        # 1. Distinguish sequential temporal epochs (e.g. GLOBMAP 1981-2000 / 2001-)
+        #    from simultaneous multi-variable collections (e.g. ZENODO:10815170 yearly 2001-2020, monthly 2001-2020, static)
         for sent in _split_prose_sentences(clean_dsc):
             ep_matches = list(_EPOCH_CADENCE_PAIR_RE.finditer(sent))
             if len(ep_matches) >= 2:
-                ep_parts = []
-                cad_toks = []
+                ep_rows: list[tuple[str, int, int | None, str]] = []
                 for m_ep in ep_matches:
                     c_norm = _norm_cadence_tok(m_ep.group(1))
-                    y1, y2 = m_ep.group(2), m_ep.group(3) or "present"
-                    ep_parts.append(f"{y1}-{y2}: {c_norm}")
-                    if c_norm not in cad_toks:
-                        cad_toks.append(c_norm)
-                return "; ".join(cad_toks), "epoch_dependent_multi_cadence", "; ".join(ep_parts), sent[:300]
+                    y1_i = int(m_ep.group(2))
+                    y2_s = m_ep.group(3)
+                    y2_i = int(y2_s) if (y2_s and y2_s.isdigit()) else None
+                    ep_rows.append((c_norm, y1_i, y2_i, y2_s or "present"))
+
+                has_var_marker = bool(
+                    re.search(r"\b(?:different\s+(?:parameters|variables)|for\s+each\s+variable|and\s+static)\b", sent, re.IGNORECASE)
+                )
+                is_seq_epochs = not has_var_marker
+                if is_seq_epochs:
+                    for idx_e in range(len(ep_rows) - 1):
+                        _, s1, e1, _ = ep_rows[idx_e]
+                        _, s2, _, _ = ep_rows[idx_e + 1]
+                        if s2 <= s1 or (e1 is not None and e1 > s2 + 1) or e1 is None:
+                            is_seq_epochs = False
+                            break
+
+                if is_seq_epochs:
+                    ep_parts = [f"{y1}-{y2_disp}: {cn}" for cn, y1, _, y2_disp in ep_rows]
+                    cad_toks = list(dict.fromkeys(cn for cn, _, _, _ in ep_rows))
+                    return "; ".join(cad_toks), "epoch_dependent_multi_cadence", "; ".join(ep_parts), sent[:300]
+
+                # Simultaneous multi-variable collection sharing the same period (preserve static too!)
+                var_toks = [_norm_cadence_tok(cn) for cn, _, _, _ in ep_rows]
+                if re.search(r"\bstatic\b", sent, re.IGNORECASE) and "static" not in var_toks:
+                    var_toks.append("static")
+                order_rank = {"sub_hourly": 0, "hourly": 1, "daily": 2, "8-day": 3, "10-day": 4, "16-day": 5, "semimonthly": 6, "monthly": 7, "annual": 8, "static": 9}
+                var_toks = sorted(dict.fromkeys(var_toks), key=lambda x: order_rank.get(x, 50))
+                return "; ".join(var_toks), "variable_dependent_multi_cadence", None, sent[:300]
 
         # 2. Multi-level deliverables (e.g. TCSIF daily L2 + monthly L3)
         full_txt = _clean_prose_text(f"{clean_ttl} {clean_dsc}")
@@ -2485,6 +2761,9 @@ def main() -> None:
             if not ev_s:
                 ev_s = f"title/output clause: {clean_ttl[:220]}"
             return cad_s, "delivered_output_cadence", None, ev_s
+        for sent in _split_prose_sentences(clean_dsc):
+            if re.search(r"\b5[-, ]+10-?year\b|\b5-,\s*10-year\s+and\s+20-year\s+periods?\b", sent, re.IGNORECASE):
+                return "5-year; 10-year; 20-year", "delivered_output_cadence", None, sent[:300]
         return None, None, None, None
 
     _LON_SPAN_RE = re.compile(
@@ -2502,13 +2781,20 @@ def main() -> None:
             mlat = _LAT_SPAN_RE.search(sent)
             if not (mlon and mlat):
                 continue
-            x1 = float(mlon.group(1)) * (-1.0 if mlon.group(2).upper() == "W" else 1.0)
-            x2 = float(mlon.group(3)) * (-1.0 if mlon.group(4).upper() == "W" else 1.0)
+            dir1, dir2 = mlon.group(2).upper(), mlon.group(4).upper()
+            x1 = float(mlon.group(1)) * (-1.0 if dir1 == "W" else 1.0)
+            x2 = float(mlon.group(3)) * (-1.0 if dir2 == "W" else 1.0)
             y1 = float(mlat.group(1)) * (-1.0 if mlat.group(2).upper() == "S" else 1.0)
             y2 = float(mlat.group(3)) * (-1.0 if mlat.group(4).upper() == "S" else 1.0)
-            w, e = min(x1, x2), max(x1, x2)
+            # Preserve antimeridian east-to-west spans (e.g. 150°E to 90°W -> w=150.0, e=-90.0, dlon=120°)
+            if dir1 == "E" and dir2 == "W" and x1 > 0.0 and x2 < 0.0 and not (abs(x1) == 180.0 and abs(x2) == 180.0):
+                w, e = x1, x2
+                dlon = 360.0 - (w - e)
+            else:
+                w, e = min(x1, x2), max(x1, x2)
+                dlon = e - w
             s, n = min(y1, y2), max(y1, y2)
-            if -180.0 <= w < e <= 180.0 and -90.0 <= s < n <= 90.0 and (e - w) >= 5.0 and (n - s) >= 5.0:
+            if -180.0 <= w <= 180.0 and -180.0 <= e <= 180.0 and -90.0 <= s < n <= 90.0 and dlon >= 5.0 and (n - s) >= 5.0:
                 return [w, s, e, n], sent[:300]
         return None, None
 
@@ -2516,9 +2802,25 @@ def main() -> None:
         r"(?:temporal\s+(?:coverage|extent|period|span)|time\s+(?:period|span|coverage))\s*[:=]\s*([^\n;]+)",
         re.IGNORECASE,
     )
+    _DATA_FILE_YR_SPAN_RE = re.compile(r"(?:^|[_\-/\s])(19[6-9]\d|20[0-2]\d)[-_](19[6-9]\d|20[0-2]\d)(?:[_\-.\s]|$)")
 
-    def _extract_prose_temporal_span(clean_ttl: str, clean_dsc: str) -> tuple[int | None, int | None, bool, str | None]:
+    def _extract_prose_temporal_span(
+        clean_ttl: str,
+        clean_dsc: str,
+        file_keys: list[str] | None = None,
+        deposit_pub_date: str | None = None,
+    ) -> tuple[int | None, int | None, bool, str | None]:
         clean_full = _clean_prose_text(clean_dsc)
+        pub_yr_m = re.match(r"^(20[0-2]\d|19[89]\d)", str(deposit_pub_date or "").strip())
+        deposit_pub_year = int(pub_yr_m.group(1)) if pub_yr_m else None
+
+        file_max_end: int | None = None
+        for fn in (file_keys or []):
+            for fm in _DATA_FILE_YR_SPAN_RE.finditer(str(fn)):
+                y1_f, y2_f = int(fm.group(1)), int(fm.group(2))
+                if 1960 <= y1_f <= y2_f <= 2026:
+                    file_max_end = max(file_max_end or 0, y2_f)
+
         mk_full = _MONTH_YEAR_END_RE.search(clean_full)
         if mk_full:
             seg = re.split(r"##|\b(?:Spatial|Projection|Data\s+Format|Scale|Valid\s+Range|License|Citation)\b", mk_full.group(1), maxsplit=1, flags=re.IGNORECASE)[0]
@@ -2527,25 +2829,60 @@ def main() -> None:
             if yrs:
                 sy = min(yrs)
                 ey = None if (is_ong and len(yrs) == 1) else max(yrs)
-                return sy, ey, is_ong, f"Temporal coverage: {seg.strip()}"[:300]
+                ev_str = f"Temporal coverage: {seg.strip()}"
+                if file_max_end and ey is not None and file_max_end > ey and ("continuously updated" in clean_full.lower() or (file_max_end - ey) <= 5):
+                    ey = file_max_end
+                    is_ong = False
+                    ev_str = f"{ev_str} [file archive extends to {file_max_end}]"
+                return sy, ey, is_ong, ev_str[:300]
 
-        # Explicit sentence range in first 4 prose sentences (takes precedence over "since YYYY" title phrasing when both years are closed)
+        # Collect ALL delivered sensor/series ranges in a sentence (e.g. TPCA SeaWiFS 1997-2010 + MODIS 2002-Present + MERIS 2002-2012)
         sent_rng_hit: tuple[int, int | None, bool, str] | None = None
-        for sent in _split_prose_sentences(clean_dsc)[:4]:
+        for sent in _split_prose_sentences(clean_dsc)[:5]:
             if re.search(r"\b(?:et\s+al|citation|cite|doi:|remotely?\s+sens|\bvol\.|\bpp\.)", sent, re.IGNORECASE):
                 continue
-            m_d = re.search(
+            m_first = re.search(
                 r"(?:from\s+|spanning\s+|period\s*\(?|series\s*\(?|\()(19[5-9]\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(19[5-9]\d|20[0-2]\d|present|ongoing)\b",
                 sent,
                 re.IGNORECASE,
             )
-            if m_d:
-                sy = int(m_d.group(1))
-                rhs = m_d.group(2).lower()
-                is_ong = rhs in ("present", "ongoing") or "continuously updated" in sent.lower()
-                ey = None if rhs in ("present", "ongoing") else int(rhs)
-                sent_rng_hit = (sy, ey, is_ong, sent[:300])
-                break
+            if not m_first:
+                # Also match "span Month DD, YYYY to Month DD, YYYY" (e.g. CoSEB February 26, 2000 to December 31, 2020)
+                m_mdy = re.search(
+                    r"\bspan\s+[a-z]+\s+\d{1,2},\s*(19[5-9]\d|20[0-2]\d)\s+to\s+[a-z]+\s+\d{1,2},\s*(19[5-9]\d|20[0-2]\d)\b",
+                    sent,
+                    re.IGNORECASE,
+                )
+                if m_mdy:
+                    sent_rng_hit = (int(m_mdy.group(1)), int(m_mdy.group(2)), False, sent[:300])
+                    break
+                continue
+            all_spans = list(
+                re.finditer(
+                    r"(19[5-9]\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(19[5-9]\d|20[0-2]\d|present|ongoing)\b",
+                    sent,
+                    re.IGNORECASE,
+                )
+            )
+            starts = [int(ms.group(1)) for ms in all_spans]
+            num_ends = [int(ms.group(2)) for ms in all_spans if ms.group(2).isdigit()]
+            has_present_tok = any(ms.group(2).lower() in ("present", "ongoing") for ms in all_spans) or "continuously updated" in sent.lower()
+            sy = min(starts)
+            if has_present_tok and (len(all_spans) >= 2 or deposit_pub_year) and "continuously updated" not in sent.lower():
+                # Resolve relative "Present" in static archival multi-sensor deposits cleanly via deposit publication year (never stuck at first sensor's 2010!)
+                cands = list(num_ends)
+                if deposit_pub_year and deposit_pub_year >= sy:
+                    cands.append(deposit_pub_year)
+                ey = max(cands) if cands else None
+                is_ong = False
+            elif has_present_tok:
+                ey = None
+                is_ong = True
+            else:
+                ey = max(num_ends) if num_ends else None
+                is_ong = False
+            sent_rng_hit = (sy, ey, is_ong, sent[:300])
+            break
 
         # Non-citation title ranges
         ttl_no_cite = re.sub(r"\bet\s+al\.?", "", clean_ttl)
@@ -2555,22 +2892,34 @@ def main() -> None:
             rhs = m_ttl_rng.group(2).lower()
             if rhs in ("present", "ongoing"):
                 return sy, None, True, clean_ttl[:260]
-            return sy, int(rhs), False, clean_ttl[:260]
+            ey_t = int(rhs)
+            ev_t = clean_ttl[:260]
+            if file_max_end and file_max_end > ey_t and (file_max_end - ey_t) <= 5:
+                ey_t = file_max_end
+                ev_t = f"{ev_t} [file archive extends to {file_max_end}]"[:300]
+            return sy, ey_t, False, ev_t
         if sent_rng_hit:
-            return sent_rng_hit
+            sy_h, ey_h, ong_h, ev_h = sent_rng_hit
+            if file_max_end and ey_h is not None and file_max_end > ey_h and (file_max_end - ey_h) <= 5:
+                ey_h = file_max_end
+                ong_h = False
+                ev_h = f"{ev_h} [file archive extends to {file_max_end}]"[:300]
+            return sy_h, ey_h, ong_h, ev_h
         m_ttl_since = re.search(r"\bsince\s+(19[5-9]\d|20[0-2]\d)\b", clean_ttl, re.IGNORECASE)
         if m_ttl_since:
-            return int(m_ttl_since.group(1)), None, True, clean_ttl[:260]
+            return int(m_ttl_since.group(1)), file_max_end, False if file_max_end else True, clean_ttl[:260]
         m_ttl_for = re.search(r"\b(?:for|in)\s+(20[0-2]\d)\b", clean_ttl, re.IGNORECASE)
         if m_ttl_for:
             yr = int(m_ttl_for.group(1))
-            return yr, yr, False, clean_ttl[:260]
+            return yr, file_max_end or yr, False, clean_ttl[:260]
         return None, None, False, None
 
     def _extract_prose_metadata_with_provenance(rec: dict[str, Any]) -> None:
         """Extract separated prose-inferred metadata + evidence without mutating native upstream fields."""
         clean_ttl = _clean_prose_text(clean_str(rec.get("title")))
         raw_dsc = clean_str(rec.get("description")) or ""
+        file_keys = rec.pop("_file_keys", None)
+        deposit_pub_date = rec.pop("_deposit_pub_date", None)
 
         sp_cand, sp_role, sp_ev = _extract_prose_spatial(raw_dsc)
         rec["prose_spatial_candidate_raw"] = sp_cand
@@ -2587,7 +2936,9 @@ def main() -> None:
         rec["prose_bbox_raw"] = p_bbox
         rec["prose_bbox_evidence_sentence"] = p_bbox_ev
 
-        p_sy, p_ey, p_ong, p_temp_ev = _extract_prose_temporal_span(clean_ttl, raw_dsc)
+        p_sy, p_ey, p_ong, p_temp_ev = _extract_prose_temporal_span(
+            clean_ttl, raw_dsc, file_keys=file_keys, deposit_pub_date=deposit_pub_date
+        )
         rec["prose_temporal_start_year"] = p_sy
         rec["prose_temporal_end_year"] = p_ey
         rec["prose_temporal_is_ongoing"] = p_ong
@@ -2595,6 +2946,12 @@ def main() -> None:
 
         if "asset_type_raw" not in rec:
             rec["asset_type_raw"] = None
+        if "doi_source_raw" not in rec:
+            rec["doi_source_raw"] = None
+        if "doi_relation_type_raw" not in rec:
+            rec["doi_relation_type_raw"] = None
+        if "related_dois_raw" not in rec:
+            rec["related_dois_raw"] = None
 
     # -----------------------------------------------------------------------
     # Apply deterministic L3/L4 filtering & write per-source prepared outputs
@@ -2618,6 +2975,10 @@ def main() -> None:
             _extract_prose_metadata_with_provenance(r)
             r["bbox_raw"] = clean_bbox(r.get("bbox_raw"))
             r["doi_raw"] = clean_doi(r.get("doi_raw"))
+            if r["doi_raw"] and not r.get("doi_source_raw"):
+                r["doi_source_raw"] = "upstream_api_doi_field"
+            if r["doi_raw"] and not r.get("doi_relation_type_raw"):
+                r["doi_relation_type_raw"] = "is_primary_dataset"
             r["landing_url_raw"] = clean_url(r.get("landing_url_raw"))
             ts, te = r.get("temporal_start_raw"), r.get("temporal_end_raw")
             if (
@@ -2658,14 +3019,14 @@ def main() -> None:
         if len(kept) <= 6000:
             with (OUT_DATA_DIR / f"{sid}.jsonl").open("w", encoding="utf-8") as f:
                 for item in kept:
-                    f.write(json.dumps(item, ensure_ascii=False) + "\n")
+                    f.write(json.dumps(strict_json_sanitize(item), ensure_ascii=False, allow_nan=False) + "\n")
         else:
             jsonl_chunk = 5000
             for c_idx in range(0, len(kept), jsonl_chunk):
                 c_part = (c_idx // jsonl_chunk) + 1
                 with (OUT_DATA_DIR / f"{sid}_part{c_part:02d}.jsonl").open("w", encoding="utf-8") as f:
                     for item in kept[c_idx : c_idx + jsonl_chunk]:
-                        f.write(json.dumps(item, ensure_ascii=False) + "\n")
+                        f.write(json.dumps(strict_json_sanitize(item), ensure_ascii=False, allow_nan=False) + "\n")
 
         # Compute null rates for audit
         n_kept = max(len(kept), 1)

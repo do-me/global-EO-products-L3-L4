@@ -1,0 +1,1407 @@
+{
+  "source": "https://api.datacite.org/dois?query=doi:(10.5285/<uuid>)",
+  "queried_uuid_count": 399,
+  "matched_count": 200,
+  "by_uuid": {
+    "d9e614df708c40ee8ae097cdaf8279a0": {
+      "doi": "10.5285/d9e614df708c40ee8ae097cdaf8279a0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d9e614df708c40ee8ae097cdaf8279a0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea Level Budget Closure Climate Change Initiative (SLBC_cci): Time series of global mean sea level budget elements (2004-2022, at monthly resolution) from constrained approach"
+    },
+    "82273fe59b784e7c914e1bd3049e3483": {
+      "doi": "10.5285/82273fe59b784e7c914e1bd3049e3483",
+      "url": "https://catalogue.ceda.ac.uk/uuid/82273fe59b784e7c914e1bd3049e3483",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci) : Global remote sensing daily merged multi-mission along-track significant wave height from altimetry, L3 product, version 4"
+    },
+    "115f52ba8a40487eacf3f81974a9cc8a": {
+      "doi": "10.5285/115f52ba8a40487eacf3f81974a9cc8a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/115f52ba8a40487eacf3f81974a9cc8a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track Integrated Sea State Parameters (ISSP) from SAR EW onboard Sentinel-1A &amp; 1B, L2P product, release version 4"
+    },
+    "9675ee262e79485daa00a146f1300bf3": {
+      "doi": "10.5285/9675ee262e79485daa00a146f1300bf3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/9675ee262e79485daa00a146f1300bf3",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track Integrated Sea State Parameters (ISSP) from SAR IW onboard Sentinel-1A &amp; 1B, L2P product, release version 4"
+    },
+    "7e19d1be1cc5486294155ad23534ffa0": {
+      "doi": "10.5285/7e19d1be1cc5486294155ad23534ffa0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/7e19d1be1cc5486294155ad23534ffa0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track Integrated Sea State Parameters (ISSP) from SAR WV onboard Sentinel-1A &amp; 1B, L2P product, release version 4"
+    },
+    "dd2213cf6647460e916666960d4bce2d": {
+      "doi": "10.5285/dd2213cf6647460e916666960d4bce2d",
+      "url": "https://catalogue.ceda.ac.uk/uuid/dd2213cf6647460e916666960d4bce2d",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Multi-Functional Transport Satellite (MTSAT1-2) level 3C (L3C) product (2009-2015), version 2.00"
+    },
+    "bd4e8367cc164b7aa68ba27f4761eeb0": {
+      "doi": "10.5285/bd4e8367cc164b7aa68ba27f4761eeb0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/bd4e8367cc164b7aa68ba27f4761eeb0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Geostationary Operational Environmental Satellite - R series (GOES-R) level 3C (L3C) product (2018-2024), version 2.01"
+    },
+    "6429d1aafe1e43b9b414e4a5a7f8b903": {
+      "doi": "10.5285/6429d1aafe1e43b9b414e4a5a7f8b903",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6429d1aafe1e43b9b414e4a5a7f8b903",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-ground biomass for the years 2005-2012 and 2015-2024, v7.0"
+    },
+    "3c05b3af81f540718faeb6fa1b2046e6": {
+      "doi": "10.5285/3c05b3af81f540718faeb6fa1b2046e6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3c05b3af81f540718faeb6fa1b2046e6",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from AATSR (Advanced Along-Track Scanning Radiometer), level 3 collated (L3C) global product (2002-2012), version 4.00"
+    },
+    "edf8abd23f4a40aabd4d52e48dec06ea": {
+      "doi": "10.5285/edf8abd23f4a40aabd4d52e48dec06ea",
+      "url": "https://catalogue.ceda.ac.uk/uuid/edf8abd23f4a40aabd4d52e48dec06ea",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Snow Water Equivalent (SWE) level 3C daily global climate research data package (CRDP) (1979 - 2023), version 4.0"
+    },
+    "e67b02b814bf4a78b9ec90b4259f0741": {
+      "doi": "10.5285/e67b02b814bf4a78b9ec90b4259f0741",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e67b02b814bf4a78b9ec90b4259f0741",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily multisensor Infra-Red (IR) Low Earth Orbit (LEO) land surface temperature (LST) time series level 3 supercollated (L3S) global product (1995-2024), version 3.00"
+    },
+    "0e346e1e1e164ac99c60098848537a29": {
+      "doi": "10.5285/0e346e1e1e164ac99c60098848537a29",
+      "url": "https://catalogue.ceda.ac.uk/uuid/0e346e1e1e164ac99c60098848537a29",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Soil Moisture Climate Change Initiative (Soil_Moisture_cci): COMBINED product, Version 09.1"
+    },
+    "f4c34f4f0f1d4d0da06d771f6972f180": {
+      "doi": "10.5285/f4c34f4f0f1d4d0da06d771f6972f180",
+      "url": "http://catalogue.ceda.ac.uk/uuid/f4c34f4f0f1d4d0da06d771f6972f180",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Northern hemisphere sea ice thickness from the Envisat satellite on a monthly grid (L3C), v2.0"
+    },
+    "ff79d140824f42dd92b204b4f1e9e7c2": {
+      "doi": "10.5285/ff79d140824f42dd92b204b4f1e9e7c2",
+      "url": "https://catalogue.ceda.ac.uk/uuid/ff79d140824f42dd92b204b4f1e9e7c2",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Northern hemisphere sea ice thickness from the CryoSat-2 satellite on a monthly grid (L3C), v2.0"
+    },
+    "198d56f5fbbf4144b8fd4932328be462": {
+      "doi": "10.5285/198d56f5fbbf4144b8fd4932328be462",
+      "url": "https://catalogue.ceda.ac.uk/uuid/198d56f5fbbf4144b8fd4932328be462",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column averaged carbon dioxide from OCO-2 generated with the FOCAL algorithm, version 11.0"
+    },
+    "54e2ee0803764b4e84c906da3f16d81b": {
+      "doi": "10.5285/54e2ee0803764b4e84c906da3f16d81b",
+      "url": "https://catalogue.ceda.ac.uk/uuid/54e2ee0803764b4e84c906da3f16d81b",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Northern hemisphere sea ice thickness from Envisat on the satellite swath (L2P), v2.0"
+    },
+    "17c2ce31784048de93996275ee976fff": {
+      "doi": "10.5285/17c2ce31784048de93996275ee976fff",
+      "url": "https://catalogue.ceda.ac.uk/uuid/17c2ce31784048de93996275ee976fff",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Sea Level Budget Closure Climate Change Initiative (SLBC_cci): Time series of global mean sea level budget and ocean mass budget elements (1993-2016, at monthly resolution), version 2.2"
+    },
+    "065f6040ef08485db989cbd89d536167": {
+      "doi": "10.5285/065f6040ef08485db989cbd89d536167",
+      "url": "http://catalogue.ceda.ac.uk/uuid/065f6040ef08485db989cbd89d536167",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Small Fire Dataset (SFD) Burned Area pixel product for Sub-Saharan Africa, version 1.1"
+    },
+    "5f66a881adf846bfaad58b0e6068f0ea": {
+      "doi": "10.5285/5f66a881adf846bfaad58b0e6068f0ea",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5f66a881adf846bfaad58b0e6068f0ea",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land Surface Temperature from SLSTR (Sea and Land Surface Temperature Radiometer) on Sentinel 3B, level 3 collated (L3C) global product (2018-2020), version 3.00"
+    },
+    "373638ed9c434e78b521cbe01ace5ef7": {
+      "doi": "10.5285/373638ed9c434e78b521cbe01ace5ef7",
+      "url": "https://catalogue.ceda.ac.uk/uuid/373638ed9c434e78b521cbe01ace5ef7",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Advanced Very High Resolution Radiometer (AVHRR) Level 2 Preprocessed (L2P) Climate Data Record, version 2.1"
+    },
+    "8db04f60f2c2442abcf70affa849791d": {
+      "doi": "10.5285/8db04f60f2c2442abcf70affa849791d",
+      "url": "https://catalogue.ceda.ac.uk/uuid/8db04f60f2c2442abcf70affa849791d",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea Level Budget Closure Climate Change Initiative (SLBC_cci): Time series of mean sea level and water mass budgets at global (1993-2022) and regional scale (2004-2022), at monthly resolution from unconstrained approach"
+    },
+    "1599565404ec40aa8233bbe8fbe51e8c": {
+      "doi": "10.5285/1599565404ec40aa8233bbe8fbe51e8c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/1599565404ec40aa8233bbe8fbe51e8c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Precursors for Aerosols and Ozone Climate Change Initiative (Precursors_cci): daily and monthly L3 SO2 from OMI, version 1.0"
+    },
+    "bd771d1ecc8d4f5aa67b010e16753427": {
+      "doi": "10.5285/bd771d1ecc8d4f5aa67b010e16753427",
+      "url": "https://catalogue.ceda.ac.uk/uuid/bd771d1ecc8d4f5aa67b010e16753427",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Water Vapour Climate Change Initiative (Water_Vapour_cci): Total Column Water Vapour daily gridded data over land at 0.5 degree resolution, version 4.2"
+    },
+    "f497e0a0f70449f0a4b1e9654011ab14": {
+      "doi": "10.5285/f497e0a0f70449f0a4b1e9654011ab14",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f497e0a0f70449f0a4b1e9654011ab14",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Geostationary Operational Environmental Satellite (GOES12-13) level 3 (L3U) product (2004-2017), version 2.00"
+    },
+    "8d02d224437247f6a6270a575d457bd8": {
+      "doi": "10.5285/8d02d224437247f6a6270a575d457bd8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/8d02d224437247f6a6270a575d457bd8",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Vegetation Parameters Climate Change Initiative (VP_cci): LAI and fAPAR, Version 2.0"
+    },
+    "d4e66299f5054129b8076fb7502949e1": {
+      "doi": "10.5285/d4e66299f5054129b8076fb7502949e1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d4e66299f5054129b8076fb7502949e1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Soil Moisture Climate Change Initiative (Soil_Moisture_cci): COMBINED product, Version 09.2"
+    },
+    "2600f842cfeb481bb21f032a5741c353": {
+      "doi": "10.5285/2600f842cfeb481bb21f032a5741c353",
+      "url": "https://catalogue.ceda.ac.uk/uuid/2600f842cfeb481bb21f032a5741c353",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Soil Moisture Climate Change Initiative (Soil_Moisture_cci): ACTIVE product, Version 09.2"
+    },
+    "6a22d0dd7f90487f8bbed3be85de3624": {
+      "doi": "10.5285/6a22d0dd7f90487f8bbed3be85de3624",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6a22d0dd7f90487f8bbed3be85de3624",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from AVHRR-3 (Advanced Very High Resolution Radiometer-3) on NOAA-17 (National Oceanic and Atmospheric Administration), level 3 collated (L3C) global product (2002-2010), version 1.50"
+    },
+    "c836ded4f8154c3ba86ee58ec0a7a7b1": {
+      "doi": "10.5285/c836ded4f8154c3ba86ee58ec0a7a7b1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c836ded4f8154c3ba86ee58ec0a7a7b1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from the Metop-A AVHRR (Advanced Very High Resolution Radiometer) instrument, level 3 collated (L3C) global product, version 2.00"
+    },
+    "d235665772ec4b558e9a89ac85595e71": {
+      "doi": "10.5285/d235665772ec4b558e9a89ac85595e71",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d235665772ec4b558e9a89ac85595e71",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost extent for the Northern Hemisphere, v5.0"
+    },
+    "97791d46330b42838af744301c74a9fb": {
+      "doi": "10.5285/97791d46330b42838af744301c74a9fb",
+      "url": "https://catalogue.ceda.ac.uk/uuid/97791d46330b42838af744301c74a9fb",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Drift-aware sea-ice thickness for the Northern Hemisphere from Envisat, v1.0"
+    },
+    "b1f1ac03077b4aa784c5a413a2210bf5": {
+      "doi": "10.5285/b1f1ac03077b4aa784c5a413a2210bf5",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b1f1ac03077b4aa784c5a413a2210bf5",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Southern hemisphere sea ice thickness from the Envisat satellite on a monthly grid (L3C), v2.0"
+    },
+    "bf535053562141c6bb7ad831f5998d77": {
+      "doi": "10.5285/bf535053562141c6bb7ad831f5998d77",
+      "url": "https://catalogue.ceda.ac.uk/uuid/bf535053562141c6bb7ad831f5998d77",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-ground biomass for the years 2010, 2015, 2016, 2017, 2018, 2019, 2020 and 2021, v5.01"
+    },
+    "84403d09cef3485883158f4df2989b0c": {
+      "doi": "10.5285/84403d09cef3485883158f4df2989b0c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/84403d09cef3485883158f4df2989b0c",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2021,
+      "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-ground biomass for the years 2010, 2017 and 2018, v2"
+    },
+    "593397b5f9654d76b5d37761e7566ca6": {
+      "doi": "10.5285/593397b5f9654d76b5d37761e7566ca6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/593397b5f9654d76b5d37761e7566ca6",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Long-term Small Fire Dataset (SFDL) Burned Area pixel product for Test Sites: Amazonia, Africa and Siberia, version 1.0"
+    },
+    "ca55ac11fc814b0d95e68a34a10539c1": {
+      "doi": "10.5285/ca55ac11fc814b0d95e68a34a10539c1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/ca55ac11fc814b0d95e68a34a10539c1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Soil Moisture Climate Change Initiative (Soil_Moisture_cci): PASSIVE product, Version 09.1"
+    },
+    "e6af67fca81c40b7bb3eddaadde06909": {
+      "doi": "10.5285/e6af67fca81c40b7bb3eddaadde06909",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e6af67fca81c40b7bb3eddaadde06909",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci) : Global remote sensing daily merged multi-mission along-track significant wave height from altimetry, L3 product, version 3"
+    },
+    "0bc7042123984c69aa45cb6788bfdaa0": {
+      "doi": "10.5285/0bc7042123984c69aa45cb6788bfdaa0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/0bc7042123984c69aa45cb6788bfdaa0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover Maps in Amazonia (Eastern Amazonas region) at 10m spatial resolution for 2019 in Geotiff format, v1.2"
+    },
+    "0aeba0c203c2447b9553a78f99d3a276": {
+      "doi": "10.5285/0aeba0c203c2447b9553a78f99d3a276",
+      "url": "https://catalogue.ceda.ac.uk/uuid/0aeba0c203c2447b9553a78f99d3a276",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction – snow on ground (SCFG) from ATSR-2 (1995 – 2003), version 1.0"
+    },
+    "d7773cb976d64b1c900a518773428df6": {
+      "doi": "10.5285/d7773cb976d64b1c900a518773428df6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d7773cb976d64b1c900a518773428df6",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction – viewable snow (SCFV) from AATSR (2002 – 2012), version 1.0"
+    },
+    "58a01734f841466daa1837353aee5ff8": {
+      "doi": "10.5285/58a01734f841466daa1837353aee5ff8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/58a01734f841466daa1837353aee5ff8",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land Surface Temperature from MODIS (Moderate resolution Infra-red Spectroradiometer) on Terra, level 3 collated (L3C) global product (2000-2018), version 3.00"
+    },
+    "42f7230ab55641cdac1bba84eabd446a": {
+      "doi": "10.5285/42f7230ab55641cdac1bba84eabd446a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/42f7230ab55641cdac1bba84eabd446a",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Advanced Very High Resolution Radiometer (AVHRR) Level 3 Uncollated (L3U) Climate Data Record, version 2.1"
+    },
+    "2282b4aeb9f24bc3a1e0961e4d545427": {
+      "doi": "10.5285/2282b4aeb9f24bc3a1e0961e4d545427",
+      "url": "https://catalogue.ceda.ac.uk/uuid/2282b4aeb9f24bc3a1e0961e4d545427",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Along-Track Scanning Radiometer (ATSR) Level 3 Uncollated (L3U) Climate Data Record, version 2.1"
+    },
+    "f51fdbacebe740a8832cf75428558492": {
+      "doi": "10.5285/f51fdbacebe740a8832cf75428558492",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f51fdbacebe740a8832cf75428558492",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Multi-Functional Transport Satellite (MTSAT1-2) level 3 (L3U) product (2009-2015), version 2.00"
+    },
+    "3f97dca2913d47d4948dfba324f1604a": {
+      "doi": "10.5285/3f97dca2913d47d4948dfba324f1604a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3f97dca2913d47d4948dfba324f1604a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from AVHRR-3 (Advanced Very High Resolution Radiometer-3) on NOAA-19 (National Oceanic and Atmospheric Administration), level 3 collated (L3C) global product (2009-2020), version 1.50"
+    },
+    "38a71d034b5c4097821de29ee3bc2498": {
+      "doi": "10.5285/38a71d034b5c4097821de29ee3bc2498",
+      "url": "https://catalogue.ceda.ac.uk/uuid/38a71d034b5c4097821de29ee3bc2498",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from SLSTR (2020 - 2022), version 1.0"
+    },
+    "bc13bb02a958449aac139853c4638f32": {
+      "doi": "10.5285/bc13bb02a958449aac139853c4638f32",
+      "url": "https://catalogue.ceda.ac.uk/uuid/bc13bb02a958449aac139853c4638f32",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable snow (SCFV) from MODIS (2000 - 2023), version 4.0"
+    },
+    "80d96e3a14854420b6f742d70877c431": {
+      "doi": "10.5285/80d96e3a14854420b6f742d70877c431",
+      "url": "https://catalogue.ceda.ac.uk/uuid/80d96e3a14854420b6f742d70877c431",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from AVHRR (1979 - 2023), version 4.0"
+    },
+    "e95903ef0e0a4bfa92f528b86c4a8b0f": {
+      "doi": "10.5285/e95903ef0e0a4bfa92f528b86c4a8b0f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e95903ef0e0a4bfa92f528b86c4a8b0f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged carbon dioxide from GOSAT-2, derived using the SRFP (RemoTeC) full physics algorithm (CO2_GO2_SRFP), version 2.0.3"
+    },
+    "4321d9b540fe48f8943179aa3ef06c79": {
+      "doi": "10.5285/4321d9b540fe48f8943179aa3ef06c79",
+      "url": "https://catalogue.ceda.ac.uk/uuid/4321d9b540fe48f8943179aa3ef06c79/",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Sea Surface Salinity Climate Change Initiative (Sea_Surface_Salinity_cci): Weekly sea surface salinity product on a 0.25 degree global grid, v5.5, for 2010 to 2023"
+    },
+    "c5f0aa806ec444b4a4209b49efc4bb65": {
+      "doi": "10.5285/c5f0aa806ec444b4a4209b49efc4bb65",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c5f0aa806ec444b4a4209b49efc4bb65",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA River Discharge Climate Change Initiative (RD_cci): Nadir radar altimeters Water Level product, v1.1"
+    },
+    "c14874e943cc453a8e63ce5841ecc9b0": {
+      "doi": "10.5285/c14874e943cc453a8e63ce5841ecc9b0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c14874e943cc453a8e63ce5841ecc9b0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged methane from GOSAT-2, generated with the SRFP (RemoTeC) full physics retrieval algorithm (CH4_GO2_SRFP), version 2.0.2"
+    },
+    "f4654030223445b0bac63a23aaa60620": {
+      "doi": "10.5285/f4654030223445b0bac63a23aaa60620",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f4654030223445b0bac63a23aaa60620",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Fractional Snow Cover in CryoClim, v1.0"
+    },
+    "56742f742ea14edf872c3eca99f4a61a": {
+      "doi": "10.5285/56742f742ea14edf872c3eca99f4a61a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/56742f742ea14edf872c3eca99f4a61a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Multi-Functional Transport Satellite (MTSAT) level 3C (L3C) product (2009-2015), version 1.00"
+    },
+    "92824e3ec2e44a58b10048df3209b99c": {
+      "doi": "10.5285/92824e3ec2e44a58b10048df3209b99c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/92824e3ec2e44a58b10048df3209b99c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Water Vapour Climate Change Initiative (Water_Vapour_cci): Vertically resolved water vapour - stratosphere (CCI WV-strato, CDR-3), v3.3"
+    },
+    "fe02d5eef9ef4ad889d1917ccad3b35f": {
+      "doi": "10.5285/fe02d5eef9ef4ad889d1917ccad3b35f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/fe02d5eef9ef4ad889d1917ccad3b35f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track Integrated Sea State Parameters (ISSP) from SAR WV onboard Sentinel-1A &amp; 1B, L2P product, release version 3"
+    },
+    "be40716c1036498cb6b16b0ef25c5535": {
+      "doi": "10.5285/be40716c1036498cb6b16b0ef25c5535",
+      "url": "https://catalogue.ceda.ac.uk/uuid/be40716c1036498cb6b16b0ef25c5535",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Cloud Climate Change Initiative (Cloud_cci): Obs4MIPs format monthly gridded cloud products from ATSR2 and AATSR, version 3"
+    },
+    "c93c99588d5848b1ac7833e3bc6d5c2d": {
+      "doi": "10.5285/c93c99588d5848b1ac7833e3bc6d5c2d",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c93c99588d5848b1ac7833e3bc6d5c2d",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Soil Moisture Climate Change Initiative (Soil_Moisture_cci): PASSIVE product, Version 09.2"
+    },
+    "6ab837fc79e4487a9930a221b294df01": {
+      "doi": "10.5285/6ab837fc79e4487a9930a221b294df01",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6ab837fc79e4487a9930a221b294df01",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): 3-Hourly Multisensor Infra-Red (IR) Low Earth Orbit (LEO) and Geostationary Earth Orbit (GEO) land surface temperature (LST) level 3 supercollated (L3S) global product, version 3.00"
+    },
+    "375ffdb8f0a445e380b4b9548655f5f9": {
+      "doi": "10.5285/375ffdb8f0a445e380b4b9548655f5f9",
+      "url": "https://catalogue.ceda.ac.uk/uuid/375ffdb8f0a445e380b4b9548655f5f9",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from MODIS (2000-2023), version 4.0"
+    },
+    "b8359626272e4f7ba9e2e821b5eab032": {
+      "doi": "10.5285/b8359626272e4f7ba9e2e821b5eab032",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b8359626272e4f7ba9e2e821b5eab032",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Southern hemisphere sea ice thickness from Sentinel-3B on the satellite swath (L2P), v4.0"
+    },
+    "88380c00ad79414ab1a30d3cd4cb7ad9": {
+      "doi": "10.5285/88380c00ad79414ab1a30d3cd4cb7ad9",
+      "url": "https://catalogue.ceda.ac.uk/uuid/88380c00ad79414ab1a30d3cd4cb7ad9",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost Ground Temperature for Antarctica, v5.0"
+    },
+    "7491427f8c3442ce825ba5472c224322": {
+      "doi": "10.5285/7491427f8c3442ce825ba5472c224322",
+      "url": "https://catalogue.ceda.ac.uk/uuid/7491427f8c3442ce825ba5472c224322",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable (SCFV) from AVHRR (1979 - 2022), version 3.0"
+    },
+    "d32244e674dd438ca4d321560daad755": {
+      "doi": "10.5285/d32244e674dd438ca4d321560daad755",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d32244e674dd438ca4d321560daad755",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA River Discharge Climate Change Initiative (RD_cci): Combined river discharge product, v1.0"
+    },
+    "9d9bfc488ec54b1297eca2c9662f9c81": {
+      "doi": "10.5285/9d9bfc488ec54b1297eca2c9662f9c81",
+      "url": "https://catalogue.ceda.ac.uk/uuid/9d9bfc488ec54b1297eca2c9662f9c81",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Snow Water Equivalent (SWE) level 3C daily global climate research data package (CRDP) (1979 - 2022), version 3.1"
+    },
+    "e955813b0e1a4eb7af971f923010b4a3": {
+      "doi": "10.5285/e955813b0e1a4eb7af971f923010b4a3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e955813b0e1a4eb7af971f923010b4a3",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable snow (SCFV) from MODIS (2000 - 2022), version 3.0"
+    },
+    "35a3e7e5ad2946859ac31c36605486f0": {
+      "doi": "10.5285/35a3e7e5ad2946859ac31c36605486f0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/35a3e7e5ad2946859ac31c36605486f0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Greenland Ice Sheet Climate Change Initiative (Greenland_Ice_Sheet_cci): Machine Learning Generated Greenland Calving Front Locations v1.0"
+    },
+    "34e4bfe402c048c783e64eac0f0bca37": {
+      "doi": "10.5285/34e4bfe402c048c783e64eac0f0bca37",
+      "url": "https://catalogue.ceda.ac.uk/uuid/34e4bfe402c048c783e64eac0f0bca37",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Vegetation Parameters Climate Change Initiative (Vegetation_Parameters_cci): LAI and fAPAR, Version 1.0"
+    },
+    "f107a4ce186844bb8adf8cd1f2f6d552": {
+      "doi": "10.5285/f107a4ce186844bb8adf8cd1f2f6d552",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f107a4ce186844bb8adf8cd1f2f6d552",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover Maps in Africa (Eastern Sahel region) at 10m spatial resolution for 2019 in Geotiff format, v1.2"
+    },
+    "a3fb75aa46db4711ab587f3fa3ca01fe": {
+      "doi": "10.5285/a3fb75aa46db4711ab587f3fa3ca01fe",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a3fb75aa46db4711ab587f3fa3ca01fe",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover and Land Cover Change Maps in Africa (Eastern Sahel region) at 30m spatial resolution in GeoTiff format, 1990-2019, v1.2"
+    },
+    "e7e31b86b2644e0da69090bc37360c97": {
+      "doi": "10.5285/e7e31b86b2644e0da69090bc37360c97",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e7e31b86b2644e0da69090bc37360c97",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction – snow on ground (SCFG) from AATSR (2002 – 2012), version 1.0"
+    },
+    "c01275d56cba4970bda78ca79b5b1273": {
+      "doi": "10.5285/c01275d56cba4970bda78ca79b5b1273",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c01275d56cba4970bda78ca79b5b1273",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Geostationary Operational Environmental Satellite (GOES) level 3C (L3C) product (2009-2020), version 1.00"
+    },
+    "16c633f003ef4d8481420f052356c11c": {
+      "doi": "10.5285/16c633f003ef4d8481420f052356c11c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/16c633f003ef4d8481420f052356c11c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly land surface temperature from ATSR-2 (Along-Track Scanning Radiometer 2), level 3 collated (L3C) global product (1995-2013), version 3.00"
+    },
+    "aa8268e2ca0e48d98aee372795722253": {
+      "doi": "10.5285/aa8268e2ca0e48d98aee372795722253",
+      "url": "https://catalogue.ceda.ac.uk/uuid/aa8268e2ca0e48d98aee372795722253",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly land surface temperature from SLSTR (Sea and Land Surface Temperature Radiometer) on Sentinel 3A, level 3 collated (L3C) global product (2016-2020), version 3.00"
+    },
+    "763eb87e0682446cafa8c74488dd5fb8": {
+      "doi": "10.5285/763eb87e0682446cafa8c74488dd5fb8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/763eb87e0682446cafa8c74488dd5fb8",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable (SCFV) from AVHRR (1982 - 2018), version 2.0"
+    },
+    "b1bd715112ca43ab948226d11d72b85e": {
+      "doi": "10.5285/b1bd715112ca43ab948226d11d72b85e",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b1bd715112ca43ab948226d11d72b85e",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2020,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): AVHRR-LTDR Burned Area Pixel product, version 1.1"
+    },
+    "4b0773a84e8142c688a628c9ce62d4ec": {
+      "doi": "10.5285/4b0773a84e8142c688a628c9ce62d4ec",
+      "url": "https://catalogue.ceda.ac.uk/uuid/4b0773a84e8142c688a628c9ce62d4ec",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Small Fire Database (SFD) Burned Area grid product for Sub-Saharan Africa, version 1.1"
+    },
+    "a963d9415bb74247830f8704f825aa90": {
+      "doi": "10.5285/a963d9415bb74247830f8704f825aa90",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a963d9415bb74247830f8704f825aa90",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2020,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): GHRSST Multi-Product ensemble (GMPE), v2.0"
+    },
+    "d97ab4186e59417db70138662996f28a": {
+      "doi": "10.5285/d97ab4186e59417db70138662996f28a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d97ab4186e59417db70138662996f28a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Precursors for Aerosols and Ozone Climate Change Initiative (Precursors_cci): Precursors morning GOME NO2 L3 data products, version 1.1"
+    },
+    "6242532d87d442a3acf0171d35c02e56": {
+      "doi": "10.5285/6242532d87d442a3acf0171d35c02e56",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6242532d87d442a3acf0171d35c02e56",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Precursors for Aerosols and Ozone Climate Change Initiative (Precursors_cci): Merged CO product, version 1.0"
+    },
+    "030157c0dda24ae28fc0f56d39cf1ed1": {
+      "doi": "10.5285/030157c0dda24ae28fc0f56d39cf1ed1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/030157c0dda24ae28fc0f56d39cf1ed1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from ATSR-2 (Along-Track Scanning Radiometer 2), level 3 collated (L3C) global product (1995-2003), version 4.00"
+    },
+    "4a40c6fe12cc4c0786608065da06d287": {
+      "doi": "10.5285/4a40c6fe12cc4c0786608065da06d287",
+      "url": "https://catalogue.ceda.ac.uk/uuid/4a40c6fe12cc4c0786608065da06d287",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from SLSTR (Sea and Land Surface Temperature Radiometer) on Sentinel 3A, level 3 collated (L3C) global product (2016-2023), version 4.00"
+    },
+    "5675b0be944f45a8af0e7ddbeb47a011": {
+      "doi": "10.5285/5675b0be944f45a8af0e7ddbeb47a011",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5675b0be944f45a8af0e7ddbeb47a011",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost Ground Temperature for the Northern Hemisphere, v5.0"
+    },
+    "62866635ab074e07b93f17fbf87a2c1a": {
+      "doi": "10.5285/62866635ab074e07b93f17fbf87a2c1a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/62866635ab074e07b93f17fbf87a2c1a",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2020,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): AVHRR-LTDR Burned Area Grid product, version 1.1"
+    },
+    "34a15b96f1134d9e95b9e486d74e49cf": {
+      "doi": "10.5285/34a15b96f1134d9e95b9e486d74e49cf",
+      "url": "https://catalogue.ceda.ac.uk/uuid/34a15b96f1134d9e95b9e486d74e49cf",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Nimbus-5 ESMR Sea Ice Concentration, version 1.0"
+    },
+    "4647cc9ad3c044439d6c643208d3c494": {
+      "doi": "10.5285/4647cc9ad3c044439d6c643208d3c494",
+      "url": "https://catalogue.ceda.ac.uk/uuid/4647cc9ad3c044439d6c643208d3c494",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Snow Water Equivalent (SWE) level 3C daily global climate research data package (CRDP) (1979 – 2020), version 2.0"
+    },
+    "a8422dd3766c447d8b5fa80920649f31": {
+      "doi": "10.5285/a8422dd3766c447d8b5fa80920649f31",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a8422dd3766c447d8b5fa80920649f31",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA River Discharge Climate Change Initiative (RD_cci): Multispectral indices-based River Discharge Product, v1.2"
+    },
+    "80567d38de3f4b038ee6e6e53ed1af8a": {
+      "doi": "10.5285/80567d38de3f4b038ee6e6e53ed1af8a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/80567d38de3f4b038ee6e6e53ed1af8a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from MODIS (2000-2022), version 3.0"
+    },
+    "e7864129084c4baaa34be3a1cfaaa13d": {
+      "doi": "10.5285/e7864129084c4baaa34be3a1cfaaa13d",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e7864129084c4baaa34be3a1cfaaa13d",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover Maps in Siberia (Northern Siberia region) at 10m spatial resolution for 2019 in Geotiff format, v1.2"
+    },
+    "00fe090efc58446e8980992a617f632f": {
+      "doi": "10.5285/00fe090efc58446e8980992a617f632f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/00fe090efc58446e8980992a617f632f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Antarctic Ice Sheet Climate Change Initiative (Antarctic_Ice_Sheet_cci): Antarctic Ice Sheet monthly velocity from 2017 to 2020, derived from Sentinel-1, v1"
+    },
+    "70061acca284432ca31fd8a5cbd604d0": {
+      "doi": "10.5285/70061acca284432ca31fd8a5cbd604d0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/70061acca284432ca31fd8a5cbd604d0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction – viewable snow (SCFV) from ATSR-2 (1995 – 2003), version 1.0"
+    },
+    "8cd1a9beabc648c8a2c91fa68791d9d7": {
+      "doi": "10.5285/8cd1a9beabc648c8a2c91fa68791d9d7",
+      "url": "https://catalogue.ceda.ac.uk/uuid/8cd1a9beabc648c8a2c91fa68791d9d7",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track Integrated Sea State Parameters (ISSP) from SAR Wave Mode onboard ENVISAT, L2P product, release version 3"
+    },
+    "9c350d4ff7ee438f9f1fc7252cbb2282": {
+      "doi": "10.5285/9c350d4ff7ee438f9f1fc7252cbb2282",
+      "url": "https://catalogue.ceda.ac.uk/uuid/9c350d4ff7ee438f9f1fc7252cbb2282",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci) : Global remote sensing merged multi-mission monthly gridded significant wave height from altimetry, L4 product, version 3"
+    },
+    "785ef9d3965442669bff899540747e28": {
+      "doi": "10.5285/785ef9d3965442669bff899540747e28",
+      "url": "https://catalogue.ceda.ac.uk/uuid/785ef9d3965442669bff899540747e28",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Multisensor Infra-Red (IR) Low Earth Orbit (LEO) land surface temperature (LST) time series level 3 supercollated (L3S) global product (1995-2020), version 2.00"
+    },
+    "330b7c922a37420fabb3425671d7d7c6": {
+      "doi": "10.5285/330b7c922a37420fabb3425671d7d7c6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/330b7c922a37420fabb3425671d7d7c6",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from SLSTR (Sea and Land Surface Temperature Radiometer) on Sentinel 3A, level 3 collated (L3C) global product (2016-2020), version 3.00"
+    },
+    "722fe4748da2487ead0a755f6d09e6ab": {
+      "doi": "10.5285/722fe4748da2487ead0a755f6d09e6ab",
+      "url": "https://catalogue.ceda.ac.uk/uuid/722fe4748da2487ead0a755f6d09e6ab",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged methane from GOSAT-2, generated with the SRPR (RemoTeC) proxy retrieval algorithm, version 1.0.0"
+    },
+    "7db4459605da4665b6ab9a7102fb4875": {
+      "doi": "10.5285/7db4459605da4665b6ab9a7102fb4875",
+      "url": "https://catalogue.ceda.ac.uk/uuid/7db4459605da4665b6ab9a7102fb4875",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Advanced Very High Resolution Radiometer (AVHRR) Level 3 Collated (L3C) Climate Data Record, version 2.1"
+    },
+    "315d8e013696420192f1ea1d9191ca9c": {
+      "doi": "10.5285/315d8e013696420192f1ea1d9191ca9c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/315d8e013696420192f1ea1d9191ca9c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci) : Global remote sensing merged multi-mission monthly gridded significant wave height from altimetry, L4 product, version 4"
+    },
+    "baeb32fd74cb49a1b67a6a4164ff0899": {
+      "doi": "10.5285/baeb32fd74cb49a1b67a6a4164ff0899",
+      "url": "https://catalogue.ceda.ac.uk/uuid/baeb32fd74cb49a1b67a6a4164ff0899",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track significant wave height from altimetry, L2P product, version 4"
+    },
+    "5e879d08e0b34ea5aa5aac2b3fdf2c2f": {
+      "doi": "10.5285/5e879d08e0b34ea5aa5aac2b3fdf2c2f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5e879d08e0b34ea5aa5aac2b3fdf2c2f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track significant wave height (SWH) from SAR WV onboard Sentinel-1A &amp; 1B, L2P product, release version 4."
+    },
+    "27e75b5f44604349bd563d9b898be953": {
+      "doi": "10.5285/27e75b5f44604349bd563d9b898be953",
+      "url": "https://catalogue.ceda.ac.uk/uuid/27e75b5f44604349bd563d9b898be953",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Water Vapour Climate Change Initiative (Water_Vapour_cci): Total Column Water Vapour daily gridded data over land at 0.05 degree resolution, version 4.2"
+    },
+    "cd07a8fab39d42e48f8657297a25b3f6": {
+      "doi": "10.5285/cd07a8fab39d42e48f8657297a25b3f6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/cd07a8fab39d42e48f8657297a25b3f6",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Himawari (HMWR8-9) level 3C (L3C) product (2015-2024), version 2.00"
+    },
+    "e229ccfbed8041cabc3dcb9a81f4150e": {
+      "doi": "10.5285/e229ccfbed8041cabc3dcb9a81f4150e",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e229ccfbed8041cabc3dcb9a81f4150e",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Himawari (HMWR8-9) level 3 (L3U) product (2015-2024), version 2.00"
+    },
+    "db75c5f51ee240ae8743355dcebbb9b9": {
+      "doi": "10.5285/db75c5f51ee240ae8743355dcebbb9b9",
+      "url": "https://catalogue.ceda.ac.uk/uuid/db75c5f51ee240ae8743355dcebbb9b9",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Fire Climate Change Initiative (FireCCI): Harmonised Medium Resolution Burned Area Grid product, version 6.0 (MRBA60H)"
+    },
+    "d43fc038423246f6b5d077ad034f04cd": {
+      "doi": "10.5285/d43fc038423246f6b5d077ad034f04cd",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d43fc038423246f6b5d077ad034f04cd",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from AVHRR-3 (Advanced Very High Resolution Radiometer-3) on NOAA-18 (National Oceanic and Atmospheric Administration), level 3 collated (L3C) global product (2005-2020), version 1.50"
+    },
+    "c5e585820d1240e89eea85ff2c9b4569": {
+      "doi": "10.5285/c5e585820d1240e89eea85ff2c9b4569",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c5e585820d1240e89eea85ff2c9b4569",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA River Discharge Climate Change Initiative (RD_cci): Nadir radar altimeters Water Level product, v2.0"
+    },
+    "bf5f4731e8bd456082e2e43f97f4430e": {
+      "doi": "10.5285/bf5f4731e8bd456082e2e43f97f4430e",
+      "url": "https://catalogue.ceda.ac.uk/uuid/bf5f4731e8bd456082e2e43f97f4430e",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Greenland Ice Sheet Climate Change Initiative (Greenland_Ice_Sheet_cci): Greenland Gravimetric Mass Balance from GRACE data, derived by DTU Space, v3.0"
+    },
+    "9d3304ed60884e4c8ec4719b6e5c57b1": {
+      "doi": "10.5285/9d3304ed60884e4c8ec4719b6e5c57b1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/9d3304ed60884e4c8ec4719b6e5c57b1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged methane from GOSAT-2, generated with the SRFP (RemoTeC) full physics retrieval algorithm (CH4_GO2_SRFP), version 2.0.3"
+    },
+    "f17f146a31b14dfd960cde0874236ee5": {
+      "doi": "10.5285/f17f146a31b14dfd960cde0874236ee5",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f17f146a31b14dfd960cde0874236ee5",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2017,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Sea Ice Concentration Climate Data Record from the AMSR-E and AMSR-2 instruments at 25km grid spacing, version 2.1"
+    },
+    "6e2091cb0c8b4106921b63cd5357c97c": {
+      "doi": "10.5285/6e2091cb0c8b4106921b63cd5357c97c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6e2091cb0c8b4106921b63cd5357c97c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost extent for the Northern Hemisphere, v3.0"
+    },
+    "d441079fc77f49fabeb41330612b252f": {
+      "doi": "10.5285/d441079fc77f49fabeb41330612b252f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d441079fc77f49fabeb41330612b252f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Sentinel-3 SYN Burned Area Pixel product, version 1.1"
+    },
+    "d34330ce3f604e368c06d76de1987ce5": {
+      "doi": "10.5285/d34330ce3f604e368c06d76de1987ce5",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d34330ce3f604e368c06d76de1987ce5",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost active layer thickness for the Northern Hemisphere, v4.0"
+    },
+    "7fc9df8070d34cacab8092e45ef276f1": {
+      "doi": "10.5285/7fc9df8070d34cacab8092e45ef276f1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/7fc9df8070d34cacab8092e45ef276f1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 2.1"
+    },
+    "875f25069b5d4bd9a7101ca1206ee4f0": {
+      "doi": "10.5285/875f25069b5d4bd9a7101ca1206ee4f0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/875f25069b5d4bd9a7101ca1206ee4f0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged carbon dioxide from GOSAT-2, derived using the SRFP (RemoTeC) full physics algorithm (CO2_GO2_SRFP), version 2.0.2"
+    },
+    "32d7bc64c7b740e9ad7a43589ab91592": {
+      "doi": "10.5285/32d7bc64c7b740e9ad7a43589ab91592",
+      "url": "https://catalogue.ceda.ac.uk/uuid/32d7bc64c7b740e9ad7a43589ab91592",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly land surface temperature from MODIS (Moderate resolution Infra-red Spectroradiometer) on Terra, level 3 collated (L3C) global product (2000-2018), version 3.00"
+    },
+    "b54d5f1c08594879a05929ce09951c56": {
+      "doi": "10.5285/b54d5f1c08594879a05929ce09951c56",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b54d5f1c08594879a05929ce09951c56",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly land surface temperature from SLSTR (Sea and Land Surface Temperature Radiometer) on Sentinel 3B, level 3 collated (L3C) global product (2018-2020), version 3.00"
+    },
+    "ebe625b6f77945a68bda0ab7c78dd76b": {
+      "doi": "10.5285/ebe625b6f77945a68bda0ab7c78dd76b",
+      "url": "https://catalogue.ceda.ac.uk/uuid/ebe625b6f77945a68bda0ab7c78dd76b",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable snow (SCFV) from MODIS (2000 - 2020), version 2.0"
+    },
+    "6babb8d9a8d247bcb3da6aed42f4b59a": {
+      "doi": "10.5285/6babb8d9a8d247bcb3da6aed42f4b59a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6babb8d9a8d247bcb3da6aed42f4b59a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from MODIS (Moderate resolution Infra-red Spectroradiometer) on Aqua, level 3 collated (L3C) global product (2002-2018), version 3.00"
+    },
+    "f1445bde2f1249c99bb5a59b71e9a9d7": {
+      "doi": "10.5285/f1445bde2f1249c99bb5a59b71e9a9d7",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f1445bde2f1249c99bb5a59b71e9a9d7",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from ATSR-2 (Along-Track Scanning Radiometer 2), level 3 collated (L3C) global product (1995-2013), version 3.00"
+    },
+    "01b00854797d44a59d57c8cce08821eb": {
+      "doi": "10.5285/01b00854797d44a59d57c8cce08821eb",
+      "url": "https://catalogue.ceda.ac.uk/uuid/01b00854797d44a59d57c8cce08821eb",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Small Fire Database (SFD) Burned Area grid product for Sub-Saharan Africa, version 2.0"
+    },
+    "919157930d7447caac6d42e84e377289": {
+      "doi": "10.5285/919157930d7447caac6d42e84e377289",
+      "url": "https://catalogue.ceda.ac.uk/uuid/919157930d7447caac6d42e84e377289",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Cloud Climate Change Initiative (Cloud_cci): Obs4MIPs format monthly gridded cloud products from AVHRR (AVHRR-PM), version 3"
+    },
+    "ff5f152a3f194ab1be33543f291e65cd": {
+      "doi": "10.5285/ff5f152a3f194ab1be33543f291e65cd",
+      "url": "https://catalogue.ceda.ac.uk/uuid/ff5f152a3f194ab1be33543f291e65cd",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Cloud Climate Change Initiative (Cloud_cci): Obs4MIPs format monthly gridded cloud products from AVHRR (AVHRR-AM), version 3"
+    },
+    "5e5da31f2ae047b997ddbbdd372d31cd": {
+      "doi": "10.5285/5e5da31f2ae047b997ddbbdd372d31cd",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5e5da31f2ae047b997ddbbdd372d31cd",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2021,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Obs4MIPS monthly-averaged sea surface temperature data, v2.1"
+    },
+    "cb4a019f65434da79ec212c2941e0253": {
+      "doi": "10.5285/cb4a019f65434da79ec212c2941e0253",
+      "url": "https://catalogue.ceda.ac.uk/uuid/cb4a019f65434da79ec212c2941e0253",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Precursors for Aerosols and Ozone Climate Change Initiative (Precursors_cci): monthly L3 SO2 from GOME, version 1.0"
+    },
+    "07badf9fb0f447cb90d63579bd725ecd": {
+      "doi": "10.5285/07badf9fb0f447cb90d63579bd725ecd",
+      "url": "https://catalogue.ceda.ac.uk/uuid/07badf9fb0f447cb90d63579bd725ecd",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Precursors for Aerosols and Ozone Climate Change Initiative (Precursors_cci): daily and monthly L3 SO2 from TROPOMI, version 1.0"
+    },
+    "e86d5d9d7bd6430e98282475e2252226": {
+      "doi": "10.5285/e86d5d9d7bd6430e98282475e2252226",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e86d5d9d7bd6430e98282475e2252226",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Water Vapour Climate Change Initiative (Water_Vapour_cci): Total Column Water Vapour monthly gridded data over land at 0.05 degree resolution, version 4.2"
+    },
+    "f5dce1f7bec2447093cf460a4d3ba2c2": {
+      "doi": "10.5285/f5dce1f7bec2447093cf460a4d3ba2c2",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f5dce1f7bec2447093cf460a4d3ba2c2",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable snow (SCFV) from SLSTR (2020 - 2022), version 1.0"
+    },
+    "25447c253cbe435b937347756fe47146": {
+      "doi": "10.5285/25447c253cbe435b937347756fe47146",
+      "url": "https://catalogue.ceda.ac.uk/uuid/25447c253cbe435b937347756fe47146",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost extent for Antarctica, v5.0"
+    },
+    "a6fbedd8ee5b472c8e84e55f746c1704": {
+      "doi": "10.5285/a6fbedd8ee5b472c8e84e55f746c1704",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a6fbedd8ee5b472c8e84e55f746c1704",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost active layer thickness for the Northern Hemisphere, v5.0"
+    },
+    "c7cd8115391340638bdd9adb0fbf28e9": {
+      "doi": "10.5285/c7cd8115391340638bdd9adb0fbf28e9",
+      "url": "https://catalogue.ceda.ac.uk/uuid/c7cd8115391340638bdd9adb0fbf28e9",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Drift-aware sea-ice thickness for the Northern Hemisphere from CryoSat-2, v1.0"
+    },
+    "48fc3d1e8ada405c8486ada522dae9e8": {
+      "doi": "10.5285/48fc3d1e8ada405c8486ada522dae9e8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/48fc3d1e8ada405c8486ada522dae9e8",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Southern hemisphere sea ice thickness from the CryoSat-2 satellite on a monthly grid (L3C), v2.0"
+    },
+    "b25d4a6174de4ac78000d034f500a268": {
+      "doi": "10.5285/b25d4a6174de4ac78000d034f500a268",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b25d4a6174de4ac78000d034f500a268",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost Ground Temperature for the Northern Hemisphere, v3.0"
+    },
+    "58f00d8814064b79a0c49662ad3af537": {
+      "doi": "10.5285/58f00d8814064b79a0c49662ad3af537",
+      "url": "https://catalogue.ceda.ac.uk/uuid/58f00d8814064b79a0c49662ad3af537",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): MODIS Fire_cci Burned Area Pixel product, version 5.1"
+    },
+    "4c5feb539f1f44308ca7ec26e0bb7316": {
+      "doi": "10.5285/4c5feb539f1f44308ca7ec26e0bb7316",
+      "url": "https://catalogue.ceda.ac.uk/uuid/4c5feb539f1f44308ca7ec26e0bb7316",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Small Fire Dataset (SFD) Burned Area pixel product for Sub-Saharan Africa, version 2.0"
+    },
+    "3fc7927499fa49e0b6ace6c807972259": {
+      "doi": "10.5285/3fc7927499fa49e0b6ace6c807972259",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3fc7927499fa49e0b6ace6c807972259",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged methane from GOSAT-2, generated with the SRPR (RemoTeC) proxy retrieval algorithm (CH4_GO2_SRPR), version 2.0.2"
+    },
+    "854cc98dbc634cdb8afa8835994428f5": {
+      "doi": "10.5285/854cc98dbc634cdb8afa8835994428f5",
+      "url": "https://catalogue.ceda.ac.uk/uuid/854cc98dbc634cdb8afa8835994428f5",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover and Land Cover Change Maps in Siberia (Norther Siberia region) at 30m spatial resolution in GeoTiff format, 1990-2019, v1.2"
+    },
+    "1fb8f831da5b45a59213da1d8a4503b8": {
+      "doi": "10.5285/1fb8f831da5b45a59213da1d8a4503b8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/1fb8f831da5b45a59213da1d8a4503b8",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Geostationary Operational Environmental Satellite (GOES) level 3U (L3U) product (2009-2020), version 1.00"
+    },
+    "a7e811fe11d34df5abac6f18c920bbeb": {
+      "doi": "10.5285/a7e811fe11d34df5abac6f18c920bbeb",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a7e811fe11d34df5abac6f18c920bbeb",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): All-weather MicroWave Land Surface Temperature (MW-LST) global data record (1996-2020), v2.33"
+    },
+    "81bab8b378db443db4482a5961a58ec1": {
+      "doi": "10.5285/81bab8b378db443db4482a5961a58ec1",
+      "url": "https://catalogue.ceda.ac.uk/uuid/81bab8b378db443db4482a5961a58ec1",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track significant wave height (SWH) from SAR WV onboard Sentinel-1A &amp; 1B, L2P product, release version 3."
+    },
+    "2ac9a3e7bdeb41b58b226a2fa612a4a3": {
+      "doi": "10.5285/2ac9a3e7bdeb41b58b226a2fa612a4a3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/2ac9a3e7bdeb41b58b226a2fa612a4a3",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly land surface temperature from AATSR (Advanced Along-Track Scanning Radiometer), level 3 collated (L3C) global product (2002-2012), version 3.00"
+    },
+    "8847a05eeda646a29da58b42bdf2a87c": {
+      "doi": "10.5285/8847a05eeda646a29da58b42bdf2a87c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/8847a05eeda646a29da58b42bdf2a87c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from MODIS (2000-2020), version 2.0"
+    },
+    "fdd90615b0df45489d9ca47708d98325": {
+      "doi": "10.5285/fdd90615b0df45489d9ca47708d98325",
+      "url": "https://catalogue.ceda.ac.uk/uuid/fdd90615b0df45489d9ca47708d98325",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged methane from GOSAT-2, generated with the SRFP (RemoTeC) full physics retrieval algorithm, version 1.0.0"
+    },
+    "550d938da3184d0ca44a06a4c0c14ffa": {
+      "doi": "10.5285/550d938da3184d0ca44a06a4c0c14ffa",
+      "url": "https://catalogue.ceda.ac.uk/uuid/550d938da3184d0ca44a06a4c0c14ffa",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Southern hemisphere sea ice thickness from Envisat on the satellite swath (L2P), v2.0"
+    },
+    "fbfae06e787b4fefb4b03cba2fd04bc3": {
+      "doi": "10.5285/fbfae06e787b4fefb4b03cba2fd04bc3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/fbfae06e787b4fefb4b03cba2fd04bc3",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Southern hemisphere sea ice thickness from CryoSat-2 on the satellite swath (L2P), v2.0"
+    },
+    "2cc63301f1854239aa61c70e58c61207": {
+      "doi": "10.5285/2cc63301f1854239aa61c70e58c61207",
+      "url": "https://catalogue.ceda.ac.uk/uuid/2cc63301f1854239aa61c70e58c61207",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2020,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged carbon dioxide from TANSAT, generated with the OCFP algorithm, for selected validation sites, version 1.0"
+    },
+    "5db2099606b94e63879d841c87e654ae": {
+      "doi": "10.5285/5db2099606b94e63879d841c87e654ae",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5db2099606b94e63879d841c87e654ae",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Along-Track Scanning Radiometer (ATSR) Level 3 Collated (L3C) Climate Data Record, version 2.1"
+    },
+    "a3ca75fd1fbd45749e7108db194e3330": {
+      "doi": "10.5285/a3ca75fd1fbd45749e7108db194e3330",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a3ca75fd1fbd45749e7108db194e3330",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Geostationary Operational Environmental Satellite (GOES12-13) level 3C (L3C) product (2004-2017), version 2.00"
+    },
+    "49b4836314db4fec8d05d14b85a8614d": {
+      "doi": "10.5285/49b4836314db4fec8d05d14b85a8614d",
+      "url": "https://catalogue.ceda.ac.uk/uuid/49b4836314db4fec8d05d14b85a8614d",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land Surface Temperature from SLSTR (Sea and Land Surface Temperature Radiometer) on Sentinel 3B, level 3 collated (L3C) global product (2018-2023), version 4.00"
+    },
+    "a92c495827ef4c81a901f878adb6ef70": {
+      "doi": "10.5285/a92c495827ef4c81a901f878adb6ef70",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a92c495827ef4c81a901f878adb6ef70",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from MODIS (Moderate resolution Infra-red Spectroradiometer) on Aqua, level 3 collated (L3C) global product (2002-2021), version 4.00"
+    },
+    "db0aee3dbdc54ab0981bca2e632f3be3": {
+      "doi": "10.5285/db0aee3dbdc54ab0981bca2e632f3be3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/db0aee3dbdc54ab0981bca2e632f3be3",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Southern hemisphere sea ice thickness from Sentinel-3B on a monthly grid (L3C), v4.0"
+    },
+    "9580c512bb474d00b1e0ee554e219bb7": {
+      "doi": "10.5285/9580c512bb474d00b1e0ee554e219bb7",
+      "url": "https://catalogue.ceda.ac.uk/uuid/9580c512bb474d00b1e0ee554e219bb7",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost active layer thickness for Antarctica, v5.0"
+    },
+    "48cd535e93574c8da8e80b91e06c7d51": {
+      "doi": "10.5285/48cd535e93574c8da8e80b91e06c7d51",
+      "url": "https://catalogue.ceda.ac.uk/uuid/48cd535e93574c8da8e80b91e06c7d51",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Greenland Ice Sheet Climate Change Initiative (Greenland_Ice_Sheet_cci): Greenland Gravimetric Mass Balance from GRACE data, derived by DTU Space, v2.2"
+    },
+    "62c0f97b1eac4e0197a674870afe1ee6": {
+      "doi": "10.5285/62c0f97b1eac4e0197a674870afe1ee6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/62c0f97b1eac4e0197a674870afe1ee6",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Level 4 Analysis Climate Data Record, version 2.1"
+    },
+    "5f331c418e9f4935b8eb1b836f8a91b8": {
+      "doi": "10.5285/5f331c418e9f4935b8eb1b836f8a91b8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5f331c418e9f4935b8eb1b836f8a91b8",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-ground biomass for the years 2010, 2017 and 2018, v3"
+    },
+    "af60720c1e404a9e9d2c145d2b2ead4e": {
+      "doi": "10.5285/af60720c1e404a9e9d2c145d2b2ead4e",
+      "url": "https://catalogue.ceda.ac.uk/uuid/af60720c1e404a9e9d2c145d2b2ead4e",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-ground biomass for the years 2010, 2017, 2018, 2019 and 2020, v4"
+    },
+    "56ff07acabab42888afe2d20b488ec49": {
+      "doi": "10.5285/56ff07acabab42888afe2d20b488ec49",
+      "url": "https://catalogue.ceda.ac.uk/uuid/56ff07acabab42888afe2d20b488ec49",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from AVHRR (1979 - 2022), version 3.0"
+    },
+    "5b1caf9095d7412282f5ba6b558034e3": {
+      "doi": "10.5285/5b1caf9095d7412282f5ba6b558034e3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5b1caf9095d7412282f5ba6b558034e3",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Soil Moisture Climate Change Initiative (Soil_Moisture_cci): ACTIVE product, Version 09.1"
+    },
+    "3628cb2fdba443588155e15dee8e5352": {
+      "doi": "10.5285/3628cb2fdba443588155e15dee8e5352",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3628cb2fdba443588155e15dee8e5352",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): MODIS Fire_cci Burned Area Grid product, version 5.1"
+    },
+    "b94cbe2ae4bf45cfa8dc58e98170c07c": {
+      "doi": "10.5285/b94cbe2ae4bf45cfa8dc58e98170c07c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b94cbe2ae4bf45cfa8dc58e98170c07c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from the Metop-A AVHRR (Advanced Very High Resolution Radiometer) instrument, level 3 collated (L3C) global product, version 1.10"
+    },
+    "3f034f4a08854eb59d58e1fa92d207b6": {
+      "doi": "10.5285/3f034f4a08854eb59d58e1fa92d207b6",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3f034f4a08854eb59d58e1fa92d207b6",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from AVHRR (1982 - 2018), version 2.0"
+    },
+    "91d1fbc572224b9c86f6c14ba9109479": {
+      "doi": "10.5285/91d1fbc572224b9c86f6c14ba9109479",
+      "url": "https://catalogue.ceda.ac.uk/uuid/91d1fbc572224b9c86f6c14ba9109479",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Sea Level Climate Change Initiative (Sea_Level_cci): Regional coastline profile of Vertical Land Motions in Europe and SE Asia/Oceania, v1"
+    },
+    "eade27004395466aaa006135e1b2ad1a": {
+      "doi": "10.5285/eade27004395466aaa006135e1b2ad1a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/eade27004395466aaa006135e1b2ad1a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): High(er) Resolution Sea Ice Concentration Climate Data Record Version 3 (SSM/I and SSMIS)"
+    },
+    "98ca52a0bcf94fc98155b7e914aa22a0": {
+      "doi": "10.5285/98ca52a0bcf94fc98155b7e914aa22a0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/98ca52a0bcf94fc98155b7e914aa22a0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly multisensor Infra-Red (IR) Low Earth Orbit (LEO) and Geostationary Earth Orbit (GEO) land surface temperature (LST) level 3 supercollated (L3S) global product (2009-2020), version 1.00"
+    },
+    "fe98aa1c666d42b9a2a0d19a72bb8a36": {
+      "doi": "10.5285/fe98aa1c666d42b9a2a0d19a72bb8a36",
+      "url": "https://catalogue.ceda.ac.uk/uuid/fe98aa1c666d42b9a2a0d19a72bb8a36",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly land surface temperature from MODIS (Moderate resolution Infra-red Spectroradiometer) on Aqua, level 3 collated (L3C) global product (2002-2018), version 3.00"
+    },
+    "36dae49c76f845a18062fa96599be719": {
+      "doi": "10.5285/36dae49c76f845a18062fa96599be719",
+      "url": "https://catalogue.ceda.ac.uk/uuid/36dae49c76f845a18062fa96599be719",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Antarctic Ice Sheet Climate Change Initiative (Antarctic_Ice_Sheet_cci): Antarctic Ice Sheet monthly Gravimetric Mass Balance gridded product, v3.0, 2002 - 2020"
+    },
+    "88dc78a226634c1c929ce93ba8eb0074": {
+      "doi": "10.5285/88dc78a226634c1c929ce93ba8eb0074",
+      "url": "https://catalogue.ceda.ac.uk/uuid/88dc78a226634c1c929ce93ba8eb0074",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Water Vapour Climate Change Initiative (Water_Vapour_cci): Total Column Water Vapour monthly gridded data over land at 0.5 degree resolution, version 4.2"
+    },
+    "a56dba09df8a42ec9fba8b8c7a5e1f69": {
+      "doi": "10.5285/a56dba09df8a42ec9fba8b8c7a5e1f69",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a56dba09df8a42ec9fba8b8c7a5e1f69",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 3.0"
+    },
+    "52ded3b1bad9432ba3f70006eb29595b": {
+      "doi": "10.5285/52ded3b1bad9432ba3f70006eb29595b",
+      "url": "https://catalogue.ceda.ac.uk/uuid/52ded3b1bad9432ba3f70006eb29595b",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from AVHRR-3 (Advanced Very High Resolution Radiometer-3) on NOAA-16 (National Oceanic and Atmospheric Administration), level 3 collated (L3C) global product (2002-2010), version 1.50"
+    },
+    "3c71c04cf08a410fac2c680cbf88cfd7": {
+      "doi": "10.5285/3c71c04cf08a410fac2c680cbf88cfd7",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3c71c04cf08a410fac2c680cbf88cfd7",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable (SCFV) from AVHRR (1979 - 2023), version 4.0"
+    },
+    "5a3b2face5604687b5bb9fd32fe96461": {
+      "doi": "10.5285/5a3b2face5604687b5bb9fd32fe96461",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5a3b2face5604687b5bb9fd32fe96461",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from VIIRS (Visible Infrared Imaging Radiometer Suite) on NOAA-20 (National Oceanic and Atmospheric Administration), level 3 collated (L3C) global product (2018-2024), version 1.00"
+    },
+    "95913ffb6467447ca72c4e9d8cf30501": {
+      "doi": "10.5285/95913ffb6467447ca72c4e9d8cf30501",
+      "url": "https://catalogue.ceda.ac.uk/uuid/95913ffb6467447ca72c4e9d8cf30501",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-ground biomass for the years 2007, 2010, 2015, 2016, 2017, 2018, 2019, 2020, 2021 and 2022, v6.0"
+    },
+    "8978580336864f6d8282656d58771b32": {
+      "doi": "10.5285/8978580336864f6d8282656d58771b32",
+      "url": "https://catalogue.ceda.ac.uk/uuid/8978580336864f6d8282656d58771b32",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Nimbus-5 ESMR Sea Ice Concentration, version 1.1"
+    },
+    "5b6033bfb7f241e89132a83fdc3d5364": {
+      "doi": "10.5285/5b6033bfb7f241e89132a83fdc3d5364",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5b6033bfb7f241e89132a83fdc3d5364",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2018,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Northern hemisphere sea ice thickness from CryoSat-2 on the satellite swath (L2P), v2.0"
+    },
+    "3c324bb4ee394d0d876fe2e1db217378": {
+      "doi": "10.5285/3c324bb4ee394d0d876fe2e1db217378",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3c324bb4ee394d0d876fe2e1db217378",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2020,
+      "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 1.0"
+    },
+    "8cb46a5efaa74032bf1833438f499cc3": {
+      "doi": "10.5285/8cb46a5efaa74032bf1833438f499cc3",
+      "url": "https://catalogue.ceda.ac.uk/uuid/8cb46a5efaa74032bf1833438f499cc3",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Sea State Climate Change Initiative (Sea_State_cci): Global remote sensing multi-mission along-track significant wave height from altimetry, L2P product, version 3"
+    },
+    "a07deacaffb8453e93d57ee214676304": {
+      "doi": "10.5285/a07deacaffb8453e93d57ee214676304",
+      "url": "https://catalogue.ceda.ac.uk/uuid/a07deacaffb8453e93d57ee214676304",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 2.0.2"
+    },
+    "20ec12f5d1f94e99aff2ed796264ee65": {
+      "doi": "10.5285/20ec12f5d1f94e99aff2ed796264ee65",
+      "url": "https://catalogue.ceda.ac.uk/uuid/20ec12f5d1f94e99aff2ed796264ee65",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost Ground Temperature for the Northern Hemisphere, v4.0"
+    },
+    "da8e669a74334c82a56e0b470bc4ef04": {
+      "doi": "10.5285/da8e669a74334c82a56e0b470bc4ef04",
+      "url": "https://catalogue.ceda.ac.uk/uuid/da8e669a74334c82a56e0b470bc4ef04",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Fire Climate Change Initiative (Fire_cci): Sentinel-3 SYN Burned Area Grid product, version 1.1"
+    },
+    "916b93aaf1474ce793171a33ca4c5026": {
+      "doi": "10.5285/916b93aaf1474ce793171a33ca4c5026",
+      "url": "https://catalogue.ceda.ac.uk/uuid/916b93aaf1474ce793171a33ca4c5026",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2019,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Along-Track Scanning Radiometer (ATSR) Level 2 Preprocessed (L2P) Climate Data Record, version 2.1"
+    },
+    "dc11996a68c446abb342e917efdaac30": {
+      "doi": "10.5285/dc11996a68c446abb342e917efdaac30",
+      "url": "https://catalogue.ceda.ac.uk/uuid/dc11996a68c446abb342e917efdaac30",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2023,
+      "title": "ESA Sea Surface Temperature Climate Change Initiative (SST_cci): Climatology Climate Data Record, version 2.2"
+    },
+    "ef8ce37b6af24469a2a4bdc31d3db27d": {
+      "doi": "10.5285/ef8ce37b6af24469a2a4bdc31d3db27d",
+      "url": "https://catalogue.ceda.ac.uk/uuid/ef8ce37b6af24469a2a4bdc31d3db27d",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Multisensor Infra-Red (IR) Low Earth Orbit (LEO) land surface temperature (LST) time series level 3 supercollated (L3S) global product (1995-2020), version 2.00"
+    },
+    "ef1627f523764eae8bbb6b81bf1f7a0a": {
+      "doi": "10.5285/ef1627f523764eae8bbb6b81bf1f7a0a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/ef1627f523764eae8bbb6b81bf1f7a0a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 1.1"
+    },
+    "e1dfd0ee655944b8a82ce0479c518747": {
+      "doi": "10.5285/e1dfd0ee655944b8a82ce0479c518747",
+      "url": "https://catalogue.ceda.ac.uk/uuid/e1dfd0ee655944b8a82ce0479c518747",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Antarctic Ice Sheet Climate Change Initiative (Antarctic_Ice_Sheet_cci): Antarctic Ice Sheet monthly Gravimetric Mass Balance basin product, v3.0, 2002-2020"
+    },
+    "7ea7540135f441369716ef867d217519": {
+      "doi": "10.5285/7ea7540135f441369716ef867d217519",
+      "url": "https://catalogue.ceda.ac.uk/uuid/7ea7540135f441369716ef867d217519",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2021,
+      "title": "ESA Glaciers Climate Change Initiative (Glaciers_cci): 2017 inventory of ice marginal lakes in Greenland (IIML), v1"
+    },
+    "3ff20589e41d4fd0a573653bfccb5c59": {
+      "doi": "10.5285/3ff20589e41d4fd0a573653bfccb5c59",
+      "url": "https://catalogue.ceda.ac.uk/uuid/3ff20589e41d4fd0a573653bfccb5c59",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Precursors for Aerosols and Ozone Climate Change Initiative (Precursors_cci): Precursors morning SCIAMACHY NO2 L3 data products, version 1.1"
+    },
+    "55cce53dea124a238b2c191c1340b2d2": {
+      "doi": "10.5285/55cce53dea124a238b2c191c1340b2d2",
+      "url": "https://catalogue.ceda.ac.uk/uuid/55cce53dea124a238b2c191c1340b2d2",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Geostationary Operational Environmental Satellite - R series (GOES-R) level 3 (L3U) product (2018-2024), version 2.01"
+    },
+    "d1929f1241e24d3cade8e933ed1f1ff8": {
+      "doi": "10.5285/d1929f1241e24d3cade8e933ed1f1ff8",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d1929f1241e24d3cade8e933ed1f1ff8",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2026,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from AVHRR-3 (Advanced Very High Resolution Radiometer-3) on NOAA-15 (National Oceanic and Atmospheric Administration), level 3 collated (L3C) global product (1998-2010), version 1.50"
+    },
+    "d56a6215ce394ddd8dff6bea5dbb0780": {
+      "doi": "10.5285/d56a6215ce394ddd8dff6bea5dbb0780",
+      "url": "https://catalogue.ceda.ac.uk/uuid/d56a6215ce394ddd8dff6bea5dbb0780",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Daily land surface temperature from MODIS (Moderate resolution Infra-red Spectroradiometer) on Terra, level 3 collated (L3C) global product (2000-2021), version 4.00"
+    },
+    "511a4ab3100b4010aab910b5fdaa7c4e": {
+      "doi": "10.5285/511a4ab3100b4010aab910b5fdaa7c4e",
+      "url": "https://catalogue.ceda.ac.uk/uuid/511a4ab3100b4010aab910b5fdaa7c4e",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from VIIRS (Visible Infrared Imaging Radiometer Suite) on Suomi National Polar-orbiting Partnership (SNPP), level 3 collated (L3C) global product (2012-2024), version 1.00"
+    },
+    "b8be3f3993e54d309fddf61ea5d3674f": {
+      "doi": "10.5285/b8be3f3993e54d309fddf61ea5d3674f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b8be3f3993e54d309fddf61ea5d3674f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Monthly Multisensor Infra-Red (IR) Low Earth Orbit (LEO) land surface temperature (LST) time series level 3 supercollated (L3S) global product (1995-2024), version 3.00"
+    },
+    "1097a848fd464ac8af3e8ab93032a19c": {
+      "doi": "10.5285/1097a848fd464ac8af3e8ab93032a19c",
+      "url": "https://catalogue.ceda.ac.uk/uuid/1097a848fd464ac8af3e8ab93032a19c",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2025,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged methane from GOSAT-2, generated with the SRPR (RemoTeC) proxy retrieval algorithm (CH4_GO2_SRPR), version 2.0.3"
+    },
+    "67a3f8c8dc914ef99f7f08eb0d997e23": {
+      "doi": "10.5285/67a3f8c8dc914ef99f7f08eb0d997e23",
+      "url": "https://catalogue.ceda.ac.uk/uuid/67a3f8c8dc914ef99f7f08eb0d997e23",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost active layer thickness for the Northern Hemisphere, v3.0"
+    },
+    "5f75fcb0c58740d99b07953797bc041e": {
+      "doi": "10.5285/5f75fcb0c58740d99b07953797bc041e",
+      "url": "https://catalogue.ceda.ac.uk/uuid/5f75fcb0c58740d99b07953797bc041e",
+      "publisher": "Centre for Environmental Data Analysis (CEDA)",
+      "publicationYear": 2017,
+      "title": "ESA Sea Ice Climate Change Initiative (Sea_Ice_cci): Sea Ice Concentration Climate Data Record from the AMSR-E and AMSR-2 instruments at 50km grid spacing, version 2.1"
+    },
+    "44c930e1388f40728884fbdf7e28c109": {
+      "doi": "10.5285/44c930e1388f40728884fbdf7e28c109",
+      "url": "https://catalogue.ceda.ac.uk/uuid/44c930e1388f40728884fbdf7e28c109",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA River Discharge Climate Change Initiative (RD_cci): Altimetry-based River Discharge product, v1.0"
+    },
+    "93444bc1c4364a59869e004bf9bfd94a": {
+      "doi": "10.5285/93444bc1c4364a59869e004bf9bfd94a",
+      "url": "https://catalogue.ceda.ac.uk/uuid/93444bc1c4364a59869e004bf9bfd94a",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Permafrost Climate Change Initiative (Permafrost_cci): Permafrost extent for the Northern Hemisphere, v4.0"
+    },
+    "2c1cb1d606c4421e9339a3028839a41f": {
+      "doi": "10.5285/2c1cb1d606c4421e9339a3028839a41f",
+      "url": "https://catalogue.ceda.ac.uk/uuid/2c1cb1d606c4421e9339a3028839a41f",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column averaged carbon dioxide from OCO-2 generated with the FOCAL algorithm, version 10.1"
+    },
+    "b053b51e854d484a9657f6bfb5ebd516": {
+      "doi": "10.5285/b053b51e854d484a9657f6bfb5ebd516",
+      "url": "https://catalogue.ceda.ac.uk/uuid/b053b51e854d484a9657f6bfb5ebd516",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2024,
+      "title": "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover and Land Cover Change Maps in Amazonia (Eastern Amazonas region) at 30m spatial resolution in GeoTiff format, 1990-2019, v1.2"
+    },
+    "6775e27575124407afeebb4bb1dfaaf5": {
+      "doi": "10.5285/6775e27575124407afeebb4bb1dfaaf5",
+      "url": "https://catalogue.ceda.ac.uk/uuid/6775e27575124407afeebb4bb1dfaaf5",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Multisensor Infra-Red (IR) Low Earth Orbit (LEO) and Geostationary Earth Orbit (GEO) land surface temperature (LST) level 3 supercollated (L3S) global product (2009-2020), version 1.00"
+    },
+    "1115d8946ba74c7f8a9fc3bfee5513a0": {
+      "doi": "10.5285/1115d8946ba74c7f8a9fc3bfee5513a0",
+      "url": "https://catalogue.ceda.ac.uk/uuid/1115d8946ba74c7f8a9fc3bfee5513a0",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2022,
+      "title": "ESA Land Surface Temperature Climate Change Initiative (LST_cci): Land surface temperature from AATSR (Advanced Along-Track Scanning Radiometer), level 3 collated (L3C) global product (2002-2012), version 3.00"
+    },
+    "f1b19872c12d477abfeb229f060a0969": {
+      "doi": "10.5285/f1b19872c12d477abfeb229f060a0969",
+      "url": "https://catalogue.ceda.ac.uk/uuid/f1b19872c12d477abfeb229f060a0969",
+      "publisher": "NERC EDS Centre for Environmental Data Analysis",
+      "publicationYear": 2021,
+      "title": "ESA Greenhouse Gases Climate Change Initiative (GHG_cci): Column-averaged carbon dioxide from GOSAT-2, derived using the SRFP (RemoTeC) full physics algorithm, version 1.0.0"
+    }
+  }
+}

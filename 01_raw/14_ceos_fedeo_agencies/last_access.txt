@@ -1,9 +1,10 @@
 source_id: 14_ceos_fedeo_agencies
 source_title: CEOS FedEO Gateway — ESA CCI (CEDA), ESA Earth Online, ESA MAAP, VITO Terrascope, JAXA, ISRO, DLR, INPE, NRCan & USGS
-retrieved_at_utc: 2026-11-13T16:51:00Z
+retrieved_at_utc: 2026-11-17T04:27:51Z
 http_status_summary: 200 OK
 total_records_retrieved: 2817
 endpoints_queried:
+  - https://api.datacite.org/dois?prefix=10.5285 (200/399 CEDA UUIDs)
   - https://api.stac.ceda.ac.uk/collections (29 collections)
   - https://catalog.maap.eo.esa.int/catalogue/collections?limit=100 (301 collections)
   - https://fedeo.ceos.org/collections?parentIdentifier=EOP:DLR:EOC (69 collections)
@@ -18,7 +19,11 @@ endpoints_queried:
   - https://fedeo.ceos.org/collections?parentIdentifier=EOP:STFC:CEDA-CCI (399 collections)
   - https://fedeo.ceos.org/collections?parentIdentifier=EOP:USGS:LANDSATLOOK (14 collections)
   - https://fedeo.ceos.org/collections?parentIdentifier=EOP:VITO:TERRASCOPE (123 collections)
+notes: Added CEDA DataCite 10.5285/<uuid> primary DOI crosswalk.
 files_written:
+  - path: data/ceda_datacite_doi_crosswalk.json
+    bytes: 93983
+    sha256: a654bea6d85000d21f3e992d23abdca2594207e566840381d6a744e080c94fa9
   - path: data/ceda_native_stac.json
     bytes: 218339
     sha256: f4247b32fe1eebfbc3c14fac223ef23fec4a1dce8aa73fe7b59290c531aa1a88

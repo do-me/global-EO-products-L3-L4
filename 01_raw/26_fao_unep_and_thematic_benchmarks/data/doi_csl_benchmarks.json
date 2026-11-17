@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "DOI": "10.11888/Terre.tpdc.303314",
+      "id": "10.11888/Terre.tpdc.303314",
+      "URL": "https://data.tpdc.ac.cn/en/data/1eec058e-74fd-452d-9255-dae4f1340783",
+      "title": "PML-V2.2: Global terrestrial evapotranspiration and gross primary production dataset from 1982 to near present",
+      "type": "dataset",
+      "author": [
+        {
+          "literal": "许振武"
+        }
+      ],
+      "abstract": "The Penman–Monteith–Leuning (PML-V2.2) dataset provides high-fidelity global terrestrial evapotranspiration (ET) and gross primary production (GPP) from 1982 to 2024. It comprises three complementary products: PML-V2.2a (8-day 500 m MODIS-based, 2000–2024) optimized for near-present monitoring; PML-V2.2b (half-month 0.1° AVHRR-based, 1982–2020) anchoring long-term climate attribution; and PML-V2.2c (consolidated half-month 0.1° record for seamless 43-year continuity, 1982–2024). Driven by MSWEP and MSWX variables, the framework features expanded bottom-up calibration using 208 flux sites and refined parameterization distinguishing irrigated from rainfed croplands, which reduced ET and GPP estimation errors by 8.7% and 16.2%, respectively. Quality is confirmed by high accuracy across plant functional types (NSE > 0.60, absolute bias < 5%) and reliable basin-scale water-balance validation (NSE: 0.89–0.91). Based on the consolidated PML-V2.2c dataset, global terrestrial annual ET and GPP are estimated at 65.8 × 10³ km³ yr⁻¹ and 143.0 PgC yr⁻¹, respectively. Specifically, this repository archives the comprehensive 0.1° dataset, aggregated into various temporal scales to accommodate diverse research requirements. This internally consistent dataset bridges satellite epochs to support advanced studies in global hydrology and ecology.",
+      "publisher": "国家青藏高原科学数据中心",
+      "publisher-place": "北京市朝阳区林萃路16号院3号楼",
+      "issued": {
+        "date-parts": [
+          [
+            2026
+          ]
+        ]
+      }
+    }
+  ]
+}

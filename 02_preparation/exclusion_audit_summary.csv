@@ -11,7 +11,7 @@ source_id,raw_records_mined,excluded_non_eo_or_non_dataset,excluded_l0_l1_l2_or_
 10_cdse_stac,854,0,164,0,264,0.8,0.0,43.9
 11_eea_and_emodnet,1744,0,5,0,1701,10.8,3.4,75.1
 12_ceos_cgms_wgclimate_ecv,821,0,23,0,798,1.4,0.0,26.4
-14_ceos_fedeo_agencies,2572,0,664,0,1908,93.1,1.6,27.8
+14_ceos_fedeo_agencies,2572,0,664,0,1908,93.1,1.6,24.3
 15_geobon_and_geokhub,1310,1025,1,0,284,100.0,88.0,50.0
 16_nasa_cmr,6593,0,354,3,5919,59.8,0.0,6.6
 17_eumetsat_product_navigator,896,0,569,0,327,83.2,0.0,69.7
@@ -23,7 +23,7 @@ source_id,raw_records_mined,excluded_non_eo_or_non_dataset,excluded_l0_l1_l2_or_
 23_wri_gfw_and_resourcewatch,3096,1092,11,0,1993,70.6,59.3,90.0
 24_openlandmap_stac,104,0,1,7,96,100.0,0.0,9.4
 25_worldpop_and_ciesin_stac,259,0,0,0,259,100.0,0.0,100.0
-26_fao_unep_and_thematic_benchmarks,2399,0,0,0,2399,100.0,100.0,42.9
+26_fao_unep_and_thematic_benchmarks,2439,0,0,0,2439,99.9,99.5,42.1
 27_gee_official_stac,1182,0,122,4,1056,18.8,0.0,63.6
 28_planetary_computer_stac,139,0,19,0,120,67.5,0.8,76.7
 29_awesome_gee_community,4401,0,3,0,4378,100.0,100.0,100.0

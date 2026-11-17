@@ -708,6 +708,120 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"missing_prior_ids={id_missing_cnt}, prose_sep={prose_sep_ok}, variants={var_evidence_ok}, wk0088={wk_cw_ok}, snpp_end_on={snpp_end_ongoing}",
     ))
 
+    # 23. Strict RFC 8259 JSONL, CEDA DOI provenance, antimeridian, variable-cadence, sublevel, NH SWE, new releases & harvest-anchored lifecycle
+    strict_jsonl_ok = True
+    jsonl_checked = 0
+    for jpath in sorted(PREP_DIR.glob("*.jsonl")) + sorted(HARM_DIR.glob("*.jsonl")):
+        jsonl_checked += 1
+        with jpath.open("r", encoding="utf-8") as jf:
+            for jline in jf:
+                try:
+                    json.loads(jline, parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))
+                except Exception:
+                    strict_jsonl_ok = False
+                    break
+        if not strict_jsonl_ok:
+            break
+
+    ceda_sub = df_all[
+        (df_all["source_catalogue"] == "14_ceos_fedeo_agencies")
+        & (df_all["raw_id"].astype(str).str.match(r"^[0-9a-f]{32}$"))
+    ]
+    bad_ceda_doi = int((ceda_sub["doi"].fillna("").str.contains(r"MOD021KM|10\.1016/|10\.5194/", regex=True, case=False)).sum())
+    bad_doi_src = int((ceda_sub["doi_source"].fillna("") == "stac_link_describedby").sum())
+    snow7_uuids = [
+        "edf8abd23f4a40aabd4d52e48dec06ea",
+        "bc13bb02a958449aac139853c4638f32",
+        "38a71d034b5c4097821de29ee3bc2498",
+        "80d96e3a14854420b6f742d70877c431",
+        "375ffdb8f0a445e380b4b9548655f5f9",
+        "f5dce1f7bec2447093cf460a4d3ba2c2",
+        "3c71c04cf08a410fac2c680cbf88cfd7",
+    ]
+    snow7_rows = df_all[df_all["raw_id"].isin(snow7_uuids)]
+    snow7_ok = len(snow7_rows) == 7 and bool((snow7_rows["doi"].str.lower() == ("10.5285/" + snow7_rows["raw_id"]).str.lower()).all())
+    ceda_ok = bad_ceda_doi == 0 and bad_doi_src == 0 and snow7_ok
+
+    tpca = df_all[df_all["raw_id"] == "ZENODO:4922168"]
+    gl_lai_23 = df_all[df_all["raw_id"] == "ZENODO:12698637"]
+    cam_a = df_all[df_all["raw_id"] == "ZENODO:3403005"]
+    v1081 = df_all[df_all["raw_id"] == "ZENODO:10815170"]
+    v1081_vars = df_var_22[df_var_22["raw_id"] == "ZENODO:10815170"] if len(df_var_22) else pd.DataFrame()
+    antim_var_ok = (
+        len(tpca) == 1
+        and float(tpca.iloc[0]["bbox_west"]) == 150.0
+        and float(tpca.iloc[0]["bbox_east"]) == -90.0
+        and bool(tpca.iloc[0]["bbox_crosses_antimeridian"])
+        and tpca.iloc[0]["geographic_coverage_class"] == "regional_or_local"
+        and int(tpca.iloc[0]["temporal_start_year"]) == 1997
+        and int(tpca.iloc[0]["temporal_end_year"]) == 2019
+        and len(gl_lai_23) == 1 and int(gl_lai_23.iloc[0]["temporal_end_year"]) == 2023
+        and len(cam_a) == 1 and int(cam_a.iloc[0]["temporal_end_year"]) == 2017
+        and len(v1081) == 1
+        and v1081.iloc[0]["prose_cadence_role"] == "variable_dependent_multi_cadence"
+        and v1081.iloc[0]["temporal_output_cadences"] == "monthly; annual; static"
+        and pd.isna(v1081.iloc[0]["temporal_cadence_by_epoch"])
+        and len(v1081_vars) == 3
+        and set(v1081_vars["variant_cadence"]) == {"monthly", "annual", "static"}
+    )
+
+    sublevel_nulls = int((
+        df_canon["title"].fillna("").str.contains(r"\bLevel[- ]?[34][A-Z]\b", regex=True, case=False)
+        & df_canon["processing_level"].isna()
+    ).sum())
+    nh5_ids = [
+        "16_nasa_cmr::C4017534264-FEDEO",
+        "14_ceos_fedeo_agencies::edf8abd23f4a40aabd4d52e48dec06ea",
+        "14_ceos_fedeo_agencies::9d9bfc488ec54b1297eca2c9662f9c81",
+        "14_ceos_fedeo_agencies::4647cc9ad3c044439d6c643208d3c494",
+        "16_nasa_cmr::C2254686682-ORNL_CLOUD",
+    ]
+    nh5 = df_all[df_all["record_id"].isin(nh5_ids)]
+    nh5_ok = (
+        len(nh5) == 5
+        and bool((nh5["geographic_coverage_class"] == "hemispheric_or_pantropical").all())
+        and bool((nh5["observation_domain_class"] == "northern_hemisphere_only").all())
+    )
+
+    jof = df_all[df_all["raw_id"] == "DATACITE:10.20783/dias.667"]
+    coseb = df_all[df_all["raw_id"] == "DATACITE:10.57760/sciencedb.27228"]
+    hugo = df_all[df_all["raw_id"] == "DATACITE:10.6096/13"]
+    millan = df_all[df_all["raw_id"] == "DATACITE:10.6096/1007"]
+    pml22 = df_all[df_all["raw_id"] == "DATACITE:10.11888/Terre.tpdc.303314"]
+    pml22_vars = df_var_22[df_var_22["raw_id"] == "DATACITE:10.11888/Terre.tpdc.303314"] if len(df_var_22) else pd.DataFrame()
+    new_rel_ok = (
+        len(jof) == 1 and float(jof.iloc[0]["adjudicated_output_grid_meters"]) == 27830.0
+        and jof.iloc[0]["observation_domain_mask"] == "ice_free_ocean_mask"
+        and int(jof.iloc[0]["temporal_start_year"]) == 1988 and int(jof.iloc[0]["temporal_end_year"]) == 2022
+        and len(coseb) == 1 and float(coseb.iloc[0]["adjudicated_output_grid_meters"]) == 5566.0
+        and coseb.iloc[0]["temporal_cadence_class"] == "sub_daily_or_daily"
+        and len(hugo) == 1 and hugo.iloc[0]["provider_pool"] == "eu_non_copernicus"
+        and float(hugo.iloc[0]["adjudicated_output_grid_meters"]) == 100.0
+        and float(hugo.iloc[0]["bbox_west"]) == -180.0 and float(hugo.iloc[0]["bbox_east"]) == 180.0
+        and not bool(hugo.iloc[0]["bbox_crosses_antimeridian"])
+        and hugo.iloc[0]["temporal_cadence_class"] == "multi_year_periodic"
+        and len(millan) == 1 and millan.iloc[0]["provider_pool"] == "eu_non_copernicus"
+        and len(pml22) == 1 and float(pml22.iloc[0]["adjudicated_output_grid_meters"]) == 11132.0
+        and int(pml22.iloc[0]["temporal_start_year"]) == 1982 and int(pml22.iloc[0]["temporal_end_year"]) == 2024
+        and len(pml22_vars) == 3
+    )
+
+    s5p_aut = df_all[df_all["raw_id"] == "SENTINEL5P_DAILY_AUT"]
+    gee_mcd = df_all[df_all["record_id"] == "27_gee_official_stac::MODIS/061/MCD43A4"]
+    pool_sum = pd.read_csv(REPO_ROOT / "03_harmonization" / "provider_pool_and_sentinel_summary.csv")
+    life_sum_ok = (
+        len(s5p_aut) >= 1 and bool((s5p_aut["operational_maturity_class"] != "operational_ongoing_series").all())
+        and len(gee_mcd) == 1 and gee_mcd.iloc[0]["operational_maturity_class"] == "operational_ongoing_series"
+        and "sentinel_lineage_status" in pool_sum.columns
+        and "unassessed_no_platform_metadata" in set(pool_sum["sentinel_lineage_status"].astype(str))
+    )
+
+    qa.append((
+        "23. Strict JSONL, CEDA DOIs, antimeridian, variable variants, sublevels, NH SWE, new releases & lifecycle",
+        bool(strict_jsonl_ok and ceda_ok and antim_var_ok and sublevel_nulls == 0 and nh5_ok and new_rel_ok and life_sum_ok),
+        f"jsonl={strict_jsonl_ok}({jsonl_checked}), ceda={ceda_ok}(snow7={snow7_ok}), antim_var={antim_var_ok}, sublevel_null={sublevel_nulls}, nh5={nh5_ok}, new_rel={new_rel_ok}, life_sum={life_sum_ok}",
+    ))
+
     return qa
 
 
@@ -804,7 +918,7 @@ GCOS_ECV_EXPLICIT_PATTERNS: dict[str, str] = {
     "Leaf area index": r"\b(?:leaf\s+area\s+index|\blai\b|mod15|vnp15)\b",
     "Lightning": r"\b(?:lightning\s+(?:flashes|imaging|detection|flash|density)|lis/otd|\bglm\b.*lightning)\b",
     "Ocean colour": r"\b(?:ocean\s+colou?r|water[- ]leaving\s+radiance|remote[- ]sensing\s+reflectance|\brrs\b|globcolour|chlorophyll[- ]a)\b",
-    "Ocean-surface heat flux": r"\b(?:ocean[- ]surface\s+heat\s+flux|air[- ]sea\s+heat\s+flux|sea[- ]surface\s+heat\s+flux|\boaflux\b|tropflux|latent\s+heat\s+flux|sensible\s+heat\s+flux)\b",
+    "Ocean-surface heat flux": r"\b(?:ocean[- ]surface\s+heat\s+flux(?:es)?|air[- ]sea\s+(?:heat\s+)?flux(?:es)?|sea[- ]surface\s+heat\s+flux(?:es)?|(?:latent(?:\s+and\s+sensible)?|sensible)\s+heat\s+flux(?:es)?|\boaflux\b|\btropflux\b|\bj-ofuro3?\b|\bseaflux\b)\b",
     "Ozone": r"\b(?:ozone|\bo3\b|total\s+column\s+ozone|stratospheric\s+ozone|tropospheric\s+ozone)\b",
     "Permafrost": r"\b(?:permafrost|active\s+layer\s+thickness|rock\s+glacier|frozen\s+ground)\b",
     "Plankton": r"\b(?:plankton|phytoplankton|zooplankton|chlorophyll|primary\s+production.*ocean|marine\s+biogeochemistry)\b",
@@ -844,6 +958,14 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
             ecv_names[ecv] = ecv_names.get(ecv, 0) + 1
 
     blob = (df_canon["title"].fillna("") + " " + df_canon["keywords"].fillna("")).str.lower()
+    # Extract leading deliverable sentences from descriptions (stripping citation/reference sentences) for domain-qualified heat flux matching
+    desc_lead = (
+        df_canon["description"]
+        .fillna("")
+        .apply(lambda s: " ".join(re.split(r"(?<=[.!?])\s+|\n+", str(s))[:3]))
+        .str.lower()
+    )
+    blob_heat = blob + " " + desc_lead
     is_non_wgc = df_canon["source_catalogue"] != "12_ceos_cgms_wgclimate_ecv"
     rows = []
     for ecv, n_wg in sorted(ecv_names.items(), key=lambda x: -x[1]):
@@ -878,18 +1000,20 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
                 & ~rad_ttl_mask
             )
         elif ecv == "Ocean-surface heat flux":
-            is_marine = blob.str.contains(r"\b(?:ocean|marine|sea|air[- ]sea|oaflux|tropflux)\b", regex=True, na=False)
-            is_land_et = blob.str.contains(
-                r"\b(?:evapotranspiration|mod16|myd16|vnp17|vj117|vj217|terrestrial|land\s+surface\s+evap|canopy|ameriflux|fluxnet|nacp)\b",
+            hit_heat = blob_heat.str.contains(pat, regex=True, na=False)
+            is_marine = blob_heat.str.contains(r"\b(?:ocean|marine|sea[- ]surface|air[- ]sea|oaflux|tropflux|j-ofuro3?)\b", regex=True, na=False)
+            is_land_et = blob_heat.str.contains(
+                r"\b(?:evapotranspiration|mod16|myd16|vnp17|vj117|vj217|terrestrial|land\s+surface|land\s+energy\s+balance|"
+                r"soil\s+heat\s+flux|coseb|canopy|ameriflux|fluxnet|nacp|permafrost|aircraft\s+flux|fife|ground\s+validation|icepop)\b",
                 regex=True,
                 na=False,
             )
-            is_carbon_flux = blob.str.contains(
-                r"\b(?:co2\s+flux(?:es)?|sea[- ]air\s+co2|carbon\s+flux(?:es)?|pco2|fco2|seaflux)\b",
+            is_carbon_flux = blob_heat.str.contains(
+                r"\b(?:co2\s+flux(?:es)?|sea[- ]air\s+co2|carbon\s+flux(?:es)?|pco2|fco2)\b",
                 regex=True,
                 na=False,
-            ) & ~blob.str.contains(r"\b(?:heat\s+flux|latent\s+heat|sensible\s+heat)\b", regex=True, na=False)
-            hit_mask = hit_mask & is_marine & ~is_land_et & ~is_carbon_flux
+            ) & ~blob_heat.str.contains(r"\b(?:latent(?:\s+and\s+sensible)?|sensible)\s+heat\s+flux(?:es)?\b|\bocean[- ]surface\s+heat\s+flux", regex=True, na=False)
+            hit_mask = hit_heat & is_marine & ~is_land_et & ~is_carbon_flux
         elif ecv == "Plankton":
             ttl_low = df_canon["title"].fillna("").str.lower()
             is_land_veg_pigment = blob.str.contains(
@@ -986,10 +1110,20 @@ def audit_independent_version_benchmark(df_all: pd.DataFrame) -> pd.DataFrame:
             if spec.get("expected_sentinel_status"):
                 if not bool((sub["sentinel_lineage_status"].fillna("") == spec["expected_sentinel_status"]).all()):
                     field_mismatches.append(f"sent_status={list(sub['sentinel_lineage_status'].unique())}")
+            if spec.get("expected_pool"):
+                if not bool((sub["provider_pool"].fillna("") == spec["expected_pool"]).all()):
+                    field_mismatches.append(f"pool={list(sub['provider_pool'].unique())}")
+            if spec.get("expected_domain_class"):
+                if not bool((sub["observation_domain_class"].fillna("") == spec["expected_domain_class"]).all()):
+                    field_mismatches.append(f"domain={list(sub['observation_domain_class'].unique())}")
+            if spec.get("expected_domain_mask"):
+                if not bool((sub["observation_domain_mask"].fillna("") == spec["expected_domain_mask"]).all()):
+                    field_mismatches.append(f"mask={list(sub['observation_domain_mask'].unique())}")
 
         status = "PASS" if (recalled and not field_mismatches) else ("MISSING" if not recalled else "FIELD_MISMATCH")
         rows.append({
             "case_id": spec["case_id"],
+            "benchmark_group": spec.get("benchmark_group") or "core_version_panel",
             "product_name": spec["product_name"],
             "matched_records": len(sub),
             "recalled": recalled,
@@ -1037,13 +1171,40 @@ def main() -> None:
     df_ecv.to_csv(BASE_DIR / "gcos_ecv_domain_coverage.csv", index=False)
     print(f"Audited {len(df_ecv)} GCOS/WGClimate ECV groups; {(df_ecv['canonical_catalogue_matches'] > 0).sum()} / {len(df_ecv)} have canonical matches.")
 
-    # 4. Independent Version-Level Product Recall & Attribute Correctness Benchmark
+    # Verify Ocean-surface heat flux positive & negative controls strictly
+    hf_pat = str(df_ecv[df_ecv["gcos_ecv_name"] == "Ocean-surface heat flux"].iloc[0]["matching_pattern"])
+    blob_c = (df_canon["title"].fillna("") + " " + df_canon["keywords"].fillna("")).str.lower()
+    desc_c = df_canon["description"].fillna("").apply(lambda s: " ".join(re.split(r"(?<=[.!?])\s+|\n+", str(s))[:3])).str.lower()
+    bh_c = blob_c + " " + desc_c
+    hf_mask = (
+        bh_c.str.contains(hf_pat, regex=True, na=False)
+        & bh_c.str.contains(r"\b(?:ocean|marine|sea[- ]surface|air[- ]sea|oaflux|tropflux|j-ofuro3?)\b", regex=True, na=False)
+        & ~bh_c.str.contains(r"\b(?:evapotranspiration|mod16|myd16|vnp17|vj117|vj217|terrestrial|land\s+surface|land\s+energy\s+balance|soil\s+heat\s+flux|coseb|canopy|ameriflux|fluxnet|nacp|permafrost|aircraft\s+flux|fife|ground\s+validation|icepop)\b", regex=True, na=False)
+        & ~(bh_c.str.contains(r"\b(?:co2\s+flux(?:es)?|sea[- ]air\s+co2|carbon\s+flux(?:es)?|pco2|fco2)\b", regex=True, na=False) & ~bh_c.str.contains(r"\b(?:latent(?:\s+and\s+sensible)?|sensible)\s+heat\s+flux(?:es)?\b|\bocean[- ]surface\s+heat\s+flux", regex=True, na=False))
+    )
+    hf_ids = set(df_canon[hf_mask]["raw_id"].astype(str))
+    hf_ctrl_ok = (
+        "C1995869798-GHRC_DAAC" in hf_ids
+        and "DATACITE:10.20783/dias.667" in hf_ids
+        and "ZENODO:8280457" not in hf_ids
+        and "DATACITE:10.57760/sciencedb.27228" not in hf_ids
+    )
+    print(f"Ocean-surface heat flux controls (SeaFlux+J-OFURO3 in; CO2+CoSEB out): {hf_ctrl_ok} (matched={len(hf_ids)})")
+    if not hf_ctrl_ok:
+        failures += 1
+
+    # 4. Independent Version-Level Product Recall & Attribute Correctness Benchmark (discovery recall vs field accuracy separated)
     print("\n--- 4. EXTERNAL BENCHMARK 3: INDEPENDENT PRODUCT & VERSION RECALL / ACCURACY ---")
     df_ind = audit_independent_version_benchmark(df_all)
     df_ind.to_csv(BASE_DIR / "independent_product_version_audit.csv", index=False)
     n_rec = int(df_ind["recalled"].sum())
+    n_attr = int((df_ind["recalled"] & df_ind["scientific_attributes_ok"]).sum())
     n_pass = int((df_ind["status"] == "PASS").sum())
-    print(f"Version-level recall: {n_rec} / {len(df_ind)} | Exact attribute accuracy: {n_pass} / {len(df_ind)}")
+    print(f"Discovery recall (enumeration): {n_rec} / {len(df_ind)} | Field-level attribute accuracy: {n_attr} / {len(df_ind)} | Combined pass: {n_pass} / {len(df_ind)}")
+    for grp_name, gdf in df_ind.groupby("benchmark_group"):
+        g_rec = int(gdf["recalled"].sum())
+        g_attr = int((gdf["recalled"] & gdf["scientific_attributes_ok"]).sum())
+        print(f"  - {grp_name:24s}: recall={g_rec}/{len(gdf)}, field_acc={g_attr}/{len(gdf)}")
     ind_fails = df_ind[df_ind["status"] != "PASS"]
     if len(ind_fails) > 0:
         failures += len(ind_fails)

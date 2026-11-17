@@ -1,24 +1,31 @@
 source_id: 26_fao_unep_and_thematic_benchmarks
 source_title: FAO GISMGR v2 (WaPOR, GAEZ, ASAP, GSOC) & Zenodo Authoritative Global EO L3/L4 Benchmarks
-retrieved_at_utc: 2026-11-16T04:07:42Z
+retrieved_at_utc: 2026-11-17T04:28:12Z
 http_status_summary: 200 OK
-total_records_retrieved: 2406
+total_records_retrieved: 2447
 endpoints_queried:
   - https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces?size=100&page=0..N
   - https://zenodo.org/api/records?type=dataset (scoped boolean queries, full pagination + audit)
   - https://api.datacite.org/dois?prefix=10.5880&query=g3p
   - https://api.datacite.org/dois?prefix=10.18160&query=FLUXCOM
-notes: FAO GISMGR mapsets (all pages): 1028, Zenodo benchmark datasets: 1362, DataCite benchmark records (G3P, FLUXCOM-X, LCSPP, PANGAEA, CSIF): 16
+  - https://api.datacite.org/dois?prefix=10.20783&query=+("J-OFURO" OR GSMaP OR "surface flux")
+  - https://api.datacite.org/dois?prefix=10.57760&query=+global +(CoSEB OR "solar-induced chlorophyll fluorescence" OR "surface radiation" OR "sea surface salinity" OR "LAI/FPAR" OR "land surface temperature") +(satellite OR MODIS OR FY-3 OR GOME OR SMOS OR GLASS)
+  - https://api.datacite.org/dois?prefix=10.6096&query=+(glacier OR "sea-ice" OR "snow depth") +(global OR hemisphere OR CryoSat OR Envisat OR Sentinel OR ASTER OR world)
+  - https://doi.org/10.11888/Terre.tpdc.303314 (Accept: application/vnd.citationstyles.csl+json)
+notes: FAO GISMGR mapsets (all pages): 1028, Zenodo benchmark datasets: 1363, DataCite benchmark records (incl. DIAS, ScienceDB, Theia, GFZ, ICOS, PANGAEA): 55, DOI CSL-JSON records (TPDC): 1
 files_written:
+  - path: data/doi_csl_benchmarks.json
+    bytes: 2060
+    sha256: 46546d028efc80cf08683ad7845e1b54dbf8a618257fbeb0c8a8847f64d392c4
   - path: data/fao_gismgr_workspaces_and_mapsets.json
     bytes: 688608
     sha256: 7458bda94e634402d08536be8c78f60b7872f4389f38aa914fd55123d43f995f
   - path: data/gfz_datacite_g3p_benchmarks.json
-    bytes: 296501
-    sha256: 323df37dbc7fd73e3202f80e7af37e1cbf34d0af794d14a95eb2c3597362698c
+    bytes: 620759
+    sha256: 9d252aa3b2dad8b1fdc6b9799445b0191c809387e844c9c690e53e459201eb69
   - path: data/zenodo_pagination_audit.json
     bytes: 11327
-    sha256: b9d42565f9f4a16b65e42f1dbf216542c93f5b0ef75bb919262d4f97bee69907
+    sha256: eb46bd9ba24c76e4181f6734d76d89018e2b49fd67acdd070a92f0538550db3d
   - path: data/zenodo_thematic_benchmarks.jsonl
-    bytes: 34698787
-    sha256: 6c48cccf6540f07c8d70728120c37810fb238d3195ce7453970fa9af3c1f0346
+    bytes: 34707099
+    sha256: b7205748e00eca6359e4cefb216973467720c27acbedaa5b345a313d01c4b39f

@@ -28,8 +28,10 @@ Strict Reproducibility Guarantee:
 
 from __future__ import annotations
 
+import datetime as dt
 import hashlib
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any
@@ -40,6 +42,62 @@ BASE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = BASE_DIR.parent
 PREP_DATA_DIR = REPO_ROOT / "02_preparation" / "data"
 OUT_DATA_DIR = BASE_DIR / "data"
+
+
+def _load_source_harvest_dates() -> dict[str, dt.date]:
+    """Read per-source harvest dates (`retrieved_at_utc`) from `01_raw/*/last_access.txt`."""
+    dates: dict[str, dt.date] = {}
+    for la in sorted((REPO_ROOT / "01_raw").glob("*/last_access.txt")):
+        sid = la.parent.name
+        try:
+            txt = la.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        m = re.search(r"^retrieved_at_utc:\s*(\d{4}-\d{2}-\d{2})", txt, re.MULTILINE)
+        if m:
+            try:
+                dates[sid] = dt.date.fromisoformat(m.group(1))
+            except Exception:
+                pass
+    return dates
+
+
+_SOURCE_HARVEST_DATES: dict[str, dt.date] = _load_source_harvest_dates()
+_DEFAULT_HARVEST_DATE: dt.date = max(_SOURCE_HARVEST_DATES.values()) if _SOURCE_HARVEST_DATES else dt.date(2026, 11, 13)
+
+
+def _strict_json_sanitize(obj: Any) -> Any:
+    """Recursively convert non-finite floats / pandas NA / numpy scalars into strict RFC 8259 JSON primitives."""
+    if obj is None:
+        return None
+    if isinstance(obj, bool):
+        return obj
+    if isinstance(obj, int):
+        return obj
+    if isinstance(obj, float):
+        return obj if math.isfinite(obj) else None
+    if isinstance(obj, str):
+        return obj
+    if isinstance(obj, dict):
+        return {str(k): _strict_json_sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_strict_json_sanitize(v) for v in obj]
+    if hasattr(obj, "tolist"):
+        try:
+            return _strict_json_sanitize(obj.tolist())
+        except Exception:
+            pass
+    if hasattr(obj, "item"):
+        try:
+            return _strict_json_sanitize(obj.item())
+        except Exception:
+            pass
+    try:
+        if pd.isna(obj):
+            return None
+    except Exception:
+        pass
+    return obj
 
 # Authority priority rank (lower = higher primary producer authority)
 SOURCE_AUTHORITY_RANK: dict[str, int] = {
@@ -307,7 +365,13 @@ def classify_cadence(
     use_prose = bool(
         not tr_native
         and prose_cadence_raw
-        and prose_cadence_role in ("delivered_output_cadence", "epoch_dependent_multi_cadence", "level_dependent_multi_cadence")
+        and prose_cadence_role
+        in (
+            "delivered_output_cadence",
+            "epoch_dependent_multi_cadence",
+            "level_dependent_multi_cadence",
+            "variable_dependent_multi_cadence",
+        )
     )
     tr = tr_native or ((prose_cadence_raw or "").strip().lower() if use_prose else "")
     title_l = (title or "").strip().lower()
@@ -375,9 +439,21 @@ def extract_temporal_output_details(
     """Separates output step interval(s) from rolling retrieval/compositing/accumulation windows,
     retaining both semimonthly and distinct multi-day steps (e.g. 8-day) when both occur across epochs."""
     tr_src = temp_res_raw
-    if not tr_src and prose_cadence_raw and prose_cadence_role in ("delivered_output_cadence", "epoch_dependent_multi_cadence", "level_dependent_multi_cadence"):
+    if (
+        not tr_src
+        and prose_cadence_raw
+        and prose_cadence_role
+        in (
+            "delivered_output_cadence",
+            "epoch_dependent_multi_cadence",
+            "level_dependent_multi_cadence",
+            "variable_dependent_multi_cadence",
+        )
+    ):
         tr_src = prose_cadence_raw
     tr = (tr_src or "").strip().lower()
+    if prose_cadence_role == "variable_dependent_multi_cadence" and not temp_res_raw and prose_cadence_raw:
+        return prose_cadence_raw, None
     tr_classes = _match_cadence_classes(tr) if tr else []
     has_exact_semi = bool(
         re.search(
@@ -469,8 +545,13 @@ _SINGLE_GEO_DISK_RE = re.compile(
 )
 
 
-def _detect_observation_domain_mask(raw_id: str | None, title: str | None, kw_raw: str | None = None) -> str | None:
-    """Identify biome-, cryosphere-, wetland-, or urban-masked domains strictly from product title/ID (avoiding ancillary mask keywords on global SST)."""
+def _detect_observation_domain_mask(
+    raw_id: str | None,
+    title: str | None,
+    kw_raw: str | None = None,
+    desc: str | None = None,
+) -> str | None:
+    """Identify biome-, cryosphere-, sea-ice-, wetland-, or urban-masked domains without leaking ancillary mask keywords on unmasked products."""
     head = f"{raw_id or ''} {title or ''}"
     if re.search(r"\bmangroves?\b|\bglobemch\b|\bgmw\b", head, re.IGNORECASE):
         return "mangrove_biome_mask"
@@ -480,7 +561,18 @@ def _detect_observation_domain_mask(raw_id: str | None, title: str | None, kw_ra
         return "inland_water_or_wetland_mask"
     if re.search(r"\b(?:world\s+settlement\s+footprint|wsf\b|ghs[-_ ]?built|built[- ]?up|urban\s+(?:extent|footprint))\b", head, re.IGNORECASE):
         return "urban_settlement_mask"
+    if desc and re.search(r"\b(?:with\s+the\s+exception\s+of\s+(?:the\s+)?sea[- ]?ice|except\s+for\s+(?:the\s+)?sea[- ]?ice|ice[- ]?free\s+oceans?)\b", desc, re.IGNORECASE):
+        return "ice_free_ocean_mask"
     return None
+
+
+_DESC_SINGLE_HEMI_RE = re.compile(
+    r"\b(?:covers|covering|restricted\s+to|limited\s+to|spanning|specifically\s+for|designed\s+for|"
+    r"snow\s+water\s+equivalent\s+(?:for|across|over)|across|over)\s+the\s+(northern|southern)\s+hemisphere\b|"
+    r"\b(northern|southern)\s+hemisphere\s+(?:only|swe\s+products?|permafrost\s+domain|winter\s+seasons?)\b|"
+    r"\bfor\s+the\s+(northern|southern)\s+hemisphere\s+(?:permafrost|winter|domain)\b",
+    re.IGNORECASE,
+)
 
 
 def classify_geographic_coverage(
@@ -494,8 +586,9 @@ def classify_geographic_coverage(
 ) -> tuple[float | None, float | None, float | None, float | None, str | None, str | None, str, str | None]:
     title_str = title or ""
     rid_str = raw_id or ""
+    desc_str = desc or ""
     head_geo = f"{rid_str} {title_str}"
-    domain_mask = _detect_observation_domain_mask(raw_id, title, kw_raw)
+    domain_mask = _detect_observation_domain_mask(raw_id, title, kw_raw, desc=desc_str)
     has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_str, re.IGNORECASE))
     has_both_hemispheres = bool(
         re.search(
@@ -504,6 +597,24 @@ def classify_geographic_coverage(
             re.IGNORECASE,
         )
     )
+    desc_has_both_hemi = bool(
+        re.search(r"\bnorthern\s+hemisphere\b", desc_str, re.IGNORECASE)
+        and re.search(r"\bsouthern\s+hemisphere\b", desc_str, re.IGNORECASE)
+    )
+    hemi_restriction: str | None = None
+    if not has_both_hemispheres and not desc_has_both_hemi:
+        m_ht = re.search(r"\b(northern|southern)\s+hemisphere\b", title_str, re.IGNORECASE)
+        if m_ht:
+            hemi_restriction = f"{m_ht.group(1).lower()}_hemisphere_only"
+        else:
+            for sent_h in re.split(r"(?<=[.!?])\s+|\n+", desc_str):
+                if re.search(r"\b(?:validation|validated|evaluation|comparison|compared|case\s+study)\b", sent_h, re.IGNORECASE):
+                    continue
+                m_hd = _DESC_SINGLE_HEMI_RE.search(sent_h)
+                if m_hd:
+                    h_tok = (m_hd.group(1) or m_hd.group(2) or m_hd.group(3)).lower()
+                    hemi_restriction = f"{h_tok}_hemisphere_only"
+                    break
     is_multi_geo_family = bool(
         _MULTI_GEO_GLOBAL_MERGE_RE.search(head_geo)
         or (source_id in ("02_copernicus_clms",) and "global" in title_str.lower())
@@ -568,8 +679,13 @@ def classify_geographic_coverage(
             return w, s, e, n, "regional_or_local", domain, bbox_prov or "upstream_bbox", domain_mask
 
     if dlon >= 300.0 and dlat >= 90.0:
-        if s >= -5.0 or n <= 5.0 or (not has_global_in_title and not has_both_hemispheres and _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str)):
-            return w, s, e, n, "hemispheric_or_pantropical", "hemispheric_or_pantropical", bbox_prov or "upstream_bbox", domain_mask
+        if (
+            hemi_restriction is not None
+            or s >= -5.0
+            or n <= 5.0
+            or (not has_global_in_title and not has_both_hemispheres and _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str))
+        ):
+            return w, s, e, n, "hemispheric_or_pantropical", (hemi_restriction or "hemispheric_or_pantropical"), bbox_prov or "upstream_bbox", domain_mask
         if dlat >= 120.0:
             cov, domain = "global", "global_nominal_envelope"
         else:
@@ -1274,10 +1390,10 @@ def classify_level_and_ontology(
         lbl for lbl, flg in (("L1", has_raw_l1), ("L2", has_raw_l2), ("L3", has_raw_l3), ("L4", has_raw_l4)) if flg
     ]
 
-    explicit_l4_title = bool(re.search(r"\b(?:level[- ]?4|l4[a-d]?)\b", head_lvl, re.IGNORECASE))
-    explicit_l3_title = bool(re.search(r"\b(?:level[- ]?3|l3[abcgs]?)\b", head_lvl, re.IGNORECASE))
+    explicit_l4_title = bool(re.search(r"\b(?:level[- ]?4[a-d]?|l4[a-d]?)\b", head_lvl, re.IGNORECASE))
+    explicit_l3_title = bool(re.search(r"\b(?:level[- ]?3[abcgsup]?|l3[abcgsup]?)\b", head_lvl, re.IGNORECASE))
     explicit_l1_title = bool(re.search(r"\b(?:level[- ]?1[abc]?|l1[abc]?)\b", head_lvl, re.IGNORECASE))
-    explicit_l2_title = bool(re.search(r"\b(?:level[- ]?2[ab]?|l2[ab]?)\b", head_lvl, re.IGNORECASE))
+    explicit_l2_title = bool(re.search(r"\b(?:level[- ]?2[abcgprt]?|l2[abcgprt]?)\b", head_lvl, re.IGNORECASE))
     title_has_l3_l4 = bool(re.search(r"\bL3[/;]L4\b|\bLevel[- ]?3\s*[/;&]\s*(?:Level[- ]?)?4\b", head_lvl, re.IGNORECASE))
     desc_has_l2_l3 = bool(
         desc
@@ -1544,13 +1660,51 @@ def classify_operational_maturity(
         or (end_year is not None and end_year >= 2028)
     )
 
+    harvest_date = _SOURCE_HARVEST_DATES.get(source_id, _DEFAULT_HARVEST_DATE)
+    prev_yr = harvest_date.year - 1
+
+    # Parse exact temporal_end_raw date when available (anchored to harvest_date, never hardcoded calendar year)
+    parsed_end_date: dt.date | None = None
+    if temporal_end_raw:
+        te_s = str(temporal_end_raw).strip()
+        m_ymd = re.match(r"^(\d{4})-(\d{2})-(\d{2})", te_s)
+        if m_ymd:
+            try:
+                parsed_end_date = dt.date(int(m_ymd.group(1)), int(m_ymd.group(2)), int(m_ymd.group(3)))
+            except Exception:
+                parsed_end_date = None
+        else:
+            m_ym = re.match(r"^(\d{4})-(\d{2})$", te_s)
+            if m_ym:
+                try:
+                    y_i, m_i = int(m_ym.group(1)), int(m_ym.group(2))
+                    next_m = dt.date(y_i + (1 if m_i == 12 else 0), (1 if m_i == 12 else m_i + 1), 1)
+                    parsed_end_date = next_m - dt.timedelta(days=1)
+                except Exception:
+                    parsed_end_date = None
+    days_since_end: int | None = (harvest_date - parsed_end_date).days if parsed_end_date else None
+
+    m_closed_title_date = re.search(
+        r"\b(?:19\d\d|20\d\d)\s*(?:to|[-–—])\s*(20\d\d-\d{2}-\d{2})\b",
+        head,
+        re.IGNORECASE,
+    )
+    has_closed_title_date_before_harvest = False
+    if m_closed_title_date:
+        try:
+            d_close = dt.date.fromisoformat(m_closed_title_date.group(1))
+            if (harvest_date - d_close).days >= 7:
+                has_closed_title_date_before_harvest = True
+        except Exception:
+            pass
+
     is_ended_mission_note = bool(
         re.search(
-            r"\b(?:end\s+of\s+mission|mission\s+ended|decommissioned|ceased\s+operations)\b|"
-            r"\b(?:19\d\d|20\d\d)\s*(?:to|[-–—])\s*2026-(?:0\d-\d\d|10-\d\d|11-0\d)\b",
+            r"\b(?:end\s+of\s+mission|mission\s+ended|decommissioned|ceased\s+operations)\b",
             head,
             re.IGNORECASE,
         )
+        or has_closed_title_date_before_harvest
     )
     if is_ended_mission_note:
         return "completed_or_mission_bounded_release", False
@@ -1559,52 +1713,61 @@ def classify_operational_maturity(
         re.search(r"\b(19\d\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(?:present|ongoing)\b", head, re.IGNORECASE)
         and not is_future_proj
         and "[archived]" not in head.lower()
-        and (end_year is None or end_year >= 2025)
+        and (end_year is None or end_year >= prev_yr)
     )
-    # Explicit closed year range or historical edition ending <= 2025 without ongoing/present cues (e.g. MEBD 1970-2024, RFR-LME 1998-2025, HDGM 2025)
-    has_closed_title_range_le_2025 = bool(
-        not is_explicit_present_series
-        and (
-            re.search(r"\b(?:19\d\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(?:19\d\d|20(?:[01]\d|2[0-5]))\b", head, re.IGNORECASE)
-            or re.search(r"\b(?:geomagnetic\s+model\s+202[0-5]|v\d+[_.-]?202[0-4])\b", head, re.IGNORECASE)
-        )
-    )
+    # Explicit closed year range ending <= (harvest_year - 1) without ongoing/present cues
+    has_closed_title_range_le_prev_yr = False
+    if not is_explicit_present_series:
+        m_cr = re.search(r"\b(?:19\d\d|20[0-2]\d)\s*(?:[-–—]|\bto\b)\s*(19\d\d|20\d\d)\b", head, re.IGNORECASE)
+        if m_cr and int(m_cr.group(1)) <= prev_yr:
+            has_closed_title_range_le_prev_yr = True
+        elif re.search(r"\b(?:geomagnetic\s+model\s+202[0-5]|v\d+[_.-]?202[0-4])\b", head, re.IGNORECASE):
+            has_closed_title_range_le_prev_yr = True
 
-    is_recent_2026_stream = bool(
-        end_year is not None
-        and end_year >= 2026
-        and temporal_end_raw
-        and re.match(r"^2026-(?:0[6-9]|1[0-2])", str(temporal_end_raw).strip())
+    is_live_ready_stream = bool(
+        days_since_end is not None
+        and 0 <= days_since_end <= 60
+        and "ready" in uf
+        and "unknown" not in uf
+        and "beta" not in uf
     )
-    has_nrt_or_active_title = bool(re.search(r"\b(?:near[- ]?real[- ]?time|nrt|operational|daily|monitoring)\b", head, re.IGNORECASE))
+    is_recent_unlabelled_stream = bool(days_since_end is not None and 0 <= days_since_end <= 150)
+    is_recent_active_stream = bool(days_since_end is not None and 0 <= days_since_end <= 200)
+    is_recent_annual_stream = bool(has_periodic_annual_uf and days_since_end is not None and 0 <= days_since_end <= 400)
+    # Do NOT infer ongoing operational status from static cadence words like bare "daily" in historical titles!
+    has_nrt_or_active_title = bool(re.search(r"\b(?:near[- ]?real[- ]?time|nrt|operational|monitoring)\b", head, re.IGNORECASE))
 
-    # Determine is_ongoing_archive strictly from raw dates and explicit update status relative to Nov 2026 harvest
+    # Determine is_ongoing_archive strictly from raw dates and explicit update status relative to source harvest_date
     if is_future_proj:
         is_ongoing = False
     elif has_non_ongoing_uf or "[archived]" in head.lower() or COMPLETED_MISSION_OR_STATIC_RE.search(head):
         is_ongoing = False
-    elif has_closed_title_range_le_2025 and not (has_strong_active_uf or "operational" in uf):
+    elif has_closed_title_range_le_prev_yr and not (has_strong_active_uf or "operational" in uf):
         is_ongoing = False
-    elif has_unknown_uf and not is_explicit_present_series and (end_year is None or end_year <= 2025):
+    elif has_unknown_uf and not is_explicit_present_series and not is_live_ready_stream and (end_year is None or end_year <= prev_yr):
         is_ongoing = None
     elif is_explicit_present_series:
         is_ongoing = True
     elif end_year is not None:
-        if end_year >= 2026:
-            # Require explicit ongoing frequency/title cue OR end timestamp within 6 months of Nov 2026 harvest (not 'existing'/unknown)
-            is_ongoing = True if (has_ongoing_uf or (is_recent_2026_stream and not has_unknown_uf) or has_nrt_or_active_title) else None
-        elif end_year == 2025:
-            # 2025 end dates (>10 months before Nov 2026 harvest) strictly require explicit active/periodic update metadata
-            is_ongoing = True if (has_ongoing_uf and "existing" not in uf and "irregular" not in uf) else None
-        else:
+        if end_year <= (harvest_date.year - 2):
             is_ongoing = False
+        elif end_year == prev_yr:
+            is_ongoing = True if (has_ongoing_uf and "existing" not in uf and "irregular" not in uf) else None
+        elif days_since_end is not None:
+            if is_live_ready_stream or (is_recent_unlabelled_stream and not has_unknown_uf) or (has_ongoing_uf and is_recent_active_stream) or is_recent_annual_stream:
+                is_ongoing = True
+            elif has_nrt_or_active_title and not has_unknown_uf and 0 <= days_since_end <= 200:
+                is_ongoing = True
+            else:
+                is_ongoing = None
+        else:
+            is_ongoing = True if (has_ongoing_uf or has_nrt_or_active_title) else None
     elif start_year is None and end_year is None:
         if has_ongoing_uf and source_id not in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community"):
             is_ongoing = True
         else:
             is_ongoing = None
     elif source_id in ("15_geobon_and_geokhub", "18_esa_osc_earthcode", "26_fao_unep_and_thematic_benchmarks", "29_awesome_gee_community") and not has_ongoing_uf:
-        # Release/publication dates alone without explicit ongoing update cadence do not imply an ongoing operational series
         is_ongoing = False
     else:
         is_ongoing = True
@@ -1629,7 +1792,7 @@ def classify_operational_maturity(
     if source_id == "29_awesome_gee_community" and is_ongoing is not True:
         return "research_or_benchmark_release", is_ongoing
 
-    if is_ongoing is False and end_year is not None and end_year <= 2024:
+    if is_ongoing is False and end_year is not None and end_year <= (harvest_date.year - 2):
         return "completed_or_mission_bounded_release", False
 
     if is_ongoing is False:
@@ -1752,6 +1915,9 @@ def _extract_product_variants(
     url_raw: str | None,
     lvl_conflict: bool = False,
     prose_cadence_by_epoch: str | None = None,
+    prose_cad_role: str | None = None,
+    start_yr: int | None = None,
+    end_yr: int | None = None,
     prose_spat_cand: str | None = None,
     prose_spat_role: str | None = None,
     spatial_footprint_m: float | None = None,
@@ -1869,6 +2035,60 @@ def _extract_product_variants(
                 "variant_citation": sst_cite,
             },
         ])
+    elif prose_cad_role == "variable_dependent_multi_cadence" and out_cadences:
+        cads = [c.strip() for c in out_cadences.split(";") if c.strip()]
+        ep_label = f"{start_yr}-{end_yr}" if (start_yr and end_yr) else None
+        for i, c_tok in enumerate(cads, start=1):
+            is_static_v = c_tok.lower() == "static"
+            variants.append({
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": i,
+                "variant_level": p_lvl or "UNLABELLED",
+                "variant_role": f"variable_parameter_group_{c_tok.lower()}",
+                "variant_cadence": c_tok,
+                "variant_epoch": "static" if is_static_v else ep_label,
+                "variant_spatial_resolution_raw": eff_spat_raw,
+                "variant_spatial_resolution_meters": adj_spat_m,
+                "variant_footprint_meters": spatial_footprint_m,
+                "variant_spatial_grid_axes": "lon x lat" if eff_spat_raw and ("°" in eff_spat_raw or "º" in eff_spat_raw or "deg" in eff_spat_raw.lower()) else None,
+                "variant_units": None,
+                "variant_file_format": None,
+                "variant_archive_name": None,
+                "variant_evidence": f"Simultaneous multi-variable collection with parameter-specific cadence ({out_cadences}).",
+                "variant_citation": cite,
+            })
+    elif (doi_raw or "").lower() == "10.11888/terre.tpdc.303314":
+        pml_ev = "PML-V2.2 TPDC suite: V2.2a (2000-2024, 0.1° aggregated from 500 m, 8-day), V2.2b (1982-2020, 0.1°, semimonthly), V2.2c (1982-2024, 0.1°, semimonthly)."
+        for i, (vrole, vcad, vep, vnote) in enumerate([
+            ("pml_v22a_aggregated_tier", "8-day", "2000-2024", "PML-V2.2a aggregated from 500 m MODIS"),
+            ("pml_v22b_legacy_tier", "semimonthly", "1982-2020", "PML-V2.2b legacy long-term half-month tier"),
+            ("pml_v22c_extended_tier", "semimonthly", "1982-2024", "PML-V2.2c extended half-month tier"),
+        ], start=1):
+            variants.append({
+                "record_id": rec_uid,
+                "canonical_product_key": c_key,
+                "source_catalogue": sid,
+                "raw_id": raw_id,
+                "title": title,
+                "variant_index": i,
+                "variant_level": p_lvl or "L4",
+                "variant_role": vrole,
+                "variant_cadence": vcad,
+                "variant_epoch": vep,
+                "variant_spatial_resolution_raw": "0.1°",
+                "variant_spatial_resolution_meters": 11132.0,
+                "variant_footprint_meters": None,
+                "variant_spatial_grid_axes": "lon x lat",
+                "variant_units": "mm d-1 (ET); gC m-2 d-1 (GPP)",
+                "variant_file_format": "NetCDF / GeoTIFF",
+                "variant_archive_name": vnote,
+                "variant_evidence": pml_ev,
+                "variant_citation": cite,
+            })
     elif prose_cadence_by_epoch and ";" in prose_cadence_by_epoch:
         ep_items = [x.strip() for x in prose_cadence_by_epoch.split(";") if ":" in x]
         for i, item in enumerate(ep_items, start=1):
@@ -2010,6 +2230,9 @@ def main() -> None:
             plat_raw = r.get("platform_sensor_raw")
             asset_type_raw = r.get("asset_type_raw")
             doi_raw = r.get("doi_raw")
+            doi_source_raw = r.get("doi_source_raw")
+            doi_relation_type_raw = r.get("doi_relation_type_raw")
+            related_dois_raw = r.get("related_dois_raw")
             lic_raw = r.get("license_raw")
             url_raw = r.get("landing_url_raw")
             kw_raw = r.get("keywords_raw")
@@ -2039,6 +2262,8 @@ def main() -> None:
                     plat_raw = eum_p["platform_sensor_raw"]
                 if not doi_raw and eum_p.get("doi_raw"):
                     doi_raw = eum_p["doi_raw"]
+                    doi_source_raw = "crosswalked_primary_eumetsat_navigator"
+                    doi_relation_type_raw = "is_primary_dataset"
 
             # 1. Spatial resolution & footprint separation (native `spatial_resolution_raw` never mutated by prose!)
             head_txt = f"{raw_id or ''} {title or ''} {desc or ''}"
@@ -2089,9 +2314,10 @@ def main() -> None:
                 adj_spat_src = None
 
             # 2. Temporal years, provenance & cadence
+            harvest_yr = _SOURCE_HARVEST_DATES.get(sid, _DEFAULT_HARVEST_DATE).year
             start_yr = parse_year(t_start_raw)
             end_yr = parse_year(t_end_raw)
-            if start_yr is not None and start_yr > 2026:
+            if start_yr is not None and start_yr > harvest_yr:
                 start_yr = None
             if t_start_raw and str(t_start_raw).startswith("1970-01-01") and "1970" not in (title or ""):
                 start_yr = None
@@ -2188,6 +2414,9 @@ def main() -> None:
                 url_raw,
                 lvl_conflict=lvl_conflict,
                 prose_cadence_by_epoch=prose_cad_epoch,
+                prose_cad_role=prose_cad_role,
+                start_yr=start_yr,
+                end_yr=end_yr,
                 prose_spat_cand=prose_spat_cand,
                 prose_spat_role=prose_spat_role,
                 spatial_footprint_m=spatial_footprint_m,
@@ -2260,6 +2489,7 @@ def main() -> None:
                 "bbox_south": bs,
                 "bbox_east": be,
                 "bbox_north": bn,
+                "bbox_crosses_antimeridian": bool(bw is not None and be is not None and bw > be),
                 "geographic_coverage_class": geo_cls,
                 "geographic_coverage_provenance": geo_prov,
                 "observation_domain_class": obs_domain,
@@ -2267,6 +2497,9 @@ def main() -> None:
                 "platform_sensor_raw": plat_raw,
                 "asset_type_raw": asset_type_raw,
                 "doi": doi_raw,
+                "doi_source": doi_source_raw,
+                "doi_relation_type": doi_relation_type_raw,
+                "related_dois": related_dois_raw,
                 "license": lic_raw,
                 "access_url": url_raw,
                 "keywords": kw_raw,
@@ -2346,6 +2579,22 @@ def main() -> None:
         if src_key_counts[sk] > 1:
             row["canonical_product_key"] = f"{row['canonical_product_key']}::{row['raw_id'] or row['record_id']}"
 
+    # Propagate authoritative single-hemisphere domain constraints across identical DOI siblings
+    # so canonical selection does not regress to nominal [-180, -90, 180, 90] on sparse mirrors (e.g., WGClimate SWE v4)
+    doi_hemi_map: dict[str, set[str]] = {}
+    for row in harmonized_rows:
+        ck = row["canonical_product_key"]
+        dc = row.get("observation_domain_class")
+        if ck.startswith("doi:") and "::" not in ck and dc in ("northern_hemisphere_only", "southern_hemisphere_only"):
+            doi_hemi_map.setdefault(ck, set()).add(dc)
+    for row in harmonized_rows:
+        ck = row["canonical_product_key"]
+        if ck in doi_hemi_map and len(doi_hemi_map[ck]) == 1 and row.get("observation_domain_class") == "global_nominal_envelope":
+            h_only = next(iter(doi_hemi_map[ck]))
+            row["geographic_coverage_class"] = "hemispheric_or_pantropical"
+            row["observation_domain_class"] = h_only
+            row["geographic_coverage_provenance"] = "cross_catalogue_primary_doi_domain"
+
     # Keep variant table canonical_product_key synchronized after disambiguation
     rec_to_ck = {r["record_id"]: r["canonical_product_key"] for r in harmonized_rows}
     for vr in product_variant_rows:
@@ -2368,7 +2617,7 @@ def main() -> None:
         part = (idx // chunk_size) + 1
         with (OUT_DATA_DIR / f"eo_l3_l4_all_catalogue_records_part{part:02d}.jsonl").open("w", encoding="utf-8") as f:
             for item in chunk:
-                f.write(json.dumps(item, ensure_ascii=False) + "\n")
+                f.write(json.dumps(_strict_json_sanitize(item), ensure_ascii=False, allow_nan=False) + "\n")
 
     # Build deduplicated canonical products table (prioritizing highest-authority primary source)
     # Sort so primary source with earliest start_year (preventing cloud truncation!) comes first
@@ -2400,11 +2649,11 @@ def main() -> None:
         df_variants.to_parquet(OUT_DATA_DIR / "eo_l3_l4_product_variants.parquet", index=False)
         with (OUT_DATA_DIR / "eo_l3_l4_product_variants.jsonl").open("w", encoding="utf-8") as f:
             for item in df_variants.to_dict(orient="records"):
-                f.write(json.dumps(item, ensure_ascii=False) + "\n")
+                f.write(json.dumps(_strict_json_sanitize(item), ensure_ascii=False, allow_nan=False) + "\n")
 
-    # Export pool and completeness summaries
+    # Export pool and completeness summaries (explicitly stratifying `unknown` Sentinel lineage)
     pool_summary = (
-        df_canon.groupby(["provider_pool", "processing_level", "uses_sentinel_data"], dropna=False)
+        df_canon.groupby(["provider_pool", "processing_level", "uses_sentinel_data", "sentinel_lineage_status"], dropna=False)
         .size()
         .reset_index(name="canonical_product_count")
     )

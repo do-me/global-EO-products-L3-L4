@@ -548,6 +548,68 @@ def main() -> None:
             f"Check S failed: new_zen={new_zen_ok}, s_prose={s_prose_ok}, s_var={s_var_ok}, s_wk={s_wk_ok}, snpp_end_on={snpp_end_on}"
         )
 
+    # Check T: Strict RFC 8259 JSONL, FedEO CEDA DOIs, Antimeridian, Variable-Cadence Variants, Sublevels, NH SWE, New Releases & Harvest Lifecycle
+    import json as _json_t
+
+    t_jsonl_ok = True
+    for jp in sorted(HARM_DATA_DIR.glob("*.jsonl")):
+        with jp.open("r", encoding="utf-8") as jf:
+            for jl in jf:
+                try:
+                    _json_t.loads(jl, parse_constant=lambda c: (_ for _ in ()).throw(ValueError(c)))
+                except Exception:
+                    t_jsonl_ok = False
+                    break
+        if not t_jsonl_ok:
+            break
+
+    ceda_t = df_all[
+        (df_all["source_catalogue"] == "14_ceos_fedeo_agencies")
+        & (df_all["raw_id"].astype(str).str.match(r"^[0-9a-f]{32}$"))
+    ]
+    t_ceda_ok = (
+        int((ceda_t["doi"].fillna("").str.contains(r"MOD021KM|10\.1016/|10\.5194/", regex=True, case=False)).sum()) == 0
+        and int((ceda_t["doi_source"].fillna("") == "stac_link_describedby").sum()) == 0
+    )
+    tpca_t = df_all[df_all["raw_id"] == "ZENODO:4922168"]
+    v1081_t = df_all[df_all["raw_id"] == "ZENODO:10815170"]
+    hugo_t = df_all[df_all["raw_id"] == "DATACITE:10.6096/13"]
+    jof_t = df_all[df_all["raw_id"] == "DATACITE:10.20783/dias.667"]
+    coseb_t = df_all[df_all["raw_id"] == "DATACITE:10.57760/sciencedb.27228"]
+    pml_t = df_all[df_all["raw_id"] == "DATACITE:10.11888/Terre.tpdc.303314"]
+    s5p_t = df_all[df_all["raw_id"] == "SENTINEL5P_DAILY_AUT"]
+    sub_null_t = int(
+        (df_canon["title"].fillna("").str.contains(r"\bLevel[- ]?[34][A-Z]\b", regex=True, case=False) & df_canon["processing_level"].isna()).sum()
+    )
+    nh_swe_t = df_all[df_all["record_id"] == "14_ceos_fedeo_agencies::edf8abd23f4a40aabd4d52e48dec06ea"]
+    pool_sum_t = pd.read_csv(BASE_DIR / "provider_pool_and_sentinel_summary.csv")
+    t_ok = (
+        t_jsonl_ok
+        and t_ceda_ok
+        and len(tpca_t) == 1 and float(tpca_t.iloc[0]["bbox_west"]) == 150.0 and bool(tpca_t.iloc[0]["bbox_crosses_antimeridian"])
+        and len(v1081_t) == 1 and v1081_t.iloc[0]["temporal_output_cadences"] == "monthly; annual; static"
+        and sub_null_t == 0
+        and len(nh_swe_t) == 1 and nh_swe_t.iloc[0]["geographic_coverage_class"] == "hemispheric_or_pantropical"
+        and nh_swe_t.iloc[0]["processing_level"] == "L3" and str(nh_swe_t.iloc[0]["doi"]).lower() == "10.5285/edf8abd23f4a40aabd4d52e48dec06ea"
+        and len(hugo_t) == 1 and float(hugo_t.iloc[0]["adjudicated_output_grid_meters"]) == 100.0 and hugo_t.iloc[0]["provider_pool"] == "eu_non_copernicus"
+        and len(jof_t) == 1 and jof_t.iloc[0]["observation_domain_mask"] == "ice_free_ocean_mask"
+        and len(coseb_t) == 1 and float(coseb_t.iloc[0]["adjudicated_output_grid_meters"]) == 5566.0
+        and len(pml_t) == 1 and float(pml_t.iloc[0]["adjudicated_output_grid_meters"]) == 11132.0
+        and len(s5p_t) >= 1 and bool((s5p_t["operational_maturity_class"] != "operational_ongoing_series").all())
+        and "sentinel_lineage_status" in pool_sum_t.columns
+    )
+    if t_ok:
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "Strict JSONL, FedEO CEDA DOIs, Antimeridian, Sublevels, New Releases & Lifecycle",
+                "PASS",
+                f"jsonl_ok={t_jsonl_ok}, ceda_ok={t_ceda_ok}, sublevel_null={sub_null_t}, snow_swe=L3/NH, tpca=antim, hugonnet=100m, s5p_aut!=ongoing",
+            )
+        )
+    else:
+        issues_found.append(f"Check T failed: jsonl={t_jsonl_ok}, ceda={t_ceda_ok}, sub_null={sub_null_t}")
+
     print("=" * 92)
     print(f"VERIFICATION REPORT ({checks_passed} core test suites passed, {len(issues_found)} issues)")
     print(f"Max single file size in repo: {max_file_mb:.2f} MB ({max_file_path})")

@@ -1,7 +1,7 @@
 {
-  "baseline_reference": "eo_l3_l4_catalogue_2026_11_16_post_c081edb1_review",
-  "min_harmonized_records": 38934,
-  "min_canonical_products": 38300,
+  "baseline_reference": "eo_l3_l4_catalogue_2026_11_17_post_92a74e3_review",
+  "min_harmonized_records": 38974,
+  "min_canonical_products": 38342,
   "zenodo_carryforward_ids": [
     "61758",
     "581395",
@@ -962,6 +962,106 @@
       "operational_maturity_class": "research_or_benchmark_release",
       "sentinel_lineage_status": "unassessed_no_platform_metadata",
       "adjudicated_output_grid_meters": null
+    },
+    {
+      "record_id": "14_ceos_fedeo_agencies::edf8abd23f4a40aabd4d52e48dec06ea",
+      "doi": "10.5285/edf8abd23f4a40aabd4d52e48dec06ea",
+      "processing_level": "L3",
+      "temporal_cadence_class": "sub_daily_or_daily",
+      "geographic_coverage_class": "hemispheric_or_pantropical",
+      "operational_maturity_class": "completed_or_mission_bounded_release",
+      "sentinel_lineage_status": "explicit_non_sentinel",
+      "adjudicated_output_grid_meters": null
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:4922168",
+      "doi": "10.25914/5dccbd3b64bdc",
+      "processing_level": null,
+      "temporal_cadence_class": null,
+      "geographic_coverage_class": "regional_or_local",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "unassessed_no_platform_metadata",
+      "adjudicated_output_grid_meters": null
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:10815170",
+      "doi": "10.5281/zenodo.10815170",
+      "processing_level": null,
+      "temporal_cadence_class": null,
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "unassessed_no_platform_metadata",
+      "adjudicated_output_grid_meters": 1000.0
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.20783/dias.667",
+      "doi": "10.20783/dias.667",
+      "processing_level": null,
+      "temporal_cadence_class": null,
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "explicit_non_sentinel",
+      "adjudicated_output_grid_meters": 27830.0
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.27228",
+      "doi": "10.57760/sciencedb.27228",
+      "processing_level": "L4",
+      "temporal_cadence_class": "sub_daily_or_daily",
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "unassessed_no_platform_metadata",
+      "adjudicated_output_grid_meters": 5566.0
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.6096/13",
+      "doi": "10.6096/13",
+      "processing_level": null,
+      "temporal_cadence_class": "multi_year_periodic",
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "explicit_non_sentinel",
+      "adjudicated_output_grid_meters": 100.0
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.6096/1007",
+      "doi": "10.6096/1007",
+      "processing_level": null,
+      "temporal_cadence_class": null,
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "confirmed_input_mission",
+      "adjudicated_output_grid_meters": null
+    },
+    {
+      "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.11888/Terre.tpdc.303314",
+      "doi": "10.11888/Terre.tpdc.303314",
+      "processing_level": "L4",
+      "temporal_cadence_class": "multi_day_or_dekadal",
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "research_or_benchmark_release",
+      "sentinel_lineage_status": "explicit_non_sentinel",
+      "adjudicated_output_grid_meters": 11132.0
+    },
+    {
+      "record_id": "16_nasa_cmr::C1995869798-GHRC_DAAC",
+      "doi": "10.5067/SEAFLUX/DATA101",
+      "processing_level": "L4",
+      "temporal_cadence_class": "monthly_or_seasonal",
+      "geographic_coverage_class": "global",
+      "operational_maturity_class": "completed_or_mission_bounded_release",
+      "sentinel_lineage_status": "explicit_non_sentinel",
+      "adjudicated_output_grid_meters": null
+    },
+    {
+      "record_id": "06_copernicus_cems_gfm_eodc::SENTINEL5P_DAILY_AUT",
+      "doi": null,
+      "processing_level": null,
+      "temporal_cadence_class": "sub_daily_or_daily",
+      "geographic_coverage_class": "europe_regional",
+      "operational_maturity_class": "unknown",
+      "sentinel_lineage_status": "confirmed_input_mission",
+      "adjudicated_output_grid_meters": 10000.0
     }
   ]
 }
