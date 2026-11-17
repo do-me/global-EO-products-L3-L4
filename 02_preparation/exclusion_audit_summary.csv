@@ -20,7 +20,7 @@ source_id,raw_records_mined,excluded_non_eo_or_non_dataset,excluded_l0_l1_l2_or_
 20_noaa_onestop,15165,0,269,1986,12910,98.3,0.7,89.8
 21_usgs_landsat_and_eros,146,0,25,0,121,100.0,0.0,100.0
 22_data_terra_inpe_dea,220,0,36,0,184,86.4,14.1,95.7
-23_wri_gfw_and_resourcewatch,3096,1092,11,0,1993,70.6,59.3,90.0
+23_wri_gfw_and_resourcewatch,3096,1092,11,0,1993,70.6,59.3,89.9
 24_openlandmap_stac,104,0,1,7,96,100.0,0.0,9.4
 25_worldpop_and_ciesin_stac,259,0,0,0,259,100.0,0.0,100.0
 26_fao_unep_and_thematic_benchmarks,2439,0,0,0,2439,99.9,99.5,42.1

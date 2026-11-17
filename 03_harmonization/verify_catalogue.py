@@ -610,6 +610,35 @@ def main() -> None:
     else:
         issues_found.append(f"Check T failed: jsonl={t_jsonl_ok}, ceda={t_ceda_ok}, sub_null={sub_null_t}")
 
+    # Check U: HTML comparison preservation, Sentinel-2 restoration, paired SMAP vs Snow CCI SWE + HTAPv3 geo, GPCP v3.3 & CERES 4.2.1
+    jrc_u = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::162768e1-570f-462c-b757-37e57085d773"]
+    fco2_u = df_all[df_all["raw_id"] == "ZENODO:15201316"]
+    smap_u = df_all[df_all["record_id"] == "16_nasa_cmr::C2938664439-NSIDC_CPRD"]
+    htap_u = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::8626f4f4-67e3-4d0a-9457-d432f35ae3da"]
+    swe_c_u = df_canon[df_canon["canonical_product_key"] == "doi:10.5285/edf8abd23f4a40aabd4d52e48dec06ea"]
+    gpcp_u = df_all[df_all["record_id"] == "20_noaa_onestop::7180fc6a-a5a4-4857-925a-a0fa4f7f7727"]
+    ce1_u = df_all[df_all["record_id"] == "16_nasa_cmr::C3880496704-LARC_CLOUD"]
+    u_ok = (
+        len(jrc_u) == 1 and bool(jrc_u.iloc[0]["uses_sentinel_data"]) and "<2010 and 2019" in str(jrc_u.iloc[0]["description"])
+        and len(fco2_u) == 1 and bool(fco2_u.iloc[0]["uses_sentinel_data"]) and "CH<5m" in str(fco2_u.iloc[0]["description"])
+        and len(smap_u) == 1 and smap_u.iloc[0]["geographic_coverage_class"] == "global"
+        and len(htap_u) == 1 and htap_u.iloc[0]["geographic_coverage_class"] == "global"
+        and len(swe_c_u) == 1 and swe_c_u.iloc[0]["geographic_coverage_class"] == "hemispheric_or_pantropical"
+        and len(gpcp_u) == 1 and gpcp_u.iloc[0]["temporal_output_cadences"] == "monthly_or_seasonal" and float(gpcp_u.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0
+        and len(ce1_u) == 1 and ce1_u.iloc[0]["geographic_coverage_class"] == "global"
+    )
+    if u_ok:
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "HTML Comparison Hygiene, S2 Restore, Paired SMAP/SWE & Spot Panel Fixes",
+                "PASS",
+                "jrc_162768e1=S2, forestco2=S2, smap_spl3ftp_e=global, htapv3=global, snow_swe=NH, gpcp_v33=0.5deg/monthly, ceres_ebaf=global",
+            )
+        )
+    else:
+        issues_found.append("Check U failed: HTML/S2/SMAP/GPCP/CERES invariant regression")
+
     print("=" * 92)
     print(f"VERIFICATION REPORT ({checks_passed} core test suites passed, {len(issues_found)} issues)")
     print(f"Max single file size in repo: {max_file_mb:.2f} MB ({max_file_path})")

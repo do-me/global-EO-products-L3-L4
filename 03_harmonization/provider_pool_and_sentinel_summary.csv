@@ -12,8 +12,8 @@ copernicus_services,L4,False,unassessed_no_platform_metadata,566
 copernicus_services,L4,True,confirmed_input_mission,48
 copernicus_services,L4,True,retrospective_or_mixed_epoch_series,38
 copernicus_services,,False,explicit_non_sentinel,265
-copernicus_services,,False,unassessed_no_platform_metadata,1755
-copernicus_services,,True,confirmed_input_mission,319
+copernicus_services,,False,unassessed_no_platform_metadata,1754
+copernicus_services,,True,confirmed_input_mission,320
 copernicus_services,,True,retrospective_or_mixed_epoch_series,124
 eu_non_copernicus,L1,False,explicit_non_sentinel,6
 eu_non_copernicus,L1,True,confirmed_input_mission,1
@@ -50,6 +50,6 @@ non_eu,L4,True,confirmed_input_mission,29
 non_eu,L4,True,retrospective_or_mixed_epoch_series,18
 non_eu,,False,explicit_non_sentinel,10520
 non_eu,,False,target_grid_or_harmonization_reference_only,4
-non_eu,,False,unassessed_no_platform_metadata,10301
-non_eu,,True,confirmed_input_mission,275
+non_eu,,False,unassessed_no_platform_metadata,10300
+non_eu,,True,confirmed_input_mission,276
 non_eu,,True,retrospective_or_mixed_epoch_series,40

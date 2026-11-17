@@ -27,6 +27,7 @@ Key Scientific & Methodological Principles:
 
 from __future__ import annotations
 
+from html.parser import HTMLParser
 import html
 import json
 import math
@@ -74,6 +75,117 @@ def strict_json_sanitize(obj: Any) -> Any:
     return str(obj)
 
 
+_KNOWN_HTML_TAGS_PATTERN = (
+    r"p|div|br|ul|ol|li|dl|dt|dd|strong|em|b|i|u|s|strike|span|a|"
+    r"h[1-6]|table|thead|tbody|tfoot|tr|td|th|caption|"
+    r"sup|sub|blockquote|pre|code|hr|img|font|center|style|script|"
+    r"abbr|cite|del|ins|mark|tt|small|figure|figcaption|details|summary|"
+    r"section|article|aside|header|footer|nav|html|head|body|href|iframe|noscript"
+)
+_ESCAPED_HTML_TAG_RE = re.compile(
+    rf"&lt;(/?(?:{_KNOWN_HTML_TAGS_PATTERN})\b(?:(?!(?:&lt;|&gt;)).)*?)&gt;",
+    re.IGNORECASE | re.DOTALL,
+)
+_VALID_HTML_OR_COMMENT_RE = re.compile(
+    rf"<!--[\s\S]*?-->|<![A-Za-z][^<>]*>|<\?[\s\S]*?\?>|"
+    rf"</?(?:{_KNOWN_HTML_TAGS_PATTERN})(?=[\s/>])(?:\"[^<>\"]*\"|'[^<>']*'|[^<>])*?>",
+    re.IGNORECASE,
+)
+_BLOCK_HTML_TAGS = {
+    "p", "div", "br", "li", "ul", "ol", "dl", "dt", "dd", "tr", "td", "th",
+    "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "pre", "hr", "section", "article",
+    "header", "footer", "aside", "nav", "figure", "figcaption", "table", "thead", "tbody", "tfoot",
+}
+_INLINE_HTML_TAGS = {
+    "sub", "sup", "b", "strong", "i", "em", "u", "s", "strike", "small",
+    "code", "font", "tt", "abbr", "cite", "del", "ins", "mark", "span", "a", "href",
+}
+
+
+class _SafeHTMLTextExtractor(HTMLParser):
+    """HTML-spec tokenizer that strips markup tags while preserving comparison expressions (<2010, <5m)."""
+
+    def __init__(self, preserve_newlines: bool = False) -> None:
+        super().__init__(convert_charrefs=False)
+        self.preserve_newlines = preserve_newlines
+        self.parts: list[str] = []
+
+    def _emit_tag_break(self, tag: str) -> None:
+        t = tag.lower()
+        if t in _INLINE_HTML_TAGS:
+            return
+        if self.preserve_newlines and t in _BLOCK_HTML_TAGS:
+            self.parts.append("\n")
+        else:
+            self.parts.append(" ")
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._emit_tag_break(tag)
+
+    def handle_endtag(self, tag: str) -> None:
+        self._emit_tag_break(tag)
+
+    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self._emit_tag_break(tag)
+
+    def handle_data(self, data: str) -> None:
+        self.parts.append(data)
+
+    def handle_entityref(self, name: str) -> None:
+        self.parts.append(f"&{name};")
+
+    def handle_charref(self, name: str) -> None:
+        self.parts.append(f"&#{name};")
+
+
+def _escape_non_html_lt(s: str) -> str:
+    """Escape '<' unless it starts a well-formed known HTML tag or comment/declaration."""
+    out_parts: list[str] = []
+    pos = 0
+    while True:
+        idx = s.find("<", pos)
+        if idx == -1:
+            out_parts.append(s[pos:])
+            break
+        out_parts.append(s[pos:idx])
+        m = _VALID_HTML_OR_COMMENT_RE.match(s, idx)
+        if m:
+            out_parts.append(m.group(0))
+            pos = m.end()
+        else:
+            out_parts.append("&lt;")
+            pos = idx + 1
+    return "".join(out_parts)
+
+
+def strip_html_safely(raw_text: str, preserve_newlines: bool = False) -> str:
+    """Strip HTML markup BEFORE unescaping comparison entities such as &lt;2010 or &lt;5 m."""
+    s = raw_text
+    # Decode only double-encoded &amp;lt;tag&gt; wrappers if present, never numeric/comparison &lt;2010
+    if "&amp;lt;" in s and re.search(
+        rf"&amp;lt;/?(?:{_KNOWN_HTML_TAGS_PATTERN})\b",
+        s,
+        re.IGNORECASE,
+    ):
+        s = s.replace("&amp;lt;", "&lt;").replace("&amp;gt;", "&gt;")
+    if "&lt;" in s:
+        s = _ESCAPED_HTML_TAG_RE.sub(lambda m: f"<{html.unescape(m.group(1))}>", s)
+    # Shield non-tag literal '<' (e.g. 0<HotSpot<1, <https://...>, <product_type>, <5m) so HTMLParser never drops text
+    if "<" in s:
+        s = _escape_non_html_lt(s)
+    parser = _SafeHTMLTextExtractor(preserve_newlines=preserve_newlines)
+    try:
+        parser.feed(s)
+        parser.close()
+        out = "".join(parser.parts)
+    except Exception:
+        out = s
+    for _ in range(2):
+        if "&" in out:
+            out = html.unescape(out)
+    return out.replace("\xa0", " ")
+
+
 def clean_str(val: Any) -> str | None:
     if val is None:
         return None
@@ -83,7 +195,7 @@ def clean_str(val: Any) -> str | None:
                 return clean_str(val[k])
         for v in val.values():
             if isinstance(v, str) and v.strip():
-                return v.strip()
+                return clean_str(v)
         return None
     if isinstance(val, list):
         parts = [clean_str(x) for x in val]
@@ -92,15 +204,7 @@ def clean_str(val: Any) -> str | None:
     s = str(val).strip()
     if not s or s.lower() in ("none", "null", "n/a", "not provided", "unknown", "nan"):
         return None
-    # Unescape double-encoded HTML entities safely, strip HTML tags, then decode entities cleanly
-    for _ in range(2):
-        if "&" in s:
-            s = html.unescape(s)
-    if re.search(r"</?(?:p|div|br|ul|ol|li|strong|em|b|i|span|a|h[1-6]|table|tr|td|th)\b", s, re.IGNORECASE):
-        s = re.sub(r"<[^>]+>", " ", s)
-    if "&" in s:
-        s = html.unescape(s)
-    s = s.replace("\xa0", " ")
+    s = strip_html_safely(s, preserve_newlines=False)
     s = re.sub(r"\s+", " ", s).strip()
     return s if s else None
 
@@ -2567,6 +2671,7 @@ def main() -> None:
         r"\b(?:elevation\s+change\s+)?maps?\s+(?:at|with)\s+\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|km|m)\s+resolution\b|"
         r"\b(?:have|had)\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
         r"\b(?:this\s+repository\s+archives|comprehensive)\s+\d+(?:\.\d+)?\s*[°º]\s+(?:dataset|grid|product)\b|"
+        r"\b(?:archived|distributed|provided)\s+on\s+a\s+(?:regional\s+|global\s+|regular\s+|geographic\s+)?\d+(?:\.\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|m)\s+(?:regional\s+|global\s+|regular\s+|geographic\s+)?grid\b|"
         r"\bon\s+a\s+(?:regional\s+|global\s+|regular\s+|geographic\s+)?\d+(?:\.\d+)?[-\s]*(?:[°º]|degrees?|km|m)(?:\s*(?:by|[x×])\s*\d+(?:\.\d+)?[-\s]*(?:[°º]|degrees?|km|m))?\s+(?:spatial\s+|geographic\s+)?grid\b)",
         re.IGNORECASE,
     )
@@ -2577,12 +2682,7 @@ def main() -> None:
     )
 
     def _clean_prose_text(txt: str | None) -> str:
-        s = txt or ""
-        for _ in range(2):
-            if "&" in s:
-                s = _html.unescape(s)
-        s = re.sub(r"<[^>]+>", " ", s).replace("\xa0", " ")
-        return re.sub(r"\s+", " ", s).strip()
+        return re.sub(r"\s+", " ", strip_html_safely(txt or "", preserve_newlines=False)).strip()
 
     def _cand_to_approx_m(cand: str) -> float | None:
         c = cand.lower().replace("º", "°").strip()
@@ -2600,12 +2700,7 @@ def main() -> None:
         return v * 111320.0
 
     def _split_prose_sentences(dsc: str) -> list[str]:
-        s = dsc or ""
-        for _ in range(2):
-            if "&" in s:
-                s = _html.unescape(s)
-        s = re.sub(r"</?(?:p|li|br|tr|div|h\d)\b[^>]*>", "\n", s).replace("\xa0", " ")
-        s = re.sub(r"<[^>]+>", " ", s)
+        s = strip_html_safely(dsc or "", preserve_newlines=True)
         parts = []
         for line in re.split(r"\n+|;\s*(?=\d+/\s)|(?<=[.!?])\s+", s):
             c = re.sub(r"\s+", " ", line).strip()

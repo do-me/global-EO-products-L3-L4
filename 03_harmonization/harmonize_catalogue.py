@@ -455,6 +455,7 @@ def extract_temporal_output_details(
     if prose_cadence_role == "variable_dependent_multi_cadence" and not temp_res_raw and prose_cadence_raw:
         return prose_cadence_raw, None
     tr_classes = _match_cadence_classes(tr) if tr else []
+    is_gcmd_bucket_temp = bool(tr and _GCMD_UPPER_BOUND_RE.search(tr))
     has_exact_semi = bool(
         re.search(
             r"\b(?:semi[- ]?monthly|half[- ]?month(?:ly)?|twice[- ]?(?:monthly|a\s+month)|two\s+(?:values|composites)\s+per\s+month)\b",
@@ -465,7 +466,10 @@ def extract_temporal_output_details(
     has_8d = bool(re.search(r"\b(?:8[- ]?da(?:y|ily|ys)|eight[- ]?day)\b", tr, re.IGNORECASE))
     has_16d = bool(re.search(r"\b(?:16[- ]?da(?:y|ily|ys)|sixteen[- ]?day)\b", tr, re.IGNORECASE))
     has_10d = bool(re.search(r"\b(?:10[- ]?da(?:y|ily|ys)|ten[- ]?day|dekad(?:al)?)\b", tr, re.IGNORECASE))
-    if tr_classes:
+    if is_gcmd_bucket_temp and cadence_cls:
+        # Coarse GCMD discovery range buckets (e.g. 'Weekly - < Monthly') must not override a specific title/delivered cadence
+        out_cadences = cadence_cls
+    elif tr_classes:
         refined: list[str] = []
         for c in tr_classes:
             if c == "multi_day_or_dekadal" and has_exact_semi:
@@ -566,11 +570,34 @@ def _detect_observation_domain_mask(
     return None
 
 
+PROVIDER_DOCUMENTED_GEO_SPECS: dict[tuple[str, str], dict[str, str]] = {
+    ("16_nasa_cmr", "C3880496704-LARC_CLOUD"): {
+        "geographic_coverage_class": "global",
+        "observation_domain_class": "global_nominal_envelope",
+        "geographic_coverage_provenance": "provider_documented_specification",
+        "citation": "https://doi.org/10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+    },
+    ("16_nasa_cmr", "C3880497643-LARC_CLOUD"): {
+        "geographic_coverage_class": "global",
+        "observation_domain_class": "global_nominal_envelope",
+        "geographic_coverage_provenance": "provider_documented_specification",
+        "citation": "https://doi.org/10.5067/TERRA-AQUA-NOAA20/CERES/EBAF-TOA_L3B004.2.1",
+    },
+}
+
+
 _DESC_SINGLE_HEMI_RE = re.compile(
-    r"\b(?:covers|covering|restricted\s+to|limited\s+to|spanning|specifically\s+for|designed\s+for|"
-    r"snow\s+water\s+equivalent\s+(?:for|across|over)|across|over)\s+the\s+(northern|southern)\s+hemisphere\b|"
+    r"\b(?:this\s+(?:dataset|product)\s+covers|dataset\s+covers|products?\s+are\s+(?:only\s+)?(?:generated|available)\s+for|"
+    r"restricted\s+to|limited\s+to|specifically\s+for|designed\s+for|"
+    r"snow\s+water\s+equivalent\s+(?:for|across|over))\s+the\s+(northern|southern)\s+hemisphere\b|"
     r"\b(northern|southern)\s+hemisphere\s+(?:only|swe\s+products?|permafrost\s+domain|winter\s+seasons?)\b|"
     r"\bfor\s+the\s+(northern|southern)\s+hemisphere\s+(?:permafrost|winter|domain)\b",
+    re.IGNORECASE,
+)
+
+_DESC_AFFIRMS_GLOBAL_RE = re.compile(
+    r"\b(?:global\s+mosaic|global\s+(?:cylindrical|grid|product|coverage)|all\s+remaining\s+countries\s+in\s+the\s+world|"
+    r"global\s+and\s+(?:northern|southern)\s+hemisphere)\b",
     re.IGNORECASE,
 )
 
@@ -601,12 +628,17 @@ def classify_geographic_coverage(
         re.search(r"\bnorthern\s+hemisphere\b", desc_str, re.IGNORECASE)
         and re.search(r"\bsouthern\s+hemisphere\b", desc_str, re.IGNORECASE)
     )
+    desc_affirms_global = bool(_DESC_AFFIRMS_GLOBAL_RE.search(desc_str))
     hemi_restriction: str | None = None
     if not has_both_hemispheres and not desc_has_both_hemi:
-        m_ht = re.search(r"\b(northern|southern)\s+hemisphere\b", title_str, re.IGNORECASE)
-        if m_ht:
-            hemi_restriction = f"{m_ht.group(1).lower()}_hemisphere_only"
-        else:
+        m_ht_only = re.search(r"\b(northern|southern)\s+hemisphere\s+only\b", title_str, re.IGNORECASE)
+        if m_ht_only:
+            hemi_restriction = f"{m_ht_only.group(1).lower()}_hemisphere_only"
+        elif not has_global_in_title:
+            m_ht = re.search(r"\b(northern|southern)\s+hemisphere\b", title_str, re.IGNORECASE)
+            if m_ht:
+                hemi_restriction = f"{m_ht.group(1).lower()}_hemisphere_only"
+        if hemi_restriction is None and not desc_affirms_global:
             for sent_h in re.split(r"(?<=[.!?])\s+|\n+", desc_str):
                 if re.search(r"\b(?:validation|validated|evaluation|comparison|compared|case\s+study)\b", sent_h, re.IGNORECASE):
                     continue
@@ -636,6 +668,18 @@ def classify_geographic_coverage(
         bbox_prov = "prose_coordinate_span"
 
     if use_bbox is None:
+        if (source_id or "", rid_str) in PROVIDER_DOCUMENTED_GEO_SPECS:
+            gspec = PROVIDER_DOCUMENTED_GEO_SPECS[(source_id or "", rid_str)]
+            return (
+                None,
+                None,
+                None,
+                None,
+                gspec["geographic_coverage_class"],
+                gspec["observation_domain_class"],
+                gspec["geographic_coverage_provenance"],
+                domain_mask,
+            )
         if is_single_geo_disk:
             return None, None, None, None, "regional_or_local", "geostationary_disk_or_sector", "geostationary_sensor_or_id", domain_mask
         if not has_global_in_title:
@@ -2292,6 +2336,7 @@ def main() -> None:
             adj_grid_units: str | None = None
             adj_grid_axes: str | None = None
             adj_citation: str | None = None
+            is_gcmd_coarse_spat = bool(spat_raw and re.search(r"\s-\s*<", str(spat_raw)))
             if spat_conflict:
                 resolved_adj = _resolve_cited_spatial_adjudication(raw_id, title, doi_raw, url_raw)
                 if resolved_adj:
@@ -2299,6 +2344,14 @@ def main() -> None:
                 else:
                     adj_spat_m = None
                     adj_spat_src = None
+            elif is_gcmd_coarse_spat and prose_spat_m is not None and (title_spat_m is None or (0.4 <= (prose_spat_m / title_spat_m) <= 2.5)):
+                # Coarse GCMD range buckets (e.g. '100 Km - < 250 Km') yield to verified exact delivered output grids while preserving raw native string
+                adj_spat_m = prose_spat_m
+                adj_spat_src = "prose_delivered_output_grid"
+                adj_citation = url_raw or (f"https://doi.org/{doi_raw}" if doi_raw else None)
+            elif is_gcmd_coarse_spat and title_spat_m is not None:
+                adj_spat_m = title_spat_m
+                adj_spat_src = "title_token_fallback"
             elif spat_m is not None:
                 adj_spat_m = spat_m
                 adj_spat_src = "upstream_spatial_resolution_raw"
@@ -2397,6 +2450,8 @@ def main() -> None:
                 adj_citation = eum_p.get("landing_url_raw")
             elif (sid, raw_id or "") in PROVIDER_DOCUMENTED_LEVEL_SPECS and not adj_citation:
                 adj_citation = PROVIDER_DOCUMENTED_LEVEL_SPECS[(sid, raw_id or "")]["citation"]
+            elif (sid, raw_id or "") in PROVIDER_DOCUMENTED_GEO_SPECS and not adj_citation:
+                adj_citation = PROVIDER_DOCUMENTED_GEO_SPECS[(sid, raw_id or "")]["citation"]
 
             variant_summary, rec_variants = _extract_product_variants(
                 rec_uid,

@@ -822,6 +822,63 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"jsonl={strict_jsonl_ok}({jsonl_checked}), ceda={ceda_ok}(snow7={snow7_ok}), antim_var={antim_var_ok}, sublevel_null={sublevel_nulls}, nh5={nh5_ok}, new_rel={new_rel_ok}, life_sum={life_sum_ok}",
     ))
 
+    # 24. HTML comparison preservation (JRC 162768e1, ForestCO2 15201316), paired SMAP vs Snow CCI SWE + HTAPv3 geo, GPCP v3.3 & CERES 4.2.1
+    import importlib.util as _imp_u
+    _pspec = _imp_u.spec_from_file_location("prep_all_mod", str(REPO_ROOT / "02_preparation" / "prepare_all.py"))
+    _pmod = _imp_u.module_from_spec(_pspec)
+    _pspec.loader.exec_module(_pmod)
+    html_fx_ok = (
+        _pmod.clean_str("<p>Compare years &lt;2010 and 2019. Sentinel-2 was used in 2019.</p>")
+        == "Compare years <2010 and 2019. Sentinel-2 was used in 2019."
+        and _pmod.clean_str("<p>Exclude canopy height &lt;5 m. Sentinel-2 supplies the vegetation mask.</p>")
+        == "Exclude canopy height <5 m. Sentinel-2 supplies the vegetation mask."
+    )
+    jrc_s2 = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::162768e1-570f-462c-b757-37e57085d773"]
+    fco2_s2 = df_all[df_all["raw_id"] == "ZENODO:15201316"]
+    jrc_s2_ok = (
+        len(jrc_s2) == 1
+        and "<2010 and 2019" in str(jrc_s2.iloc[0]["description"])
+        and bool(jrc_s2.iloc[0]["uses_sentinel_data"])
+        and "S2" in str(jrc_s2.iloc[0]["sentinel_missions"])
+    )
+    fco2_s2_ok = (
+        len(fco2_s2) == 1
+        and "CH<5m" in str(fco2_s2.iloc[0]["description"])
+        and "Sentinel-2" in str(fco2_s2.iloc[0]["description"])
+        and bool(fco2_s2.iloc[0]["uses_sentinel_data"])
+        and "S2" in str(fco2_s2.iloc[0]["sentinel_missions"])
+    )
+
+    smap_gl = df_all[df_all["record_id"] == "16_nasa_cmr::C2938664439-NSIDC_CPRD"]
+    htap_gl = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::8626f4f4-67e3-4d0a-9457-d432f35ae3da"]
+    swe_c_nh = df_canon[df_canon["canonical_product_key"] == "doi:10.5285/edf8abd23f4a40aabd4d52e48dec06ea"]
+    paired_geo_ok = (
+        len(smap_gl) == 1 and smap_gl.iloc[0]["geographic_coverage_class"] == "global"
+        and len(htap_gl) == 1 and htap_gl.iloc[0]["geographic_coverage_class"] == "global"
+        and len(swe_c_nh) == 1 and swe_c_nh.iloc[0]["geographic_coverage_class"] == "hemispheric_or_pantropical"
+        and swe_c_nh.iloc[0]["observation_domain_class"] == "northern_hemisphere_only"
+        and float(swe_c_nh.iloc[0]["bbox_west"]) == -180.0 and float(swe_c_nh.iloc[0]["bbox_east"]) == 180.0
+    )
+
+    gpcp_n = df_all[df_all["record_id"] == "20_noaa_onestop::7180fc6a-a5a4-4857-925a-a0fa4f7f7727"]
+    ce1 = df_all[df_all["record_id"] == "16_nasa_cmr::C3880496704-LARC_CLOUD"]
+    ce2 = df_all[df_all["record_id"] == "16_nasa_cmr::C3880497643-LARC_CLOUD"]
+    spot_panel_ok = (
+        len(gpcp_n) == 1
+        and gpcp_n.iloc[0]["temporal_output_cadences"] == "monthly_or_seasonal"
+        and float(gpcp_n.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0
+        and len(ce1) == 1 and ce1.iloc[0]["geographic_coverage_class"] == "global"
+        and ce1.iloc[0]["geographic_coverage_provenance"] == "provider_documented_specification"
+        and len(ce2) == 1 and ce2.iloc[0]["geographic_coverage_class"] == "global"
+        and ce2.iloc[0]["geographic_coverage_provenance"] == "provider_documented_specification"
+    )
+
+    qa.append((
+        "24. HTML comparison safety, S2 restoration, paired SMAP/SWE geo, NOAA GPCP & CERES EBAF specs",
+        bool(html_fx_ok and jrc_s2_ok and fco2_s2_ok and paired_geo_ok and spot_panel_ok),
+        f"html_fx={html_fx_ok}, jrc_s2={jrc_s2_ok}, fco2_s2={fco2_s2_ok}, smap_swe_htap={paired_geo_ok}, gpcp_ceres={spot_panel_ok}",
+    ))
+
     return qa
 
 
@@ -1193,18 +1250,18 @@ def main() -> None:
     if not hf_ctrl_ok:
         failures += 1
 
-    # 4. Independent Version-Level Product Recall & Attribute Correctness Benchmark (discovery recall vs field accuracy separated)
-    print("\n--- 4. EXTERNAL BENCHMARK 3: INDEPENDENT PRODUCT & VERSION RECALL / ACCURACY ---")
+    # 4. Specified Regression & Holdout Case Suite (does not estimate catalogue-wide statistical completeness or field accuracy)
+    print("\n--- 4. EXTERNAL BENCHMARK 3: SPECIFIED REGRESSION & HOLDOUT CASES ---")
     df_ind = audit_independent_version_benchmark(df_all)
     df_ind.to_csv(BASE_DIR / "independent_product_version_audit.csv", index=False)
     n_rec = int(df_ind["recalled"].sum())
     n_attr = int((df_ind["recalled"] & df_ind["scientific_attributes_ok"]).sum())
     n_pass = int((df_ind["status"] == "PASS").sum())
-    print(f"Discovery recall (enumeration): {n_rec} / {len(df_ind)} | Field-level attribute accuracy: {n_attr} / {len(df_ind)} | Combined pass: {n_pass} / {len(df_ind)}")
+    print(f"Specified cases matched: {n_rec} / {len(df_ind)} | Checked fields matched: {n_attr} / {len(df_ind)} | Specified regression cases passed: {n_pass} / {len(df_ind)}")
     for grp_name, gdf in df_ind.groupby("benchmark_group"):
         g_rec = int(gdf["recalled"].sum())
         g_attr = int((gdf["recalled"] & gdf["scientific_attributes_ok"]).sum())
-        print(f"  - {grp_name:24s}: recall={g_rec}/{len(gdf)}, field_acc={g_attr}/{len(gdf)}")
+        print(f"  - {grp_name:25s}: matched={g_rec}/{len(gdf)}, fields_ok={g_attr}/{len(gdf)}")
     ind_fails = df_ind[df_ind["status"] != "PASS"]
     if len(ind_fails) > 0:
         failures += len(ind_fails)
