@@ -1,6 +1,6 @@
 {
   "compared_baseline_commit": "92a74e3bbeedb1f2795b23e996f5a6c4238621aa",
-  "generated_at_utc": "2026-11-17T23:07:05Z",
+  "generated_at_utc": "2026-11-18T04:47:01Z",
   "prior_harmonized_records": 38934,
   "current_harmonized_records": 38974,
   "prior_canonical_products": 38351,
@@ -56,10 +56,8 @@
     "related_dois"
   ],
   "shared_record_field_change_counts": {
-    "canonical_product_key": 258,
-    "title": 14,
-    "description": 1515,
-    "producing_institution": 14,
+    "canonical_product_key": 257,
+    "description": 1050,
     "processing_level": 48,
     "processing_levels_available": 48,
     "processing_level_provenance": 48,
@@ -69,16 +67,16 @@
     "sentinel_lineage_status": 2,
     "prose_spatial_candidate_raw": 61,
     "prose_spatial_role": 61,
-    "prose_spatial_evidence_sentence": 117,
+    "prose_spatial_evidence_sentence": 105,
     "adjudicated_output_grid_meters": 56,
     "adjudicated_spatial_resolution_source": 62,
-    "adjudication_source_citation": 148,
+    "adjudication_source_citation": 111,
     "level_variant_specifications": 1,
     "update_frequency_raw": 15,
     "temporal_output_cadences": 20,
     "temporal_cadence_by_epoch": 1,
     "prose_cadence_role": 2,
-    "prose_cadence_evidence_sentence": 17,
+    "prose_cadence_evidence_sentence": 9,
     "temporal_start_raw": 2,
     "temporal_end_raw": 2,
     "temporal_start_year": 21,
@@ -92,10 +90,8 @@
     "geographic_coverage_provenance": 3,
     "observation_domain_class": 28,
     "observation_domain_mask": 21,
-    "platform_sensor_raw": 14,
-    "doi": 257,
+    "doi": 256,
     "license": 8,
-    "access_url": 1520,
-    "keywords": 38
+    "access_url": 959
   }
 }

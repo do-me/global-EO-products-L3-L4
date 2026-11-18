@@ -832,6 +832,30 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         == "Compare years <2010 and 2019. Sentinel-2 was used in 2019."
         and _pmod.clean_str("<p>Exclude canopy height &lt;5 m. Sentinel-2 supplies the vegetation mask.</p>")
         == "Exclude canopy height <5 m. Sentinel-2 supplies the vegetation mask."
+        and _pmod.clean_str("Watch: 0<HotSpot<1 warning threshold & <product_type>_<mission>")
+        == "Watch: 0<HotSpot<1 warning threshold & <product_type>_<mission>"
+        and _pmod.clean_str("Link (<https://glad.geog.umd.edu/>) end")
+        == "Link (<https://glad.geog.umd.edu/>) end"
+        and _pmod.clean_url("https://www.wekeo.eu/data?view=dataset&dataset=EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL")
+        == "https://www.wekeo.eu/data?view=dataset&dataset=EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL"
+        and _pmod.clean_url("https://data.noaa.gov/metaview/page?xml=NOAA/NESDIS/NGDC/MGG/Geology/iso/xml/G02889.xml&view=getDataView&header=none")
+        == "https://data.noaa.gov/metaview/page?xml=NOAA/NESDIS/NGDC/MGG/Geology/iso/xml/G02889.xml&view=getDataView&header=none"
+        and _pmod.clean_url("https://example.org/search?a=1&full_datasource=Millennium%20Assessment&ds_id=")
+        == "https://example.org/search?a=1&full_datasource=Millennium%20Assessment&ds_id="
+    )
+    wekeo_utci = df_all[df_all["record_id"] == "09_wekeo_dias::EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL"]
+    noaa_mesa = df_all[df_all["record_id"] == "20_noaa_onestop::6dc622ed-8446-4bc0-af4c-0b6b15bcacdd"]
+    wgc_10500 = df_all[df_all["record_id"] == "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10500"]
+    rw_68455 = df_all[df_all["record_id"] == "23_wri_gfw_and_resourcewatch::RW:68455cb5-bfe3-4528-83a2-00fab1c52fb9"]
+    usgs_glccd = df_all[df_all["record_id"] == "16_nasa_cmr::C1220566586-USGS_LTA"]
+    url_bare_amp = int(df_all["access_url"].fillna("").str.contains(r"&[A-Za-z0-9_]+$", regex=True).sum())
+    url_query_ok = (
+        url_bare_amp == 0
+        and len(wekeo_utci) == 1 and str(wekeo_utci.iloc[0]["access_url"]).endswith("?view=dataset&dataset=EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL")
+        and len(noaa_mesa) == 1 and str(noaa_mesa.iloc[0]["access_url"]).endswith("&view=getDataView&header=none")
+        and len(wgc_10500) == 1 and str(wgc_10500.iloc[0]["access_url"]).endswith("?action=dataset&typeid=21")
+        and len(rw_68455) == 1 and str(rw_68455.iloc[0]["access_url"]).endswith("?keywords=co2&start=1920-01-01&end=2017-01-04")
+        and len(usgs_glccd) == 1 and "&full_datasource=" in str(usgs_glccd.iloc[0]["access_url"])
     )
     jrc_s2 = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::162768e1-570f-462c-b757-37e57085d773"]
     fco2_s2 = df_all[df_all["raw_id"] == "ZENODO:15201316"]
@@ -874,9 +898,9 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     )
 
     qa.append((
-        "24. HTML comparison safety, S2 restoration, paired SMAP/SWE geo, NOAA GPCP & CERES EBAF specs",
-        bool(html_fx_ok and jrc_s2_ok and fco2_s2_ok and paired_geo_ok and spot_panel_ok),
-        f"html_fx={html_fx_ok}, jrc_s2={jrc_s2_ok}, fco2_s2={fco2_s2_ok}, smap_swe_htap={paired_geo_ok}, gpcp_ceres={spot_panel_ok}",
+        "24. HTML comparison & URL query-param preservation, S2 restoration, paired SMAP/SWE geo, NOAA GPCP & CERES EBAF specs",
+        bool(html_fx_ok and url_query_ok and jrc_s2_ok and fco2_s2_ok and paired_geo_ok and spot_panel_ok),
+        f"html_fx={html_fx_ok}, url_query={url_query_ok}(bare_amp={url_bare_amp}), jrc_s2={jrc_s2_ok}, fco2_s2={fco2_s2_ok}, smap_swe_htap={paired_geo_ok}, gpcp_ceres={spot_panel_ok}",
     ))
 
     return qa

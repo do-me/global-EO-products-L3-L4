@@ -103,10 +103,10 @@ _INLINE_HTML_TAGS = {
 
 
 class _SafeHTMLTextExtractor(HTMLParser):
-    """HTML-spec tokenizer that strips markup tags while preserving comparison expressions (<2010, <5m)."""
+    """HTML-spec tokenizer that strips markup tags while preserving comparison expressions (<2010, <5m) and URL query '&'."""
 
     def __init__(self, preserve_newlines: bool = False) -> None:
-        super().__init__(convert_charrefs=False)
+        super().__init__(convert_charrefs=True)
         self.preserve_newlines = preserve_newlines
         self.parts: list[str] = []
 
@@ -130,12 +130,6 @@ class _SafeHTMLTextExtractor(HTMLParser):
 
     def handle_data(self, data: str) -> None:
         self.parts.append(data)
-
-    def handle_entityref(self, name: str) -> None:
-        self.parts.append(f"&{name};")
-
-    def handle_charref(self, name: str) -> None:
-        self.parts.append(f"&#{name};")
 
 
 def _escape_non_html_lt(s: str) -> str:
