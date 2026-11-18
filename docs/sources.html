@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50 antialiased">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sources Registry &amp; Ontology — Global L3/L4 EO Product Catalogue</title>
+  <meta name="description" content="Processing-level ontology, 29-source API registry, and reproducibility principles for the Global Harmonized L3/L4 EO Product Catalogue." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .view-btn[data-active="true"] { background-color: #0f172a; color: #ffffff; }
+  </style>
+</head>
+<body class="min-h-full text-slate-800 flex flex-col">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200/80">
+    <div class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="index.html" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition shrink-0">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          Catalogue Viewer
+        </a>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-base sm:text-lg font-semibold tracking-tight text-slate-900 truncate">
+              Sources Registry &amp; Ontology
+            </h1>
+            <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-mono text-slate-600 ring-1 ring-inset ring-slate-200">
+              docs/SOURCES.md
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 truncate">
+            Processing-level ontology, 29 upstream metadata API endpoints &amp; reproducibility principles
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap shrink-0">
+        <!-- Rendered HTML / Raw Markdown Toggle -->
+        <div role="group" aria-label="View mode" class="inline-flex rounded-lg bg-slate-100 p-0.5 ring-1 ring-inset ring-slate-200">
+          <button id="btn-view-html" type="button" data-active="true" class="view-btn rounded-md px-3 py-1 text-xs font-medium text-slate-700 transition">
+            Rendered HTML
+          </button>
+          <button id="btn-view-md" type="button" data-active="false" class="view-btn rounded-md px-3 py-1 text-xs font-medium text-slate-700 transition">
+            Markdown
+          </button>
+        </div>
+        <button id="btn-copy-md" type="button" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition">
+          <span id="btn-copy-md-label">Copy Markdown</span>
+        </button>
+        <a href="SOURCES.md" download="SOURCES.md" class="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition">
+          Raw File
+        </a>
+        <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/docs/SOURCES.md" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition">
+          <svg class="w-3.5 h-3.5 text-slate-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div id="sources-error" class="hidden rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800 mb-4"></div>
+
+    <!-- Rendered HTML Container -->
+    <article id="html-view" class="bg-white rounded-xl border border-slate-200/80 shadow-sm p-6 sm:p-8 space-y-6">
+      <div class="text-sm text-slate-400 py-8 text-center">Loading SOURCES.md…</div>
+    </article>
+
+    <!-- Raw Markdown Container -->
+    <section id="md-view" class="hidden bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
+      <div class="px-4 py-2.5 border-b border-slate-200/80 bg-slate-50 flex items-center justify-between text-xs text-slate-500">
+        <span class="font-mono">docs/SOURCES.md</span>
+        <span id="md-stats" class="tabular-nums"></span>
+      </div>
+      <pre id="md-raw" class="p-5 overflow-x-auto text-xs font-mono leading-relaxed text-slate-800 bg-slate-50/40 whitespace-pre-wrap break-words"></pre>
+    </section>
+  </main>
+
+  <footer class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-500 flex flex-wrap items-center justify-between gap-2 border-t border-slate-200/70">
+    <div>
+      <a href="index.html" class="underline hover:text-slate-700 font-medium">Catalogue Viewer</a> ·
+      <a href="https://github.com/do-me/global-EO-products-L3-L4" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">GitHub Repository</a> ·
+      Catalogue Data &amp; Docs: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE-DATA" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">CC-BY-4.0</a>
+    </div>
+    <div>Generated directly from <code class="font-mono">docs/SOURCES.md</code></div>
+  </footer>
+
+  <script>
+    'use strict';
+
+    const REPO_BLOB_BASE = 'https://github.com/do-me/global-EO-products-L3-L4/blob/main/';
+    const dom = {
+      btnHtml: document.getElementById('btn-view-html'),
+      btnMd: document.getElementById('btn-view-md'),
+      btnCopyMd: document.getElementById('btn-copy-md'),
+      btnCopyMdLabel: document.getElementById('btn-copy-md-label'),
+      htmlView: document.getElementById('html-view'),
+      mdView: document.getElementById('md-view'),
+      mdRaw: document.getElementById('md-raw'),
+      mdStats: document.getElementById('md-stats'),
+      errorBox: document.getElementById('sources-error'),
+    };
+
+    let rawMarkdown = '';
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function resolveHref(href) {
+      if (!href) return null;
+      const t = href.trim();
+      if (/^https?:\/\//i.test(t) || t.startsWith('#')) return t;
+      if (t.startsWith('../')) return REPO_BLOB_BASE + t.slice(3);
+      return t;
+    }
+
+    function renderInline(raw) {
+      // Replace inline code spans with PUA placeholders first so **bold** can wrap code pills
+      const codeSpans = [];
+      const shielded = raw.replace(/`([^`]+)`/g, (_, code) => {
+        const idx = codeSpans.length;
+        codeSpans.push(`<code class="rounded bg-slate-100 px-1.5 py-0.5 text-[11px] font-mono text-slate-800 ring-1 ring-inset ring-slate-200/70">${esc(code)}</code>`);
+        return `\uE000C${idx}\uE001`;
+      });
+      let s = esc(shielded);
+      // Markdown links [label](href)
+      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+        const safe = resolveHref(href);
+        if (!safe) return label;
+        return `<a href="${esc(safe)}" target="_blank" rel="noopener noreferrer" class="text-indigo-600 underline hover:text-indigo-800">${label}</a>`;
+      });
+      // Bold and emphasis (across text and code placeholders)
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-slate-900">$1</strong>');
+      s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>');
+      return s.replace(/\uE000C(\d+)\uE001/g, (_, idx) => codeSpans[Number(idx)] || '');
+    }
+
+    function splitTableRow(line) {
+      let s = line.trim();
+      if (s.startsWith('|')) s = s.slice(1);
+      if (s.endsWith('|')) s = s.slice(0, -1);
+      // Split on unescaped pipes
+      const cells = [];
+      let cur = '';
+      for (let i = 0; i < s.length; i++) {
+        if (s[i] === '\\' && s[i + 1] === '|') {
+          cur += '|';
+          i++;
+        } else if (s[i] === '|') {
+          cells.push(cur.trim());
+          cur = '';
+        } else {
+          cur += s[i];
+        }
+      }
+      cells.push(cur.trim());
+      return cells;
+    }
+
+    function parseTableAlignments(sepLine) {
+      return splitTableRow(sepLine).map((cell) => {
+        const c = cell.trim();
+        if (c.startsWith(':') && c.endsWith(':')) return 'center';
+        if (c.endsWith(':')) return 'right';
+        return 'left';
+      });
+    }
+
+    function isTableSeparator(line) {
+      return /^\s*\|?(\s*:?-+:?\s*\|)+\s*:?-+:?\s*\|?\s*$/.test(line);
+    }
+
+    function renderMarkdownToHtml(md) {
+      const lines = md.replace(/\r\n/g, '\n').split('\n');
+      const out = [];
+      let i = 0;
+
+      while (i < lines.length) {
+        const line = lines[i];
+        const trimmed = line.trim();
+
+        if (!trimmed) {
+          i++;
+          continue;
+        }
+        if (/^---+$/.test(trimmed)) {
+          out.push('<hr class="border-slate-200 my-4" />');
+          i++;
+          continue;
+        }
+        if (trimmed.startsWith('# ')) {
+          out.push(`<h1 class="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">${renderInline(trimmed.slice(2))}</h1>`);
+          i++;
+          continue;
+        }
+        if (trimmed.startsWith('## ')) {
+          out.push(`<h2 class="text-base sm:text-lg font-semibold text-slate-900 pt-2">${renderInline(trimmed.slice(3))}</h2>`);
+          i++;
+          continue;
+        }
+        if (trimmed.startsWith('### ')) {
+          out.push(`<h3 class="text-sm font-semibold text-slate-800">${renderInline(trimmed.slice(4))}</h3>`);
+          i++;
+          continue;
+        }
+
+        // GFM pipe table
+        if (trimmed.includes('|') && i + 1 < lines.length && isTableSeparator(lines[i + 1])) {
+          const headers = splitTableRow(lines[i]);
+          const aligns = parseTableAlignments(lines[i + 1]);
+          i += 2;
+          const bodyRows = [];
+          while (i < lines.length && lines[i].trim().includes('|') && lines[i].trim() !== '') {
+            bodyRows.push(splitTableRow(lines[i]));
+            i++;
+          }
+          const thHtml = headers.map((h, idx) => {
+            const align = aligns[idx] === 'right' ? 'text-right' : aligns[idx] === 'center' ? 'text-center' : 'text-left';
+            return `<th scope="col" class="px-3.5 py-2.5 text-xs font-semibold text-slate-700 whitespace-nowrap ${align}">${renderInline(h)}</th>`;
+          }).join('');
+          const trHtml = bodyRows.map((row) => {
+            const tds = headers.map((_, idx) => {
+              const cell = row[idx] ?? '';
+              const align = aligns[idx] === 'right' ? 'text-right tabular-nums' : aligns[idx] === 'center' ? 'text-center' : 'text-left';
+              return `<td class="px-3.5 py-2.5 text-xs text-slate-700 align-top leading-relaxed ${align}">${renderInline(cell)}</td>`;
+            }).join('');
+            return `<tr class="hover:bg-slate-50/80 transition-colors">${tds}</tr>`;
+          }).join('');
+          out.push(`
+            <div class="overflow-x-auto rounded-lg border border-slate-200">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50"><tr>${thHtml}</tr></thead>
+                <tbody class="divide-y divide-slate-100 bg-white">${trHtml}</tbody>
+              </table>
+            </div>
+          `);
+          continue;
+        }
+
+        // Bullet or ordered list
+        if (/^[-*]\s+/.test(trimmed) || /^\d+\.\s+/.test(trimmed)) {
+          const isOrdered = /^\d+\.\s+/.test(trimmed);
+          const tag = isOrdered ? 'ol' : 'ul';
+          const cls = isOrdered ? 'list-decimal pl-5 space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed' : 'list-disc pl-5 space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed';
+          const items = [];
+          while (i < lines.length && (/^[-*]\s+/.test(lines[i].trim()) || /^\d+\.\s+/.test(lines[i].trim()))) {
+            const txt = lines[i].trim().replace(/^(?:[-*]|\d+\.)\s+/, '');
+            items.push(`<li>${renderInline(txt)}</li>`);
+            i++;
+          }
+          out.push(`<${tag} class="${cls}">${items.join('')}</${tag}>`);
+          continue;
+        }
+
+        // Paragraph
+        const paraLines = [];
+        while (
+          i < lines.length &&
+          lines[i].trim() !== '' &&
+          !/^(?:#{1,3}\s+|---+|\s*[-*]\s+|\s*\d+\.\s+)/.test(lines[i]) &&
+          !(lines[i].includes('|') && i + 1 < lines.length && isTableSeparator(lines[i + 1]))
+        ) {
+          paraLines.push(lines[i].trim());
+          i++;
+        }
+        out.push(`<p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${renderInline(paraLines.join(' '))}</p>`);
+      }
+
+      return out.join('\n');
+    }
+
+    function setViewMode(mode, updateUrl = true) {
+      const isMd = mode === 'markdown';
+      dom.htmlView.classList.toggle('hidden', isMd);
+      dom.mdView.classList.toggle('hidden', !isMd);
+      dom.btnHtml.dataset.active = isMd ? 'false' : 'true';
+      dom.btnMd.dataset.active = isMd ? 'true' : 'false';
+      if (updateUrl) {
+        const params = new URLSearchParams(window.location.search);
+        if (isMd) params.set('view', 'markdown');
+        else params.delete('view');
+        const qs = params.toString();
+        const target = qs ? `${window.location.pathname}?${qs}` : window.location.pathname;
+        window.history.replaceState(null, '', target);
+      }
+    }
+
+    dom.btnHtml.addEventListener('click', () => setViewMode('html', true));
+    dom.btnMd.addEventListener('click', () => setViewMode('markdown', true));
+    dom.btnCopyMd.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(rawMarkdown);
+        dom.btnCopyMdLabel.textContent = 'Copied!';
+        setTimeout(() => { dom.btnCopyMdLabel.textContent = 'Copy Markdown'; }, 1400);
+      } catch {
+        dom.btnCopyMdLabel.textContent = 'Clipboard blocked';
+      }
+    });
+
+    async function loadSources() {
+      const modeParam = new URLSearchParams(window.location.search).get('view');
+      setViewMode(modeParam === 'markdown' ? 'markdown' : 'html', false);
+
+      try {
+        const resp = await fetch('SOURCES.md');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status} loading SOURCES.md`);
+        rawMarkdown = await resp.text();
+        dom.htmlView.innerHTML = renderMarkdownToHtml(rawMarkdown);
+        dom.mdRaw.textContent = rawMarkdown;
+        const lineCount = rawMarkdown.split('\n').length;
+        dom.mdStats.textContent = `${lineCount} lines · ${(rawMarkdown.length / 1024).toFixed(1)} KB`;
+      } catch (err) {
+        dom.errorBox.textContent = `Could not load SOURCES.md: ${err.message}`;
+        dom.errorBox.classList.remove('hidden');
+      }
+    }
+
+    loadSources();
+  </script>
+</body>
+</html>

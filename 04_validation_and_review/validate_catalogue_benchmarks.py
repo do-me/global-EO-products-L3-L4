@@ -12,13 +12,15 @@
 Automated quality assurance & benchmark validation suite for the Global L3/L4 EO Product Catalogue.
 
 Runs:
-1. Internal QA Suite (6 structural & semantic consistency assertions against `03_harmonization/data/`).
-2. External Benchmark 1: Curated EU Policy & Operational Service Product Families (80 benchmark families).
-3. External Benchmark 2: GCOS / CEOS-CGMS WGClimate Essential Climate Variable (ECV) thematic coverage.
+1. Internal QA & Provenance Suite (`24` structural, scientific, and regression assertions against `03_harmonization/data/`).
+2. External Benchmark 1: Curated EU Policy & Operational Service Product Families (`86` benchmark families).
+3. External Benchmark 2: GCOS / CEOS-CGMS WGClimate Essential Climate Variable (ECV) thematic coverage (`40` ECV groups).
+4. External Benchmark 3: Specified Regression & Holdout Case Suite (`79` cases: `55` core + `24` holdout/regression).
 
 Outputs:
 - `04_validation_and_review/eu_policy_products_benchmark_audit.csv`
 - `04_validation_and_review/gcos_ecv_domain_coverage.csv`
+- `04_validation_and_review/independent_product_version_audit.csv`
 """
 
 from __future__ import annotations
@@ -301,7 +303,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     has_transcom = (df_all["title"].astype(str).str.contains("TransCom 3", case=False, na=False)).sum() >= 2
     has_gcom = (df_all["raw_id"].astype(str).str.contains("GCOM-C_SGLI_L2_statistics", na=False)).sum() >= 10
     qa.append((
-        "13. High-recall rescued EO series present in canonical",
+        "13. Thematic EO reference series present in canonical",
         bool(has_wapor and has_syn and has_transcom and has_gcom),
         f"wapor={has_wapor}, s3_syn={has_syn}, transcom={has_transcom}, gcom_stats={has_gcom}",
     ))
@@ -486,7 +488,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     c3s_sst_ok = len(c3s_sst) == 1 and c3s_sst.iloc[0]["processing_level"] == "L3; L4"
     c3s_alb_ongoing = int(((df_all["source_catalogue"] == "03_copernicus_c3s_cds") & (df_all["raw_id"].isin(["satellite-albedo", "satellite-lai-fapar"])) & (df_all["is_ongoing_archive"] == True)).sum())  # noqa: E712
     qa.append((
-        "19. Independent review hardening (TCSIF v1, HTML/URLs, GEO disks, ARD NBAR, HLSL30, L3+L4, not-planned)",
+        "19. Provenance, HTML/URL safety, GEO disk, ARD NBAR, HLSL30, L3+L4 & maturity invariants",
         bool(
             html_rem == 0
             and zen_url_nulls == 0
@@ -618,7 +620,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     )
 
     qa.append((
-        "20. Regression & adjudication invariants (GEO global restore, OC L3, semimonthly, variants, cite, op25, ECV)",
+        "20. Geographic, cadence, variant, adjudication & ECV invariants",
         bool(gldas_omi_sndrd_ok and oc_cited_l3_ok and semimonthly_prose_ok and variants_ok and spatial_cite_ok and op25_ok and sentinel_split_ok and ecv_neg_ok),
         f"geo={gldas_omi_sndrd_ok}, oc_l3={oc_cited_l3_ok}, sm_prose={semimonthly_prose_ok}, var={variants_ok}, cite={spatial_cite_ok}, op25={op25_ok}, sent_split={sentinel_split_ok}, ecv_neg={ecv_neg_ok}",
     ))
@@ -817,7 +819,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     )
 
     qa.append((
-        "23. Strict JSONL, CEDA DOIs, antimeridian, variable variants, sublevels, NH SWE, new releases & lifecycle",
+        "23. Strict JSONL, CEDA DOIs, antimeridian, variable variants, sublevels, NH SWE, thematic releases & lifecycle",
         bool(strict_jsonl_ok and ceda_ok and antim_var_ok and sublevel_nulls == 0 and nh5_ok and new_rel_ok and life_sum_ok),
         f"jsonl={strict_jsonl_ok}({jsonl_checked}), ceda={ceda_ok}(snow7={snow7_ok}), antim_var={antim_var_ok}, sublevel_null={sublevel_nulls}, nh5={nh5_ok}, new_rel={new_rel_ok}, life_sum={life_sum_ok}",
     ))
@@ -898,7 +900,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     )
 
     qa.append((
-        "24. HTML comparison & URL query-param preservation, S2 restoration, paired SMAP/SWE geo, NOAA GPCP & CERES EBAF specs",
+        "24. HTML comparison & URL query-param preservation, S2 lineage, paired SMAP/SWE geo, NOAA GPCP & CERES EBAF specs",
         bool(html_fx_ok and url_query_ok and jrc_s2_ok and fco2_s2_ok and paired_geo_ok and spot_panel_ok),
         f"html_fx={html_fx_ok}, url_query={url_query_ok}(bare_amp={url_bare_amp}), jrc_s2={jrc_s2_ok}, fco2_s2={fco2_s2_ok}, smap_swe_htap={paired_geo_ok}, gpcp_ceres={spot_panel_ok}",
     ))
@@ -1049,7 +1051,7 @@ def audit_gcos_ecv(df_canon: pd.DataFrame) -> pd.DataFrame:
     blob_heat = blob + " " + desc_lead
     is_non_wgc = df_canon["source_catalogue"] != "12_ceos_cgms_wgclimate_ecv"
     rows = []
-    for ecv, n_wg in sorted(ecv_names.items(), key=lambda x: -x[1]):
+    for ecv, n_wg in sorted(ecv_names.items(), key=lambda x: (-x[1], x[0])):
         pat = GCOS_ECV_EXPLICIT_PATTERNS.get(ecv)
         if not pat:
             pat = r"\b" + re.escape(ecv.lower()) + r"\b"

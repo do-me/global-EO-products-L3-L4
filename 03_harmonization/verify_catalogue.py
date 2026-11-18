@@ -53,13 +53,17 @@ def main() -> None:
             if mb > 48.0:
                 issues_found.append(f"File exceeds 48 MB GitHub safety threshold: {f.relative_to(REPO_ROOT)} ({mb:.2f} MB)")
 
+    raw_check_failed = False
     for d in raw_dirs:
         for req in ("mine.py", "README.md", "last_access.txt"):
             if not (d / req).exists():
                 issues_found.append(f"Missing {req} in {d.name}")
+                raw_check_failed = True
         if not list((d / "data").glob("*")):
             issues_found.append(f"Empty data/ directory in {d.name}")
-    checks_passed += 1
+            raw_check_failed = True
+    if not raw_check_failed:
+        checks_passed += 1
 
     # 2. Verify Reference Products Across Ontology, Maturity & Provider-Pool Classifications
     benchmarks = []
@@ -538,7 +542,7 @@ def main() -> None:
         checks_passed += 1
         benchmarks.append(
             (
-                "Prose Separation, Zenodo Domain Expansion, Variant & EUMETSAT Crosswalk",
+                "Prose Separation, Zenodo Coverage, Variant & EUMETSAT Crosswalk",
                 "PASS",
                 f"amsr2=6250m, remo=5566m, globmap=epochs, gedi4a=footprint25m, sst_var=5566m, wekeo_0088=L3/15min, snpp_ended_on={snpp_end_on}",
             )
@@ -548,7 +552,7 @@ def main() -> None:
             f"Check S failed: new_zen={new_zen_ok}, s_prose={s_prose_ok}, s_var={s_var_ok}, s_wk={s_wk_ok}, snpp_end_on={snpp_end_on}"
         )
 
-    # Check T: Strict RFC 8259 JSONL, FedEO CEDA DOIs, Antimeridian, Variable-Cadence Variants, Sublevels, NH SWE, New Releases & Harvest Lifecycle
+    # Check T: Strict RFC 8259 JSONL, FedEO CEDA DOIs, Antimeridian, Variable-Cadence Variants, Sublevels, NH SWE, Thematic Releases & Harvest Lifecycle
     import json as _json_t
 
     t_jsonl_ok = True
@@ -602,7 +606,7 @@ def main() -> None:
         checks_passed += 1
         benchmarks.append(
             (
-                "Strict JSONL, FedEO CEDA DOIs, Antimeridian, Sublevels, New Releases & Lifecycle",
+                "Strict JSONL, FedEO CEDA DOIs, Antimeridian, Sublevels, Thematic Releases & Lifecycle",
                 "PASS",
                 f"jsonl_ok={t_jsonl_ok}, ceda_ok={t_ceda_ok}, sublevel_null={sub_null_t}, snow_swe=L3/NH, tpca=antim, hugonnet=100m, s5p_aut!=ongoing",
             )
@@ -610,7 +614,7 @@ def main() -> None:
     else:
         issues_found.append(f"Check T failed: jsonl={t_jsonl_ok}, ceda={t_ceda_ok}, sub_null={sub_null_t}")
 
-    # Check U: HTML comparison preservation, URL query preservation, Sentinel-2 restoration, paired SMAP vs Snow CCI SWE + HTAPv3 geo, GPCP v3.3 & CERES 4.2.1
+    # Check U: HTML comparison preservation, URL query preservation, Sentinel-2 lineage, paired SMAP vs Snow CCI SWE + HTAPv3 geo, GPCP v3.3 & CERES 4.2.1
     jrc_u = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::162768e1-570f-462c-b757-37e57085d773"]
     fco2_u = df_all[df_all["raw_id"] == "ZENODO:15201316"]
     smap_u = df_all[df_all["record_id"] == "16_nasa_cmr::C2938664439-NSIDC_CPRD"]
@@ -639,13 +643,13 @@ def main() -> None:
         checks_passed += 1
         benchmarks.append(
             (
-                "HTML Comparison Hygiene, URL Query Preservation, S2 Restore, Paired SMAP/SWE & Spot Panel Fixes",
+                "HTML Comparison Hygiene, URL Query Preservation, S2 Lineage, Paired SMAP/SWE & Spot Panel Invariants",
                 "PASS",
                 f"jrc_162768e1=S2, forestco2=S2, url_bare_amp={url_bare_amp_u}, smap_spl3ftp_e=global, htapv3=global, snow_swe=NH, gpcp_v33=0.5deg/monthly, ceres_ebaf=global",
             )
         )
     else:
-        issues_found.append(f"Check U failed: HTML/URL/S2/SMAP/GPCP/CERES invariant regression (url_bare_amp={url_bare_amp_u})")
+        issues_found.append(f"Check U failed: HTML/URL/S2/SMAP/GPCP/CERES invariant check (url_bare_amp={url_bare_amp_u})")
 
     print("=" * 92)
     print(f"VERIFICATION REPORT ({checks_passed} core test suites passed, {len(issues_found)} issues)")

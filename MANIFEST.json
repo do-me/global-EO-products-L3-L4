@@ -1,10 +1,10 @@
 {
   "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
-  "generated_at_utc": "2026-11-18T04:48:11Z",
+  "generated_at_utc": "2026-11-18T16:43:03Z",
   "total_raw_sources": 29,
   "total_raw_records_retrieved": 50876,
   "total_files_hashed": 270,
-  "total_bytes": 1145864115,
+  "total_bytes": 1145863270,
   "sources": [
     {
       "source_id": "01_copernicus_cmems",
@@ -1901,14 +1901,14 @@
     {
       "path": "03_harmonization/verify_catalogue.py",
       "stage": "03_harmonization",
-      "bytes": 42354,
-      "sha256": "a451b9a05047f0a04cffa00b719d769d72dcfd8d1a4104ab3584dfa86a29932e"
+      "bytes": 42490,
+      "sha256": "9826684fef2715dabca961e0a420af7313bb87354d037921ee0da2649fdcb271"
     },
     {
       "path": "04_validation_and_review/README.md",
       "stage": "04_validation_and_review",
-      "bytes": 17485,
-      "sha256": "a04262485b5eb74ec2ad6a70ecd9e2ffaac8255b42ac3ae6d0470faef69580b2"
+      "bytes": 16340,
+      "sha256": "1be34d44537e3d2ffeae36df897db58b3ae08366021a4ccd090840eb30675726"
     },
     {
       "path": "04_validation_and_review/eu_policy_products_benchmark_audit.csv",
@@ -1920,7 +1920,7 @@
       "path": "04_validation_and_review/gcos_ecv_domain_coverage.csv",
       "stage": "04_validation_and_review",
       "bytes": 5935,
-      "sha256": "f4875f8ab559d9b1efb308ed38bd0f51e919cabc9f6b0f7b3f7405888c690a8c"
+      "sha256": "70a5354e50abb6eb19cac96ada19ae8a107e7b333c3e898e98b43f67a22dbcc9"
     },
     {
       "path": "04_validation_and_review/independent_product_version_audit.csv",
@@ -1943,8 +1943,8 @@
     {
       "path": "04_validation_and_review/validate_catalogue_benchmarks.py",
       "stage": "04_validation_and_review",
-      "bytes": 93518,
-      "sha256": "7623cbf18a21ed1b532193fa8a8e76fc4981f006bf213d87cd03beaa311ab22b"
+      "bytes": 93692,
+      "sha256": "94b1080f4ed89b43d454b6d4b07148fbe7abd88bd243574db1e5b52d069d58ca"
     },
     {
       "path": "04_validation_and_review/verified_record_ids.json",
@@ -1955,8 +1955,8 @@
     {
       "path": "04_validation_and_review/verified_releases_baseline.json",
       "stage": "04_validation_and_review",
-      "bytes": 35697,
-      "sha256": "699a4959770385290da4ad22b8c3c759495377e9b88a9a618e4aefc53cae6056"
+      "bytes": 35687,
+      "sha256": "7baf610b566d83d4671b208d93c599fc986306c25e52f513e5cd1feac4ad7f7a"
     }
   ]
 }
