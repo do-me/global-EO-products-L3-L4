@@ -21,8 +21,42 @@ const state = {
   chunkCache: new Map(),
   map: null,
   mapResizeTimer: null,
+  searchTimer: null,
+  yearTimer: null,
+  exportingParquet: false,
   loading: true,
 };
+
+let parquetWriterPromise = null;
+
+const EXPORT_COLUMNS = [
+  ['record_id', 'STRING'],
+  ['raw_id', 'STRING'],
+  ['title', 'STRING'],
+  ['source_catalogue', 'STRING'],
+  ['producing_institution', 'STRING'],
+  ['hosting_platform', 'STRING'],
+  ['provider_pool', 'STRING'],
+  ['provider_jurisdiction_tier', 'STRING'],
+  ['copernicus_service', 'STRING'],
+  ['processing_level', 'STRING'],
+  ['product_ontology_class', 'STRING'],
+  ['product_output_category', 'STRING'],
+  ['strict_eo', 'BOOLEAN'],
+  ['uses_sentinel', 'BOOLEAN'],
+  ['sentinel_missions', 'STRING'],
+  ['sentinel_lineage_status', 'STRING'],
+  ['grid_m', 'DOUBLE'],
+  ['temporal_cadence_class', 'STRING'],
+  ['t0', 'INT32'],
+  ['t1', 'INT32'],
+  ['operational_maturity_class', 'STRING'],
+  ['geographic_coverage_class', 'STRING'],
+  ['observation_domain_class', 'STRING'],
+  ['doi', 'STRING'],
+  ['license', 'STRING'],
+  ['access_url', 'STRING'],
+];
 
 const POOL_META = {
   copernicus_services: { label: 'Copernicus', cls: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20' },
@@ -97,6 +131,8 @@ const dom = {
   paginationBottom: document.getElementById('pagination-bottom'),
   sortThs: Array.from(document.querySelectorAll('.sort-th')),
   btnExportCsv: document.getElementById('btn-export-csv'),
+  btnExportParquet: document.getElementById('btn-export-parquet'),
+  btnExportParquetLabel: document.getElementById('btn-export-parquet-label'),
 
   drawerBackdrop: document.getElementById('drawer-backdrop'),
   drawer: document.getElementById('detail-drawer'),
@@ -348,6 +384,8 @@ function matchesGridFilter(gridM, rule) {
 
 function applyFiltersAndSort(resetPage = true, historyMode = 'push') {
   if (state.loading) return;
+  clearTimeout(state.searchTimer);
+  clearTimeout(state.yearTimer);
   const f = readFiltersFromUI();
   dom.btnClearSearch.classList.toggle('hidden', !f.q);
 
@@ -648,6 +686,9 @@ function renderTable() {
   renderPagination(dom.paginationTop, total);
   renderPagination(dom.paginationBottom, total);
   dom.btnExportCsv.disabled = total === 0;
+  if (dom.btnExportParquet) {
+    dom.btnExportParquet.disabled = total === 0 || state.exportingParquet;
+  }
 
   if (total === 0) {
     dom.tableBody.innerHTML =
@@ -1098,28 +1139,64 @@ function csvCell(val) {
   return s;
 }
 
+function triggerBlobDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 function exportFilteredCsv() {
-  const cols = [
-    'record_id', 'raw_id', 'title', 'source_catalogue', 'producing_institution',
-    'hosting_platform', 'provider_pool', 'provider_jurisdiction_tier', 'copernicus_service',
-    'processing_level', 'product_ontology_class', 'product_output_category',
-    'strict_eo', 'uses_sentinel', 'sentinel_missions', 'sentinel_lineage_status',
-    'grid_m', 'temporal_cadence_class', 't0', 't1', 'operational_maturity_class',
-    'geographic_coverage_class', 'observation_domain_class', 'doi', 'license', 'access_url',
-  ];
+  const cols = EXPORT_COLUMNS.map(([name]) => name);
   const lines = [cols.join(',')];
   state.filtered.forEach((r) => {
     lines.push(cols.map((c) => csvCell(r[c])).join(','));
   });
   const blob = new Blob([lines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `eo_l3_l4_catalogue_filtered_${state.filtered.length}.csv`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${state.filtered.length}.csv`);
+}
+
+async function exportFilteredParquet() {
+  if (state.loading || state.filtered.length === 0 || state.exportingParquet) return;
+  state.exportingParquet = true;
+  dom.btnExportParquet.disabled = true;
+  if (dom.btnExportParquetLabel) dom.btnExportParquetLabel.textContent = 'Exporting…';
+
+  try {
+    parquetWriterPromise ||= import('https://cdn.jsdelivr.net/npm/hyparquet-writer@0.18.0/+esm');
+    const { parquetWriteBuffer } = await parquetWriterPromise;
+    const rows = state.filtered;
+    const columnData = EXPORT_COLUMNS.map(([name, type]) => ({
+      name,
+      type,
+      nullable: true,
+      data: rows.map((r) => {
+        const v = r[name];
+        if (v === null || v === undefined) return null;
+        if (type === 'BOOLEAN') return Boolean(v);
+        if (type === 'INT32' || type === 'DOUBLE') return Number.isNaN(v) ? null : v;
+        return String(v);
+      }),
+    }));
+    const buffer = parquetWriteBuffer({
+      columnData,
+      createdBy: 'global-EO-products-L3-L4',
+    });
+    const blob = new Blob([buffer], { type: 'application/vnd.apache.parquet' });
+    triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${rows.length}.parquet`);
+  } catch (err) {
+    parquetWriterPromise = null;
+    dom.errorBanner.textContent = `Parquet export failed (${err.message}). Network access to jsDelivr CDN is required for client-side Parquet encoding; Export CSV remains available offline.`;
+    dom.errorBanner.classList.remove('hidden');
+  } finally {
+    state.exportingParquet = false;
+    dom.btnExportParquet.disabled = state.filtered.length === 0;
+    if (dom.btnExportParquetLabel) dom.btnExportParquetLabel.textContent = 'Export Parquet';
+  }
 }
 
 function resetAllFilters() {
@@ -1157,11 +1234,37 @@ function syncDrawerToState(historyMode = 'none') {
   }
 }
 
+const PRESET_FILTERS = {
+  non_eu_sentinel: {
+    apply: () => { dom.pool.value = 'non_eu'; dom.sentinel.value = 'yes'; },
+    clear: () => { dom.pool.value = ''; dom.sentinel.value = ''; },
+  },
+  copernicus_l3_l4: {
+    apply: () => { dom.pool.value = 'copernicus_services'; },
+    clear: () => { dom.pool.value = ''; },
+  },
+  global_ongoing: {
+    apply: () => {
+      dom.geo.value = 'global';
+      dom.maturity.value = 'operational_ongoing_series';
+      setMorePanelOpen(true, 'none');
+    },
+    clear: () => { dom.geo.value = ''; dom.maturity.value = ''; },
+  },
+  high_res_eo: {
+    apply: () => {
+      dom.strictEo.checked = true;
+      dom.grid.value = 'le30';
+      setMorePanelOpen(true, 'none');
+    },
+    clear: () => { dom.strictEo.checked = false; dom.grid.value = ''; },
+  },
+};
+
 function wireEvents() {
-  let searchTimer = null;
   dom.search.addEventListener('input', () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(() => applyFiltersAndSort(true, 'replace'), 150);
+    clearTimeout(state.searchTimer);
+    state.searchTimer = setTimeout(() => applyFiltersAndSort(true, 'replace'), 150);
   });
   dom.btnClearSearch.addEventListener('click', () => {
     dom.search.value = '';
@@ -1175,10 +1278,9 @@ function wireEvents() {
     el.addEventListener('change', () => applyFiltersAndSort(true, 'push'));
   });
 
-  let yearTimer = null;
   dom.year.addEventListener('input', () => {
-    clearTimeout(yearTimer);
-    yearTimer = setTimeout(() => applyFiltersAndSort(true, 'replace'), 200);
+    clearTimeout(state.yearTimer);
+    state.yearTimer = setTimeout(() => applyFiltersAndSort(true, 'replace'), 200);
   });
 
   dom.btnToggleMore.addEventListener('click', () => {
@@ -1191,38 +1293,21 @@ function wireEvents() {
   dom.presetBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       const p = btn.dataset.preset;
-      dom.search.value = '';
-      dom.pool.value = '';
-      dom.level.value = '';
-      dom.sentinel.value = '';
-      dom.geo.value = '';
-      dom.strictEo.checked = false;
-      dom.hasDoi.checked = false;
-      dom.source.value = '';
-      dom.tier.value = '';
-      dom.category.value = '';
-      dom.cadence.value = '';
-      dom.maturity.value = '';
-      dom.ontology.value = '';
-      dom.grid.value = '';
-      dom.year.value = '';
-      dom.hasUrl.checked = false;
-      dom.exclDeprecated.checked = false;
-      state.sortCol = 'default';
-      state.sortDir = 'asc';
-      if (p === 'non_eu_sentinel') {
-        dom.pool.value = 'non_eu';
-        dom.sentinel.value = 'yes';
-      } else if (p === 'copernicus_l3_l4') {
-        dom.pool.value = 'copernicus_services';
-      } else if (p === 'global_ongoing') {
-        dom.geo.value = 'global';
-        dom.maturity.value = 'operational_ongoing_series';
-        setMorePanelOpen(true, 'none');
-      } else if (p === 'high_res_eo') {
-        dom.strictEo.checked = true;
-        dom.grid.value = 'le30';
-        setMorePanelOpen(true, 'none');
+      const spec = PRESET_FILTERS[p];
+      if (!spec) return;
+      const wasActive = btn.dataset.active === 'true';
+
+      // Clear previously active preset filters without erasing user search text or unrelated filters.
+      dom.presetBtns.forEach((other) => {
+        if (other !== btn && other.dataset.active === 'true') {
+          PRESET_FILTERS[other.dataset.preset]?.clear();
+        }
+      });
+
+      if (wasActive) {
+        spec.clear();
+      } else {
+        spec.apply();
       }
       applyFiltersAndSort(true, 'push');
     });
@@ -1271,6 +1356,9 @@ function wireEvents() {
   });
 
   dom.btnExportCsv.addEventListener('click', exportFilteredCsv);
+  if (dom.btnExportParquet) {
+    dom.btnExportParquet.addEventListener('click', exportFilteredParquet);
+  }
   dom.drawerClose.addEventListener('click', () => closeDetailDrawer('push'));
   dom.drawerBackdrop.addEventListener('click', () => closeDetailDrawer('push'));
   dom.drawerPrev.addEventListener('click', () => {

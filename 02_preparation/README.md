@@ -4,7 +4,7 @@
 This stage processes the 29 raw authoritative metadata dumps in `../01_raw/` into cleaned, structurally flattened per-source tables (`./data/<source_id>.parquet` and `./data/<source_id>.jsonl`) and reference taxonomies (`./reference_taxonomies/`).
 
 ## Strict Scientific & Reproducibility Rules
-1. **Zero Manual Imputation (`let null be null`)**:
+1. **Missing Metadata Kept Null**:
    - No missing metadata values are ever filled in "by hand".
    - If an upstream API omits `spatial_resolution`, `temporal_start`, `temporal_end`, `bbox`, or `doi`, the prepared field remains `null` (`None`), and its exact missingness rate is recorded in `./exclusion_audit_summary.csv`.
    - Deterministic structural hygiene normalizes coordinate axis conventions (`[0, 360]` longitudes, inverted latitude/longitude bounds while preserving valid Pacific antimeridian crossings), inverted ISO date pairs, explicit HTTP/FTP URL schemes, strict `10.\d{4,9}/` DOIs, and WGClimate unit codes without fabricating absent metadata.

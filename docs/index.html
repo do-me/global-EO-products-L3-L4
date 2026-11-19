@@ -89,6 +89,12 @@
           </svg>
           Export CSV
         </button>
+        <button id="btn-export-parquet" type="button" disabled class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
+          </svg>
+          <span id="btn-export-parquet-label">Export Parquet</span>
+        </button>
       </div>
     </div>
     <!-- Subtle Loading Progress Bar -->
@@ -391,7 +397,7 @@
       <a href="https://github.com/do-me/global-EO-products-L3-L4" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700 font-medium">GitHub Repository</a> ·
       Code: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">MIT</a> ·
       Catalogue Data &amp; Docs: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE-DATA" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">CC-BY-4.0</a> ·
-      Null fields preserved faithfully (<code class="font-mono">let null be null</code>).
+      Missing upstream fields remain <code class="font-mono">null</code>.
     </div>
     <div>
       Click any row to inspect full provenance, citations &amp; OpenFreeMap bounding box.
@@ -438,7 +444,7 @@
         </p>
         <ul class="list-disc pl-4 space-y-1.5">
           <li><strong>High recall over precision:</strong> Unlinked cross-platform cloud mirrors lacking shared DOIs, versioned releases, multi-level agency collections, and tagged sensitivity datasets (<code class="font-mono text-slate-800">Strict EO = false</code>, covering hybrid grids, gridded in-situ interpolations, bottom-up inventories, and reference boundaries) remain visible unless filtered out.</li>
-          <li><strong>Null fields preserved (<code class="font-mono text-slate-800">let null be null</code>):</strong> Upstream APIs frequently omit processing levels (<code class="font-mono text-slate-800">~73.6%</code> unlabelled in canonical), native pixel spacing (<code class="font-mono text-slate-800">~71.9%</code> absent in adjudicated/raw grid), platform metadata (<code class="font-mono text-slate-800">49.25%</code> unassessed), or DOIs. Missing values are never fabricated.</li>
+          <li><strong>Missing upstream metadata preserved:</strong> Upstream APIs frequently omit processing levels (<code class="font-mono text-slate-800">~73.6%</code> unlabelled in canonical), native pixel spacing (<code class="font-mono text-slate-800">~71.9%</code> absent in adjudicated/raw grid), platform metadata (<code class="font-mono text-slate-800">49.25%</code> unassessed), or DOIs. Missing values stay <code class="font-mono text-slate-800">null</code> and are never fabricated.</li>
           <li><strong>Sentinel attribution:</strong> Separates verified Sentinel lineage (<code class="font-mono text-slate-800">confirmed_input_mission</code>, <code class="font-mono text-slate-800">retrospective_or_mixed_epoch_series</code>) from <code class="font-mono text-slate-800">explicit_non_sentinel</code>, target-grid-only references (e.g., Landsat <code class="font-mono text-slate-800">HLSL30</code>), and <code class="font-mono text-slate-800">unassessed_no_platform_metadata</code>.</li>
           <li><strong>Evaluation scope:</strong> Automated checks verify 23 structural suites, 24 QA assertions, 77/77 checked EU policy product families, 40/40 GCOS ECV groups, and 79/79 curated product verification cases; worldwide exhaustiveness is unmeasured.</li>
         </ul>

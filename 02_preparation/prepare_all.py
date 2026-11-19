@@ -12,7 +12,7 @@
 Deterministic preprocessing, structural normalization, and L3/L4 filtering across all 29 raw EO metadata sources.
 
 Key Scientific & Methodological Principles:
-1. 100% Reproducible ("let null be null"): Never manually impute or invent missing metadata. If a field is absent
+1. Missing Metadata Kept Null: Never manually impute or invent missing metadata. If a field is absent
    in the upstream raw JSON/JSONL, it remains `None` (`null`) and is logged in the completeness diagnostics.
 2. Strict L3/L4 Scope: Excludes explicit Level 0, Level 1, and Level 2 swath/granule/tile sensor archives,
    visualisation-only WMS layers, and pure non-EO administrative/tabular survey records, while preserving:

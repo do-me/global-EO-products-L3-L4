@@ -13,7 +13,7 @@ Harmonizes all 28 prepared L3/L4 EO product sources into a unified catalogue sch
 geophysical/thematic, spatial, temporal, geographic, and operational-maturity discovery.
 
 Strict Reproducibility Guarantee:
-- Zero manual imputation ("let null be null"): if a metadata attribute is absent in the upstream source,
+- Missing metadata kept null: if a metadata attribute is absent in the upstream source,
   the corresponding harmonized attribute remains `None` (`null`).
 - Separates `producing_institution` from `hosting_platform`.
 - Classifies every record into `provider_pool` (`copernicus_services`, `eu_non_copernicus`, `non_eu`)
