@@ -63,7 +63,7 @@ def build_session(max_retries: int = 4, pool_maxsize: int = 16) -> requests.Sess
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     session.headers.update({
-        "User-Agent": "EC4GEO-EO-L3-L4-Catalogue/2.0 (Scientific EO Metadata Miner)",
+        "User-Agent": "Global-EO-L3-L4-Catalogue/1.0 (https://github.com/do-me/global-EO-products-L3-L4; Reproducible Metadata Miner)",
         "Accept": "application/json, text/yaml, text/plain, */*",
     })
     return session

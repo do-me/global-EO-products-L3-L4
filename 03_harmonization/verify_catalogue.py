@@ -363,7 +363,7 @@ def main() -> None:
             f"op_closed={op_closed_cnt}, one_day_null={one_day_null_cnt}, eu_global={eu_global_cnt}, s26_dup={s26_dup_cnt}"
         )
 
-    # Check Q: Scientific Review Hardening (TCSIF v1, HTML decode, Zenodo URLs, GEO disks, ARD vs output, L3+L4 provenance, supersession, HLS/FedEO Sentinel)
+    # Check Q: Provenance, Domains, ARD, Supersession & Sentinel Lineage (TCSIF v1, HTML decode, Zenodo URLs, GEO disks, ARD vs output, L3+L4 provenance, supersession, HLS/FedEO Sentinel)
     has_tcsif_v1 = bool(df_all["doi"].fillna("").str.lower().str.contains("10.5281/zenodo.8242928").any())
     zen_rows = df_all[(df_all["source_catalogue"] == "26_fao_unep_and_thematic_benchmarks") & df_all["raw_id"].astype(str).str.startswith("ZENODO:")]
     zen_null_urls = int(zen_rows["access_url"].isna().sum())
@@ -416,7 +416,7 @@ def main() -> None:
         checks_passed += 1
         benchmarks.append(
             (
-                "Scientific Hardening (TCSIF v1, Provenance, Domains, ARD, Supersession)",
+                "Provenance, Domains, ARD, Supersession & Sentinel Lineage",
                 "PASS",
                 f"tcsif_v1=True, zen_urls=100%, html_clean=True, geo_disks=non-global, hlsl30_s2=False, c3s_sst=L3;L4",
             )

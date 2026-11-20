@@ -1,10 +1,10 @@
 {
   "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
-  "generated_at_utc": "2026-11-20T14:07:29Z",
+  "generated_at_utc": "2026-11-20T23:06:20Z",
   "total_raw_sources": 32,
   "total_raw_records_retrieved": 51160,
   "total_files_hashed": 290,
-  "total_bytes": 1149398064,
+  "total_bytes": 1149398542,
   "sources": [
     {
       "source_id": "01_copernicus_cmems",
@@ -408,8 +408,8 @@
     {
       "path": "01_raw/01_copernicus_cmems/mine.py",
       "stage": "01_raw",
-      "bytes": 4453,
-      "sha256": "b1625d6c40482261923d963d18bac2bdd59eea3405c3023be1761e307a1dbd77"
+      "bytes": 4462,
+      "sha256": "514598b517dec21fdb1f9d296904fe1d16603f4a43483d05060a107f41b45ee0"
     },
     {
       "path": "01_raw/02_copernicus_clms/README.md",
@@ -438,8 +438,8 @@
     {
       "path": "01_raw/02_copernicus_clms/mine.py",
       "stage": "01_raw",
-      "bytes": 5469,
-      "sha256": "4bd1972bea84e979d21f115f4261de8ef190229e3cbb0fce1b8ba24e8ed878e6"
+      "bytes": 5478,
+      "sha256": "146bf52d0e83f60e3493ec12e8674042d1c5d59ab85861df8df263d8a6538956"
     },
     {
       "path": "01_raw/03_copernicus_c3s_cds/README.md",
@@ -462,8 +462,8 @@
     {
       "path": "01_raw/03_copernicus_c3s_cds/mine.py",
       "stage": "01_raw",
-      "bytes": 4271,
-      "sha256": "3c0703780cd10f46125a9e1ef0f05d06711ff4309521e4b677f7b4e662eb88ef"
+      "bytes": 4280,
+      "sha256": "46959f6fc7f46c24915c9d9c9afb198012db0e53b0deba8f7e5d126b5375cc1a"
     },
     {
       "path": "01_raw/04_copernicus_cams_ads/README.md",
@@ -486,8 +486,8 @@
     {
       "path": "01_raw/04_copernicus_cams_ads/mine.py",
       "stage": "01_raw",
-      "bytes": 3883,
-      "sha256": "e1b692e92abc4deaf04e1bfd257c8bed0b31cf87600edc14165af0a3080c78b9"
+      "bytes": 3892,
+      "sha256": "c26aaf1cc8beec8bac8898d495a4a4dffef7cb97a5eb38c214d2cfaf13e71957"
     },
     {
       "path": "01_raw/05_copernicus_cems_ewds/README.md",
@@ -510,8 +510,8 @@
     {
       "path": "01_raw/05_copernicus_cems_ewds/mine.py",
       "stage": "01_raw",
-      "bytes": 3888,
-      "sha256": "31ff0e7aa34d1ad0942fd88767934b28f5363c8de066a833f66508f5c0e30750"
+      "bytes": 3897,
+      "sha256": "550ee9e0f53459d457cca0a73fc2f9f44310e7f65f8f0b9fb634d0837a37a913"
     },
     {
       "path": "01_raw/06_copernicus_cems_gfm_eodc/README.md",
@@ -534,8 +534,8 @@
     {
       "path": "01_raw/06_copernicus_cems_gfm_eodc/mine.py",
       "stage": "01_raw",
-      "bytes": 3847,
-      "sha256": "c4dc3884570b7fdfd7e84b49aa9ec1dc39d8a67a15278bb0d06ea37a50b54cc6"
+      "bytes": 3856,
+      "sha256": "71eea04747b0a2898ceda00cf12bb6d897a08adb11c5fb4e03eae7119a3fd0b8"
     },
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/README.md",
@@ -618,8 +618,8 @@
     {
       "path": "01_raw/07_ec_jrc_data_catalogue/mine.py",
       "stage": "01_raw",
-      "bytes": 8677,
-      "sha256": "c58ddf1a7e8190bf80c741a94225e9f0bc3862dfedd5741a9e6ce3e521bcad29"
+      "bytes": 8686,
+      "sha256": "8e14b4ad5538403cf90a64cb310f9ac525432e67ef92096aa09972d5e3511c67"
     },
     {
       "path": "01_raw/08_destine_dedl_stac/README.md",
@@ -642,8 +642,8 @@
     {
       "path": "01_raw/08_destine_dedl_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 3828,
-      "sha256": "4077cfce5b711abd0f88582c71bc5e8dd6494f03577f2a839415ece0882d71a7"
+      "bytes": 3837,
+      "sha256": "27790ab44976e89b524baf9fc72a466efbfbbd972969642e348b8e5fc9f4707f"
     },
     {
       "path": "01_raw/09_wekeo_dias/README.md",
@@ -666,8 +666,8 @@
     {
       "path": "01_raw/09_wekeo_dias/mine.py",
       "stage": "01_raw",
-      "bytes": 4567,
-      "sha256": "d40b8917573f9b0a0a8a9d37226a248d7ebe52c13001f39236bc1e4d738aff10"
+      "bytes": 4576,
+      "sha256": "d38e884b4d1cabf698dee215e8e729b9c76aeef0f726596bf231b7a2192061e4"
     },
     {
       "path": "01_raw/10_cdse_stac/README.md",
@@ -696,8 +696,8 @@
     {
       "path": "01_raw/10_cdse_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 5598,
-      "sha256": "6152fdee0b8821326777c3ec71e8fe23c70346173da3afe42e9660cd5b8eac8f"
+      "bytes": 5607,
+      "sha256": "7e51a37b47f29034d7fce329e149967414b10071b0d3ddb04094cb34c54c0630"
     },
     {
       "path": "01_raw/11_eea_and_emodnet/README.md",
@@ -726,8 +726,8 @@
     {
       "path": "01_raw/11_eea_and_emodnet/mine.py",
       "stage": "01_raw",
-      "bytes": 6374,
-      "sha256": "a1325cce9663c9cae26d71386855412de7bcfc04342896fc0ee3c342ccd4f350"
+      "bytes": 6383,
+      "sha256": "c9e72a52f208d852f8b1d81fe00f596678e1d96ef020441129fdfba4c71d7467"
     },
     {
       "path": "01_raw/12_ceos_cgms_wgclimate_ecv/README.md",
@@ -756,8 +756,8 @@
     {
       "path": "01_raw/12_ceos_cgms_wgclimate_ecv/mine.py",
       "stage": "01_raw",
-      "bytes": 4356,
-      "sha256": "ee71445a74964edfc2ae54414561010f3986ea35725909caffdcc8a17e2b1031"
+      "bytes": 4365,
+      "sha256": "0138087134591a5d564bf222877a3b63f64b0af342c64d9ee4768516b9670370"
     },
     {
       "path": "01_raw/13_wmo_oscar_and_gcos/README.md",
@@ -786,8 +786,8 @@
     {
       "path": "01_raw/13_wmo_oscar_and_gcos/mine.py",
       "stage": "01_raw",
-      "bytes": 5365,
-      "sha256": "f32500867e86dd9cc48e998aa56d2f29786cd03280db46e124aac4d0f09fef74"
+      "bytes": 5374,
+      "sha256": "f8737f133866a43c8043baf13e3cc9be123f8a5c7b4064d2a6a6a37a067be3d6"
     },
     {
       "path": "01_raw/14_ceos_fedeo_agencies/README.md",
@@ -894,8 +894,8 @@
     {
       "path": "01_raw/14_ceos_fedeo_agencies/mine.py",
       "stage": "01_raw",
-      "bytes": 11300,
-      "sha256": "9d25690ea5c55e7200549ca241b33caaa63fb6f117223980928cfdf0330c4a70"
+      "bytes": 11309,
+      "sha256": "3f557e8effe2cd7796e8fe3c3e2b6717230831cde67ab4d8f2d8c8e23adfd8ad"
     },
     {
       "path": "01_raw/15_geobon_and_geokhub/README.md",
@@ -924,8 +924,8 @@
     {
       "path": "01_raw/15_geobon_and_geokhub/mine.py",
       "stage": "01_raw",
-      "bytes": 5724,
-      "sha256": "191e897727adfc1a801b9ca71bfe071d87fc83e4f16129f7101c9d596cd405ab"
+      "bytes": 5733,
+      "sha256": "836431a8b4de48455eb7385764f8abcd19fd305e0d1fc7aae8ae6d1ab5952ff8"
     },
     {
       "path": "01_raw/16_nasa_cmr/README.md",
@@ -990,8 +990,8 @@
     {
       "path": "01_raw/16_nasa_cmr/mine.py",
       "stage": "01_raw",
-      "bytes": 10125,
-      "sha256": "926a1546b67d5fd8a3b45ab178395b860c706d8470581f94eb3386ee6db950ce"
+      "bytes": 10134,
+      "sha256": "0efad951caf96105bcc6d41b567ca2efca1a2ce27df93915604e9fcbce871467"
     },
     {
       "path": "01_raw/17_eumetsat_product_navigator/README.md",
@@ -1014,8 +1014,8 @@
     {
       "path": "01_raw/17_eumetsat_product_navigator/mine.py",
       "stage": "01_raw",
-      "bytes": 3894,
-      "sha256": "47635ed2d7f8dbfb473fbb75ebceb902a87e5e9d59dc052320c6f6f0d1c987e9"
+      "bytes": 3903,
+      "sha256": "69891a08f94fd1c5e276463c368b6096175523be703de0fa1588d5c8d6f29d26"
     },
     {
       "path": "01_raw/18_esa_osc_earthcode/README.md",
@@ -1044,8 +1044,8 @@
     {
       "path": "01_raw/18_esa_osc_earthcode/mine.py",
       "stage": "01_raw",
-      "bytes": 4833,
-      "sha256": "008ee488ab903f334df0e26fc9775dbf53dfce27e68553272bd6d1d228897e8c"
+      "bytes": 4842,
+      "sha256": "cdd024235926735c7eebd9b7525a4608b87b38d529289d9a749d7f59d3095d65"
     },
     {
       "path": "01_raw/19_dlr_eoc_stac/README.md",
@@ -1068,8 +1068,8 @@
     {
       "path": "01_raw/19_dlr_eoc_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 3768,
-      "sha256": "67200597652c6021e541480348a9fd02ae8f6edf94a2068230a1c58e52692100"
+      "bytes": 3777,
+      "sha256": "c035b9a47a110f21ca90c5a03880e087766e3e560a619327ff91614d496d52f8"
     },
     {
       "path": "01_raw/20_noaa_onestop/README.md",
@@ -1152,8 +1152,8 @@
     {
       "path": "01_raw/20_noaa_onestop/mine.py",
       "stage": "01_raw",
-      "bytes": 9168,
-      "sha256": "ecdab020410a8aed6fa34e59da377d80f98e79855149c975de7e538fec04cb26"
+      "bytes": 9177,
+      "sha256": "b39da46bf1f9e731a3859d60dae5cf81d310f96891275803b58611be21e647d3"
     },
     {
       "path": "01_raw/21_usgs_landsat_and_eros/README.md",
@@ -1182,8 +1182,8 @@
     {
       "path": "01_raw/21_usgs_landsat_and_eros/mine.py",
       "stage": "01_raw",
-      "bytes": 5880,
-      "sha256": "e7a7ea0aae56ee563de892016c09acee79970a488b1e22755bb37c4734394316"
+      "bytes": 5889,
+      "sha256": "0fe6ed0adfc1d84dbbf80ec21dc2f9fcf796a64d7780edc64f01576a526ce688"
     },
     {
       "path": "01_raw/22_data_terra_inpe_dea/README.md",
@@ -1218,8 +1218,8 @@
     {
       "path": "01_raw/22_data_terra_inpe_dea/mine.py",
       "stage": "01_raw",
-      "bytes": 5733,
-      "sha256": "e3899378cce0e9d1f48c385d285fefc017e3dd27a135a135f0df09198b3f6bf5"
+      "bytes": 5742,
+      "sha256": "e413cbe34ef91d3a7e815a27b81a47943edcd3c63bd4352fb73517fe219b9b10"
     },
     {
       "path": "01_raw/23_wri_gfw_and_resourcewatch/README.md",
@@ -1248,8 +1248,8 @@
     {
       "path": "01_raw/23_wri_gfw_and_resourcewatch/mine.py",
       "stage": "01_raw",
-      "bytes": 4799,
-      "sha256": "8801d80be60a82a6b31fcd84d4ed1d0e4c9a7b6c02b87c19f14db58d0160054d"
+      "bytes": 4808,
+      "sha256": "5f1bfd8c9b8c7b0b64cbfd258cf82634298bdab38dd991b11f2dfe2eb0acb243"
     },
     {
       "path": "01_raw/24_openlandmap_stac/README.md",
@@ -1278,8 +1278,8 @@
     {
       "path": "01_raw/24_openlandmap_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 4828,
-      "sha256": "53f19e9d3e3b9d2a4f0dd93d1cd52f30e8b4b331d3cec2db026a8b3b9d6164a3"
+      "bytes": 4837,
+      "sha256": "3bcc08daa335e9d74fb77da27b29c0bfda3b1488c3d211cf86a17cbf512467c6"
     },
     {
       "path": "01_raw/25_worldpop_and_ciesin_stac/README.md",
@@ -1308,8 +1308,8 @@
     {
       "path": "01_raw/25_worldpop_and_ciesin_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 5102,
-      "sha256": "334dd7186385647d126179c6fede677cea202ec13ad74388ed15def3abec7e6f"
+      "bytes": 5111,
+      "sha256": "05693ac58e99c4a382233a79fcb5d7fac33385d0007ac0938655c48a0041936e"
     },
     {
       "path": "01_raw/26_fao_unep_and_thematic_benchmarks/README.md",
@@ -1356,8 +1356,8 @@
     {
       "path": "01_raw/26_fao_unep_and_thematic_benchmarks/mine.py",
       "stage": "01_raw",
-      "bytes": 31936,
-      "sha256": "19bb2a302f9945b2ddbd0ef328719ddce8b75da015bef50c36bee718426643d0"
+      "bytes": 31945,
+      "sha256": "b527c01542a423f85a206b4a9b2a18bf035a2a13d53ca6fb4e4672c2a682fa0a"
     },
     {
       "path": "01_raw/26_fao_unep_and_thematic_benchmarks/verified_zenodo_carryforward.json",
@@ -1386,8 +1386,8 @@
     {
       "path": "01_raw/27_gee_official_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 5496,
-      "sha256": "34faf4d6d35c8c13456e67e8576acaa9e36c73e5f252da71c617cb6a22284c50"
+      "bytes": 5505,
+      "sha256": "f7d5768eb7db37e65cbe1d1bb8d6a790a096c1e835aca8c149e3193387dd5c56"
     },
     {
       "path": "01_raw/28_planetary_computer_stac/README.md",
@@ -1410,8 +1410,8 @@
     {
       "path": "01_raw/28_planetary_computer_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 3793,
-      "sha256": "098ffaf9fb5c45f242aee76a3991a36a2f589d5172b505c380a7b8ddebcdb649"
+      "bytes": 3802,
+      "sha256": "9b1f6c64ba81c03fcdc14bf17c444dda5a13c5c5702766b7dbb36c71de1093b0"
     },
     {
       "path": "01_raw/29_awesome_gee_community/README.md",
@@ -1434,8 +1434,8 @@
     {
       "path": "01_raw/29_awesome_gee_community/mine.py",
       "stage": "01_raw",
-      "bytes": 3971,
-      "sha256": "3356005eec7891e871765d4c84154ab5b1189ee8514d7c359ed2d80b35a0798c"
+      "bytes": 3980,
+      "sha256": "83268bb6bc334487cb3191a934e271cd3779e63a9ee19c3e477b867a5992f327"
     },
     {
       "path": "01_raw/30_jaxa_earth_stac/README.md",
@@ -1464,8 +1464,8 @@
     {
       "path": "01_raw/30_jaxa_earth_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 5804,
-      "sha256": "706107a47b3ade604c83d3d1246a99c8f281c9a0f4587fc6be5ab52c4de4ab1d"
+      "bytes": 5854,
+      "sha256": "b68362070449b947a8e3e9f0380cf7eafaf793e55390b08e2d93099ad2aef3a5"
     },
     {
       "path": "01_raw/31_digital_earth_africa_and_pacific/README.md",
@@ -1494,8 +1494,8 @@
     {
       "path": "01_raw/31_digital_earth_africa_and_pacific/mine.py",
       "stage": "01_raw",
-      "bytes": 7829,
-      "sha256": "7331ea27b2ee95b9a3df27a76f6a15e95d8099f10e94628cec86fafb31721f3f"
+      "bytes": 7879,
+      "sha256": "5461a70e2f06c1a7baf0a62fdb117139e44bad4aae3d24bb6e2e73ade7d3bba7"
     },
     {
       "path": "01_raw/32_nrcan_ccmeo_stac/README.md",
@@ -1518,8 +1518,8 @@
     {
       "path": "01_raw/32_nrcan_ccmeo_stac/mine.py",
       "stage": "01_raw",
-      "bytes": 4772,
-      "sha256": "939c9b08455e163073bfd4bc327f4e3c8a37ce1df14326830a6601b2b518330d"
+      "bytes": 4822,
+      "sha256": "7f8fcf94c56b7aaf3117169a0041b3040432744bbb81bb3f5708d5d99d22703e"
     },
     {
       "path": "02_preparation/README.md",
@@ -2052,14 +2052,14 @@
     {
       "path": "03_harmonization/verify_catalogue.py",
       "stage": "03_harmonization",
-      "bytes": 45985,
-      "sha256": "2612ec3983f770d4a906554491b324e9d2db409f2a2deedd03243653c93680df"
+      "bytes": 46001,
+      "sha256": "5350afef3d8eaf8b96427854769da8e459cacd4945764fd499c00b63e36ddee5"
     },
     {
       "path": "04_validation_and_review/README.md",
       "stage": "04_validation_and_review",
-      "bytes": 17387,
-      "sha256": "c8f48b9ea5e7c17335cbff22dcb848bd40cfbde1efa4dc07389b3f98d5f0e473"
+      "bytes": 17476,
+      "sha256": "058b1d61421164a8505d41a5b786ef104fa56e28c4fe5b379c4a708ff82b01c8"
     },
     {
       "path": "04_validation_and_review/eu_policy_products_benchmark_audit.csv",
@@ -2094,8 +2094,8 @@
     {
       "path": "04_validation_and_review/validate_catalogue_benchmarks.py",
       "stage": "04_validation_and_review",
-      "bytes": 97679,
-      "sha256": "14f3ef8ec3bd1aa1f334eda2ec1cdd3bb3dc0bfa3568e1e71703bdff2b2ba03a"
+      "bytes": 97641,
+      "sha256": "31ac06ed367a7c275b9d618e5d40a29877f55498531812df7c152a153193736e"
     },
     {
       "path": "04_validation_and_review/verified_record_ids.json",

@@ -8,17 +8,13 @@ A reproducible **Level-3 and Level-4 Earth Observation (EO) product discovery ca
 
 ## 1. What This Catalogue Is — and Is Not
 
-This repository is built to help EO researchers and policy analysts **discover candidate gridded L3/L4 products across institutional boundaries** (Copernicus Services, European non-Copernicus institutions, and non-EU/international providers) and trace **Copernicus Sentinel input dependencies**. It is a structured starting point for discovery and screening, not a substitute for primary product documentation.
+This repository helps EO researchers and analysts **discover candidate gridded L3/L4 products across institutional boundaries** (Copernicus Services, European non-Copernicus institutions, and non-EU/international providers) and trace **Copernicus Sentinel input dependencies**. It is a structured starting point for discovery and screening, not a substitute for primary product documentation.
 
-Keep three boundaries in mind when using or citing these numbers:
+Keep three properties in mind when working with these tables:
 
-1. **Catalogue-inventory counts, not distinct global products.** The pipeline prioritizes high recall so eligible L3/L4 products are not silently dropped. Deduplication is deliberately conservative (matching exact normalized DOI or pool + normalized full title). Unlinked cloud mirrors without shared DOIs, versioned releases, multi-level agency collections, and asset-level sub-collections in `29_awesome_gee_community` therefore remain as separate rows. Treat pool totals as harmonized catalogue-inventory counts and perform task-specific screening and deduplication against primary documentation.
-2. **Structured fields are only as complete as upstream APIs.** Agency and cloud portals frequently omit structured metadata: in the canonical table, `processing_level` is null on `73.5%` of rows, `adjudicated_output_grid_meters` on `72.0%`, `temporal_cadence_class` on `69.6%`, `doi` on `67.6%`, and `platform_sensor_raw` on `49.21%` (leaving unattributed records in `unassessed_no_platform_metadata` rather than `explicit_non_sentinel`). Missing or conflicting upstream attributes remain `null` rather than being filled in by hand, while text-extracted hints are stored in separate provenance columns. Combine free-text search with faceted filters rather than relying on structured columns alone.
-3. **Open-API harvest boundary, not an exhaustive world census.** Only public, unauthenticated machine-readable endpoints (STAC, REST, CSW, Elasticsearch, DCAT-AP, DataCite, Zenodo) are harvested. The catalogue structurally or intentionally excludes:
-   - **On-demand / event-triggered services:** Copernicus Emergency Management Service (CEMS) Rapid Mapping and Risk & Recovery Mapping activations sit outside the gridded archive scope (whereas continuous CEMS products such as `GFM`, `GloFAS`, `EFAS`, `EDO/GDO`, `EFFIS/GWIS`, and `GHSL` are indexed).
-   - **Restricted, security, and commercial archives:** Copernicus Security Service (EMSA CleanSeaNet, Frontex, SatCen) and commercial VHR tasking portfolios.
-   - **Instantaneous Level-2 operational streams and raw imagery:** Raw L0–L2 sensor imagery, aerial orthophotos, discrete in-situ station logs, real-time NWP feeds, and instantaneous L2 event detections such as EUMETSAT MTG FCI Active Fire (`EO:EUM:DAT:0801`, `EO:EUM:DAT:0682`, classified as Level 2 upstream and logged in `excluded_records_log.parquet`; gridded daily/monthly fire CDRs are retained).
-   - **Portals without open collection APIs:** Auth-gated national portals (e.g., ISRO Bhoonidhi/MOSDAC), web-only institutional portals (e.g., CMA/NSMC, CASEarth, Berkeley Earth, GloH2O `MSWEP`/`MSWX`), and endpoints unavailable during harvest (JAXA G-Portal CSW returned HTTP 503; Japanese holdings are covered via primary `30_jaxa_earth_stac`, DIAS in Source 26, and CEOS FedEO).
+1. **Catalogue-inventory counts, not distinct global products.** The pipeline favors high recall so eligible L3/L4 products are not silently dropped. Deduplication is deliberately conservative (matching exact normalized DOI or pool + normalized full title). Unlinked cloud mirrors without shared DOIs, versioned releases, multi-level agency collections, and asset-level sub-collections in `29_awesome_gee_community` remain as separate rows. Treat pool totals as harmonized catalogue-inventory counts and perform task-specific screening and deduplication against primary documentation.
+2. **Structured metadata is only as complete as upstream APIs.** Agency and cloud portals frequently omit structured fields: in the canonical table, `processing_level` is null on `73.5%` of rows, `adjudicated_output_grid_meters` on `72.0%`, `temporal_cadence_class` on `69.6%`, `doi` on `67.6%`, and `platform_sensor_raw` on `49.21%` (leaving unattributed records in `unassessed_no_platform_metadata` rather than `explicit_non_sentinel`). Missing or conflicting upstream attributes remain `null`, while text-extracted hints are stored in separate provenance columns. Pair free-text search with faceted filters rather than relying on structured fields alone.
+3. **Open-API harvest boundary, not an exhaustive world census.** Only public, unauthenticated machine-readable endpoints (STAC, REST, CSW, Elasticsearch, DCAT-AP, DataCite, Zenodo) are harvested directly. Catalogues and operational streams excluded from direct harvesting are listed explicitly in Section 3 below.
 
 ---
 
@@ -36,15 +32,36 @@ Keep three boundaries in mind when using or citing these numbers:
 | **Documented Sentinel input (canonical)** | **2,253** | `673` Copernicus Services, `586` EU non-Copernicus, `994` non-EU (`1,580` outside Copernicus); separates `confirmed_input_mission` / `retrospective_or_mixed_epoch_series` from `explicit_non_sentinel`, target-grid references (`HLSL30`), and `unassessed_no_platform_metadata` |
 | **Automated verification (`04_validation_and_review/`)** | **PASS** | `24` structural/ontology suites, `25` QA assertions, `77/77` checked EU policy families, `40/40` GCOS ECV groups, `79/79` curated product & holdout checks |
 
-Every canonical record carries both `provider_pool` and `provider_jurisdiction_tier` so analysts can test sensitivity across EU-27, Copernicus-associated, and ESA boundaries. Full column-level completeness is reported in [`03_harmonization/schema_completeness_report.csv`](03_harmonization/schema_completeness_report.csv), pool and Sentinel breakdowns in [`03_harmonization/provider_pool_and_sentinel_summary.csv`](03_harmonization/provider_pool_and_sentinel_summary.csv), and source-level filtering counts in [`02_preparation/exclusion_audit_summary.csv`](02_preparation/exclusion_audit_summary.csv).
+Every canonical record carries both `provider_pool` and `provider_jurisdiction_tier` so analysts can compare counts across EU-27, Copernicus-associated, and ESA boundaries. Full column-level completeness is reported in [`03_harmonization/schema_completeness_report.csv`](03_harmonization/schema_completeness_report.csv), pool and Sentinel breakdowns in [`03_harmonization/provider_pool_and_sentinel_summary.csv`](03_harmonization/provider_pool_and_sentinel_summary.csv), and per-source filtering counts in [`02_preparation/exclusion_audit_summary.csv`](02_preparation/exclusion_audit_summary.csv).
 
 ---
 
-## 3. Repository Layout
+## 3. Catalogues Evaluated & Not Included
+
+The following portals, operational services, and archives were evaluated and intentionally not ingested as standalone primary sources—either because they sit outside the open gridded L3/L4 archive scope or because no public, unauthenticated machine-readable collection API is exposed:
+
+| Catalogue / Portal | Why Not Directly Included | Partial or Parallel Coverage in Catalogue |
+| :--- | :--- | :--- |
+| **JAXA G-Portal CSW** (`gportal.jaxa.jp/csw/csw`) | Returned HTTP `503` (maintenance) during harvest. | `568` JAXA G-Portal collections via `14_ceos_fedeo_agencies`, primary `30_jaxa_earth_stac` (`112`), and DIAS releases in Source `26`. |
+| **ISRO Portals** (`Bhoonidhi`, `Bhuvan`, `MOSDAC`) | `Bhoonidhi` STAC returns HTTP `403` (authentication required), `Bhuvan` CSW returns `404`, and `MOSDAC` exposes no open collection API. | Selected ISRO L3/L4 holdings via `14_ceos_fedeo_agencies` and `12_ceos_cgms_wgclimate_ecv`. |
+| **Chinese EO Portals** (`CMA/NSMC`, `CASEarth`, `TPDC`, `ScienceDB`) | National web portals lack open unauthenticated STAC/CSW collection APIs; `TPDC` prefix `10.11888` has `0` entries in DataCite; `ScienceDB` (`10.57760`) mixes general multidisciplinary supplements with EO. | Targeted peer-reviewed releases (`CoSEB`, `PML-V2.2`, `GLC_FCS30D`, `CLCD`) via Sources `24`, `26`, and `29`. |
+| **KARI / KMA & SANSA** | KOMPSAT imagery is distributed commercially via partners without an open L3/L4 STAC; no open unauthenticated SANSA L3/L4 collection API. | Open continental African EO datacubes are covered via `31_digital_earth_africa_and_pacific`. |
+| **MSC GeoMet** (`api.weather.gc.ca/collections`) | Predominantly hydrometric/climate in-situ station feeds and real-time operational NWP forecasts (outside satellite L3/L4 archive scope). | Canadian satellite EO datacube products are covered via primary `32_nrcan_ccmeo_stac`. |
+| **CEMS On-Demand Mapping Portal** (`mapping.emergency.copernicus.eu`) | `/stacapi/` returns HTTP `403`, and `/activations/api/activations/` exposes `1,070` individual event-specific disaster activations (`EMSR*`) rather than continuous gridded archives. | `395+` historical CEMS Rapid Mapping & Risk and Recovery activations are indexed via `07_ec_jrc_data_catalogue`; continuous CEMS products (`GFM`, `GloFAS`, `EFAS`, `EDO/GDO`, `EFFIS/GWIS`, `GHSL`) are indexed via Sources `05`–`07`. |
+| **Copernicus Security Service** (`EMSA CleanSeaNet`, `Frontex`, `SatCen`) | Restricted operational security services with no open public dataset API. | Documented as out-of-scope in [`04_validation_and_review/eu_policy_products_benchmark_audit.csv`](04_validation_and_review/eu_policy_products_benchmark_audit.csv). |
+| **Commercial VHR Tasking Portals** (`Maxar`, `Planet`, `Airbus`, `Capella`, `ICEYE`) | Proprietary commercial tasking and scene archives without open public L3/L4 metadata APIs. | Outside open public catalogue scope. |
+| **Instantaneous L2 Event Streams & Raw Archives** (e.g., EUMETSAT MTG FCI Active Fire `EO:EUM:DAT:0801`/`0682`, raw Sentinel/Landsat L1–L2, aerial orthophotos, discrete stations) | Raw L0–L2 sensor imagery, aerial photography, discrete station logs, real-time NWP feeds, and instantaneous L2 pixel detections (MTG FCI Active Fire is classified as `Level 2` upstream) fall outside the L3/L4 inclusion criteria. | Excluded deterministically and logged in `02_preparation/data/excluded_records_log.parquet`; gridded daily/monthly fire CDRs (`EO:EUM:DAT:0148`, `MSG:FRPGRID-SEVIRI`) are retained. |
+| **Standalone Web-Only Climate Archives** (`Berkeley Earth`, `GloH2O MSWEP/MSWX`, etc.) | Distributed as direct web downloads or cloud folders without machine-readable STAC/REST/CSW collection APIs (`Berkeley Earth` is also primarily gridded in-situ station interpolation). | Outside the automated API harvest boundary. |
+
+Full per-source API endpoints, processing-level rules, and attribution logic are documented in [`docs/SOURCES.md`](docs/SOURCES.md).
+
+---
+
+## 4. Repository Layout
 
 ```text
 .
-├── README.md                                         # Overview, scope boundaries & local rebuild guide
+├── README.md                                         # Overview, excluded catalogues & local rebuild guide
 ├── LICENSE / LICENSE-DATA / CITATION.cff             # MIT (code), CC-BY-4.0 (data & docs), CFF 1.2.0
 ├── MANIFEST.json & SHA256SUMS.txt                    # Cryptographic provenance & API timestamp manifest
 ├── build_manifest.py                                 # `uv run` script regenerating MANIFEST.json & SHA256SUMS.txt
@@ -86,7 +103,7 @@ Every canonical record carries both `provider_pool` and `provider_jurisdiction_t
 
 ---
 
-## 4. Rebuilding Locally (`uv run`)
+## 5. Rebuilding Locally (`uv run`)
 
 All scripts use PEP 723 inline dependency metadata and require only [`uv`](https://docs.astral.sh/uv/):
 
@@ -117,13 +134,13 @@ uv run build_manifest.py
 
 ---
 
-## 5. Interactive Static Viewer (`docs/`)
+## 6. Interactive Static Viewer (`docs/`)
 
 The `docs/` directory hosts a zero-backend Tailwind CSS viewer published directly from `main` (`/docs` with `.nojekyll`) covering all **38,567 canonical records** across **31 sources** (`docs/data/index_meta.json`, 4 index shards, and 65 on-demand provenance detail chunks). It supports multi-term search, faceted filtering (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, CSV and Parquet export, an HTML/Markdown toggle for the source registry (`docs/sources.html`), and a slide-over provenance panel with a **MapLibre GL + OpenFreeMap** bounding-box viewer (handling antimeridian crossings).
 
 ---
 
-## 6. Licensing & Citation
+## 7. Licensing & Citation
 
 - **Pipeline Code (`*.py`)**: [MIT License](LICENSE).
 - **Catalogue Data & Documentation**: [CC-BY-4.0](LICENSE-DATA). Individual EO datasets retain their upstream provider licenses (`license` column).

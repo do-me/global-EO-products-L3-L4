@@ -472,7 +472,7 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"op_closed={op_closed}, eu_glob={eu_nom_glob}, polar_bad={polar_bad}, eu_bench={eu_bench_ok}, bicep_s3={bicep_ok}, phys_bad={phys_bad}, epoch_my_bad={single_epoch_my_bad}",
     ))
 
-    # 19. Independent scientific review hardening (HTML/URLs, >=10x spatial conflicts, GEO disks, ARD vs output, L3+L4, Sentinel HLS, supersession)
+    # 19. Provenance, HTML/URL safety, GEO disk, ARD vs output, L3+L4, Sentinel HLS & supersession invariants
     html_rem = int(df_all["description"].fillna("").str.contains(r"&(?:deg|times|ndash|nbsp|rarr);|</?(?:p|div|strong|ul|li)\b", regex=True).sum())
     zen_url_nulls = int(df_all[(df_all["source_catalogue"] == "26_fao_unep_and_thematic_benchmarks") & df_all["raw_id"].astype(str).str.startswith("ZENODO:")]["access_url"].isna().sum())
     tcsif_v1_ok = bool(df_all["doi"].fillna("").str.lower().str.contains("10.5281/zenodo.8242928").any())
