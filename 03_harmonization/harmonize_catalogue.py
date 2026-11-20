@@ -9,7 +9,7 @@
 """
 03_harmonization/harmonize_catalogue.py
 =======================================
-Harmonizes all 28 prepared L3/L4 EO product sources into a unified catalogue schema supporting
+Harmonizes all 31 prepared L3/L4 EO product sources into a unified catalogue schema supporting
 geophysical/thematic, spatial, temporal, geographic, and operational-maturity discovery.
 
 Strict Reproducibility Guarantee:
@@ -129,6 +129,9 @@ SOURCE_AUTHORITY_RANK: dict[str, int] = {
     "27_gee_official_stac": 5,
     "28_planetary_computer_stac": 5,
     "29_awesome_gee_community": 6,
+    "30_jaxa_earth_stac": 1,
+    "31_digital_earth_africa_and_pacific": 2,
+    "32_nrcan_ccmeo_stac": 2,
 }
 
 
@@ -520,6 +523,7 @@ _EXPLICIT_EUROPE_SCOPE_RE = re.compile(
 _EXPLICIT_REGIONAL_SCOPE_RE = re.compile(
     r"\b(?:regional\b|north america\b|contiguous u\.?s\.?|conterminous united states|\bconus\b|"
     r"united states and alaska|alaska|hawaii|puerto rico|for africa\b|in africa\b|sub-saharan africa|"
+    r"of canada\b|for canada\b|in canada\b|canadian wetland|canada's landmass|of japan\b|"
     r"south america|central america|southeast asia|east asia|south asia|middle east|"
     r"australia|new zealand|great lakes|gulf of mexico|chesapeake bay)\b",
     re.IGNORECASE,
@@ -682,6 +686,19 @@ def classify_geographic_coverage(
             )
         if is_single_geo_disk:
             return None, None, None, None, "regional_or_local", "geostationary_disk_or_sector", "geostationary_sensor_or_id", domain_mask
+        if source_id == "30_jaxa_earth_stac" and re.search(r"_(north|south)_", rid_str, re.IGNORECASE):
+            m_pol = re.search(r"_(north|south)_", rid_str, re.IGNORECASE)
+            h_dom = "northern_hemisphere_only" if m_pol.group(1).lower() == "north" else "southern_hemisphere_only"
+            return None, None, None, None, "hemispheric_or_pantropical", h_dom, "explicit_title_or_abstract_scope", (domain_mask or "cryosphere_or_glacier_mask")
+        if source_id == "31_digital_earth_africa_and_pacific":
+            if rid_str.startswith("DEPACIFIC:"):
+                return None, None, None, None, "regional_or_local", "regional_or_local", "regional_hub_scope", domain_mask
+            if rid_str.startswith("DEAFRICA:") and not re.search(
+                r"^DEAFRICA:(?:dem_cop_|dem_srtm|nasadem|cgls_|cci_landcover|esa_world|wsf_|alos_palsar|jers_sar|gmw|io_lulc|rainfall_chirps|s3_syn_|wapor_)",
+                rid_str,
+                re.IGNORECASE,
+            ):
+                return None, None, None, None, "regional_or_local", "regional_or_local", "regional_hub_scope", domain_mask
         if not has_global_in_title:
             if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
                 return None, None, None, None, "europe_regional", "europe_regional", "explicit_title_or_abstract_scope", domain_mask
@@ -819,14 +836,15 @@ EUROPEAN_IGO_RE = re.compile(
 )
 
 EU_PRODUCER_RE = re.compile(
-    r"\b(joint research centre|european commission|european environment agency|eurostat|"
-    r"emodnet|german aerospace|centre national d'etudes spatiales|data terra|theia|dinamis|terrascope|"
+    r"\b(joint research cent(?:re|er)|eu forest observatory|european commission|european environment agency|eurostat|"
+    r"emodnet|german aerospace|marconcini|world settlement footprint|centre national d'etudes spatiales|data terra|theia|dinamis|terrascope|"
     r"opengeohub|openlandmap|isric|soilgrids|wageningen|ghent university|ugent|"
     r"vrije universiteit amsterdam|miralles, diego|\bgleam4\b|global land evaporation amsterdam model|"
     r"ifremer|mercator oc[eé]an|helmholtz|alfred wegener institute|potsdam institute for climate impact|"
     r"tu wien|technical university of vienna|vienna university of technology|vandersat|"
     r"uclouvain|university of li[eè]ge|forschungszentrum j[uü]lich|\bmpi-bgc\b|\blsce\b|"
     r"deltares|technical university of denmark|deutscher wetterdienst|"
+    r"universitat de val[eè]ncia|universit[eé] toulouse|university of thessaly|"
     r"university of bremen|goethe university|max planck|collecte localisation satellites)\b",
     re.IGNORECASE,
 )
@@ -918,6 +936,9 @@ def classify_producer_and_pool(
         "27_gee_official_stac": "Google Earth Engine",
         "28_planetary_computer_stac": "Microsoft Planetary Computer",
         "29_awesome_gee_community": "Google Earth Engine Community Catalog",
+        "30_jaxa_earth_stac": "JAXA Earth Observation Research Center (EORC)",
+        "31_digital_earth_africa_and_pacific": "Digital Earth Africa / Digital Earth Pacific",
+        "32_nrcan_ccmeo_stac": "Natural Resources Canada (Geo.ca Datacube STAC)",
     }
     host = host_raw or default_hosts.get(source_id)
     producer = org_raw
@@ -955,7 +976,7 @@ def classify_producer_and_pool(
         if not NON_COPERNICUS_JRC_EXEMPT_RE.search(f"{rid} {ttl}"):
             if COPERNICUS_JRC_CEMS_RE.search(jrc_head):
                 return "European Commission Joint Research Centre (EC JRC - CEMS)", host, "copernicus_services", "CEMS", False, "copernicus_service"
-            if COPERNICUS_CLMS_JRC_RE.search(jrc_head):
+            if COPERNICUS_CLMS_JRC_RE.search(jrc_head) or re.search(r"\bcorine land cover\b", ttl, re.IGNORECASE):
                 return "European Commission Joint Research Centre (EC JRC - CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
         return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
 
@@ -970,22 +991,24 @@ def classify_producer_and_pool(
     if source_id == "14_ceos_fedeo_agencies" and re.match(r"^samet_", rid, re.IGNORECASE):
         return producer or "INPE / CPTEC (Brazil)", host, "non_eu", None, False, "third_country_non_european"
 
-    # 4. Cross-platform Copernicus Service detection (DEDL, WEkEO, CDSE, GEE, PC, EEA, FedEO, OLM)
+    # 4. Cross-platform Copernicus Service detection (DEDL, WEkEO, CDSE, GEE, PC, EEA, FedEO, OLM, DE Africa, JAXA)
     if re.search(r"(^EO[:.]MO[:.]DAT[:.]|^cmems_|^COPERNICUS/MARINE|Copernicus Marine|CMEMS)", combined, re.IGNORECASE):
         return producer or "Mercator Océan International (CMEMS)", host, "copernicus_services", "CMEMS", False, "copernicus_service"
-    if re.search(r"(^EO[:.]CLMS[:.]DAT[:.]|^EO[:.]EEA[:.]DAT[:.](?:CLMS|HRL|CORINE|CLC|URBAN-ATLAS|COASTAL|RIPARIAN|EU-HYDRO)|^EO[:.]JRC[:.]DAT[:.]CLMS|^COPERNICUS/Landcover|^COPERNICUS/CORINE|\bland\.cover_copernicus\b|\bfapar_proba\.v\b|Copernicus (?:Global )?Land|\bCLMS\b|\bCGLS\b|Copernicus Urban Atlas|Copernicus Imperviousness)", combined, re.IGNORECASE):
+    if re.search(r"(^EO[:.]CLMS[:.]DAT[:.]|^EO[:.]EEA[:.]DAT[:.](?:CLMS|HRL|CORINE|CLC|URBAN-ATLAS|COASTAL|RIPARIAN|EU-HYDRO)|^EO[:.]JRC[:.]DAT[:.]CLMS|^COPERNICUS/Landcover|^COPERNICUS/CORINE|\bland\.cover_copernicus\b|\bfapar_proba\.v\b|Copernicus (?:Global )?Land|\bCLMS\b|\bCGLS\b|Copernicus Urban Atlas|Copernicus Imperviousness|Sentinel-2 Global Mosaics?|\bS2GM\b)", combined, re.IGNORECASE):
         return producer or "EEA / EC JRC (CLMS)", host, "copernicus_services", "CLMS", False, "copernicus_service"
     if re.search(r"(^EO[:.]ECMWF[:.]DAT[:.]CAMS|^ECMWF/CAMS|Copernicus Atmosphere|\bCAMS\b)", combined, re.IGNORECASE):
         return producer or "ECMWF (CAMS)", host, "copernicus_services", "CAMS", False, "copernicus_service"
-    if re.search(r"(^EO[:.]ECMWF[:.]DAT[:.](?:CEMS_|GLOFAS|EFAS|FIRE_)|^EO[:.]GHSL[:.]|^JRC/GHSL|\bpop\.count_ghs\.jrc\b|\bGHSL\b|GHS-POP|GHS-BUILT|GHS-SMOD|human settlements? grid|Copernicus Emergency|\bCEMS\b|GloFAS|EFAS)", combined, re.IGNORECASE):
+    if re.search(r"(^EO[:.]ECMWF[:.]DAT[:.](?:CEMS_|GLOFAS|EFAS|FIRE_)|^EO[:.]GHSL[:.]|^JRC/GHSL|\bpop\.count_ghs\.jrc\b|\bGHSL\b|\bGHS[-_](?:POP|BUILT|SMOD|UCDB|WUP|OBAT|SDATA|COMPOSITE)|Global Human Settlement|human settlements? grid|Copernicus Emergency|\bCEMS\b|GloFAS|EFAS)", combined, re.IGNORECASE):
         return producer or "EC JRC / ECMWF (CEMS)", host, "copernicus_services", "CEMS", False, "copernicus_service"
+    if source_id == "23_wri_gfw_and_resourcewatch" and re.search(r"JRC/CIESIN", prod_str, re.IGNORECASE) and re.search(r"Population \(Grid,\s*250\s*m\)", ttl, re.IGNORECASE):
+        return "EC JRC / CIESIN (GHSL - CEMS)", host, "copernicus_services", "CEMS", False, "copernicus_service"
     if re.search(r"(^EO[:.]DEM[:.]DAT[:.]COP-DEM|COP-DEM|^COPERNICUS/DEM|cop-dem-glo|\bdsm_glo30\b|Copernicus DEM|\bCopernicus Digital Elevation Model\b)", combined, re.IGNORECASE):
         return producer or "ESA / Copernicus (Copernicus DEM)", host, "copernicus_services", "COP_DEM", False, "copernicus_service"
     if re.match(r"^EO[:.]ECMWF[:.]DAT[:.]", rid, re.IGNORECASE):
         if re.search(r"(?:\.D1\.|\.DT_|DESTINE|Digital Twin)", f"{rid} {ttl}", re.IGNORECASE):
             return producer or "ECMWF (Destination Earth)", host, "eu_non_copernicus", None, False, "european_space_met_igo"
         return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False, "copernicus_service"
-    if re.search(r"(^ECMWF/ERA5|\bera5-pds\b|\bera5_repack\b|ce-ag-era5|terrascope-sis-agrometeorological-indicators|\bAgERA5\b|\bERA5[- ]Land\b|\bERA5 Heat\b|Copernicus Climate Change|\bC3S\b)", combined, re.IGNORECASE):
+    if re.search(r"(^ECMWF/ERA5|\bera5-pds\b|\bera5_repack\b|ce-ag-era5|terrascope-sis-agrometeorological-indicators|\bAgERA5\b|\bERA5[- ]Land\b|\bERA5 Heat\b|Copernicus Climate Change|Copernicus\.C3S|\bC3S\b)", combined, re.IGNORECASE):
         return producer or "ECMWF (C3S)", host, "copernicus_services", "C3S", False, "copernicus_service"
 
     # Upstream non-EU mirrors on EU platforms (CDSE MODIS, OpenLandMap third-party global datasets, DestinE GSW/GBIF)
@@ -1028,12 +1051,16 @@ def classify_producer_and_pool(
         return producer, host, pool, None, False, tier
 
     if source_id == "14_ceos_fedeo_agencies":
+        # Preserve ESA CCI / WorldCover / WorldCereal mirrors even when federated via NASA CMR
+        if re.search(r"(?:ESA\b[^:]{0,40}Climate Change Initiative|\bBiomass_cci\b|\bESA WorldCover\b|\bESA WorldCereal\b)", ttl, re.IGNORECASE):
+            return "European Space Agency (ESA CCI)", host, "eu_non_copernicus", None, False, "european_space_met_igo"
         # Check explicit third-country agencies first (NASA, JPL, ASF, ORNL, USGS, INPE, JAXA, ISRO, NRCan)
-        # while allowing explicit European-hosted Third Party Mission archives (e.g. ESA/ESRIN, VITO, DLR, CNES) without NASA/JPL/USGS co-lead
+        # while allowing explicit European-hosted Third Party Mission archives or European-led products (e.g. VITO; RBINS; USGS Aquascope)
         has_third = bool(THIRD_COUNTRY_PRODUCER_RE.search(prod_str) or (not prod_str and THIRD_COUNTRY_PRODUCER_RE.search(combined)))
         has_eu_host_archive = bool(re.search(r"\b(vito|rbins|esa/esrin|dlr|cnes|terrascope)\b", prod_str, re.IGNORECASE))
+        starts_eu_lead = bool(re.match(r"^\s*(?:vito|rbins|dlr|cnes|esa|eumetsat)\b", prod_str, re.IGNORECASE))
         has_non_eu_primary = bool(re.search(r"\b(nasa|jpl|asf|ornl|cmr|inpe|jaxa|g-portal|isro|mosdac|nrsc|bhoonidhi|nrcan|usgs)\b", prod_str, re.IGNORECASE))
-        if has_third and not (has_eu_host_archive and not has_non_eu_primary):
+        if has_third and not starts_eu_lead and not (has_eu_host_archive and not has_non_eu_primary):
             return producer, host, "non_eu", None, False, "third_country_non_european"
         if CH_ESA_NON_COPERNICUS_RE.search(prod_str) and not EUROPEAN_IGO_RE.search(prod_str):
             return producer, host, "non_eu", None, False, "european_esa_non_copernicus_state"
@@ -1046,6 +1073,24 @@ def classify_producer_and_pool(
         # WorldPop (University of Southampton, UK) -> formal Copernicus Associated State effective 2024-01-01
         return producer or "WorldPop (University of Southampton)", host, "eu_non_copernicus", None, False, "copernicus_associated_state"
 
+    # 5b. European mirrors hosted inside multilateral/UN/NGO portals (GEO Knowledge Hub, FAO GISMGR, WRI Resource Watch/GFW)
+    if source_id in ("15_geobon_and_geokhub", "26_fao_unep_and_thematic_benchmarks"):
+        if re.search(r"\bworldpop\b", f"{rid} {ttl}", re.IGNORECASE):
+            return "WorldPop (University of Southampton)", host, "eu_non_copernicus", None, False, "copernicus_associated_state"
+        if source_id == "15_geobon_and_geokhub":
+            if re.search(r"\bASAP\s+(?:Warnings|Hotspots|warnings and hotspots)\b", ttl, re.IGNORECASE):
+                return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
+            if re.search(r"\bWorld Settlement Footprint\b", ttl, re.IGNORECASE):
+                return "German Aerospace Center (DLR)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
+            if re.search(r"^ESA\s+Land\s+cover\b", ttl, re.IGNORECASE):
+                return "European Space Agency (ESA)", host, "eu_non_copernicus", None, False, "european_space_met_igo"
+            if re.search(r"\bDrought Soil Moisture Anomalies\b", ttl, re.IGNORECASE) and re.search(r"\b(EUMETSAT|TU Wien)\b", f"{ttl} {desc or ''}", re.IGNORECASE):
+                return "EUMETSAT / TU Wien", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
+
+    if source_id == "23_wri_gfw_and_resourcewatch":
+        if re.search(r"\bEC\s*JRC\b", kw_raw or "", re.IGNORECASE) or re.match(r"^GFW:jrc_managed_land_", rid, re.IGNORECASE):
+            return "European Commission Joint Research Centre (EC JRC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
+
     # 6. UN / International Bodies & Multilateral Consortia (e.g. FAO, UNEP, WMO, GEO BON, World Bank)
     if is_un:
         return producer, host, "non_eu", None, True, "un_or_international_body"
@@ -1055,7 +1100,7 @@ def classify_producer_and_pool(
         return producer, host, "non_eu", None, False, "european_esa_non_copernicus_state"
 
     if source_id == "16_nasa_cmr":
-        if re.search(r"\bEUMETSAT\b", prod_str, re.IGNORECASE) and re.search(r"\bproduced by\s+OSI\s*SAF\b", ttl, re.IGNORECASE):
+        if re.search(r"\bEUMETSAT\b", prod_str, re.IGNORECASE) and re.search(r"(?:\bproduced by\s+OSI\s*SAF\b|OSISAF)", f"{rid} {ttl}", re.IGNORECASE):
             return "EUMETSAT Ocean and Sea Ice SAF (OSI SAF)", host, "eu_non_copernicus", None, False, "european_space_met_igo"
         if prod_str == "GPCC" and ttl.startswith("DWD-GPCC:"):
             return "Deutscher Wetterdienst (DWD - GPCC)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
@@ -1091,7 +1136,7 @@ S1_RE = re.compile(
 )
 S2_RE = re.compile(
     r"\b(sentinel[-_ ]?2[abc]?|s2[abc]?[-_ ]msi|glad[-_ ]?s2|hlss30|harmonized landsat[- ]sentinel|dynamic[-_ ]world|worldcover|worldcereal|"
-    r"ghs-built-s|hr-vpp|high resolution vegetation phenology|clcplus backbone|clc\+\s*backbone|vlcc|hr-s&i)\b",
+    r"ghs[-_]built[-_]s|hr-vpp|high resolution vegetation phenology|clcplus backbone|clc\+\s*backbone|vlcc|hr-s&i)\b",
     re.IGNORECASE,
 )
 S3_RE = re.compile(
@@ -1301,7 +1346,7 @@ def detect_sentinel_usage(
 # ---------------------------------------------------------------------------
 ARD_REFLECTANCE_RE = re.compile(
     r"\b(surface reflectance|boa reflectance|bottom[- ]of[- ]atmosphere|global mosaic|cloudless mosaic|"
-    r"sentinel-2.*mosaic|s2gm|hlsl30|hlss30|hls2[-_]?[ls]30|harmonized landsat.*sentinel|mod09|myd09|vnp09|"
+    r"sentinel-2.*mosaics?|s2gm|geomad|rcm-ard-mosaic|hlsl30|hlss30|hls2[-_]?[ls]30|harmonized landsat.*sentinel|mod09|myd09|vnp09|"
     r"mcd43a4\w*|nadir brdf[- ]?adjusted ref(?:lectance)?|brdf[- ]?adjusted reflectance|"
     r"lcref[-_ ]?(?:modis|avhrr)|long-term continuous red and near-infrared channel reflectance|"
     r"8-day.*composite|32-day.*composite|annual.*composite|pixel based image composite|nbar)\b",
@@ -1331,13 +1376,13 @@ L4_MODEL_RE = re.compile(
 )
 
 HYBRID_EO_CONSTRAINED_RE = re.compile(
-    r"\b(ghs[-_ ]?pop|worldpop|landscan|hrsl|openlandmap|soilgrids|isric|esdac|glosem|"
+    r"\b(ghs[-_ ]?pop|worldpop|landscan|hrsl|openlandmap|soilgrids|isric|isda_soil|esdac|glosem|"
     r"global soil organic carbon|gsocmap|gaez|grid3)\b",
     re.IGNORECASE,
 )
 
 NON_EO_INVENTORY_RE = re.compile(
-    r"(^FAO_GISMGR:GLEAM3:|SOCIO-ECONOMIC-FORCING|"
+    r"(^FAO_GISMGR:GLEAM3:|^resgeo-|SOCIO-ECONOMIC-FORCING|"
     r"\b(?:gridded population of the world|gpwv[34]|edgar|emissions database for global atmospheric research|"
     r"coco2[-_ ]?mosaic|bottom[- ]up[^.;]*co2 emission inventor\w*|fossil and biofuel co2 emission inventor\w*|prior emission inventor\w*|"
     r"faostat|gdp per capita|gridded gdp|gross domestic product|ardeco|human development index|nighttime lights socioeconomic|census|"
@@ -1585,7 +1630,7 @@ def classify_level_and_ontology(
 # 7. Operational Maturity Classifier
 # ---------------------------------------------------------------------------
 COMPLETED_MISSION_OR_STATIC_RE = re.compile(
-    r"\b(gedi04_b|gedi l4b|worldcover|wsf[-_ ]?2015|wsf[-_ ]?2019|wsf[-_ ]?evolution|wsf[-_ ]?3d|wsf3d|wsf_evo|"
+    r"\b(gedi04_b|gedi l4b|(?:esa_)?world\s*cover(?:_\d{4})?|wsf[-_ ]?2015|wsf[-_ ]?2019|wsf[-_ ]?evolution|wsf[-_ ]?3d|wsf3d|wsf_evo|"
     r"world settlement footprint \(wsf\) (?:2015|2019|evolution|3d)|world settlement footprint (?:2015|2019|evolution)|"
     r"srtm|nasadem|tandem-x.*dem|cop-dem|alos.*dsm|meris|envisat|ers-1|ers-2|avhrr pathfinder|"
     r"globcover|glc2000|corine land cover 1990|corine land cover 2000|corine land cover 2006|"

@@ -1,0 +1,15 @@
+source_id: 30_jaxa_earth_stac
+source_title: JAXA Earth API STAC Catalog (COG v1) — Japan Aerospace Exploration Agency (EORC / G-Portal / JASMES)
+retrieved_at_utc: 2026-11-20T13:36:57Z
+http_status_summary: 200 OK
+total_records_retrieved: 112
+endpoints_queried:
+  - https://data.earth.jaxa.jp/stac/cog/v1/catalog.json (112 child STAC collections harvested)
+notes: Full harvest of JAXA Earth API COG v1 STAC catalog (JAXA EORC, G-Portal, JASMES, JMA, plus hosted NASA EOSDIS & Copernicus C3S COG collections with explicit producer roles).
+files_written:
+  - path: data/jaxa_earth_stac_collections.jsonl
+    bytes: 1295566
+    sha256: e3f9446c1ae6d5efcf546218382254a749c938fc32672d7c36b84629d9007b4c
+  - path: data/jaxa_earth_stac_root.json
+    bytes: 25371
+    sha256: cf15412b83a4724a9d2f9288883947dedd4c0303bc32cfb697293a30ff1fa916

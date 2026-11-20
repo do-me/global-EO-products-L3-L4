@@ -12,7 +12,7 @@
 Automated quality assurance & benchmark validation suite for the Global L3/L4 EO Product Catalogue.
 
 Runs:
-1. Internal QA & Provenance Suite (`24` structural, scientific, and regression assertions against `03_harmonization/data/`).
+1. Internal QA & Provenance Suite (`25` structural, scientific, and regression assertions against `03_harmonization/data/`).
 2. External Benchmark 1: Curated EU Policy & Operational Service Product Families (`86` benchmark families).
 3. External Benchmark 2: GCOS / CEOS-CGMS WGClimate Essential Climate Variable (ECV) thematic coverage (`40` ECV groups).
 4. External Benchmark 3: Specified Regression & Holdout Case Suite (`79` cases: `55` core + `24` holdout/regression).
@@ -903,6 +903,50 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         "24. HTML comparison & URL query-param preservation, S2 lineage, paired SMAP/SWE geo, NOAA GPCP & CERES EBAF specs",
         bool(html_fx_ok and url_query_ok and jrc_s2_ok and fco2_s2_ok and paired_geo_ok and spot_panel_ok),
         f"html_fx={html_fx_ok}, url_query={url_query_ok}(bare_amp={url_bare_amp}), jrc_s2={jrc_s2_ok}, fco2_s2={fco2_s2_ok}, smap_swe_htap={paired_geo_ok}, gpcp_ceres={spot_panel_ok}",
+    ))
+
+    # 25. Non-European primary portals (JAXA, DE Africa/Pacific, NRCan) & cross-pool mirror / L1 leakage hygiene
+    s30_q = df_all[df_all["source_catalogue"] == "30_jaxa_earth_stac"]
+    s31_q = df_all[df_all["source_catalogue"] == "31_digital_earth_africa_and_pacific"]
+    s32_q = df_all[df_all["source_catalogue"] == "32_nrcan_ccmeo_stac"]
+    jaxa_c3s_q = s30_q[s30_q["raw_id"] == "Copernicus.C3S_PROBA-V_LCCS_global_yearly"]
+    jaxa_aw3d_q = s30_q[s30_q["raw_id"] == "JAXA.EORC_ALOS.PRISM_AW3D30.v4.1_global"]
+    jaxa_polar_q = s30_q[s30_q["raw_id"].isin(["JAXA.JASMES_GCOM-W.AMSR2_ic0.v201_north_daily", "JAXA.JASMES_GCOM-W.AMSR2_ic0.v201_south_daily"])]
+    dep_q = s31_q[s31_q["raw_id"].astype(str).str.startswith("DEPACIFIC:")]
+    nrcan_reg_q = s32_q[s32_q["raw_id"].isin(["modis-land-cover", "canadian-wetland-inventory"])]
+    ghsl_all_q = df_canon[(df_canon["title"].fillna("") + " " + df_canon["raw_id"].fillna("")).str.contains(r"\bghs[-_ ]|\bghsl\b|global human settlement", case=False, regex=True)]
+    s2gm_q = df_all[df_all["record_id"] == "14_ceos_fedeo_agencies::sentinel-2-global-mosaics"]
+    asap_q = df_canon[(df_canon["source_catalogue"] == "15_geobon_and_geokhub") & df_canon["title"].fillna("").str.contains(r"\bASAP\s+(?:Warnings|Hotspots|warnings and hotspots)\b", case=False, regex=True)]
+    wsf_q = df_canon[(df_canon["title"].fillna("") + " " + df_canon["raw_id"].fillna("")).str.contains(r"world settlement footprint|\bwsf[-_](?:2015|2019|evolution|3d)\b", case=False, regex=True)]
+    wpop_q = df_canon[(df_canon["title"].fillna("") + " " + df_canon["raw_id"].fillna("")).str.contains(r"\bworldpop\b", case=False, regex=True)]
+    fedeo_bio_q = df_all[(df_all["source_catalogue"] == "14_ceos_fedeo_agencies") & df_all["title"].fillna("").str.contains("Biomass_cci", case=False)]
+    spot_q = df_all[df_all["raw_id"].astype(str).str.startswith("EO:CNES:DAT:SWH")]
+    s2cp_q = df_all[df_all["record_id"] == "27_gee_official_stac::COPERNICUS/S2_CLOUD_PROBABILITY"]
+
+    portals_ok = (
+        len(s30_q) == 112
+        and len(jaxa_c3s_q) == 1 and jaxa_c3s_q.iloc[0]["provider_pool"] == "copernicus_services" and jaxa_c3s_q.iloc[0]["copernicus_service"] == "C3S"
+        and len(jaxa_aw3d_q) == 1 and str(jaxa_aw3d_q.iloc[0]["doi"]) == "10.57746/EO.01kkfx0ejw8r5ndc9bg5nt13ws"
+        and len(jaxa_polar_q) == 2 and bool((jaxa_polar_q["geographic_coverage_class"] == "hemispheric_or_pantropical").all())
+        and len(s31_q) >= 85
+        and len(dep_q) == 13 and bool((dep_q["geographic_coverage_class"] == "regional_or_local").all())
+        and (dep_q["temporal_start_year"].dropna().empty or float(dep_q["temporal_start_year"].dropna().min()) >= 2017.0)
+        and len(s32_q) == 39 and bool((s32_q["provider_pool"] == "non_eu").all())
+        and len(nrcan_reg_q) == 2 and bool((nrcan_reg_q["geographic_coverage_class"] == "regional_or_local").all())
+    )
+    hygiene_ok = (
+        len(ghsl_all_q) >= 300 and bool((ghsl_all_q["provider_pool"] == "copernicus_services").all())
+        and len(s2gm_q) == 1 and s2gm_q.iloc[0]["provider_pool"] == "copernicus_services" and s2gm_q.iloc[0]["product_level_subtype"] == "L3_ARD_REFLECTANCE"
+        and len(asap_q) == 3 and bool((asap_q["provider_pool"] == "eu_non_copernicus").all())
+        and len(wsf_q) >= 10 and bool((wsf_q["provider_pool"] == "eu_non_copernicus").all())
+        and len(wpop_q) >= 15 and bool((wpop_q["provider_pool"] == "eu_non_copernicus").all())
+        and len(fedeo_bio_q) >= 2 and bool((fedeo_bio_q["provider_pool"] == "eu_non_copernicus").all())
+        and len(spot_q) == 0 and len(s2cp_q) == 0
+    )
+    qa.append((
+        "25. Non-EU primary portals (JAXA, DE Africa/Pacific, NRCan) & cross-pool mirror / L1 leakage hygiene",
+        bool(portals_ok and hygiene_ok),
+        f"portals={portals_ok}(jaxa={len(s30_q)}, deap={len(s31_q)}, nrcan={len(s32_q)}), hygiene={hygiene_ok}(ghsl_cop={len(ghsl_all_q)}, spot_l1={len(spot_q)}, s2_cprob={len(s2cp_q)})",
     ))
 
     return qa

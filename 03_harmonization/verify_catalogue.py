@@ -11,7 +11,7 @@
 ====================================
 Automated structural, provenance, and ontology verification suite for the Global L3/L4 EO Product Catalogue.
 Verifies:
-1. All 29 `01_raw/` folders contain `mine.py`, `README.md`, `last_access.txt`, and `data/` with all files <48 MB.
+1. All 32 `01_raw/` folders contain `mine.py`, `README.md`, `last_access.txt`, and `data/` with all files <48 MB.
 2. Presence and consistent classification of sentinel, maturity, ontology, and producer-pool reference products.
 """
 
@@ -35,10 +35,10 @@ def main() -> None:
     checks_passed = 0
     issues_found: list[str] = []
 
-    # 1. Check all 29 raw directories & file sizes
+    # 1. Check all 32 raw directories & file sizes
     raw_dirs = sorted([d for d in RAW_DIR.iterdir() if d.is_dir()])
-    if len(raw_dirs) != 29:
-        issues_found.append(f"Expected 29 raw source directories, found {len(raw_dirs)}")
+    if len(raw_dirs) != 32:
+        issues_found.append(f"Expected 32 raw source directories, found {len(raw_dirs)}")
     else:
         checks_passed += 1
 
@@ -650,6 +650,48 @@ def main() -> None:
         )
     else:
         issues_found.append(f"Check U failed: HTML/URL/S2/SMAP/GPCP/CERES invariant check (url_bare_amp={url_bare_amp_u})")
+
+    # Check V: Non-European Primary Portals (JAXA, DE Africa/Pacific, NRCan) & Cross-Pool Mirror Hygiene
+    s30_v = df_all[df_all["source_catalogue"] == "30_jaxa_earth_stac"]
+    s31_v = df_all[df_all["source_catalogue"] == "31_digital_earth_africa_and_pacific"]
+    s32_v = df_all[df_all["source_catalogue"] == "32_nrcan_ccmeo_stac"]
+    jaxa_c3s_v = s30_v[s30_v["raw_id"] == "Copernicus.C3S_PROBA-V_LCCS_global_yearly"]
+    jaxa_aw3d_v = s30_v[s30_v["raw_id"] == "JAXA.EORC_ALOS.PRISM_AW3D30.v4.1_global"]
+    dep_v = s31_v[s31_v["raw_id"].astype(str).str.startswith("DEPACIFIC:")]
+    nrcan_can_v = s32_v[s32_v["raw_id"].isin(["modis-land-cover", "canadian-wetland-inventory"])]
+    ghsl_v = df_canon[(df_canon["title"].fillna("") + " " + df_canon["raw_id"].fillna("")).str.contains(r"\bghs[-_ ]|\bghsl\b|global human settlement", case=False, regex=True)]
+    s2gm_fedeo_v = df_all[df_all["record_id"] == "14_ceos_fedeo_agencies::sentinel-2-global-mosaics"]
+    asap_v = df_canon[(df_canon["source_catalogue"] == "15_geobon_and_geokhub") & df_canon["title"].fillna("").str.contains(r"\bASAP\s+(?:Warnings|Hotspots|warnings and hotspots)\b", case=False, regex=True)]
+    wsf_v = df_canon[(df_canon["title"].fillna("") + " " + df_canon["raw_id"].fillna("")).str.contains(r"world settlement footprint|\bwsf[-_](?:2015|2019|evolution|3d)\b", case=False, regex=True)]
+    wpop_v = df_canon[(df_canon["title"].fillna("") + " " + df_canon["raw_id"].fillna("")).str.contains(r"\bworldpop\b", case=False, regex=True)]
+    spot_l1_v = df_all[df_all["raw_id"].astype(str).str.startswith("EO:CNES:DAT:SWH")]
+    s2_cprob_v = df_all[df_all["record_id"] == "27_gee_official_stac::COPERNICUS/S2_CLOUD_PROBABILITY"]
+
+    v_ok = (
+        len(s30_v) == 112
+        and len(jaxa_c3s_v) == 1 and jaxa_c3s_v.iloc[0]["provider_pool"] == "copernicus_services" and jaxa_c3s_v.iloc[0]["copernicus_service"] == "C3S"
+        and len(jaxa_aw3d_v) == 1 and jaxa_aw3d_v.iloc[0]["provider_pool"] == "non_eu" and str(jaxa_aw3d_v.iloc[0]["doi"]) == "10.57746/EO.01kkfx0ejw8r5ndc9bg5nt13ws"
+        and len(s31_v) >= 85
+        and len(dep_v) == 13 and (dep_v["geographic_coverage_class"] == "regional_or_local").all() and dep_v["temporal_start_year"].dropna().min() >= 2017
+        and len(s32_v) == 39 and (s32_v["provider_pool"] == "non_eu").all() and (nrcan_can_v["geographic_coverage_class"] == "regional_or_local").all()
+        and len(ghsl_v) >= 300 and (ghsl_v["provider_pool"] == "copernicus_services").all()
+        and len(s2gm_fedeo_v) == 1 and s2gm_fedeo_v.iloc[0]["provider_pool"] == "copernicus_services" and s2gm_fedeo_v.iloc[0]["product_level_subtype"] == "L3_ARD_REFLECTANCE"
+        and len(asap_v) == 3 and (asap_v["provider_pool"] == "eu_non_copernicus").all()
+        and len(wsf_v) >= 10 and (wsf_v["provider_pool"] == "eu_non_copernicus").all()
+        and len(wpop_v) >= 15 and (wpop_v["provider_pool"] == "eu_non_copernicus").all()
+        and len(spot_l1_v) == 0 and len(s2_cprob_v) == 0
+    )
+    if v_ok:
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "Primary Non-EU Portals (JAXA, DE Africa/Pacific, NRCan) & Cross-Pool Hygiene",
+                "PASS",
+                f"jaxa={len(s30_v)}, deap={len(s31_v)}, nrcan={len(s32_v)}, ghsl_cop={len(ghsl_v)}/{len(ghsl_v)}, s2gm=CLMS/ARD, spot_l1=0, s2_cprob=0",
+            )
+        )
+    else:
+        issues_found.append("Check V failed: new primary portals or cross-pool mirror hygiene invariant check")
 
     print("=" * 92)
     print(f"VERIFICATION REPORT ({checks_passed} core test suites passed, {len(issues_found)} issues)")

@@ -1,0 +1,16 @@
+source_id: 31_digital_earth_africa_and_pacific
+source_title: Operational Continental & Regional EO Hubs — Digital Earth Africa (ODC Registry) & Digital Earth Pacific (STAC)
+retrieved_at_utc: 2026-11-20T13:37:05Z
+http_status_summary: 200 OK
+total_records_retrieved: 120
+endpoints_queried:
+  - https://explorer.digitalearth.africa/products.txt + /products/<id>.odc-product.yaml (105 ODC product definitions)
+  - https://stac.digitalearthpacific.org/collections (15 STAC collections across paginated responses)
+notes: DE Africa harvested via authoritative ODC product registry YAML endpoints because explorer.digitalearth.africa/stac/collections returned HTTP 200 HTML internal server errors; DE Pacific harvested via paginated STAC /collections API.
+files_written:
+  - path: data/digital_earth_africa_products.jsonl
+    bytes: 160888
+    sha256: 873fc5ba31fd77caf4c791a5b5cc66617678d1f2b663aa31462243b8d2868a2d
+  - path: data/digital_earth_pacific_stac.json
+    bytes: 65063
+    sha256: db78ec2dad7f7a6984ebcc9a552528bae97c721efc97feb84644315d85f8b482

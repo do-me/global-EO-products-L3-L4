@@ -9,7 +9,7 @@
 """
 02_preparation/prepare_all.py
 =============================
-Deterministic preprocessing, structural normalization, and L3/L4 filtering across all 29 raw EO metadata sources.
+Deterministic preprocessing, structural normalization, and L3/L4 filtering across all 32 raw EO metadata sources.
 
 Key Scientific & Methodological Principles:
 1. Missing Metadata Kept Null: Never manually impute or invent missing metadata. If a field is absent
@@ -461,7 +461,7 @@ _CEDA_DOI_CROSSWALK = _load_ceda_doi_crosswalk()
 # Deterministic L0/L1/L2 & Non-EO Exclusion Classifier
 # ---------------------------------------------------------------------------
 EXPLICIT_L0_L1_L2_TOKEN_RE = re.compile(
-    r"^(?:Visualisation|Visualization|(?:level[- ]?|l)?[012](?:[abcdgprst]+|\.\d+)?\+?)$",
+    r"^(?:Visualisation|Visualization|(?:level[- ]?|l)?[012](?:[abcdgprst]+|\.\d+)?\+?(?:\s+data)?)$",
     re.IGNORECASE,
 )
 
@@ -475,15 +475,19 @@ SWATH_L1_L2_ID_PATTERNS = re.compile(
     r"ast_l1t|l2a\.gedi|slc_off|slc-off)(_|-|:|/|$)|"
     r"(L0L1Products|L1Products|L2Products|L2Validated|L2InstChecked|^l2-along-track|"
     r"^swath-elelvation-|^ccm-|^CEOS_ARD_NRB_S1_SAMPLES$|^SENTINEL1_(?:SCENE_)?GMR0$|^SENTINEL1_SIG0_20M$|^SENTINEL1_MPLIA$|"
-    r"^COPERNICUS/S3/OLCI$|^JAXA/ALOS/AVNIR-2/ORI$|^LANDSAT/.*/C0[12]/T[12](?:_RT)?(?:_TOA)?$|^LANDSAT/GLS\d{4}(?:_L[57])?$|"
+    r"^COPERNICUS/S3/OLCI$|^COPERNICUS/S2_CLOUD_PROBABILITY$|^JAXA/ALOS/AVNIR-2/ORI$|"
+    r"^LANDSAT/.*/C0[12]/T[12](?:_RT)?(?:_TOA)?$|^LANDSAT/GLS\d{4}(?:_L[57])?$|"
     r"^C12205679(?:06|07|69|85|86)-USGS_LTA$|^(?:AMZ1|CB4A?)-(?:MUX|WFI)-L4-SR-1$|"
-    r"^MODIS/(?:006|061)/M[OY]D09G[AQ]$|^NOAA/VIIRS/.*/VNP09GA$)",
+    r"^MODIS/(?:006|061)/M[OY]D09G[AQ]$|^NOAA/VIIRS/.*/VNP09GA$|"
+    r"^DEAFRICA:(?:ls[5789]_(?:sr|st)|landsat_c2l2_ar|s1_rtc|s2_l2a(?:_c1)?|s3_(?:ol|olci|slstr)_(?:2|l2)_.*|"
+    r"s5p_tropomi_l2_.*|maxar_morocco_earthquake.*|fc_ls|wofs_ls)$|"
+    r"^DEPACIFIC:dep_ls_(?:fc|wofl)$)",
     re.IGNORECASE,
 )
 
 SWATH_L1_L2_TITLE_PATTERNS = re.compile(
     r"(\b(level[- ]?(?:0[ab]?|1|1\.5|1[abcdgrt]|1gt|1gst|2|2[abcgprt])\b|l0[ab]?\b|l1[abcdgrt]?\b|l1gt\b|l1gst\b|l1\.5\b|l2[abcgprt]?\b)|"
-    r"\b(single look complex|slc[- ]off|slc burst|ground range detected|top-of-atmosphere radiance|calibrated radiance|"
+    r"\b(single look complex|slc[- ]off|slc burst|ground range detected|top-of-atmosphere radiance|top of atmosphere reflectance|calibrated radiance|"
     r"raw scenes?|toa reflectance|raw instrument data|raw data record|\brdr\b|"
     r"(?:brightness|antenna|microwave|radiometer|sensor)\s+temperature data record|\btdr\b|sensor data record|\bsdr\b|"
     r"swath level 2|on the satellite swath|along-track re-tracked|l2 swath|swath grid|swath image|swath files|swath[- ]derived|swath elevation)\b)",
@@ -491,9 +495,10 @@ SWATH_L1_L2_TITLE_PATTERNS = re.compile(
 )
 
 AERIAL_ORTHOPHOTO_PATTERNS = re.compile(
-    r"(^naip$|^USDA/NAIP/|^USGS_DOQ$|^DOP_AUT_|^topo-dc-austria-op-utm$|"
+    r"(^naip$|^USDA/NAIP/|^USGS_DOQ$|^DOP_AUT_|^topo-dc-austria-op-utm$|^napl-|^banff-national-park$|"
     r"^(?:Estonia|Latvia|Germany)/.*/orthos/|^Slovakia/orthos/|^Netherlands/.*/LUCHTFOTO|^Spain/PNOA/|^Finland/(?:MAVI|SMK)/|"
-    r"\b(?:digital orthophotos?|orthophotos?|digital orthophoto quadrangles?|naip: national agriculture imagery program)\b)",
+    r"\b(?:digital orthophotos?|orthophotos?|digital orthophoto quadrangles?|naip: national agriculture imagery program|"
+    r"national air photo library|aerial orthophoto|aerial photography)\b)",
     re.IGNORECASE,
 )
 
@@ -515,7 +520,8 @@ COMPOSITE_OR_L3_OVERRIDE_PATTERNS = re.compile(
     r"downward surface solar radiation.*daily mean|"
     r"lpj[-_]eosim.*simulated.*(?:daily|monthly).*flux|simulated.*(?:methane|carbon).*flux|"
     r"gridded population of the world.*grid|cygnss.*level 2.*surface.*flux.*climate data record)\b|"
-    r"(?:syn-2-v10|syn-2-vg1|s3-syn-vgt|sentinel-3-synergy-v10|l2c-ndvi|l2-smos-sss-daily|"
+    r"(?:syn-2-v10|syn-2-vg1|s3-syn-vgt|s3_syn_2_vg1|sentinel-3-synergy-v10|l2c-ndvi|l2-smos-sss-daily|"
+    r"jaxa\.jasmes_gcom-c\.sgli_standard\.l2-lst|"
     r"gomos_ufp_gridded|goce_global_gravity_field_models_and_grids|clms_toc_global_300m_daily))",
     re.IGNORECASE,
 )
@@ -527,7 +533,7 @@ SWATH_OR_UNGRIDDED_GUARD_RE = re.compile(
 
 # Non-sensor domain uses of "Level 1/2" (FAO WaPOR spatial scale tiers, TransCom 3 project tiers, GADM/NUTS admin levels, IUCN hierarchy)
 NON_SENSOR_HIERARCHY_PATTERNS = re.compile(
-    r"(^FAO_GISMGR:WAPOR|^FAO/WAPOR/|transcom 3:|administrative level [0123]|global administrative unit|iucn_habitat|water resources zones: l[12]|river water level|lake water level)",
+    r"(^FAO_GISMGR:WAPOR|^FAO/WAPOR/|^DEAFRICA:wapor_soil_moisture$|transcom 3:|administrative level [0123]|global administrative unit|iucn_habitat|water resources zones: l[12]|river water level|lake water level)",
     re.IGNORECASE,
 )
 
@@ -607,7 +613,7 @@ def check_l3_l4_eligibility(
 
 
 # ---------------------------------------------------------------------------
-# Source-Specific Parsers (28 product sources + 1 taxonomy source)
+# Source-Specific Parsers (31 product sources + 1 taxonomy source)
 # ---------------------------------------------------------------------------
 def _extract_geojson_bbox(geom_obj: Any, primary_only: bool = False) -> list[float] | None:
     """Recursively extracts a validated WGS84 [west, south, east, north] bbox from GeoJSON geometries,
@@ -2404,6 +2410,361 @@ def parse_29_awesome_gee() -> list[dict[str, Any]]:
     return rows
 
 
+def parse_30_jaxa_earth_stac() -> list[dict[str, Any]]:
+    """
+    Parse JAXA Earth API STAC COG v1 collections (`30_jaxa_earth_stac`).
+    Uses `_catalog_slug` as authoritative `raw_id` (since 62 upstream JSONs carry generic `"id": "collection"`),
+    separates `producer` roles from `JAXA EORC` hosting, extracts official `10.57746/*` DOIs from `je:sources`,
+    and derives COG grid spacing from `je:ppu_max` strictly for EPSG:4326 grids (leaving polar EPSG:3995/3031 null).
+    """
+    rows: list[dict[str, Any]] = []
+    p = RAW_DIR / "30_jaxa_earth_stac/data/jaxa_earth_stac_collections.jsonl"
+    if not p.exists():
+        return rows
+    for line in p.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        c = json.loads(line)
+        slug = clean_str(c.get("_catalog_slug") or c.get("id"))
+        if not slug:
+            continue
+        raw_title = clean_str(c.get("title") or slug) or slug
+        title_str = raw_title if slug.lower() in raw_title.lower() else f"{slug}: {raw_title}"
+        desc_str = clean_str(c.get("description"))
+        summaries = c.get("summaries") if isinstance(c.get("summaries"), dict) else {}
+
+        # Separate producer roles strictly from processor/host
+        producers: list[str] = []
+        producer_urls: list[str] = []
+        for prov in (c.get("providers") or []):
+            if not isinstance(prov, dict):
+                continue
+            roles = [str(r).lower() for r in (prov.get("roles") or [])]
+            if "producer" in roles:
+                nm = clean_str(prov.get("name"))
+                if nm:
+                    producers.append(nm)
+                pu = clean_url(prov.get("url"))
+                if pu:
+                    producer_urls.append(pu)
+        if producers:
+            prod_str = "; ".join(dict.fromkeys(producers))
+        elif slug.startswith("Copernicus.C3S"):
+            prod_str = "ECMWF (Copernicus Climate Change Service - C3S)"
+        elif slug.startswith("NASA.EOSDIS"):
+            prod_str = "NASA EOSDIS"
+        elif slug.startswith("JMA"):
+            prod_str = "Japan Meteorological Agency (JMA)"
+        else:
+            prod_str = "Japan Aerospace Exploration Agency (JAXA)"
+
+        # Explicit processing level from slug or je:sources citation (never invented)
+        sources_list = summaries.get("je:sources") if isinstance(summaries.get("je:sources"), list) else []
+        cite_str = " ".join(clean_str(s.get("citation")) or "" for s in sources_list if isinstance(s, dict))
+        lvl_raw: str | None = None
+        m_lvl = re.search(r"(?:^|[._-])(L[234])(?=[._-]|$)", slug, re.IGNORECASE)
+        if m_lvl:
+            lvl_raw = m_lvl.group(1).upper()
+        elif re.search(r"\bL3\b", cite_str):
+            lvl_raw = "L3"
+        elif re.search(r"\bL4\b", cite_str):
+            lvl_raw = "L4"
+
+        # Delivered COG pixel spacing strictly for EPSG:4326 grids via je:ppu_max (pixels per degree)
+        epsg_list = summaries.get("je:epsg") if isinstance(summaries.get("je:epsg"), list) else []
+        ppu_list = summaries.get("je:ppu_max") if isinstance(summaries.get("je:ppu_max"), list) else []
+        spat_res: str | None = None
+        if 4326 in epsg_list and ppu_list:
+            try:
+                ppu_val = float(ppu_list[0])
+                if ppu_val > 0:
+                    deg_val = 1.0 / ppu_val
+                    deg_fmt = f"{deg_val:.6f}".rstrip("0").rstrip(".")
+                    spat_res = f"{deg_fmt} deg"
+            except Exception:
+                spat_res = None
+
+        # Official JAXA dataset DOI from summaries["je:sources"]
+        doi_raw: str | None = None
+        doi_src: str | None = None
+        doi_rel: str | None = None
+        rel_dois: list[str] = []
+        for s_item in sources_list:
+            if not isinstance(s_item, dict):
+                continue
+            cand_doi = clean_doi(s_item.get("doi"))
+            if cand_doi:
+                if not doi_raw:
+                    doi_raw = cand_doi
+                    doi_src = "jaxa_stac_je_sources"
+                    doi_rel = "is_primary_dataset"
+                elif cand_doi != doi_raw:
+                    rel_dois.append(cand_doi)
+
+        # Platform & instrument strictly from STAC summaries
+        plat_parts: list[str] = []
+        for k in ("platform", "instrument", "mission"):
+            v = clean_str(summaries.get(k))
+            if v:
+                plat_parts.append(v)
+        plat_raw = "; ".join(dict.fromkeys(plat_parts)) if plat_parts else None
+
+        # Temporal cadence from slug/title
+        temp_res: str | None = None
+        for tok, lbl in (
+            (r"half-monthly", "half-monthly"),
+            (r"8-day", "8-day"),
+            (r"hourly", "hourly"),
+            (r"daily", "daily"),
+            (r"monthly", "monthly"),
+            (r"yearly|annual", "annual"),
+        ):
+            if re.search(tok, f"{slug} {raw_title}", re.IGNORECASE):
+                temp_res = lbl
+                break
+
+        # License string preserving JAXA Earth Data Policy link context
+        lic_raw = clean_str(c.get("license"))
+        lic_links = [
+            clean_url(lk.get("href"))
+            for lk in (c.get("links") or [])
+            if isinstance(lk, dict) and str(lk.get("rel", "")).lower() == "license"
+        ]
+        if lic_raw == "proprietary" and any(u and "earth.jaxa.jp" in u for u in lic_links):
+            lic_raw = "JAXA Earth Data Policy (free with attribution)"
+
+        t_start, t_end = extract_stac_temporal(c.get("extent"))
+        bbox = extract_stac_bbox(c.get("extent"))
+        landing = producer_urls[0] if producer_urls else clean_url(c.get("_collection_url"))
+
+        rows.append({
+            "source_id": "30_jaxa_earth_stac",
+            "raw_id": slug,
+            "title": title_str,
+            "description": desc_str,
+            "processing_level_raw": lvl_raw,
+            "spatial_resolution_raw": spat_res,
+            "temporal_resolution_raw": temp_res,
+            "temporal_start_raw": t_start,
+            "temporal_end_raw": t_end,
+            "update_frequency_raw": None,
+            "bbox_raw": bbox,
+            "producing_org_raw": prod_str,
+            "hosting_platform_raw": "JAXA Earth Observation Research Center (EORC)",
+            "platform_sensor_raw": plat_raw,
+            "doi_raw": doi_raw,
+            "doi_source_raw": doi_src,
+            "doi_relation_type_raw": doi_rel,
+            "related_dois_raw": "; ".join(dict.fromkeys(rel_dois)) if rel_dois else None,
+            "license_raw": lic_raw,
+            "landing_url_raw": landing,
+            "keywords_raw": clean_str(c.get("keywords") or cite_str),
+        })
+    return rows
+
+
+def parse_31_digital_earth_africa_and_pacific() -> list[dict[str, Any]]:
+    """
+    Parse Digital Earth Africa ODC product definitions (`.odc-product.yaml` -> JSONL) and
+    Digital Earth Pacific STAC collections (`digital_earth_pacific_stac.json`).
+    Guards DE Pacific placeholder global bboxes `[-180, -90, 180, 90]` and pre-launch template
+    start dates (`1980` for S1, `2012` for S2) against false global/temporal promotion.
+    """
+    rows: list[dict[str, Any]] = []
+
+    # 1. Digital Earth Africa (ODC product registry)
+    africa_path = RAW_DIR / "31_digital_earth_africa_and_pacific/data/digital_earth_africa_products.jsonl"
+    if africa_path.exists():
+        for line in africa_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            d = json.loads(line)
+            pid = clean_str(d.get("_odc_product_id") or d.get("name"))
+            if not pid:
+                continue
+            desc = clean_str(d.get("description"))
+            first_clause = desc.split("\n")[0].strip() if desc else pid
+            if len(first_clause) > 130:
+                first_clause = first_clause[:127].rstrip() + "..."
+            title = f"{pid}: {first_clause}" if first_clause.lower() != pid.lower() else pid
+
+            # Native grid spacing strictly from storage.crs + storage.resolution
+            spat_res: str | None = None
+            st = d.get("storage") if isinstance(d.get("storage"), dict) else {}
+            crs = str(st.get("crs") or "").upper()
+            res_obj = st.get("resolution") if isinstance(st.get("resolution"), dict) else {}
+            if res_obj:
+                if "4326" in crs and (res_obj.get("longitude") or res_obj.get("x")):
+                    val = abs(float(res_obj.get("longitude") or res_obj.get("x")))
+                    spat_res = f"{val:.6f}".rstrip("0").rstrip(".") + " deg"
+                elif crs in ("EPSG:6933", "EPSG:3857", "EPSG:32629") and (res_obj.get("x") or res_obj.get("y")):
+                    val = abs(float(res_obj.get("x") or res_obj.get("y")))
+                    spat_res = f"{val:g} m"
+
+            # Originating producer attribution for DE Africa mirrors vs native DE Africa products
+            pl = pid.lower()
+            if pl.startswith("cgls_"):
+                prod = "EEA / EC JRC (Copernicus Land Monitoring Service - CLMS)"
+            elif pl.startswith("dem_cop_"):
+                prod = "ESA / Copernicus (Copernicus DEM)"
+            elif pl in ("cci_landcover",) or pl.startswith("esa_worldcover") or pl.startswith("esa_worldcereal"):
+                prod = "European Space Agency (ESA)"
+            elif pl.startswith("s3_syn_"):
+                prod = "European Space Agency (ESA) / EUMETSAT"
+            elif pl.startswith("wsf_"):
+                prod = "German Aerospace Center (DLR)"
+            elif pl in ("alos_palsar_mosaic", "jers_sar_mosaic"):
+                prod = "Japan Aerospace Exploration Agency (JAXA)"
+            elif pl in ("dem_srtm", "dem_srtm_deriv", "nasadem"):
+                prod = "NASA / USGS"
+            elif pl.startswith("rainfall_chirps"):
+                prod = "UC Santa Barbara Climate Hazards Center"
+            elif pl.startswith("io_lulc"):
+                prod = "Impact Observatory / Esri"
+            elif pl == "gmw":
+                prod = "Global Mangrove Watch / UNEP-WCMC"
+            elif pl == "wapor_soil_moisture":
+                prod = "Food and Agriculture Organization of the United Nations (FAO)"
+            elif pl.startswith("isda_soil_"):
+                prod = "iSDA Africa"
+            elif pl.startswith("iwmi_"):
+                prod = "International Water Management Institute (IWMI)"
+            else:
+                prod = "Digital Earth Africa"
+
+            # Explicit platform/sensor metadata when declared in product ID/description
+            plat_toks: list[str] = []
+            if re.search(r"(?:^|_)(?:s2|sentinel[- ]?2)", f"{pl} {(desc or '').lower()}"):
+                plat_toks.append("Sentinel-2")
+            if re.search(r"(?:^|_)(?:s1|sentinel[- ]?1)", f"{pl} {(desc or '').lower()}"):
+                plat_toks.append("Sentinel-1")
+            if re.search(r"(?:^|_)(?:s3|sentinel[- ]?3)", f"{pl} {(desc or '').lower()}"):
+                plat_toks.append("Sentinel-3")
+            if re.search(r"(?:^|_)(?:ls[5789]?|landsat)", f"{pl} {(desc or '').lower()}"):
+                plat_toks.append("Landsat")
+            if "alos" in pl:
+                plat_toks.append("ALOS/PALSAR; ALOS-2/PALSAR-2")
+            elif "jers" in pl:
+                plat_toks.append("JERS-1 SAR")
+            plat_raw = "; ".join(dict.fromkeys(plat_toks)) if plat_toks else None
+
+            rows.append({
+                "source_id": "31_digital_earth_africa_and_pacific",
+                "raw_id": f"DEAFRICA:{pid}",
+                "title": title,
+                "description": desc,
+                "processing_level_raw": None,
+                "spatial_resolution_raw": spat_res,
+                "temporal_resolution_raw": _extract_cadence_from_text(title, desc),
+                "temporal_start_raw": None,
+                "temporal_end_raw": None,
+                "update_frequency_raw": None,
+                "bbox_raw": None,
+                "producing_org_raw": prod,
+                "hosting_platform_raw": "Digital Earth Africa",
+                "platform_sensor_raw": plat_raw,
+                "doi_raw": None,
+                "license_raw": clean_str(d.get("license")),
+                "landing_url_raw": clean_url(d.get("_product_url") or d.get("_yaml_url")),
+                "keywords_raw": clean_str(d.get("metadata_type")),
+            })
+
+    # 2. Digital Earth Pacific (STAC API)
+    pacific_path = RAW_DIR / "31_digital_earth_africa_and_pacific/data/digital_earth_pacific_stac.json"
+    if pacific_path.exists():
+        pcols = json.loads(pacific_path.read_text(encoding="utf-8")).get("collections", [])
+        for c in pcols:
+            cid = clean_str(c.get("id"))
+            if not cid:
+                continue
+            ttl = clean_str(c.get("title") or cid) or cid
+            desc = clean_str(c.get("description"))
+            bbox = extract_stac_bbox(c.get("extent"))
+            # Reject unpopulated [-180, -90, 180, 90] template bbox on Pacific Islands regional hub
+            if bbox == [-180.0, -90.0, 180.0, 90.0]:
+                bbox = None
+
+            t_start, t_end = extract_stac_temporal(c.get("extent"))
+            # Guard against unpopulated STAC template start dates (1980-01-01 across DE Pacific; 2012-01-01 on S2 pre-launch)
+            if t_start:
+                cl = cid.lower()
+                if t_start.startswith("1980-01-01"):
+                    t_start = None
+                elif cl.startswith("dep_s2_") and t_start[:4] in ("1980", "2012"):
+                    t_start = None
+
+            gsd_raw = extract_stac_gsd(c)
+            if gsd_raw and re.match(r"^\d+(?:\.\d+)?$", gsd_raw):
+                gsd_raw = f"{gsd_raw} m"
+
+            summaries = c.get("summaries") if isinstance(c.get("summaries"), dict) else {}
+            plat_raw = clean_str(summaries.get("platform"))
+            if not plat_raw:
+                pts = []
+                if re.search(r"sentinel[- ]?1", f"{cid} {ttl}", re.IGNORECASE):
+                    pts.append("Sentinel-1")
+                if re.search(r"sentinel[- ]?2", f"{cid} {ttl}", re.IGNORECASE):
+                    pts.append("Sentinel-2")
+                if re.search(r"landsat", f"{cid} {ttl}", re.IGNORECASE):
+                    pts.append("Landsat")
+                plat_raw = "; ".join(pts) if pts else None
+
+            d_info = extract_stac_doi_provenance(c)
+            rows.append({
+                "source_id": "31_digital_earth_africa_and_pacific",
+                "raw_id": f"DEPACIFIC:{cid}",
+                "title": f"Digital Earth Pacific — {ttl}",
+                "description": desc,
+                "processing_level_raw": None,
+                "spatial_resolution_raw": gsd_raw,
+                "temporal_resolution_raw": _extract_cadence_from_text(ttl, desc),
+                "temporal_start_raw": t_start,
+                "temporal_end_raw": t_end,
+                "update_frequency_raw": None,
+                "bbox_raw": bbox,
+                "producing_org_raw": "Digital Earth Pacific (Pacific Community - SPC)",
+                "hosting_platform_raw": "Digital Earth Pacific",
+                "platform_sensor_raw": plat_raw,
+                "doi_raw": d_info["doi"],
+                "doi_source_raw": d_info["doi_source"],
+                "doi_relation_type_raw": d_info["doi_relation"],
+                "related_dois_raw": d_info["related_dois"],
+                "license_raw": clean_str(c.get("license")),
+                "landing_url_raw": d_info["url"] or f"https://stac.digitalearthpacific.org/collections/{cid}",
+                "keywords_raw": clean_str(c.get("keywords")),
+            })
+    return rows
+
+
+def parse_32_nrcan_ccmeo_stac() -> tuple[list[dict[str, Any]], int]:
+    """
+    Parse Natural Resources Canada (NRCan / CCMEO) Geospatial Datacube STAC collections.
+    Deterministically pre-excludes pure socioeconomic census datasets (`cancvi`, `lfd-e`, `lfd-i`);
+    historical aerial photo collections (`napl-*`, `banff-national-park`) and TOA mosaics are logged
+    in `excluded_records_log.parquet` via `check_l3_l4_eligibility`.
+    """
+    p = RAW_DIR / "32_nrcan_ccmeo_stac/data/nrcan_ccmeo_stac.json"
+    if not p.exists():
+        return [], 0
+    cols = json.loads(p.read_text(encoding="utf-8")).get("collections", [])
+    eo_cols: list[dict[str, Any]] = []
+    excluded_non_eo = 0
+    for c in cols:
+        cid = str(c.get("id") or "").lower()
+        if cid in ("cancvi", "lfd-e", "lfd-i"):
+            excluded_non_eo += 1
+            continue
+        eo_cols.append(c)
+    parsed = parse_generic_stac_collections(
+        "32_nrcan_ccmeo_stac",
+        eo_cols,
+        "Natural Resources Canada (NRCan / CCMEO)",
+    )
+    for pr in parsed:
+        pr["hosting_platform_raw"] = "Natural Resources Canada (Geo.ca Datacube STAC)"
+    return parsed, excluded_non_eo
+
+
 def main() -> None:
     OUT_DATA_DIR.mkdir(parents=True, exist_ok=True)
     TAXONOMY_DIR.mkdir(parents=True, exist_ok=True)
@@ -2612,6 +2973,18 @@ def main() -> None:
     # 29 Awesome GEE Community
     agee_rows = parse_29_awesome_gee()
     source_raw_batches.append(("29_awesome_gee_community", agee_rows, len(agee_rows), 0))
+
+    # 30 JAXA Earth API STAC Catalog (COG v1)
+    jaxa_rows = parse_30_jaxa_earth_stac()
+    source_raw_batches.append(("30_jaxa_earth_stac", jaxa_rows, len(jaxa_rows), 0))
+
+    # 31 Digital Earth Africa (ODC Product Registry) & Digital Earth Pacific (STAC)
+    deap_rows = parse_31_digital_earth_africa_and_pacific()
+    source_raw_batches.append(("31_digital_earth_africa_and_pacific", deap_rows, len(deap_rows), 0))
+
+    # 32 Natural Resources Canada (NRCan / CCMEO) Geospatial Datacube STAC
+    nrcan_rows, nrcan_excl = parse_32_nrcan_ccmeo_stac()
+    source_raw_batches.append(("32_nrcan_ccmeo_stac", nrcan_rows, len(nrcan_rows) + nrcan_excl, nrcan_excl))
 
     import html as _html
 
@@ -3060,7 +3433,7 @@ def main() -> None:
                 if rid_val in seen_raw_ids:
                     continue
                 seen_raw_ids.add(rid_val)
-            # Apply uniform deterministic normalization across all 28 product sources (native fields preserved!)
+            # Apply uniform deterministic normalization across all 31 product sources (native fields preserved!)
             _extract_prose_metadata_with_provenance(r)
             r["bbox_raw"] = clean_bbox(r.get("bbox_raw"))
             r["doi_raw"] = clean_doi(r.get("doi_raw"))
@@ -3144,7 +3517,7 @@ def main() -> None:
     df_audit.to_csv(BASE_DIR / "exclusion_audit_summary.csv", index=False)
     pd.DataFrame(all_excluded).to_parquet(OUT_DATA_DIR / "excluded_records_log.parquet", index=False)
     print("-" * 88)
-    print(f"[02_preparation] Complete: {total_prepared} prepared L3/L4 records across 28 product sources (+ 1,300 WMO OSCAR taxonomy records).")
+    print(f"[02_preparation] Complete: {total_prepared} prepared L3/L4 records across {len(source_raw_batches)} product sources (+ 1,300 WMO OSCAR taxonomy records).")
 
 
 if __name__ == "__main__":

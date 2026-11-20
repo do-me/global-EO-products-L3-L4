@@ -1,41 +1,41 @@
 gcos_ecv_name,wgclimate_inventory_records,canonical_catalogue_matches,independent_non_wgclimate_matches,matching_pattern
 Cloud properties,129,830,701,\b(?:cloud\s+(?:properties|fraction|cover|optical|top|mask|phase|water|amount|droplet|effective\s+radius)|isccp|clara[- ]a)\b
-Soil moisture,66,591,524,\b(?:soil\s+moisture|soil\s+water\s+index|\bswi\b|\bssm\b|root[- ]zone\s+soil\s+moisture)\b
-Aerosols properties,63,774,687,\b(?:aerosols?|aerosol\s+optical\s+depth|(?<!vegetation\s)optical\s+depth\s+of\s+aerosol|\baod\b|\baai\b|absorbing\s+aerosol|particulate\s+matter|pm2\.5|pm10)\b
+Soil moisture,66,607,540,\b(?:soil\s+moisture|soil\s+water\s+index|\bswi\b|\bssm\b|root[- ]zone\s+soil\s+moisture)\b
+Aerosols properties,63,781,694,\b(?:aerosols?|aerosol\s+optical\s+depth|(?<!vegetation\s)optical\s+depth\s+of\s+aerosol|\baod\b|\baai\b|absorbing\s+aerosol|particulate\s+matter|pm2\.5|pm10)\b
 Upper-air Water Vapour,49,1542,1496,\b(?:water\s+vapou?r|total\s+column\s+water\s+vapou?r|\btcwv\b|precipitable\s+water|upper[- ]tropospher(?:e|ic)\s+humidity|specific\s+humidity\s+profile)\b
 Earth radiation budget,47,323,274,\b(?:earth\s+radiation\s+budget|top[- ]of[- ]atmosphere.*(?:radiation|flux|irradiance)|outgoing\s+longwave\s+radiation|\bolr\b|\bceres\b|erbe)\b
 "Carbon Dioxide, Methane and other greenhouse gases",45,1175,1137,\b(?:carbon\s+dioxide|\bco2\b|\bxco2\b|\bmethane\b|\bch4\b|\bxch4\b|\bn2o\b|nitrous\s+oxide|greenhouse\s+gas(?:es)?)\b
 Surface radiation budget,42,506,464,\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|(?<!absorbed\s)(?<!absorbed\s\bof\s)(?<!fraction\s)(?<!fraction\sabsorbed\s)photosynthetically\s+active\s+radiation(?!\s*\(?fapar\b)|surface\s+net\s+radiation)\b
 Fire,41,689,658,\b(?:burned\s+area|burnt\s+area|active\s+fire|fire\s+radiative\s+power|\bfrp\b|fire\s+danger|fire\s+weather\s+index|wildfire)\b
 Upper-air temperature,36,242,208,\b(?:upper[- ]air\s+temperature|atmospheric\s+temperature\s+profile|stratospheric\s+temperature|tropospheric\s+temperature|msu/amsu|radio\s+occultation.*temperature)\b
-Land-surface temperature,35,450,416,\b(?:land[- ]surface\s+temperature|\blst\b|mod11|myd11|vnp21)\b
-Sea ice,30,960,933,\b(?:sea[- ]ice|ice\s+concentration|ice\s+extent|ice\s+thickness|ice\s+drift|ice\s+edge)\b
+Land-surface temperature,35,482,448,\b(?:land[- ]surface\s+temperature|\blst\b|mod11|myd11|vnp21)\b
+Sea ice,30,962,935,\b(?:sea[- ]ice|ice\s+concentration|ice\s+extent|ice\s+thickness|ice\s+drift|ice\s+edge)\b
 Precursors (supporting the aerosol and ozone ECVs),28,400,377,\b(?:nitrogen\s+dioxide|\bno2\b|sulfur\s+dioxide|sulphur\s+dioxide|\bso2\b|formaldehyde|\bhcho\b|carbon\s+monoxide|\bco\b\s+column|aerosol\s+precursors?|ozone\s+precursors?)\b
-Sea-surface temperature,28,1627,1602,\b(?:sea[- ]surface\s+temperature|\bsst\b|ghrsst|oisst|ostia|pathfinder\s+sst)\b
-Albedo,27,764,736,\b(?:albedo|surface\s+albedo|black[- ]sky\s+albedo|white[- ]sky\s+albedo|blue[- ]sky\s+albedo|mcd43)\b
-Fraction of Absorbed Photosythetically Active Radiation,16,123,107,\b(?:fapar|fraction\s+of\s+absorbed\s+photosynthetically\s+active\s+radiation)\b
-Leaf area index,16,327,305,\b(?:leaf\s+area\s+index|\blai\b|mod15|vnp15)\b
-Surface wind speed and direction,15,1866,1860,\b(?:surface\s+winds?|10[- ]?m(?:eter)?\s+winds?|ocean\s+surface\s+winds?|scatterometer\s+winds?|ccmp\s+winds?|ascat.*winds?|quikscat)\b
-Precipitation,14,1571,1560,\b(?:precipitation|rainfall|rain\s+rate|\bgpm\b|\bimerg\b|\bchirps\b|\bgpcp\b|\btrmm\b|\bcmorph\b|\bpersiann\b)\b
+Sea-surface temperature,28,1636,1611,\b(?:sea[- ]surface\s+temperature|\bsst\b|ghrsst|oisst|ostia|pathfinder\s+sst)\b
+Albedo,27,763,735,\b(?:albedo|surface\s+albedo|black[- ]sky\s+albedo|white[- ]sky\s+albedo|blue[- ]sky\s+albedo|mcd43)\b
+Fraction of Absorbed Photosythetically Active Radiation,16,124,108,\b(?:fapar|fraction\s+of\s+absorbed\s+photosynthetically\s+active\s+radiation)\b
+Leaf area index,16,329,307,\b(?:leaf\s+area\s+index|\blai\b|mod15|vnp15)\b
+Surface wind speed and direction,15,1872,1866,\b(?:surface\s+winds?|10[- ]?m(?:eter)?\s+winds?|ocean\s+surface\s+winds?|scatterometer\s+winds?|ccmp\s+winds?|ascat.*winds?|quikscat)\b
+Precipitation,14,1583,1572,\b(?:precipitation|rainfall|rain\s+rate|\bgpm\b|\bimerg\b|\bchirps\b|\bgpcp\b|\btrmm\b|\bcmorph\b|\bpersiann\b)\b
 Ice sheets and ice shelves,13,233,221,\b(?:ice\s+sheets?|ice\s+shel(?:f|ves)|greenland\s+ice|antarctic\s+ice|grounded\s+ice)\b
-Snow,11,458,450,\b(?:snow\s+(?:cover|water\s+equivalent|depth|extent|melt|albedo|fraction)|\bswe\b|\bfsca\b|mod10|myd10)\b
+Snow,11,460,452,\b(?:snow\s+(?:cover|water\s+equivalent|depth|extent|melt|albedo|fraction)|\bswe\b|\bfsca\b|mod10|myd10)\b
 Sea level,10,978,966,\b(?:sea[- ]level|sea\s+surface\s+height|\bssh\b|sea\s+level\s+anomaly|mean\s+dynamic\s+topography|\bmdt\b)\b
-Lakes,9,145,137,\b(?:lake\s+(?:water|surface|level|extent|quality|temperature|ice)|inland\s+water|global\s+lakes|hydrolakes)\b
+Lakes,9,151,143,\b(?:lake\s+(?:water|surface|level|extent|quality|temperature|ice)|inland\s+water|global\s+lakes|hydrolakes)\b
 Ozone,9,441,409,\b(?:ozone|\bo3\b|total\s+column\s+ozone|stratospheric\s+ozone|tropospheric\s+ozone)\b
-Land cover,4,1520,1519,\b(?:land\s+cover|land\s+use|corine|worldcover|dynamic\s+world|glc_fcs|globcover|modis\s+land\s+cover|mcd12)\b
+Land cover,4,1531,1530,\b(?:land\s+cover|land\s+use|corine|worldcover|dynamic\s+world|glc_fcs|globcover|modis\s+land\s+cover|mcd12)\b
 Lightning,4,21,18,\b(?:lightning\s+(?:flashes|imaging|detection|flash|density)|lis/otd|\bglm\b.*lightning)\b
 Ocean-surface heat flux,4,34,30,\b(?:ocean[- ]surface\s+heat\s+flux(?:es)?|air[- ]sea\s+(?:heat\s+)?flux(?:es)?|sea[- ]surface\s+heat\s+flux(?:es)?|(?:latent(?:\s+and\s+sensible)?|sensible)\s+heat\s+flux(?:es)?|\boaflux\b|\btropflux\b|\bj-ofuro3?\b|\bseaflux\b)\b
 Permafrost,4,82,78,\b(?:permafrost|active\s+layer\s+thickness|rock\s+glacier|frozen\s+ground)\b
 River Discharge,4,295,291,\b(?:river\s+discharge|streamflow|runoff|glofas|efas)\b
 Sea state,4,565,563,\b(?:sea\s+state|significant\s+wave\s+height|ocean\s+waves?|wave\s+period|swell\s+height)\b
 Upper-air Wind Speed and Direction,4,43,40,\b(?:upper[- ]air\s+winds?|atmospheric\s+motion\s+vectors?|\bamvs?\b|tropospheric\s+wind|stratospheric\s+wind|wind\s+profile|aeolus)\b
-Ocean colour,3,1574,1571,\b(?:ocean\s+colou?r|water[- ]leaving\s+radiance|remote[- ]sensing\s+reflectance|\brrs\b|globcolour|chlorophyll[- ]a)\b
+Ocean colour,3,1577,1574,\b(?:ocean\s+colou?r|water[- ]leaving\s+radiance|remote[- ]sensing\s+reflectance|\brrs\b|globcolour|chlorophyll[- ]a)\b
 Surface currents,3,303,300,\b(?:surface\s+currents?|ocean\s+currents?|geostrophic\s+currents?|oscar.*currents?|globcurrent)\b
 Above-ground biomass,2,139,137,\b(?:above[- ]?ground\s+biomass|\bagb\b|forest\s+biomass|woody\s+biomass|biomass\s+density|gedi04_b|cci\s+biomass|globbiomass)\b
 Sea-surface salinity,2,233,233,"\b(?:sea[- ]surface\s+salinity|\bsss\b|ocean\s+salinity|(?:smos|smap|aquarius).{0,35}salinity)\b"
-Evaporation from land,1,388,388,\b(?:evapotranspiration|land\s+evaporation|actual\s+evaporation|potential\s+evaporation|canopy\s+transpiration|\bgleam\d?\b|\bmod16\b|\bwapor\b.*evaporation)\b
+Evaporation from land,1,399,399,\b(?:evapotranspiration|land\s+evaporation|actual\s+evaporation|potential\s+evaporation|canopy\s+transpiration|\bgleam\d?\b|\bmod16\b|\bwapor\b.*evaporation)\b
 Glaciers,1,252,252,\b(?:glaciers?|glacier\s+(?:mass|area|elevation|extent|velocity|outlines)|randolph\s+glacier)\b
 Groundwater,1,103,102,\b(?:groundwater|\bg3p\b|aquifer\s+storage)\b
-Plankton,1,1657,1654,\b(?:plankton|phytoplankton|zooplankton|chlorophyll|primary\s+production.*ocean|marine\s+biogeochemistry)\b
+Plankton,1,1660,1657,\b(?:plankton|phytoplankton|zooplankton|chlorophyll|primary\s+production.*ocean|marine\s+biogeochemistry)\b
 Surface stress,1,11,11,\b(?:surface\s+wind\s+stress|ocean\s+wind\s+stress|wind\s+stress\s+curl|momentum\s+flux)\b
 Terrestrial Water Storage,1,39,36,\b(?:terrestrial\s+water\s+storage|\btws\b|liquid\s+water\s+equivalent\s+thickness|grace.*mascon|grace.*tellus)\b

@@ -1,0 +1,12 @@
+source_id: 32_nrcan_ccmeo_stac
+source_title: Natural Resources Canada (NRCan / CCMEO) Geospatial Datacube STAC API
+retrieved_at_utc: 2026-11-20T13:37:06Z
+http_status_summary: 200 OK
+total_records_retrieved: 52
+endpoints_queried:
+  - https://datacube.services.geo.ca/stac/api/collections (52 collections)
+notes: Full harvest of Natural Resources Canada / Canada Centre for Mapping and Earth Observation (CCMEO) Geo.ca STAC collections (satellite ARD, land cover, water, ET, snow, DEMs, plus aerial/socioeconomic collections filtered deterministically in 02_preparation).
+files_written:
+  - path: data/nrcan_ccmeo_stac.json
+    bytes: 198003
+    sha256: dfbfed16d47f32386d201bd1a84d4d19174ab95c3eb750de5d202d7e381e0b62

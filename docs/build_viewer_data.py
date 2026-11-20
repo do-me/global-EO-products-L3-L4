@@ -12,7 +12,7 @@ docs/build_viewer_data.py
 Exports the canonical L3/L4 catalogue table (`03_harmonization/data/eo_l3_l4_canonical_products.parquet`)
 into fast, lightweight static assets under `docs/data/` for `docs/index.html`:
   - `docs/data/index_meta.json`: Summary metadata, lookup enum dictionaries, and chunk manifest.
-  - `docs/data/index_part_*.json`: Sharded compact arrays covering all 38,342 canonical products (~4-5 MB each) for parallel loading.
+  - `docs/data/index_part_*.json`: Sharded compact arrays covering all canonical products (~4-6 MB each) for parallel loading.
   - `docs/data/details/chunk_*.json`: 600-row detail shards (~0.5-1.5 MB each) fetched on demand when opening a product drawer.
 
 Run via:
@@ -32,6 +32,7 @@ import pandas as pd
 DOCS_DIR = Path(__file__).resolve().parent
 REPO_ROOT = DOCS_DIR.parent
 CANON_PATH = REPO_ROOT / "03_harmonization" / "data" / "eo_l3_l4_canonical_products.parquet"
+ALL_PATH = REPO_ROOT / "03_harmonization" / "data" / "eo_l3_l4_all_catalogue_records.parquet"
 OUT_DIR = DOCS_DIR / "data"
 DETAILS_DIR = OUT_DIR / "details"
 
@@ -269,12 +270,13 @@ def main() -> None:
         max_part_mb = max(max_part_mb, mb)
         index_parts.append(part_name)
 
+    total_harmonized = len(pd.read_parquet(ALL_PATH, columns=["record_id"])) if ALL_PATH.exists() else len(df)
     meta_payload = {
         "meta": {
             "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
             "generated_at_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "total_canonical": len(df),
-            "total_harmonized": 38974,
+            "total_harmonized": int(total_harmonized),
             "strict_eo_count": int(df["strict_eo_c1_eligible"].sum()),
             "sentinel_count": int(df["uses_sentinel_data"].sum()),
             "doi_count": int(df["doi"].notna().sum()),

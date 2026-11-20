@@ -1,0 +1,2203 @@
+{
+  "collections": [
+    {
+      "id": "dep_ls_coastlines",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_coastlines/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_coastlines"
+        },
+        {
+          "rel": "wmts",
+          "href": "https://tileserver.prod.digitalearthpacific.io/styles/coastlines/wmts.xml",
+          "type": "application/xml",
+          "title": "WMTS Service for this Collection",
+          "wms:layers": [
+            "coastlines-256",
+            "coastlines-512"
+          ]
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_coastlines/queryables"
+        }
+      ],
+      "title": "Annual Shorelines (Landsat, 30 m)",
+      "assets": {
+        "pmtiles": {
+          "href": "https://s3.us-west-2.amazonaws.com/dep-public-data/dep_ls_coastlines/dep_ls_coastlines_0-7-0-55.pmtiles",
+          "type": "application/vnd.pmtiles",
+          "roles": [
+            "data"
+          ],
+          "title": "Landsat Coastlines PMTiles",
+          "description": "PMTiles file containing annual coastline data derived from Landsat imagery."
+        },
+        "geopackage": {
+          "href": "https://s3.us-west-2.amazonaws.com/dep-public-data/dep_ls_coastlines/dep_ls_coastlines_0-7-0-55.gpkg",
+          "type": "application/geopackage+sqlite3",
+          "roles": [
+            "data"
+          ],
+          "title": "Landsat Coastlines Geopackage",
+          "description": "Geopackage containing annual coastline data derived from Landsat imagery."
+        }
+      },
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "coastline",
+        "shoreline",
+        "coastal change"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "description": "This dataset provides annual coastline positions across the Pacific region derived from Landsat satellite imagery. It captures long-term shoreline change by mapping coastal boundaries over time. The dataset supports coastal change analysis, erosion monitoring, and climate adaptation planning.\n\nLineage:\nDerived from Landsat imagery by extracting and compositing annual shoreline vectors.\n\nProcessing level:\nFeature Extraction\n\nDataset type:\nVector time series",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_ls_fc",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_fc/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_fc"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_ls_fc"
+          ],
+          "wms:styles": [
+            "fc_rgb_unmasked",
+            "fc_rgb_masked"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_fc/queryables"
+        }
+      ],
+      "title": "Fractional Land Cover, Scene-based (Landsat, 30 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "fractional cover",
+        "bare soil",
+        "vegetation"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://aws.amazon.com/",
+          "name": "Amazon",
+          "roles": [
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          30
+        ],
+        "eo:bands": [
+          {
+            "max": 127,
+            "min": 0,
+            "name": "bs",
+            "nodata": 255,
+            "common_name": "bare_soil",
+            "description": "Bare soil percentage"
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "pv",
+            "nodata": 255,
+            "common_name": "photosynthetic_veg",
+            "description": "Photosynthetic (green) vegetation percentage"
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "npv",
+            "nodata": 255,
+            "common_name": "non_photosynthetic_veg",
+            "description": "Non-photosynthetic (non-green) vegetation percentage"
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "ue",
+            "nodata": 255,
+            "common_name": "unmixing_error",
+            "description": "Unmixing error"
+          }
+        ],
+        "platform": [
+          "landsat-4",
+          "landsat-5",
+          "landsat-7",
+          "landsat-8",
+          "landsat-9"
+        ]
+      },
+      "description": "This dataset provides scene-based fractional land cover derived from Landsat imagery, representing the percentage of bare soil, photosynthetic vegetation, and non-photosynthetic vegetation across the Pacific region. It is generated using multi-mission Landsat data at 30 m spatial resolution to support long-term environmental monitoring. The dataset enables applications such as land cover change analysis, ecosystem monitoring, and land degradation assessment.\n\nLineage:\nDerived from Landsat surface reflectance imagery using spectral unmixing to estimate fractional cover components per scene.\n\nProcessing level:\nDerived (scene-based)\n\nDataset type:\nTime-series (scene-based)",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_ls_fc_summary_annual",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_fc_summary_annual/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_fc_summary_annual"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_ls_fc_summary_annual"
+          ],
+          "wms:styles": [
+            "fc_rgb",
+            "green_veg_10",
+            "green_veg_50",
+            "green_veg_90",
+            "non_green_veg_10",
+            "non_green_veg_50",
+            "non_green_veg_90",
+            "bare_ground_10",
+            "bare_ground_50",
+            "bare_ground_90"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_fc_summary_annual/queryables"
+        }
+      ],
+      "title": "Fractional Land Cover Annual Summary (Landsat, 30 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "fractional cover",
+        "bare soil",
+        "vegetation"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://aws.amazon.com",
+          "name": "Amazon",
+          "roles": [
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          30
+        ],
+        "eo:bands": [
+          {
+            "max": 127,
+            "min": 0,
+            "name": "bs_pc_10",
+            "nodata": 255,
+            "common_name": "10th percentile of bare soil percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "bs_pc_50",
+            "nodata": 255,
+            "common_name": "50th percentile of bare soil percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "bs_pc_90",
+            "nodata": 255,
+            "common_name": "90th percentile of bare soil percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "pv_pc_10",
+            "nodata": 255,
+            "common_name": "10th percentile of photosynthetic vegetation percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "pv_pc_50",
+            "nodata": 255,
+            "common_name": "50th percentile of photosynthetic vegetation percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "bs_pc_90",
+            "nodata": 255,
+            "common_name": "90th percentile of photosynthetic vegetation percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "npv_pc_10",
+            "nodata": 255,
+            "common_name": "10th percentile of non-photosynthetic vegetation percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "npv_pc_50",
+            "nodata": 255,
+            "common_name": "50th percentile of non-photosynthetic vegetation percentage",
+            "description": ""
+          },
+          {
+            "max": 127,
+            "min": 0,
+            "name": "npv_pc_90",
+            "nodata": 255,
+            "common_name": "90th percentile of non-photosynthetic vegetation percentage",
+            "description": ""
+          },
+          {
+            "max": 32767,
+            "min": 0,
+            "name": "count_valid",
+            "common_name": "Count of clear and valid observations",
+            "description": ""
+          },
+          {
+            "max": 2,
+            "min": 0,
+            "name": "qa",
+            "common_name": "quality assurannce band",
+            "description": ""
+          }
+        ],
+        "platform": [
+          "landsat-5",
+          "landsat-7",
+          "landsat-8",
+          "landsat-9"
+        ]
+      },
+      "description": "This dataset provides annual summaries of fractional land cover derived from Landsat imagery across the Pacific region. It aggregates scene-based observations into yearly statistical measures such as percentiles and counts of valid observations. The dataset supports long-term environmental monitoring, trend analysis, and land-use change assessment.\n\nLineage:\nGenerated by aggregating Landsat fractional cover observations into annual statistical summaries.\n\nProcessing level:\nSummary / Statistical Product\n\nDataset type:\nAnnual time series",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_ls_geomad",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_geomad/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_geomad"
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_geomad/queryables"
+        }
+      ],
+      "title": "Landsat GeoMAD",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "Landsat",
+        "GeoMAD",
+        "Pacific"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          30
+        ],
+        "eo:bands": [
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "red",
+            "nodata": 0,
+            "common_name": "red",
+            "description": "Median for red band"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "green",
+            "nodata": 0,
+            "common_name": "green",
+            "description": "Median for green band"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "blue",
+            "nodata": 0,
+            "common_name": "blue",
+            "description": "Median for blue band"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "nir08",
+            "nodata": 0,
+            "common_name": "nir08",
+            "description": "Median for nir08 band"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "swir16",
+            "nodata": 0,
+            "common_name": "swir16",
+            "description": "Median for swir16 band"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "swir22",
+            "nodata": 0,
+            "common_name": "swir22",
+            "description": "Median for swir22 band"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "emad",
+            "nodata": 0,
+            "common_name": "Euclidean MAD",
+            "description": "Euclidean median absolute deviations across all bands"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "smad",
+            "nodata": 0,
+            "common_name": "Spectral MAD",
+            "description": "Spectral median absolute deviations across all bands"
+          },
+          {
+            "max": 36000,
+            "min": 0,
+            "name": "bcmad",
+            "nodata": 0,
+            "common_name": "Bray-curtis MAD",
+            "description": "Bray-curtis median absolute deviations across all bands"
+          },
+          {
+            "max": 250,
+            "min": 0,
+            "name": "count",
+            "nodata": 0,
+            "common_name": "Count clear",
+            "description": "Count of clear observations"
+          }
+        ],
+        "platform": [
+          "landsat-5",
+          "landsat-7",
+          "landsat-8",
+          "landsat-9"
+        ]
+      },
+      "description": "Landsat Geometric Median and Absolute Deviations (GeoMAD) over the Pacific.",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_ls_wofl",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofl/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofl"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_ls_wofl"
+          ],
+          "wms:styles": [
+            "observations",
+            "wet"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofl/queryables"
+        }
+      ],
+      "title": "Water Observations from Space (WOfS) Scene-based Surface Water (Landsat, 30 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "surface water",
+        "water occurrence",
+        "water frequency"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://aws.amazon.com/",
+          "name": "Amazon",
+          "roles": [
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          30
+        ],
+        "eo:bands": [
+          {
+            "max": 256,
+            "min": 0,
+            "name": "water",
+            "nodata": 1,
+            "common_name": "water",
+            "description": "Water feature layer for a single date and time"
+          }
+        ],
+        "platform": [
+          "landsat-5",
+          "landsat-7",
+          "landsat-8",
+          "landsat-9"
+        ]
+      },
+      "description": "This dataset maps the presence of surface water across the Pacific region using Landsat satellite imagery. It identifies water bodies and captures temporal variability in water extent at the observation level. The dataset supports flood mapping, drought monitoring, and water resource analysis.\n\nLineage:\nDerived from Landsat imagery using water detection algorithms to classify surface water presence per scene.\n\nProcessing level:\nDerived (scene-based)\n\nDataset type:\nTime-series (scene-based)",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_ls_wofs_summary_alltime",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofs_summary_alltime/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofs_summary_alltime"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "wofs_ls_summary_alltime"
+          ],
+          "wms:styles": [
+            "legacy_wofs_summary_alltime_frequency_masked",
+            "wofs_summary_alltime_frequency_masked",
+            "legacy_wofs_summary_alltime_frequency",
+            "wofs_summary_alltime_frequency",
+            "wofs_summary_alltime_wet",
+            "wofs_summary_alltime_clear"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofs_summary_alltime/queryables"
+        }
+      ],
+      "title": "Water Observations from Space (WOfS) All-Time Summary (Landsat, 30 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "surface water",
+        "water occurrence",
+        "water frequency"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          30
+        ],
+        "eo:bands": [
+          {
+            "max": 32767,
+            "min": 0,
+            "name": "count_clear",
+            "nodata": -999,
+            "description": "Count of clear observations"
+          },
+          {
+            "max": 32767,
+            "min": 0,
+            "name": "count_wet",
+            "nodata": -999,
+            "description": "Count of observations that are water"
+          },
+          {
+            "max": 1,
+            "min": 0,
+            "name": "frequency",
+            "nodata": "nan",
+            "description": "Frequency of water observations"
+          },
+          {
+            "max": 1,
+            "min": 0,
+            "name": "frequency_masked",
+            "nodata": "nan",
+            "description": "Frequency of water observations, with ocean masked"
+          }
+        ],
+        "platform": [
+          "landsat-5",
+          "landsat-7",
+          "landsat-8",
+          "landsat-9"
+        ]
+      },
+      "description": "This dataset summarises long-term surface water observations across the Pacific region. It represents the frequency of water presence across all available observations, highlighting persistent and seasonal water bodies. The dataset supports hydrological analysis and environmental monitoring.\n\nLineage:\nGenerated by aggregating all Landsat-based water observations into a long-term occurrence metric.\n\nProcessing level:\nSummary / Statistical Product\n\nDataset type:\nMulti-year summary",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_ls_wofs_summary_annual",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofs_summary_annual/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofs_summary_annual"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "wofs_ls_summary_annual"
+          ],
+          "wms:styles": [
+            "legacy_wofs_summary_annual_frequency_masked",
+            "wofs_summary_annual_frequency_masked",
+            "legacy_wofs_summary_annual_frequency",
+            "wofs_summary_annual_frequency",
+            "wofs_summary_annual_wet",
+            "wofs_summary_annual_clear"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_ls_wofs_summary_annual/queryables"
+        }
+      ],
+      "title": "Water Observations from Space (WOfS) Annual Summary (Landsat, 30 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "surface water",
+        "water occurrence",
+        "water frequency"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2-level-2-science-products",
+          "name": "USGS",
+          "roles": [
+            "producer",
+            "processor",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.nasa.gov/",
+          "name": "NASA",
+          "roles": [
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          30
+        ],
+        "eo:bands": [
+          {
+            "max": 32767,
+            "min": 0,
+            "name": "count_clear",
+            "nodata": -999,
+            "description": "Count of clear observations"
+          },
+          {
+            "max": 32767,
+            "min": 0,
+            "name": "count_wet",
+            "nodata": -999,
+            "description": "Count of observations that are water"
+          },
+          {
+            "max": 1,
+            "min": 0,
+            "name": "frequency",
+            "nodata": "nan",
+            "description": "Frequency of water observations"
+          },
+          {
+            "max": 1,
+            "min": 0,
+            "name": "frequency_masked",
+            "nodata": "nan",
+            "description": "Frequency of water observations, with ocean masked"
+          }
+        ],
+        "platform": [
+          "landsat-5",
+          "landsat-7",
+          "landsat-8",
+          "landsat-9"
+        ]
+      },
+      "description": "This dataset provides annual summaries of surface water presence across the Pacific region using Landsat observations. It captures interannual variability in water extent, enabling analysis of seasonal and long-term patterns. The dataset supports flood monitoring, drought assessment, and water resource management.\n\nLineage:\nGenerated by aggregating Landsat-derived water observations into annual statistics.\n\nProcessing level:\nSummary / Statistical Product\n\nDataset type:\nAnnual time series",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s1_geomad",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s1_geomad/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s1_geomad"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_s1_geomad"
+          ],
+          "wms:styles": [
+            "vv_vh_vh_over_vv",
+            "vv",
+            "vh",
+            "stdev_vv",
+            "stdev_vh",
+            "mean_vv",
+            "mean_vh",
+            "count",
+            "arcsec_smad",
+            "log_emad",
+            "log_bcmad"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s1_geomad/queryables"
+        }
+      ],
+      "title": "Annual Radar Composite (Sentinel-1, GeoMAD, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "radar",
+        "synthetic aperture radar",
+        "composite"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://microsoft.com",
+          "name": "Microsoft",
+          "roles": [
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "platform": [
+          "Sentinel-1A",
+          "Sentinel-1B"
+        ]
+      },
+      "description": "This dataset provides annual radar-based composite imagery derived from Sentinel-1 observations across the Pacific region. It summarises multi-temporal backscatter data into a representative annual dataset, independent of cloud cover. The dataset supports monitoring of land, water, and environmental change.\n\nLineage:\nGenerated by aggregating multi-temporal Sentinel-1 SAR observations into annual geometric median composites.\n\nProcessing level:\nComposite\n\nDataset type:\nAnnual composite",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2_ammi",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_ammi/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_ammi"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_s2_ammi"
+          ],
+          "wms:styles": [
+            "style_mangroves_percent"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_ammi/queryables"
+        }
+      ],
+      "title": "Mangrove Change and Condition, AMMI (Sentinel-2, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              100,
+              -30,
+              260,
+              30
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2012-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "mangrove",
+        "habitat",
+        "ecosystem"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.element84.com",
+          "name": "Element-84",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 100,
+            "min": 0,
+            "name": "mangroves",
+            "nodata": 255,
+            "common_name": "mangroves",
+            "description": "Mangrove percentage"
+          }
+        ],
+        "platform": [
+          "Sentinel-2A",
+          "Sentinel-2B"
+        ]
+      },
+      "description": "This dataset provides analytical indicators describing changes and condition of mangrove ecosystems across the Pacific region. It builds on satellite-derived mangrove datasets to identify patterns of ecosystem change over time. The dataset supports environmental monitoring, resilience planning, and ecosystem accounting.\n\nLineage:\nGenerated from satellite-derived mangrove datasets using analytical workflows to detect and interpret changes.\n\nProcessing level:\nModelled\n\nDataset type:\nAnalytical product",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2_geomad",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_geomad/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_geomad"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_s2_geomad"
+          ],
+          "wms:styles": [
+            "simple_rgb",
+            "infrared_green",
+            "tmad_rgb_std",
+            "tmad_rgb_sens",
+            "ndvi",
+            "ndwi",
+            "ndbi",
+            "ndmi",
+            "mndwi",
+            "ndci",
+            "blue",
+            "green",
+            "red",
+            "red_edge_1",
+            "red_edge_2",
+            "red_edge_3",
+            "nir",
+            "narrow_nir",
+            "swir_1",
+            "swir_2",
+            "arcsec_sdev",
+            "log_edev",
+            "log_bcdev",
+            "count"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_geomad/queryables"
+        }
+      ],
+      "title": "Annual Surface Reflectance Composite (Sentinel-2, GeoMAD, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2017-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "geometric median",
+        "composite",
+        "satellite imagery"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://microsoft.com",
+          "name": "Microsoft",
+          "roles": [
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.esri.com/",
+          "name": "Esri",
+          "roles": [
+            "processor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B02",
+            "nodata": 0,
+            "common_name": "B02",
+            "description": "Median for B02 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B03",
+            "nodata": 0,
+            "common_name": "B03",
+            "description": "Median for B03 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B04",
+            "nodata": 0,
+            "common_name": "B04",
+            "description": "Median for B04 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B05",
+            "nodata": 0,
+            "common_name": "B05",
+            "description": "Median for B05 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B06",
+            "nodata": 0,
+            "common_name": "B06",
+            "description": "Median for B06 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B07",
+            "nodata": 0,
+            "common_name": "B07",
+            "description": "Median for B07 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B08",
+            "nodata": 0,
+            "common_name": "B08",
+            "description": "Median for B08 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B8A",
+            "nodata": 0,
+            "common_name": "B8A",
+            "description": "Median for B8A band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B11",
+            "nodata": 0,
+            "common_name": "B11",
+            "description": "Median for B11 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "B12",
+            "nodata": 0,
+            "common_name": "B12",
+            "description": "Median for B12 band"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "emad",
+            "nodata": 0,
+            "common_name": "Euclidean MAD",
+            "description": "Euclidean median absolute deviations across all bands"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "smad",
+            "nodata": 0,
+            "common_name": "Spectral MAD",
+            "description": "Spectral median absolute deviations across all bands"
+          },
+          {
+            "max": 10000,
+            "min": 0,
+            "name": "bcmad",
+            "nodata": 0,
+            "common_name": "Bray-Curtis MAD",
+            "description": "Bray-Curtis median absolute deviations across all bands"
+          },
+          {
+            "max": 250,
+            "min": 0,
+            "name": "count",
+            "nodata": 0,
+            "common_name": "Count clear",
+            "description": "Count of clear observations"
+          }
+        ],
+        "platform": [
+          "Sentinel-2A",
+          "Sentinel-2B"
+        ]
+      },
+      "description": "This dataset provides annual cloud-free composite imagery derived from Sentinel-2 observations using geometric median and deviation methods. It represents stable surface conditions and includes variability metrics for robust environmental analysis. The dataset supports monitoring of vegetation, land cover, and coastal environments.\n\nLineage:\nGenerated from multi-temporal Sentinel-2 imagery using geometric median compositing and variability metrics.\n\nProcessing level:\nComposite\n\nDataset type:\nAnnual composite",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2_mangroves",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_mangroves/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_mangroves"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "mangroves"
+          ],
+          "wms:styles": [
+            "style_mangroves",
+            "style_mangroves_alt"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_mangroves/queryables"
+        }
+      ],
+      "title": "Mangrove Extent and Density (Sentinel-2, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              100,
+              -30,
+              260,
+              30
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2012-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "mangrove",
+        "habitat",
+        "ecosystem"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        },
+        {
+          "url": "https://www.element84.com",
+          "name": "Element-84",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 2,
+            "min": 0,
+            "name": "mangroves",
+            "nodata": 255,
+            "common_name": "mangroves",
+            "description": "Mangrove cover"
+          }
+        ],
+        "platform": [
+          "Sentinel-2A",
+          "Sentinel-2B"
+        ]
+      },
+      "description": "This dataset maps the spatial extent and density of mangrove ecosystems across Pacific Island countries and territories using satellite observations. It classifies mangrove areas into density categories to support ecosystem monitoring and change detection. The dataset supports applications such as coastal protection, carbon accounting, and biodiversity assessment.\n\nLineage:\nDerived from Sentinel-2 imagery and baseline mangrove data using classification methods to map mangrove extent and density.\n\nProcessing level:\nThematic Classification\n\nDataset type:\nCategorical map",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2_sdb",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_sdb/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_sdb"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "sdb"
+          ],
+          "wms:styles": [
+            "blues_depth"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_sdb/queryables"
+        }
+      ],
+      "title": "Satellite-Derived Bathymetry (Sentinel-2, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              100,
+              -30,
+              260,
+              30
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2012-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "bathymetry",
+        "shallow water",
+        "marine"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 2,
+            "min": 0,
+            "name": "depth",
+            "nodata": -32767,
+            "common_name": "depth",
+            "description": "Mean of the estimated depth of water, masked by a count of the number of times it was estimated"
+          },
+          {
+            "max": 2,
+            "min": 0,
+            "name": "mean",
+            "nodata": -32767,
+            "common_name": "mean",
+            "description": "Mean of the depth of water estimated"
+          },
+          {
+            "max": 2,
+            "min": 0,
+            "name": "stdev",
+            "nodata": -32767,
+            "common_name": "stdev",
+            "description": "Standard deviation of the depth of water"
+          },
+          {
+            "max": 2,
+            "min": 0,
+            "name": "count",
+            "nodata": -32767,
+            "common_name": "count",
+            "description": "Count of the number of times the depth was estimated"
+          }
+        ],
+        "platform": [
+          "Sentinel-2A",
+          "Sentinel-2B",
+          "Sentinel-2C"
+        ]
+      },
+      "description": "This dataset provides bathymetric estimates for optically shallow, clear coastal waters across the Pacific region using satellite imagery. It enables mapping of seabed depth in shallow coastal areas (typically down to depths where the seafloor remains optically visible - up to 30 m depth) where traditional survey data may be limited. The dataset supports marine spatial planning, coastal management, and environmental monitoring.\n\nLineage:\nDerived from multispectral satellite imagery using bathymetric inversion methods to estimate shallow water depth.\n\nProcessing level:\nModelled\n\nDataset type:\nModelled surface",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2_seagrass",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_seagrass/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_seagrass"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_s2_seagrass"
+          ],
+          "wms:styles": [
+            "seagrass",
+            "probability",
+            "classification",
+            "seagrass_60"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_seagrass/queryables"
+        }
+      ],
+      "title": "Seagrass Extent, Machine Learning (Sentinel-2, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              100,
+              -30,
+              260,
+              30
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2012-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "seagrass",
+        "marine habitat",
+        "ecosystem"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 1,
+            "min": 0,
+            "name": "seagrass",
+            "nodata": 255,
+            "common_name": "seagrass",
+            "description": "Extent of seagrass"
+          },
+          {
+            "max": 16,
+            "min": 0,
+            "name": "classification",
+            "nodata": 255,
+            "common_name": "classification",
+            "description": "Result from the random forest coastal classification"
+          },
+          {
+            "max": 100,
+            "min": 0,
+            "name": "seagrass_probability",
+            "nodata": 255,
+            "common_name": "seagrass_probability",
+            "description": "Probability of seagrass presence"
+          },
+          {
+            "max": 1,
+            "min": 0,
+            "name": "seagrass_threshold_60",
+            "nodata": 255,
+            "common_name": "seagrass_threshold_60",
+            "description": "Seagrass presence threshold (60%) from the probability"
+          }
+        ],
+        "platform": [
+          "Sentinel-2A",
+          "Sentinel-2B",
+          "Sentinel-2C"
+        ]
+      },
+      "description": "This dataset maps the distribution of seagrass ecosystems across the Pacific region using Sentinel-2 imagery. It applies machine learning techniques to classify seagrass extent at high spatial resolution. The dataset supports marine habitat mapping, biodiversity monitoring, and coastal ecosystem management.\n\nLineage:\nDerived from Sentinel-2 imagery using machine learning models trained to classify seagrass extent.\n\nProcessing level:\nModelled\n\nDataset type:\nCategorical map",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2_vegheight",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_vegheight/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_vegheight"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_s2_vegheight"
+          ],
+          "wms:styles": [
+            "height",
+            "confidence"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2_vegheight/queryables"
+        }
+      ],
+      "title": "Vegetation Height, Satellite-Derived Canopy Height (Sentinel-2, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              100,
+              -30,
+              260,
+              30
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "2012-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "canopy height",
+        "forest structure",
+        "vegetation"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        },
+        {
+          "url": "https://sentinel.esa.int/web/sentinel/missions/sentinel-2",
+          "name": "ESA",
+          "roles": [
+            "producer",
+            "licensor"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 40.0,
+            "min": 0.0,
+            "name": "height",
+            "nodata": "nan",
+            "common_name": "height",
+            "description": "Height of vegetation"
+          }
+        ],
+        "platform": [
+          "Sentinel-2A",
+          "Sentinel-2B",
+          "Sentinel-2C"
+        ]
+      },
+      "description": "This dataset provides spatial estimates of vegetation height across the Pacific region derived from Sentinel-2 imagery. It enables quarterly analysis of forest structure, biomass, and ecosystem condition. The dataset supports applications in land management, carbon monitoring, and biodiversity assessment.\n\nLineage:\nDerived from Sentinel-2 imagery using modelling approaches to estimate vegetation canopy height.\n\nProcessing level:\nModelled\n\nDataset type:\nModelled surface",
+      "stac_version": "1.1.0"
+    },
+    {
+      "id": "dep_s2ls_intertidal",
+      "type": "Collection",
+      "links": [
+        {
+          "rel": "items",
+          "type": "application/geo+json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2ls_intertidal/items"
+        },
+        {
+          "rel": "parent",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "root",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/"
+        },
+        {
+          "rel": "self",
+          "type": "application/json",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2ls_intertidal"
+        },
+        {
+          "rel": "wms",
+          "href": "https://ows.prod.digitalearthpacific.io/wms",
+          "type": "application/vnd.ogc.wms_xml",
+          "title": "WMS Service for this Collection",
+          "wms:layers": [
+            "dep_s2ls_intertidal"
+          ],
+          "wms:styles": [
+            "Elevation",
+            "Exposure"
+          ],
+          "wms:dimensions": {}
+        },
+        {
+          "rel": "http://www.opengis.net/def/rel/ogc/1.0/queryables",
+          "type": "application/schema+json",
+          "title": "Queryables",
+          "href": "https://stac.digitalearthpacific.org/collections/dep_s2ls_intertidal/queryables"
+        }
+      ],
+      "title": "Intertidal Elevation and Exposure (Sentinel-1/Sentinel-2/Landsat, 10 m)",
+      "extent": {
+        "spatial": {
+          "bbox": [
+            [
+              -180,
+              -90,
+              180,
+              90
+            ]
+          ]
+        },
+        "temporal": {
+          "interval": [
+            [
+              "1980-01-01T00:00:00Z",
+              null
+            ]
+          ]
+        }
+      },
+      "license": "CC-BY-4.0",
+      "keywords": [
+        "intertidal",
+        "elevation",
+        "bathymetry"
+      ],
+      "providers": [
+        {
+          "url": "https://digitalearthpacific.org",
+          "name": "Digital Earth Pacific",
+          "roles": [
+            "processor",
+            "host"
+          ]
+        }
+      ],
+      "summaries": {
+        "gsd": [
+          10
+        ],
+        "eo:bands": [
+          {
+            "max": 8.0,
+            "min": -0.8,
+            "name": "elevation",
+            "nodata": 255,
+            "common_name": "Elevation",
+            "description": "Elevation In Metres"
+          },
+          {
+            "max": 100,
+            "min": 0,
+            "name": "Exposure",
+            "nodata": 255,
+            "common_name": "Exposure",
+            "description": "Intertidal Extent Exposure Percentage"
+          }
+        ],
+        "platform": [
+          "Sentinel-1",
+          "Sentinel-2",
+          "Landsat-7",
+          "Landsat-8",
+          "Landsat-9"
+        ]
+      },
+      "description": "This dataset provides spatial information on intertidal elevation and exposure across Pacific Island coastlines derived from multi-sensor satellite observations. It includes elevation estimates and exposure metrics indicating the proportion of time areas are exposed within the intertidal zone. The dataset supports coastal monitoring, habitat mapping, and shoreline dynamics analysis.\n\nLineage:\nProduced by combining Landsat and Sentinel observations to model intertidal elevation and calculate exposure metrics.\n\nProcessing level:\nModelled\n\nDataset type:\nModelled surface",
+      "stac_version": "1.1.0"
+    }
+  ]
+}

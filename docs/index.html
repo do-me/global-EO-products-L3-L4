@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Global L3/L4 Earth Observation Product Catalogue</title>
-  <meta name="description" content="Interactive static discovery viewer for 38,342 harmonized Level-3 and Level-4 Earth Observation products across 28 primary and federated metadata catalogues." />
+  <meta name="description" content="Interactive static discovery viewer for 38,567 harmonized Level-3 and Level-4 Earth Observation products across 31 primary and federated metadata catalogues." />
   <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -56,7 +56,7 @@
             </span>
           </div>
           <p class="text-xs text-slate-500 truncate">
-            Harmonized discovery index across 28 primary &amp; federated EO metadata catalogues · verify fitness-for-use against provider docs
+            Harmonized discovery index across 31 primary &amp; federated EO metadata catalogues · verify fitness-for-use against provider docs
           </p>
         </div>
       </div>
@@ -243,7 +243,7 @@
       <!-- Expandable Advanced Filters -->
       <div id="more-filters-panel" class="hidden pt-3 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 items-end">
         <div>
-          <label for="filter-source" class="block text-[11px] font-medium text-slate-500 mb-1">Source Catalogue (28)</label>
+          <label for="filter-source" class="block text-[11px] font-medium text-slate-500 mb-1">Source Catalogue (31)</label>
           <select id="filter-source" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
             <option value="">All Sources</option>
           </select>
@@ -377,7 +377,7 @@
           <tbody id="table-body" class="divide-y divide-slate-100 bg-white">
             <tr>
               <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
-                Loading 38,342 canonical catalogue records…
+                Loading 38,567 canonical catalogue records…
               </td>
             </tr>
           </tbody>
@@ -440,13 +440,13 @@
       </div>
       <div class="space-y-2.5 text-xs text-slate-600 leading-relaxed">
         <p>
-          This interface displays the <strong>38,342 canonical catalogue records</strong> deduplicated conservatively from <strong>38,974</strong> harvested Level-3 and Level-4 records across <strong>28 primary and federated metadata portals</strong>.
+          This interface displays the <strong>38,567 canonical catalogue records</strong> deduplicated conservatively from <strong>39,202</strong> harvested Level-3 and Level-4 records across <strong>31 primary and federated metadata portals</strong>.
         </p>
         <ul class="list-disc pl-4 space-y-1.5">
           <li><strong>High recall over precision:</strong> Unlinked cross-platform cloud mirrors lacking shared DOIs, versioned releases, multi-level agency collections, and tagged sensitivity datasets (<code class="font-mono text-slate-800">Strict EO = false</code>, covering hybrid grids, gridded in-situ interpolations, bottom-up inventories, and reference boundaries) remain visible unless filtered out.</li>
-          <li><strong>Missing upstream metadata preserved:</strong> Upstream APIs frequently omit processing levels (<code class="font-mono text-slate-800">~73.6%</code> unlabelled in canonical), native pixel spacing (<code class="font-mono text-slate-800">~71.9%</code> absent in adjudicated/raw grid), platform metadata (<code class="font-mono text-slate-800">49.25%</code> unassessed), or DOIs. Missing values stay <code class="font-mono text-slate-800">null</code> and are never fabricated.</li>
+          <li><strong>Missing upstream metadata preserved:</strong> Upstream APIs frequently omit processing levels (<code class="font-mono text-slate-800">73.5%</code> unlabelled in canonical), native pixel spacing (<code class="font-mono text-slate-800">72.0%</code> absent in adjudicated/raw grid), platform metadata (<code class="font-mono text-slate-800">49.21%</code> unassessed), or DOIs (<code class="font-mono text-slate-800">67.6%</code> absent). Missing values stay <code class="font-mono text-slate-800">null</code> and are never fabricated; pair text search with structured filters.</li>
           <li><strong>Sentinel attribution:</strong> Separates verified Sentinel lineage (<code class="font-mono text-slate-800">confirmed_input_mission</code>, <code class="font-mono text-slate-800">retrospective_or_mixed_epoch_series</code>) from <code class="font-mono text-slate-800">explicit_non_sentinel</code>, target-grid-only references (e.g., Landsat <code class="font-mono text-slate-800">HLSL30</code>), and <code class="font-mono text-slate-800">unassessed_no_platform_metadata</code>.</li>
-          <li><strong>Evaluation scope:</strong> Automated checks verify 23 structural suites, 24 QA assertions, 77/77 checked EU policy product families, 40/40 GCOS ECV groups, and 79/79 curated product verification cases; worldwide exhaustiveness is unmeasured.</li>
+          <li><strong>Harvest &amp; evaluation scope:</strong> Automated checks verify 24 structural suites, 25 QA assertions, 77/77 checked EU policy product families, 40/40 GCOS ECV groups, and 79/79 curated product verification cases. On-demand mapping activations (CEMS Rapid Mapping), restricted security/commercial archives, instantaneous L2 event streams (e.g., MTG FCI Active Fire L2), and portals without open collection APIs sit outside this harvest; worldwide exhaustiveness is unmeasured.</li>
         </ul>
       </div>
       <div class="flex justify-end pt-2 border-t border-slate-100">
