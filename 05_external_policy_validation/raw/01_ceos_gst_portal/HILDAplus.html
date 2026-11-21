@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="hilda-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/HILDAplus.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/HILDAplus.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h4 style="text-align:left;">Land</h4>
+  				<h2 style="text-align:left;">HILDA+ Global<br/>Land Use Change</h2>
+  				<h3 style="text-align:left;"><br/>This dataset shows annual global land use/cover and transitions between 1960 and 2019. It is purely data-driven and derived from a combination of multiple satellite-based land cover data and national land use statistics (FAO).</h3>
+  			</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				HILDA+ (HIstoric Land Dynamics Assessment+) is a global dataset on annual land use/cover change between 1960 and 2019 at 1 km spatial resolution. It is based on a data-driven reconstruction approach and integrates multiple open data streams (from high-resolution remote sensing, long-term land use reconstructions and statistics). It covers six generic land use/cover categories: 1: Urban areas, 2: Cropland, 3: Pasture/rangeland, 4: Forest, 5: Unmanaged grass/shrubland, 6: Sparse/no vegetation.<br/><br/>
+				<h4>Usage</h4>
+				HILDA+ is provided in different spatial dataset types and version, which can be accessed as ZIP folders:<br/><br/>
+				<ol>
+				<li>vGLOB-1.0_geotiff: Land use/cover states and transition layers as multiple single geotiffs from 1960 to 2019.</li>
+				<li>vGLOB-1.0-f_netcdf: Land use/cover states and transition layers as two large netCDF files with extended time span from 1899 to 2019. This dataset includes forest class sub-division and dynamics. Because its temporal extension, the dataset is a suitable input for global climate, earth system as well as biodiversity models, which may need a longer spin-up phase.</li>
+				<li>hildap_vGLOB-1.0_change-layers: HILDA+ change layers (change frequency; forest, cropland and pasture/rangeland change between 1960 and 2019) are provided as geotiffs.</li>
+				<li>hildap_vGLOB-1.0_uncertainty: Uncertainty layers are provided as geotiffs in three different ZIP folders (part1-3), containing annual datasets of uncertainty information: Number of input datasets, deviation and average area fraction per land use/cover category.</li>
+				</ol>
+				Note that precise accuracy metrics cannot be provided due to missing independent reference data covering the entire period. The deviation of the input datasets was used as uncertainty information, which give a hint on data quality.<br/><br/>
+				<h4>Methodology</h4>
+				LUC change dynamics for six LUC categories (urban, cropland, pasture/rangeland, forest, unmanaged grass/shrubland, sparse/no vegetation) were reconstructed based on multiple sources of observational data, from which country-scale change extents and mean fractional area were derived per 1 × 1 km grid cell from 1960 to 2019. Country- and year-specific areas of change for each land transition between these categories were calculated. A base map for the year 2015 served as a starting point for the change allocation procedure, which, at first, runs backward in time (2015–1960) and, subsequently, forward in time (2015–2019). For each time step and country, LUC change was allocated to selected candidate pixels by using ranked gridded class fractions and the data-derived change extents. Each of these iterative procedures yielded a global LUC map, which served as the new base map for the next time step. The following methodological steps were included in the data development:<br/><br/>
+				<ul>
+				<li>Pre-processing and harmonisation of land use/cover maps: Reclassifying with a common generalised classification scheme•	Probability maps for land use/cover categories: Annual maps of the average area fractions of each land use/cover category. Based on this, probability maps for the final LUC categories were derived, which were the basis of the change allocation procedure.</li>
+				<li>Probability maps for land use/cover categories: Annual maps of the average area fractions of each land use/cover category. Based on this, probability maps for the final LUC categories were derived, which were the basis of the change allocation procedure.</li>
+				<li>Base map calibration (calibrating the Copernicus LC100 Global Land Cover map for the reference year 2015 to FAO land use statistics).</li>
+				<li>Preparing datasets for national LUC change matrices based on FAO statistics (annual net changes per country) and remote sensing products (annual gross changes per country).</li>
+				<li>Change allocation: Based on the recalculated country- and year-specific transition matrices, the magnitude of LUC change was distributed over the grid by means of corresponding probability maps for each LUC category. This procedure was undertaken iteratively for each year (in a back- and forward mode starting from the base year 2015, respectively), for each individual country and for each land transition between two LUC categories. The output of each change allocation step of the annual loop was a new global map of LUC, which served as the base map for the next processing step.</li>
+				<li>Updates are anticipated every three years as FAO land use statistics are extended.</li>
+				</ul>
+				<h4>Uncertainty and Accuracy</h4>
+				Annual layers of uncertainty information based on the available input LUC datasets are included in the dataset. The number of available datasets, the maximum deviation in class area fraction and the mean class area fraction from all available datasets per year were used to generate per-pixel quality information.<br/><br/>
+				Dataset agreement differs per category. Forests and areas with sparse/no vegetation show the highest agreements. On the other hand, dataset deviation is larger in agricultural categories cropland and pasture/rangeland. Especially in heterogeneous landscapes, which hold a mix of managed and unmanaged lands, land use/cover class coverage is ambiguous (lower area fractions) and, thus, dataset information deviates.<br/><br/>
+				<h4>Dataset Sustainment</h4>
+				Plans/funding to sustain: Regular updates are planned.<br/><br/>
+				<img src="img/HILDAplus_logo_maps_whitebg.png" style="width:100%;padding-bottom:20px;">
+    		</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/hilda.png" style="width:100%;padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: 0.00998837° (~1 km)</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 1960-2019 / 1899-2019 (extended version)</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Annual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: Geocoded raster (GeoTIFF and NetCDF)</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Projection: EPSG: 4326 - WGS 84 – Geographic</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Class codes (for stable categories): 00 ocean, 11 urban, 22 cropland, 33 pasture/rangeland, 44 forest, 55 unmanaged grass/shrubland, 66 sparse/no vegetation, 77 water, 99 no data</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Creative Commons Attribution 4.0 International (CC-BY-4.0)</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Interactive HILDA+ map viewer:<br/><a href="https://landchangestories.org/hildaplus-mapviewer/" target="_blank">https://landchangestories.org/hildaplus-mapviewer/</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Web address for dataset download and description:<br/><a href="https://doi.pangaea.de/10.1594/PANGAEA.921846?format=html#download" target="_blank">https://doi.pangaea.de/10.1594/PANGAEA.921846?format=html#download</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Reference publication (use for citations):<br/><a href="https://www.nature.com/articles/s41467-021-22702-2" target="_blank">https://www.nature.com/articles/s41467-021-22702-2</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Karina Winkler<br/>
+				Doctoral researcher<br/>
+				Wageningen University & Research (WUR)<br/>
+				c/o Karlsruhe Institute of Technology (KIT), Institute of Meteorology and Climate Research (IMK-IFU), Kreuzeckbahnstrasse 19, 82467 Garmisch-Partenkirchen, Germany<br/>
+				Email: karina.winkler@kit.edu</p>
+			</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

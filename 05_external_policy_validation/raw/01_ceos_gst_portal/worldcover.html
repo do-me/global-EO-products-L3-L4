@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="worldcover-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/worldcover.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/worldcover.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h4 style="text-align:left;">Land</h4>
+  				<h2 style="text-align:left;">ESA WorldCover 2020/2021</h2>
+  				<h3 style="text-align:left;"><br/>The European Space Agency (ESA) WorldCover product provides global land cover maps for 2020 & 2021 at 10 m resolution based on Copernicus Sentinel-1 and Sentinel-2 data.</h3>
+  				<h5><br/>Updated August 2026</h5>
+  			</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				The European Space Agency (ESA) WorldCover product provides global land cover maps for 2020 & 2021 at 10 m resolution based on Copernicus Sentinel-1 and Sentinel-2 data. The WorldCover product comes with 11 land cover classes and has been generated in the framework of the ESA WorldCover project, part of the 5th Earth Observation Envelope Programme (EOEP-5) of the European Space Agency. A first version of the product, containing the 2020 map was released in October 2021. The 2021 map was released in October 2022 using an improved algorithm.<br/><br/>
+				<h4>Usage</h4>
+				The WorldCover map is a global-scale dataset, generated with a single methodology applied over all regions. As such, the accuracy of the map may vary between locations and with scale. That said, a crucial aspect for WorldCover was the involvement of several end users active in different domains who provided primary input for all engineering aspects and followed the whole project workflow from design up to validation and uptake. Consequently, WorldCover intends to provide a substantial benefit to various user communities and expands the established global land cover base of users and the development of novel services.<br/><br/>
+				The WorldCover 2020 and 2021 maps were generated with different algorithm versions and therefore changes between the maps should be treated with caution as these contain both real land cover changes as well as changes due to the used algorithms. An updated version of the 2020 map using the same algorithm as the 2021 map is planned to be released in near future. The WorldCover 2021 Dataset has achieved over 20,000 downloads.<br/><br/>
+				<h4>Methodology</h4>
+				The ESA WorldCover global land cover product builds further on the GlobCover and CCI Land Cover experiences from the European Space Agency. The algorithm used to generate the WorldCover global land cover product is based on the algorithm used to generate the dynamic yearly Copernicus Global Land Service Land Cover (CGLS-LC) map at 100 m resolution (Buchhorn et al., 2020). The CGLS-LC workflow uses 100 m, 5-day, Proba-V data as an input which were re-processed to the Sentinel-2 UTM grid together with training data obtained at 10 m resolution. For the generation of the WorldCover map however both Sentinel-2 multi-spectral image data and Sentinel-1 C-band Synthetic Aperture Radar (SAR) data are used instead of Proba-V data.<br/><br/>
+				The following methodological steps were included in the production of the WorldCover maps:<br/><br/>
+				<ul>
+				<li>Level 2A (L2A) and Ground Range Detected (GRD) products for Sentinel-2 (S2) and Sentinel-1 (S1) respectively, are selected and either filtered for cloud cover (Sentinel-2) or pre-processed to Gamma0 backscatter time series (for Sentinel-1).</li>
+				<li>Clouds and, cloud shadows are removed in the Sentinel-2 reflectance bands. Ten days median composites are computed from the cleaned band time series and additional vegetation indices (VI) for each time series step are calculated. For S1 bands, an additional multitemporal speckle filter is used before compositing the timeseries.</li>
+				<li>Starting from those cleaned time series, temporal descriptive statistics such as the 10<sup>th</sup> , 50<sup>th</sup>, 90<sup>th</sup> percentile and the interquartile range are calculated. These are used as features together with some additional features extracted from auxiliary layers (e.g. the Copernicus Global Digital Elevation Model) in the classification.</li>
+				<li>Next, different models (scenarios) are trained with a gradient boosting decision tree algorithm (CatBoost) using a manually labelled set of training data at 10 m resolution available from the Copernicus Global Land Service Land Cover, complemented with training data obtained from OpenStreetMap, Global Surface Water Explorer and Global Mangrove Watch.</li>
+				<li>Finally, the different scenarios are combined into a final land cover map through the application of different expert rules and subsequently tiled into 3 x 3 degree tiles in geographic projection (EPSG:4326). Some of these expert rules use auxiliary datasets (e.g. OpenStreetMap, Global Surface Water Explorer, Global Mangrove Watch) in order to modulate the probabilities provided by the classifier to produce a better final prediction.</li>
+				</ul>
+				<br/>
+				<h4>Uncertainty and Accuracy</h4>
+				The WorldCover data are assessed using an independent statistical accuracy assessment, map comparisons, spatial accuracy assessment and end-user assessments. The statistical accuracy assessment follows the Committee on Earth Observation Satellites (CEOS) Working Group on Calibration and Validation (WGCV) Land Product Validation (LPV) requirements. A global stratification independent of any land cover map and using the Sentinel 2 Universal Transverse Mercator (UTM) grid as a geographic base has been applied to provide more than 21,000 primary sampling units (PSUs) with each containing one hundred 10x10 m reference pixels for the years 2020 & 2021 - for robust accuracy assessment at global and continental levels (minimum of 3000 PSUs per continent). The WorldCover 2020 and 2021 products reach an overall accuracy of +/- 75 and 77%, respectively. More details can be found in the Product Validation Report.<br/><br/>
+				<h4>Dataset Sustainment</h4>
+				The WorldCover dataset is a demonstration product from the European Space Agency and is expected to migrate to the operational Copernicus global land cover monitoring service in the coming years.<br/><br/>
+    		</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/worldcover.png" style="width:100%;padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: 1°/12000 or (~10 m)</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 2020/2021</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Annual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: GeoTIFF</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Creative Commons Attribution 4.0 International (CC-BY-4.0)</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Product user manual: <br/><a href="https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/docs/WorldCover_PUM_V2.0.pdf" target="_blank">Link</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">The WorldCover 2020 v100 validation report: <br/><a href="https://esa-worldcover.s3.eu-central-1.amazonaws.com/v100/2020/docs/WorldCover_PVR_V1.1.pdf" target="_blank">Link</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">The WorldCover 2021 v200 validation report: <br/><a href="https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/docs/WorldCover_PVR_V2.0.pdf" target="_blank">Link</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Dataset link: <br/><a href="https://esa-worldcover.org/en/data-access" target="_blank">Link</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Flemish Institute for Technological Research (VITO)<br/>
+				Mol, Belgium<br/>
+				Email: remotesensing@vito.be</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">European Space Agency Data User Element<br/>
+				Email: due@esa.int<br/>
+			</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

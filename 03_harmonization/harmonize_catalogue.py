@@ -132,6 +132,9 @@ SOURCE_AUTHORITY_RANK: dict[str, int] = {
     "30_jaxa_earth_stac": 1,
     "31_digital_earth_africa_and_pacific": 2,
     "32_nrcan_ccmeo_stac": 2,
+    "33_us_ghg_center_stac": 2,
+    "34_fao_geospatial_catalog_ckan": 2,
+    "35_cnes_geodes_stac": 1,
 }
 
 
@@ -699,6 +702,25 @@ def classify_geographic_coverage(
                 re.IGNORECASE,
             ):
                 return None, None, None, None, "regional_or_local", "regional_or_local", "regional_hub_scope", domain_mask
+        if source_id == "33_us_ghg_center_stac":
+            if rid_str.lower().startswith("epa-ch4"):
+                return None, None, None, None, "regional_or_local", "regional_or_local", "explicit_title_or_abstract_scope", domain_mask
+            if rid_str.lower().startswith("gedi_iss_l4b"):
+                return None, None, None, None, "hemispheric_or_pantropical", "hemispheric_or_pantropical", "explicit_title_or_abstract_scope", domain_mask
+        if source_id == "26_fao_unep_and_thematic_benchmarks":
+            if rid_str.lower() in (
+                "datacite:10.25392/leicester.data.15060270.v1",
+                "datacite:10.5281/zenodo.5548555",
+                "datacite:10.5066/p94uxnts",
+            ):
+                return None, None, None, None, "regional_or_local", "regional_or_local", "explicit_title_or_abstract_scope", domain_mask
+            if rid_str.lower() == "datacite:10.5281/zenodo.7422506":
+                return None, None, None, None, "global", "global_title_declared", "explicit_title_or_abstract_scope", domain_mask
+        if source_id == "35_cnes_geodes_stac":
+            if re.match(r"^THEIA_(?:OSO_|SNOW_)", rid_str, re.IGNORECASE):
+                return None, None, None, None, "europe_regional", "europe_regional", "explicit_title_or_abstract_scope", domain_mask
+            if re.match(r"^(?:THEIA_REFLECTANCE_|FLATSIM_)", rid_str, re.IGNORECASE):
+                return None, None, None, None, "regional_or_local", "regional_or_local", "regional_hub_scope", domain_mask
         if not has_global_in_title:
             if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
                 return None, None, None, None, "europe_regional", "europe_regional", "explicit_title_or_abstract_scope", domain_mask
@@ -939,6 +961,9 @@ def classify_producer_and_pool(
         "30_jaxa_earth_stac": "JAXA Earth Observation Research Center (EORC)",
         "31_digital_earth_africa_and_pacific": "Digital Earth Africa / Digital Earth Pacific",
         "32_nrcan_ccmeo_stac": "Natural Resources Canada (Geo.ca Datacube STAC)",
+        "33_us_ghg_center_stac": "U.S. Greenhouse Gas Center (earth.gov/ghgcenter)",
+        "34_fao_geospatial_catalog_ckan": "FAO Hand-in-Hand Geospatial Catalog (CKAN)",
+        "35_cnes_geodes_stac": "CNES GEODES Portal (geodes-portal.cnes.fr)",
     }
     host = host_raw or default_hosts.get(source_id)
     producer = org_raw
@@ -990,6 +1015,13 @@ def classify_producer_and_pool(
 
     if source_id == "14_ceos_fedeo_agencies" and re.match(r"^samet_", rid, re.IGNORECASE):
         return producer or "INPE / CPTEC (Brazil)", host, "non_eu", None, False, "third_country_non_european"
+
+    if source_id == "33_us_ghg_center_stac":
+        return producer or "U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA)", host, "non_eu", None, False, "third_country_non_european"
+    if source_id == "34_fao_geospatial_catalog_ckan":
+        return producer or "Food and Agriculture Organization of the United Nations (FAO)", host, "non_eu", None, True, "un_or_international_body"
+    if source_id == "35_cnes_geodes_stac":
+        return producer or "Centre National d'Etudes Spatiales (CNES / Data Terra THEIA)", host, "eu_non_copernicus", None, False, "eu27_national_or_eu_agency"
 
     # 4. Cross-platform Copernicus Service detection (DEDL, WEkEO, CDSE, GEE, PC, EEA, FedEO, OLM, DE Africa, JAXA)
     if re.search(r"(^EO[:.]MO[:.]DAT[:.]|^cmems_|^COPERNICUS/MARINE|Copernicus Marine|CMEMS)", combined, re.IGNORECASE):
@@ -1377,12 +1409,13 @@ L4_MODEL_RE = re.compile(
 
 HYBRID_EO_CONSTRAINED_RE = re.compile(
     r"\b(ghs[-_ ]?pop|worldpop|landscan|hrsl|openlandmap|soilgrids|isric|isda_soil|esdac|glosem|"
-    r"global soil organic carbon|gsocmap|gaez|grid3)\b",
+    r"global soil organic carbon|gsocmap|gsnmap|gsasmap|glosis|hwsd|harmonized world soils? database|"
+    r"gaez|grid3|odiac|sedac-popdensity|mirca2000|mirca-os)\b",
     re.IGNORECASE,
 )
 
 NON_EO_INVENTORY_RE = re.compile(
-    r"(^FAO_GISMGR:GLEAM3:|^resgeo-|SOCIO-ECONOMIC-FORCING|"
+    r"(^FAO_GISMGR:GLEAM3:|^resgeo-|^epa-ch4emission-|^gra2pes-ghg-|^vulcan-ffco2-|SOCIO-ECONOMIC-FORCING|"
     r"\b(?:gridded population of the world|gpwv[34]|edgar|emissions database for global atmospheric research|"
     r"coco2[-_ ]?mosaic|bottom[- ]up[^.;]*co2 emission inventor\w*|fossil and biofuel co2 emission inventor\w*|prior emission inventor\w*|"
     r"faostat|gdp per capita|gridded gdp|gross domestic product|ardeco|human development index|nighttime lights socioeconomic|census|"

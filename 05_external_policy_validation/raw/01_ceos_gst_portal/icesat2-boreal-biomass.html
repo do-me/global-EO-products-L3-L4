@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="icesat2-boreal-biomass-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/icesat2-boreal-biomass.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/icesat2-boreal-biomass.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h2 style="text-align:left;">ICESat-2 Boreal Biomass 2020 Map</h2>
+  				<h3 style="text-align:left;"><br/>The NASA ICESat-2 Boreal Biomass map for the year 2020 is a boreal-wide woody aboveground biomass density product derived from ICESat-2 lidar, Landsat 8 surface reflectance, and the Copernicus Digital Elevation Model.
+  				</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				The NASA ICESat-2 Boreal Biomass map for the year 2020 is a boreal-wide woody aboveground biomass density product derived from ICESat-2 lidar, Landsat 8 surface reflectance, and the Copernicus Digital Elevation Model. This product was developed through NASA Arctic-Boreal Vulnerability Experiment (ABoVE) and ICESat-2 Science Team funded projects. This dataset consists of transect estimates of aboveground biomass density (AGBD) along ICESat-2 ground tracks, as well as gridded estimates of AGBD and uncertainty, all at a 30m spatial resolution. Estimates of AGBD are expressed in Mg ha-1. The 30m ICESat-2 transect estimates of biomass and 30m gridded biomass estimates will be available on the ABoVE Science Cloud and from the ORNL DAAC.<br/><br/>
+				<h4>Usage</h4>
+				This is a provisional product, and the official boreal-wide 2020 ICESat-2 biomass product will be available through the NASA ORNL DAAC (https://daac.ornl.gov/).<br/><br/>
+				This product maps boreal forest biomass, which is almost entirely within the high northern latitude data gap not sampled by NASA’s GEDI (aboard the International Space Station). This product therefore provides lidar-based AGBD mapping to fill GEDI’s northern data gap. The methodological approach largely follows that of the GEDI mission for predicting AGBD from satellite lidar, but the wall-to-wall product in this product uses 30m data to spatially extend ICESat-2 biomass estimates for high resolution mapping. In boreal systems, optical data such as Landsat do not have the same saturation limits often seen in closed canopy tropical and temperate forests.<br/><br/>
+				Users should note that modeling biomass from ICESat-2 observations relies on calibration biomass data from field sites which are geographically limited in comparison to the boreal-wide product, as well as the allometric models used to produce these calibration data. For example, no field plot training data were included from Siberia. These calibration data contribute to the uncertainty in the final product, but the addition of more calibration data in future versions of this product will improve biomass accuracy.<br/><br/>
+				We encourage users to provide feedback on the product, particularly when discrepancies are found between the product and locally available data.<br/><br/>
+				This product used release 004 of the ICESat-2 data from the 2019 and 2020 growing season. ICESat-2 data from June 26, 2019 - July 20, 2019 were not used due to an issue with the spacecraft resulting in missing data or data with poor geolocation estimates.<br/><br/>
+				Note that growing season (June 1 - September 30) Landsat and ICESat-2 data were used to train this model, and have attempted to minimize uncertainties from phenology, but local vegetation and snow dynamics may yield discrepancies.<br/><br/>
+				Be cautious using this data in areas where there was disturbance (e.g. fire) between 2019-2021, when the relationships between ICESat-2 and optical data were likely affected.<br/><br/>
+				Note that while this product is intended to fill GEDI’s northern data gap, it is at a higher spatial resolution (30 m) than the GEDI gridded product (1 km) and the uncertainties have been estimated using different approaches.<br/><br/>
+				<h4>Methodology</h4>
+				Using ICESat-2 data quality flags and statistical filters, the ATL08 canopy heights used were filtered to remove returns associated with signal attenuation. Using the photon classifications, the 100m ATL08 were reprocessed to a 30m resolution to match the Landsat and Copernicus data products. At this 30m transect resolution, canopy height was calculated as well as the relative canopy height (RH) metrics.<br/><br/>
+				ICESat-2 biomass models were fit from a collection of spatially and temporally coincident field and airborne lidar datasets. Airborne lidar was used to simulate ICESat-2 ATL08 data, creating a calibration dataset. Parametric Ordinary Least Squares models were used to predict field biomass from simulated ATL08 RH metrics. Models were stratified by plant functional type and geographic region, and the best input predictors were selected for each strata. The selected biomass models were applied to on-orbit 30m ATL08 transect data to obtain 30m transect biomass estimates.<br/><br/>
+				Landsat and Copernicus data products were used to expand biomass estimates beyond ICESat-2 ground tracks to the entire boreal forest. Landsat 8- and Copernicus-derived  raster covariates were extracted for each 30m ATL08 transect biomass estimate. 15 variables were derived from Landsat 8 and 5 topographic variables were derived from Copernicus elevation data.<br/><br/>
+				90-km tiles were used to develop local Random Forest (RF) models predicting ICESat-2 biomass based on the gridded covariates, producing 30m estimates of AGBD. A suite of RF models were fit per tile, and applying the full suite to each tile allowed an estimation of uncertainty at a pixel-level, with the final output representing predicted AGBD, and the per-pixel standard deviation, 5th and 95th percentiles of predictions.<br/><br/>
+				<h4>Uncertainty and Accuracy</h4>
+				The uncertainty map in the provisional biomass product accounts only for model uncertainty between the ICESat-2 biomass estimates and the raster stack. Future iterations will also propagate uncertainties from the models between field and simulated ICESat-2. Reported uncertainties will be underestimated, as they do not account for errors in the field plot estimates or biomass (measurement, allometric), or sampling errors from the distribution of plots across the circumboreal.<br/><br/>
+				To quantify uncertainty, training data were used to fit 30 Random Forest models per-tile predicting 30m ICESat-2 biomass as a function of the covariate stack. These models were each applied to their associated 90-km tile, and the per-pixel mean, standard deviation, and 5th and 95th percentiles are reported in the product.<br/><br/>
+				To validate this product, independent airborne lidar biomass maps from the LVIS 2019 acquisition were used.<br/><br/>
+				<h4>Dataset Sustainment</h4>
+				This is a provisional product that will be published for long-term archiving at NASA’s ORNL DAAC with expected release in late 2021 / early 2022. Future versions of this product will depend on available resources, both for improvements to the 2020 product, and products representing future years. The official product will include ICESat-2 data from the growing seasons of 2019-2021.<br/><br/>
+				It is anticipated that ICESat-2 data will be available for several years after 2021, and pending available resources, annual products could be generated following these methods.<br/><br/>
+			</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/icesat2-boreal.png" style="width:100%;padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: 30m</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage:<br/>Circumpolar boreal, 50° - 75° N</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 2020</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Annual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: Cloud Optimized GeoTIFF</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Creative Commons Attribution 4.0 International (CC-BY-4.0)</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;"><a href="https://above.nasa.gov/profiles_/above_projects.html?projType=project&projID=3994&progID=6" target="_blank">ABoVE project profile</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;"><a href="https://nsidc.org/data/ATL08" target="_blank">ICESat-2 ATL08 repository at National Snow and Ice Data Center</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Laura Duncanson<br/>
+				Assistant Professor<br/>
+				University of Maryland, College Park, USA<br/>
+				Email: lduncans@umd.edu</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Amy Neuenschwander<br/>
+				Research Scientist<br/>
+				University of Texas at Austin, USA<br/>
+				Email: amyn@arlut.utexas.edu</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Paul Montesano<br/>
+				Research Scientist<br/>
+				NASA Goddard Space Flight Center | ADNET Systems, Inc.<br/>
+				Greenbelt, Maryland, USA<br/>
+				Email: paul.m.montesano@nasa.gov</p>
+			</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

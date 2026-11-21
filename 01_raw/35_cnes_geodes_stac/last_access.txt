@@ -1,0 +1,12 @@
+source_id: 35_cnes_geodes_stac
+source_title: CNES GEODES STAC API (THEIA / Form@Ter / SAGSA)
+retrieved_at_utc: 2026-11-21T00:19:35Z
+http_status_summary: 200 OK
+total_records_retrieved: 68
+endpoints_queried:
+  - https://geodes-portal.cnes.fr/api/stac/collections/paginate?page=1..7 (68 collections)
+notes: Full paginated harvest of the French Space Agency (CNES) GEODES STAC portal covering THEIA L3A/L3B reflectance, land-cover (OSO), snow, and POSTEL multi-year biophysical/water/radiation products, Form@Ter FLATSIM InSAR time series, and CNES SAGSA GRACE L3 gravity ensembles (raw L1/L2/auxiliary collections filtered deterministically in 02_preparation).
+files_written:
+  - path: data/cnes_geodes_stac.json
+    bytes: 300131
+    sha256: de6d06abbbb99292d54ca331d90629163d5ca97c4978fa9bee27fe9005b1b6df

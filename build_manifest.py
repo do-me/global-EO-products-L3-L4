@@ -7,8 +7,9 @@
 build_manifest.py
 =================
 Generates a cryptographic provenance manifest (`MANIFEST.json` and `SHA256SUMS.txt`) across all
-raw (`01_raw/`), prepared (`02_preparation/`), harmonized (`03_harmonization/`), and
-validation (`04_validation_and_review/`) repository artifacts.
+raw (`01_raw/`), prepared (`02_preparation/`), harmonized (`03_harmonization/`),
+internal QA (`04_validation_and_review/`), and external policy validation (`05_external_policy_validation/`)
+repository artifacts.
 
 Run via:
     uv run build_manifest.py
@@ -59,7 +60,7 @@ def main() -> None:
 
     tracked_files = []
     sha_lines = []
-    for stage in ("01_raw", "02_preparation", "03_harmonization", "04_validation_and_review"):
+    for stage in ("01_raw", "02_preparation", "03_harmonization", "04_validation_and_review", "05_external_policy_validation"):
         stage_dir = REPO_ROOT / stage
         if not stage_dir.exists():
             continue

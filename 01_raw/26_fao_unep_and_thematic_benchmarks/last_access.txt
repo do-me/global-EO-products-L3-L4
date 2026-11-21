@@ -1,8 +1,8 @@
 source_id: 26_fao_unep_and_thematic_benchmarks
 source_title: FAO GISMGR v2 (WaPOR, GAEZ, ASAP, GSOC) & Zenodo Authoritative Global EO L3/L4 Benchmarks
-retrieved_at_utc: 2026-11-17T04:28:12Z
+retrieved_at_utc: 2026-11-21T00:49:46Z
 http_status_summary: 200 OK
-total_records_retrieved: 2447
+total_records_retrieved: 2455
 endpoints_queried:
   - https://data.apps.fao.org/gismgr/api/v2/catalog/workspaces?size=100&page=0..N
   - https://zenodo.org/api/records?type=dataset (scoped boolean queries, full pagination + audit)
@@ -12,7 +12,7 @@ endpoints_queried:
   - https://api.datacite.org/dois?prefix=10.57760&query=+global +(CoSEB OR "solar-induced chlorophyll fluorescence" OR "surface radiation" OR "sea surface salinity" OR "LAI/FPAR" OR "land surface temperature") +(satellite OR MODIS OR FY-3 OR GOME OR SMOS OR GLASS)
   - https://api.datacite.org/dois?prefix=10.6096&query=+(glacier OR "sea-ice" OR "snow depth") +(global OR hemisphere OR CryoSat OR Envisat OR Sentinel OR ASTER OR world)
   - https://doi.org/10.11888/Terre.tpdc.303314 (Accept: application/vnd.citationstyles.csl+json)
-notes: FAO GISMGR mapsets (all pages): 1028, Zenodo benchmark datasets: 1363, DataCite benchmark records (incl. DIAS, ScienceDB, Theia, GFZ, ICOS, PANGAEA): 55, DOI CSL-JSON records (TPDC): 1
+notes: FAO GISMGR mapsets (all pages): 1028, Zenodo benchmark datasets: 1363, DataCite benchmark records (incl. DIAS, ScienceDB, Theia, GFZ, ICOS, PANGAEA): 63, DOI CSL-JSON records (TPDC): 1
 files_written:
   - path: data/doi_csl_benchmarks.json
     bytes: 2060
@@ -21,8 +21,8 @@ files_written:
     bytes: 688608
     sha256: 7458bda94e634402d08536be8c78f60b7872f4389f38aa914fd55123d43f995f
   - path: data/gfz_datacite_g3p_benchmarks.json
-    bytes: 620759
-    sha256: 9d252aa3b2dad8b1fdc6b9799445b0191c809387e844c9c690e53e459201eb69
+    bytes: 775908
+    sha256: 625bedad01f99f7cb1fa4d4a5fde6e0b7e1277bb950c2923ed6e7afc2df97536
   - path: data/zenodo_pagination_audit.json
     bytes: 11327
     sha256: eb46bd9ba24c76e4181f6734d76d89018e2b49fd67acdd070a92f0538550db3d

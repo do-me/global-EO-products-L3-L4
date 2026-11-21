@@ -1,0 +1,11 @@
+benchmark_id,benchmark_name,policy_framework,total_extracted,out_of_scope_count,oos_verified_in_excluded_log,in_scope_l3_l4_count,found_in_catalogue,missing_from_catalogue,in_scope_recall_pct
+01_ceos_gst,CEOS-UNFCCC Global Stocktake (GST) Portal,UNFCCC Paris Agreement (Global Stocktake),15,0,0,15,14,1,93.3
+02_ceos_sdg_sheets,CEOS SDG Official EO Support Sheets (v2023-2025),"UN 2030 Agenda (SDGs 6.6.1, 11.3.1, 14.1.1a, 15.3.1)",30,1,0,29,23,6,79.3
+03_ceos_eett_gbf,CEOS Ecosystem Extent Task Team White Paper v1.1 (2023),CBD Kunming-Montreal Global Biodiversity Framework (A.2) & UN SEEA EA,24,1,0,23,23,0,100.0
+04_unhabitat_eotoolkit,UN-Habitat / GEO / NASA EO4SDG Sustainable Cities Toolkit,UN 2030 Agenda (SDG 11) & New Urban Agenda,37,2,0,35,34,1,97.1
+05_ec_jrc_kceo,EC JRC KCEO Deep Dives (EU Biodiversity & Urban Adaptation),EU Biodiversity Strategy 2030 & Nature Restoration Law,41,7,0,34,34,0,100.0
+06_usgeo_eoa_2023,White House USGEO / NASA-USGS Earth Observation Assessment 2023,U.S. Federal Agency Statutory & Operational Mandates (OSTP/USGEO),125,51,0,74,72,2,97.3
+07_nasa_snwg_cmr,NASA SNWG Delivered Collections (CMR),U.S. Federal Agency Biennial Satellite Needs Survey (SNWG),104,34,0,70,70,0,100.0
+07b_nasa_nsite_portfolio,NASA NSITE / SNWG Solutions Portfolio,U.S. Federal Agency Biennial Satellite Needs Survey (SNWG),32,20,0,12,12,0,100.0
+08_us_ghg_center,U.S. Greenhouse Gas Center (NASA/EPA/NIST/NOAA),UNFCCC Paris Agreement & U.S. National GHG Monitoring Strategy,37,0,0,37,37,0,100.0
+09_unccd_gpg_v2,"UNCCD Good Practice Guidance v2 (SDG 15.3.1, 2021)",UN Convention to Combat Desertification (UNCCD / LDN),10,1,0,9,9,0,100.0

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0PX2R8TJGB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0PX2R8TJGB');
+</script>
+
+<body>
+
+<div id="carbon-dioxide-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/carbon-dioxide.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/carbon-dioxide.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h2 style="text-align:left;">Carbon Dioxide</h2>
+  				<h3 style="text-align:left;"><br/>Pilot Top-down CO<sub>2</sub> emissions and removals associated with Terrestrial Carbon Stock Changes by nations<br/><br/>
+  				<h5><br/>Updated October 2024</h5>
+  				</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				The Committee on Earth Observation Satellites (CEOS) Atmospheric Composition – Virtual Constellation (AC-VC) GHG team has generated national top-down CO<sub>2</sub> budgets. This dataset is described by Byrne et al. (2022) and consists of:<br/><br/>
+				<ol>
+				<li>Top-down annual net land-atmosphere CO<sub>2</sub> fluxes (NCE) from an ensemble of atmospheric CO<sub>2</sub> inversions.</li>
+				<li>Bottom-up estimates of fossil fuel emissions and lateral carbon fluxes due to crop trade, wood trade, and river export.</li>
+				<li>Annual changes (loss) in terrestrial carbon stocks (ΔCloss) obtained by combining top-down and bottom-up estimates</li>
+				</ol>
+				In addition, two metrics are provided to help users interpret country-level data:<br/><br/>
+				<ol>
+				<li>The Z-statistics, which characterizes the differences between top-down NCE estimates.</li>
+				<li>The Fractional Uncertainty Reduction (FUR), which characterizes the impact of assimilated CO<sub>2</sub> data on reducing NCE uncertainties.</li>
+				</ol>
+				These data are provided for the period 2015-2020 on both a global grid and as country-level totals with error characterization. Figures 1 and 2 illustrates how these carbon fluxes relate to each other and the methodology is described in more detail below.<br/><br/>
+				<img src="img/co2-1.png" style="width:100%;padding-bottom:20px;">
+				<i>Figure 1. CO<sub>2</sub> is removed from the atmosphere through photosynthesis (GPP) and then emitted back to the atmosphere through a number of processes. Three processes move carbon laterally on Earth’s surface, such that emissions of CO<sub>2</sub> occur in a different region than removals: (1) Agriculture; harvested crops are transported to urban areas and to livestock, which are themselves exported to urban areas. CO<sub>2</sub> is respired to the atmosphere in livestock or urban areas. (2) Forestry; logged carbon is transported to urban and industrial areas, then emitted to through decomposition in a landfill or combustion as a biofuel. (3) Water cycle; carbon is leached from soils into water bodies, such as lakes. The carbon is then either deposited, released to the atmosphere, or transported to the ocean. Arrows show carbon fluxes and colors indicate whether the flux is associated with (grey) fossil fuel emissions, (dark green) ecosystem metabolism, (red) biomass burning, (light green) forestry, (yellow) agriculture, or (blue) the water cycle. Semi-transparent arrows show fluxes that move between the surface and atmosphere, while solid arrows show fluxes that move between land regions. Dashed arrows show surface-atmosphere fluxes of reduced carbon species that are oxidized to CO<sub>2</sub> in the atmosphere. For simplicity, a cement carbonation sink, volcano emissions, and a weathering sink are not included in this figure.</i><br/><br/>
+				<h4>Methodology</h4>
+				Top-down NCE estimates are obtained from an ensemble of state-of-the-art flux inversion systems participating in the OCO-2 v10 Model Intercomparison Project (<a href="https://gml.noaa.gov/ccgg/OCO2_v10mip/" target="_blank">v10 OCO-2 MIP</a>). The atmospheric CO<sub>2</sub> inversion systems provide spatially- and temporally-resolved estimates of surface-atmosphere fluxes for land and oceans from which country level annual land-atmosphere CO<sub>2</sub> fluxes can be estimated. Flux estimates are provided for four experiments that differ in the atmospheric CO<sub>2</sub> datasets used to constrain fluxes. These experiments estimate surface-atmosphere CO<sub>2</sub> fluxes using:<br/><br/>
+				<ol>
+				<li><b>IS:</b> in situ CO<sub>2</sub> measurements in the National Oceanic and Atmospheric Administration (NOAA) Observation Package (ObsPack; https://gml.noaa.gov/ccgg/obspack/).</li>
+				<li><b>LNLG:</b> column-averaged CO<sub>2</sub> dry air mole fraction, XCO<sub>2</sub>, retrievals over land NASA Orbiting Carbon Observatory-2 (OCO-2).</li>
+				<li><b>LNLGIS:</b> both in situ CO<sub>2</sub> and OCO-2 land XCO<sub>2</sub> data.</li>
+				<li><b>LNLGOGIS:</b> in situ CO<sub>2</sub>, OCO-2 land XCO<sub>2</sub>, and OCO-2 ocean XCO<sub>2</sub> data combined.</li>
+				</ol>
+				For each experiment, NCE and ocean CO<sub>2</sub> fluxes are optimized to match the atmospheric CO<sub>2</sub> observations within their uncertainties. The net biosphere exchange (NBE) is calculated by subtracting bottom-up fossil fuel emission estimates from NCE, as the inversions cannot clearly discriminate emissions from fossil fuel and biosphere-atmosphere fluxes, and the fossil fuel CO<sub>2</sub> sources are generally much better known. Thus, bottom-up fossil fuel emission estimates are subtracted from NCE estimate to obtain biosphere-atmosphere fluxes. The net loss of land carbon is then estimated by accounting for “lateral” carbon fluxes from the terrestrial biosphere such as land-to-ocean transport of carbon by rivers (a natural process perturbed by human activities) and the import and export of harvested agricultural and wood products (a human activity). Changes in terrestrial carbon stocks (ΔC<sub>loss</sub>) reflect the combined impact of direct anthropogenic activities and changes to managed ecosystems in response to rising atmospheric CO<sub>2</sub> concentrations, climate change, and disturbances (i.e., droughts, floods, wildfires, severe weather). Figure 2 shows how each of these CO<sub>2</sub> fluxes relate to each other and desired quantities.<br/><br/>
+				<img src="img/co2-2.png" style="width:100%;padding-bottom:20px;">
+				<i>Figure 2. Carbon fluxes for a given land region, such as a country. Boxes with solid backgrounds show reservoirs of carbon. Arrows with hatched shading show fluxes between reservoirs. NCE is underlined to emphasize that this quantity is estimated from the atmospheric CO<sub>2</sub> measurements using top-down methods. Italicized quantities are obtained from bottom-up datasets (FF, F<sub>crop trade</sub>, F<sub>wood trade</sub>, F<sub>rivers export</sub>). Bold quantities are derived in this study from the top-down and bottom-up datasets (NBE, ΔC<sub>gain</sub>, ΔC<sub>loss</sub>).</i><br/><br/>
+				<h4>Summary of Results</h4>
+				This dataset provides global gridded and country-level totals of NCE, and ΔC<sub>loss</sub> from four OCO-2 MIP experiments, as well as bottom-up fossil fuel emissions and lateral flux estimates over 2015-2020. Here we present a sample of the fluxes provided in this dataset. Figure 3 shows the 2015-2020 gridded and country-scale NCE and ΔC<sub>loss</sub> for the LNLGIS experiment. At 1x1 degree (Fig 3a-b), localized fossil fuel emissions are visible, generally corresponding to urban areas and industrialized regions. These emissions are interspersed over broad source and sink structures that are driven by biosphere uptake or release. Land biosphere uptake is most evident across the northern mid-high latitudes. In contrast, tropical uptake and release is more regional. Aggregating NCE to country-scale (Fig. 3c-d), most countries are net sources driven by fossil fuel emissions, particularly in the northern extratropics. Figure 3e-f shows the 2015-2020 mean country-level ΔC<sub>loss</sub> for the LNLGIS experiment. Carbon uptake by land is found for most extratropical countries, while tropical countries can either be sources or sinks. Notably, the uncertainty in ΔC<sub>loss</sub> is larger in the tropics, particularly for mid-sized countries. Overall, small to mid-sized countries generally have uncertainties comparable to the magnitude of ΔC<sub>loss</sub>, reflecting the fact that atmospheric CO<sub>2</sub> measurements best constrain fluxes over large scales.<br/><br/>
+				<img src="img/co2-3.png" style="width:100%;padding-bottom:20px;">
+				<i>Figure 3. Median and standard deviation of NCE on a (a-b) 1x1 degree grid and (c-d) aggregated to country-scale for the v10 OCO-2 MIP LNLGIS experiment over 2015-2020. (e-f) Median and standard deviation of country-scale ΔC<sub>loss</sub> over 2015-2020 derived from the LNLGIS OCO-2 v10 MIP experiment.</i><br/><br/>
+				Figure 4 shows carbon budgets over 2015-2020 for four countries (USA, India, Indonesia, and Australia). All of the CO<sub>2</sub> fluxes on the left of the dashed line (FF, lateral fluxes, ΔC<sub>loss</sub>) combine to give the NCE flux constrained by the OCO-2 MIP experiments. We find that FF is the strongest contributor to NCE for all countries, but that ΔC<sub>loss</sub> also plays a strong modulating role. For example, negative ΔC<sub>loss</sub> for the USA (carbon uptake by the land biosphere) reduces NCE to be less than would be expected given the FF emissions. Conversely, Indonesia has positive ΔC<sub>loss</sub> (loss of carbon from land biosphere), resulting in increased NCE relative to FF. Some countries also show differences in ΔC<sub>loss</sub> between OCO-2 MIP experiments. For example, the LNLG and LNLGIS experiments suggest negative ΔC<sub>loss</sub> for India, while the IS suggest ΔC<sub>loss</sub> is roughly neutral.<br/><br/>
+				<img src="img/co2-4.png" style="width:100%;padding-bottom:20px;">
+				<i>Figure 4. 2015-2020 carbon budget for the USA, India, Indonesia, and Australia. Bars show the median +/- standard deviation of FF, F<sub>rivers export</sub> (R), F<sub>crop trade</sub> + F<sub>wood trade</sub> (CW), ΔC<sub>loss</sub>, and NCE.</i><br/><br/>
+				The carbon budgets can also be examined for individual years (Fig. 5). Both Indonesia and Australia show considerable variations in ΔC<sub>loss</sub> that drive variations in NCE over this period. Indonesia has a large positive ΔC<sub>loss</sub> in 2015 driven by warm-dry weather and fires during 2015 El Niño. Australia showed strong negative ΔC<sub>loss</sub> (except for IS) during 2016, which was the 15th wettest year on record but positive ΔC<sub>loss</sub> during 2019, which was the warmest and driest year on record. Variations in NCE are also driven by variations in FF emissions. In particular, a reduction in NCE is found for 2019 and 2020 in the USA that is primarily linked to a reduction in FF emissions rather than ΔC<sub>loss</sub>.<br/><br/>
+				<img src="img/co2-5.png" style="width:100%;padding-bottom:20px;">
+				<i>Figure 5. Timeseries of the carbon budget for the USA, India, Indonesia, and Australia. Solid lines show the median estimates and shaded areas show +/- 1 standard deviation.</i><br/><br/>
+				For future stocktakes, these estimates will be refined as new space-based observing systems are deployed. Future atmospheric CO<sub>2</sub> observing systems are expected to dramatically improve the resolution and coverage, facilitating inversions that could simultaneously constrain fossil fuel and AFOLU emissions. Complimentary expansions of ground-based and aircraft-based CO<sub>2</sub> measurements are critically needed in under-sampled regions both to complement the coverage of the space-based data and to assess their accuracy. Improvements to flux inversion systems will also further refine results, as reductions to systematic transport errors will be critical for refining carbon flux estimates.
+				<br/><br/><p style="font-size:11px;">Citation: Byrne, B., Baker, D. F., Basu, S., Bertolacci, M., Bowman, K. W., Carroll, D., Chatterjee, A., Chevallier, F., Ciais, P., Cressie, N., Crisp, D., Crowell, S., Deng, F., Deng, Z., Deutscher, N. M., Dubey, M. K., Feng, S., García, O. E., Herkommer, B., Hu, L., Jacobson, A. R., Janardanan, R., Jeong, S., Johnson, M. S., Jones, D. B. A., Kivi, R., Liu, J., Liu, Z., Maksyutov, S., Miller, J. B., Miller, S. M., Morino, I., Notholt, J., Oda, T., O’Dell, C. W., Oh, Y.-S., Ohyama, H., Patra, P. K., Peiro, H., Petri, C., Philip, S., Pollard, D. F., Poulter, B., Remaud, M., Schuh, A., Sha, M. K., Shiomi, K., Strong, K., Sweeney, C., Té, Y., Tian, H., Velazco, V. A., Vrekoussis, M., Warneke, T., Worden, J. R., Wunch, D., Yao, Y., Yun, J., Zammit-Mangion, A., and Zeng, N.: Pilot top-down CO<sub>2</sub> Budget constrained by the v10 OCO-2 MIP Version 1, Committee on Earth Observing Satellites, https://doi.org/10.48588/npf6-sw92, Version 1.0, 2022</p>
+				</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Dataset name: Pilot top-down CO<sub>2</sub> budget constrained by the v10 OCO-2 MIP Version 1<br/>Version: 1.0</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution:<br/>National and 1-degree by 1-degree gridded</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 2015 – 2020</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: Spreadsheet, netCDF</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Open</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Download links:<br/><a href="https://ceos.org/gst/files/ReadMe.txt" target="_blank">Read Me</a><br/>Country totals: <a href="https://ceos.org/gst/files/pilot_topdown_CO2_Budget_countries_v1.csv" target="_blank">CSV</a> | <a href="https://ceos.org/gst/files/pilot_topdown_CO2_Budget_countries_v1.xls" target="_blank">XLS</a> | <a href="https://ceos.org/gst/files/pilot_topdown_CO2_Budget_countries_v1.nc" target="_blank">NetCDF</a><br/>1-degree by 1-degree gridded: <a href="https://ceos.org/gst/files/pilot_topdown_CO2_Budget_grid_v1.nc" target="_blank">NetCDF</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Byrne et al.: National CO<sub>2</sub> budgets (2015–2020) inferred from atmospheric CO<sub>2</sub> observations in support of the Global Stocktake. Earth Syst. Sci. Data, 15, 963–1004, 2023. <a href="https://doi.org/10.5194/essd-15-963-2023" target="_blank">Read.</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">David Baker<br/>
+				CIRA, Colorado State University<br/>
+				Email: David.F.Baker@colostate.edu</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">John Worden<br/>
+				NASA/JPL<br/>
+				Email: john.r.worden@jpl.nasa.gov</p>
+				</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

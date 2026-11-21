@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="fire-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/fire.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/fire.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h2 style="text-align:left;">Fire</h2>
+  				<h3 style="text-align:left;"><br/>Sentinel-3 World Fire Atlas</h3>
+  				<h5><br/>Updated October 2024</h5>
+  			</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+                The Sentinel-3 World Fire Atlas developed by the European Space Agency utilises <a href="https://sentinel.esa.int/web/sentinel/user-guides/sentinel-3-slstr/product-types/level-1b" target="_blank">Sentinel-3A SLSTR Level 1b data</a> featuring two dedicated channels, F1 and F2 for detecting fire and high temperature events on a global scale during nighttime.
+                <br/><br/><img src="img/fire1.jpg" style="width:100%;padding-bottom:20px;display: block;margin-left: auto;margin-right: auto;">
+				<i>Figure 1:Sentinel-3 World Fire Atlas developed by the European Space Agency</i><br/><br/>
+                This atlas aims to provide continuity to <a href="http://due.esrin.esa.int/page_wfa.php" target="_blank">ESA ATSR World Fire Atlas</a>, operational from June 1995 to March 2012, while encorporating enhancements from the Sentinel-3 SLSTR instrument.
+                The processing chain is based on ESA SNAP and GDAL routines. The algorithm derived from a simplification of the work of <a href="https://www.sciencedirect.com/science/article/abs/pii/S0034425712000818?via%3Dihub" target="_blank"> Wooster et al. 2012</a>, has been adapted and implemented.<br/><br/>
+                <img src="img/fire2.jpg" style="width:100%;padding-bottom:20px;display: block;margin-left: auto;margin-right: auto;">
+				<i>Figure 2:The cumulative monthly fires occurrence graph shows higher peaks for some Mediterranean countries during the last seven years. The highest numbers are reached for Portugal in August 2016 and October 2017, for Italy in summer 2021 and Spain in summer 2022.</i><br/><br/>
+				Given the increasing occurrence of severe global heatwaves, the Sentinel-3 World Fire Atlas provides up-to-date statistical insights into fire incidents across the world. It consists of two informative sections: the first page offers an overview of single nighttime fire distribution, both at the country and global levels. Concurrently, the second page features an interactive dashboard for user-friendly exploration and analysis of statistics.<br/><br/>
+                <h4>Usage</h4>
+                A dedicated <a href="https://s3wfa.esa.int/viewer" target="_blank">viewer</a> is accessible for free to the users to visualise the resulting detections by location and time. These results are based on Sentinel-3A SLSTR Level 1b Non Time Critical products.
+                ESA has systematically processed all acquired Sentinel-3A SLSTR Level 1b data from May 2016 up to August 2023. While minor gaps may exist in the S3 World Fire Atlas products due to occasional unavailability of SLSTR data during the mission as reported in the <a href="https://sentinels.copernicus.eu/documents/d/sentinel/slstr_anomaly_events" target="_blank">S3 SLSTR Anomalies and Events document</a>, it's important to note that the S3WFA data is considered statistically robust.<br/><br/>
+				<img src="img/fire3.jpg" style="width:100%;padding-bottom:20px;display: block;margin-left: auto;margin-right: auto;">
+                <i>Figure 3: Worldwide active night-time fire detected from May 2016 to July 2024 using Sentinel 3A data</i><br/><br/>
+	    		The site also features an <a href="https://s3wfa.esa.int/dashboard" target="_blank">interactive dashboard</a> for user-friendly exploration and statistics analysis.<br/><br/>
+			</div>
+
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/ag3.png" style="width:100%;padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: 500 m for visible near-infrared and 1 km for thermal infrared channels</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 2016-onwards</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Viewer daily and Dashboard monthly</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;"><a href="https://sentinel.esa.int/web/sentinel/user-guides/sentinel-3-slstr" target="_blank">https://sentinel.esa.int/web/sentinel/user-guides/sentinel-3-slstr</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Dataset Download</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;"><a href="https://s3wfa.esa.int/" target="_blank">https://s3wfa.esa.int/</a><br/></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">ESA S3 World Fire Atlas Team<br/>
+                In order to improve the ESA Sentinel-3 World Fire Atlas, feedback from users are welcome by email at:<a href="mailto:s3wfa@esa.int" target="_blank">s3wfa@esa.int</a><br/></p>
+                </p>
+				</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimise societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

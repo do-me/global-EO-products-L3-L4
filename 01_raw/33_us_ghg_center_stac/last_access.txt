@@ -1,0 +1,12 @@
+source_id: 33_us_ghg_center_stac
+source_title: U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA) STAC API
+retrieved_at_utc: 2026-11-21T00:19:32Z
+http_status_summary: 200 OK
+total_records_retrieved: 37
+endpoints_queried:
+  - https://earth.gov/ghgcenter/api/stac/collections?limit=200 (37 collections)
+notes: Full harvest of the U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA) STAC catalogue covering top-down GHG inversions (OCO-2 MIP, GOSAT CH4, CarbonTracker-CH4, TM5-4DVar), global/regional flux models (ECCO-Darwin, LPJ-wsl, LPJ-EOSIM, MiCASA, CASA-GFED3, BlueFlux), gridded inventories (ODIAC, EPA CH4, GRA2PES, Vulcan), and satellite plume/column grids (EMIT, GOES, OCO-3, GEOS, OMI, GEDI L4B).
+files_written:
+  - path: data/us_ghg_center_stac.json
+    bytes: 262021
+    sha256: 6d698c1f48744e05b4012366f21cfcfc1e999877b879dd61be007fad23127d7b

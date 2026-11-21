@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="jpl-biomass-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/jpl-biomass.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/jpl-biomass.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h2 style="text-align:left;">JPL 2020 Global Biomass Dataset</h2>
+  				<h3 style="text-align:left;"><br/>This dataset (global above ground biomass density in Mg ha-1) shows the distribution of vegetation above ground live biomass (AGB) at 100 m (1-ha) spatial resolution. The map is developed using a large dataset within a machine learning algorithm including forest inventory data, air and spaceborne samples of Lidar waveforms, and satellite imagery from ALOS-2 PALSAR-2 (circa 2020), SRTM, Landsat (circa 2020).<br/><br/>
+  				</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				The JPL 2020 map is the global aboveground biomass (AGB) density estimates (unit: Mg/ha) derived from a combination of Landsat-8 composites, ALOS-2 PALSAR-2 backscatter (2019-2020) data and SRTM DEM at 100m spatial resolution, trained with samples from the spaceborne lidar data of ICESAT-1, airborne laser scanning (ALS) data, and field inventory data.  We applied the boosting tree machine learning model to predict wall-to-wall AGB inferred from satellite data.<br/><br/>
+				The product shared on the Multi-Mission Algorithm and Analysis Platform (MAAP) is separated continentally, including Africa, Asia, Europe, N America, Oceania, and S America. One can merge the 6 files to obtain the global mosaic.<br/><br/>
+				<h4>Usage</h4>
+				The data product contains the mean AGB density estimates at 100m spatial resolution for the year of 2020, and the standard error of the mean estimates at pixel level as a separate data file with the same dimension and spatial coverage. Files are saved in Cloud Optimized Geotiff (COG) format with a scaling factor of 10. Users should divide the map values by 10 to get the AGB estimates in Mg/ha.<br/><br/>
+				The AGB estimation from the current set of training samples (e.g. the use of ICESAT-1) may have time lags between samples and predictive layers. We ensured in the methodology to eliminate such differences, but the residual effect may still exist. We will replace ICESAT-1 with GEDI data in the new version of AGB 2020 estimation.<br/><br/>
+				Some known issues of the map include the artifacts in tropical regions where residual effects due to cloud contamination still exist, which may also cause misclassification of the land cover map that we used. There are also some mosaicking issues in northern Siberia due to the use of ALOS-2 data, which can be visible when conducting local-scale studies.<br/><br/>
+				The AGB estimation product files stored on MAAP can be found at /shared_bucket/alanxuliang/AGB_2020. It is also possible to download directly from AWS. The recommended way of downloading is to use the associated notebook file “map_download.ipynb” in the folder.<br/><br/> 
+				For desktop users, it is also possible to copy the selected URL from the notebook and paste into internet browsers for direct download. For visualization, desktop users can also open QGIS and add a new raster layer by choosing the HTTP protocol (paste the URL there with no authentication).<br/><br/>
+				<h4>Methodology</h4>
+				We compiled the AGB training samples from 4 sources of data, including the spaceborne ICESAT-1 product calibrated to have AGB estimates using more than 40 lidar biomass models across different forest types that coverts lidar waveform metrics to biomass, the Airborne Laser Scanning data across different regions converted to AGB at 1-ha spatial resolution from field data, sample forest inventory data available from research community and some regional and national inventory, and sample training data from mangrove AGB estimates across global coastal regions.<br/><br/>
+				We produced clean version of satellite layers by masking out cloud pixels and extending the observational period for more valid pixels. Landsat-8 data were cross-calibrated with MODIS NBAR data to remove the bi-directional reflectance effect in the forested region, and the ALOS-2 data were cross-calibrated with the mean signal of ALOS-1 (2007-2010) to remove the residual effect of local incidence angles, orbital stripping because of changes of environmental conditions. The cross-calibration is performed at large scales to make sure local changes of ALOS-2 PALSAR-2 due to disturbance and recover of vegetation is preserved.<br/><br/>
+				We built masks to filter out training samples that experienced potential changes from the acquisitions of AGB samples to the time period of satellite observations. The Global Forest Change data were used to remove potential deforestation pixels. The MODIS burned area product (MCD64) was used to remove potential fire pixels. Further layers using vegetation indices (NDVI and QVI) were used to filter out other changes.  This filtering helped to include only training data that represent the landscapes that have not gone through significant change.<br/><br/>
+				For each forest type and main non-forest vegetation type, we built the Light Gradient Boosting Machine (LightGBM) model by assigning equal weights to all 4 sources of training data. The machine learning model for each vegetation type was fine-tuned for hyperparameters using cross-validation.<br/><br/>
+				The predicted values were further corrected using the generic bias correction model and the local-scale histogram matching by taking equal-area-weighted training samples to compare histograms.<br/><br/>
+				Areas showing recent disturbances were processed to have an additional correction using an empirical correction factor derived from Landsat-8 spectral index. Non-vegetated areas were masked to have zero AGB estimates.<br/><br/>
+				<h4>Uncertainty and Accuracy</h4>
+				The uncertainty map in the AGB 2020 product was produced using quantile regression to calculate the lower- and upper-bound of the estimation for each pixel, such that the 2.5-percentile and 97.5-percentile of the AGB estimation were predicted.<br/><br/>
+				The error map was produced by assuming that the error distribution is Gaussian. Therefore 95% of the predictions are approximately ±2SD. SD is reported in the final error map.<br/><br/>
+				We did not take the error of training samples into the error propagation. When uncertainties from samples (due to measurement errors, allometries, geolocation, etc.) are considered, the pixel level uncertainty can be much larger.<br/><br/>
+				The model uncertainty is not considered at pixel level. However, it is necessary to take this into account when calculating regional means and totals (jurisdictional estimates). Random sampling approximations will be applied to approximate the error covariance matrix due to model uncertainty.<br/><br/>
+				<h4>Dataset Sustainment</h4>
+				We will continue to improve the map by incorporating contemporary GEDI and ICESAT-2 data to replace the samples of ICESAT-1.  All GEDI data have been already processed and rasterized using multiple GEDI waveforms (> 3) within 100 m grid cells. The ICESAT-2 will be incorporated from available data on MAAP for only the boreal regions.  The updates of the biomass map will be available within 3-6 months.<br/><br/>
+				The model uncertainty will be provided in an efficient format to have a simple way representing the error matrix.<br/><br/>
+				<img src="img/jpl-biomass-2.jpg" style="width:100%;padding-bottom:20px;display: block;margin-left: auto;margin-right: auto;">
+				</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/jpl-biomass-1.png" style="width:100%;padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: ~100m</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 2020</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Annual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: GeoTIFF</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Creative Commons Attribution 4.0 International (CC-BY-4.0)</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">All datasets will be provided for public use at:<br/><br/><a href="https://carbon.nasa.gov" target="_blank">https://carbon.nasa.gov</a><br/><br/><a href="https://lpdaac.usgs.gov" target="_blank">https://lpdaac.usgs.gov</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Product manual, validation report, and dataset links are not yet available (October 2021), but will be available from:<br/><a href="https://carbon.nasa.gov" target="_blank">https://carbon.nasa.gov</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Sassan Saatchi<br/>
+				Principal Scientist<br/>
+				Jet Propulsion Laboratory<br/>
+				California Institute of Technology<br/>
+				Pasadena, CA USA<br/>
+				Email: saatchi@jpl.nasa.gov</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Liang Xu<br/>
+				Research Scientist<br/>
+				Jet Propulsion Laboratory<br/>
+				California Institute of Technology<br/>
+				Pasadena, CA USA<br/>
+				Email: alan.xu@jpl.nasa.gov</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Yan Yang<br/>
+				Postdoc<br/>
+				Jet Propulsion Laboratory<br/>
+				California Institute of Technology<br/>
+				Pasadena, CA USA<br/>
+				Email: yan.yang@jpl.nasa.gov</p>
+			</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

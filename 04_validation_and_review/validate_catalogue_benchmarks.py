@@ -949,6 +949,47 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         f"portals={portals_ok}(jaxa={len(s30_q)}, deap={len(s31_q)}, nrcan={len(s32_q)}), hygiene={hygiene_ok}(ghsl_cop={len(ghsl_all_q)}, spot_l1={len(spot_q)}, s2_cprob={len(s2cp_q)})",
     ))
 
+    # 26. US GHG Center (33), FAO Geospatial CKAN (34), CNES GEODES (35) & Flagship DataCite additions
+    s33_q = df_all[df_all["source_catalogue"] == "33_us_ghg_center_stac"]
+    s34_q = df_all[df_all["source_catalogue"] == "34_fao_geospatial_catalog_ckan"]
+    s35_q = df_all[df_all["source_catalogue"] == "35_cnes_geodes_stac"]
+    ghg_epa_q = s33_q[s33_q["raw_id"] == "epa-ch4emission-yeargrid-v2express"]
+    ghg_gedi_q = s33_q[s33_q["raw_id"] == "GEDI_ISS_L4B_Aboveground_Biomass_Density_Mean_201904-202303"]
+    ghg_bad_bb_q = int((s33_q["bbox_south"].dropna() > s33_q["bbox_north"].dropna()).sum()) if len(s33_q) else -1
+    fao_glc_q = s34_q[s34_q["title"].fillna("").str.contains("GLC-SHARE", case=False)]
+    fao_socio_q = s34_q[s34_q["title"].fillna("").str.contains(r"\b(?:armed conflict|stunting|poverty|economic means)\b", case=False, regex=True)]
+    geodes_flat_q = s35_q[s35_q["raw_id"] == "FLATSIM_TIMESERIE"]
+    geodes_oso_q = s35_q[s35_q["raw_id"] == "THEIA_OSO_RASTER_L3B"]
+    nceo_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.25392/leicester.data.15060270.v1"]
+    wfdei_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5065/486n-8109"]
+    mirad_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5066/p9na3eo8"]
+    lanid_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.5548555"]
+    xu_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.4161694"]
+    nlcd_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5066/p94uxnts"]
+    mirca_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.7422506"]
+    mircaos_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.4211/hs.60a890eb841c460192c03bb590687145"]
+
+    exp33_35_ok = (
+        len(s33_q) == 37 and bool((s33_q["provider_pool"] == "non_eu").all()) and ghg_bad_bb_q == 0
+        and len(ghg_epa_q) == 1 and ghg_epa_q.iloc[0]["geographic_coverage_class"] == "regional_or_local"
+        and len(ghg_gedi_q) == 1 and ghg_gedi_q.iloc[0]["geographic_coverage_class"] == "hemispheric_or_pantropical"
+        and len(s34_q) >= 840 and bool((s34_q["provider_jurisdiction_tier"] == "un_or_international_body").all())
+        and len(fao_glc_q) == 12 and len(fao_socio_q) == 0
+        and len(s35_q) == 23 and bool((s35_q["provider_pool"] == "eu_non_copernicus").all())
+        and len(geodes_flat_q) == 1 and bool(geodes_flat_q.iloc[0]["uses_sentinel_data"]) and "S1" in str(geodes_flat_q.iloc[0]["sentinel_missions"])
+        and len(geodes_oso_q) == 1 and geodes_oso_q.iloc[0]["geographic_coverage_class"] == "europe_regional"
+        and len(nceo_q) == 1 and nceo_q.iloc[0]["provider_jurisdiction_tier"] == "copernicus_associated_state"
+        and len(wfdei_q) == 1 and wfdei_q.iloc[0]["provider_jurisdiction_tier"] == "copernicus_associated_state"
+        and len(mirad_q) == 1 and len(lanid_q) == 1 and len(xu_q) == 1 and len(nlcd_q) == 1
+        and len(mirca_q) == 1 and mirca_q.iloc[0]["provider_pool"] == "eu_non_copernicus" and mirca_q.iloc[0]["product_ontology_class"] == "eo_constrained_hybrid"
+        and len(mircaos_q) == 1 and mircaos_q.iloc[0]["provider_pool"] == "non_eu" and mircaos_q.iloc[0]["product_ontology_class"] == "eo_constrained_hybrid"
+    )
+    qa.append((
+        "26. US GHG Center (33), FAO Geospatial CKAN (34), CNES GEODES (35) & Flagship DataCite additions",
+        bool(exp33_35_ok),
+        f"ghg={len(s33_q)}(bad_bb={ghg_bad_bb_q}), fao_ckan={len(s34_q)}(glc={len(fao_glc_q)}, socio={len(fao_socio_q)}), geodes={len(s35_q)}, dc8={len(nceo_q)+len(wfdei_q)+len(mirad_q)+len(lanid_q)+len(xu_q)+len(nlcd_q)+len(mirca_q)+len(mircaos_q)}",
+    ))
+
     return qa
 
 

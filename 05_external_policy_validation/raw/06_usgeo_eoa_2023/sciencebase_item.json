@@ -1,0 +1,781 @@
+{
+  "link": {
+    "rel": "self",
+    "url": "https://www.sciencebase.gov/catalog/item/661020a2d34e633466504b6a"
+  },
+  "relatedItems": {
+    "link": {
+      "url": "https://www.sciencebase.gov/catalog/itemLinks?itemId=661020a2d34e633466504b6a",
+      "rel": "related"
+    }
+  },
+  "id": "661020a2d34e633466504b6a",
+  "identifiers": [
+    {
+      "type": "DOI",
+      "scheme": "https://www.sciencebase.gov/vocab/category/item/identifier",
+      "key": "doi:10.5066/P13BNHCN"
+    }
+  ],
+  "title": "Earth Observation Assessment (EOA) 2023 Tableau Dashboard Data",
+  "summary": "The Earth Observation Assessment (EOA) is a Congressionally-directed periodic evaluation of the nation's civil Earth observation portfolio. This portfolio comprises both remote and in-situ sensors, operated by both the public and the private sector. The Earth Observation Assessment measures the effectiveness of the civil Earth observation system in meeting federal government objectives identified as Societal Benefit Areas (SBA). The White House Office of Science and Technology Policy (OSTP) charters the U.S. Group on Earth Observations (USGEO) as a subcommittee of the National Science and Technology Council (NSTC) Committee on Environment. USGEO conducts the Earth Observation Assessment to inform the regularly-updated National Plan [...]",
+  "body": "The Earth Observation Assessment (EOA) is a Congressionally-directed periodic evaluation of the nation's civil Earth observation portfolio. This portfolio comprises both remote and in-situ sensors, operated by both the public and the private sector. The Earth Observation Assessment measures the effectiveness of the civil Earth observation system in meeting federal government objectives identified as Societal Benefit Areas (SBA). The White House Office of Science and Technology Policy (OSTP) charters the U.S. Group on Earth Observations (USGEO) as a subcommittee of the National Science and Technology Council (NSTC) Committee on Environment. USGEO conducts the Earth Observation Assessment to inform the regularly-updated National Plan for Civil Earth Observations, which serves to coordinate the development and support of the Earth observation enterprise across all sectors. This is the data that supports the EOA 2023 Tableau Dashboard on the USGEO website.",
+  "citation": "Rowe, J.M., and Vanderhoof, M.K., 2024, Earth Observation Assessment (EOA) 2023 Tableau Dashboard Data. U.S. Geological Survey data release, https://doi.org/10.5066/P13BNHCN.",
+  "purpose": "This data was collected as part of the 2023 Earth Observation Assessment.",
+  "rights": "This work is marked with Creative Commons Zero v1.0 Universal (https://creativecommons.org/publicdomain/zero/1.0/). ",
+  "provenance": {
+    "dateCreated": "2024-04-05T16:02:42Z",
+    "lastUpdated": "2024-08-19T14:04:30Z"
+  },
+  "maintenanceUpdateFrequency": "Irregular",
+  "hasChildren": false,
+  "parentId": "5474ec49e4b04d7459a7eab2",
+  "contacts": [
+    {
+      "name": "Jordan Rowe",
+      "type": "Point of Contact",
+      "contactType": "person",
+      "email": "jmrowe@contractor.usgs.gov",
+      "jobTitle": "Contractor",
+      "organization": {
+        "displayText": "USGS"
+      },
+      "primaryLocation": {
+        "officePhone": "7033788672x3426",
+        "streetAddress": {},
+        "mailAddress": {
+          "line1": "15020 Conference Center Dr Suite 100",
+          "city": "Chantilly",
+          "state": "VA",
+          "zip": "20151"
+        }
+      }
+    },
+    {
+      "name": "Jordan M. Rowe",
+      "type": "Originator",
+      "contactType": "person",
+      "organization": {},
+      "primaryLocation": {
+        "streetAddress": {},
+        "mailAddress": {}
+      }
+    },
+    {
+      "name": "Melanie K Vanderhoof",
+      "type": "Originator",
+      "contactType": "person",
+      "organization": {},
+      "primaryLocation": {
+        "streetAddress": {},
+        "mailAddress": {}
+      }
+    },
+    {
+      "name": "Jordan Rowe",
+      "type": "Metadata Contact",
+      "contactType": "person",
+      "email": "jmrowe@contractor.usgs.gov",
+      "organization": {},
+      "primaryLocation": {
+        "officePhone": "7033788672x3426",
+        "streetAddress": {},
+        "mailAddress": {
+          "line1": "15020 Conference Center Dr Suite 100",
+          "city": "Chantilly",
+          "state": "Virginia",
+          "zip": "20151"
+        }
+      }
+    },
+    {
+      "name": "U.S. Geological Survey",
+      "type": "Publisher",
+      "contactType": "organization",
+      "email": "sciencebase@usgs.gov",
+      "organization": {},
+      "primaryLocation": {
+        "officePhone": "1-888-275-8747",
+        "streetAddress": {},
+        "mailAddress": {
+          "line1": "Denver Federal Center, Building 810, Mail Stop 302",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80225",
+          "country": "United States"
+        }
+      }
+    },
+    {
+      "name": "U.S. Geological Survey - ScienceBase",
+      "oldPartyId": 70157,
+      "type": "Distributor",
+      "contactType": "organization",
+      "onlineResource": "https://www.sciencebase.gov",
+      "email": "sciencebase@usgs.gov",
+      "organization": {},
+      "primaryLocation": {
+        "name": "U.S. Geological Survey - ScienceBase - Location",
+        "officePhone": "18882758747",
+        "streetAddress": {},
+        "mailAddress": {
+          "line1": "Denver Federal Center",
+          "line2": "Building 810",
+          "mailStopCode": "302",
+          "city": "Denver",
+          "state": "CO",
+          "zip": "80225",
+          "country": "United States"
+        }
+      }
+    },
+    {
+      "name": "Geosciences and Environmental Change Science Center",
+      "oldPartyId": 17387,
+      "type": "SDC Data Owner",
+      "contactType": "organization",
+      "active": true,
+      "organization": {},
+      "primaryLocation": {
+        "name": "Denver Federal Center - DFC Bldg 25 [KAE]",
+        "streetAddress": {},
+        "mailAddress": {}
+      }
+    },
+    {
+      "name": "Core Science Systems",
+      "type": "USGS Mission Area",
+      "contactType": "organization",
+      "organization": {
+        "directoryId": "64221",
+        "displayText": "Core Science Systems"
+      },
+      "primaryLocation": {
+        "streetAddress": {},
+        "mailAddress": {}
+      }
+    }
+  ],
+  "browseCategories": [
+    "Data"
+  ],
+  "browseTypes": [
+    "Map Service",
+    "OGC WMS Service",
+    "OGC WFS Layer",
+    "OGC WMS Layer"
+  ],
+  "systemTypes": [
+    "Data Release"
+  ],
+  "tags": [
+    {
+      "type": "Harvest Set",
+      "name": "USGS Science Data Catalog (SDC)"
+    },
+    {
+      "type": "Theme",
+      "scheme": "None",
+      "name": "Earth Observation Assessment (EOA)"
+    },
+    {
+      "type": "USGS Scientific Topic Keyword",
+      "name": "Forestry"
+    },
+    {
+      "type": "USGS Scientific Topic Keyword",
+      "name": "Land Use Change"
+    },
+    {
+      "type": "USGS Scientific Topic Keyword",
+      "name": "Remote Sensing"
+    }
+  ],
+  "dates": [
+    {
+      "type": "Publication",
+      "dateString": "2024-08-19",
+      "label": "Publication Date"
+    },
+    {
+      "type": "Start",
+      "dateString": "2023-01-01",
+      "label": ""
+    },
+    {
+      "type": "End",
+      "dateString": "2023-12-31",
+      "label": ""
+    }
+  ],
+  "spatial": {
+    "representationalPoint": [
+      -96.2100219726561,
+      37.10643633917365
+    ],
+    "representationalPointIsDerived": true,
+    "boundingBox": {
+      "minX": -126.180725097656,
+      "maxX": -66.2393188476562,
+      "minY": 24.6707302587261,
+      "maxY": 49.5421424196212
+    }
+  },
+  "extents": [
+    3501082
+  ],
+  "files": [
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA_2023_Agriculture_&_Forestry_Data_Dictionary.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__a0/5f/b5/a05fb5af6ad9a087db081b2e3fffcc38a6e78a35",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 8248,
+      "dateUploaded": "2024-08-16T19:27:21Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "16623a3714c7755dace071e0cacaadc3",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a0%2F5f%2Fb5%2Fa05fb5af6ad9a087db081b2e3fffcc38a6e78a35",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a0%2F5f%2Fb5%2Fa05fb5af6ad9a087db081b2e3fffcc38a6e78a35",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a0%2F5f%2Fb5%2Fa05fb5af6ad9a087db081b2e3fffcc38a6e78a35&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA_2023_Climate_Data_Dictionary.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__5a/f4/f3/5af4f3f6643e105fa70dcf762bc200e8af537880",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 8186,
+      "dateUploaded": "2024-08-16T19:27:22Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "02346cb14fc2e4ed607fca12c18407fc",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5a%2Ff4%2Ff3%2F5af4f3f6643e105fa70dcf762bc200e8af537880",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5a%2Ff4%2Ff3%2F5af4f3f6643e105fa70dcf762bc200e8af537880",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5a%2Ff4%2Ff3%2F5af4f3f6643e105fa70dcf762bc200e8af537880&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_DataSources_AF.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__4f/90/04/4f9004ad91bb16d2d410eea5d301c1034a7c0239",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 215574,
+      "dateUploaded": "2024-08-16T19:27:22Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "e7c8e9f4a64766e1b6fe3c954d89f44a",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__4f%2F90%2F04%2F4f9004ad91bb16d2d410eea5d301c1034a7c0239",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__4f%2F90%2F04%2F4f9004ad91bb16d2d410eea5d301c1034a7c0239",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__4f%2F90%2F04%2F4f9004ad91bb16d2d410eea5d301c1034a7c0239&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_DataSources_CL.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__7b/ab/6f/7bab6f9bc0280205c5e5889f392ac2591221bb6b",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 353590,
+      "dateUploaded": "2024-08-16T19:27:22Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "c8e6ed4e8e6b528cbad6716a2827d5ef",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__7b%2Fab%2F6f%2F7bab6f9bc0280205c5e5889f392ac2591221bb6b",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__7b%2Fab%2F6f%2F7bab6f9bc0280205c5e5889f392ac2591221bb6b",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__7b%2Fab%2F6f%2F7bab6f9bc0280205c5e5889f392ac2591221bb6b&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_KPSO_Counts_AF.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__db/7f/e0/db7fe0b4508dde0b591349e87c51b87ccfbb6507",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 24088,
+      "dateUploaded": "2024-08-16T19:27:22Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "0e1c2350c66d536fddcab4a4ac5ae3fc",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__db%2F7f%2Fe0%2Fdb7fe0b4508dde0b591349e87c51b87ccfbb6507",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__db%2F7f%2Fe0%2Fdb7fe0b4508dde0b591349e87c51b87ccfbb6507",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__db%2F7f%2Fe0%2Fdb7fe0b4508dde0b591349e87c51b87ccfbb6507&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_KPSO_Counts_CL.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__5f/01/3b/5f013b8a531737c003098ff039cb8840430b861c",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 42506,
+      "dateUploaded": "2024-08-16T19:27:21Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "9f4cfee860baf6fabd0fae341bbb6162",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5f%2F01%2F3b%2F5f013b8a531737c003098ff039cb8840430b861c",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5f%2F01%2F3b%2F5f013b8a531737c003098ff039cb8840430b861c",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5f%2F01%2F3b%2F5f013b8a531737c003098ff039cb8840430b861c&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_SP_AF.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__3e/e1/da/3ee1da59e0bdbaa6d594b6092a43b1ac5e23f511",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 1456912,
+      "dateUploaded": "2024-08-16T19:27:22Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "22a6469d2c41af6d13ce15ef158ababf",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__3e%2Fe1%2Fda%2F3ee1da59e0bdbaa6d594b6092a43b1ac5e23f511",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__3e%2Fe1%2Fda%2F3ee1da59e0bdbaa6d594b6092a43b1ac5e23f511",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__3e%2Fe1%2Fda%2F3ee1da59e0bdbaa6d594b6092a43b1ac5e23f511&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_SP_CL.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__a6/f2/61/a6f2613ba29eeffca30c6ebf281c3011427f1383",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 2312010,
+      "dateUploaded": "2024-08-16T19:27:23Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "1e5e4a3a3af617bf70d1787d9fa2ee83",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a6%2Ff2%2F61%2Fa6f2613ba29eeffca30c6ebf281c3011427f1383",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a6%2Ff2%2F61%2Fa6f2613ba29eeffca30c6ebf281c3011427f1383",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a6%2Ff2%2F61%2Fa6f2613ba29eeffca30c6ebf281c3011427f1383&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_VT_AF.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__52/01/9f/52019fbf073081394ae4c9a22450a1aac11632a2",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 60652,
+      "dateUploaded": "2024-08-16T19:27:21Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "54e8ef05dae022474c54a310330eb786",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__52%2F01%2F9f%2F52019fbf073081394ae4c9a22450a1aac11632a2",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__52%2F01%2F9f%2F52019fbf073081394ae4c9a22450a1aac11632a2",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__52%2F01%2F9f%2F52019fbf073081394ae4c9a22450a1aac11632a2&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Data_VT_CL.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__dc/86/75/dc8675501337f5a63ddde6ec99726a6eebd1ae75",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 51392,
+      "dateUploaded": "2024-08-16T19:27:21Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "50f761985e29e63f738a7f18786de0ba",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__dc%2F86%2F75%2Fdc8675501337f5a63ddde6ec99726a6eebd1ae75",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__dc%2F86%2F75%2Fdc8675501337f5a63ddde6ec99726a6eebd1ae75",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__dc%2F86%2F75%2Fdc8675501337f5a63ddde6ec99726a6eebd1ae75&allowOpen=true"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Impact_Data_AF.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__09/12/81/091281336435e28b7541b85fefbd7cc261c0b7c6",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 242727161,
+      "dateUploaded": "2024-08-16T19:28:46Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "bebbf1f62dc26f93c617950ebe78bc68",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__09%2F12%2F81%2F091281336435e28b7541b85fefbd7cc261c0b7c6",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__09%2F12%2F81%2F091281336435e28b7541b85fefbd7cc261c0b7c6"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Impact_Data_CL.csv",
+      "title": "",
+      "contentType": "text/csv",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__a3/50/df/a350dfcc1356a3443aace9addee16fe6ce8ac895",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 632925328,
+      "dateUploaded": "2024-08-16T19:30:58Z",
+      "originalMetadata": false,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "11b93c28537f57e39f8874b94f200575",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a3%2F50%2Fdf%2Fa350dfcc1356a3443aace9addee16fe6ce8ac895",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a3%2F50%2Fdf%2Fa350dfcc1356a3443aace9addee16fe6ce8ac895"
+    },
+    {
+      "cuid": null,
+      "key": null,
+      "bucket": null,
+      "published": false,
+      "node": null,
+      "name": "EOA2023_Tableau_Dashboard_Website_Metadata.xml",
+      "title": "",
+      "contentType": "application/fgdc+xml",
+      "contentEncoding": null,
+      "pathOnDisk": "__disk__6f/d7/ab/6fd7ab0c565e37823a1d7dde33f3133e175b0250",
+      "processed": false,
+      "processToken": null,
+      "imageWidth": null,
+      "imageHeight": null,
+      "size": 42704,
+      "dateUploaded": "2024-08-19T13:53:05Z",
+      "originalMetadata": true,
+      "useForPreview": false,
+      "movedToS3": false,
+      "s3Object": null,
+      "checksum": {
+        "value": "f8d3081795a806727618482515a2aa7c",
+        "type": "MD5"
+      },
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__6f%2Fd7%2Fab%2F6fd7ab0c565e37823a1d7dde33f3133e175b0250",
+      "downloadUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__6f%2Fd7%2Fab%2F6fd7ab0c565e37823a1d7dde33f3133e175b0250",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__6f%2Fd7%2Fab%2F6fd7ab0c565e37823a1d7dde33f3133e175b0250&allowOpen=true",
+      "metadataHtmlViewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__6f%2Fd7%2Fab%2F6fd7ab0c565e37823a1d7dde33f3133e175b0250&transform=1"
+    }
+  ],
+  "distributionLinks": [
+    {
+      "uri": "https://www.sciencebase.gov/catalogMaps/mapping/ows/661020a2d34e633466504b6a?mode=download&request=kml&service=wms&layers=footprint",
+      "title": "KML Service",
+      "type": "kml",
+      "typeLabel": "KML Download",
+      "rel": "alternate",
+      "name": "",
+      "files": ""
+    },
+    {
+      "uri": "https://www.sciencebase.gov/catalogMaps/mapping/ows/661020a2d34e633466504b6a?service=wms&request=getcapabilities&version=1.3.0",
+      "title": "ScienceBase WMS Service",
+      "type": "serviceCapabilitiesUrl",
+      "typeLabel": "OGC Service Capabilities URL",
+      "rel": "alternate",
+      "name": "",
+      "files": ""
+    },
+    {
+      "uri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a",
+      "title": "Download Attached Files",
+      "type": "downloadLink",
+      "typeLabel": "Download Link",
+      "rel": "alternate",
+      "name": "EarthObservatio.zip",
+      "files": [
+        {
+          "name": "EOA_2023_Agriculture_&_Forestry_Data_Dictionary.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 8248,
+          "checksum": {
+            "value": "16623a3714c7755dace071e0cacaadc3",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA_2023_Climate_Data_Dictionary.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 8186,
+          "checksum": {
+            "value": "02346cb14fc2e4ed607fca12c18407fc",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_DataSources_AF.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 215574,
+          "checksum": {
+            "value": "e7c8e9f4a64766e1b6fe3c954d89f44a",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_DataSources_CL.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 353590,
+          "checksum": {
+            "value": "c8e6ed4e8e6b528cbad6716a2827d5ef",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_KPSO_Counts_AF.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 24088,
+          "checksum": {
+            "value": "0e1c2350c66d536fddcab4a4ac5ae3fc",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_KPSO_Counts_CL.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 42506,
+          "checksum": {
+            "value": "9f4cfee860baf6fabd0fae341bbb6162",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_SP_AF.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 1456912,
+          "checksum": {
+            "value": "22a6469d2c41af6d13ce15ef158ababf",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_SP_CL.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 2312010,
+          "checksum": {
+            "value": "1e5e4a3a3af617bf70d1787d9fa2ee83",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_VT_AF.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 60652,
+          "checksum": {
+            "value": "54e8ef05dae022474c54a310330eb786",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Data_VT_CL.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 51392,
+          "checksum": {
+            "value": "50f761985e29e63f738a7f18786de0ba",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Impact_Data_AF.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 242727161,
+          "checksum": {
+            "value": "bebbf1f62dc26f93c617950ebe78bc68",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Impact_Data_CL.csv",
+          "title": "",
+          "contentType": "text/csv",
+          "size": 632925328,
+          "checksum": {
+            "value": "11b93c28537f57e39f8874b94f200575",
+            "type": "MD5"
+          }
+        },
+        {
+          "name": "EOA2023_Tableau_Dashboard_Website_Metadata.xml",
+          "title": "",
+          "contentType": "application/fgdc+xml",
+          "size": 42704,
+          "checksum": {
+            "value": "f8d3081795a806727618482515a2aa7c",
+            "type": "MD5"
+          }
+        }
+      ]
+    }
+  ],
+  "previewImage": {
+    "from": "mapPreview",
+    "original": {
+      "uri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__79%2F36%2F59%2F793659f24d5aac04eac96b1ec64f8329972a3f0b",
+      "viewUri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__79%2F36%2F59%2F793659f24d5aac04eac96b1ec64f8329972a3f0b&width=360&height=240",
+      "viewUrl": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?deprecated=__use__viewUri__instead__&f=__disk__79%2F36%2F59%2F793659f24d5aac04eac96b1ec64f8329972a3f0b&width=360&height=240",
+      "width": 360,
+      "height": 240,
+      "size": 133564
+    },
+    "thumbnail": {
+      "uri": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__79%2F36%2F59%2F793659f24d5aac04eac96b1ec64f8329972a3f0b&width=150&height=100",
+      "width": 150,
+      "height": 100
+    }
+  }
+}

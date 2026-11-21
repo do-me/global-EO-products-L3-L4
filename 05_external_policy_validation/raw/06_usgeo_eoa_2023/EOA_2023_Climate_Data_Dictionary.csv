@@ -1,0 +1,121 @@
+﻿USGEO Earth Observation Assessment 2023 Climate Data,,,,,,
+Data Dictionary,,,,,,
+File Title: EOA2023-Tableau-Dashboard-Data-CL.xlsx,,,,,,
+Table,Data Object,Description,Type,Min,Max,Units
+SP   ,Surveyed Product Unique ID,Unique numeric identifier for the product being surveyed,Text,,,
+SP   ,Surveyed Product Name,Name of the product being surveyed,Text,,,
+SP   ,Surveyed Product PALMA ID,Unique string identifier for the product being surveyed,Text,,,
+SP   ,Surveyed Product Description,Short description of the scope and goals of the product being surveyed,Text,,,
+SP   ,Person ID,Unique identifier for the subject matter expert for the surveyed product,Text,,,
+SP   ,SME Yrs of Experience,Number of years the subject matter expert has been working in the science area,Int,0,,Yrs
+SP   ,Organization Acronym,Acronym of the product’s owning organization,Text,,,
+SP   ,Organization,Name of the product’s owning organization,Text,,,
+SP   ,Surveyed Product Value Tree Connection ID,Unique identifier for the specific surveyed product for a specific branch in the value tree,Text,,,
+SP   ,Value Tree Unique ID,Unique identifier for a specific branch in the value tree,Text,,,
+SP   ,Value Tree Level 1,Short name of the value tree,Text,,,
+SP   ,Value Tree Level 1 Long Name,Descriptive name of the value tree,Text,,,
+SP   ,Value Tree Level 2,Short name of the societal benefit area,Text,,,
+SP   ,Value Tree Level 2 Long Name,Descriptive name of the societal benefit area,Text,,,
+SP   ,Value Tree Level 3,Short name of the sub-area,Text,,,
+SP   ,Value Tree Level 3 Long Name,Descriptive name of the sub-area,Text,,,
+SP   ,Value Tree Level 4,Short name of the key objective,Text,,,
+SP   ,Value Tree Level 4 Long Name,Descriptive name of the key objective,Text,,,
+SP   ,Value Tree Level 5,Short name of the KPSO Group,Text,,,
+SP   ,Value Tree Level 5 Long Name,Descriptive name of the KPSO Group,Text,,,
+SP   ,Value Tree Level 6,Short name of the 6th level of the value tree when appropriate,Text,,,
+SP   ,Value Tree Level 6 Long Name,Descriptive name of the 6th level of the value tree when appropriate,Text,,,
+SP   ,Node Description,Short description of the lowest node in the corresponding value tree branch,Text,,,
+SP   ,Node Weight,Weight of the lowest node in the corresponding value tree branch,Int,0,100,
+SP   ,Value Tree Lowest Level Name,Value tree node name of the lowest node in the corresponding value tree branch,Text,,,
+SP   ,KPSO in SBA,"Yes/No: Yes indicates the Surveyed Product is a KPSO in the SBA, No indicates the Surveyed Product is not a KPSO in the SBA",BOOL,,,
+DataSources,Data Source Unique ID,Unique numeric identifier for a source of data identified in the assessment,Text,,,
+DataSources,Data Source Name,Name of a data source identified in the assessment,Text,,,
+DataSources,Data Source Type,"Type of data source (ex: ObsSys, DB, ODS, SvPrd, SvPrd_p, SvPrd_brk, SvPrd_cmb)",Text,,,
+DataSources,Data Source PALMA ID,Uniquestring name for a data source,Text,,,
+DataSources,Data Source Description,Short description of the data source,Text,,,
+DataSources,Option,"YES/NO; Yes indicates the data source is an option, No indicates the data source is not an option",BOOL,,,
+VT,Value Tree Unique ID,Unique numerical identifier for a specific branch in the value tree,Text,,,
+VT,Value Tree Level 1,Short name of the value tree,Text,,,
+VT,Value Tree Level 1 Long Name,Descriptive name of the value tree,Text,,,
+VT,Value Tree Level 2,Short name of the societal benefit area,Text,,,
+VT,Value Tree Level 2 Long Name,Descriptive name of the societal benefit area,Text,,,
+VT,Value Tree Level 3,Short name of the sub-area,Text,,,
+VT,Value Tree Level 3 Long Name,Descriptive name of the sub-area,Text,,,
+VT,Value Tree Level 4,Short name of the key objective,Text,,,
+VT,Value Tree Level 4 Long Name,Descriptive name of the key objective,Text,,,
+VT,Value Tree Level 5,Short name of the KPSO Group,Text,,,
+VT,Value Tree Level 5 Long Name,Descriptive name of the KPSO Group,Text,,,
+VT,Value Tree Level 6,Short name of the 6th level of the value tree when appropriate,Text,,,
+VT,Value Tree Level 6 Long Name,Descriptive name of the 6th level of the value tree when appropriate,Text,,,
+VT,Node Description,Short description of the lowest node in the corresponding value tree branch,Text,,,
+VT,Node Weight,Weight of the lowest node in the corresponding value tree branch,Int,0,100,
+VT,Value Tree Lowest Level Name,Value tree node name of the lowest node in the corresponding value tree branch,Text,,,
+KPSO-Counts,Data Source PALMA ID,Unique string identifier for an Earth Observation Input,Text,,,
+KPSO-Counts,Count of KPSOs Impacted,Number of KPSOs impacted by the Earth Observation Input by 0.01% or greater,Int,0,,KPSOs
+,,,,,,
+File Title: EOA2023-Tableau-Dashboard-Impact-Data-CL.csv,,,,,,
+Table,Data Object,Description,Type,Min,Max,Units
+EOA2023-Tableau-Dashboard-Impac,Data Source PALMA ID,Unique string identifier for an Earth Observation Input,Text,,,
+EOA2023-Tableau-Dashboard-Impac,Impact Score,Number indicating the impact a data source would have on the performance/satisfaction scale of a surveyed product or value tree node if the data source were removed,Long,0,99,
+EOA2023-Tableau-Dashboard-Impac,Node PALMA ID,Unique string identifier for a surveyed product or value tree node,Text,,,
+EOA2023-Tableau-Dashboard-Impac,Node Level,"Label indicating the level in the value tree the node resides (ex: sub area, key objective, key product, surveyed product)",Text,,,
+EOA2023-Tableau-Dashboard-Impac,Node Name,Unique identifier for a surveyed product or value tree node,Text,,,
+EOA2023-Tableau-Dashboard-Impac,Status Quo Score,Number indicating the current performance on the performance/satisfaction scale  of a surveyed product with all data sources available,Long,0,99,
+EOA2023-Tableau-Dashboard-Impac,Impact Percentage,Number indicating the percent impact an Earth Observation Input has on a node in the value tree. Calculated as: ((Status Quo Score) – (Impact Score))/Status Quo Score ,Long,0,100,%
+EOA2023-Tableau-Dashboard-Impac,Percentile Category,"The percentile category that a data source is in for its ranked impact score on a node in the value tree (ex: 99th Percentile, 95th Percentile, 90th Percentile, 75th Percentile, etc.)",Text,,,
+EOA2023-Tableau-Dashboard-Impac,Node Score Plain Language Category,"The Plain Language Category that a Node’s Status Quo Score falls into.
+100: Ideal
+90 - 100: Fully Satisfied
+80 - 90: Good
+70 - 80: Fair to Good
+60 - 70: Fair
+50 - 60: Poor to Fair
+40 - 50: Poor
+20 - 40: Very Poor 
+0 - 20: No Capability",Text,,,
+EOA2023-Tableau-Dashboard-Impac,Node Score Plain Language Category Number,"Number associated with Node Score Plain Language Category
+Ideal: 8
+Fully Satisfied: 7
+Good: 6
+Fair to Good: 5
+Fair: 4
+Poor to Fair: 3
+Poor: 2
+Very Poor: 1
+No Capability: 0",Int,0,8,
+EOA2023-Tableau-Dashboard-Impac,Node Score Without DS Plain Language Category,"The Plain Language Category that a Node’s Status Quo Score minus the data source’s Impact Score falls into.
+100: Ideal
+90 - 100: Fully Satisfied
+80 - 90: Good
+70 - 80: Fair to Good
+60 - 70: Fair
+50 - 60: Poor to Fair
+40 - 50: Poor
+20 - 40: Very Poor 
+0 - 20: No Capability",Text,,,
+EOA2023-Tableau-Dashboard-Impac,Node Score Without DS Plain Language Category Number,"Number associated with Node Score Without DS Plain Language Category
+Ideal: 8
+Fully Satisfied: 7
+Good: 6
+Fair to Good: 5
+Fair: 4
+Poor to Fair: 3
+Poor: 2
+Very Poor: 1
+No Capability: 0",Int,0,8,
+EOA2023-Tableau-Dashboard-Impac,Impact Percentage Plain Language Category,"The Plain Language Category that a data source’s normalized Impact Percentage falls into
+35% - 100%: Highest
+15% - 35%: Very High
+7% - 15%: High
+1% - 7%: Moderate
+0.02% - 1%: Contributes
+less than 0.02%: Supplemental
+0%: Blank",Text,,,
+EOA2023-Tableau-Dashboard-Impac,Impact Percentage Plain Language Category Number,"Number associated with Impact Percentage Plain Language Category
+Highest: 6
+Very High: 5
+High: 4
+Moderate: 3
+Contributes: 2
+Supplemental: 1
+Blank: 0",Int,0,6,

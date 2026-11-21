@@ -1,7 +1,7 @@
 # `02_preparation` — Deterministic Preprocessing & L3/L4 Filtering
 
 ## Purpose
-This stage processes the 32 raw authoritative metadata dumps in `../01_raw/` into cleaned, structurally flattened per-source tables (`./data/<source_id>.parquet` and `./data/<source_id>.jsonl`) and reference taxonomies (`./reference_taxonomies/`).
+This stage processes the 35 raw authoritative metadata dumps in `../01_raw/` into cleaned, structurally flattened per-source tables (`./data/<source_id>.parquet` and `./data/<source_id>.jsonl`) and reference taxonomies (`./reference_taxonomies/`).
 
 ## Strict Scientific & Reproducibility Rules
 1. **Missing Metadata Kept Null**:
@@ -26,7 +26,7 @@ uv run 02_preparation/prepare_all.py
 ```
 
 ## Outputs
-- `./data/<source_id>.parquet` & `./data/<source_id>.jsonl` — Cleaned L3/L4 records for each of the 31 product sources.
+- `./data/<source_id>.parquet` & `./data/<source_id>.jsonl` — Cleaned L3/L4 records for each of the 34 product sources.
 - `./data/excluded_records_log.parquet` — Complete item-level log of every excluded record and its deterministic `exclusion_reason`.
 - `./exclusion_audit_summary.csv` — Source-by-source accounting of raw records, excluded counts by reason, retained L3/L4 records, and raw field null percentages.
 - `./reference_taxonomies/` — WMO OSCAR Space variables and satellites reference tables.

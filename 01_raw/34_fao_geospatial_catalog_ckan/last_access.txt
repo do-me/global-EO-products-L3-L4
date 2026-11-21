@@ -1,0 +1,21 @@
+source_id: 34_fao_geospatial_catalog_ckan
+source_title: FAO Geospatial & Hand-in-Hand Map Catalog (CKAN / ISO-19115)
+retrieved_at_utc: 2026-11-21T00:20:09Z
+http_status_summary: 200 OK
+total_records_retrieved: 1339
+endpoints_queried:
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:fao-land-cover-land-use (123/123 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:glosis (298/298 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:fao-gaez (193/193 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:fao-giews (21/21 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:fao-eostat (32/32 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:climate-risk-toolbox-crtb (114/114 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:fao-aquastat (389/389 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:fao-food-insecurity-poverty-and-environment-global-gis-database-fggd (108/108 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:drive-global-drought-vulnerability-inventory (30/30 records)
+  - https://data.apps.fao.org/catalog/api/3/action/package_search?fq=organization:national-forest-monitoring-systems-nfms (31/31 records)
+notes: Harvested 1339 records across 10 FAO EO/geospatial CKAN organizations (GLC-SHARE, HWSD v1.2/v2.01/v2.2, GAEZ v4/v5, GSOCmap/GloSIS, GLADA, FAO ASIS, GMIA v5 irrigation, CRTB, FGGD, DRIVE, EOSTAT, NFMS). Non-grid vectors, software packages, and socioeconomic/health indicators are filtered deterministically in 02_preparation.
+files_written:
+  - path: data/fao_geospatial_catalog_ckan.jsonl
+    bytes: 20317142
+    sha256: d0d1dee0b785e2f458eeaf31c422a52b8e198d4d7641466074349311388d0551

@@ -1,0 +1,640 @@
+{
+  "objectIdFieldName": "objectid",
+  "uniqueIdField": {
+    "name": "objectid",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "globalid",
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "fields": [
+    {
+      "name": "objectid",
+      "type": "esriFieldTypeOID",
+      "alias": "ObjectID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "globalid",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "CreationDate",
+      "type": "esriFieldTypeDate",
+      "alias": "CreationDate",
+      "sqlType": "sqlTypeOther",
+      "length": 8,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Creator",
+      "type": "esriFieldTypeString",
+      "alias": "Creator",
+      "sqlType": "sqlTypeOther",
+      "length": 128,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "EditDate",
+      "type": "esriFieldTypeDate",
+      "alias": "EditDate",
+      "sqlType": "sqlTypeOther",
+      "length": 8,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Editor",
+      "type": "esriFieldTypeString",
+      "alias": "Editor",
+      "sqlType": "sqlTypeOther",
+      "length": 128,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "tool_name",
+      "type": "esriFieldTypeString",
+      "alias": "Tool Name",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "keywords",
+      "type": "esriFieldTypeString",
+      "alias": "Keywords",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_keywords",
+        "codedValues": [
+          {
+            "name": "Settlements",
+            "code": "Settlements"
+          },
+          {
+            "name": "Population",
+            "code": "Population"
+          },
+          {
+            "name": "Built-Up/Impervious Surface",
+            "code": "Built-Up/Impervious Surface"
+          },
+          {
+            "name": "COVID-19",
+            "code": "COVID-19"
+          },
+          {
+            "name": "11.3.1 ",
+            "code": "11.3.1_"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "short_description",
+      "type": "esriFieldTypeString",
+      "alias": "Short description",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "relevant_indicators",
+      "type": "esriFieldTypeString",
+      "alias": "Relevant Indicators",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "code",
+      "type": "esriFieldTypeString",
+      "alias": "Code",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_code",
+        "codedValues": [
+          {
+            "name": "Executable",
+            "code": "Executable"
+          },
+          {
+            "name": "Python",
+            "code": "Python"
+          },
+          {
+            "name": "Online (browser)",
+            "code": "Online (browser)"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "data_source",
+      "type": "esriFieldTypeString",
+      "alias": "Data source",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_data_source",
+        "codedValues": [
+          {
+            "name": "Multiple",
+            "code": "Multiple"
+          },
+          {
+            "name": "Landsat",
+            "code": "Landsat"
+          },
+          {
+            "name": "ERS-1",
+            "code": "ERS-1"
+          },
+          {
+            "name": "SRTM",
+            "code": "SRTM"
+          },
+          {
+            "name": "MODIS",
+            "code": "MODIS"
+          },
+          {
+            "name": "Sentinel",
+            "code": "Sentinel"
+          },
+          {
+            "name": "VIIRS",
+            "code": "VIIRS"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "documentation",
+      "type": "esriFieldTypeString",
+      "alias": "Documentation",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "download",
+      "type": "esriFieldTypeString",
+      "alias": "Download",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "license_agreement",
+      "type": "esriFieldTypeString",
+      "alias": "License Agreement",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "webinar",
+      "type": "esriFieldTypeString",
+      "alias": "Webinar",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "user_guide",
+      "type": "esriFieldTypeString",
+      "alias": "User Guide",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "data_source_mr",
+      "type": "esriFieldTypeString",
+      "alias": "Data source (MR)",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "keywordsmr",
+      "type": "esriFieldTypeString",
+      "alias": "Keywords(MR)",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "objectid": 1,
+        "globalid": "8403ab22-2997-4457-82ca-6fde64af681f",
+        "CreationDate": 1673946416422,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675775916325,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Massive Spatial Automatic Data Analytics",
+        "keywords": "Settlements",
+        "short_description": "MASADA is a tool for the detection of built-up areas from remote sensing data.",
+        "relevant_indicators": "11.1.1,11.3.1,11.7.1",
+        "code": "Executable",
+        "data_source": "Multiple",
+        "documentation": null,
+        "download": "https://ghsl.jrc.ec.europa.eu/tools.php",
+        "license_agreement": "https://ghsl.jrc.ec.europa.eu/documents/GHSL_suite_EULA.pdf?0.4411749727450063",
+        "webinar": null,
+        "user_guide": "https://ghsl.jrc.ec.europa.eu/documents/MASADA_User_Guide_1.3.pdf?0.9133395271499354",
+        "data_source_mr": "Multiple",
+        "keywordsmr": "Settlements"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 2,
+        "globalid": "3a1c0f78-12f9-4fa1-88b8-66e07147f076",
+        "CreationDate": 1673946503119,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691573859322,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Population to Grid Tool",
+        "keywords": "Population",
+        "short_description": "The POP2G tool produces geospatial population grids in GeoTIFF format from census data.",
+        "relevant_indicators": "11.1.1,11.3.1",
+        "code": "Executable",
+        "data_source": null,
+        "documentation": "https://ghsl.jrc.ec.europa.eu/documents/POP2G_1_0_User_Guide.pdf?0.7678222008542672",
+        "download": "https://ghsl.jrc.ec.europa.eu/degurba.php",
+        "license_agreement": "https://ghsl.jrc.ec.europa.eu/documents/GHSL_suite_EULA.pdf?0.7749245770020816",
+        "webinar": null,
+        "user_guide": "https://ghsl.jrc.ec.europa.eu/documents/GHS-POP2G_2_User_Guide.pdf?0.5050568793527561",
+        "data_source_mr": null,
+        "keywordsmr": "Population"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 3,
+        "globalid": "9e835e9b-f08b-48bf-8262-09d8a5909dae",
+        "CreationDate": 1673946606832,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691573791355,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Land Use Efficiency Calculator",
+        "keywords": "Settlements",
+        "short_description": "Estimation of indicator 11.3.1 on land use efficiency using population and built-up area grids",
+        "relevant_indicators": "11.3.1",
+        "code": "Python",
+        "data_source": null,
+        "documentation": "https://ghsl.jrc.ec.europa.eu/documents/LUE_User_Guide.pdf?0.7046611217374041 (User Guide)",
+        "download": "https://ghsl.jrc.ec.europa.eu/degurba.php",
+        "license_agreement": "https://ghsl.jrc.ec.europa.eu/documents/GHSL_suite_EULA.pdf?0.5441912178505568",
+        "webinar": null,
+        "user_guide": "https://ghsl.jrc.ec.europa.eu/documents/LUE_User_Guide.pdf?0.6078960163833889",
+        "data_source_mr": null,
+        "keywordsmr": "Built-Up/Impervious Surface,Population"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 4,
+        "globalid": "e0149da4-fe99-4adc-86e2-3c501015dbb0",
+        "CreationDate": 1673946694634,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691573874185,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Degree of Urbanisation Grid",
+        "keywords": "Settlements",
+        "short_description": "Classification of settlements based on the Degree of Urbanisation for the delineation of cities, urban, and rural areas",
+        "relevant_indicators": "11.1.1,11.2.1,11.3.1,11.6.2,11.7.1",
+        "code": "Executable",
+        "data_source": null,
+        "documentation": "https://ghsl.jrc.ec.europa.eu/documents/DUG_3_1_User_Guide.pdf?0.1428499250512405",
+        "download": "https://ghsl.jrc.ec.europa.eu/degurba.php",
+        "license_agreement": "https://ghsl.jrc.ec.europa.eu/documents/GHSL_suite_EULA.pdf?0.661825684442426",
+        "webinar": null,
+        "user_guide": "https://ghsl.jrc.ec.europa.eu/documents/GHS-DUG_4_User_Guide.pdf?0.35154289034794317",
+        "data_source_mr": null,
+        "keywordsmr": "Built-Up/Impervious Surface,Settlements,Population"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 5,
+        "globalid": "c7442db0-d253-49b2-8f6a-8774c5028970",
+        "CreationDate": 1673946778417,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675776046957,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Global Man-made Impervious Surface (GMIS) and Human Built-up and Settlement Extent Data (HBASE) Visualization and Access Tool ",
+        "keywords": "Built-Up/Impervious Surface",
+        "short_description": "Estimates of impervious surface and urban extent for 2010 based on 30 m Landsat data",
+        "relevant_indicators": "11.3.1,11.7.1",
+        "code": "Online (browser)",
+        "data_source": "Landsat",
+        "documentation": "https://sedac.ciesin.columbia.edu/maps/tools",
+        "download": "https://sedac.ciesin.columbia.edu/mapping/gmis-hbase/explore-view/",
+        "license_agreement": null,
+        "webinar": "https://www.youtube.com/watch?v=C2czdpgrrNQ",
+        "user_guide": null,
+        "data_source_mr": "Landsat",
+        "keywordsmr": "Built-Up/Impervious Surface"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 6,
+        "globalid": "9d2be98f-86c0-42a2-8b29-6f01f8f945ca",
+        "CreationDate": 1673946858016,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675775997468,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "POPGRID Viewer",
+        "keywords": "Population",
+        "short_description": "Enables direct comparison of different population datasets for user-defined areas of interest",
+        "relevant_indicators": "11.1.1,11.2.1,11.3.1,11.6.2,11.7.1",
+        "code": "Online (browser)",
+        "data_source": "Multiple",
+        "documentation": "https://sedac.ciesin.columbia.edu/maps/tools   https://www.popgrid.org/",
+        "download": "https://sedac.ciesin.columbia.edu/mapping/popgrid/",
+        "license_agreement": null,
+        "webinar": "\"https://earthdata.adobeconnect.com/pufxv5ee6m3j/  https://www.youtube.com/watch?v=AsE_qXfRDF0&feature=youtu.be (same POPGRID video) \"",
+        "user_guide": null,
+        "data_source_mr": "Multiple",
+        "keywordsmr": "Population"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 7,
+        "globalid": "8ecee5fc-d691-4f68-8437-69f8378c8c8a",
+        "CreationDate": 1673946929724,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675776088385,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Global COVID-19 Viewer: Population Estimates by Age Group and Sex",
+        "keywords": "COVID-19",
+        "short_description": "Permits visualization of the magnitude of potential COVID-19 impacts on populations of different sizes, age structures, and levels of urbanization",
+        "relevant_indicators": null,
+        "code": "Online (browser)",
+        "data_source": "Multiple",
+        "documentation": "https://sedac.ciesin.columbia.edu/maps/tools ",
+        "download": "https://sedac.ciesin.columbia.edu/mapping/popest/covid-19/",
+        "license_agreement": null,
+        "webinar": "https://earthdata.adobeconnect.com/pda3kj3ec7as/",
+        "user_guide": null,
+        "data_source_mr": "ERS-1,SRTM,MODIS,Landsat,Sentinel",
+        "keywordsmr": "COVID-19"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 8,
+        "globalid": "bca2f357-f61a-4ff8-83d3-689234cbe982",
+        "CreationDate": 1673947039998,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691573526131,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Trends.Earth",
+        "keywords": "Built-Up/Impervious Surface",
+        "short_description": "Contains a 30 m global time series of impervious surface index which allows the user to determine urban expansion between 2000, 2005, 2010, and 2015 (and every five years after). ",
+        "relevant_indicators": "11.3.1",
+        "code": "Executable",
+        "data_source": "Landsat",
+        "documentation": "http://trends.earth/docs/en/background/understanding_indicators11.html",
+        "download": "http://docs.trends.earth/en/latest/",
+        "license_agreement": null,
+        "webinar": "https://appliedsciences.nasa.gov/join-mission/training/advanced-webinar-remote-sensing-monitoring-land-degradation-and-sustainable",
+        "user_guide": null,
+        "data_source_mr": "Landsat",
+        "keywordsmr": "Built-Up/Impervious Surface"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 9,
+        "globalid": "a081241f-8292-4dd1-8df7-f39f79eb402d",
+        "CreationDate": 1673947112660,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675776061780,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Urban Thematic Exploitation Platform",
+        "keywords": "Built-Up/Impervious Surface",
+        "short_description": "Collaborative online infrastructure for multi-source data processing and data analytics in urban applications",
+        "relevant_indicators": "11.1.1,11.2.1,11.3.1,11.6.2,11.7.1",
+        "code": "Executable",
+        "data_source": "Multiple",
+        "documentation": "https://urban-tep.eu",
+        "download": "https://urban-tep.eu",
+        "license_agreement": null,
+        "webinar": null,
+        "user_guide": null,
+        "data_source_mr": "Sentinel,Landsat,VIIRS",
+        "keywordsmr": "Built-Up/Impervious Surface"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 10,
+        "globalid": "9f56b1c1-9771-407b-8543-b0da3503378e",
+        "CreationDate": 1673947310297,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1689674848225,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "SDG Indicator 11.3.1 Calculation App",
+        "keywords": "11.3.1_",
+        "short_description": "A Google Earth Engine App that can automatically generate city definition and calculate SDG 11.3.1 primary and secondary indicators.",
+        "relevant_indicators": "11.3.1",
+        "code": "Executable",
+        "data_source": null,
+        "documentation": "https://drive.google.com/uc?export=download&id=1j1sKK796zsLKNCbdiAum7n5BLYJ9Lrqu",
+        "download": "https://eo4sdg11.users.earthengine.app/view/sdg-1131-indicator",
+        "license_agreement": null,
+        "webinar": null,
+        "user_guide": null,
+        "data_source_mr": null,
+        "keywordsmr": "Built-Up/Impervious Surface,Settlements,Population,COVID-19"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 11,
+        "globalid": "2bf54111-3615-4d33-8105-5819abe4f119",
+        "CreationDate": 1673947439838,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675776068590,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Open Data Cube SDG 11.3.1 Algorithms",
+        "keywords": "Built-Up/Impervious Surface",
+        "short_description": "An Open Data Cube Python application that calculates urban extent and change to address SDG indicator 11.3.1, Sustainable Urbanization. ",
+        "relevant_indicators": "11.3.1",
+        "code": "Python",
+        "data_source": "Landsat",
+        "documentation": null,
+        "download": "https://github.com/ceos-seo/data_cube_notebooks/blob/master/notebooks/UN_SDG/UN_SDG_11_3_1.ipynb",
+        "license_agreement": null,
+        "webinar": null,
+        "user_guide": null,
+        "data_source_mr": "Landsat",
+        "keywordsmr": "Built-Up/Impervious Surface"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 12,
+        "globalid": "edce6c05-6084-4e03-893f-6708b5a307b8",
+        "CreationDate": 1673947554283,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675776010228,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Population warping tool",
+        "keywords": "Population",
+        "short_description": "The Population Warping tool (GHS-POPWARP) is a tool to handle total volume preserving warping process essential in population grids reprojection.",
+        "relevant_indicators": "11.1.1,11.2.1,11.3.1,11.6.2,11.7.1",
+        "code": "Executable",
+        "data_source": null,
+        "documentation": "https://ghsl.jrc.ec.europa.eu/documents/GHS-POPWARP_User_Guide.pdf?0.5450094814370912",
+        "download": "https://ghsl.jrc.ec.europa.eu/tools.php",
+        "license_agreement": "https://ghsl.jrc.ec.europa.eu/documents/GHSL_suite_EULA.pdf?0.9224743104660695",
+        "webinar": null,
+        "user_guide": null,
+        "data_source_mr": null,
+        "keywordsmr": "Population"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 13,
+        "globalid": "6714bd86-b368-48d5-8f8c-ad5af9e85bec",
+        "CreationDate": 1673947695891,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1675776018349,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "Dasy (Experimental QGIS Plugin)",
+        "keywords": "Population",
+        "short_description": "EO-based method for generating POP density grid map (reproducible for European cities)",
+        "relevant_indicators": "11.1.1,11.2.1,11.3.1,11.6.2,11.7.1",
+        "code": "Executable",
+        "data_source": "Multiple",
+        "documentation": "https://doi.org/10.3390/rs13142835",
+        "download": "https://plugins.qgis.org/plugins/dasy/",
+        "license_agreement": "Free software (CCO)",
+        "webinar": null,
+        "user_guide": null,
+        "data_source_mr": "Multiple",
+        "keywordsmr": "Population"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 14,
+        "globalid": "53809579-33e9-49ab-8289-53a56f7b25dc",
+        "CreationDate": 1689673905669,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1689673905669,
+        "Editor": "dennnis.mwaniki@un.org",
+        "tool_name": "City Definition Generator for SDG11",
+        "keywords": "Settlements",
+        "short_description": "This tool can automatically or interactively generate spatial definition of a city extent, i.e, city definitions based on the Degree of Urbanization adopted by the UN.  It works worldwide and users can search for any city in “Search places”, then drawing an area of interest. City definitions can be generated using a variety of input datasets and years.",
+        "relevant_indicators": "11.2.1,11.3.1,11.7.1",
+        "code": "Online (browser)",
+        "data_source": "Multiple",
+        "documentation": "https://drive.google.com/uc?export=download&id=1j1sKK796zsLKNCbdiAum7n5BLYJ9Lrqu",
+        "download": "https://eo4sdg11.users.earthengine.app/view/city-definition",
+        "license_agreement": null,
+        "webinar": null,
+        "user_guide": "https://drive.google.com/uc?export=download&id=1j1sKK796zsLKNCbdiAum7n5BLYJ9Lrqu",
+        "data_source_mr": "Multiple",
+        "keywordsmr": "Settlement"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ]
+}

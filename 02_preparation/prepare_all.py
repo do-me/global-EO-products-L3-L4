@@ -481,7 +481,9 @@ SWATH_L1_L2_ID_PATTERNS = re.compile(
     r"^MODIS/(?:006|061)/M[OY]D09G[AQ]$|^NOAA/VIIRS/.*/VNP09GA$|"
     r"^DEAFRICA:(?:ls[5789]_(?:sr|st)|landsat_c2l2_ar|s1_rtc|s2_l2a(?:_c1)?|s3_(?:ol|olci|slstr)_(?:2|l2)_.*|"
     r"s5p_tropomi_l2_.*|maxar_morocco_earthquake.*|fc_ls|wofs_ls)$|"
-    r"^DEPACIFIC:dep_ls_(?:fc|wofl)$)",
+    r"^DEPACIFIC:dep_ls_(?:fc|wofl)$|"
+    r"^(?:SWH_SPOT|PEPS_S[13]_L[12]|THEIA_S1TILING_SENTINEL1_L1|FLATSIM_(?:AUXILIARYDATA|INTERFEROGRAM))|"
+    r"^THEIA_.*_L(?:1[ABC]?|2[AB])$)",
     re.IGNORECASE,
 )
 
@@ -2300,6 +2302,31 @@ def parse_26_fao_zenodo() -> list[dict[str, Any]]:
                 host_dc = "Theia / SEDOO (DataCite)"
                 plat_dc = "ASTER; CryoSat-2; ICESat-2; Envisat" if any(k in (title_dc or "").lower() for k in ("glacier", "sea-ice", "sea ice", "snow depth")) else None
                 kw_dc = clean_str(subjects) or clean_str(title_dc)
+            elif doi_low.startswith("10.25392/"):
+                org_dc = "National Centre for Earth Observation (NCEO) / University of Leicester"
+                host_dc = f"{publisher_dc} (DataCite)" if publisher_dc else "University of Leicester Figshare (DataCite)"
+                plat_dc = "ALOS-2 PALSAR-2; Sentinel-1; ICESat-2"
+                kw_dc = clean_str(subjects) or "NCEO; Africa; aboveground woody biomass; radar; LiDAR"
+            elif doi_low == "10.5065/486n-8109":
+                org_dc = "UK Met Office / EU-WATCH (Weedon et al.)"
+                host_dc = "NSF NCAR Research Data Archive (RDA)"
+                plat_dc = "ERA-Interim; CRU; GPCC"
+                kw_dc = clean_str(subjects) or "WFDEI; WATCH Forcing Data; ERA-Interim; meteorological forcing"
+            elif doi_low.startswith("10.5066/"):
+                org_dc = "U.S. Geological Survey (USGS / EROS)"
+                host_dc = "USGS ScienceBase (DataCite)"
+                plat_dc = "MODIS" if "mirad" in (title_dc or "").lower() or "modis" in (title_dc or "").lower() else ("Landsat" if "nlcd" in (title_dc or "").lower() else None)
+                kw_dc = clean_str(subjects) or clean_str(title_dc)
+            elif doi_low == "10.5281/zenodo.7422506":
+                org_dc = "Goethe University Frankfurt / University of Bonn (Portmann, Siebert & Döll)"
+                host_dc = "Zenodo (DataCite)"
+                plat_dc = None
+                kw_dc = clean_str(subjects) or "MIRCA2000; global; irrigated; rainfed; harvested crop areas; monthly"
+            elif doi_low == "10.4211/hs.60a890eb841c460192c03bb590687145":
+                org_dc = "University of Delaware / University of Göttingen (Kebede, Oluoch & Siebert)"
+                host_dc = "CUAHSI HydroShare (DataCite)"
+                plat_dc = None
+                kw_dc = clean_str(subjects) or "MIRCA-OS; global; irrigated; rainfed; cropped areas; monthly"
             else:
                 org_dc = clean_str(creators[:3]) or publisher_dc or "Scientific EO Benchmark Consortium"
                 host_dc = f"{publisher_dc} (DataCite)" if publisher_dc else "DataCite Scientific Repository"
@@ -2765,6 +2792,417 @@ def parse_32_nrcan_ccmeo_stac() -> tuple[list[dict[str, Any]], int]:
     return parsed, excluded_non_eo
 
 
+# Verified dataset-DOI prefixes for U.S. GHG Center STAC descriptions/links (excludes journal article DOIs)
+_US_GHG_DATASET_DOI_PREFIXES = (
+    "10.48588/",
+    "10.25925/",
+    "10.5281/zenodo.",
+    "10.18434/",
+    "10.17595/",
+    "10.5067/",
+    "10.3334/ornldaac/",
+    "10.7927/",
+)
+
+_US_GHG_PRODUCER_BY_PREFIX: list[tuple[str, str]] = [
+    ("odiac-", "National Institute for Environmental Studies (NIES, Japan)"),
+    ("ct-ch4-", "NOAA Global Monitoring Laboratory (GML)"),
+    ("oco2-mip-", "NOAA Global Monitoring Laboratory / NASA OCO-2 MIP"),
+    ("epa-ch4", "U.S. Environmental Protection Agency (EPA)"),
+    ("gra2pes-", "NOAA Chemical Sciences Laboratory / NIST"),
+    ("vulcan-", "Northern Arizona University / North American Carbon Program"),
+    ("sedac-", "CIESIN (Columbia University) / NASA SEDAC"),
+    ("eccodarwin-", "NASA Jet Propulsion Laboratory (JPL) / MIT"),
+    ("emit-", "NASA Jet Propulsion Laboratory (JPL)"),
+    ("gosat-", "NASA Jet Propulsion Laboratory (JPL) / CMS-Flux"),
+    ("goes-", "NASA / NOAA"),
+    ("geos-", "NASA Goddard Space Flight Center (GMAO)"),
+    ("oco2geos-", "NASA Goddard Space Flight Center (GMAO)"),
+    ("oco3-", "NASA Jet Propulsion Laboratory (JPL)"),
+    ("lpjeosim-", "NASA Goddard Space Flight Center (GSFC)"),
+    ("lpjwsl-", "NASA Goddard Space Flight Center (GSFC) / WSL"),
+    ("micasa-", "NASA Goddard Space Flight Center (GSFC)"),
+    ("casagfed-", "NASA / Oak Ridge National Laboratory (ORNL DAAC)"),
+    ("blueflux-", "NASA / Oak Ridge National Laboratory (ORNL DAAC)"),
+    ("cms-mangrove-", "NASA Carbon Monitoring System / ORNL DAAC"),
+    ("tm54dvar-", "NOAA Global Monitoring Laboratory / NASA CMS"),
+    ("omi_", "NASA Goddard Space Flight Center (GSFC)"),
+    ("viirs_", "NASA Goddard Space Flight Center (Black Marble / GES DISC)"),
+    ("gedi_", "NASA / University of Maryland / ORNL DAAC"),
+]
+
+
+def parse_33_us_ghg_center_stac() -> list[dict[str, Any]]:
+    """
+    Parse U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA) STAC collections (`33_us_ghg_center_stac`).
+    Normalizes known upstream bounding-box defects (inverted CONUS latitudes on GRA2PES/Vulcan,
+    half-cell overhangs on GEOS/GOSAT, swapped lat/lon on GEDI, placeholder global box on U.S.-only EPA CH4),
+    extracts native `dashboard:time_density`, and separates verified dataset DOIs from journal DOIs.
+    """
+    p = RAW_DIR / "33_us_ghg_center_stac/data/us_ghg_center_stac.json"
+    if not p.exists():
+        return []
+    cols = json.loads(p.read_text(encoding="utf-8")).get("collections", [])
+    rows: list[dict[str, Any]] = []
+    td_map = {"year": "Annual", "month": "Monthly", "day": "Daily", "daily": "Daily"}
+
+    for c in cols:
+        if not isinstance(c, dict):
+            continue
+        cid = clean_str(c.get("id"))
+        if not cid:
+            continue
+        cid_low = cid.lower()
+        title = clean_str(c.get("title") or cid)
+        desc = clean_str(c.get("description"))
+        t_start, t_end = extract_stac_temporal(c.get("extent"))
+
+        # Normalize raw bbox before clean_bbox()
+        raw_bb = None
+        extent = c.get("extent")
+        if isinstance(extent, dict):
+            bbs = ((extent.get("spatial") or {}).get("bbox")) or []
+            if bbs and isinstance(bbs[0], list) and len(bbs[0]) >= 4:
+                raw_bb = list(bbs[0][:4])
+        bbox: list[float] | None = None
+        if raw_bb is not None:
+            try:
+                w, s, e, n = [float(x) for x in raw_bb]
+                # Drop corrupted lat/lon-swapped GEDI box [-52, -90, 52, 90] and U.S.-only placeholder [-180, -90, 180, 90]
+                if cid_low.startswith("gedi_") and abs(w) <= 55.0 and abs(e) <= 55.0 and abs(s) >= 85.0 and abs(n) >= 85.0:
+                    bbox = None
+                elif cid_low.startswith("epa-ch4") and w <= -179.0 and e >= 179.0 and s <= -89.0 and n >= 89.0:
+                    bbox = None
+                else:
+                    # Clamp slight pixel-center half-cell overhangs (e.g. [-182.5, -90.98, 177.5, 90.98] or [-180, -90.125, 180, 90.125])
+                    if -185.0 <= w < -180.0 and 175.0 <= e <= 185.0:
+                        w, e = -180.0, 180.0
+                    if -92.0 <= s < -90.0:
+                        s = -90.0
+                    if 90.0 < n <= 92.0:
+                        n = 90.0
+                    bbox = clean_bbox([w, s, e, n])
+            except Exception:
+                bbox = None
+
+        # Extract verified primary dataset DOIs vs journal citations from sci:doi, links, and description
+        doi: str | None = clean_doi(c.get("sci:doi") or c.get("doi"))
+        doi_src: str | None = "stac_explicit_field" if doi else None
+        doi_rel: str | None = "is_primary_dataset" if doi else None
+        related_dois: list[str] = []
+        blob = (c.get("description") or "") + " " + json.dumps(c.get("links") or [])
+        for m_d in re.findall(r"10\.\d{4,9}/[-._;()/:A-Za-z0-9]+", blob):
+            dc = clean_doi(m_d)
+            if not dc:
+                continue
+            is_ds_doi = any(dc.lower().startswith(pref) for pref in _US_GHG_DATASET_DOI_PREFIXES)
+            if is_ds_doi and not doi:
+                doi = dc
+                doi_src = "us_ghg_center_description_dataset_doi"
+                doi_rel = "is_primary_dataset"
+            elif dc.lower() != (doi or "").lower() and dc not in related_dois:
+                related_dois.append(dc)
+
+        # Producer attribution: explicit non-host STAC provider or curated federal agency mapping
+        prod, _ = extract_stac_providers(c)
+        if prod and prod.lower() in ("nasa veda", "colin harkins", "us ghg center"):
+            prod = None
+        if not prod:
+            for pref, agency in _US_GHG_PRODUCER_BY_PREFIX:
+                if cid_low.startswith(pref):
+                    prod = agency
+                    break
+        prod = prod or "U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA)"
+
+        td_raw = clean_str(c.get("dashboard:time_density") or c.get("time_density") or c.get("temporal_frequency"))
+        temp_res = td_map.get(td_raw.lower(), td_raw) if td_raw else None
+
+        lvl = clean_str(c.get("product_level") or c.get("processing:level"))
+        if not lvl:
+            if any(k in cid_low for k in ("mip", "ct-ch4", "tm54dvar", "eccodarwin", "lpjwsl", "lpjeosim", "casagfed", "micasa", "blueflux", "gosat-based-ch4", "geos-", "oco2geos")):
+                lvl = "L4"
+            elif any(k in cid_low for k in ("oco3-", "goes-ch4", "emit-ch4", "omi_", "cms-mangrove")):
+                lvl = "L3"
+
+        plat_hints: list[str] = []
+        for pat, lbl in (
+            (r"\boco-?2\b", "OCO-2"),
+            (r"\boco-?3\b", "OCO-3"),
+            (r"\bgosat\b", "GOSAT"),
+            (r"\bemit\b", "ISS / EMIT"),
+            (r"\bgedi\b", "ISS / GEDI"),
+            (r"\bgoes\b", "GOES"),
+            (r"\bomi\b", "Aura / OMI"),
+            (r"\bviirs\b", "Suomi-NPP / VIIRS"),
+            (r"\bmodis\b", "MODIS"),
+        ):
+            if re.search(pat, f"{cid} {title or ''}", re.IGNORECASE):
+                plat_hints.append(lbl)
+
+        rows.append({
+            "source_id": "33_us_ghg_center_stac",
+            "raw_id": cid,
+            "title": title,
+            "description": desc,
+            "processing_level_raw": lvl,
+            "spatial_resolution_raw": extract_stac_gsd(c),
+            "temporal_resolution_raw": temp_res,
+            "temporal_start_raw": t_start,
+            "temporal_end_raw": t_end,
+            "update_frequency_raw": "periodic" if c.get("dashboard:is_periodic") else None,
+            "bbox_raw": bbox,
+            "producing_org_raw": prod,
+            "hosting_platform_raw": "U.S. Greenhouse Gas Center (earth.gov/ghgcenter)",
+            "platform_sensor_raw": "; ".join(plat_hints) if plat_hints else None,
+            "doi_raw": doi,
+            "doi_source_raw": doi_src,
+            "doi_relation_type_raw": doi_rel,
+            "related_dois_raw": "; ".join(related_dois) if related_dois else None,
+            "license_raw": clean_str(c.get("license")),
+            "landing_url_raw": f"https://earth.gov/ghgcenter/api/stac/collections/{cid}",
+            "keywords_raw": clean_str(c.get("keywords")) or "greenhouse gas; carbon; climate; US GHG Center",
+        })
+    return rows
+
+
+# Socioeconomic, health, governance, infrastructure, and livestock-only layers in FAO CKAN excluded from EO L3/L4 catalogue
+_FAO_CKAN_NON_EO_SOCIO_RE = re.compile(
+    r"\b(stunting|stunted children|underweight|poverty|poor population|infant mortality|"
+    r"malnutrition|child mortality|gender inequalit|literacy|food insecurity|undernourish|"
+    r"gross domestic product|\bgdp\b|purchasing power parity|income|wealth|human development|"
+    r"human migration|government effectiveness|governance|infrastructure|travel time to major cities|"
+    r"freight volumes|electricity production|dam capacity per capita|employment in agriculture|"
+    r"adaptive capacity risk component|vulnerability risk component|cumulative adaptive capacity|"
+    r"cumulative exposure risk|exposure risk component|armed conflict|agricultural economic expenditure|economic means|"
+    r"water dependency of thermal power|livestock water footprint|"
+    r"food production water footprint|population density|population count|cattle|livestock|"
+    r"poultry|sheep|goats|pigs|buffaloes|chickens|ducks|horses|protected areas \(fggd\))\b",
+    re.IGNORECASE,
+)
+
+
+def parse_34_fao_geospatial_catalog_ckan() -> tuple[list[dict[str, Any]], int]:
+    """
+    Parse FAO Geospatial & Hand-in-Hand Map Catalog CKAN ISO-19115 records (`34_fao_geospatial_catalog_ckan`).
+    Retains only gridded (`spatialRepresentationType: grid`) ISO-19115 biophysical/EO datasets
+    (GLC-SHARE, HWSD v1.2/v2.01/v2.2, GAEZ v4/v5, GSOCmap/GloSIS, GLADA, FAO ASIS, GMIA v5, EOSTAT,
+    CRTB biophysical hazards, DRIVE biophysical drought layers, NFMS grids) while deterministically
+    pre-excluding vector admin layers, dataset wrappers, software entries, and non-EO socioeconomic/health rasters.
+    """
+    p = RAW_DIR / "34_fao_geospatial_catalog_ckan/data/fao_geospatial_catalog_ckan.jsonl"
+    if not p.exists():
+        return [], 0
+
+    rows: list[dict[str, Any]] = []
+    excluded_non_eo = 0
+    unit_norm = {
+        "degree": "degree",
+        "degrees": "degree",
+        "arc/min": "arcmin",
+        "arc/minutes": "arcmin",
+        "km": "km",
+        "m": "m",
+        "meter": "m",
+        "meters": "m",
+    }
+
+    with p.open(encoding="utf-8") as f:
+        for line in f:
+            rec = json.loads(line)
+            if rec.get("type") != "iso":
+                excluded_non_eo += 1
+                continue
+            jsb = rec.get("jsonschema_body")
+            if isinstance(jsb, str):
+                try:
+                    jsb = json.loads(jsb)
+                except Exception:
+                    jsb = {}
+            if not isinstance(jsb, dict):
+                excluded_non_eo += 1
+                continue
+            di = jsb.get("dataIdentification") or {}
+            srt = [str(x).lower() for x in (di.get("spatialRepresentationType") or [])]
+            if "grid" not in srt:
+                excluded_non_eo += 1
+                continue
+
+            rid = clean_str(rec.get("id") or rec.get("name"))
+            title = clean_str(rec.get("title") or ((di.get("citation") or {}).get("title")) or rid)
+            if not rid or not title:
+                excluded_non_eo += 1
+                continue
+            if _FAO_CKAN_NON_EO_SOCIO_RE.search(title):
+                excluded_non_eo += 1
+                continue
+
+            desc = clean_str(di.get("abstract") or rec.get("notes"))
+            org_name = clean_str((rec.get("organization") or {}).get("title") or (rec.get("organization") or {}).get("name"))
+            org_slug = clean_str((rec.get("organization") or {}).get("name")) or ""
+
+            # Physical pixel distance ONLY (never cartographic scaleDenominator)
+            spat_res: str | None = None
+            for sr in (di.get("spatialResolution") or []):
+                if isinstance(sr, dict) and sr.get("distance") is not None:
+                    try:
+                        dist_val = float(str(sr["distance"]).strip())
+                    except Exception:
+                        continue
+                    if dist_val <= 0.0:
+                        continue
+                    u_raw = str(sr.get("unit") or "").strip().lower()
+                    u_clean = unit_norm.get(u_raw)
+                    if u_clean:
+                        spat_res = f"{str(sr['distance']).strip()} {u_clean}"
+                        break
+
+            # Geographic bbox and temporal extent from ISO dataIdentification.extent
+            bbox: list[float] | None = None
+            t_start: str | None = None
+            t_end: str | None = None
+            for ext in (di.get("extent") or []):
+                if not isinstance(ext, dict):
+                    continue
+                gb = (ext.get("geographic") or {}).get("bbox")
+                if isinstance(gb, dict) and bbox is None:
+                    try:
+                        bbox = clean_bbox([gb.get("west"), gb.get("south"), gb.get("east"), gb.get("north")])
+                    except Exception:
+                        bbox = None
+                tmp = ext.get("temporal")
+                if isinstance(tmp, dict) and t_start is None:
+                    t_start = clean_str(tmp.get("beginDate") or tmp.get("startDate"))
+                    t_end = clean_str(tmp.get("endDate"))
+
+            # Keywords
+            kw_list: list[str] = []
+            for dk in (di.get("descriptiveKeywords") or []):
+                if isinstance(dk, dict):
+                    for k in (dk.get("keywords") or []):
+                        ks = clean_str(k)
+                        if ks and not ks.lower().startswith("tag_") and ks not in kw_list:
+                            kw_list.append(ks)
+            if org_slug and org_slug not in kw_list:
+                kw_list.append(org_slug)
+
+            # License / constraints
+            rc = di.get("resourceConstraints") or {}
+            lic = clean_str(rec.get("license_title") or rec.get("license_id"))
+            if not lic and isinstance(rc, dict):
+                lc = (rc.get("legalConstraints") or {}).get("otherConstraints")
+                lic = clean_str(lc[0] if isinstance(lc, list) and lc else lc)
+
+            status_raw = clean_str(di.get("status"))
+            landing = f"https://data.apps.fao.org/catalog/iso/{rid}"
+
+            rows.append({
+                "source_id": "34_fao_geospatial_catalog_ckan",
+                "raw_id": f"FAO_ISO:{rid}",
+                "title": title,
+                "description": desc,
+                "processing_level_raw": None,
+                "spatial_resolution_raw": spat_res,
+                "temporal_resolution_raw": _extract_cadence_from_text(title, desc),
+                "temporal_start_raw": t_start,
+                "temporal_end_raw": t_end,
+                "update_frequency_raw": status_raw,
+                "bbox_raw": bbox,
+                "producing_org_raw": f"Food and Agriculture Organization of the United Nations (FAO - {org_name})" if org_name else "Food and Agriculture Organization of the United Nations (FAO)",
+                "hosting_platform_raw": "FAO Hand-in-Hand Geospatial Catalog (CKAN)",
+                "platform_sensor_raw": None,
+                "doi_raw": None,
+                "doi_source_raw": None,
+                "doi_relation_type_raw": None,
+                "related_dois_raw": None,
+                "license_raw": lic,
+                "landing_url_raw": landing,
+                "keywords_raw": "; ".join(kw_list[:20]) if kw_list else None,
+            })
+
+    return rows, excluded_non_eo
+
+
+# Genuinely global CNES GEODES collections (all other GEODES collections carry placeholder [-180,-90,180,90])
+_CNES_GEODES_TRUE_GLOBAL_IDS = {
+    "l3_cnes_sagsa_ensemble_1month_public",
+    "l3_cnes_sagsa_ensemble_1month_expert",
+    "theia_postel_landcover_globcover",
+}
+
+
+def parse_35_cnes_geodes_stac() -> list[dict[str, Any]]:
+    """
+    Parse French Space Agency (CNES) GEODES STAC collections (`35_cnes_geodes_stac`).
+    Raw L1/L2 scenes, SPOT World Heritage L1, PEPS S1/S3 L1/L2, SAGSA L1B/L2A/L2B, and FLATSIM
+    auxiliary/interferogram bundles are filtered deterministically via `check_l3_l4_eligibility`.
+    Strips bogus `[-180, -90, 180, 90]` placeholder boxes on regional THEIA/FLATSIM collections.
+    """
+    p = RAW_DIR / "35_cnes_geodes_stac/data/cnes_geodes_stac.json"
+    if not p.exists():
+        return []
+    cols = json.loads(p.read_text(encoding="utf-8")).get("collections", [])
+    parsed = parse_generic_stac_collections(
+        "35_cnes_geodes_stac",
+        cols,
+        "Centre National d'Etudes Spatiales (CNES / Data Terra THEIA)",
+    )
+    cols_by_id = {str(c.get("id") or ""): c for c in cols if isinstance(c, dict)}
+    for pr in parsed:
+        cid = str(pr.get("raw_id") or "")
+        cid_low = cid.lower()
+        raw_c = cols_by_id.get(cid) or {}
+        summaries = raw_c.get("summaries") if isinstance(raw_c.get("summaries"), dict) else {}
+        pr["hosting_platform_raw"] = "CNES GEODES Portal (geodes-portal.cnes.fr)"
+        pr["producing_org_raw"] = "Centre National d'Etudes Spatiales (CNES / Data Terra THEIA)"
+        if not pr.get("landing_url_raw"):
+            pr["landing_url_raw"] = f"https://geodes-portal.cnes.fr/api/stac/collections/{cid}"
+        # Strip placeholder [-180, -90, 180, 90] bbox on regional THEIA/FLATSIM collections
+        bb = pr.get("bbox_raw")
+        if (
+            bb
+            and len(bb) == 4
+            and bb[0] <= -179.0
+            and bb[1] <= -89.0
+            and bb[2] >= 179.0
+            and bb[3] >= 89.0
+            and cid_low not in _CNES_GEODES_TRUE_GLOBAL_IDS
+        ):
+            pr["bbox_raw"] = None
+        # Explicit L3 level tagging for THEIA L3A/L3B, SAGSA L3, and POSTEL multi-year syntheses
+        if not pr.get("processing_level_raw"):
+            if re.search(r"(?:^l3_|_l3[ab]?$)", cid_low):
+                pr["processing_level_raw"] = "L3"
+            elif cid_low.startswith("theia_postel_") or cid_low == "flatsim_timeserie":
+                pr["processing_level_raw"] = "L3"
+        # Replace generic platform="satellite" placeholder with actual constellation / instruments
+        if not pr.get("platform_sensor_raw") or str(pr["platform_sensor_raw"]).strip().lower() == "satellite":
+            c_parts = [clean_str(summaries.get("constellation")), clean_str(summaries.get("instruments"))]
+            c_clean = "; ".join(p for p in c_parts if p and p.lower() != "satellite")
+            if c_clean:
+                pr["platform_sensor_raw"] = c_clean
+            elif "sentinel2" in cid_low:
+                pr["platform_sensor_raw"] = "Sentinel-2"
+            elif "venus" in cid_low:
+                pr["platform_sensor_raw"] = "Venµs"
+            elif "sagsa" in cid_low:
+                pr["platform_sensor_raw"] = "GRACE; GRACE-FO"
+            elif "flatsim" in cid_low:
+                pr["platform_sensor_raw"] = "Sentinel-1"
+            elif "snow_multisat" in cid_low:
+                pr["platform_sensor_raw"] = "Sentinel-2; Landsat-8"
+            else:
+                pr["platform_sensor_raw"] = None
+        # Ensure bare numeric gsd in GEODES summaries carries meters unit (m)
+        if pr.get("spatial_resolution_raw") and re.fullmatch(r"\d+(?:\.\d+)?", str(pr["spatial_resolution_raw"]).strip()):
+            pr["spatial_resolution_raw"] = f"{str(pr['spatial_resolution_raw']).strip()} m"
+        # Drop bare unitless integer temporal_resolution (e.g. '144') in favor of explicit production_frequency/text
+        if pr.get("temporal_resolution_raw") and re.fullmatch(r"\d+(?:\.\d+)?", str(pr["temporal_resolution_raw"]).strip()):
+            pr["temporal_resolution_raw"] = clean_str(summaries.get("production_frequency")) or _extract_cadence_from_text(pr.get("title"), pr.get("description"))
+        elif not pr.get("temporal_resolution_raw"):
+            pr["temporal_resolution_raw"] = clean_str(summaries.get("production_frequency")) or _extract_cadence_from_text(pr.get("title"), pr.get("description"))
+    return parsed
+
+
 def main() -> None:
     OUT_DATA_DIR.mkdir(parents=True, exist_ok=True)
     TAXONOMY_DIR.mkdir(parents=True, exist_ok=True)
@@ -2985,6 +3423,18 @@ def main() -> None:
     # 32 Natural Resources Canada (NRCan / CCMEO) Geospatial Datacube STAC
     nrcan_rows, nrcan_excl = parse_32_nrcan_ccmeo_stac()
     source_raw_batches.append(("32_nrcan_ccmeo_stac", nrcan_rows, len(nrcan_rows) + nrcan_excl, nrcan_excl))
+
+    # 33 U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA) STAC
+    ghg_rows = parse_33_us_ghg_center_stac()
+    source_raw_batches.append(("33_us_ghg_center_stac", ghg_rows, len(ghg_rows), 0))
+
+    # 34 FAO Geospatial & Hand-in-Hand Map Catalog (CKAN / ISO-19115)
+    fao_ckan_rows, fao_ckan_excl = parse_34_fao_geospatial_catalog_ckan()
+    source_raw_batches.append(("34_fao_geospatial_catalog_ckan", fao_ckan_rows, len(fao_ckan_rows) + fao_ckan_excl, fao_ckan_excl))
+
+    # 35 CNES GEODES STAC (THEIA / Form@Ter / SAGSA)
+    geodes_rows = parse_35_cnes_geodes_stac()
+    source_raw_batches.append(("35_cnes_geodes_stac", geodes_rows, len(geodes_rows), 0))
 
     import html as _html
 

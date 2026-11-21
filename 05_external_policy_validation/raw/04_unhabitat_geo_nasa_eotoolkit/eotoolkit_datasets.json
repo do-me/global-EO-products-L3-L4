@@ -1,0 +1,1874 @@
+{
+  "objectIdFieldName": "objectid",
+  "uniqueIdField": {
+    "name": "objectid",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "globalid",
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "fields": [
+    {
+      "name": "objectid",
+      "type": "esriFieldTypeOID",
+      "alias": "ObjectID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "globalid",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "CreationDate",
+      "type": "esriFieldTypeDate",
+      "alias": "CreationDate",
+      "sqlType": "sqlTypeOther",
+      "length": 8,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Creator",
+      "type": "esriFieldTypeString",
+      "alias": "Creator",
+      "sqlType": "sqlTypeOther",
+      "length": 128,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "EditDate",
+      "type": "esriFieldTypeDate",
+      "alias": "EditDate",
+      "sqlType": "sqlTypeOther",
+      "length": 8,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Editor",
+      "type": "esriFieldTypeString",
+      "alias": "Editor",
+      "sqlType": "sqlTypeOther",
+      "length": 128,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "dataset_name",
+      "type": "esriFieldTypeString",
+      "alias": "Dataset Name",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "description",
+      "type": "esriFieldTypeString",
+      "alias": "Description",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "year",
+      "type": "esriFieldTypeString",
+      "alias": "Year",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_year",
+        "codedValues": [
+          {
+            "name": "Up Through 1975",
+            "code": "Up Through 1975"
+          },
+          {
+            "name": "1976-1985",
+            "code": "1976-1985"
+          },
+          {
+            "name": "1996-2005",
+            "code": "1996-2005"
+          },
+          {
+            "name": "2006-2015",
+            "code": "2006-2015"
+          },
+          {
+            "name": "2016-present",
+            "code": "2016-present"
+          },
+          {
+            "name": "1986-1995",
+            "code": "1986-1995"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "indicators",
+      "type": "esriFieldTypeString",
+      "alias": "Indicators",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "format",
+      "type": "esriFieldTypeString",
+      "alias": "Format",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_format",
+        "codedValues": [
+          {
+            "name": "Raster",
+            "code": "Raster"
+          },
+          {
+            "name": "Shapefile",
+            "code": "Shapefile"
+          },
+          {
+            "name": "Spatial Grid",
+            "code": "Spatial Grid"
+          },
+          {
+            "name": "Spreadsheet",
+            "code": "Spreadsheet"
+          },
+          {
+            "name": "Vector",
+            "code": "Vector"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "resolution",
+      "type": "esriFieldTypeString",
+      "alias": "Resolution",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_resolution",
+        "codedValues": [
+          {
+            "name": "2M or Less",
+            "code": "2M or Less"
+          },
+          {
+            "name": "2-10M",
+            "code": "2-10M"
+          },
+          {
+            "name": "20-50M",
+            "code": "20-50M"
+          },
+          {
+            "name": "51-500M",
+            "code": "51-500M"
+          },
+          {
+            "name": "1KM+",
+            "code": "1KM+"
+          },
+          {
+            "name": "Point",
+            "code": "Point"
+          },
+          {
+            "name": "Choice",
+            "code": "choice_7"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "data_source",
+      "type": "esriFieldTypeString",
+      "alias": "Data Source",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "data_type",
+      "type": "esriFieldTypeString",
+      "alias": "Data Type",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_data_type",
+        "codedValues": [
+          {
+            "name": "8 Bit",
+            "code": "8 Bit"
+          },
+          {
+            "name": "Binary",
+            "code": "Binary"
+          },
+          {
+            "name": "Categorical",
+            "code": "Categorical"
+          },
+          {
+            "name": "Density",
+            "code": "Density"
+          },
+          {
+            "name": "Float",
+            "code": "Float"
+          },
+          {
+            "name": "Index",
+            "code": "Index"
+          },
+          {
+            "name": "Percent",
+            "code": "Percent"
+          },
+          {
+            "name": " Thematic Fields",
+            "code": "_Thematic Fields"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "level",
+      "type": "esriFieldTypeString",
+      "alias": "Level",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_level",
+        "codedValues": [
+          {
+            "name": "Global",
+            "code": "Global"
+          },
+          {
+            "name": "Regional",
+            "code": "Regional"
+          },
+          {
+            "name": "National",
+            "code": "National"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "keywords",
+      "type": "esriFieldTypeString",
+      "alias": "Keywords",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "field_15",
+      "type": "esriFieldTypeString",
+      "alias": "Year",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "field_17",
+      "type": "esriFieldTypeString",
+      "alias": "Keyword(s)",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "theme",
+      "type": "esriFieldTypeString",
+      "alias": "Theme",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "technical_or_min_requirementsac",
+      "type": "esriFieldTypeString",
+      "alias": "Technical or Min Requirements/Accessibility ",
+      "sqlType": "sqlTypeOther",
+      "length": 1000,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "scientific_publication_with_qua",
+      "type": "esriFieldTypeString",
+      "alias": "Scientific Publication with Quality Information",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "documentation",
+      "type": "esriFieldTypeString",
+      "alias": "Documentation",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "download_from",
+      "type": "esriFieldTypeString",
+      "alias": "Download from",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "copyright",
+      "type": "esriFieldTypeString",
+      "alias": "Copyright",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "field_24",
+      "type": "esriFieldTypeString",
+      "alias": "Documentation",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "field_25",
+      "type": "esriFieldTypeString",
+      "alias": "Download from",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "year_2",
+      "type": "esriFieldTypeString",
+      "alias": "Year 2",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_year_2",
+        "codedValues": [
+          {
+            "name": "Up Through 1975",
+            "code": "Up Through 1975"
+          },
+          {
+            "name": "1976-1985",
+            "code": "1976-1985"
+          },
+          {
+            "name": "1996-2005",
+            "code": "1996-2005"
+          },
+          {
+            "name": "2006-2015",
+            "code": "2006-2015"
+          },
+          {
+            "name": "2016-present",
+            "code": "2016-present"
+          },
+          {
+            "name": "1986-1995",
+            "code": "1986-1995"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "year_3",
+      "type": "esriFieldTypeString",
+      "alias": "Year 3",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_year_3",
+        "codedValues": [
+          {
+            "name": "Up Through 1975",
+            "code": "Up Through 1975"
+          },
+          {
+            "name": "1976-1985",
+            "code": "1976-1985"
+          },
+          {
+            "name": "1996-2005",
+            "code": "1996-2005"
+          },
+          {
+            "name": "2006-2015",
+            "code": "2006-2015"
+          },
+          {
+            "name": "2016-present",
+            "code": "2016-present"
+          },
+          {
+            "name": "1986-1995",
+            "code": "1986-1995"
+          }
+        ]
+      },
+      "defaultValue": null
+    },
+    {
+      "name": "year_4",
+      "type": "esriFieldTypeString",
+      "alias": "Year 4",
+      "sqlType": "sqlTypeOther",
+      "length": 255,
+      "domain": {
+        "type": "codedValue",
+        "name": "cvd_year_4",
+        "codedValues": [
+          {
+            "name": "Up Through 1975",
+            "code": "Up Through 1975"
+          },
+          {
+            "name": "1976-1985",
+            "code": "1976-1985"
+          },
+          {
+            "name": "1996-2005",
+            "code": "1996-2005"
+          },
+          {
+            "name": "2006-2015",
+            "code": "2006-2015"
+          },
+          {
+            "name": "2016-present",
+            "code": "2016-present"
+          },
+          {
+            "name": "1986-1995",
+            "code": "1986-1995"
+          }
+        ]
+      },
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "objectid": 3,
+        "globalid": "4e420a95-4e89-4e55-8d8d-2b7a348fcb8f",
+        "CreationDate": 1671537220947,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1671537220947,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Settlement-Built-Up Presence",
+        "description": "Multi-temporal information layer on built-up area presence from Landsat. It can be used to analyse urbanisation, map population or analyse exposure to natural hazards. (different on the tile)\n",
+        "year": "Up Through 1975",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Spatial Grid",
+        "resolution": "20-50M",
+        "data_source": "Landsat",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1007/s00521-020-05449-7",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/ghs_bu_s2_2018.php",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/download.php?ds=buS2",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/ghs_bu_s2_2018.php",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/download.php?ds=buS2",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 4,
+        "globalid": "f6ce4c20-b351-4505-828c-440e1c0e5fdb",
+        "CreationDate": 1671538604261,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1671538604261,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Settlement-Built-Up Presence",
+        "description": "Information layer on probability of built-up area presence, derived from a Sentinel-2 image mosaic. It can be used to analyse urbanisation, map population or analyse exposure to natural hazards.",
+        "year": "2016-present",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Spatial Grid",
+        "resolution": "2-10M",
+        "data_source": "Sentinel",
+        "data_type": "8 Bit",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1007/s00521-020-05449-7",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/ghs_bu_s2_2018.php",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/download.php?ds=buS2",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/ghs_bu_s2_2018.php",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/download.php?ds=buS2",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 5,
+        "globalid": "a97c422f-de74-489f-886c-6ade2c9427d5",
+        "CreationDate": 1673881567322,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673942212319,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Settlement-Population ",
+        "description": "This spatial raster dataset depicts the distribution and density of population for 1975, 1990, 2000 and 2015. It is relevant for urbanisation processes, exposure to natural hazards and input to spatial explicit population projections. (different on the tile)",
+        "year": "1976-1985",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.6.2_(Air_Quality)",
+        "format": "Spatial Grid",
+        "resolution": "51-500M",
+        "data_source": null,
+        "data_type": "Density",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,1976_-_1985,_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Population",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1080/17538947.2018.1548656",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/ghs_pop2019.php",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/download.php?ds=pop",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/ghs_pop2019.php",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/download.php?ds=pop",
+        "year_2": "Up Through 1975",
+        "year_3": "1996-2005",
+        "year_4": "2006-2015"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 6,
+        "globalid": "5746e764-25fe-4d35-89cc-8f564a43b36c",
+        "CreationDate": 1673881727489,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673942243213,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Settlement-Settlement Model ",
+        "description": "This dataset contains a settlement classification by applying the degree of urbanization to the GHS-BUILT and GHS-POP grids for 1975, 1990, 2000, 2015. It delineates cities, suburbs, towns and villages, which can be grouped into urban and rural areas.\n",
+        "year": "Up Through 1975",
+        "indicators": "11.1.1_(Housing),11.2.1_(Transport),11.3.1_(Urbanization),11.6.2_(Air_Quality),11.7.1_(Open_Space)",
+        "format": "Spatial Grid",
+        "resolution": "1KM+",
+        "data_source": null,
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface,Settlement_Classification",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1016/j.jue.2020.103312",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/ghs_smod2019.php",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/download.php?ds=smod",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/ghs_smod2019.php",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/download.php?ds=smod",
+        "year_2": "1976-1985",
+        "year_3": "1996-2005",
+        "year_4": "2006-2015"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 7,
+        "globalid": "2cbc9c40-6a1f-4e22-873e-60a3881871ea",
+        "CreationDate": 1673881837889,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673942267962,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Settlement-Functional Urban Areas ",
+        "description": "The spatial entities called “Functional Urban Areas” delineate areas in which at least 15% of the population is commuting to the main Urban Centre of the area. This is relevant for analysis of larger metropolitan areas and their hinterland.\n",
+        "year": "Up Through 1975",
+        "indicators": "11.1.1_(Housing),11.2.1_(Transport),11.3.1_(Urbanization),11.6.2_(Air_Quality),11.7.1_(Open_Space)",
+        "format": "Spatial Grid",
+        "resolution": "1KM+",
+        "data_source": null,
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1016/j.jue.2020.103242",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/ghs_fua.php",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/download.php",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/ghs_fua.php",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/download.php",
+        "year_2": "1976-1985",
+        "year_3": "1996-2005",
+        "year_4": "2006-2015"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 8,
+        "globalid": "26e1d475-4dab-4ed4-83ce-5d118331e25a",
+        "CreationDate": 1673882372074,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673942324530,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Urban Centre Database ",
+        "description": "The Urban Centre Database includes the vector outlines of the urban centres mapped by the GHS-SMOD layer. (different on the tile)\n",
+        "year": "Up Through 1975",
+        "indicators": "11.3.1_(Urbanization),11.6.2_(Air_Quality),11.7.1_(Open_Space)",
+        "format": "Vector",
+        "resolution": null,
+        "data_source": null,
+        "data_type": "_Thematic Fields",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "Spreadsheet,GIS_software",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://ghsl.jrc.ec.europa.eu/documents/GHS-DUG_4_User_Guide.pdf?0.5346984091187508",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/documents/GHS-DUG_4_User_Guide.pdf?0.5346984091187508",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php",
+        "year_2": "1976-1985",
+        "year_3": "1996-2005",
+        "year_4": "2006-2015"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 9,
+        "globalid": "005d7a2b-4775-49b4-8928-84bce200fb78",
+        "CreationDate": 1673882546886,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673882546886,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "World Settlement Footprint 2015",
+        "description": "Global settlement extent map generated at 10 m resolution by jointly combining 2014-2015 multi-temporal Landsat-8 and Sentinel-1 imagery.",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "2-10M",
+        "data_source": "Landsat,Sentinel",
+        "data_type": "Binary",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://www.nature.com/articles/s41597-020-00580-5#article-info",
+        "documentation": "https://www.nature.com/articles/s41597-020-00580-5#article-info",
+        "download_from": "https://figshare.com/collections/Outlining_where_humans_live_-_The_World_Settlement_Footprint_2015/4712852",
+        "copyright": "Open Access",
+        "field_24": "https://www.nature.com/articles/s41597-020-00580-5#article-info",
+        "field_25": "https://figshare.com/collections/Outlining_where_humans_live_-_The_World_Settlement_Footprint_2015/4712852",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 10,
+        "globalid": "96176f0f-d6e5-4f91-85c3-30aa2fd5a9d9",
+        "CreationDate": 1673882901857,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673942356609,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "GlobeLand 30",
+        "description": "Global land cover from 2000 and 2010 with impervious surface (urban) as a class, using Landsat data. \n",
+        "year": "1996-2005",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1996_-_2005,2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://www.sciencedirect.com/science/article/pii/S0924271614002275",
+        "documentation": null,
+        "download_from": "http://www.globallandcover.com/home_en.html",
+        "copyright": "Open Access",
+        "field_24": null,
+        "field_25": "http://www.globallandcover.com/home_en.html",
+        "year_2": "2006-2015",
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 11,
+        "globalid": "d633893a-72a7-4fa6-8940-4b1b77048a59",
+        "CreationDate": 1673883017793,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691570978745,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Land Cover 10",
+        "description": "Global land cover from 2017 with impervious surface (urban) as a class, using Senitnel-2 data.\n",
+        "year": "Up Through 1975",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "2-10M",
+        "data_source": "Sentinel",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://www.sciencedirect.com/science/article/pii/S2095927319301380",
+        "documentation": null,
+        "download_from": "http://data.starcloud.pcl.ac.cn/resource/1",
+        "copyright": "Open Access",
+        "field_24": null,
+        "field_25": "http://data.starcloud.pcl.ac.cn/resource/1",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 12,
+        "globalid": "91e6d6f2-9d47-4dbf-86c1-bc541c824eab",
+        "CreationDate": 1673883204926,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691571017886,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Artificial Impervious Areas",
+        "description": "Global impervious surface dataset at 30 m resolution generated using Landsat data.\n",
+        "year": "2016-present",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat,Sentinel,VIIRS",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1976_-_1985,_1986_-_1995,1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1016/j.rse.2019.111510 ",
+        "documentation": null,
+        "download_from": "http://data.starcloud.pcl.ac.cn/resource/13",
+        "copyright": null,
+        "field_24": null,
+        "field_25": "http://data.starcloud.pcl.ac.cn/resource/13",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 13,
+        "globalid": "0bd0b7f6-e546-4af0-8f82-f9e2288779a4",
+        "CreationDate": 1673883349132,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673883349132,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Grid of Probabilities of Urban Expansion to 2030",
+        "description": "Spatially-explicit probabilistic forecasts of global urban land cover change from 2000 to 2030 at 2.5 arc-minute resolution.\n",
+        "year": "2016-present",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": "MODIS",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Land_Cover/Use",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://www.pnas.org/content/109/40/16083",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/lulc-global-grid-prob-urban-expansion-2030/docs",
+        "download_from": "https://doi.org/10.7927/H4Z899CG",
+        "copyright": "Open Access with Attribution",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/lulc-global-grid-prob-urban-expansion-2030/docs",
+        "field_25": "https://doi.org/10.7927/H4Z899CG",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 14,
+        "globalid": "1a0ce6dd-b4b0-4770-8603-759128c287f4",
+        "CreationDate": 1673883500010,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673883500010,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Man-made Impervious Surface ",
+        "description": "This dataset provides global estimates of fractional impervious cover derived from the Global Land Survey Landsat dataset for 2010, including per-pixel associated uncertainty for the global impervious cover.",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://sedac.ciesin.columbia.edu/downloads/docs/ulandsat/ulandsat-gmis-v1-documentation.pdf",
+        "documentation": null,
+        "download_from": "https://doi.org/10.7927/H4P55KKF",
+        "copyright": "Open Access ",
+        "field_24": null,
+        "field_25": "https://doi.org/10.7927/H4P55KKF",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 15,
+        "globalid": "0c9472b1-d11e-48d7-8351-ccbde4457d6c",
+        "CreationDate": 1673883621939,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673883621939,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Built-up and Settlement Extent",
+        "description": "This dataset provides global estimates of urban extent derived from the Global Land Survey Landsat dataset for 2010. ",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://sedac.ciesin.columbia.edu/downloads/docs/ulandsat/ulandsat-hbase-v1-documentation.pdf",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/ulandsat-hbase-v1/docs",
+        "download_from": "https://doi.org/10.7927/H4DN434S",
+        "copyright": "Open Access ",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/ulandsat-hbase-v1/docs",
+        "field_25": "https://doi.org/10.7927/H4DN434S",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 16,
+        "globalid": "4a59241b-17ed-4334-83a1-ff1c71bbc96b",
+        "CreationDate": 1673883765066,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673883765066,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "VIIRS Plus DMSP Change in Lights ",
+        "description": "This dataset maps the spatial distribution and temporal evolution of global nighttime lights between 1992 and 2015.  ",
+        "year": "2006-2015",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "51-500M",
+        "data_source": "DMSP,VIIRS",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Night-time_Lights",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1016/j.gloplacha.2018.03.005",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/sdei-viirs-dmsp-dlight/docs",
+        "download_from": "https://doi.org/10.7927/9ryj-6467",
+        "copyright": "CC-BY-4.0",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/sdei-viirs-dmsp-dlight/docs",
+        "field_25": "https://doi.org/10.7927/9ryj-6467",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 17,
+        "globalid": "9fb0947f-ef0b-4280-83a0-aa26bcda6060",
+        "CreationDate": 1673883890981,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673883890981,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Urban Heat Island",
+        "description": "This dataset estimates the land surface temperature within urban areas in degrees Celsius and the temperature difference with surrounding rural areas in a 10 km buffer around the urban extent.\n",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization),11.6.2_(Air_Quality),11.7.1_(Open_Space)",
+        "format": "Shapefile",
+        "resolution": "1KM+",
+        "data_source": "MODIS",
+        "data_type": "_Thematic Fields",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface,Temperature",
+        "theme": null,
+        "technical_or_min_requirementsac": "Spreadsheet,GIS_software",
+        "scientific_publication_with_qua": "https://sedac.ciesin.columbia.edu/downloads/docs/sdei/sdei-global-uhi-2013-documentation.pdf",
+        "documentation": null,
+        "download_from": "https://doi.org/10.7927/H4H70CRF",
+        "copyright": "CC-BY-4.0",
+        "field_24": null,
+        "field_25": "https://doi.org/10.7927/H4H70CRF",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 18,
+        "globalid": "0177c54e-79c7-4477-8c0e-d549347e9b23",
+        "CreationDate": 1673884136009,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673884136009,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Historical Urban Population",
+        "description": "Spatially-explicit global dataset providing the location and size of urban populations over the last 6,000 years.",
+        "year": "Up Through 1975",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Spreadsheet",
+        "resolution": null,
+        "data_source": null,
+        "data_type": "_Thematic Fields",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,1976_-_1985,_1986_-_1995,1996_-_2005",
+        "field_17": "Built_Up/Impervious_Surface,Population",
+        "theme": null,
+        "technical_or_min_requirementsac": "Spreadsheet",
+        "scientific_publication_with_qua": "https://doi.org/10.1038/sdata.2016.34",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/urbanspatial-hist-urban-pop-3700bc-ad2000/docs",
+        "download_from": "https://doi.org/10.7927/H4ZG6QBX",
+        "copyright": "Open Access for Non-Commercial Use with Attribution",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/urbanspatial-hist-urban-pop-3700bc-ad2000/docs",
+        "field_25": "https://doi.org/10.7927/H4ZG6QBX",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 19,
+        "globalid": "64c8f289-386b-468d-861e-18154fcc6e43",
+        "CreationDate": 1673884284519,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673884284519,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Annual PM2.5 Grids",
+        "description": "Annual concentrations of ground-level fine particulate matter, with dust and sea-salt removed, based on Aerosol Optical Depth retrievals from multiple satellite instruments.",
+        "year": "2016-present",
+        "indicators": "11.6.2_(Air_Quality)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": "MODIS,SeaWIFs",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Pollution",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1021/acs.est.5b05833",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/sdei-global-annual-gwr-pm2-5-modis-misr-seawifs-aod/docs",
+        "download_from": "https://doi.org/10.7927/H4ZK5DQS",
+        "copyright": "Open Access with Attribution",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/sdei-global-annual-gwr-pm2-5-modis-misr-seawifs-aod/docs",
+        "field_25": "https://doi.org/10.7927/H4ZK5DQS",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 20,
+        "globalid": "a81a3154-5d88-4063-8147-5049788f27e8",
+        "CreationDate": 1673884444326,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673884444326,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Development Threat Index",
+        "description": "Terrestrial global, future development threat map based on combining different resources. ",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": null,
+        "data_type": "Index",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Land_Cover/Use,Open/Green_Space",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1073/pnas.2024792118",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/lulc-development-threat-index/docs",
+        "download_from": "https://doi.org/10.7927/61jv-th84",
+        "copyright": "Open Access with Attribution",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/lulc-development-threat-index/docs",
+        "field_25": "https://doi.org/10.7927/61jv-th84",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 21,
+        "globalid": "549b9f5e-bb93-4bb6-8041-9f5e3669db9b",
+        "CreationDate": 1673884583662,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673884583662,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global Human Modification of Terrestrial Systems",
+        "description": "Cumulative measure of the human modification of terrestrial lands across the globe at a 1-km resolution.",
+        "year": "2016-present",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": null,
+        "data_type": "Percent",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Land_Cover/Use,Open/Green_Space",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1111/gcb.14549",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/lulc-human-modification-terrestrial-systems/docs",
+        "download_from": "https://doi.org/10.7927/edbc-3z60",
+        "copyright": "CC-BY-4.0",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/lulc-human-modification-terrestrial-systems/docs",
+        "field_25": "https://doi.org/10.7927/edbc-3z60",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 22,
+        "globalid": "4f822773-baf1-4257-8a82-305f7ea4823d",
+        "CreationDate": 1673885756305,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673885756305,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Urban-rural continuum",
+        "description": "Global urban-rural classification scheme derived from population travel time to an urban location based on urban setttlement population size. Data is for 2015.",
+        "year": "2006-2015",
+        "indicators": "11.2.1_(Transport),11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": "Landsat",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Population",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.1073/pnas.2011990118",
+        "documentation": "https:www.doi.org/10.6084/m9.figshare.12579572",
+        "download_from": "https:www.doi.org/10.6084/m9.figshare.12579572",
+        "copyright": "Open Access",
+        "field_24": "https://figshare.com/articles/dataset/Urban-rural_continuum/12579572",
+        "field_25": "https://figshare.com/articles/dataset/Urban-rural_continuum/12579572",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 23,
+        "globalid": "d1393ac5-2b91-435c-8bdc-02625f64c77e",
+        "CreationDate": 1673885913711,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673957555853,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global High Resolution Daily Extreme Urban Heat Exposure 1983-2016. ",
+        "description": "Global urban populatuion exposure to daily extreme heat for 13,000 cities from 1983 - 2016",
+        "year": "Up Through 1975",
+        "indicators": "11.5.1_(Hazards)",
+        "format": "Vector",
+        "resolution": "Point",
+        "data_source": "GridSat_B1,Landsat",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1976_-_1985,_1986_-_1995,1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Hazards",
+        "theme": null,
+        "technical_or_min_requirementsac": "Spreadsheet,GIS_software",
+        "scientific_publication_with_qua": " https://doi.org/10.1073/pnas.2024792118",
+        "documentation": "https://doi.org/10.1073/pnas.2024792118",
+        "download_from": "https://doi.org/10.7927/fq7g-ny13",
+        "copyright": "Open Access ",
+        "field_24": "https://doi.org/10.1073/pnas.2024792118",
+        "field_25": "https://doi.org/10.7927/fq7g-ny13",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 24,
+        "globalid": "b5de14be-8a5f-4b9a-8ffc-a6c0af819af4",
+        "CreationDate": 1673886023552,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673886023552,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "PopGrid-Compare",
+        "description": "Global, stack of population grids at the 1-km grid cell that can be used to calculate maximum, minimum, and range of human populations counts for circa-2015.",
+        "year": "2006-2015",
+        "indicators": "11.5.1_(Hazards)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": "Landsat,MODIS",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Hazards",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.3390/su13137329",
+        "documentation": "https://doi.org/10.3390/su13137329",
+        "download_from": "https://drive.google.com/drive/folders/1Rt83fJ7nCDUHKKELmLKqpoMPZeBktX7T?usp=sharing",
+        "copyright": "Open Access",
+        "field_24": "https://doi.org/10.3390/su13137329",
+        "field_25": "https://drive.google.com/drive/folders/1Rt83fJ7nCDUHKKELmLKqpoMPZeBktX7T?usp=sharing",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 25,
+        "globalid": "4be6eee0-d807-4105-828c-158bf8cb4184",
+        "CreationDate": 1673886249666,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691571080124,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "WorldPop's 1-km resolution annual estimates of population density",
+        "description": "This layer contains WorldPop's 1-km resolution annual estimates of population density from the year 2000 to 2020. The estimates in this layer use WorldPop's Top-down unconstrained method which estimates the total population for each cell with a Random Forest-based model and converted these values to population density by dividing the number of people in each pixel by the pixel surface area. This diagram visually describes this model that uses known populated locations to analyze imagery to find similarly populated locations.  More information: https://livingatlas.arcgis.com/en/browse/#d=3&q=worldpop",
+        "year": "1996-2005",
+        "indicators": "11.1.1_(Housing),11.2.1_(Transport),11.3.1_(Urbanization),11.5.1_(Hazards),11.6.2_(Air_Quality),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "1KM+",
+        "data_source": null,
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Population",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://www.worldpop.org/doi/10.5258/SOTON/WP00674",
+        "documentation": "https://www.worldpop.org/doi/10.5258/SOTON/WP00674",
+        "download_from": "https://hub.worldpop.org/project/categories?id=18",
+        "copyright": "Creative Commons Attribution 4.0 International License",
+        "field_24": "https://hub.worldpop.org/project/categories?id=18",
+        "field_25": null,
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 26,
+        "globalid": "90020bd5-8adc-4958-8e31-6a491723d347",
+        "CreationDate": 1673886420603,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691513418180,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Esri 10-Meter Land Cover",
+        "description": "This layer displays a global map of land use/land cover (LULC). The map is derived from ESA Sentinel-2 imagery at 10m resolution. It is a composite of LULC predictions for 10 classes throughout the year in order to generate a representative snapshot of 2020.  More information: https://livingatlas.arcgis.com/landcover/ and https://livingatlas.arcgis.com/en/browse/#d=3&q=%22Esri%202020%20Land%20Cover%22\n",
+        "year": "2016-present",
+        "indicators": "11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "2-10M",
+        "data_source": "Sentinel",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Land_Cover/Use,Open/Green_Space",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "Karra, Kontgis, et al. “Global land use/land cover with Sentinel-2 and deep learning.” IGARSS 2021-2021 IEEE International Geoscience and Remote Sensing Symposium. IEEE, 2021.",
+        "documentation": null,
+        "download_from": "https://livingatlas.arcgis.com/landcoverexplorer/#mapCenter=-3.286%2C31.34%2C3&mode=step&timeExtent=2017%2C2021&year=2022&downloadMode=true",
+        "copyright": "Creative Commons by Attribution (CC BY 4.0)",
+        "field_24": null,
+        "field_25": "https://livingatlas.arcgis.com/landcoverexplorer/#mapCenter=-3.286%2C31.34%2C3&mode=step&timeExtent=2017%2C2021&year=2022&downloadMode=true",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 27,
+        "globalid": "c6508707-2f0f-49ad-801f-bcb275864bd5",
+        "CreationDate": 1673886651996,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673886651996,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Landcover 2050 ",
+        "description": "Use this country model layer when performing analysis within a single country. This layer displays a single global land cover map that is modeled by country for the year 2050 at a pixel resolution of 300m. ESA CCI land cover from the years 2010 and 2018 were used to create this prediction.  ",
+        "year": "1996-2005",
+        "indicators": "11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": null,
+        "data_source": "Sentinel",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Land_Cover/Use,Open/Green_Space",
+        "theme": null,
+        "technical_or_min_requirementsac": null,
+        "scientific_publication_with_qua": null,
+        "documentation": null,
+        "download_from": "https://www.arcgis.com/home/item.html?id=cee96e0ada6541d0bd3d67f3f8b5ce63",
+        "copyright": null,
+        "field_24": null,
+        "field_25": "https://www.arcgis.com/home/item.html?id=cee96e0ada6541d0bd3d67f3f8b5ce63",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 28,
+        "globalid": "3778ba07-3364-4a05-8f70-5536d8aa8ae9",
+        "CreationDate": 1673886782093,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673886782093,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Copernicus Urban Atlas",
+        "description": "Pan-European comparable land use and land cover data for 785 Functional Urban Areas for 39 European Countries, including partially building height and a street tree layer. ",
+        "year": "2006-2015",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": null,
+        "data_type": "Categorical",
+        "level": "Regional",
+        "keywords": null,
+        "field_15": "2006_-_2015,2016_-_present",
+        "field_17": "Land_Cover/Use",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://land.copernicus.eu/user-corner/technical-library/urban_atlas_2012_2018_mapping_guide_v6-1.pdf",
+        "download_from": "https://land.copernicus.eu/local/urban-atlas",
+        "copyright": "Open Access",
+        "field_24": "https://land.copernicus.eu/user-corner/technical-library/urban_atlas_2012_2018_mapping_guide_v6-1.pdf",
+        "field_25": "https://land.copernicus.eu/local/urban-atlas",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 29,
+        "globalid": "4066bea9-62c5-4a3b-86a0-f6a8d36fdd8e",
+        "CreationDate": 1673886911170,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673886911170,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Copernicus Imperviousness",
+        "description": "The imperviousness products for 39 European countries that capture the percentage and change of soil sealing.",
+        "year": "2016-present",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "2-10M",
+        "data_source": "Sentinel",
+        "data_type": "Binary",
+        "level": "Regional",
+        "keywords": null,
+        "field_15": "2006_-_2015,2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://land.copernicus.eu/pan-european/high-resolution-layers/imperviousness/resolveuid/863d6e22282d4860b1d90ebf99659cb1",
+        "download_from": "https://land.copernicus.eu/pan-european/high-resolution-layers/imperviousness",
+        "copyright": "Open Access",
+        "field_24": "https://land.copernicus.eu/pan-european/high-resolution-layers/imperviousness/resolveuid/863d6e22282d4860b1d90ebf99659cb1",
+        "field_25": "https://land.copernicus.eu/pan-european/high-resolution-layers/imperviousness",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 30,
+        "globalid": "4e9290d0-87c3-4a7b-8b2c-b184a57f7253",
+        "CreationDate": 1673887078376,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1691572939658,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "European Settlement Map",
+        "description": "The European Settlement Map is a spatial raster dataset that is mapping human settlements in Europe based on Copernicus Very High Resolution optical coverage for year 2015 for 39 European countries.",
+        "year": "2006-2015",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "2M or Less",
+        "data_source": "VHR",
+        "data_type": "Binary",
+        "level": "Regional",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "\"http://doi.org/10.1109/JSTARS.2015.2485662 https://doi.org/10.1109/LGRS.2019.2942131\"",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/esm_R2019.php",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/esm_R2019.php",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/esm_R2019.php",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/esm_R2019.php",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 31,
+        "globalid": "df71ae35-e871-444a-85fd-d485ef6804e5",
+        "CreationDate": 1673887233397,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673887233397,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "National Land Cover Database, U.S.",
+        "description": "The U.S. National Land Cover Database, created by EROS, is updated every five years and stands as the definitive land cover database for the United States.",
+        "year": "1996-2005",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat",
+        "data_type": "Categorical",
+        "level": "National",
+        "keywords": null,
+        "field_15": "1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Land_Cover/Use",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": null,
+        "documentation": null,
+        "download_from": "https://www.usgs.gov/centers/eros/science/national-land-cover-database?qt-science_center_objects=0#qt-science_center_objects",
+        "copyright": null,
+        "field_24": null,
+        "field_25": "https://www.usgs.gov/centers/eros/science/national-land-cover-database?qt-science_center_objects=0#qt-science_center_objects",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 32,
+        "globalid": "f7383b93-5af8-472c-8390-d7fc42b16097",
+        "CreationDate": 1673887377232,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673887377232,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Urban Extents, Continental U.S.",
+        "description": "This dataset models urban settlements in the Continental United States using a combination of daytime spectral and nighttime lights satellite data at an intermediate-resolution of 500 meters.\n",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "51-500M",
+        "data_source": "MODIS,VIIRS",
+        "data_type": "Binary",
+        "level": "National",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": "https://doi.org/10.3390/rs11101247",
+        "documentation": "https://sedac.ciesin.columbia.edu/data/set/urbanspatial-urban-extents-viirs-modis-us-2015/docs",
+        "download_from": "https://doi.org/10.7927/a49b-sm16",
+        "copyright": "CC-BY-4.0",
+        "field_24": "https://sedac.ciesin.columbia.edu/data/set/urbanspatial-urban-extents-viirs-modis-us-2015/docs",
+        "field_25": "https://doi.org/10.7927/a49b-sm16",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 33,
+        "globalid": "101db12e-475e-4fb6-8010-df0e8564ba24",
+        "CreationDate": 1673887488812,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1673887488812,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Building Footprints USA, Canada, Uganda and Tanzania",
+        "description": "These datasets contain building footprints in the U.S., Canada, Uganda, and Tanzania.\n",
+        "year": "2016-present",
+        "indicators": "11.1.1_(Housing),11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Vector",
+        "resolution": "2M or Less",
+        "data_source": "Commercial/Mixed_Sources",
+        "data_type": "_Thematic Fields",
+        "level": "National",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://www.microsoft.com/en-us/maps/building-footprints",
+        "download_from": "https://www.microsoft.com/en-us/maps/building-footprints",
+        "copyright": "Open Access",
+        "field_24": "https://www.microsoft.com/en-us/maps/building-footprints",
+        "field_25": "https://www.microsoft.com/en-us/maps/building-footprints",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 34,
+        "globalid": "4b070410-79eb-4321-80ee-1d84b7a5267d",
+        "CreationDate": 1689673417700,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1689673417700,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "GHSL Data Package 2023",
+        "description": "Multitemporal products, that offers an insight into the human presence in the past (epochs from 1975 through 2020, 5 years interval) and the future (2025 and 2030). Products include GHS built-up surface grid, GHS building height, GHS built-up volume grids, GHS Settlement Characteristics, GHS population grid, GHS settlement layers, and GHS built-up surface statistics.",
+        "year": "1976-1985",
+        "indicators": "11.3.1_(Urbanization),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat,Sentinel",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "Up_through_1975,1976_-_1985,_1986_-_1995,1996_-_2005,2006_-_2015,2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface,Land_Cover/Use,Population,Settlement_Classification",
+        "theme": null,
+        "technical_or_min_requirementsac": "Spreadsheet,GIS_software,Cloud_platform_such_as_Google_E",
+        "scientific_publication_with_qua": "https://ghsl.jrc.ec.europa.eu/documents/GHSL_Data_Package_2023.pdf?t=1683540422",
+        "documentation": "https://ghsl.jrc.ec.europa.eu/dataToolsOverview.php#inline-nav-R2023",
+        "download_from": "https://ghsl.jrc.ec.europa.eu/dataToolsOverview.php#inline-nav-R2023",
+        "copyright": "https://ghsl.jrc.ec.europa.eu/datasets.php",
+        "field_24": "https://ghsl.jrc.ec.europa.eu/dataToolsOverview.php#inline-nav-R2023",
+        "field_25": "https://ghsl.jrc.ec.europa.eu/dataToolsOverview.php#inline-nav-R2023",
+        "year_2": "1996-2005",
+        "year_3": "2006-2015",
+        "year_4": "2016-present"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 35,
+        "globalid": "6104bc54-40d1-4dea-8da9-caf88056473a",
+        "CreationDate": 1695049303940,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1695049303940,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "World Settlement Footprint 2019",
+        "description": "Global settlement extent map generated at 10 m resolution by jointly combining 2019 multi-temporal Sentinel-1 and Sentinel-2 imagery.",
+        "year": "2016-present",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "2-10M",
+        "data_source": "Sentinel",
+        "data_type": "Binary",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface,Settlement_Classification",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software,Cloud_platform_such_as_Google_E",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://www.esa.int/Applications/Observing_the_Earth/Mapping_our_human_footprint_from_space",
+        "download_from": "https://geoservice.dlr.de/web/maps/eoc:wsf2019",
+        "copyright": "Open Access",
+        "field_24": "https://www.esa.int/Applications/Observing_the_Earth/Mapping_our_human_footprint_from_space",
+        "field_25": "https://geoservice.dlr.de/web/maps/eoc:wsf2019",
+        "year_2": "2016-present",
+        "year_3": "2016-present",
+        "year_4": "2016-present"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 36,
+        "globalid": "072f8a03-7d59-4588-8995-dbe7e355e42f",
+        "CreationDate": 1695050143389,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1695050143389,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "World Settlement Footprint Evolution",
+        "description": "Global settlement extent map generated at 30 m resolution on a yearly basis from 1985 to 2015 from multi-temporal Landsat-5/7 imagery.\n",
+        "year": "1976-1985",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "1976_-_1985,_1986_-_1995,1996_-_2005,2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface,Settlement_Classification",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software,Cloud_platform_such_as_Google_E",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://www.esa.int/Applications/Observing_the_Earth/Mapping_our_human_footprint_from_space",
+        "download_from": "https://geoservice.dlr.de/web/maps/eoc:wsfevolution",
+        "copyright": "Open Access",
+        "field_24": "https://www.esa.int/Applications/Observing_the_Earth/Mapping_our_human_footprint_from_space",
+        "field_25": "https://geoservice.dlr.de/web/maps/eoc:wsfevolution",
+        "year_2": "1986-1995",
+        "year_3": "1996-2005",
+        "year_4": "2006-2015"
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 37,
+        "globalid": "bd176550-c824-47b4-8046-13eaed50f54a",
+        "CreationDate": 1695050364869,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1695050364869,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Global 30 m Impervious Surface Map",
+        "description": "Global 30 m impervious surface map using multi-source and multi-temporal remote sensing datasets with Google Earth Engine.",
+        "year": "2006-2015",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Raster",
+        "resolution": "20-50M",
+        "data_source": "Landsat,Sentinel,VIIRS",
+        "data_type": "Float",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software,Cloud_platform_such_as_Google_E",
+        "scientific_publication_with_qua": "https://doi.org/10.5194/essd-12-1625-2020",
+        "documentation": "https://essd.copernicus.org/articles/12/1625/2020/essd-12-1625-2020-discussion.html",
+        "download_from": "https://doi.org/10.5281/zenodo.3505079",
+        "copyright": "Open Access ",
+        "field_24": "https://essd.copernicus.org/articles/12/1625/2020/essd-12-1625-2020-discussion.html",
+        "field_25": "https://doi.org/10.5281/zenodo.3505079",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 38,
+        "globalid": "ec4360d7-10f9-4e35-81cd-f7fa73a058c5",
+        "CreationDate": 1695050656846,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1695050656846,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Local Climate Zones",
+        "description": "100 m spatial resolution global map of Local Climate Zones (LCZ), that is derived from multiple earth observation datasets and expert LCZ class labels.\n",
+        "year": "2006-2015",
+        "indicators": "11.5.1_(Hazards),11.7.1_(Open_Space)",
+        "format": "Raster",
+        "resolution": "51-500M",
+        "data_source": "Landsat,MODIS",
+        "data_type": "Categorical",
+        "level": "Global",
+        "keywords": null,
+        "field_15": "2006_-_2015,2016_-_present",
+        "field_17": "Land_Cover/Use,Settlement_Classification",
+        "theme": null,
+        "technical_or_min_requirementsac": "Cloud_platform_such_as_Google_E",
+        "scientific_publication_with_qua": "https://doi.org/10.5194/essd-14-3835-2022",
+        "documentation": null,
+        "download_from": "https://lcz-generator.rub.de/global-lcz-map",
+        "copyright": null,
+        "field_24": null,
+        "field_25": "https://lcz-generator.rub.de/global-lcz-map",
+        "year_2": "2016-present",
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "attributes": {
+        "objectid": 39,
+        "globalid": "cab9fc0f-df14-4de4-83ca-65ccfb9cddae",
+        "CreationDate": 1695050821170,
+        "Creator": "dennnis.mwaniki@un.org",
+        "EditDate": 1695050821170,
+        "Editor": "dennnis.mwaniki@un.org",
+        "dataset_name": "Open Buildings",
+        "description": "The dataset contains 1.8 billion building detections, across an inference area of 58M km2 within Africa, South Asia, South-East Asia, Latin America and the Caribbean. The current dataset is in its 3rd version (v3). V1 covered Africa, in v2 we expanded to South and South-East Asia and in the current version v3 detections from Latin America and the Caribbean are also included.",
+        "year": "2016-present",
+        "indicators": "11.3.1_(Urbanization)",
+        "format": "Shapefile",
+        "resolution": "2M or Less",
+        "data_source": "Commercial/Mixed_Sources",
+        "data_type": "Binary",
+        "level": "Regional",
+        "keywords": null,
+        "field_15": "2016_-_present",
+        "field_17": "Built_Up/Impervious_Surface",
+        "theme": null,
+        "technical_or_min_requirementsac": "GIS_software,Cloud_platform_such_as_Google_E",
+        "scientific_publication_with_qua": null,
+        "documentation": "https://sites.research.google/open-buildings/",
+        "download_from": "https://sites.research.google/open-buildings/",
+        "copyright": "Open Access",
+        "field_24": "https://sites.research.google/open-buildings/",
+        "field_25": "https://sites.research.google/open-buildings/",
+        "year_2": null,
+        "year_3": null,
+        "year_4": null
+      },
+      "geometry": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="forest-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/forest.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/forest.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h2 style="text-align:left;">Forests</h2>
+  				<h3 style="text-align:left;"><br/>Global tree cover loss is generated annually by the University of Maryland’s Global Land Analysis and Discovery (GLAD) laboratory as an operational product for the World Resources Institute’s (WRI) Global Forest Watch initiative. A new product, 5-year epochal global tree height maps, will be delivered in 2021 as part of the new Global Land and Carbon Watch, also in partnership with WRI.<br/>
+  				<br/>For COP-26, GLAD will present these maps along with time-series global land cover and land use change dynamics as prototypes for comprehensive global land monitoring.</h3>
+  			</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				Global tree cover loss is generated annually by the University of Maryland’s Global Land Analysis and Discovery (<a href="https://glad.umd.edu/" target="_blank">GLAD</a>) laboratory as an operational product for the World Resources Institute’s (<a href="https://www.wri.org/" target="_blank">WRI</a>) <a href="https://www.globalforestwatch.org/" target="_blank">Global Forest Watch</a> initiative. A new product, 5-year epochal global tree height maps, will be delivered in 2021 as part of the new Global Land and Carbon Watch, also in partnership with WRI.<br/><br/>
+				For COP-26, GLAD will present these maps along with time-series global land cover and land use change dynamics as prototypes for comprehensive global land monitoring.<br/><br/>
+				<video width="100%" controls>
+  					<source src="img/glad-tree-loss.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video><br/><br/>
+				<h4>Usage</h4>
+				Users should keep in mind that the GFW dataset is a global-scale dataset, generated with a single methodology applied over all regions, and as such, the accuracy of the map may vary between locations and at different spatial resolutions. The dataset can therefore be expected to be most useful for countries that do not have their own forest monitoring systems.<br/><br/>
+				GLAD time-series maps of forest loss are a largely viable relative indicator of trends, care must be taken when comparing mapped change across any interval. Applying a temporal filter, for example a 3-year moving average, is often useful in discerning trends. However, definitive area estimation should not be made using pixels counts from the forest loss layers. The Intergovernmental Panel on Climate Change (IPCC) and the Global Forest Observations Initiative (GFOI) provide guidance on reporting areal extent and change of forests, requiring the use of estimators that neither over or underestimate dynamics to the degree possible, and that have known uncertainties. The maps provided by GLAD can be leveraged to facilitate appropriate probability-based statistical methods in deriving statistically valid areas of forest extent and change. Specifically, the maps may be used as a stratifier in targeting forest extent and/or change by a probability sample. The team at GLAD has demonstrated such approaches using the GLAD forest loss data in sample-based area estimation (Tyukavina et al., ERL, 2018, Turubanova et al., ERL, 2019, and Potapov et al., RSE, 2019, among others).<br/><br/>
+				Further usage notes are available <a href="https://data.globalforestwatch.org/documents/tree-cover-loss/explore" target="_blank">here</a>.<br/><br/>
+				<h4>Methodology</h4>
+				The global forest loss layer is divided into 10x10 degree tiles, consisting of seven files per tile. All files contain unsigned 8-bit values and have a spatial resolution of 1 arc-second per pixel, or approximately 30 metres per pixel at the equator.  The year of forest cover loss layer depicts forest loss during the period 2000–2020, defined as a stand-replacement disturbance, or a change from a forest to non-forest state. Encoded as either 0 (no loss) or else a value in the range 1–20, representing loss detected in the years 2001–2020, inclusive.<br/><br/>
+				<h4>Uncertainty and Accuracy</h4>
+				Errors are unavoidable in data that attempt to simplify the world—in the case of the GLAD global tree cover data into categories of tree cover loss, gain and no change. A <a href="https://www.sciencedirect.com/science/article/pii/S0303243419306452" target="_blank">recent assessment</a> of the global forest watch tree cover 2000 in China suggested a high overall accuracy reaching 94.5 %. The user’s and producer’s accuracy of forest classification was 89.26 % and 82.13 %. A study of humid tropical primary forest extent and loss (Turubanova et al. 2018) found high accuracies for extent (99.28%, 99.02%, 99.45% user's and 96.84%, 96.65%, 96.75% producer's accuracies for the Americas, Africa and Asia, respectively) and loss (95.83% 86.43%, 97.57% user's and 80.34%, 63.21%, 86.21% producer's for the Americas, Africa and Asia, respectively). Higher error rates can result from a number of factors, including:<br/><br/>
+				<ul>
+				<li>Low density tree cover canopy, such as that found in the subtropical biome, which makes it harder to detect loss because the change from tree cover to bare ground is less noticeable than in a dense forest.</li>
+				<li>Small-scale clearings, like those prevalent in Sub-Sahara Africa, which are more likely to get missed or underestimated by the data set because they have more edges compared to their area. Pixels on the edges of clearings are often blurred in satellite images, so the data misses a lot of “loss” in these small patches.</li>
+				<li>Gradual changes, like tree cover gain, which are more difficult to detect than sudden changes.</li>
+				</ul>
+				When deciding if it is appropriate to use the data for your needs, the first step is to understand the accuracy of the data. The next step is to determine how the precision and possible errors may impact your specific application. The question of whether the data is accurate enough will be different for each use case, but here are some general guidelines:<br/><br/>
+				<ul>
+				<li>Investigate trends and patterns at large scales: The global error rates are relatively low compared to similar data sets, so we can feel confident using the data to examine trends and patterns at large scales (e.g., global, regional, national).</li>
+				<li>Use 3-year averages: Given year-to-year uncertainties, we recommend using 3-year averages.  Clouds literally get in the way of what satellites can “see,” especially in the humid tropics where clouds can obscure the view below for much of the year. That means that occasionally trees may be felled or burned under the cover of clouds and it may not be detected until the following year. Users of the data can smooth out such uncertainty by examining the average over multiple years.</li>
+				<li>Assess general locations of loss: While the accuracy was not assessed at local scales, we know that most missed “loss” occurs on edges and so we can confidently use the data to identify the general location of loss locally.</li>
+				<li>Use caution with local measurements: However, making precise measurements locally (e.g. hectares of tree cover loss, carbon emitted from deforestation) requires further information on accuracy in that particular location—for example, through knowledge of the local context, satellite imagery, comparing to other forest change data, etc.</li>
+				<li>Match your confidence to the accuracy: Avoid making strong claims based on data with low accuracy (i.e. areas with low canopy density, tree cover gain, etc.).</li>
+				</ul>
+				More information <a href="https://www.globalforestwatch.org/blog/data-and-research/how-accurate-is-accurate-enough-examining-the-glad-global-tree-cover-change-data-part-2/" target="_blank">here</a>.<br/><br/>
+    		</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/gfw.png" style="width:100%;padding-bottom:20px;">
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: 30m</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage: 2000 to 2020</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Annual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: The GFW Open Data Portal is available for data discovery and visualisation. Data tiles may also be downloaded directly, or analysed in Google Earth Engine where the data already resides. Further details <a href="https://data.globalforestwatch.org/documents/tree-cover-loss-hansen-umd-google-usgs-nasa/explore" target="_blank">here</a>.</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Public open (Creative Commons CC BY 4.0)</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance or User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Global Forest Watch Platform: <a href="http://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Web address for dataset download:<br/>TBD</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">TBD</p>
+			</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

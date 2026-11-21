@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>CEOS & UNFCCC Global Stocktake</title>
+	<link rel="stylesheet" href="css/style.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+<div id="mangrove-container">
+
+	<div class="row" style="margin-bottom:80px;border-bottom: solid white 1px;padding-top:50px;padding-bottom:50px;">
+		
+		<div class="col-sm">
+			<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a>
+		</div>
+		
+		<div class="col-sm" style="padding-top:25px;">
+			<a style="padding-right:50px;color:#ffffff;" href="https://ceos.org/gst/index.html">Home</a><a href="https://ceos.org/gst/es/mangrove.html" style="color:#ffffff;">Español</a> / <a href="https://ceos.org/gst/fr/mangrove.html" style="color:#ffffff;">Français</a>
+		</div>
+	
+	</div>
+
+	<div class="container">
+		
+		<div class="row" style="margin-bottom:20px;">
+			
+			<div class="col-sm-9" style="text-align:left;">
+  				<h4 style="text-align:left;">Other Land Use (OLU) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;  Wetlands</h4>
+  				<h2 style="text-align:left;">Mangroves</h2>
+  				<h3 style="text-align:left;"><br/>This dataset shows the global extent of mangroves for 41 annual epochs between 1985 and 2025 at 30 m pixel spacing, derived using a combination of optical and L-band Synthetic Aperture Radar (SAR) satellite data.</h3>
+  				<br/><h5 style="text-align:left;">The dataset is supplied by Global Mangrove Watch, a collaboration between Aberystwyth University, solo Earth Observation, Wetlands International, The Nature Conservancy, and the Japan Aerospace Exploration Agency (JAXA).</h5>
+  				<h5><br/>Updated August 2026</h5>
+  			</div>
+  		
+  		</div>
+  		
+  	</div>
+ 
+</div> 
+
+
+
+
+
+
+
+<div>
+
+	<div class="container">
+  		
+  		<div class="row" style="border-bottom: solid 1px; border-color:#B8B8B8; padding-top:50px;padding-bottom:30px;">
+    		
+    		<div class="col-sm-8" style="padding-bottom:20px;padding-right:10%;text-align:justify;">
+				<h4>Dataset Description</h4>
+				The Global Mangrove Watch (GMW) dataset currently provides estimates of the global extent and changes of mangrove forests for every year between 1985 and 2025. Geospatial (map) data and numerical area estimates are available, from which national or regional area statistics can be extracted. Mangrove losses and gains between the respective years are provided as separate data layers.<br/><br/>
+				<h4>Usage</h4>
+				Users should keep in mind that the GMW dataset is a global-scale dataset, generated with a single methodology applied over all regions. As such, the accuracy may vary between locations and with scale. The dataset can therefore be expected to be most useful for countries that do not have their own mangrove monitoring systems. With the caveats in mind, the GMW dataset can be used as activity data proxy by countries considering inclusion of Other Land Uses (Wetlands) in their Nationally Determined Contributions (NDCs) for reporting to the UNFCCC. The dataset can furthermore support national reporting on Sustainable Development Goals, specifically Task 6.6 (Protect and restore water-related ecosystems) Indicator 6.6.1 (Change in the extent of water-related ecosystems over time). To this end, GMW has been selected by the United Nations Environment Programme (UNEP) as the official 'default' mangrove dataset for SDG 6.6.1 reporting for countries that lack their own information about mangrove resources required for improved management, protection and restoration.<br/><br/>
+				<h4>Methodology</h4>
+				The Global Mangrove Watch v4.1 time-series layers were generated using the full Landsat and Sentinel-2 time-series and available JAXA L-band SAR data (JERS-1 SAR, ALOS PALSAR, ALOS-2 PALSAR-2). <br/><br/>
+				The methodology is built on knowledge gained from developing the previous GMW layers (GMW v2.0, GMW v3.0, and GMW v4.0). Building on the GMW v4.0 10 m baseline for defining the reference data, the GMW v4.1 time-series used multiple baseline years (1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025), with classifications created using an XGBoost classifier and composites of Landsat and Sentinel-2 imagery. Areas of missing data due to the availability of Landsat imagery were copied through from the nearest year. The baselines were visually checked, and for 1985, 1990, and 1995, areas of poor quality were copied using the base quality and the earliest available layer. Subsequently, these baselines were filtered into a time-series using a Markov chain with probabilities defined for the transitions. <br/><br/>
+				To create the annual time-series, every Landsat and Sentinel-2 scene with less than 70% cloud cover was classified using 130 random forest classifiers in Google Earth Engine and summarised on an annual basis with the number of valid pixel observations and the number of times the pixel was classified as mangroves. These classifications were combined with thresholded JAXA L-band SAR data and the baseline classifications using a likelihood ratio methodology to define a probability of a pixel being mangroves for each year in the timeseries. The subsequent time-series was then filtered using Bayesian updating and Markov chains, with the output probabilities thresholded to define the final mangrove extent maps. Throughout, extensive visual quality assurance (QA) checks were integrated, and the layers were updated based on the feedback.<br/><br/>
+				<h4>Uncertainty and Accuracy</h4>
+				The accuracy assessment for the mangrove extent estimated a global F1-Score of 0.9220 - 0.9330, with an omission error of 5.65% - 7.13% and a commission error of 7.10% - 9.13%. The accuracy assessment was based on 32,569 reference points distributed across 120 geographic sites covering the full range of years within the analysis. The accuracy statistics therefore represent the average for the product and will vary locally in both time and geography.<br/><br/>
+				It should be noted that the time-series are dependent on the availability of satellite imagery, and before around 2000, the availability of imagery can be significantly reduced in certain regions. This problem increases the further back in time you go. To provide full coverage on an annual basis throughout the timeseries, this has required some infilling of data from other years, particularly in the 1990s and 1980s.<br/>
+    		</div>
+    		
+    		<div class="col-sm-4" style="padding-bottom:20px;">
+    			<img src="img/gmw-2026.jpg" style="width:100%;padding-bottom:20px;">
+    			<i>Product coverage, JAXA / Global Mangrove Watch</i><br/><br/>
+    			<p style="border-bottom:solid 1px black;font-weight:900;">Technical Characteristics</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Spatial resolution: 30m</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Geographical coverage: Global (all countries with mangroves)</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Temporal coverage:</br>1985-2025</br>Annual data 2015-2020.</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Update frequency: Annual. Next release scheduled for mid-2027.</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Format: GIS shapefile (.shp), geocoded raster (Geotiff), numerical statistics (.xslx)</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data Policy: Public open (Creative Commons CC BY 4.0)</p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Associated Guidance and User Manual</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Global Mangrove Watch Platform: <a href="https://www.globalmangrovewatch.org" target="_blank">www.globalmangrovewatch.org</a></p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Data download:<br/><a href="https://www.eorc.jaxa.jp/ALOS/en/dataset/gmw_e.htm" target="_blank">JAXA (raster data)</a><br/><a href="https://zenodo.org/records/21346457" target="_blank">Zenodo Data Repository (all v4.1 datasets)</a></p>
+				<br/><p style="border-bottom:solid 1px black;font-weight:900;">Points of contact for queries</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Dr. Ake Rosenqvist<br/>
+				GMW and K&C Science Coordinator<br/>
+				solo Earth Observation (soloEO)<br/>
+				Tokyo 104-0054, Japan<br/>
+				Email: ake.rosenqvist@soloEO.com</p>
+				<p style="text-align:right;border-bottom:solid 1px #969696;padding-bottom:5px;">Dr. Pete Bunting<br/>
+				GMW technical lead<br/>
+				Institute of Geography and Earth Sciences<br/>
+				Aberystwyth University<br/>
+				SY23 3DB Wales, UK<br/>
+				Email: pfb@aber.ac.uk<br/>
+			</div>
+	
+		</div>
+		
+	
+	</div>
+
+</div>
+
+<div id="footer-container">
+
+	<div class="container">
+  		
+  		<div class="row">
+    		
+    		<div class="col-sm" id="nav-bottom">
+				<a href="http://www.ceos.org" target="_blank"><img class="img" src="img/logo3.png"></img></a><br/><br/>
+    		</div>
+    	
+    	<div class="col-sm">
+    		<small-text>CEOS ensures international coordination of civil space-based Earth observation programs and promotes exchange of data to optimize societal benefit and inform decision making for securing a prosperous and sustainable future for humankind.</small-text><br/>
+    	</div>
+	
+	</div>
+
+</div> 
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

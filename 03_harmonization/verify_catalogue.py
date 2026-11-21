@@ -11,7 +11,7 @@
 ====================================
 Automated structural, provenance, and ontology verification suite for the Global L3/L4 EO Product Catalogue.
 Verifies:
-1. All 32 `01_raw/` folders contain `mine.py`, `README.md`, `last_access.txt`, and `data/` with all files <48 MB.
+1. All 35 `01_raw/` folders contain `mine.py`, `README.md`, `last_access.txt`, and `data/` with all files <48 MB.
 2. Presence and consistent classification of sentinel, maturity, ontology, and producer-pool reference products.
 """
 
@@ -35,10 +35,10 @@ def main() -> None:
     checks_passed = 0
     issues_found: list[str] = []
 
-    # 1. Check all 32 raw directories & file sizes
+    # 1. Check all 35 raw directories & file sizes
     raw_dirs = sorted([d for d in RAW_DIR.iterdir() if d.is_dir()])
-    if len(raw_dirs) != 32:
-        issues_found.append(f"Expected 32 raw source directories, found {len(raw_dirs)}")
+    if len(raw_dirs) != 35:
+        issues_found.append(f"Expected 35 raw source directories, found {len(raw_dirs)}")
     else:
         checks_passed += 1
 
@@ -692,6 +692,57 @@ def main() -> None:
         )
     else:
         issues_found.append("Check V failed: new primary portals or cross-pool mirror hygiene invariant check")
+
+    # Check W: US GHG Center (33), FAO Geospatial CKAN (34), CNES GEODES (35) & Flagship DataCite Additions
+    s33_w = df_all[df_all["source_catalogue"] == "33_us_ghg_center_stac"]
+    s34_w = df_all[df_all["source_catalogue"] == "34_fao_geospatial_catalog_ckan"]
+    s35_w = df_all[df_all["source_catalogue"] == "35_cnes_geodes_stac"]
+    ghg_oco2_w = s33_w[s33_w["raw_id"] == "oco2-mip-co2budget-yeargrid-v1"]
+    ghg_gosat_w = s33_w[s33_w["raw_id"] == "gosat-based-ch4budget-yeargrid-v1"]
+    ghg_epa_w = s33_w[s33_w["raw_id"] == "epa-ch4emission-yeargrid-v2express"]
+    ghg_odiac_w = s33_w[s33_w["raw_id"].astype(str).str.startswith("odiac-ffco2-")]
+    fao_glc_w = s34_w[s34_w["title"].fillna("").str.contains("GLC-SHARE", case=False)]
+    fao_hwsd2_w = s34_w[s34_w["title"].fillna("").str.contains("Harmonized World Soils Database v\\.2", case=False, regex=True)]
+    geodes_oso_w = s35_w[s35_w["raw_id"] == "THEIA_OSO_RASTER_L3B"]
+    geodes_flat_w = s35_w[s35_w["raw_id"] == "FLATSIM_TIMESERIE"]
+    nceo_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.25392/leicester.data.15060270.v1"]
+    wfdei_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5065/486n-8109"]
+    mirad_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5066/p9na3eo8"]
+    lanid_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.5548555"]
+    xu_bio_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.4161694"]
+    mirca_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.7422506"]
+    mircaos_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.4211/hs.60a890eb841c460192c03bb590687145"]
+
+    w_ok = (
+        len(s33_w) == 37 and (s33_w["provider_pool"] == "non_eu").all()
+        and len(ghg_oco2_w) == 1 and str(ghg_oco2_w.iloc[0]["doi"]) == "10.48588/npf6-sw92"
+        and len(ghg_gosat_w) == 1 and ghg_gosat_w.iloc[0]["geographic_coverage_class"] == "global"
+        and len(ghg_epa_w) == 1 and ghg_epa_w.iloc[0]["geographic_coverage_class"] == "regional_or_local" and ghg_epa_w.iloc[0]["product_ontology_class"] == "non_eo_inventory_or_census"
+        and len(ghg_odiac_w) == 4 and (ghg_odiac_w["product_ontology_class"] == "eo_constrained_hybrid").all()
+        and len(s34_w) >= 840 and (s34_w["provider_pool"] == "non_eu").all() and (s34_w["provider_jurisdiction_tier"] == "un_or_international_body").all()
+        and len(fao_glc_w) == 12 and len(fao_hwsd2_w) >= 2
+        and len(s35_w) == 23 and (s35_w["provider_pool"] == "eu_non_copernicus").all()
+        and len(geodes_oso_w) == 1 and geodes_oso_w.iloc[0]["geographic_coverage_class"] == "europe_regional" and bool(geodes_oso_w.iloc[0]["uses_sentinel_data"])
+        and len(geodes_flat_w) == 1 and bool(geodes_flat_w.iloc[0]["uses_sentinel_data"]) and "S1" in str(geodes_flat_w.iloc[0]["sentinel_missions"])
+        and len(nceo_w) == 1 and nceo_w.iloc[0]["provider_pool"] == "eu_non_copernicus" and nceo_w.iloc[0]["provider_jurisdiction_tier"] == "copernicus_associated_state"
+        and len(wfdei_w) == 1 and wfdei_w.iloc[0]["provider_pool"] == "eu_non_copernicus" and wfdei_w.iloc[0]["geographic_coverage_class"] == "global"
+        and len(mirad_w) == 1 and mirad_w.iloc[0]["provider_pool"] == "non_eu"
+        and len(lanid_w) == 1 and lanid_w.iloc[0]["provider_pool"] == "non_eu"
+        and len(xu_bio_w) == 1 and xu_bio_w.iloc[0]["provider_pool"] == "non_eu"
+        and len(mirca_w) == 1 and mirca_w.iloc[0]["provider_pool"] == "eu_non_copernicus" and mirca_w.iloc[0]["product_ontology_class"] == "eo_constrained_hybrid"
+        and len(mircaos_w) == 1 and mircaos_w.iloc[0]["provider_pool"] == "non_eu" and mircaos_w.iloc[0]["product_ontology_class"] == "eo_constrained_hybrid"
+    )
+    if w_ok:
+        checks_passed += 1
+        benchmarks.append(
+            (
+                "US GHG Center (33), FAO CKAN (34), CNES GEODES (35) & Flagship DataCite Releases",
+                "PASS",
+                f"ghg={len(s33_w)}, fao_ckan={len(s34_w)}(glc_share={len(fao_glc_w)}, hwsd2={len(fao_hwsd2_w)}), geodes={len(s35_w)}(flatsim=S1), datacite_8=OK",
+            )
+        )
+    else:
+        issues_found.append("Check W failed: US GHG Center, FAO Geospatial CKAN, CNES GEODES, or DataCite benchmark invariant check")
 
     print("=" * 92)
     print(f"VERIFICATION REPORT ({checks_passed} core test suites passed, {len(issues_found)} issues)")

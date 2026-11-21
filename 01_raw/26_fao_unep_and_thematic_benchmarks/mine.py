@@ -194,6 +194,14 @@ DATACITE_PINNED_DOIS = [
     "10.6096/3008",              # Theia Snow Depth on Sea Ice CryoSat-2 + ICESat-2
     "10.6084/m9.figshare.26861767.v2",  # Global ocean latent & sensible heat fluxes (Figshare)
     "10.5281/zenodo.18385275",   # PML-V2.2 calibration & extended dataset companion (Zenodo)
+    "10.25392/leicester.data.15060270.v1",  # NCEO / Univ. of Leicester Africa Aboveground Woody Biomass map
+    "10.5281/zenodo.4161694",    # Xu et al. / NASA JPL Global Terrestrial Live Biomass (2000-2019)
+    "10.5281/zenodo.5548555",    # LANID-US: Landsat-based Irrigation Dataset for the United States (1997-2017)
+    "10.5065/486n-8109",         # WFDEI Meteorological Forcing Data (WATCH Forcing Data methodology applied to ERA-Interim)
+    "10.5066/P9NA3EO8",          # USGS EROS MIrAD-US: MODIS Irrigated Agriculture Dataset for the Conterminous United States
+    "10.5066/P94UXNTS",          # USGS Annual National Land Cover Database (NLCD) Collection 1 Products
+    "10.5281/zenodo.7422506",    # MIRCA2000: Global Monthly Irrigated and Rainfed Crop Areas (Portmann, Siebert & Döll)
+    "10.4211/hs.60a890eb841c460192c03bb590687145",  # MIRCA-OS: Global Open-Source Monthly Irrigated & Rainfed Cropped Areas (2000-2020)
 ]
 
 DOI_CSL_PINNED = [

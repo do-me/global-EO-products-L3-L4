@@ -1,0 +1,316 @@
+{
+  "retrieved_at_utc": "2026-11-20T23:22:23Z",
+  "total_files": 44,
+  "total_bytes": 27315744,
+  "files": [
+    {
+      "url": "https://ceos.org/gst/index.html",
+      "final_url": "https://ceos.org/gst/index.html",
+      "status": 200,
+      "bytes": 12967,
+      "path": "raw/01_ceos_gst_portal/index.html"
+    },
+    {
+      "url": "https://ceos.org/gst/ghg.html",
+      "final_url": "https://ceos.org/gst/ghg.html",
+      "status": 200,
+      "bytes": 15178,
+      "path": "raw/01_ceos_gst_portal/ghg.html"
+    },
+    {
+      "url": "https://ceos.org/gst/carbon-dioxide.html",
+      "final_url": "https://ceos.org/gst/carbon-dioxide.html",
+      "status": 200,
+      "bytes": 18405,
+      "path": "raw/01_ceos_gst_portal/carbon-dioxide.html"
+    },
+    {
+      "url": "https://ceos.org/gst/methane.html",
+      "final_url": "https://ceos.org/gst/methane.html",
+      "status": 200,
+      "bytes": 11448,
+      "path": "raw/01_ceos_gst_portal/methane.html"
+    },
+    {
+      "url": "https://ceos.org/gst/biomass.html",
+      "final_url": "https://ceos.org/gst/biomass.html",
+      "status": 200,
+      "bytes": 8020,
+      "path": "raw/01_ceos_gst_portal/biomass.html"
+    },
+    {
+      "url": "https://ceos.org/gst/GEDI-biomass.html",
+      "final_url": "https://ceos.org/gst/GEDI-biomass.html",
+      "status": 200,
+      "bytes": 11992,
+      "path": "raw/01_ceos_gst_portal/GEDI-biomass.html"
+    },
+    {
+      "url": "https://ceos.org/gst/cci-biomass.html",
+      "final_url": "https://ceos.org/gst/cci-biomass.html",
+      "status": 200,
+      "bytes": 17219,
+      "path": "raw/01_ceos_gst_portal/cci-biomass.html"
+    },
+    {
+      "url": "https://ceos.org/gst/icesat2-boreal-biomass.html",
+      "final_url": "https://ceos.org/gst/icesat2-boreal-biomass.html",
+      "status": 200,
+      "bytes": 12617,
+      "path": "raw/01_ceos_gst_portal/icesat2-boreal-biomass.html"
+    },
+    {
+      "url": "https://ceos.org/gst/jpl-biomass.html",
+      "final_url": "https://ceos.org/gst/jpl-biomass.html",
+      "status": 200,
+      "bytes": 13014,
+      "path": "raw/01_ceos_gst_portal/jpl-biomass.html"
+    },
+    {
+      "url": "https://ceos.org/gst/africa-biomass.html",
+      "final_url": "https://ceos.org/gst/africa-biomass.html",
+      "status": 200,
+      "bytes": 10077,
+      "path": "raw/01_ceos_gst_portal/africa-biomass.html"
+    },
+    {
+      "url": "https://ceos.org/gst/forest.html",
+      "final_url": "https://ceos.org/gst/forest.html",
+      "status": 200,
+      "bytes": 12769,
+      "path": "raw/01_ceos_gst_portal/forest.html"
+    },
+    {
+      "url": "https://ceos.org/gst/land.html",
+      "final_url": "https://ceos.org/gst/land.html",
+      "status": 200,
+      "bytes": 7723,
+      "path": "raw/01_ceos_gst_portal/land.html"
+    },
+    {
+      "url": "https://ceos.org/gst/HILDAplus.html",
+      "final_url": "https://ceos.org/gst/HILDAplus.html",
+      "status": 200,
+      "bytes": 11997,
+      "path": "raw/01_ceos_gst_portal/HILDAplus.html"
+    },
+    {
+      "url": "https://ceos.org/gst/cci-lc.html",
+      "final_url": "https://ceos.org/gst/cci-lc.html",
+      "status": 200,
+      "bytes": 12167,
+      "path": "raw/01_ceos_gst_portal/cci-lc.html"
+    },
+    {
+      "url": "https://ceos.org/gst/copernicus.html",
+      "final_url": "https://ceos.org/gst/copernicus.html",
+      "status": 200,
+      "bytes": 11289,
+      "path": "raw/01_ceos_gst_portal/copernicus.html"
+    },
+    {
+      "url": "https://ceos.org/gst/worldcover.html",
+      "final_url": "https://ceos.org/gst/worldcover.html",
+      "status": 200,
+      "bytes": 11584,
+      "path": "raw/01_ceos_gst_portal/worldcover.html"
+    },
+    {
+      "url": "https://ceos.org/gst/agriculture.html",
+      "final_url": "https://ceos.org/gst/agriculture.html",
+      "status": 200,
+      "bytes": 16772,
+      "path": "raw/01_ceos_gst_portal/agriculture.html"
+    },
+    {
+      "url": "https://ceos.org/gst/mangrove.html",
+      "final_url": "https://ceos.org/gst/mangrove.html",
+      "status": 200,
+      "bytes": 10689,
+      "path": "raw/01_ceos_gst_portal/mangrove.html"
+    },
+    {
+      "url": "https://ceos.org/gst/fire.html",
+      "final_url": "https://ceos.org/gst/fire.html",
+      "status": 200,
+      "bytes": 8458,
+      "path": "raw/01_ceos_gst_portal/fire.html"
+    },
+    {
+      "url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_6.6.1_EO_Support_Sheet_v2023_1.pdf",
+      "final_url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_6.6.1_EO_Support_Sheet_v2023_1.pdf",
+      "status": 200,
+      "bytes": 649382,
+      "path": "raw/02_ceos_sdg_support_sheets/SDG_6.6.1_EO_Support_Sheet_v2023_1.pdf"
+    },
+    {
+      "url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_11.3.1_EO_Support_Sheet_v2024_1.pdf",
+      "final_url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_11.3.1_EO_Support_Sheet_v2024_1.pdf",
+      "status": 200,
+      "bytes": 2352757,
+      "path": "raw/02_ceos_sdg_support_sheets/SDG_11.3.1_EO_Support_Sheet_v2024_1.pdf"
+    },
+    {
+      "url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_14.1.1a_EO_Support_Sheet_v2025_1.pdf",
+      "final_url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_14.1.1a_EO_Support_Sheet_v2025_1.pdf",
+      "status": 200,
+      "bytes": 1258997,
+      "path": "raw/02_ceos_sdg_support_sheets/SDG_14.1.1a_EO_Support_Sheet_v2025_1.pdf"
+    },
+    {
+      "url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_15.3.1_EO_Support_Sheet_v2025_1.pdf",
+      "final_url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/Support%20Sheets/SDG_15.3.1_EO_Support_Sheet_v2025_1.pdf",
+      "status": 200,
+      "bytes": 5694996,
+      "path": "raw/02_ceos_sdg_support_sheets/SDG_15.3.1_EO_Support_Sheet_v2025_1.pdf"
+    },
+    {
+      "url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/CEOS_SDG_Support_v2.pdf",
+      "final_url": "https://ceos.org/document_management/Ad_Hoc_Teams/SDG-AHT/CEOS_SDG_Support_v2.pdf",
+      "status": 200,
+      "bytes": 62028,
+      "path": "raw/02_ceos_sdg_support_sheets/CEOS_SDG_Support_v2.pdf"
+    },
+    {
+      "url": "https://ceos.org/document_management/Publications/Publications-and-Key-Documents/Cross-Cutting/EETT%20White%20Paper%20V1.1%202023-12-04.pdf",
+      "final_url": "https://ceos.org/document_management/Publications/Publications-and-Key-Documents/Cross-Cutting/EETT%20White%20Paper%20V1.1%202023-12-04.pdf",
+      "status": 200,
+      "bytes": 932366,
+      "path": "raw/03_ceos_eett_gbf/CEOS_EETT_White_Paper_v1.1_2023.pdf"
+    },
+    {
+      "url": "https://services6.arcgis.com/uWtJiVzcBsV6C7NV/arcgis/rest/services/survey123_fa868d0c12dc49ec9b25d42ea0d0eea4/FeatureServer/0/query?where=1%3D1&outFields=*&f=json&resultRecordCount=1000",
+      "final_url": "https://services6.arcgis.com/uWtJiVzcBsV6C7NV/arcgis/rest/services/survey123_fa868d0c12dc49ec9b25d42ea0d0eea4/FeatureServer/0/query?where=1%3D1&outFields=*&f=json&resultRecordCount=1000",
+      "status": 200,
+      "bytes": 71536,
+      "path": "raw/04_unhabitat_geo_nasa_eotoolkit/eotoolkit_datasets.json"
+    },
+    {
+      "url": "https://services6.arcgis.com/uWtJiVzcBsV6C7NV/arcgis/rest/services/survey123_b92f87d8532c40b1a82c140b64650c80_results/FeatureServer/0/query?where=1%3D1&outFields=*&f=json&resultRecordCount=1000",
+      "final_url": "https://services6.arcgis.com/uWtJiVzcBsV6C7NV/arcgis/rest/services/survey123_b92f87d8532c40b1a82c140b64650c80_results/FeatureServer/0/query?where=1%3D1&outFields=*&f=json&resultRecordCount=1000",
+      "status": 200,
+      "bytes": 22010,
+      "path": "raw/04_unhabitat_geo_nasa_eotoolkit/eotoolkit_tools.json"
+    },
+    {
+      "url": "https://research-data.ec.europa.eu/api/records/b9hh0-r2t58",
+      "final_url": "https://research-data.ec.europa.eu/api/records/b9hh0-r2t58",
+      "status": 200,
+      "bytes": 8839,
+      "path": "raw/05_ec_jrc_kceo_deep_dives/kceo_biodiversity_record.json"
+    },
+    {
+      "url": "https://research-data.ec.europa.eu/api/records/b9hh0-r2t58/files/KCEO-Datasets_KCEO_Biodiversity_DD_Indicators_Annex_3.xlsx/content",
+      "final_url": "https://research-data.ec.europa.eu/api/records/b9hh0-r2t58/files/KCEO-Datasets_KCEO_Biodiversity_DD_Indicators_Annex_3.xlsx/content",
+      "status": 200,
+      "bytes": 82775,
+      "path": "raw/05_ec_jrc_kceo_deep_dives/KCEO-Datasets_KCEO_Biodiversity_DD_Indicators_Annex_3.xlsx"
+    },
+    {
+      "url": "https://research-data.ec.europa.eu/api/records/axggr-ft816",
+      "final_url": "https://research-data.ec.europa.eu/api/records/axggr-ft816",
+      "status": 200,
+      "bytes": 8923,
+      "path": "raw/05_ec_jrc_kceo_deep_dives/kceo_urban_adaptation_record.json"
+    },
+    {
+      "url": "https://research-data.ec.europa.eu/api/records/axggr-ft816/files/KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx/content",
+      "final_url": "https://research-data.ec.europa.eu/api/records/axggr-ft816/files/KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx/content",
+      "status": 200,
+      "bytes": 103891,
+      "path": "raw/05_ec_jrc_kceo_deep_dives/KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/item/661020a2d34e633466504b6a?format=json",
+      "final_url": "https://www.sciencebase.gov/catalog/item/661020a2d34e633466504b6a?format=json",
+      "status": 200,
+      "bytes": 29083,
+      "path": "raw/06_usgeo_eoa_2023/sciencebase_item.json"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a0%2F5f%2Fb5%2Fa05fb5af6ad9a087db081b2e3fffcc38a6e78a35",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__a0%2F5f%2Fb5%2Fa05fb5af6ad9a087db081b2e3fffcc38a6e78a35",
+      "status": 200,
+      "bytes": 8248,
+      "path": "raw/06_usgeo_eoa_2023/EOA_2023_Agriculture_&_Forestry_Data_Dictionary.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5a%2Ff4%2Ff3%2F5af4f3f6643e105fa70dcf762bc200e8af537880",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5a%2Ff4%2Ff3%2F5af4f3f6643e105fa70dcf762bc200e8af537880",
+      "status": 200,
+      "bytes": 8186,
+      "path": "raw/06_usgeo_eoa_2023/EOA_2023_Climate_Data_Dictionary.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__4f%2F90%2F04%2F4f9004ad91bb16d2d410eea5d301c1034a7c0239",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__4f%2F90%2F04%2F4f9004ad91bb16d2d410eea5d301c1034a7c0239",
+      "status": 200,
+      "bytes": 215574,
+      "path": "raw/06_usgeo_eoa_2023/EOA2023_Tableau_Dashboard_Data_DataSources_AF.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__7b%2Fab%2F6f%2F7bab6f9bc0280205c5e5889f392ac2591221bb6b",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__7b%2Fab%2F6f%2F7bab6f9bc0280205c5e5889f392ac2591221bb6b",
+      "status": 200,
+      "bytes": 353590,
+      "path": "raw/06_usgeo_eoa_2023/EOA2023_Tableau_Dashboard_Data_DataSources_CL.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__db%2F7f%2Fe0%2Fdb7fe0b4508dde0b591349e87c51b87ccfbb6507",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__db%2F7f%2Fe0%2Fdb7fe0b4508dde0b591349e87c51b87ccfbb6507",
+      "status": 200,
+      "bytes": 24088,
+      "path": "raw/06_usgeo_eoa_2023/EOA2023_Tableau_Dashboard_Data_KPSO_Counts_AF.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5f%2F01%2F3b%2F5f013b8a531737c003098ff039cb8840430b861c",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__5f%2F01%2F3b%2F5f013b8a531737c003098ff039cb8840430b861c",
+      "status": 200,
+      "bytes": 42506,
+      "path": "raw/06_usgeo_eoa_2023/EOA2023_Tableau_Dashboard_Data_KPSO_Counts_CL.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__52%2F01%2F9f%2F52019fbf073081394ae4c9a22450a1aac11632a2",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__52%2F01%2F9f%2F52019fbf073081394ae4c9a22450a1aac11632a2",
+      "status": 200,
+      "bytes": 60652,
+      "path": "raw/06_usgeo_eoa_2023/EOA2023_Tableau_Dashboard_Data_VT_AF.csv"
+    },
+    {
+      "url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__dc%2F86%2F75%2Fdc8675501337f5a63ddde6ec99726a6eebd1ae75",
+      "final_url": "https://www.sciencebase.gov/catalog/file/get/661020a2d34e633466504b6a?f=__disk__dc%2F86%2F75%2Fdc8675501337f5a63ddde6ec99726a6eebd1ae75",
+      "status": 200,
+      "bytes": 51392,
+      "path": "raw/06_usgeo_eoa_2023/EOA2023_Tableau_Dashboard_Data_VT_CL.csv"
+    },
+    {
+      "url": "https://www.earthdata.nasa.gov/data/projects/nsite/solutions",
+      "final_url": "https://www.earthdata.nasa.gov/data/projects/nsite/solutions",
+      "status": 200,
+      "bytes": 284810,
+      "path": "raw/07_nasa_snwg_nsite/nsite_solutions.html"
+    },
+    {
+      "url": "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=SNWG",
+      "final_url": "https://cmr.earthdata.nasa.gov/search/collections.json?keyword=SNWG",
+      "status": 200,
+      "bytes": 820018,
+      "records": 108,
+      "path": "raw/07_nasa_snwg_nsite/cmr_snwg_collections.json"
+    },
+    {
+      "url": "https://earth.gov/ghgcenter/api/stac/collections?limit=200",
+      "final_url": "https://earth.gov/ghgcenter/api/stac/collections?limit=200",
+      "status": 200,
+      "bytes": 262350,
+      "path": "raw/08_us_ghg_center_stac/us_ghg_center_collections.json"
+    },
+    {
+      "url": "https://www.unccd.int/sites/default/files/documents/2021-09/UNCCD_GPG_SDG-Indicator-15.3.1_version2_2021.pdf",
+      "final_url": "https://www.unccd.int/sites/default/files/documents/2021-09/UNCCD_GPG_SDG-Indicator-15.3.1_version2_2021.pdf",
+      "status": 200,
+      "bytes": 13672362,
+      "path": "raw/09_unccd_gpg_sdg1531/UNCCD_GPG_SDG_15_3_1_v2_2021.pdf"
+    }
+  ]
+}

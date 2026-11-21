@@ -1,0 +1,262 @@
+{
+  "id": "axggr-ft816",
+  "created": "2026-10-28T11:42:59.841549+00:00",
+  "updated": "2026-10-28T15:05:20.363737+00:00",
+  "links": {
+    "self": "https://research-data.ec.europa.eu/api/records/axggr-ft816",
+    "self_html": "https://research-data.ec.europa.eu/records/axggr-ft816",
+    "preview_html": "https://research-data.ec.europa.eu/records/axggr-ft816?preview=1",
+    "reserve_doi": "https://research-data.ec.europa.eu/api/records/axggr-ft816/draft/pids/doi",
+    "parent": "https://research-data.ec.europa.eu/api/records/8ybpy-qv027",
+    "parent_html": "https://research-data.ec.europa.eu/records/8ybpy-qv027",
+    "self_iiif_manifest": "https://research-data.ec.europa.eu/api/iiif/record:axggr-ft816/manifest",
+    "self_iiif_sequence": "https://research-data.ec.europa.eu/api/iiif/record:axggr-ft816/sequence/default",
+    "files": "https://research-data.ec.europa.eu/api/records/axggr-ft816/files",
+    "media_files": "https://research-data.ec.europa.eu/api/records/axggr-ft816/media-files",
+    "archive": "https://research-data.ec.europa.eu/api/records/axggr-ft816/files-archive",
+    "archive_media": "https://research-data.ec.europa.eu/api/records/axggr-ft816/media-files-archive",
+    "latest": "https://research-data.ec.europa.eu/api/records/axggr-ft816/versions/latest",
+    "latest_html": "https://research-data.ec.europa.eu/records/axggr-ft816/latest",
+    "versions": "https://research-data.ec.europa.eu/api/records/axggr-ft816/versions",
+    "draft": "https://research-data.ec.europa.eu/api/records/axggr-ft816/draft",
+    "access_links": "https://research-data.ec.europa.eu/api/records/axggr-ft816/access/links",
+    "access_grants": "https://research-data.ec.europa.eu/api/records/axggr-ft816/access/grants",
+    "access_users": "https://research-data.ec.europa.eu/api/records/axggr-ft816/access/users",
+    "access_groups": "https://research-data.ec.europa.eu/api/records/axggr-ft816/access/groups",
+    "access_request": "https://research-data.ec.europa.eu/api/records/axggr-ft816/access/request",
+    "access": "https://research-data.ec.europa.eu/api/records/axggr-ft816/access",
+    "communities": "https://research-data.ec.europa.eu/api/records/axggr-ft816/communities",
+    "communities-suggestions": "https://research-data.ec.europa.eu/api/records/axggr-ft816/communities-suggestions",
+    "request_deletion": "https://research-data.ec.europa.eu/api/records/axggr-ft816/request-deletion",
+    "file_modification": "https://research-data.ec.europa.eu/api/records/axggr-ft816/file-modification",
+    "quota_increase": "https://research-data.ec.europa.eu/api/records/axggr-ft816/quota-increase",
+    "requests": "https://research-data.ec.europa.eu/api/records/axggr-ft816/requests"
+  },
+  "revision_id": 17,
+  "parent": {
+    "id": "8ybpy-qv027",
+    "access": {
+      "owned_by": {
+        "user": "3"
+      },
+      "settings": {
+        "allow_user_requests": false,
+        "allow_guest_requests": false,
+        "accept_conditions_text": null,
+        "secret_link_expiration": 0
+      }
+    },
+    "communities": {
+      "ids": [
+        "9b091087-d33a-4186-b862-34edcc761a0c"
+      ],
+      "entries": [
+        {
+          "id": "9b091087-d33a-4186-b862-34edcc761a0c",
+          "created": "2026-09-25T13:48:37.238986+00:00",
+          "updated": "2026-09-29T17:21:14.386759+00:00",
+          "links": {},
+          "revision_id": 5,
+          "slug": "ec-open",
+          "metadata": {
+            "title": "Open Data",
+            "description": "Research data published by the Joint Research Centre of the European Commission that is available to the general public and can be reused according to the conditions of the respective licence (by default, CC BY 4.0)",
+            "type": {
+              "id": "organization"
+            },
+            "website": "https://commission.europa.eu/about/departments-and-executive-agencies/joint-research-centre_en",
+            "organizations": [
+              {
+                "name": "European Commission, Joint Research Centre"
+              }
+            ]
+          },
+          "access": {
+            "visibility": "public",
+            "members_visibility": "public",
+            "member_policy": "closed",
+            "record_submission_policy": "closed",
+            "review_policy": "open"
+          },
+          "custom_fields": {},
+          "deletion_status": {
+            "is_deleted": false,
+            "status": "P"
+          },
+          "children": {
+            "allow": false
+          }
+        }
+      ]
+    },
+    "pids": {}
+  },
+  "versions": {
+    "is_latest": true,
+    "index": 1
+  },
+  "is_published": true,
+  "is_draft": false,
+  "pids": {},
+  "metadata": {
+    "resource_type": {
+      "id": "dataset-distribution",
+      "title": {
+        "en": "Dataset Distribution"
+      }
+    },
+    "creators": [
+      {
+        "person_or_org": {
+          "type": "organizational",
+          "name": "European Commission, Joint Research Centre"
+        }
+      }
+    ],
+    "title": "Urban Climate Change Adaptation Indicators: Earth Observation Contributions",
+    "publisher": "European Commission, Joint Research Centre",
+    "publication_date": "2024-11-05",
+    "subjects": [
+      {
+        "subject": "collection:KCEO-Datasets"
+      }
+    ],
+    "languages": [
+      {
+        "id": "eng",
+        "title": {
+          "en": "English"
+        }
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "http://data.europa.eu/89h/41fdfea8-0199-4fc9-83e0-1f960aead367",
+        "scheme": "url",
+        "relation_type": {
+          "id": "ispartof",
+          "title": {
+            "ar": "جزء من",
+            "cs": "Je součástí (čeho)",
+            "de": "Ist Teil von",
+            "en": "Is part of",
+            "es": "Es parte de",
+            "sv": "Är del av"
+          }
+        },
+        "resource_type": {
+          "id": "dataset",
+          "title": {
+            "ar": "مجموعة بيانات",
+            "cs": "Datová sada",
+            "de": "Datensatz",
+            "en": "Dataset",
+            "es": "Conjunto de datos",
+            "sv": "Dataset"
+          }
+        }
+      },
+      {
+        "identifier": "http://data.jrc.ec.europa.eu/collection/id-00418",
+        "scheme": "url",
+        "relation_type": {
+          "id": "ispartof",
+          "title": {
+            "ar": "جزء من",
+            "cs": "Je součástí (čeho)",
+            "de": "Ist Teil von",
+            "en": "Is part of",
+            "es": "Es parte de",
+            "sv": "Är del av"
+          }
+        },
+        "resource_type": {
+          "id": "dataset-collection",
+          "title": {
+            "en": "Dataset Collection"
+          }
+        }
+      }
+    ],
+    "version": "1.0.0",
+    "rights": [
+      {
+        "id": "cc-by-4.0",
+        "title": {
+          "en": "Creative Commons Attribution 4.0 International"
+        },
+        "description": {
+          "en": "The Creative Commons Attribution license allows re-distribution and re-use of a licensed work on the condition that the creator is appropriately credited."
+        },
+        "icon": "cc-by-icon",
+        "props": {
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "scheme": "spdx"
+        }
+      }
+    ]
+  },
+  "custom_fields": {},
+  "access": {
+    "record": "public",
+    "files": "public",
+    "embargo": {
+      "active": false,
+      "reason": null
+    },
+    "status": "open"
+  },
+  "files": {
+    "enabled": true,
+    "order": [],
+    "count": 1,
+    "total_bytes": 103891,
+    "entries": {
+      "KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx": {
+        "id": "2c914b19-053a-4d0f-91fe-065a29654a89",
+        "checksum": "md5:a86b184f2991bc3f0f2a807fcef4e65b",
+        "ext": "xlsx",
+        "size": 103891,
+        "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "storage_class": "L",
+        "key": "KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx",
+        "metadata": null,
+        "access": {
+          "hidden": false
+        },
+        "links": {
+          "self": "https://research-data.ec.europa.eu/api/records/axggr-ft816/files/KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx",
+          "content": "https://research-data.ec.europa.eu/api/records/axggr-ft816/files/KCEO_Datasets_KCEO_Urban_Adaptation_Indicators.xlsx/content"
+        }
+      }
+    }
+  },
+  "media_files": {
+    "enabled": false,
+    "order": [],
+    "count": 0,
+    "total_bytes": 0,
+    "entries": {}
+  },
+  "status": "published",
+  "deletion_status": {
+    "is_deleted": false,
+    "status": "P"
+  },
+  "stats": {
+    "this_version": {
+      "views": 97,
+      "unique_views": 66,
+      "downloads": 0,
+      "unique_downloads": 0,
+      "data_volume": 0.0
+    },
+    "all_versions": {
+      "views": 97,
+      "unique_views": 66,
+      "downloads": 0,
+      "unique_downloads": 0,
+      "data_volume": 0.0
+    }
+  }
+}
