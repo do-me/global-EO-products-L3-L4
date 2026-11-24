@@ -1,0 +1,15 @@
+{
+  "device": "mlx",
+  "model": "mlx-community/embeddinggemma-2-bf16",
+  "n_docs_checked_le512": 4,
+  "max_abs_diff_stock_vs_fast_le512": 0.0,
+  "n_docs_checked_gt513_sliding_window": 2,
+  "gt513_token_lengths": [
+    640,
+    617
+  ],
+  "max_abs_diff_stock_vs_fast_gt513": 0.0,
+  "batch1_vs_batch16_max_abs_diff": 0.002467,
+  "batch1_vs_batch16_min_cosine": 0.999839,
+  "batch1_vs_batch16_mean_cosine": 0.999937
+}

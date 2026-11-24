@@ -1,0 +1,112 @@
+{
+  "protocol_version": "v4.0-standalone",
+  "frozen_at_utc": "2026-11-24T06:52:50Z",
+  "device_used_for_freeze": "mlx",
+  "rule": "IMMUTABLE v4.0-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + Bit-Deterministic DuckDB BM25 + Enriched Sensor Guard + 5-Artifact SHA-256 Lock). Strictly self-contained standalone catalogue validation: Dev-45 (development), Holdout A (retrospective GT-audited external domains, N=35), and Prospective Single-Shot Blind Holdout B (N=60 completely unseen disjoint EO queries, G=G_eff=60).",
+  "benchmark_provenance": {
+    "dev45": "development_tuning_set_45_queries",
+    "holdout_a": "retrospective_gt_audited_external_domains_35_queries",
+    "holdout_b_blind": "prospective_single_shot_blind_60_queries_disjoint_from_dev45_and_holdout_a"
+  },
+  "preregistered_primary_metric": "fam_ndcg_10",
+  "preregistered_secondary_metrics": [
+    "mrr_10",
+    "fam_r_10",
+    "hit_5",
+    "hit_10"
+  ],
+  "preregistered_primary_hypotheses": [
+    "H1_Collapser: HybridRRF+GenericCollapse vs HybridRRF_NoCollapse",
+    "H2_Hybrid_vs_BM25_Fair: HybridRRF+GenericCollapse vs BM25_PreFilter+GenericCollapse",
+    "H3_Hybrid_vs_Dense_Fair: HybridRRF+GenericCollapse vs Dense+GenericCollapse",
+    "H4_Jina_vs_Stage1: JinaV35_Top50_RRFBlend vs HybridRRF+GenericCollapse",
+    "H5_Qwen3_vs_Stage1: Qwen3_Top50_RRFBlend vs HybridRRF+GenericCollapse",
+    "H6_Jina_vs_Qwen3: JinaV35_Top50_RRFBlend vs Qwen3_Top50_RRFBlend"
+  ],
+  "code_and_index_sha256": {
+    "eo_search_lib.py": "c1f57242cf72dde8b0c8f84960dee336db58f5cf8826dc77aa094d57544bc4ab",
+    "06_eval_rerankers.py": "491fc09e95b770f68d814b61118510015877baecdee27e9e153f1f2262e91327",
+    "full_catalogue.parquet": "4637f8ea21a111c1fa86a1384cf278c843f3c9b8ad3d6f859da782f618695a42",
+    "full_embeddings_bf16.npz": "2547e3c498f4e0a5ae4421aa8c3971f10e0063507f5f9141c80172183af811f7",
+    "full_bm25.duckdb": "f8a28bbaa343c138f051981297c7976e79b4ab00b7fece7a27c621ec83f93474"
+  },
+  "stage1": {
+    "dense_model_mlx": "mlx-community/embeddinggemma-2-bf16",
+    "dense_model_pytorch": "google/embeddinggemma-2",
+    "dim": 768,
+    "max_length": 512,
+    "chunking": false,
+    "query_encode_batch_size": 1,
+    "bm25_prefilter_sql": true,
+    "bm25_deterministic_threads1_round10": true,
+    "bm25_weights": {
+      "title": 2.5,
+      "keywords": 1.5,
+      "body": 1.0,
+      "k1": 1.2,
+      "b": 0.75
+    },
+    "rrf": {
+      "k": 60,
+      "w_dense": 1.0,
+      "w_bm25": 0.6,
+      "candidate_k": 300
+    },
+    "collapser": {
+      "use_known_patterns": false,
+      "generic_stem_plus_cos": true,
+      "near_dup_cos": 0.94,
+      "sensor_guard": true,
+      "sensor_guard_on_gstem": true,
+      "sensor_guard_fields": [
+        "title",
+        "raw_id",
+        "platform_sensor_raw"
+      ]
+    },
+    "null_safe_filter": true,
+    "orthogonal_grid_tolerance": 1.25,
+    "deterministic_tie_breaking": true
+  },
+  "stage2_frozen_systems": {
+    "primary_best_quality": {
+      "model_mlx": "jinaai/jina-reranker-v3.5-mlx",
+      "model_pytorch": "jinaai/jina-reranker-v3.5",
+      "license": "CC BY-NC 4.0",
+      "pool_k": 50,
+      "max_doc_length": 420,
+      "blend": {
+        "rrf_k": 30,
+        "w_rrf": 0.4,
+        "w_rerank": 1.0
+      }
+    },
+    "ablation_top50_pure": {
+      "model_mlx": "jinaai/jina-reranker-v3.5-mlx",
+      "model_pytorch": "jinaai/jina-reranker-v3.5",
+      "pool_k": 50,
+      "max_doc_length": 420,
+      "blend": null
+    },
+    "fast_sweet_spot": {
+      "model_mlx": "jinaai/jina-reranker-v3.5-mlx",
+      "model_pytorch": "jinaai/jina-reranker-v3.5",
+      "pool_k": 25,
+      "max_doc_length": 420,
+      "blend": null
+    },
+    "permissive_apache2": {
+      "model_mlx": "Qwen/Qwen3-Reranker-0.6B",
+      "model_pytorch": "Qwen/Qwen3-Reranker-0.6B",
+      "license": "Apache-2.0",
+      "score_mode": "log_odds_margin_stable_sort",
+      "pool_k": 50,
+      "max_length": 512,
+      "blend": {
+        "rrf_k": 30,
+        "w_rrf": 0.4,
+        "w_rerank": 1.0
+      }
+    }
+  }
+}

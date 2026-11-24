@@ -1,0 +1,14 @@
+system,hit_10,fam_r_10,fam_r_20,mrr_10,fam_ndcg_10
+01_Naive_Substring_ILIKE,69.23,41.92,46.54,55.38,40.6
+02_BM25_EO_Normalized,92.31,66.54,74.49,79.49,63.1
+03_Dense_Raw_NoPrompt,100.0,67.82,69.36,71.28,56.15
+04_Dense_EO_SingleVec_768d,100.0,78.33,81.41,75.0,66.22
+05_Dense_EO_Chunked_MaxSim,100.0,75.77,81.41,74.62,64.97
+06_Hybrid_RRF_Unfiltered,100.0,82.18,89.74,78.85,72.02
+07_Hybrid_RRF_NaiveStrictFilter,100.0,78.21,84.62,87.18,73.36
+08_Hybrid_RRF_NullSafeFilter,100.0,82.44,92.31,82.69,73.22
+09_SOTA_Hybrid_RRF_NullSafe_Collapse_768d,100.0,91.03,100.0,82.69,79.74
+10_SOTA_Matryoshka_512d,100.0,93.59,100.0,82.69,82.11
+11_SOTA_Matryoshka_256d,100.0,93.59,100.0,82.31,81.49
+12_SOTA_Matryoshka_128d,100.0,93.59,100.0,81.54,78.73
+13_SOTA_FP16_Storage_768d,100.0,91.03,100.0,82.69,79.74

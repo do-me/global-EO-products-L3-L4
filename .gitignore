@@ -13,3 +13,12 @@ node_modules/
 playwright-report/
 test-results/
 *.log
+
+# Large rebuildable binary search indexes & legacy scratch (rebuild via 05_index_full_catalogue.py)
+06_semantic_hybrid_search/artifacts/full_bm25.duckdb
+06_semantic_hybrid_search/artifacts/full_embeddings_bf16.npz
+06_semantic_hybrid_search/artifacts/full_catalogue.parquet
+06_semantic_hybrid_search/artifacts/subset_bm25.duckdb
+06_semantic_hybrid_search/artifacts/subset_embeddings_bf16.npz
+06_semantic_hybrid_search/artifacts/subset_catalogue.parquet
+06_semantic_hybrid_search/artifacts/archive_v1_v2/

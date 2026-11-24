@@ -83,18 +83,33 @@
           </svg>
           GitHub
         </a>
-        <button id="btn-export-csv" type="button" disabled class="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
-          </svg>
-          Export CSV
-        </button>
-        <button id="btn-export-parquet" type="button" disabled class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
-          </svg>
-          <span id="btn-export-parquet-label">Export Parquet</span>
-        </button>
+        <div id="download-wrap" class="relative">
+          <button id="btn-download" type="button" disabled aria-haspopup="menu" aria-expanded="false" aria-controls="download-menu"
+            class="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
+            </svg>
+            <span id="btn-download-label">Download</span>
+            <svg class="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div id="download-menu" role="menu" aria-labelledby="btn-download"
+            class="hidden absolute right-0 mt-1.5 w-48 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-slate-200 py-1 z-40">
+            <button type="button" role="menuitem" data-export-fmt="csv" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">CSV</span><span class="font-mono text-[10px] text-slate-400">.csv</span>
+            </button>
+            <button type="button" role="menuitem" data-export-fmt="json" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">JSON</span><span class="font-mono text-[10px] text-slate-400">.json</span>
+            </button>
+            <button type="button" role="menuitem" data-export-fmt="xlsx" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">Excel</span><span class="font-mono text-[10px] text-slate-400">.xlsx</span>
+            </button>
+            <button type="button" role="menuitem" data-export-fmt="parquet" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">Parquet</span><span class="font-mono text-[10px] text-slate-400">.parquet</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Subtle Loading Progress Bar -->
@@ -444,7 +459,7 @@
         </p>
         <ul class="list-disc pl-4 space-y-1.5">
           <li><strong>High recall over precision:</strong> Unlinked cross-platform cloud mirrors lacking shared DOIs, versioned releases, multi-level agency collections, and tagged sensitivity datasets (<code class="font-mono text-slate-800">Strict EO = false</code>, covering hybrid grids, gridded in-situ interpolations, bottom-up inventories, and reference boundaries) remain visible unless filtered out.</li>
-          <li><strong>Missing upstream metadata preserved:</strong> Upstream APIs frequently omit processing levels (<code class="font-mono text-slate-800">73.5%</code> unlabelled in canonical), native pixel spacing (<code class="font-mono text-slate-800">72.0%</code> absent in adjudicated/raw grid), platform metadata (<code class="font-mono text-slate-800">49.21%</code> unassessed), or DOIs (<code class="font-mono text-slate-800">67.6%</code> absent). Missing values stay <code class="font-mono text-slate-800">null</code> and are never fabricated; pair text search with structured filters.</li>
+          <li><strong>Missing upstream metadata preserved:</strong> Upstream APIs frequently omit processing levels (<code class="font-mono text-slate-800">73.6%</code> unlabelled in canonical), native pixel spacing (<code class="font-mono text-slate-800">70.9%</code> absent in adjudicated grid), platform metadata (<code class="font-mono text-slate-800">50.28%</code> absent), or DOIs (<code class="font-mono text-slate-800">68.3%</code> absent). Missing values stay <code class="font-mono text-slate-800">null</code> and are never fabricated; pair text search with structured filters.</li>
           <li><strong>Sentinel attribution:</strong> Separates verified Sentinel lineage (<code class="font-mono text-slate-800">confirmed_input_mission</code>, <code class="font-mono text-slate-800">retrospective_or_mixed_epoch_series</code>) from <code class="font-mono text-slate-800">explicit_non_sentinel</code>, target-grid-only references (e.g., Landsat <code class="font-mono text-slate-800">HLSL30</code>), and <code class="font-mono text-slate-800">unassessed_no_platform_metadata</code>.</li>
           <li><strong>Harvest &amp; evaluation scope:</strong> Automated checks verify 25 structural suites, 26 QA assertions, 77/77 checked EU policy product families, 40/40 GCOS ECV groups, and 79/79 curated product verification cases. Live event-activation portals (dedicated CEMS On-Demand Mapping API; historical JRC activations are indexed), restricted security/commercial archives, instantaneous L2 event streams (e.g., MTG FCI Active Fire L2, PO.DAAC G-REALM L2), auth-gated altimetry portals, and portals without open collection APIs sit outside direct harvesting; worldwide exhaustiveness is unmeasured.</li>
         </ul>

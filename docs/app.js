@@ -23,7 +23,7 @@ const state = {
   mapResizeTimer: null,
   searchTimer: null,
   yearTimer: null,
-  exportingParquet: false,
+  exporting: false,
   loading: true,
 };
 
@@ -130,9 +130,11 @@ const dom = {
   paginationTop: document.getElementById('pagination-top'),
   paginationBottom: document.getElementById('pagination-bottom'),
   sortThs: Array.from(document.querySelectorAll('.sort-th')),
-  btnExportCsv: document.getElementById('btn-export-csv'),
-  btnExportParquet: document.getElementById('btn-export-parquet'),
-  btnExportParquetLabel: document.getElementById('btn-export-parquet-label'),
+  downloadWrap: document.getElementById('download-wrap'),
+  btnDownload: document.getElementById('btn-download'),
+  btnDownloadLabel: document.getElementById('btn-download-label'),
+  downloadMenu: document.getElementById('download-menu'),
+  downloadOpts: Array.from(document.querySelectorAll('.download-opt')),
 
   drawerBackdrop: document.getElementById('drawer-backdrop'),
   drawer: document.getElementById('detail-drawer'),
@@ -685,9 +687,8 @@ function renderTable() {
 
   renderPagination(dom.paginationTop, total);
   renderPagination(dom.paginationBottom, total);
-  dom.btnExportCsv.disabled = total === 0;
-  if (dom.btnExportParquet) {
-    dom.btnExportParquet.disabled = total === 0 || state.exportingParquet;
+  if (dom.btnDownload) {
+    dom.btnDownload.disabled = total === 0 || state.exporting;
   }
 
   if (total === 0) {
@@ -1150,6 +1151,179 @@ function triggerBlobDownload(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+function setDownloadMenuOpen(open) {
+  if (!dom.downloadMenu || !dom.btnDownload) return;
+  dom.downloadMenu.classList.toggle('hidden', !open);
+  dom.btnDownload.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function xmlEsc(str) {
+  return String(str)
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+function colRef(idx) {
+  let s = '';
+  let n = idx + 1;
+  while (n > 0) {
+    const r = (n - 1) % 26;
+    s = String.fromCharCode(65 + r) + s;
+    n = Math.floor((n - 1) / 26);
+  }
+  return s;
+}
+
+const CRC32_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+    t[i] = c >>> 0;
+  }
+  return t;
+})();
+
+function crc32(bytes) {
+  let c = 0xffffffff;
+  for (let i = 0; i < bytes.length; i++) c = CRC32_TABLE[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+function buildZipStoreBlob(entries, mimeType) {
+  const te = new TextEncoder();
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  entries.forEach(({ name, content }) => {
+    const nameBytes = te.encode(name);
+    const dataBytes = typeof content === 'string' ? te.encode(content) : content;
+    const crc = crc32(dataBytes);
+    const len = dataBytes.length;
+
+    const lh = new Uint8Array(30 + nameBytes.length);
+    const lhv = new DataView(lh.buffer);
+    lhv.setUint32(0, 0x04034b50, true);
+    lhv.setUint16(4, 20, true);
+    lhv.setUint16(6, 0x0800, true);
+    lhv.setUint16(8, 0, true);
+    lhv.setUint32(14, crc, true);
+    lhv.setUint32(18, len, true);
+    lhv.setUint32(22, len, true);
+    lhv.setUint16(26, nameBytes.length, true);
+    lh.set(nameBytes, 30);
+    localParts.push(lh, dataBytes);
+
+    const ch = new Uint8Array(46 + nameBytes.length);
+    const chv = new DataView(ch.buffer);
+    chv.setUint32(0, 0x02014b50, true);
+    chv.setUint16(4, 20, true);
+    chv.setUint16(6, 20, true);
+    chv.setUint16(8, 0x0800, true);
+    chv.setUint16(10, 0, true);
+    chv.setUint32(16, crc, true);
+    chv.setUint32(20, len, true);
+    chv.setUint32(24, len, true);
+    chv.setUint16(28, nameBytes.length, true);
+    chv.setUint32(42, offset, true);
+    ch.set(nameBytes, 46);
+    centralParts.push(ch);
+
+    offset += lh.length + len;
+  });
+
+  const centralSize = centralParts.reduce((a, b) => a + b.length, 0);
+  const eocd = new Uint8Array(22);
+  const ev = new DataView(eocd.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(8, entries.length, true);
+  ev.setUint16(10, entries.length, true);
+  ev.setUint32(12, centralSize, true);
+  ev.setUint32(16, offset, true);
+
+  return new Blob([...localParts, ...centralParts, eocd], { type: mimeType });
+}
+
+function buildXlsxBlob(columns, rows) {
+  const letters = columns.map((_, i) => colRef(i));
+  const rowXml = [];
+  rowXml.push(
+    `<row r="1">${columns.map(([name], ci) => `<c r="${letters[ci]}1" t="inlineStr"><is><t>${xmlEsc(name)}</t></is></c>`).join('')}</row>`
+  );
+
+  for (let ri = 0; ri < rows.length; ri++) {
+    const r = rows[ri];
+    const rn = ri + 2;
+    const cells = [];
+    for (let ci = 0; ci < columns.length; ci++) {
+      const [name, type] = columns[ci];
+      const v = r[name];
+      if (v === null || v === undefined || v === '') continue;
+      if (type === 'INT32' || type === 'DOUBLE') {
+        if (typeof v === 'number' && Number.isFinite(v)) {
+          cells.push(`<c r="${letters[ci]}${rn}"><v>${v}</v></c>`);
+        }
+      } else if (type === 'BOOLEAN') {
+        cells.push(`<c r="${letters[ci]}${rn}" t="b"><v>${v ? 1 : 0}</v></c>`);
+      } else {
+        let s = String(v);
+        if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
+        cells.push(`<c r="${letters[ci]}${rn}" t="inlineStr"><is><t xml:space="preserve">${xmlEsc(s)}</t></is></c>`);
+      }
+    }
+    rowXml.push(`<row r="${rn}">${cells.join('')}</row>`);
+  }
+
+  const sheetXml =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>' +
+    rowXml.join('') +
+    '</sheetData></worksheet>';
+
+  const contentTypes =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+    '<Default Extension="xml" ContentType="application/xml"/>' +
+    '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+    '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' +
+    '</Types>';
+
+  const rootRels =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>' +
+    '</Relationships>';
+
+  const workbookXml =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+    '<sheets><sheet name="Catalogue" sheetId="1" r:id="rId1"/></sheets>' +
+    '</workbook>';
+
+  const wbRels =
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>' +
+    '</Relationships>';
+
+  return buildZipStoreBlob(
+    [
+      { name: '[Content_Types].xml', content: contentTypes },
+      { name: '_rels/.rels', content: rootRels },
+      { name: 'xl/workbook.xml', content: workbookXml },
+      { name: 'xl/_rels/workbook.xml.rels', content: wbRels },
+      { name: 'xl/worksheets/sheet1.xml', content: sheetXml },
+    ],
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  );
+}
+
 function exportFilteredCsv() {
   const cols = EXPORT_COLUMNS.map(([name]) => name);
   const lines = [cols.join(',')];
@@ -1160,42 +1334,70 @@ function exportFilteredCsv() {
   triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${state.filtered.length}.csv`);
 }
 
-async function exportFilteredParquet() {
-  if (state.loading || state.filtered.length === 0 || state.exportingParquet) return;
-  state.exportingParquet = true;
-  dom.btnExportParquet.disabled = true;
-  if (dom.btnExportParquetLabel) dom.btnExportParquetLabel.textContent = 'Exporting…';
+function exportFilteredJson() {
+  const cols = EXPORT_COLUMNS.map(([name]) => name);
+  const payload = state.filtered.map((r) => {
+    const obj = {};
+    cols.forEach((c) => { obj[c] = r[c] === undefined ? null : r[c]; });
+    return obj;
+  });
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8;' });
+  triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${state.filtered.length}.json`);
+}
 
+function exportFilteredXlsx() {
+  const blob = buildXlsxBlob(EXPORT_COLUMNS, state.filtered);
+  triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${state.filtered.length}.xlsx`);
+}
+
+async function exportFilteredParquet() {
+  parquetWriterPromise ||= import('https://cdn.jsdelivr.net/npm/hyparquet-writer@0.18.0/+esm');
+  const { parquetWriteBuffer } = await parquetWriterPromise;
+  const rows = state.filtered;
+  const columnData = EXPORT_COLUMNS.map(([name, type]) => ({
+    name,
+    type,
+    nullable: true,
+    data: rows.map((r) => {
+      const v = r[name];
+      if (v === null || v === undefined) return null;
+      if (type === 'BOOLEAN') return Boolean(v);
+      if (type === 'INT32' || type === 'DOUBLE') return Number.isNaN(v) ? null : v;
+      return String(v);
+    }),
+  }));
+  const buffer = parquetWriteBuffer({
+    columnData,
+    createdBy: 'global-EO-products-L3-L4',
+  });
+  const blob = new Blob([buffer], { type: 'application/vnd.apache.parquet' });
+  triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${rows.length}.parquet`);
+}
+
+async function handleExportFormat(fmt) {
+  setDownloadMenuOpen(false);
+  if (state.loading || state.filtered.length === 0 || state.exporting) return;
+  if (dom.errorBanner) {
+    dom.errorBanner.textContent = '';
+    dom.errorBanner.classList.add('hidden');
+  }
+  state.exporting = true;
+  if (dom.btnDownload) dom.btnDownload.disabled = true;
+  if (dom.btnDownloadLabel) dom.btnDownloadLabel.textContent = 'Exporting…';
   try {
-    parquetWriterPromise ||= import('https://cdn.jsdelivr.net/npm/hyparquet-writer@0.18.0/+esm');
-    const { parquetWriteBuffer } = await parquetWriterPromise;
-    const rows = state.filtered;
-    const columnData = EXPORT_COLUMNS.map(([name, type]) => ({
-      name,
-      type,
-      nullable: true,
-      data: rows.map((r) => {
-        const v = r[name];
-        if (v === null || v === undefined) return null;
-        if (type === 'BOOLEAN') return Boolean(v);
-        if (type === 'INT32' || type === 'DOUBLE') return Number.isNaN(v) ? null : v;
-        return String(v);
-      }),
-    }));
-    const buffer = parquetWriteBuffer({
-      columnData,
-      createdBy: 'global-EO-products-L3-L4',
-    });
-    const blob = new Blob([buffer], { type: 'application/vnd.apache.parquet' });
-    triggerBlobDownload(blob, `eo_l3_l4_catalogue_filtered_${rows.length}.parquet`);
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    if (fmt === 'csv') exportFilteredCsv();
+    else if (fmt === 'json') exportFilteredJson();
+    else if (fmt === 'xlsx') exportFilteredXlsx();
+    else if (fmt === 'parquet') await exportFilteredParquet();
   } catch (err) {
-    parquetWriterPromise = null;
-    dom.errorBanner.textContent = `Parquet export failed (${err.message}). Network access to jsDelivr CDN is required for client-side Parquet encoding; Export CSV remains available offline.`;
+    if (fmt === 'parquet') parquetWriterPromise = null;
+    dom.errorBanner.textContent = `${fmt.toUpperCase()} export failed (${err.message}). CSV, JSON, and Excel (.xlsx) exports remain available offline.`;
     dom.errorBanner.classList.remove('hidden');
   } finally {
-    state.exportingParquet = false;
-    dom.btnExportParquet.disabled = state.filtered.length === 0;
-    if (dom.btnExportParquetLabel) dom.btnExportParquetLabel.textContent = 'Export Parquet';
+    state.exporting = false;
+    if (dom.btnDownload) dom.btnDownload.disabled = state.filtered.length === 0;
+    if (dom.btnDownloadLabel) dom.btnDownloadLabel.textContent = 'Download';
   }
 }
 
@@ -1355,10 +1557,42 @@ function wireEvents() {
     syncDrawerToState('none');
   });
 
-  dom.btnExportCsv.addEventListener('click', exportFilteredCsv);
-  if (dom.btnExportParquet) {
-    dom.btnExportParquet.addEventListener('click', exportFilteredParquet);
+  if (dom.btnDownload) {
+    dom.btnDownload.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = dom.downloadMenu.classList.contains('hidden');
+      setDownloadMenuOpen(willOpen);
+      if (willOpen && dom.downloadOpts.length) dom.downloadOpts[0].focus();
+    });
+    dom.btnDownload.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setDownloadMenuOpen(true);
+        if (dom.downloadOpts.length) dom.downloadOpts[0].focus();
+      }
+    });
   }
+  dom.downloadOpts.forEach((btn, idx) => {
+    btn.addEventListener('click', () => handleExportFormat(btn.dataset.exportFmt));
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        dom.downloadOpts[(idx + 1) % dom.downloadOpts.length].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        dom.downloadOpts[(idx - 1 + dom.downloadOpts.length) % dom.downloadOpts.length].focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        setDownloadMenuOpen(false);
+        dom.btnDownload.focus();
+      }
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (dom.downloadWrap && !dom.downloadWrap.contains(e.target)) {
+      setDownloadMenuOpen(false);
+    }
+  });
   dom.drawerClose.addEventListener('click', () => closeDetailDrawer('push'));
   dom.drawerBackdrop.addEventListener('click', () => closeDetailDrawer('push'));
   dom.drawerPrev.addEventListener('click', () => {
@@ -1380,7 +1614,8 @@ function wireEvents() {
       e.preventDefault();
       dom.search.focus();
     } else if (e.key === 'Escape') {
-      if (!dom.infoModal.classList.contains('hidden')) dom.infoModal.classList.add('hidden');
+      if (dom.downloadMenu && !dom.downloadMenu.classList.contains('hidden')) setDownloadMenuOpen(false);
+      else if (!dom.infoModal.classList.contains('hidden')) dom.infoModal.classList.add('hidden');
       else if (state.activeRecordId !== null) closeDetailDrawer('push');
     } else if (state.activeRecordIdx !== null && state.activeRecordIdx >= 0 && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
       e.preventDefault();

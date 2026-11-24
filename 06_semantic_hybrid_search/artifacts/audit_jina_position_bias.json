@@ -1,0 +1,9 @@
+{
+  "n_queries": 15,
+  "mean_spearman_rho": 0.8825,
+  "median_spearman_rho": 0.8775,
+  "min_spearman_rho": 0.8134,
+  "mean_top5_overlap_pct": 72.0,
+  "top1_exact_agreement_pct": 66.7,
+  "mean_causal_recency_boost": 0.02507
+}

@@ -1,0 +1,21 @@
+{
+  "protocol_version": "v4.0-standalone",
+  "device": "mlx",
+  "frozen_at_utc": "2026-11-24T06:52:50Z",
+  "completed_at_utc": "2026-11-24T07:26:34Z",
+  "strictly_prospective_timestamp_order": true,
+  "total_queries_encoded_solo": 140,
+  "single_query_encode_ms_mean": 9.75,
+  "single_query_encode_ms_p50": 9.02,
+  "single_query_encode_ms_p95": 16.53,
+  "stage1_mean_ms_all_queries": 485.18,
+  "stage2_jina50_mean_ms_all_queries": 5058.6,
+  "stage2_jina25_mean_ms_all_queries": 1539.8,
+  "stage2_qwen50_mean_ms_all_queries": 4473.3,
+  "suite_sizes": {
+    "dev45": 45,
+    "holdout_a_audited": 35,
+    "holdout_b_prospective_blind": 60
+  },
+  "total_wall_minutes": 33.7
+}

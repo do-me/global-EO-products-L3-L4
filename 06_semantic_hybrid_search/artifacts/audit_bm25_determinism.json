@@ -1,0 +1,7 @@
+{
+  "n_queries_checked": 45,
+  "nullsafe_top300_diffs": 0,
+  "naivestrict_top300_diffs": 0,
+  "total_paired_checks": 90,
+  "exact_determinism_passed": true
+}

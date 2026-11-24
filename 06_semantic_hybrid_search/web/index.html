@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50 antialiased">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hybrid Semantic Search — Global L3/L4 EO Product Catalogue</title>
+  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .drawer-enter { transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1); }
+    #query-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .maplibregl-ctrl-attrib { font-size: 10px !important; background: rgba(255,255,255,0.85) !important; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    @keyframes indeterminate {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(350%); }
+    }
+    .bar-indeterminate { animation: indeterminate 1.2s ease-in-out infinite; width: 32%; }
+  </style>
+</head>
+<body class="min-h-full text-slate-800 flex flex-col">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200/80">
+    <div class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="h-9 w-9 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm" aria-hidden="true">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 010 18M12 3a14.5 14.5 0 000 18" />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-base sm:text-lg font-semibold tracking-tight text-slate-900 truncate">
+              Global L3/L4 EO Catalogue — Hybrid Search
+            </h1>
+            <span id="status-badge" class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 tabular-nums">
+              Connecting…
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 truncate">
+            Local semantic + EO-normalized BM25 + Stage-2 reranking across 39,474 harmonized L3/L4 products
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap shrink-0">
+        <button id="btn-info" type="button" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Method &amp; API
+        </button>
+        <a href="https://github.com/do-me/global-EO-products-L3-L4" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
+          <svg class="w-3.5 h-3.5 text-slate-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+          </svg>
+          GitHub
+        </a>
+        <div id="download-wrap" class="relative">
+          <button id="btn-download" type="button" disabled aria-haspopup="menu" aria-expanded="false" aria-controls="download-menu"
+            class="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V3" />
+            </svg>
+            <span id="btn-download-label">Download</span>
+            <svg class="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div id="download-menu" role="menu" aria-labelledby="btn-download"
+            class="hidden absolute right-0 mt-1.5 w-48 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-slate-200 py-1 z-40">
+            <button type="button" role="menuitem" data-export-fmt="csv" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">CSV</span><span class="font-mono text-[10px] text-slate-400">.csv</span>
+            </button>
+            <button type="button" role="menuitem" data-export-fmt="json" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">JSON</span><span class="font-mono text-[10px] text-slate-400">.json</span>
+            </button>
+            <button type="button" role="menuitem" data-export-fmt="xlsx" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">Excel</span><span class="font-mono text-[10px] text-slate-400">.xlsx</span>
+            </button>
+            <button type="button" role="menuitem" data-export-fmt="parquet" class="download-opt w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center justify-between">
+              <span class="font-medium">Parquet</span><span class="font-mono text-[10px] text-slate-400">.parquet</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Subtle Activity Bar -->
+    <div id="activity-bar-wrap" class="h-0.5 w-full bg-slate-100 overflow-hidden">
+      <div id="activity-bar" class="hidden h-full bg-indigo-600 bar-indeterminate"></div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-4">
+
+    <!-- Mode / Error Notice Banners -->
+    <div id="mode-banner" class="hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-xs text-amber-900"></div>
+    <div id="error-banner" class="hidden rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-800"></div>
+
+    <!-- Search & Filter Panel -->
+    <section aria-label="Search and filter controls" class="bg-white rounded-xl border border-slate-200/80 shadow-sm p-4 space-y-3">
+      <form id="search-form" class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
+        <div class="relative flex-1">
+          <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+          </svg>
+          <input id="query-input" type="search" autocomplete="off" spellcheck="false"
+            placeholder="Describe an EO policy need, biophysical variable, or indicator… (press / to focus, Enter to search)"
+            class="w-full rounded-lg border border-slate-300 bg-white pl-9 pr-9 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition" />
+          <button id="btn-clear-query" type="button" title="Clear query" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <button id="btn-search" type="submit" class="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition shrink-0">
+          <span id="btn-search-label">Search</span>
+        </button>
+      </form>
+
+      <!-- Example Policy Queries -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span class="text-xs font-medium text-slate-400 mr-1">Examples:</span>
+        <button type="button" class="example-btn rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition"
+          data-q="Global 30 meter multitemporal inland surface water occurrence, seasonality, and dynamic surface water extent" data-geo="global" data-grid="300">
+          Surface Water (30 m)
+        </button>
+        <button type="button" class="example-btn rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition"
+          data-q="High-resolution pan-European tree cover density, forest type, and canopy height for EU Biodiversity Strategy" data-geo="europe" data-grid="100">
+          EU Forest &amp; Tree Cover
+        </button>
+        <button type="button" class="example-btn rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition"
+          data-q="Global atmospheric methane CH4 column concentrations and top-down surface flux inversions for Paris Agreement" data-geo="global" data-grid="">
+          Global CH4 Fluxes
+        </button>
+        <button type="button" class="example-btn rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100 hover:border-slate-300 transition"
+          data-q="Global sea surface temperature anomaly and ocean chlorophyll-a concentration for marine eutrophication monitoring" data-geo="global" data-grid="">
+          Ocean SST &amp; Chlorophyll-a
+        </button>
+      </div>
+
+      <!-- Compact Filter & Ranking Controls -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 items-end pt-1">
+        <div>
+          <label for="opt-mode" class="block text-[11px] font-medium text-slate-500 mb-1">Ranking Mode</label>
+          <select id="opt-mode" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <option value="jina-v3.5">Jina v3.5 Top-50 Blend (Best)</option>
+            <option value="jina-v3.5-fast">Jina v3.5 Top-25 Pure (Fast)</option>
+            <option value="qwen3-0.6b">Qwen3-0.6B Top-50 (Apache-2.0)</option>
+            <option value="hybrid">Stage-1 Hybrid RRF Only</option>
+            <option value="dense">Dense Embedding Only</option>
+            <option value="bm25">BM25 Lexical Only</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="opt-pool" class="block text-[11px] font-medium text-slate-500 mb-1">Provider Pool</label>
+          <select id="opt-pool" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <option value="">All Pools</option>
+            <option value="copernicus_services">Copernicus Services</option>
+            <option value="eu_non_copernicus">EU (Non-Copernicus)</option>
+            <option value="non_eu">Non-EU / Global</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="opt-geo" class="block text-[11px] font-medium text-slate-500 mb-1">Geographic Scope</label>
+          <select id="opt-geo" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <option value="">All Coverages</option>
+            <option value="global">Global (+ Hemispheric)</option>
+            <option value="europe">Europe</option>
+            <option value="exclude_local">Exclude Regional / Local</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="opt-grid" class="block text-[11px] font-medium text-slate-500 mb-1">Max Grid Spacing</label>
+          <select id="opt-grid" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <option value="">Any Grid</option>
+            <option value="10">&le; 10 m</option>
+            <option value="30">&le; 30 m</option>
+            <option value="100">&le; 100 m</option>
+            <option value="300">&le; 300 m</option>
+            <option value="1000">&le; 1 km</option>
+            <option value="10000">&le; 10 km</option>
+            <option value="50000">&le; 50 km</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="opt-level" class="block text-[11px] font-medium text-slate-500 mb-1">Processing Level</label>
+          <select id="opt-level" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <option value="">All Levels</option>
+            <option value="L3">L3 Only</option>
+            <option value="L4">L4 Only</option>
+            <option value="L3,L4">L3 or L4</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="opt-topk" class="block text-[11px] font-medium text-slate-500 mb-1">Results (Top-K)</label>
+          <select id="opt-topk" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 tabular-nums">
+            <option value="10">Top 10</option>
+            <option value="20" selected>Top 20</option>
+            <option value="50">Top 50</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Compact Behavior Toggles -->
+      <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-700">
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Keep only strict satellite EO products (exclude reanalysis, hybrid, and reference layers)">
+          <input id="opt-strict-eo" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+          <span>Strict EO only</span>
+        </label>
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Preserve products whose upstream API omitted grid/level/geo metadata (~70% null rate); uncheck for strict NULL-dropping">
+          <input id="opt-null-safe" type="checkbox" checked class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+          <span>Null-safe filters</span>
+        </label>
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Collapse cross-platform mirrors and multi-year editions of the same product family (with sensor-conflict guard)">
+          <input id="opt-collapse" type="checkbox" checked class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+          <span>Collapse mirrors &amp; editions</span>
+        </label>
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Use pure Stage-2 reranker ordering instead of blending Stage-1 RRF and Stage-2 ranks">
+          <input id="opt-pure" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+          <span>Pure rerank (no blend)</span>
+        </label>
+        <button id="btn-reset" type="button" class="ml-auto text-xs font-medium text-indigo-600 hover:text-indigo-800 px-2 py-0.5 rounded hover:bg-indigo-50 transition">
+          Reset controls
+        </button>
+      </div>
+    </section>
+
+    <!-- Results Card -->
+    <section aria-label="Search results" class="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col">
+      <div class="px-4 py-2.5 border-b border-slate-200/80 bg-slate-50/70 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
+        <div id="results-summary" class="tabular-nums font-medium">Enter a query or pick an example above to search.</div>
+        <div id="results-timing" class="tabular-nums text-slate-500"></div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-200 text-left text-xs">
+          <thead class="bg-slate-50 text-slate-600 select-none">
+            <tr>
+              <th scope="col" class="py-2.5 pl-4 pr-2 font-semibold whitespace-nowrap w-16">#</th>
+              <th scope="col" class="px-3 py-2.5 font-semibold whitespace-nowrap w-[40%] min-w-[300px]">Product / Producing Institution</th>
+              <th scope="col" class="px-3 py-2.5 font-semibold whitespace-nowrap">Level</th>
+              <th scope="col" class="px-3 py-2.5 font-semibold whitespace-nowrap">Provider Pool</th>
+              <th scope="col" class="px-3 py-2.5 font-semibold whitespace-nowrap">Sentinel</th>
+              <th scope="col" class="px-3 py-2.5 font-semibold whitespace-nowrap">Grid / Cadence</th>
+              <th scope="col" class="px-3 py-2.5 font-semibold whitespace-nowrap">Coverage / Span</th>
+              <th scope="col" class="py-2.5 pl-3 pr-4 font-semibold text-right whitespace-nowrap">Links</th>
+            </tr>
+          </thead>
+          <tbody id="results-body" class="divide-y divide-slate-100 bg-white">
+            <tr>
+              <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
+                Ready to search across 38,852 active canonical L3/L4 EO products.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-500 flex flex-wrap items-center justify-between gap-2 border-t border-slate-200/70">
+    <div>
+      Local search server · Code: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">MIT</a> ·
+      Catalogue Data: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE-DATA" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">CC-BY-4.0</a> ·
+      Default Jina v3.5 weights: <span class="font-mono">CC BY-NC 4.0</span> (switch to Qwen3-0.6B for <span class="font-mono">Apache-2.0</span>).
+    </div>
+    <div>
+      Click any row to inspect full provenance, collapsed mirrors &amp; OpenFreeMap bounding box.
+    </div>
+  </footer>
+
+  <!-- Slide-Over Provenance Detail Drawer -->
+  <div id="drawer-backdrop" class="hidden fixed inset-0 z-40 bg-slate-900/35 backdrop-blur-[1px] transition-opacity" aria-hidden="true"></div>
+  <aside id="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title"
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-3xl bg-white shadow-2xl border-l border-slate-200 transform translate-x-full drawer-enter flex flex-col">
+    <div class="px-5 py-4 border-b border-slate-200 flex items-start justify-between gap-3 bg-slate-50/80">
+      <div class="min-w-0">
+        <div id="drawer-badges" class="flex items-center gap-1.5 flex-wrap mb-1.5"></div>
+        <h2 id="drawer-title" class="text-base font-semibold text-slate-900 leading-snug break-words"></h2>
+        <p id="drawer-subtitle" class="mt-0.5 text-xs font-mono text-slate-500 break-all"></p>
+      </div>
+      <div class="flex items-center gap-1 shrink-0">
+        <button id="drawer-prev" type="button" title="Previous result (ArrowUp)" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-200/70 hover:text-slate-800 disabled:opacity-30">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+        </button>
+        <button id="drawer-next" type="button" title="Next result (ArrowDown)" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-200/70 hover:text-slate-800 disabled:opacity-30">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <button id="drawer-close" type="button" title="Close drawer (Esc)" class="rounded-lg p-1.5 text-slate-500 hover:bg-slate-200/70 hover:text-slate-800">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="drawer-body" class="flex-1 overflow-y-auto p-5 space-y-5 text-xs text-slate-700"></div>
+  </aside>
+
+  <!-- Method & API Modal -->
+  <div id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[1px]">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-xl w-full p-6 space-y-4">
+      <div class="flex items-start justify-between gap-3">
+        <h2 id="info-modal-title" class="text-base font-semibold text-slate-900">Retrieval Method &amp; Local API</h2>
+        <button id="info-close" type="button" class="rounded-lg p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="space-y-2.5 text-xs text-slate-600 leading-relaxed">
+        <p>
+          Queries run locally against the <strong>39,474 canonical L3/L4 records</strong> (<strong>38,852 active</strong> after excluding superseded/obsolete releases):
+        </p>
+        <ul class="list-disc pl-4 space-y-1.5">
+          <li><strong>Stage 1 (Hybrid RRF):</strong> Combines 768-d dense embeddings (<code class="font-mono text-slate-800">EmbeddingGemma-2 BF16</code>) and deterministic single-threaded DuckDB EO-normalized multi-field BM25 via weighted Reciprocal Rank Fusion (<code class="font-mono text-slate-800">k=60</code>, weights <code class="font-mono text-slate-800">1.0 / 0.6</code>).</li>
+          <li><strong>Null-Safe Filtering &amp; Mirror Collapsing:</strong> Because ~70% of upstream records omit structured grid or level fields, null-safe mode keeps unlabelled candidates so Stage 2 can judge them from their descriptions. Generic title-stem + cosine collapsing (<code class="font-mono text-slate-800">cos &ge; 0.94</code>, guarded against merging distinct orbital sensors) deduplicates cross-platform mirrors and annual editions.</li>
+          <li><strong>Stage 2 (Reranking):</strong> Rescores the top 50 collapsed families using <code class="font-mono text-slate-800">jina-reranker-v3.5</code> (CC BY-NC 4.0, highest accuracy) or <code class="font-mono text-slate-800">Qwen3-Reranker-0.6B</code> (Apache-2.0, permissive license), blended with Stage-1 rank (<code class="font-mono text-slate-800">0.4 / 1.0</code>, <code class="font-mono text-slate-800">k=30</code>). The first reranked query lazy-loads the model into accelerator or CPU memory; subsequent queries stay warm.</li>
+          <li><strong>Device-Agnostic Backend:</strong> Automatically selects native MLX on Apple Silicon (<code class="font-mono text-slate-800">mlx-community/embeddinggemma-2-bf16</code>, <code class="font-mono text-slate-800">jina-reranker-v3.5-mlx</code>), PyTorch on NVIDIA CUDA, or PyTorch CPU when no GPU is detected (<code class="font-mono text-slate-800">google/embeddinggemma-2</code>, <code class="font-mono text-slate-800">jina-reranker-v3.5</code>, <code class="font-mono text-slate-800">Qwen3-Reranker-0.6B</code>).</li>
+          <li><strong>REST &amp; CLI Client:</strong> Query this server programmatically at <code class="font-mono text-slate-800">POST /api/search</code>, <code class="font-mono text-slate-800">POST /api/export</code>, <code class="font-mono text-slate-800">GET /api/product/{record_id}</code>, or via <code class="font-mono text-slate-800">uv run 06_semantic_hybrid_search/04_search_cli.py --server http://127.0.0.1:8080 -q "..."</code>.</li>
+        </ul>
+      </div>
+      <div class="flex justify-end pt-2 border-t border-slate-100">
+        <button id="info-ok" type="button" class="rounded-lg bg-slate-900 px-4 py-1.5 text-xs font-medium text-white hover:bg-slate-800 transition">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

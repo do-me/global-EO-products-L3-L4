@@ -1,0 +1,51 @@
+domain,system,hit_5,hit_10,fam_r_10,mrr_10,fam_ndcg_10
+Atmosphere & Air Quality,02_BM25_PreFilter_GenericCollapse,66.67,83.33,83.33,39.05,49.59
+Atmosphere & Air Quality,04_Dense_768d_GenericCollapse,83.33,83.33,83.33,62.5,65.65
+Atmosphere & Air Quality,06_Stage1_HybridRRF_GenericCollapse,83.33,100.0,100.0,63.75,70.17
+Atmosphere & Air Quality,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,80.56,85.52
+Atmosphere & Air Quality,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,70.83,76.87
+Climate & Reanalysis,02_BM25_PreFilter_GenericCollapse,100.0,100.0,88.89,72.22,70.52
+Climate & Reanalysis,04_Dense_768d_GenericCollapse,100.0,100.0,88.89,54.17,60.33
+Climate & Reanalysis,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,88.89,66.67,66.55
+Climate & Reanalysis,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,88.89,100.0,91.15
+Climate & Reanalysis,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,88.89,83.33,78.85
+Cryosphere & Polar,02_BM25_PreFilter_GenericCollapse,83.33,83.33,83.33,75.0,76.52
+Cryosphere & Polar,04_Dense_768d_GenericCollapse,100.0,100.0,100.0,76.39,82.36
+Cryosphere & Polar,06_Stage1_HybridRRF_GenericCollapse,83.33,100.0,100.0,65.97,73.45
+Cryosphere & Polar,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,83.33,88.74
+Cryosphere & Polar,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,72.22,80.09
+Forests & Biomass,02_BM25_PreFilter_GenericCollapse,83.33,100.0,100.0,72.92,79.1
+Forests & Biomass,04_Dense_768d_GenericCollapse,66.67,100.0,100.0,58.63,67.99
+Forests & Biomass,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,100.0,83.33,87.7
+Forests & Biomass,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,83.33,87.7
+Forests & Biomass,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,63.89,73.21
+Greenhouse Gases & Carbon,02_BM25_PreFilter_GenericCollapse,66.67,83.33,83.33,60.42,62.73
+Greenhouse Gases & Carbon,04_Dense_768d_GenericCollapse,83.33,100.0,91.67,77.08,75.99
+Greenhouse Gases & Carbon,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,91.67,65.83,70.07
+Greenhouse Gases & Carbon,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,91.67,91.35
+Greenhouse Gases & Carbon,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,57.5,64.62
+Hydrology & Soils,02_BM25_PreFilter_GenericCollapse,83.33,100.0,91.67,68.33,72.65
+Hydrology & Soils,04_Dense_768d_GenericCollapse,66.67,66.67,58.33,55.56,55.11
+Hydrology & Soils,06_Stage1_HybridRRF_GenericCollapse,83.33,100.0,83.33,60.74,65.36
+Hydrology & Soils,08_Frozen_Best_JinaV35_Top50_RRFBlend,83.33,100.0,91.67,74.31,77.95
+Hydrology & Soils,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,91.67,90.24
+Land Cover & Ecosystems,02_BM25_PreFilter_GenericCollapse,83.33,83.33,83.33,75.0,75.31
+Land Cover & Ecosystems,04_Dense_768d_GenericCollapse,83.33,100.0,88.89,76.67,77.4
+Land Cover & Ecosystems,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,88.89,88.89,84.02
+Land Cover & Ecosystems,08_Frozen_Best_JinaV35_Top50_RRFBlend,83.33,100.0,88.89,85.19,84.35
+Land Cover & Ecosystems,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,83.33,83.33,83.33,66.67,70.06
+Oceans & Maritime,02_BM25_PreFilter_GenericCollapse,100.0,100.0,100.0,78.33,81.58
+Oceans & Maritime,04_Dense_768d_GenericCollapse,83.33,83.33,83.33,61.11,63.17
+Oceans & Maritime,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,100.0,61.11,69.69
+Oceans & Maritime,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,100.0,94.91
+Oceans & Maritime,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,77.78,84.51
+Productivity & Hazards,02_BM25_PreFilter_GenericCollapse,83.33,100.0,100.0,77.38,78.24
+Productivity & Hazards,04_Dense_768d_GenericCollapse,100.0,100.0,83.33,91.67,78.5
+Productivity & Hazards,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,100.0,88.89,83.36
+Productivity & Hazards,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,91.67,85.61
+Productivity & Hazards,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,83.33,100.0,83.33,77.08,71.46
+Urban & Settlements,02_BM25_PreFilter_GenericCollapse,100.0,100.0,91.67,74.17,73.84
+Urban & Settlements,04_Dense_768d_GenericCollapse,83.33,100.0,91.67,64.17,69.73
+Urban & Settlements,06_Stage1_HybridRRF_GenericCollapse,83.33,100.0,91.67,77.78,76.67
+Urban & Settlements,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,91.67,79.17,77.91
+Urban & Settlements,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,83.33,100.0,91.67,53.47,62.58

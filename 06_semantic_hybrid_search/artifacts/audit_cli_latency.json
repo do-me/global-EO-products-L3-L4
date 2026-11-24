@@ -1,0 +1,62 @@
+{
+  "bm25_only_zero_gpu": {
+    "json_valid": true,
+    "device": "bm25",
+    "eligible_after_filter": 38852,
+    "load_seconds": 0.59,
+    "stage1_ms": 131.1,
+    "rerank_ms": 0.0,
+    "n_results": 3,
+    "top1_title": "Global river flood hazard maps"
+  },
+  "pool_filtered_stage1_none": {
+    "json_valid": true,
+    "device": "mlx",
+    "eligible_after_filter": 3709,
+    "load_seconds": 2.65,
+    "stage1_ms": 149.8,
+    "rerank_ms": 0.0,
+    "n_results": 3,
+    "top1_title": "Global river flood hazard maps"
+  },
+  "global_grid_filtered_stage1_none": {
+    "json_valid": true,
+    "device": "mlx",
+    "eligible_after_filter": 12951,
+    "load_seconds": 2.09,
+    "stage1_ms": 182.5,
+    "rerank_ms": 0.0,
+    "n_results": 10,
+    "top1_title": "Global Surface Water Extent"
+  },
+  "pool_filtered_jina_pool25": {
+    "json_valid": true,
+    "device": "mlx",
+    "eligible_after_filter": 3709,
+    "load_seconds": 2.12,
+    "stage1_ms": 154.9,
+    "rerank_ms": 1085.5,
+    "n_results": 3,
+    "top1_title": "Global river flood hazard maps"
+  },
+  "pool_filtered_jina_pool50_default": {
+    "json_valid": true,
+    "device": "mlx",
+    "eligible_after_filter": 3709,
+    "load_seconds": 1.98,
+    "stage1_ms": 150.0,
+    "rerank_ms": 3066.5,
+    "n_results": 3,
+    "top1_title": "Global river flood hazard maps"
+  },
+  "pool_filtered_qwen3_pool50": {
+    "json_valid": true,
+    "device": "mlx",
+    "eligible_after_filter": 3709,
+    "load_seconds": 2.05,
+    "stage1_ms": 154.7,
+    "rerank_ms": 1791.2,
+    "n_results": 3,
+    "top1_title": "Global river flood hazard maps"
+  }
+}

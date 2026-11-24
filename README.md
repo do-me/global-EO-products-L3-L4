@@ -106,10 +106,16 @@ Full per-source API endpoints, processing-level rules, and attribution logic are
 │   ├── gcos_ecv_domain_coverage.csv                  # 40/40 CEOS/CGMS WGClimate GCOS ECV matrix
 │   └── independent_product_version_benchmark.csv & _audit.csv  # 79-case curated product & holdout checks
 │
-└── 05_external_policy_validation/                    # External cross-validation against 9 policy-to-EO benchmarks
-    ├── 01_download_benchmarks.py, 02_extract_products.py, 03_validate_against_catalogue.py & README.md
-    ├── raw/                                          # 44 downloaded primary benchmark files (CEOS, UN, EC, USGEO, NASA)
-    └── results/                                      # extracted_policy_products.csv, validation_matches.csv, validation_summary.csv, gap_analysis.csv
+├── 05_external_policy_validation/                    # External cross-validation against 9 policy-to-EO benchmarks
+│   ├── 01_download_benchmarks.py, 02_extract_products.py, 03_validate_against_catalogue.py & README.md
+│   ├── raw/                                          # 44 downloaded primary benchmark files (CEOS, UN, EC, USGEO, NASA)
+│   └── results/                                      # extracted_policy_products.csv, validation_matches.csv, validation_summary.csv, gap_analysis.csv
+│
+└── 06_semantic_hybrid_search/                        # Local hybrid dense + BM25 + reranker search engine, web UI & evaluation
+    ├── README.md                                     # Quick-start, methodology, validation design & reproducible audits
+    ├── eo_search_lib.py, 04_search_cli.py, 04_search_server.py & web/  # CLI + local FastAPI/Tailwind/MapLibre search UI
+    ├── 01_..11_*.py                                  # Indexing, reranking, blind holdout evaluation & 8 verification audits
+    └── artifacts/                                    # Frozen SHA-256 manifests, benchmark JSONs, results & audit outputs
 ```
 
 ---
@@ -137,7 +143,11 @@ uv run 05_external_policy_validation/03_validate_against_catalogue.py
 uv run docs/build_viewer_data.py
 python3 -m http.server 8080 -d docs
 
-# 6. Regenerate cryptographic MANIFEST.json and SHA256SUMS.txt:
+# 6. Build local hybrid search indexes (auto-selects MLX / CUDA / CPU) & launch the search UI:
+uv run 06_semantic_hybrid_search/05_index_full_catalogue.py   # or `--bm25-only` (~35 s, zero models)
+uv run 06_semantic_hybrid_search/04_search_server.py --port 8080 --open
+
+# 7. Regenerate cryptographic MANIFEST.json and SHA256SUMS.txt:
 uv run build_manifest.py
 ```
 
@@ -148,7 +158,7 @@ uv run build_manifest.py
 
 ## 6. Interactive Static Viewer (`docs/`)
 
-The `docs/` directory hosts a zero-backend Tailwind CSS viewer published directly from `main` (`/docs` with `.nojekyll`) covering all **39,474 canonical records** across **34 sources** (`docs/data/index_meta.json`, 4 index shards, and 66 on-demand provenance detail chunks). It supports multi-term search, faceted filtering (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, CSV and Parquet export, an HTML/Markdown toggle for the source registry (`docs/sources.html`), and a slide-over provenance panel with a **MapLibre GL + OpenFreeMap** bounding-box viewer (handling antimeridian crossings).
+The `docs/` directory hosts a zero-backend Tailwind CSS viewer published directly from `main` (`/docs` with `.nojekyll`) covering all **39,474 canonical records** across **34 sources** (`docs/data/index_meta.json`, 4 index shards, and 66 on-demand provenance detail chunks). It supports multi-term search, faceted filtering (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, filtered exports in CSV, JSON, Excel (`.xlsx`), and Parquet, an HTML/Markdown toggle for the source registry (`docs/sources.html`), and a slide-over provenance panel with a **MapLibre GL + OpenFreeMap** bounding-box viewer (handling antimeridian crossings).
 
 ---
 

@@ -1,0 +1,2217 @@
+[
+  {
+    "query_id": "Q30_SDG1411A_COASTAL_CHLOROPHYLL",
+    "query": "Global satellite ocean color chlorophyll-a concentration for monitoring marine phytoplankton blooms and coastal eutrophication",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.333,
+    "fam_r_20": 0.667,
+    "mrr_10": 0.167,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "07_ec_jrc_data_catalogue::dbb69114-cd76-45a7-ae84-592ef21a3ffe",
+        "title": "GMIS - SeaWiFS Monthly anomalies sea surface Chlorophyll-a concentration (4km) in %",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 2,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:19555449",
+        "title": "Monthly gap filled Ocean Colour Climate Change Initiative (OC-CCI) chlorophyll-a using BGC",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "27_gee_official_stac::COPERNICUS/MARINE/SATELLITE_OCEAN_COLOR/V6",
+        "title": "Copernicus Satellite Ocean Color Daily Data",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "07_ec_jrc_data_catalogue::a59f5362-a8af-4e85-b2e7-7052d244045e",
+        "title": "GMIS - MERIS Monthly climatology sea surface Chlorophyll-a concentration (9km) in mg.m^-3",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "07_ec_jrc_data_catalogue::f3198b51-e2c6-4630-9496-93a7d656d6cb",
+        "title": "GMIS - VIIRS Chlorophyll-a concentration (4km) in mg.m^-3",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q24_GST_FOREST_LOSS_CARBON_FLUX",
+    "query": "Annual 30 meter global tree cover loss, forest gain, deforestation disturbance, and forest greenhouse gas carbon emissions and removals",
+    "filters": {
+      "geo_scope": "global",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.5,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.25,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "23_wri_gfw_and_resourcewatch::GFW:gfw_forest_carbon_gross_removals",
+        "title": "Forest carbon removals",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "23_wri_gfw_and_resourcewatch::GFW:gfw_forest_carbon_gross_emissions",
+        "title": "Forest greenhouse gas emissions",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:23528902",
+        "title": "Land-use change CO2 emissions (ELUC) data for the Global Carbon Budget 2026",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "29_awesome_gee_community::projects/sat-io/open-datasets/forest_carbon_fluxes/gross_removals",
+        "title": "Global Forest Carbon Fluxes: Gross Removals",
+        "source": "29_awesome_gee_community",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C2756296671-ORNL_CLOUD",
+        "title": "CMS_Global_Forest_AGC_2180: Global Forest Aboveground Carbon Stocks and Fluxes from GEDI a",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q15_URBAN_AIR_QUALITY_EUROPE",
+    "query": "Operational European regional atmospheric air quality forecasts and reanalyses for particulate matter PM2.5, ozone, and nitrogen dioxide",
+    "filters": {
+      "geo_scope": "europe",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.5,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::72a465a6-4af1-4b0c-ade5-ddfa23cc19fe",
+        "title": "PM2.5, European air quality data for 2024, (interpolated data), interim data, June 2025",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 11
+      },
+      {
+        "rank": 2,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:CAMS_EUROPE_AIR_QUALITY_FORECASTS",
+        "title": "CAMS European air quality forecasts",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 3,
+        "record_id": "07_ec_jrc_data_catalogue::jrc-luisa-pm25-atmospheric-emissions-ref-2014",
+        "title": "PM25 - Atmospheric emissions (LUISA Platform REF2014)",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:CAMS_EUROPE_AIR_QUALITY_REANALYSES",
+        "title": "CAMS European air quality reanalyses",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 5,
+        "record_id": "15_geobon_and_geokhub::GEOKHUB:1yq9b-dxk59",
+        "title": "S-MESh based daily 1km surface PM2.5 over Europe for the years 2021-2022",
+        "source": "15_geobon_and_geokhub",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q17_EUROPEAN_RIVER_FLOOD_FORECAST",
+    "query": "Hydrological river discharge forecasts and satellite near-real-time flood inundation hazard monitoring across European river basins",
+    "filters": {
+      "geo_scope": "europe",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.5,
+    "fam_r_20": 0.5,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:EFAS_SEASONAL",
+        "title": "Seasonal forecasts of river discharge and related data by the European Flood Awareness Sys",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 2,
+        "record_id": "07_ec_jrc_data_catalogue::1d128b6c-a4ee-4858-9e34-6210707f3c81",
+        "title": "River flood hazard maps for Europe and the Mediterranean Basin region",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:CEMS_GLOFAS_FORECAST",
+        "title": "River discharge and related forecasted data by the Global Flood Awareness System",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 4,
+        "record_id": "05_copernicus_cems_ewds::efas-historical",
+        "title": "River discharge and related historical data from the European Flood Awareness System",
+        "source": "05_copernicus_cems_ewds",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 5,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:EFAS_REFORECAST",
+        "title": "Reforecasts of river discharge and related data by the European Flood Awareness System",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 3
+      }
+    ]
+  },
+  {
+    "query_id": "Q20_GST_TOPDOWN_CO2_BUDGETS",
+    "query": "Satellite-constrained top-down atmospheric inversion estimates of annual carbon dioxide net surface fluxes and national CO2 budgets",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.5,
+    "fam_r_20": 0.5,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "33_us_ghg_center_stac::oco2-mip-co2budget-yeargrid-v1",
+        "title": "OCO-2 MIP Top-down CO\u2082 Budgets v1",
+        "source": "33_us_ghg_center_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C2779678769-ORNL_CLOUD",
+        "title": "net_carbon_flux_662: Net Carbon Dioxide and Water Fluxes of Global Terrestrial Ecosystems,",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "20_noaa_onestop::52a66af1-d82e-4d77-b1b0-640dcb682aef",
+        "title": "A combined globally mapped carbon dioxide (CO2) flux estimate based on the Surface Ocean C",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "33_us_ghg_center_stac::oco2-mip-meanco2budget-yeargrid-v1",
+        "title": "Pilot top-down CO2 Budget constrained by the v10 OCO-2 MIP Version 1 mean for all the year",
+        "source": "33_us_ghg_center_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "33_us_ghg_center_stac::gosat-based-ch4budget-yeargrid-v1",
+        "title": "GOSAT-based Top-down Total and Natural Methane Emissions v1",
+        "source": "33_us_ghg_center_stac",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q26_GST_GLOBAL_LAND_COVER_MULTIDECADAL",
+    "query": "Consistent multi-decadal annual global land cover classification and historical land use change maps for greenhouse gas land accounting",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.5,
+    "fam_r_20": 0.75,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [
+      "hilda_plus"
+    ],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:SATELLITE_LAND_COVER",
+        "title": "Land cover classification gridded maps from 1992 to present derived from satellite observa",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 2,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:LC_100M_YEARLY_V3",
+        "title": "Land Cover 2015-2019 (raster 100 m), global, annual - version 3",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "28_planetary_computer_stac::io-lulc-9-class",
+        "title": "10m Annual Land Use Land Cover (9-class) V1",
+        "source": "28_planetary_computer_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:23528902",
+        "title": "Land-use change CO2 emissions (ELUC) data for the Global Carbon Budget 2026",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C2784890070-ORNL_CLOUD",
+        "title": "modis_landcover_xdeg_968: ISLSCP II MODIS (Collection 4) IGBP Land Cover, 2000-2001",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q33_SDG1162_URBAN_PM25_NO2",
+    "query": "Satellite-derived ambient fine particulate matter PM2.5 concentrations and gridded tropospheric nitrogen dioxide columns for urban air pollution exposure",
+    "filters": {
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.667,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.25,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "16_nasa_cmr::C2839237129-GES_DISC",
+        "title": "HAQAST Sentinel-5P TROPOMI Nitrogen Dioxide (NO2) CONUS Annual Level 3 0.01 x 0.01 Degree ",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C3540911807-ESDIS",
+        "title": "CIESIN_SEDAC_SDEI_PM25: Global Annual Average PM2.5 Grids from MODIS and MISR Aerosol Opti",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "23_wri_gfw_and_resourcewatch::RW:645fe192-28db-4949-95b9-79d898f4226b",
+        "title": "Air Quality: Fine Particulate Matter (PM2.5) Modeled 5-day Forecast",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "15_geobon_and_geokhub::GEOKHUB:hxh73-jvz85",
+        "title": "Global Annual PM2.5 Grids",
+        "source": "15_geobon_and_geokhub",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "27_gee_official_stac::NASA/TEMPO/NO2_L3_V4",
+        "title": "TEMPO gridded NO2 tropospheric and stratospheric columns V04",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 3
+      }
+    ]
+  },
+  {
+    "query_id": "Q13_EU_PROTECTED_AREA_HABITAT_LC",
+    "query": "Detailed land cover and land use mapping for European protected habitat sites and continental ecosystem connectivity accounting",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.667,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::2f117cba-a2dd-49d2-af86-4cb52ba56ed0",
+        "title": "Ecosystem types of Europe 2012 - Terrestrial habitats reliability map - version 3 revision",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "02_copernicus_clms::85ecc3a6ad894d96adb302932977b0e9",
+        "title": "N2K Land Cover/Land Use 2018 (vector), Europe, 6-yearly",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 4
+      },
+      {
+        "rank": 3,
+        "record_id": "11_eea_and_emodnet::023fb29e-b295-40ba-bddb-473d4c165cfb",
+        "title": "Corine Land Cover 2000 - 2006 changes, consumption code in changed areas (raster 100m) - v",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 27
+      },
+      {
+        "rank": 4,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:14366637",
+        "title": "AMBER salmon: A digital river network containing reach-specific habitat variables related ",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:UA_LCU_3_YEARLY_2021",
+        "title": "Urban Atlas Land Cover/Land Use 2021 (vector), Europe, 3-yearly, Jan. 2026",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 11
+      }
+    ]
+  },
+  {
+    "query_id": "Q01_EU_SOIL_SEALING",
+    "query": "Soil sealing index and percentage of artificial impervious surface density and built-up change across Europe",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.667,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::3de1ca12-d9a2-40bf-ae55-5c5026b8b90e",
+        "title": "Imperviousness Density Change 2006-2012 (raster 20 m), Europe, Apr. 2018",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 26
+      },
+      {
+        "rank": 2,
+        "record_id": "11_eea_and_emodnet::fb5cc0d0-ddeb-430e-a99c-4f1a008a040d",
+        "title": "Share of Built-Up Change 2021-2024 (raster 100 m), Europe, 3-yearly, May 2026",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "02_copernicus_clms::d8c0a075728546a1908ef5a3b2b49f63",
+        "title": "Impervious Built-Up 2021 (raster 10 m and 100 m), Europe, 3-yearly",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "07_ec_jrc_data_catalogue::c56d51b2-aa73-4da8-8184-67d3d6816f16",
+        "title": "GHS-BUILT-LAUSTAT R2023A - GHS built-up surface statistics in European LAU, multitemporal ",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 15
+      },
+      {
+        "rank": 5,
+        "record_id": "11_eea_and_emodnet::699c0c6d-8f21-4949-b373-1fdaeb3f82ed",
+        "title": "EEA Fast Track Service Precursor on Land Monitoring - Degree of soil sealing 100m",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q42_EOA_SOIL_MOISTURE_EVAPORATION",
+    "query": "Global satellite-derived surface and root-zone soil moisture, soil water index, and terrestrial land evapotranspiration",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.75,
+    "fam_r_20": 0.75,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "17_eumetsat_product_navigator::EO:EUM:DAT:0229",
+        "title": "Scatterometer Root Zone Soil Moisture (RZSM) Data Record 16km resolution - Multimission",
+        "source": "17_eumetsat_product_navigator",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 2,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:SWI_12_5KM_DAILY_V3",
+        "title": "Soil Water Index 2007-present (raster 12.5 km), global, daily - version 3",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 7
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C3177836984-NSIDC_CPRD",
+        "title": "NSIDC-0779: SMAP-Derived 1-km Downscaled Surface Soil Moisture Product V001",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:SATELLITE_SOIL_MOISTURE",
+        "title": "Soil moisture gridded data from 1978 to present",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "20_noaa_onestop::ee1526a2-0189-4ed6-a4b0-f89497e53209",
+        "title": "Soil Moisture, NOAA Soil Moisture Products System (SMOPS) Climate Data Record, 25km, Globa",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q31_SDG1531_LAND_PRODUCTIVITY",
+    "query": "Global multi-year land productivity dynamics and normalized difference vegetation index time series for land degradation neutrality",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 0.75,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "07_ec_jrc_data_catalogue::c6e827f1-501e-4808-bb04-8ee9f0d3ac97",
+        "title": "Land Productivity Dynamics",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:8253971",
+        "title": "Spatiotemporally consistent global dataset of the GIMMS Normalized Difference Vegetation I",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "02_copernicus_clms::331a290eb2f446f29c73e3e5add505be",
+        "title": "Normalised Difference Vegetation Index (Long Term Statistics) 1999-2019 (raster 1 km), glo",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 4,
+        "record_id": "11_eea_and_emodnet::290e81fb-4c84-42ad-ae12-f663312b0eda",
+        "title": "Normalised Difference Vegetation Index Statistics (Long Term 1999-2019 / Short Term 2015-2",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "02_copernicus_clms::7714f261ebe64372bef240232aa5219a",
+        "title": "Normalised Difference Vegetation Index 1999-2020 (raster 1 km), global, 10-daily \u2013 version",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 4
+      }
+    ]
+  },
+  {
+    "query_id": "Q44_SNWG_SEA_SURFACE_SALINITY",
+    "query": "Global Level 3 gridded ocean sea surface salinity derived from L-band microwave satellite radiometry",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.2,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "20_noaa_onestop::055a4e66-1ac2-4312-933d-847cc97f87e6",
+        "title": "Monthly and 8-day mean Level-3 satellite Sea Surface Salinity created by National Centers ",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C2491756379-POCLOUD",
+        "title": "AQUARIUS_L3_SSS_SMI_7DAY_V5: Aquarius Official Release Level 3 Sea Surface Salinity Standa",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 6
+      },
+      {
+        "rank": 3,
+        "record_id": "18_esa_osc_earthcode::sofresh-sea-surface-salinity",
+        "title": "Southern Ocean Sea Surface Salinity Level 3 maps (V.1.0)",
+        "source": "18_esa_osc_earthcode",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C2589165108-POCLOUD",
+        "title": "OISSS_L4_multimission_monthly_v2: Multi-Mission Optimally Interpolated Sea Surface Salinit",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "01_copernicus_cmems::MULTIOBS_GLO_PHY_SSS_L3_MYNRT_015_014",
+        "title": "SMOS CATDS Qualified (L2Q) Sea Surface Salinity product",
+        "source": "01_copernicus_cmems",
+        "siblings_collapsed": 1
+      }
+    ]
+  },
+  {
+    "query_id": "Q43_EOA_SEA_SURFACE_TEMPERATURE",
+    "query": "Global high-resolution multi-scale Level 4 foundation sea surface temperature analysis from merged microwave and infrared satellites",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.333,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "16_nasa_cmr::C2036881720-POCLOUD",
+        "title": "CMC0.1deg-CMC-L4-GLOB-v3.0: GHRSST Level 4 CMC0.1deg Global Foundation Sea Surface Tempera",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C2036878045-POCLOUD",
+        "title": "MW_IR_OI-REMSS-L4-GLOB-v5.0: GHRSST Level 4 MW_IR_OI Global Foundation Sea Surface Tempera",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C1996881146-POCLOUD",
+        "title": "MUR-JPL-L4-GLOB-v4.1: GHRSST Level 4 MUR Global Foundation Sea Surface Temperature Analysi",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 4,
+        "record_id": "20_noaa_onestop::9f210a1e-1429-434a-a142-f1356f260f0b",
+        "title": "GHRSST Level 4 OSPO Global Foundation Sea Surface Temperature Analysis (GDS version 2) for",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "20_noaa_onestop::fb63449a-6257-4fc6-8609-b63595a8c60e",
+        "title": "GHRSST Level 4 GAMSSA_28km Global Foundation Sea Surface Temperature Analysis v1.0 dataset",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 1
+      }
+    ]
+  },
+  {
+    "query_id": "Q11_EU_SMALL_WOODY_LANDSCAPE",
+    "query": "Mapping of linear hedgerows, scattered trees, and small woody landscape features across European agricultural areas",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::c8187fa6-fada-43a3-b017-e567e045525d",
+        "title": "Woody landscape features on agricultural land",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "11_eea_and_emodnet::2adfe942-186d-4ee0-af41-b8b864dfb6b6",
+        "title": "Small Woody Features 2015 (raster 100 m), Europe, 3-yearly - Nov. 2019",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 7
+      },
+      {
+        "rank": 3,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:UA_STL_3_YEARLY_2021",
+        "title": "Urban Atlas Street Tree Layer 2021 (vector), Europe, 3-yearly, Jan. 2026",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 14
+      },
+      {
+        "rank": 4,
+        "record_id": "02_copernicus_clms::f954d06dfb5442b4910f0ccea9070917",
+        "title": "Tree Cover Density 2018-present (raster 10 m), Europe, yearly",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 38
+      },
+      {
+        "rank": 5,
+        "record_id": "11_eea_and_emodnet::94c5c72e-29dd-4e3e-a721-a2552d50f497",
+        "title": "High Resolution Layer: Tree Cover Density 2012 (raster 100m), Mar. 2016",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 1
+      }
+    ]
+  },
+  {
+    "query_id": "Q12_EU_CROP_TYPE_DIVERSITY",
+    "query": "High-resolution 10 meter satellite crop type classification map across European Union agricultural parcels",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 30.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "02_copernicus_clms::2c2ec84d4b6046ada1e04e24def30ccf",
+        "title": "Secondary Crops Type 2017-present (raster 10 m), Europe, yearly",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "27_gee_official_stac::JRC/D5/EUCROPMAP/V1",
+        "title": "EUCROPMAP",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "31_digital_earth_africa_and_pacific::DEAFRICA:esa_worldcereal_maize_main",
+        "title": "esa_worldcereal_maize_main: ESA WorldCereal 10m 2021 v1.0.0 maize crop map for main maize ",
+        "source": "31_digital_earth_africa_and_pacific",
+        "siblings_collapsed": 21
+      },
+      {
+        "rank": 4,
+        "record_id": "11_eea_and_emodnet::93bdceca-30b6-41e8-94d8-f1d5f09eaa62",
+        "title": "Main Crop Emergence 2017 - Present (raster 10m), Europe, yearly, Nov. 2024",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "11_eea_and_emodnet::77873ff3-4edf-48d4-94cd-c5b7b61da29e",
+        "title": "Forest Type 2018 - Present (raster 10m), Europe, 3-yearly, Nov. 2024",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 26
+      }
+    ]
+  },
+  {
+    "query_id": "Q16_URBAN_HEAT_ISLAND_EXPOSURE",
+    "query": "Global urban heat island intensity, daily extreme urban heat exposure, and urban local climate zone classification for city climate adaptation",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": false
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "29_awesome_gee_community::projects/sat-io/open-datasets/UHII/MOD1",
+        "title": "Urban Heat Island Intensity: MOD1",
+        "source": "29_awesome_gee_community",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "15_geobon_and_geokhub::GEOKHUB:ppm9s-5mk77",
+        "title": "Global High Resolution Daily Extreme Urban Heat Exposure (UHE-daily), 1983-2016",
+        "source": "15_geobon_and_geokhub",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C3540912037-ESDIS",
+        "title": "CIESIN_SEDAC_SDEI_UHE: Global High Resolution Daily Extreme Urban Heat Exposure (UHE-Daily",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "29_awesome_gee_community::projects/sat-io/open-datasets/UHII/MYD2",
+        "title": "Urban Heat Island Intensity: MYD2",
+        "source": "29_awesome_gee_community",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "15_geobon_and_geokhub::GEOKHUB:kmmz3-gsk16",
+        "title": "Global Urban Heat Island",
+        "source": "15_geobon_and_geokhub",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q18_COASTAL_SEA_LEVEL_TREND",
+    "query": "Multi-mission satellite altimetry gridded sea level anomalies and long-term ocean sea surface height rise trends",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "20_noaa_onestop::2e7d1f2e-e95e-4311-b0ef-5ee24b9c623d",
+        "title": "Sea Surface Height Anomalies, Altimetry (S-3A/B,CryoSat2,Jason-2/3,SARAL), Near Real-Time,",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "01_copernicus_cmems::OMI_CLIMATE_SL_GLOBAL_area_averaged_anomalies",
+        "title": "Global Ocean Mean Sea Level time series and trend from Observations Reprocessing",
+        "source": "01_copernicus_cmems",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2902359309-POCLOUD",
+        "title": "MERGED_TP_J1_OSTM_OST_GMSL_ASCII_V52: Global Mean Sea Level Trend from Integrated Multi-Mi",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "20_noaa_onestop::8bb66803-4605-4358-a0af-21433081615e",
+        "title": "NOAA Laboratory for Satellite Altimetry Sea Level Rise Products: Global and regional sea l",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "01_copernicus_cmems::OMI_CLIMATE_SL_GLOBAL_regional_trends",
+        "title": "Global Ocean Mean Sea Level trend map from Observations Reprocessing",
+        "source": "01_copernicus_cmems",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q40_GBF_SNOW_COVER_EXTENT",
+    "query": "Global multi-decadal satellite snow cover extent and snow water equivalent climate data record",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 0.5,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:8083230",
+        "title": "Snow cover and snow water equivalent for: How do tradeoffs in satellite spatial and tempor",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C4017534264-FEDEO",
+        "title": "edf8abd23f4a40aabd4d52e48dec06ea: ESA Snow Climate Change Initiative (Snow_cci): Snow Wate",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 24
+      },
+      {
+        "rank": 3,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:SATELLITE_SNOW_COVER_EXTENT",
+        "title": "Snow cover extent from 1982 to present derived from satellite observations",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C3291000593-NSIDC_CPRD",
+        "title": "NSIDC-0531: MEaSUREs Northern Hemisphere Terrestrial Snow Cover Extent Weekly 100km EASE-G",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C1386246980-NSIDCV0",
+        "title": "NSIDC-0046: Northern Hemisphere EASE-Grid 2.0 Weekly Snow Cover and Sea Ice Extent, Versio",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q02_EU_URBAN_GREEN_CANOPY",
+    "query": "Urban green space extent and urban tree canopy cover density across European cities, towns, and suburbs",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::264d4e20-de6d-4f88-b1be-b592303452af",
+        "title": "Tree Cover Density 2015 (raster 100 m), Europe, 3-yearly, Mar. 2018",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 33
+      },
+      {
+        "rank": 2,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:UA_STL_3_YEARLY_2021",
+        "title": "Urban Atlas Street Tree Layer 2021 (vector), Europe, 3-yearly, Jan. 2026",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 23
+      },
+      {
+        "rank": 3,
+        "record_id": "11_eea_and_emodnet::437c4900-f394-454c-81bd-c3f5a7cddddb",
+        "title": "High Resolution Layer: Tree Cover Density 2012 (raster 20m), Mar. 2016",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 4,
+        "record_id": "11_eea_and_emodnet::b8a5a51f-0c8e-44bc-bac2-2afa6b9444da",
+        "title": "HRL Tree Cover Density",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C2784383956-ORNL_CLOUD",
+        "title": "Taiga_Tundra_Tree_Cover_1218: Tree Canopy Cover for the Circumpolar Taiga-Tundra Ecotone: ",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q03_EU_FOREST_PROTECTED_STRUCTURE",
+    "query": "High-resolution European forest type classification, dominant broadleaf and coniferous leaf type, and tree cover density change",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 30.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::5afeffa4-ccda-4ef9-a7ef-637cb7310f58",
+        "title": "Dominant Leaf Type 2012 (raster 20 m), Europe, 3-yearly, Apr. 2018",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 28
+      },
+      {
+        "rank": 2,
+        "record_id": "11_eea_and_emodnet::7e5a685c-7890-47da-910b-2942f06a287a",
+        "title": "HRL Dominant Leaf Type",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "11_eea_and_emodnet::437c4900-f394-454c-81bd-c3f5a7cddddb",
+        "title": "High Resolution Layer: Tree Cover Density 2012 (raster 20m), Mar. 2016",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "11_eea_and_emodnet::2c26ccc9-0ae2-4b42-bd83-7e1b68dfe6e4",
+        "title": "Copernicus HRL Forests and Corine Land Cover Forest products",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "11_eea_and_emodnet::b8a5a51f-0c8e-44bc-bac2-2afa6b9444da",
+        "title": "HRL Tree Cover Density",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q04_EU_HABITAT_PHENOLOGY",
+    "query": "High-resolution seasonal vegetation phenology trajectories, start and end of growing season, and plant productivity dynamics in Europe",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 30.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "02_copernicus_clms::dfab5f4845374872bf5a091215c1037a",
+        "title": "Plant Phenology Index Seasonal Trajectories 2017-present (raster 10 m), Europe, 10-daily",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 7
+      },
+      {
+        "rank": 2,
+        "record_id": "07_ec_jrc_data_catalogue::jrc-10112-10007",
+        "title": "Global land surface phenology - Max of the season",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "07_ec_jrc_data_catalogue::jrc-10112-10009",
+        "title": "Global land surface phenology - Start of senescence",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:SP_S2_EUROPE_20M_YEARLY_V1",
+        "title": "Snow Phenology S2 2016-present (raster 20 m), Europe, annually",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:23475043",
+        "title": "WorldCereal crop calendars",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 3
+      }
+    ]
+  },
+  {
+    "query_id": "Q05_EU_RIVER_LAKE_ICE",
+    "query": "High-resolution monitoring of seasonal river and lake ice extent across European inland waters",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 30.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::8aef5abd-3146-4b38-a869-afb9a97c037e",
+        "title": "High Resolution Snow and Ice Monitoring: River and Lake Ice Extent (raster 20m)",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 2,
+        "record_id": "14_ceos_fedeo_agencies::a56dba09df8a42ec9fba8b8c7a5e1f69",
+        "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 3.0",
+        "source": "14_ceos_fedeo_agencies",
+        "siblings_collapsed": 6
+      },
+      {
+        "rank": 3,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:EFAS_SEASONAL",
+        "title": "Seasonal forecasts of river discharge and related data by the European Flood Awareness Sys",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 5
+      },
+      {
+        "rank": 4,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:14366637",
+        "title": "AMBER salmon: A digital river network containing reach-specific habitat variables related ",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:SP_S2_EUROPE_20M_YEARLY_V1",
+        "title": "Snow Phenology S2 2016-present (raster 20 m), Europe, annually",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q06_EU_SEABED_HABITATS",
+    "query": "Broad-scale predictive marine seabed habitat classification and seafloor benthic substrate mapping in European seas",
+    "filters": {
+      "geo_scope": "europe",
+      "strict_eo_only": false
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::d4cb5fe3-7f2d-4b57-b87e-350219f16f8a",
+        "title": "EUSeaMap (2021) Broad-Scale Predictive Habitat Map - Confidence in classification of subst",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 5
+      },
+      {
+        "rank": 2,
+        "record_id": "11_eea_and_emodnet::6e2e8ce0-7d81-4904-bf52-e919f784ef6e",
+        "title": "Physical loss to seabed in Europe Seas, Jan. 2020",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "11_eea_and_emodnet::24651569-A1F4-49B6-BD05-3EE60E7A2419",
+        "title": "Lagis koreni, Cerastoderma edule, Polydora, Halicryptus spinulosus abundance model in Balt",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "11_eea_and_emodnet::C0FB4F4C-237D-4BF5-9A00-B6E1929AA01E",
+        "title": "Predictive habitat suitability model of Fucus vesiculosus in the British Isles",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "09_wekeo_dias::EO:MO:DAT:BLKSEA_ANALYSISFORECAST_BGC_007_010",
+        "title": "Black Sea Biogeochemistry Analysis and Forecast",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q07_EU_MARINE_3D_PHYSICS",
+    "query": "Three-dimensional global ocean physical analysis and forecast of ocean currents, potential temperature, salinity, and sea ice",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "09_wekeo_dias::EO:MO:DAT:GLOBAL_ANALYSISFORECAST_PHY_001_024",
+        "title": "Global Ocean Physics Analysis and Forecast",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 2,
+        "record_id": "01_copernicus_cmems::GLOBAL_MULTIYEAR_PHY_001_030",
+        "title": "Global Ocean Physics Reanalysis",
+        "source": "01_copernicus_cmems",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C1991543752-POCLOUD",
+        "title": "ECCO_L4_OCEAN_3D_SALINITY_FLUX_LLC0090GRID_MONTHLY_V4R4: ECCO Ocean Three-Dimensional Sali",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "09_wekeo_dias::EO:MO:DAT:GLOBAL_ANALYSISFORECAST_BGC_001_028",
+        "title": "Global Ocean Biogeochemistry Analysis and Forecast",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C3875948814-POCLOUD",
+        "title": "SASSIE_ECCO_L4_OCN_3D_SALINITY_DIFF_FLUX_LLC1080GRID_DAILY_V1R1: SASSIE ECCO Ocean Three-D",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q08_EU_MARINE_BGC",
+    "query": "Global ocean biogeochemistry analysis and forecast of dissolved oxygen, nitrate, phosphate, ocean acidity pH, phytoplankton, and chlorophyll",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "09_wekeo_dias::EO:MO:DAT:GLOBAL_ANALYSISFORECAST_BGC_001_028",
+        "title": "Global Ocean Biogeochemistry Analysis and Forecast",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 2,
+        "record_id": "09_wekeo_dias::EO:MO:DAT:GLOBAL_MULTIYEAR_BGC_001_029",
+        "title": "Global Ocean Biogeochemistry Hindcast",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "09_wekeo_dias::EO:MO:DAT:GLOBAL_ANALYSISFORECAST_PHY_001_024",
+        "title": "Global Ocean Physics Analysis and Forecast",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 4,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.07646",
+        "title": "Data set for \u201cUpper Ocean Biogeochemistry of the Oligotrophic North Pacific Subtropical Gy",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:5908805",
+        "title": "The effects of light intensity and flow speed on biogeochemical variability within a fring",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q09_EU_LAKE_WATER_QUALITY",
+    "query": "Satellite monitoring of inland lake water quality including turbidity, trophic state index, and suspended matter",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:LWQ_NRT_100M_10_DAILY_V2",
+        "title": "Lake Water Quality (raster 100 m), global, 10-daily - version 2",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 22
+      },
+      {
+        "rank": 2,
+        "record_id": "14_ceos_fedeo_agencies::a07deacaffb8453e93d57ee214676304",
+        "title": "ESA Lakes Climate Change Initiative (Lakes_cci): Lake products, Version 2.0.2",
+        "source": "14_ceos_fedeo_agencies",
+        "siblings_collapsed": 6
+      },
+      {
+        "rank": 3,
+        "record_id": "29_awesome_gee_community::projects/sat-io/open-datasets/global_water_salinity/lakes_reservoirs_database",
+        "title": "Global Lakes and Reservoirs salinity measurements (1980-2019)",
+        "source": "29_awesome_gee_community",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:14178664",
+        "title": "Data from: \"Cross-realm transferability of species distribution models \u2013 species character",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "07_ec_jrc_data_catalogue::6ff6cc93-2e34-4696-9ef6-91e0d83bf1bb",
+        "title": "EU Ecosystem Assessment - Freshwater Ecosystem",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q10_EU_WETLAND_RIPARIAN",
+    "query": "High-resolution European wetland extent, permanent and temporary water and wetness status, and riparian buffer zone land cover",
+    "filters": {
+      "geo_scope": "europe",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::8108e203-59db-4672-b9e0-c1863fd6523b",
+        "title": "High Resolution Layer: Water and Wetness 2015 (raster 100m), Mar. 2018",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 12
+      },
+      {
+        "rank": 2,
+        "record_id": "11_eea_and_emodnet::e61d0641-ef07-4224-a6ed-6d2d42a4ef23",
+        "title": "Riparian Zones Delineation (raster), Aug. 2015",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 4
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:5553187",
+        "title": "Development of a global dataset of Wetland Area and Dynamics for Methane Modeling (WAD2M)",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "07_ec_jrc_data_catalogue::6ff6cc93-2e34-4696-9ef6-91e0d83bf1bb",
+        "title": "EU Ecosystem Assessment - Freshwater Ecosystem",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:23048237",
+        "title": "Global ensemble of land cover indicators at 100 m (2000-2024): Wetland tree cover height",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q14_EU_WILDFIRE_BURNT_AREA",
+    "query": "Satellite-derived wildfire burned area extent and forest fire event mapping for ecosystem disturbance monitoring",
+    "filters": {
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "14_ceos_fedeo_agencies::593397b5f9654d76b5d37761e7566ca6",
+        "title": "ESA Fire Climate Change Initiative (Fire_cci): Long-term Small Fire Dataset (SFDL) Burned ",
+        "source": "14_ceos_fedeo_agencies",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "07_ec_jrc_data_catalogue::4bd142ce-1baa-4a84-85c5-b5c676309d3a",
+        "title": "Burnt area maps - EFFIS Damage Assessment",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:BA_300M_DAILY_V3",
+        "title": "Burnt Area 2023-present (raster 300 m), global, daily - version 3",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C3234724704-ORNL_CLOUD",
+        "title": "Wildfire_Impacts_Boreal_Ecosys_2359: Impacts of Wildfires on Boreal Forest Ecosystem Carbo",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C2389176598-ORNL_CLOUD",
+        "title": "Disturbance_Biomass_Maps_1679: Disturbance History and Forest Biomass from Landsat for Six",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q19_NIGHTTIME_LIGHTS_ELECTRIFICATION",
+    "query": "Global satellite nighttime artificial light radiance and multitemporal nocturnal lights change for electrification and urban activity assessment",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "16_nasa_cmr::C3550194672-ESDIS",
+        "title": "CIESIN_SEDAC_SDEI_VDL: VIIRS Plus DMSP Change in Lights (VIIRS+DMSP dLIGHT)",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "20_noaa_onestop::0cec76ed-c719-4a8c-ac37-07837bf721d9",
+        "title": "Nighttime Lights Annual Composites V4",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C3860065683-LAADS",
+        "title": "VNP46A4: VIIRS/NPP Lunar BRDF-Adjusted Nighttime Lights Yearly L3 Global 15 arc second Lin",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C4249684820-LANCEMODIS",
+        "title": "VJ246A2_NRT: VIIRS/JPSS2 Gap-Filled Lunar BRDF-Adjusted Nighttime Lights Daily L3 Global 1",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C3363944097-LANCEMODIS",
+        "title": "VNP46A2_NRT: VIIRS/NPP Gap-Filled Lunar BRDF-Adjusted Nighttime Lights Daily L3 Global 15 ",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      }
+    ]
+  },
+  {
+    "query_id": "Q21_GST_TOPDOWN_CH4_BUDGETS",
+    "query": "Satellite-derived top-down atmospheric inversion estimates of total, anthropogenic, and natural methane emissions and fluxes",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "33_us_ghg_center_stac::gosat-based-ch4budget-yeargrid-v1",
+        "title": "GOSAT-based Top-down Total and Natural Methane Emissions v1",
+        "source": "33_us_ghg_center_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C3497591703-ORNL_CLOUD",
+        "title": "CH4_Modeled_EmissionSources_2411: TM5-4DVAR Global Monthly Source-disaggregated Methane Em",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 3,
+        "record_id": "33_us_ghg_center_stac::ct-ch4-monthgrid-v2023",
+        "title": "CarbonTracker-CH\u2084 Isotopic Methane Inverse Fluxes v2023",
+        "source": "33_us_ghg_center_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "18_esa_osc_earthcode::d13c-ch4-signatures-smart-ch4",
+        "title": "Global \u03b413C(CH4) Source Signatures",
+        "source": "18_esa_osc_earthcode",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:20547980",
+        "title": "EOWetMet: Pan-Arctic Average Wetland Methane Flux Dataset (2015-2024)",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 1
+      }
+    ]
+  },
+  {
+    "query_id": "Q22_GST_FOSSIL_CO2_EMISSIONS",
+    "query": "High-resolution spatially explicit gridded monthly and annual fossil fuel anthropogenic carbon dioxide emissions",
+    "filters": {
+      "strict_eo_only": false
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "33_us_ghg_center_stac::odiac-ffco2-monthgrid-v2022",
+        "title": "ODIAC Fossil Fuel CO\u2082 Emissions v2022",
+        "source": "33_us_ghg_center_stac",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C4283164906-ORNL_CLOUD",
+        "title": "Vulcan_V4_Annual_Emissions_2505: Vulcan: High-Resolution Annual Fossil Fuel CO2 Emissions ",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2516155224-ORNL_CLOUD",
+        "title": "Vulcan_V3_Hourly_Emissions_1810: Vulcan: High-Resolution Hourly Fossil Fuel CO2 Emissions ",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C2143386827-GES_DISC",
+        "title": "Global Inventory of Methane Emissions from Fuel Exploitation V1 (GFEI_CH4)",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:23528902",
+        "title": "Land-use change CO2 emissions (ELUC) data for the Global Carbon Budget 2026",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q23_GST_GLOBAL_ABOVEGROUND_BIOMASS",
+    "query": "Global gridded forest aboveground woody biomass density and terrestrial live vegetation carbon stocks from spaceborne lidar and radar",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5281/zenodo.4161694",
+        "title": "Dataset for \"Changes in Global Terrestrial Live Biomass over the 21st Century\"",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "23_wri_gfw_and_resourcewatch::GFW:whrc_aboveground_biomass_stock_2000",
+        "title": "Aboveground live woody biomass density",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2756296671-ORNL_CLOUD",
+        "title": "CMS_Global_Forest_AGC_2180: Global Forest Aboveground Carbon Stocks and Fluxes from GEDI a",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C2764708636-ORNL_CLOUD",
+        "title": "Global_Maps_C_Density_2010_1763: Global Aboveground and Belowground Biomass Carbon Density",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "14_ceos_fedeo_agencies::84403d09cef3485883158f4df2989b0c",
+        "title": "ESA Biomass Climate Change Initiative (Biomass_cci): Global datasets of forest above-groun",
+        "source": "14_ceos_fedeo_agencies",
+        "siblings_collapsed": 7
+      }
+    ]
+  },
+  {
+    "query_id": "Q25_GST_MANGROVE_EXTENT",
+    "query": "Global coastal mangrove forest habitat extent and multitemporal mangrove loss and gain monitoring for blue carbon accounting",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:7459306",
+        "title": "Global Mangrove Watch: Monthly Alerts of Mangrove Loss for Africa 2019--2022",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 28
+      },
+      {
+        "rank": 2,
+        "record_id": "27_gee_official_stac::projects/mangrovedatahub2/assets/CGMD-Extent30",
+        "title": "Global Annual Mangrove Extent (1984-2023)",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "27_gee_official_stac::projects/mangrovedatahub2/assets/CGMD-AFCC30",
+        "title": "Global Annual Mangrove Fractional Canopy Cover (1984-2023)",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "23_wri_gfw_and_resourcewatch::RW:f31dece0-9256-428a-84de-3a59f5c06bb7",
+        "title": "Mangrove Extent Change",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:24222213",
+        "title": "Mangrove map disagreement and monitoring shortlists in coastal China: Data and code",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q27_SDG661_SURFACE_WATER_EXTENT",
+    "query": "Global 30 meter multitemporal inland surface water occurrence, seasonality, recurrence, and dynamic open surface water extent",
+    "filters": {
+      "geo_scope": "global",
+      "max_grid_m": 300.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "02_copernicus_clms::0517fd1b7d944d8197a2eb5c13470db8",
+        "title": "Water Bodies 2020-present (raster 300 m), global, monthly \u2013 version 2",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 2,
+        "record_id": "27_gee_official_stac::JRC/GSW1_4/GlobalSurfaceWater",
+        "title": "JRC Global Surface Water Mapping Layers, v1.4",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:5553187",
+        "title": "Development of a global dataset of Wetland Area and Dynamics for Methane Modeling (WAD2M)",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "10_cdse_stac::clms_lwq-nrt_global_300m_10daily_v1_nc",
+        "title": "CLMS Lake Water Quality (LWQ) NRT Global 300m 10-daily V1 (NetCDF)",
+        "source": "10_cdse_stac",
+        "siblings_collapsed": 10
+      },
+      {
+        "rank": 5,
+        "record_id": "09_wekeo_dias::EO:ECMWF:DAT:CEMS_GLOFAS_SEASONAL",
+        "title": "Seasonal forecasts of river discharge and related data by the Global Flood Awareness Syste",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 1
+      }
+    ]
+  },
+  {
+    "query_id": "Q28_SDG1131_URBAN_BUILTUP_EXTENT",
+    "query": "Global high-resolution multitemporal human settlement built-up surface extent and urban land consumption footprint",
+    "filters": {
+      "geo_scope": "global",
+      "max_grid_m": 100.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "15_geobon_and_geokhub::GEOKHUB:ddsgk-jg041",
+        "title": "Global Human Built-up And Settlement Extent (HBASE) Dataset From Landsat",
+        "source": "15_geobon_and_geokhub",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C3550193482-ESDIS",
+        "title": "CIESIN_SEDAC_ULANDSAT_HBASE_V1: Global Human Built-up And Settlement Extent (HBASE) Datase",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "19_dlr_eoc_stac::WSF_2019",
+        "title": "World Settlement Footprint (WSF) 2019",
+        "source": "19_dlr_eoc_stac",
+        "siblings_collapsed": 12
+      },
+      {
+        "rank": 4,
+        "record_id": "07_ec_jrc_data_catalogue::jrc-ghsl-ghs_built_ldsmt_globe_r2015b",
+        "title": "GHS-BUILT R2015B - GHS built-up grid, derived from Landsat, multitemporal (1975, 1990, 200",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 15
+      },
+      {
+        "rank": 5,
+        "record_id": "15_geobon_and_geokhub::GEOKHUB:9aa54-2nc28",
+        "title": "Global Man-made Impervious Surface (GMIS) Dataset From Landsat",
+        "source": "15_geobon_and_geokhub",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q29_SDG1131_GRIDDED_POPULATION",
+    "query": "Global spatially explicit gridded human population count and population density distribution for urban growth rate estimation",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": false
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "16_nasa_cmr::C3540930618-ESDIS",
+        "title": "CIESIN_SEDAC_GPWv3_POPDENSFE: Gridded Population of the World, Version 3 (GPWv3): Populati",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C3540930077-ESDIS",
+        "title": "CIESIN_SEDAC_GPWv4_POPDENS_R10: Gridded Population of the World, Version 4 (GPWv4): Popula",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 4
+      },
+      {
+        "rank": 3,
+        "record_id": "27_gee_official_stac::WorldPop/GP/100m/pop_age_sex",
+        "title": "WorldPop Global Project Population Data: Estimated Age and Sex Structures of Residential P",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 8
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C3540929687-ESDIS",
+        "title": "CIESIN_SEDAC_GPWv4_APDENS_WPP_2015: Gridded Population of the World, Version 4 (GPWv4): Po",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 4
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C3550190429-ESDIS",
+        "title": "CIESIN_SEDAC_GHSL_PBSMOD: Global Human Settlement Layer: Population and Built-Up Estimates",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 7
+      }
+    ]
+  },
+  {
+    "query_id": "Q32_SDG1531_SOIL_ORGANIC_CARBON",
+    "query": "Global gridded topsoil organic carbon stocks and soil organic carbon content at 0 to 30 cm depth for land degradation reporting",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": false
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::1c5ad0a1-27bc-4ccf-b9e0-4d33fec003d4",
+        "title": "Global Soil Organic Carbon Estimates in topsoil (5 arcmin), Mar. 2012",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 2,
+        "record_id": "34_fao_geospatial_catalog_ckan::FAO_ISO:9adfd62b-6c8e-4cea-8062-6559b96e9cdb",
+        "title": "Soil organic carbon stock - SOILGRIDS 2.0 - ISRIC",
+        "source": "34_fao_geospatial_catalog_ckan",
+        "siblings_collapsed": 6
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:15535760",
+        "title": "OpenLandMap-soildb: soil organic carbon content (g/kg) 2020-2022 0-30cm below ground -1",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 14
+      },
+      {
+        "rank": 4,
+        "record_id": "34_fao_geospatial_catalog_ckan::FAO_ISO:3371da82-2167-496c-859e-3b71aebd606e",
+        "title": "Topsoil organic carbon from HWSD v1.2 (Global)",
+        "source": "34_fao_geospatial_catalog_ckan",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "27_gee_official_stac::OpenLandMap/SOL/SOL_ORGANIC-CARBON_USDA-6A1C_M/v02",
+        "title": "OpenLandMap Soil Organic Carbon Content",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q34_GBF_CANOPY_HEIGHT",
+    "query": "Global gridded forest and vegetation canopy height structure derived from spaceborne laser altimetry",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "27_gee_official_stac::NASA/JPL/global_forest_canopy_height_2005",
+        "title": "Global Forest Canopy Height, 2005",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:7643403",
+        "title": "The global 30-m forest canopy height map for 2020",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2889522012-ORNL_CLOUD",
+        "title": "GEDI_ICESAT2_Global_Veg_Height_2294: Global Vegetation Height Metrics from GEDI and ICESat",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "29_awesome_gee_community::projects/sat-io/open-datasets/GLAD/GEDI_V27",
+        "title": "Global Forest Canopy Height from GEDI & Landsat",
+        "source": "29_awesome_gee_community",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:23342241",
+        "title": "Global gridded canopy height and height distributions from GEDI and ICESat-2 for EDv3 init",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q35_GBF_GLOBAL_ELEVATION_DEM",
+    "query": "Global 30 meter digital elevation model and terrain surface topography derived from radar and stereo satellite imagery",
+    "filters": {
+      "geo_scope": "global",
+      "max_grid_m": 90.0,
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "14_ceos_fedeo_agencies::cop-dem-glo-30m-cog",
+        "title": "Copernicus Global 30 meter Digital Elevation Model dataset in COG format",
+        "source": "14_ceos_fedeo_agencies",
+        "siblings_collapsed": 9
+      },
+      {
+        "rank": 2,
+        "record_id": "08_destine_dedl_stac::EO.DEM.DAT.COP-DEM_GLO-30-DTED",
+        "title": "COPERNICUS Digital Elevation Model (DEM) 30 meters DTED",
+        "source": "08_destine_dedl_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C1711961296-LPCLOUD",
+        "title": "ASTGTM: ASTER Global Digital Elevation Model V003",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 2
+      },
+      {
+        "rank": 4,
+        "record_id": "27_gee_official_stac::USGS/SRTMGL1_003",
+        "title": "NASA SRTM Digital Elevation 30m",
+        "source": "27_gee_official_stac",
+        "siblings_collapsed": 10
+      },
+      {
+        "rank": 5,
+        "record_id": "19_dlr_eoc_stac::TDM_DEM_90",
+        "title": "TanDEM-X - Digital Elevation Model (DEM) - Global, 90m",
+        "source": "19_dlr_eoc_stac",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q36_GBF_LAI_FAPAR",
+    "query": "Global gridded terrestrial vegetation Leaf Area Index and Fraction of Absorbed Photosynthetically Active Radiation time series",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "16_nasa_cmr::C2222147000-LPCLOUD",
+        "title": "MCD15A2H: MODIS/Terra+Aqua Leaf Area Index/FPAR 8-Day L4 Global 500m SIN Grid V061",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 13
+      },
+      {
+        "rank": 2,
+        "record_id": "02_copernicus_clms::f9001fabd2ed4a7a9a695f2de3d48119",
+        "title": "Fraction of Absorbed Photosynthetically Active Radiation 1999-2020 (raster 1 km), global, ",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 4
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:7892130",
+        "title": "MUSES Leaf Area Index (LAI) Monthly Global 1km SIN Grid in 2000",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 5
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C2545310879-LPCLOUD",
+        "title": "VJ115A2H: VIIRS/JPSS1 Leaf Area Index/FPAR 8-Day L4 Global 500m SIN Grid V002",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C2784385653-ORNL_CLOUD",
+        "title": "LAI_Woody_Plants_1231: A Global Database of Field-observed Leaf Area Index in Woody Plant ",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q37_GBF_TERRESTRIAL_GPP_NPP",
+    "query": "Global satellite-derived terrestrial ecosystem Gross Primary Productivity and annual Net Primary Productivity of vegetation",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "10_cdse_stac::modis-terra-mod17a2h",
+        "title": "MODIS Terra Gross Primary Productivity 8-Day L4 Global 500m",
+        "source": "10_cdse_stac",
+        "siblings_collapsed": 3
+      },
+      {
+        "rank": 2,
+        "record_id": "09_wekeo_dias::EO:CLMS:DAT:NPP_300M_10_DAILY_V1",
+        "title": "Net Primary Production 2023-present (raster 300 m), global, 10-daily - version 1",
+        "source": "09_wekeo_dias",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2779678769-ORNL_CLOUD",
+        "title": "net_carbon_flux_662: Net Carbon Dioxide and Water Fluxes of Global Terrestrial Ecosystems,",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "10_cdse_stac::clms_gpp_global_300m_10daily_v2_cog",
+        "title": "CLMS Gross Primary Production (GPP) Global 300m 10-daily V2 (COG)",
+        "source": "10_cdse_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "10_cdse_stac::clms_gpp_global_300m_10daily_v1_nc",
+        "title": "CLMS Gross Primary Production (GPP) Global 300m 10-daily V1 (NetCDF)",
+        "source": "10_cdse_stac",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q38_GBF_SOLAR_INDUCED_FLUORESCENCE",
+    "query": "Global satellite measurements of terrestrial plant solar-induced chlorophyll fluorescence as a direct proxy for photosynthesis",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.16910",
+        "title": "A high-resolution satellite-based solar-induced chlorophyll fluorescence dataset for China",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.35001",
+        "title": "Global Harmonized Solar-induced Chlorophyll Fluorescence (HSIF) 0.05\u00b0, Daily Product",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:7244183",
+        "title": "Canopy solar-induces chlorophyll fluorescence measurements at seven sites",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C2847119443-ORNL_CLOUD",
+        "title": "SIF_SCIAMACHY_GOME2_Harmonized_2317: Global High-Resolution Estimates of SIF from Fused SC",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.018aw",
+        "title": "GOME-LSIF: A consistent global solar-induced chlorophyll fluorescence dataset (1995\u20132011) ",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q39_GBF_TERRESTRIAL_LEAF_CHLOROPHYLL",
+    "query": "Global terrestrial plant foliar leaf chlorophyll content retrieved over land vegetation canopies from optical satellite reflectance",
+    "filters": {
+      "geo_scope": "global",
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:5805575",
+        "title": "Global leaf chlorophyll content (LCC) product from MODIS imagery (2000-2020)",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "16_nasa_cmr::C3113253100-OB_CLOUD",
+        "title": "SeaWiFS_L3b_CHL: OrbView-2 SeaWiFS Level-3 Global Binned Chlorophyll (CHL) Data, version 2",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C3300838699-OB_CLOUD",
+        "title": "CZCS_L3m_CHL: Nimbus-7 CZCS Level-3 Global Mapped Chlorophyll (CHL) Data, version 2022.0",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C3388381565-OB_CLOUD",
+        "title": "VIIRSN_L3m_CHL: Suomi-NPP VIIRS Level-3 Global Mapped Chlorophyll (CHL) Data, version 2022",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 11
+      },
+      {
+        "rank": 5,
+        "record_id": "16_nasa_cmr::C2847119443-ORNL_CLOUD",
+        "title": "SIF_SCIAMACHY_GOME2_Harmonized_2317: Global High-Resolution Estimates of SIF from Fused SC",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q41_EOA_IRRIGATED_CROPLAND",
+    "query": "Satellite-based mapping of irrigated agricultural cropland extent and monthly irrigated versus rainfed harvested crop areas",
+    "filters": {
+      "strict_eo_only": false
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.4211/hs.60a890eb841c460192c03bb590687145",
+        "title": "A global open-source dataset of monthly irrigated and rainfed cropped areas (MIRCA-OS) for",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5281/zenodo.5548555",
+        "title": "LANID-US: Landsat-based Irrigation Dataset for the United States",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:22006022",
+        "title": "Sensitivity of rank-based SIF/APAR contrasts to soil inputs and activity windows under atm",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "14_ceos_fedeo_agencies::esa-worldcereal-irrigation-10m-2021-v1",
+        "title": "ESA WorldCereal products for active irrigation per agro-ecological zone - V1",
+        "source": "14_ceos_fedeo_agencies",
+        "siblings_collapsed": 15
+      },
+      {
+        "rank": 5,
+        "record_id": "23_wri_gfw_and_resourcewatch::RW:9f672c5b-bbb6-4ba3-88f3-670166f06a9b",
+        "title": "Percentage of global crop area that is irrigated vs. rainfed",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q45_SNWG_SURFACE_DISPLACEMENT_INSAR",
+    "query": "Satellite synthetic aperture radar interferometry measurements of ground surface displacement, land subsidence, and tectonic deformation",
+    "filters": {
+      "strict_eo_only": true
+    },
+    "fam_r_10": 1.0,
+    "fam_r_20": 1.0,
+    "mrr_10": 1.0,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "16_nasa_cmr::C3294057315-ASF",
+        "title": "OPERA_L3_DISP-S1_V1: OPERA Surface Displacement from Sentinel-1 validated product (Version",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 2,
+        "record_id": "21_usgs_landsat_and_eros::C1220567953-USGS_LTA",
+        "title": "USGS_EDC_IFSAR: Interferometric Synthetic Aperture Radar (IFSAR) Alaska",
+        "source": "21_usgs_landsat_and_eros",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "02_copernicus_clms::00f7264e92d54a70b02bce9b315d7b32",
+        "title": "European Ground Motion Service: Basic 2016-present (vector), Europe, yearly",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "22_data_terra_inpe_dea::cemp_insar_radarsat2_displacement",
+        "title": "cemp_insar_radarsat2_displacement",
+        "source": "22_data_terra_inpe_dea",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "02_copernicus_clms::fea9248133ce46a6b274cae33eed78e6",
+        "title": "European Ground Motion Service: Calibrated 2016-present (vector), Europe, yearly",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 0
+      }
+    ]
+  }
+]

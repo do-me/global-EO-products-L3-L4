@@ -1,6 +1,6 @@
 {
   "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
-  "generated_at_utc": "2026-11-21T00:54:03Z",
+  "generated_at_utc": "2026-11-24T06:50:29Z",
   "total_raw_sources": 35,
   "total_raw_records_retrieved": 52612,
   "total_files_hashed": 363,
@@ -2224,7 +2224,7 @@
       "path": "04_validation_and_review/gcos_ecv_domain_coverage.csv",
       "stage": "04_validation_and_review",
       "bytes": 5935,
-      "sha256": "f97497e87d16a99c47a64c39009c5b9a6abd798694e5db822f5588112e6e982c"
+      "sha256": "c1cec52452a586d3d1f3a511904a3ad615e72310e5ab9450a7836984a9e96345"
     },
     {
       "path": "04_validation_and_review/independent_product_version_audit.csv",

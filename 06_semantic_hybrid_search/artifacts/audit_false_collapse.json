@@ -1,0 +1,46 @@
+{
+  "dev45": {
+    "near_dup_cos": 0.94,
+    "sensor_guard": true,
+    "scan_limit": 200,
+    "gt_families_present_in_scan200": 98,
+    "gt_families_reached_top50_or_swallowed": 93,
+    "gt_families_falsely_swallowed": 1,
+    "false_collapse_rate_scan200_pct": 1.02,
+    "false_collapse_rate_active_top50_pct": 1.08,
+    "cases": [
+      {
+        "item_id": "Q26_GST_GLOBAL_LAND_COVER_MULTIDECADAL",
+        "family_id": "clms_lc100",
+        "kept_title": "Land Cover 2000-2020",
+        "kept_rid": "23_wri_gfw_and_resourcewatch::GFW:umd_land_cover_2000_2020",
+        "swallowed_rid": "09_wekeo_dias::EO:CLMS:DAT:LC_100M_YEARLY_V3",
+        "swallowed_title": "Land Cover 2015-2019 (raster 100 m), global, annual - version 3",
+        "collapse_mechanism": "gstem",
+        "cosine_sim": 0.8226
+      }
+    ]
+  },
+  "holdout_a": {
+    "near_dup_cos": 0.94,
+    "sensor_guard": true,
+    "scan_limit": 200,
+    "gt_families_present_in_scan200": 61,
+    "gt_families_reached_top50_or_swallowed": 60,
+    "gt_families_falsely_swallowed": 0,
+    "false_collapse_rate_scan200_pct": 0.0,
+    "false_collapse_rate_active_top50_pct": 0.0,
+    "cases": []
+  },
+  "holdout_b_blind": {
+    "near_dup_cos": 0.94,
+    "sensor_guard": true,
+    "scan_limit": 200,
+    "gt_families_present_in_scan200": 75,
+    "gt_families_reached_top50_or_swallowed": 75,
+    "gt_families_falsely_swallowed": 0,
+    "false_collapse_rate_scan200_pct": 0.0,
+    "false_collapse_rate_active_top50_pct": 0.0,
+    "cases": []
+  }
+}
