@@ -5,7 +5,7 @@ type: dataset
 authors:
   - family-names: "Weckmüller"
     given-names: "Dominik"
-    affiliation: "European Commission, Joint Research Centre (JRC), Ispra, Italy"
+    affiliation: "Engineering Ingegneria Informatica S.p.A. for the European Commission, Joint Research Centre (JRC), Ispra, Italy"
 repository-code: "https://github.com/do-me/global-EO-products-L3-L4"
 license: "MIT"
 license-url: "https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE"
