@@ -4,6 +4,10 @@ Local hybrid search engine, CLI, web interface, and validation benchmark over al
 
 The search engine combines dense semantic embeddings (`EmbeddingGemma 2`), EO-normalized multi-field BM25 (`DuckDB FTS`), generic sensor-guarded family deduplication, and optional Stage-2 neural reranking (`Jina Reranker v3.5` or `Qwen3-Reranker-0.6B`). Backends are **device-agnostic (`--device auto`)**: scripts automatically select native **MLX** on Apple Silicon (`darwin/arm64`), **PyTorch CUDA** when an NVIDIA GPU is present, or **PyTorch CPU** otherwise, with an instant `--bm25-only` lexical mode requiring zero neural weights.
 
+<img width="1963" height="1522" alt="image" src="https://github.com/user-attachments/assets/d6dbff1f-5b93-4a4a-9d90-d3240c526510" />
+<img width="1963" height="1522" alt="image" src="https://github.com/user-attachments/assets/64c066dc-cb58-42ec-aceb-774c352c16cc" />
+<img width="1963" height="1522" alt="image" src="https://github.com/user-attachments/assets/5a070fdf-1221-49f9-ac3f-e29d6f56baf7" />
+
 ---
 
 ## 1. Quick Start (`uv run`)
