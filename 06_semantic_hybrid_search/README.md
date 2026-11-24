@@ -1,6 +1,6 @@
 # Local Hybrid Semantic Search (`06_semantic_hybrid_search`)
 
-Local hybrid search engine, CLI, web interface, and validation benchmark over all **39,474 canonical Level-3 and Level-4 Earth Observation (EO) catalogue records** from [`../03_harmonization/data/eo_l3_l4_canonical_products.parquet`](../03_harmonization/data/eo_l3_l4_canonical_products.parquet).
+Local hybrid search engine, CLI, web interface, and validation benchmark over all **39,474 canonical Level-3 and Level-4 Earth Observation (EO) catalogue records** from [`../03_harmonization/data/eo_l3_l4_canonical_products.parquet`](../03_harmonization/data/eo_l3_l4_canonical_products.parquet). In best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5) it achieves 86.5% Fam-nDCG@10 (78.3% P@1, 96.1% family Recall@10, 100% Hit@10) on a 60-query blind holdout.
 
 The search engine combines dense semantic embeddings (`EmbeddingGemma 2`), EO-normalized multi-field BM25 (`DuckDB FTS`), generic sensor-guarded family deduplication, and optional Stage-2 neural reranking (`Jina Reranker v3.5` or `Qwen3-Reranker-0.6B`). Backends are **device-agnostic (`--device auto`)**: scripts automatically select native **MLX** on Apple Silicon (`darwin/arm64`), **PyTorch CUDA** when an NVIDIA GPU is present, or **PyTorch CPU** otherwise, with an instant `--bm25-only` lexical mode requiring zero neural weights.
 
