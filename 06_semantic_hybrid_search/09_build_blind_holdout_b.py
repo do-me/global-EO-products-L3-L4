@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "numpy>=1.26.0",
 #   "pandas>=2.2.0",
 #   "pyarrow>=18.0.0",
@@ -45,7 +45,7 @@ ARTIFACTS_DIR = SCRIPT_DIR / "artifacts"
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(SCRIPT_DIR))
-from eo_search_lib import SearchFilters, apply_filters_mask  # noqa: E402
+from eo_search_lib import SearchFilters, apply_filters_mask, filter_benchmark_family_mask  # noqa: E402
 
 
 HOLDOUT_B_SPECS: list[dict[str, Any]] = [
@@ -186,11 +186,12 @@ HOLDOUT_B_SPECS: list[dict[str, Any]] = [
         "domain": "Land Cover & Ecosystems",
         "source_framework": "GEO Global Land Cover Harmonization",
         "query": "High-resolution 10 meter and 30 meter global multi-class land cover and land use classification maps derived from medium-resolution optical satellites",
-        "filters": {"max_grid_m": 100.0, "strict_eo_only": True},
+        "filters": {"geo_scope": "global", "max_grid_m": 100.0, "strict_eo_only": True},
         "expected_families": [
             {"family_id": "globeland30", "regex": r"globeland\s*30"},
-            {"family_id": "esri_io_lulc", "regex": r"\bio_lulc\b|impact\s+observatory.*land\s*cover"},
-            {"family_id": "esa_hrlc_cci", "regex": r"high\s+resolution\s+land\s+cover\s+climate\s+change\s+initiative|\bhrlc\b.*cci"},
+            {"family_id": "esri_io_lulc", "regex": r"\bio[-_]lulc\b|esri\s+10[- ]*meter\s+land\s+cover|impact\s+observatory.*land\s*cover"},
+            {"family_id": "from_glc10", "regex": r"from[-_ ]?glc10|global\s+land\s+cover\s+10\b"},
+            {"family_id": "glc_fcs30", "regex": r"glc[-_ ]?fcs30d?\b", "exclude_regex": r"city\s+and\s+town|gctb|impervious|mediterranean"},
         ],
     },
     {
@@ -370,10 +371,10 @@ HOLDOUT_B_SPECS: list[dict[str, Any]] = [
         "query_id": "HB30_GLOBAL_LIGHTNING_CLIMATOLOGY",
         "domain": "Atmosphere & Air Quality",
         "source_framework": "WMO Severe Convection & Atmospheric Electricity",
-        "query": "High-resolution 0.1 degree global satellite gridded climatology of lightning flash rate density and diurnal convective cycles",
-        "filters": {"geo_scope": "global", "strict_eo_only": True},
+        "query": "Quasi-global and global 0.1 degree and 0.5 degree satellite gridded climatology of lightning flash rate density and diurnal convective cycles",
+        "filters": {"strict_eo_only": True},
         "expected_families": [
-            {"family_id": "lis_lightning_clim", "regex": r"\blis\b.*lightning|gridded\s+lightning\s+climatology"},
+            {"family_id": "lis_lightning_clim", "regex": r"\blis\b.*lightning|gridded\s+lightning\s+climatology|lis/otd"},
         ],
     },
 
@@ -736,6 +737,7 @@ def _load_rids_from_specs(
             m = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 m &= ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            m = filter_benchmark_family_mask(df, m, sp.get("filters"))
             rids.update(df.iloc[np.flatnonzero(m)]["record_id"].tolist())
     return rids
 
@@ -797,6 +799,7 @@ def main() -> None:
             mask = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 mask &= ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            mask = filter_benchmark_family_mask(df, mask, flt_spec)
             idxs = np.flatnonzero(mask)
             if len(idxs) == 0:
                 missing.append((sp["query_id"], fam["family_id"]))

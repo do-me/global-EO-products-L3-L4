@@ -1,6 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
+#   "duckdb>=1.5.0",
 #   "numpy>=1.26.0",
 #   "pandas>=2.2.0",
 #   "pyarrow>=18.0.0",
@@ -26,6 +27,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +39,9 @@ REPO_ROOT = SCRIPT_DIR.parent
 CANONICAL_PARQUET = REPO_ROOT / "03_harmonization" / "data" / "eo_l3_l4_canonical_products.parquet"
 ARTIFACTS_DIR = SCRIPT_DIR / "artifacts"
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+
+sys.path.insert(0, str(SCRIPT_DIR))
+from eo_search_lib import filter_benchmark_family_mask  # noqa: E402
 
 
 HOLDOUT_A_SPECS: list[dict[str, Any]] = [
@@ -492,6 +497,7 @@ def main() -> None:
             mask = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 mask = mask & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            mask = filter_benchmark_family_mask(df, mask, sp.get("filters"))
             idxs = np.flatnonzero(mask)
             if len(idxs) == 0:
                 missing.append((sp["query_id"], fam["family_id"]))
@@ -551,6 +557,7 @@ def main() -> None:
             m = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 m = m & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            m = filter_benchmark_family_mask(df, m, sp.get("filters"))
             dev_rids.update(df.iloc[np.flatnonzero(m)]["record_id"].tolist())
     ha_rids: set[str] = set()
     for q in resolved:

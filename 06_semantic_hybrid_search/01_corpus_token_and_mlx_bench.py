@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "mlx>=0.32.3",
 #   "mlx-vlm>=0.8.0",
 #   "numpy>=1.26.0",

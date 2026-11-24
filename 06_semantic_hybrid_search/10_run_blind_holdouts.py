@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "huggingface_hub>=0.30.0",
 #   "mlx>=0.32.3; sys_platform == 'darwin' and platform_machine == 'arm64'",
 #   "mlx-lm>=0.25.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
@@ -27,8 +27,9 @@ Strict provenance & scientific discipline:
     unconfounded fixed-k=50 `08b_JinaV35_Top50_Pure`).
   - Solo `batch_size=1` query encoding (bit-identical to CLI & script 07) with persisted real measured latencies
     and device-agnostic auto-selection (`--device auto|mlx|cuda|mps|cpu`).
-  - Evaluates all 6 pre-registered hypotheses with paired bootstrap 95% CIs, exact sign-flip permutation p-values,
-    Holm-Bonferroni FWER adjustment, Kish G_eff, and small-sample Student-t MDE80 across all 5 pre-registered metrics.
+  - Evaluates all 6 pre-registered hypotheses with paired bootstrap 95% CIs, Monte Carlo sign-flip permutation
+    p-values (10,000 draws, seed=2026), Holm-Bonferroni FWER adjustment, Kish G_eff, and small-sample Student-t
+    MDE80 across all 5 pre-registered metrics.
 """
 
 from __future__ import annotations
@@ -58,10 +59,13 @@ from eo_search_lib import (  # noqa: E402
     apply_filters_mask,
     collapse_product_families,
     deterministic_topk,
+    ensure_search_indexes,
+    filter_benchmark_family_mask,
     holm_bonferroni_adjust,
     load_dense_embedder,
     resolve_device,
     rrf_fuse,
+    verify_index_alignment,
 )
 
 _ev06_spec = importlib.util.spec_from_file_location("ev06", SCRIPT_DIR / "06_eval_rerankers.py")
@@ -158,7 +162,7 @@ def cluster_bootstrap_and_perm(
     seed: int = 2026,
     n_hypotheses: int = 6,
 ) -> dict[str, float]:
-    """Exact 1-to-1 paired cluster bootstrap 95% CI, permutation p-value, Kish G_eff & small-sample t MDE80."""
+    """Paired cluster bootstrap 95% CI, Monte Carlo sign-flip permutation (10,000 draws, seed=2026), Kish G_eff & MDE80."""
     a_sub = df_a[[item_col, cluster_col, metric]].copy()
     b_sub = df_b[[item_col, metric]].copy()
     a_sub[item_col] = a_sub[item_col].astype(str)
@@ -220,6 +224,7 @@ def resolve_dev_items_full(df: pd.DataFrame) -> list[dict[str, Any]]:
             hit = active_mask & comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 hit = hit & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            hit = filter_benchmark_family_mask(df, hit, sp.get("filters"))
             idxs = np.flatnonzero(hit)
             assert len(idxs) > 0, f"Dev family 0 matches: {sp['query_id']} / {fam['family_id']}"
             fams_out.append({"family_id": fam["family_id"], "record_ids": df.iloc[idxs]["record_id"].tolist()})
@@ -304,13 +309,13 @@ def run_stage1_for_suite(
 
         t_bc0 = time.perf_counter()
         b_col = collapse_product_families(
-            [(i, s, {}) for i, s in b_res], df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg
+            [(i, s, {}) for i, s in b_res], df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg, query_text=qtxt
         )
         bc_ms = (time.perf_counter() - t_bc0) * 1000.0
 
         t_dc0 = time.perf_counter()
         d_col = collapse_product_families(
-            [(i, s, {}) for i, s in d_res], df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg
+            [(i, s, {}) for i, s in d_res], df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg, query_text=qtxt
         )
         dc_ms = (time.perf_counter() - t_dc0) * 1000.0
 
@@ -320,7 +325,7 @@ def run_stage1_for_suite(
 
         t_c0 = time.perf_counter()
         col = collapse_product_families(
-            fused, df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg
+            fused, df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg, query_text=qtxt
         )
         c_ms = (time.perf_counter() - t_c0) * 1000.0
 
@@ -338,7 +343,7 @@ def run_stage1_for_suite(
         b_st = lex.search_bm25(qtxt, top_k=cand_k, eligible_mask=m_st)
         f_st = rrf_fuse(d_st, b_st, rrf_k=rrf_k, w_dense=w_d, w_bm25=w_b)
         c_st = collapse_product_families(
-            f_st, df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg
+            f_st, df, top_k=pool_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg, query_text=qtxt
         )
         st_ms = (time.perf_counter() - t_st0) * 1000.0
 
@@ -471,18 +476,19 @@ def summarize_and_save_suite(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Standalone v4.0 Deterministic Evaluation")
+    parser = argparse.ArgumentParser(description="Standalone v4.1 Deterministic Evaluation")
     parser.add_argument("--device", default="auto", choices=["auto", "mlx", "cuda", "mps", "cpu"])
     args = parser.parse_args()
     device = resolve_device(args.device)
 
     t_all0 = time.perf_counter()
+    ensure_search_indexes(ARTIFACTS_DIR, require_dense=True, allow_download=True)
+    cfg = json.loads((ARTIFACTS_DIR / "frozen_v4_config.json").read_text(encoding="utf-8"))
     print("=" * 112, flush=True)
-    print(f"10. v4.0-STANDALONE EVALUATION — DEV-45 (N=45), AUDITED HOLDOUT A (N=35) & PROSPECTIVE BLIND HOLDOUT B (N=60) [{device}]", flush=True)
+    print(f"10. {cfg['protocol_version'].upper()} EVALUATION — DEV-45 (N=45), AUDITED HOLDOUT A (N=35) & PROSPECTIVE BLIND HOLDOUT B (N=60) [{device}]", flush=True)
     print("=" * 112, flush=True)
 
-    cfg = json.loads((ARTIFACTS_DIR / "frozen_v4_config.json").read_text(encoding="utf-8"))
-    expected_sha = cfg["code_and_index_sha256"]
+    expected_sha = cfg.get("locked_artifact_sha256", cfg["code_and_index_sha256"])
     cat_pq = ARTIFACTS_DIR / "full_catalogue.parquet"
     if not cat_pq.exists():
         cat_pq = SCRIPT_DIR.parent / "03_harmonization" / "data" / "eo_l3_l4_canonical_products.parquet"
@@ -491,17 +497,18 @@ def main() -> None:
         "06_eval_rerankers.py": SCRIPT_DIR / "06_eval_rerankers.py",
         "full_catalogue.parquet": cat_pq,
         "full_embeddings_bf16.npz": ARTIFACTS_DIR / "full_embeddings_bf16.npz",
-        "full_bm25.duckdb": ARTIFACTS_DIR / "full_bm25.duckdb",
     }
+    for opt_k, opt_p in (
+        ("10_run_blind_holdouts.py", SCRIPT_DIR / "10_run_blind_holdouts.py"),
+        ("policy_retrieval_benchmark.json", ARTIFACTS_DIR / "policy_retrieval_benchmark.json"),
+        ("holdout_a_external_benchmark.json", ARTIFACTS_DIR / "holdout_a_external_benchmark.json"),
+        ("holdout_b_blind_benchmark.json", ARTIFACTS_DIR / "holdout_b_blind_benchmark.json"),
+    ):
+        if opt_k in expected_sha:
+            check_paths[opt_k] = opt_p
     for k, p in check_paths.items():
         actual = sha256_file(p)
         assert actual == expected_sha[k], f"SHA-256 mismatch for {k}: {actual} vs {expected_sha[k]}"
-    print(
-        f"[OK] Verified {cfg['protocol_version']} 5-artifact SHA-256 integrity "
-        f"(primary_metric={cfg['preregistered_primary_metric']}, near_dup_cos={cfg['stage1']['collapser']['near_dup_cos']}, "
-        f"bm25_deterministic=True, sensor_guard=True).",
-        flush=True,
-    )
 
     df = pd.read_parquet(cat_pq)
     rid_by_idx = df["record_id"].tolist()
@@ -511,6 +518,20 @@ def main() -> None:
     generic_sigs = [str(s) for s in z["family_sigs"].tolist()]
     assert not any(s.startswith("fam:") for s in generic_sigs), "Legacy fam: sig detected in npz!"
     lex = DuckDBLexicalIndex(str(ARTIFACTS_DIR / "full_bm25.duckdb"), read_only=True)
+    align_info = verify_index_alignment(df, lex_index=lex, emb_npz=z, catalogue_path=cat_pq)
+    if "record_ids_sha256" in expected_sha:
+        assert align_info["record_ids_sha256"] == expected_sha["record_ids_sha256"], "record_ids_sha256 mismatch!"
+    if "bm25_content_sha256" in expected_sha:
+        actual_bm25_content = lex.compute_content_sha256()
+        assert actual_bm25_content == expected_sha["bm25_content_sha256"], (
+            f"bm25_content_sha256 mismatch: {actual_bm25_content} vs {expected_sha['bm25_content_sha256']}"
+        )
+    print(
+        f"[OK] Verified {cfg['protocol_version']} locked SHA-256 + record_id + bm25_content alignment "
+        f"(primary_metric={cfg['preregistered_primary_metric']}, near_dup_cos={cfg['stage1']['collapser']['near_dup_cos']}, "
+        f"bm25_deterministic=True, sensor_guard=True).",
+        flush=True,
+    )
 
     dev_items = resolve_dev_items_full(df)
     ha_items = json.loads((ARTIFACTS_DIR / "holdout_a_external_benchmark.json").read_text(encoding="utf-8"))["queries"]
@@ -672,7 +693,7 @@ def main() -> None:
     blend_rows = []
     dev_pq, _, _ = summarize_and_save_suite(
         "dev45_v4",
-        "DEV-45 v4.0-STANDALONE (DEVELOPMENT SET — 45 QUERIES, UNCONFOUNDED 2x2) [%]",
+        f"DEV-45 {cfg['protocol_version'].upper()} (DEVELOPMENT SET — 45 QUERIES, UNCONFOUNDED 2x2) [%]",
         dev_items,
         _pack_systems(s1_dev, j_dev_b50, j_dev_p50, j_dev_p25, q_dev_b50),
         _pack_lats(s1_dev, j_dev_m50, j_dev_m25, q_dev_m50),
@@ -682,7 +703,7 @@ def main() -> None:
 
     ha_pq, _, _ = summarize_and_save_suite(
         "holdout_a_v4",
-        "HOLDOUT A v4.0-STANDALONE (RETROSPECTIVE GT-AUDITED EXTERNAL DOMAINS — 35 QUERIES, 0 OVERLAPS) [%]",
+        f"HOLDOUT A {cfg['protocol_version'].upper()} (RETROSPECTIVE GT-AUDITED EXTERNAL DOMAINS — 35 QUERIES, 0 OVERLAPS) [%]",
         ha_items,
         _pack_systems(s1_ha, j_ha_b50, j_ha_p50, j_ha_p25, q_ha_b50),
         _pack_lats(s1_ha, j_ha_m50, j_ha_m25, q_ha_m50),
@@ -692,7 +713,7 @@ def main() -> None:
 
     hb_pq, _, _ = summarize_and_save_suite(
         "holdout_b_v4",
-        "PROSPECTIVE SINGLE-SHOT BLIND HOLDOUT B v4.0-STANDALONE (60 DISJOINT UNSEEN EO QUERIES, 10 DOMAINS, G=G_eff=60) [%]",
+        f"PROSPECTIVE SINGLE-SHOT BLIND HOLDOUT B {cfg['protocol_version'].upper()} (60 DISJOINT UNSEEN EO QUERIES, 10 DOMAINS, G=G_eff=60) [%]",
         hb_items,
         _pack_systems(s1_hb, j_hb_b50, j_hb_p50, j_hb_p25, q_hb_b50),
         _pack_lats(s1_hb, j_hb_m50, j_hb_m25, q_hb_m50),
@@ -718,6 +739,7 @@ def main() -> None:
     print("\n--- SUPPLEMENTARY UNCONFOUNDED TOP-50 BLEND vs PURE ABLATION (FIXED k=50) ---", flush=True)
     print(pd.DataFrame(blend_rows)[["suite", "fam_ndcg_10_delta", "fam_ndcg_10_ci95", "fam_ndcg_10_p", "mrr_10_delta"]].to_string(index=False), flush=True)
 
+    lex.con.close()
     completed_utc = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     rt_manifest = {
         "protocol_version": cfg["protocol_version"],
@@ -741,7 +763,7 @@ def main() -> None:
         "total_wall_minutes": round((time.perf_counter() - t_all0) / 60.0, 2),
     }
     (ARTIFACTS_DIR / "v4_runtime_manifest.json").write_text(json.dumps(rt_manifest, indent=2), encoding="utf-8")
-    print(f"\n[DONE] v4.0-standalone full suite finished in {rt_manifest['total_wall_minutes']:.2f} min.", flush=True)
+    print(f"\n[DONE] {cfg['protocol_version']} full suite finished in {rt_manifest['total_wall_minutes']:.2f} min.", flush=True)
 
 
 if __name__ == "__main__":

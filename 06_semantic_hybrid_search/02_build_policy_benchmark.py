@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "numpy>=1.26.0",
 #   "pandas>=2.2.0",
 #   "pyarrow>=18.0.0",
@@ -33,7 +33,7 @@ ARTIFACTS_DIR = SCRIPT_DIR / "artifacts"
 ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(SCRIPT_DIR))
-from eo_search_lib import compute_family_signature  # noqa: E402
+from eo_search_lib import compute_family_signature, filter_benchmark_family_mask  # noqa: E402
 
 
 # ---------------------------------------------------------------------------
@@ -644,6 +644,7 @@ def main() -> None:
             if fam.get("exclude_regex"):
                 ex_pat = re.compile(fam["exclude_regex"], re.IGNORECASE)
                 hit_mask = hit_mask & ~combined.str.contains(ex_pat, regex=True).to_numpy(dtype=bool)
+            hit_mask = filter_benchmark_family_mask(df, hit_mask, sp.get("filters"))
             idxs = np.flatnonzero(hit_mask)
             if len(idxs) == 0:
                 missing_fams.append((sp["query_id"], fam["family_id"]))

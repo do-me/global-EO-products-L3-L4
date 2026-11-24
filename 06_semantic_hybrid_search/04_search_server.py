@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "fastapi>=0.115.0",
 #   "huggingface_hub>=0.30.0",
 #   "numpy>=1.26.0",
@@ -43,6 +43,7 @@ import json
 import math
 import platform
 import re
+import subprocess
 import sys
 import threading
 import time
@@ -71,11 +72,14 @@ from eo_search_lib import (  # noqa: E402
     clean_description,
     collapse_product_families,
     compute_generic_family_signature,
+    compute_unknown_metadata_counts,
     deterministic_topk,
+    ensure_search_indexes,
     format_resolution_human,
     load_dense_embedder,
     matryoshka_truncate,
     rrf_fuse,
+    verify_index_alignment,
 )
 
 VALID_MODES = ("jina-v3.5", "jina-v3.5-fast", "qwen3-0.6b", "hybrid", "dense", "bm25")
@@ -178,6 +182,7 @@ class SearchRequest(BaseModel):
     levels: Optional[list[Literal["L3", "L4"]]] = None
     min_end_year: Optional[int] = Field(default=None, ge=1950, le=2035)
     null_safe: bool = True
+    hard_limits: bool = False
     collapse: bool = True
     rerank_pool: int = Field(default=50, ge=5, le=100)
     rerank_pure: bool = False
@@ -202,6 +207,8 @@ class SearchEngine:
         requested_device: str = "auto",
         auto_build_bm25: bool = True,
         preload_reranker: str = "none",
+        rebuild_index: bool = False,
+        allow_download_index: bool = True,
     ) -> None:
         self._lock = threading.Lock()
         self.load_started = time.perf_counter()
@@ -215,6 +222,7 @@ class SearchEngine:
         self.df = pd.read_parquet(pq_path)
         self.corpus_size = len(self.df)
         self.rid_to_idx: dict[str, int] = {str(r): i for i, r in enumerate(self.df["record_id"].tolist())}
+        self.unknown_metadata_counts = compute_unknown_metadata_counts(self.df, active_only=True)
 
         obs_re = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
         active_mask = (~self.df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)) & (
@@ -238,6 +246,33 @@ class SearchEngine:
         self.source_counts = {k: raw_src_counts[k] for k in sorted(raw_src_counts, key=_src_num_key)}
 
         bm25_path = ARTIFACTS_DIR / "full_bm25.duckdb"
+        emb_path = ARTIFACTS_DIR / "full_embeddings_bf16.npz"
+        want_hybrid = requested_mode in ("auto", "hybrid")
+
+        if rebuild_index:
+            cmd = [sys.executable, str(SCRIPT_DIR / "05_index_full_catalogue.py")]
+            if requested_mode == "bm25":
+                cmd.append("--bm25-only")
+            subprocess.run(cmd, check=True)
+        else:
+            if allow_download_index:
+                try:
+                    ensure_search_indexes(
+                        ARTIFACTS_DIR,
+                        require_dense=want_hybrid,
+                        allow_download=True,
+                    )
+                except Exception as exc:
+                    if requested_mode == "hybrid":
+                        raise
+                    print(f"[server] Release index download skipped ({exc}); trying local artifacts.", file=sys.stderr, flush=True)
+            else:
+                ensure_search_indexes(
+                    ARTIFACTS_DIR,
+                    require_dense=False,
+                    allow_download=False,
+                )
+
         if not bm25_path.exists():
             if not auto_build_bm25:
                 raise FileNotFoundError(
@@ -252,9 +287,6 @@ class SearchEngine:
 
         self.lex = DuckDBLexicalIndex(str(bm25_path), read_only=True)
 
-        emb_path = ARTIFACTS_DIR / "full_embeddings_bf16.npz"
-        want_hybrid = requested_mode in ("auto", "hybrid")
-
         self.hybrid_available = False
         self.resolved_device = "bm25"
         self.embed_model_id: Optional[str] = None
@@ -265,10 +297,28 @@ class SearchEngine:
         self._reranker_name: Optional[str] = None
         self._reranker_obj: Any = None
 
+        default_sigs = [
+            compute_generic_family_signature(
+                str(t),
+                str(c),
+                cadence_class=str(cad or ""),
+                grid_meters=gm,
+                geo_class=str(geo or ""),
+            )
+            for t, c, cad, gm, geo in zip(
+                self.df["title"],
+                self.df["canonical_product_key"],
+                self.df.get("temporal_cadence_class", [""] * len(self.df)),
+                self.df.get("adjudicated_output_grid_meters", [None] * len(self.df)),
+                self.df.get("geographic_coverage_class", [""] * len(self.df)),
+            )
+        ]
+
         if want_hybrid and emb_path.exists():
             try:
                 enc, resolved_device, embed_model_id = load_dense_embedder(device=requested_device)
                 z = np.load(emb_path, allow_pickle=True)
+                verify_index_alignment(self.df, lex_index=self.lex, emb_npz=z, catalogue_path=pq_path)
                 vecs = z["embeddings_f16"].astype(np.float32)
                 vecs /= np.maximum(np.linalg.norm(vecs, axis=1, keepdims=True), 1e-12)
                 self.vecs = vecs
@@ -278,27 +328,23 @@ class SearchEngine:
                 if "family_sigs" in z:
                     self.family_sigs = [str(s) for s in z["family_sigs"].tolist()]
                 else:
-                    self.family_sigs = [
-                        compute_generic_family_signature(str(t), str(c))
-                        for t, c in zip(self.df["title"], self.df["canonical_product_key"])
-                    ]
+                    self.family_sigs = default_sigs
                 self.hybrid_available = True
                 if preload_reranker in ("jina-v3.5", "qwen3-0.6b"):
                     self._ensure_reranker(preload_reranker)
             except Exception as exc:
                 if requested_mode == "hybrid" or requested_device != "auto":
                     raise
+                verify_index_alignment(self.df, lex_index=self.lex, catalogue_path=pq_path)
                 self.fallback_reason = f"Running in BM25 lexical mode (neural backend unavailable: {exc})."
-                self.family_sigs = [
-                    compute_generic_family_signature(str(t), str(c))
-                    for t, c in zip(self.df["title"], self.df["canonical_product_key"])
-                ]
+                self.family_sigs = default_sigs
         else:
             if requested_mode == "hybrid":
                 raise RuntimeError(
                     "Hybrid mode requires artifacts/full_embeddings_bf16.npz. "
                     "Build it with: uv run 06_semantic_hybrid_search/05_index_full_catalogue.py"
                 )
+            verify_index_alignment(self.df, lex_index=self.lex, catalogue_path=pq_path)
             if requested_mode == "bm25":
                 self.fallback_reason = "Started explicitly in BM25 lexical mode (--mode bm25)."
             else:
@@ -306,10 +352,7 @@ class SearchEngine:
                     "Running in BM25 lexical mode because artifacts/full_embeddings_bf16.npz is not built yet. "
                     "Run `uv run 06_semantic_hybrid_search/05_index_full_catalogue.py` to build embeddings (MLX/CUDA/CPU)."
                 )
-            self.family_sigs = [
-                compute_generic_family_signature(str(t), str(c))
-                for t, c in zip(self.df["title"], self.df["canonical_product_key"])
-            ]
+            self.family_sigs = default_sigs
 
         self.load_seconds = round(time.perf_counter() - self.load_started, 2)
 
@@ -358,6 +401,7 @@ class SearchEngine:
             "available_modes": list(VALID_MODES) if self.hybrid_available else ["bm25"],
             "loaded_reranker": self._reranker_name,
             "fallback_reason": self.fallback_reason,
+            "unknown_metadata_counts": self.unknown_metadata_counts,
             "startup_seconds": self.load_seconds,
             "platform": f"{sys.platform}/{platform.machine()}",
         }
@@ -401,7 +445,8 @@ class SearchEngine:
                 exclude_superseded=True,
                 provider_pool=effective_pools[0] if len(effective_pools) == 1 else None,
                 min_end_year=req.min_end_year,
-                null_safe=req.null_safe,
+                null_safe=False if req.hard_limits else req.null_safe,
+                hard_limits=req.hard_limits,
             )
             mask = apply_filters_mask(self.df, flt)
             if len(effective_pools) > 1 and len(effective_pools) < 3:
@@ -462,6 +507,7 @@ class SearchEngine:
                     vectors=vecs_for_collapse,
                     near_dup_cos=0.94 if vecs_for_collapse is not None else 1.0,
                     sensor_guard=True,
+                    query_text=query,
                 )
             else:
                 stage1_final = fused[:stage1_k]
@@ -579,7 +625,9 @@ class SearchEngine:
             "reranker": reranker_key or "none",
             "rerank_pool": effective_pool if reranker_key else 0,
             "rerank_pure": effective_pure if reranker_key else False,
-            "null_safe_filter": req.null_safe,
+            "null_safe_filter": False if req.hard_limits else req.null_safe,
+            "hard_limits": req.hard_limits,
+            "unknown_metadata_counts": self.unknown_metadata_counts,
             "collapsed": req.collapse,
             "total_collapsed_in_results": total_collapsed,
             "dim": req.dim,
@@ -666,6 +714,7 @@ def build_app(engine: SearchEngine) -> FastAPI:
         level: Optional[list[Literal["L3", "L4"]]] = Query(default=None),
         min_end_year: Optional[int] = Query(default=None, ge=1950, le=2035),
         null_safe: bool = True,
+        hard_limits: bool = False,
         collapse: bool = True,
         rerank_pool: int = Query(default=50, ge=5, le=100),
         rerank_pure: bool = False,
@@ -684,6 +733,7 @@ def build_app(engine: SearchEngine) -> FastAPI:
             levels=level,
             min_end_year=min_end_year,
             null_safe=null_safe,
+            hard_limits=hard_limits,
             collapse=collapse,
             rerank_pool=rerank_pool,
             rerank_pure=rerank_pure,
@@ -745,6 +795,8 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Fail instead of automatically building artifacts/full_bm25.duckdb if missing.",
     )
+    p.add_argument("--rebuild-index", action="store_true", help="Rebuild local BM25/dense index before starting server.")
+    p.add_argument("--no-download-index", action="store_true", help="Do not download missing/stale release indexes from GitHub Releases.")
     p.add_argument("--open", action="store_true", help="Open the UI in the default browser after startup.")
     return p.parse_args()
 
@@ -756,6 +808,8 @@ def main() -> None:
         requested_device=args.device,
         auto_build_bm25=not args.no_auto_build_bm25,
         preload_reranker=args.preload_reranker,
+        rebuild_index=args.rebuild_index,
+        allow_download_index=not args.no_download_index,
     )
     app = build_app(engine)
     url = f"http://{args.host}:{args.port}"

@@ -1,5 +1,5 @@
 slice,mode,hit_5,hit_10,fam_r_5,fam_r_10,fam_r_20,fam_r_50,mrr_10,fam_ndcg_10
-all_45,NaiveStrict_Collapse,86.67,97.78,59.11,76.3,85.37,93.15,58.1,56.67
-all_45,NullSafe_Collapse,84.44,95.56,60.52,73.44,83.89,93.89,59.05,55.87
-grid_filtered_13,NaiveStrict_Collapse,84.62,100.0,57.18,71.15,85.26,90.38,66.75,57.4
-grid_filtered_13,NullSafe_Collapse,69.23,92.31,51.15,63.21,80.13,92.95,64.02,54.13
+all_45,NaiveStrict_Collapse,84.44,95.56,55.33,71.78,80.37,89.63,57.21,53.67
+all_45,NullSafe_Collapse,84.44,88.89,56.56,67.0,78.15,92.22,58.08,52.65
+grid_filtered_13,NaiveStrict_Collapse,76.92,100.0,51.15,71.54,78.21,83.33,66.18,55.82
+grid_filtered_13,NullSafe_Collapse,69.23,76.92,47.05,57.56,75.0,90.38,62.39,51.11

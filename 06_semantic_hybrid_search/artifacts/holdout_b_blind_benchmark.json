@@ -2,8 +2,8 @@
   "benchmark_name": "Prospective_Single_Shot_Blind_Holdout_B_v4_standalone",
   "blind_status": "prospective_single_shot_blind",
   "n_queries": 60,
-  "n_total_families": 79,
-  "n_unique_active_record_ids": 704,
+  "n_total_families": 80,
+  "n_unique_active_record_ids": 697,
   "disjoint_from_dev_45": true,
   "disjoint_from_holdout_a": true,
   "disjoint_across_all_holdout_b_queries": true,
@@ -48,16 +48,15 @@
       "expected_families": [
         {
           "family_id": "alos_palsar_fnf_mosaic",
-          "n_matches": 7,
-          "n_reachable_under_filter": 7,
+          "n_matches": 6,
+          "n_reachable_under_filter": 6,
           "sample_titles": [
             "JAXA.EORC_ALOS-2.PALSAR-2_FNF.v2.1.0_global_yearly: Forest Non Forest map",
-            "alos_palsar_mosaic: ALOS/PALSAR and ALOS-2/PALSAR-2 annual mosaic tiles generated for use in the Data Cube - 25m pixel spacing, WGS84. These tiles...",
-            "Global 3-class PALSAR-2/PALSAR Forest/Non-Forest Map"
+            "Global 3-class PALSAR-2/PALSAR Forest/Non-Forest Map",
+            "Global PALSAR-2/PALSAR Yearly Mosaic, version 1"
           ],
           "record_ids": [
             "30_jaxa_earth_stac::JAXA.EORC_ALOS-2.PALSAR-2_FNF.v2.1.0_global_yearly",
-            "31_digital_earth_africa_and_pacific::DEAFRICA:alos_palsar_mosaic",
             "27_gee_official_stac::JAXA/ALOS/PALSAR/YEARLY/FNF",
             "27_gee_official_stac::JAXA/ALOS/PALSAR/YEARLY/SAR",
             "27_gee_official_stac::JAXA/ALOS/PALSAR/YEARLY/SAR_EPOCH",
@@ -360,10 +359,11 @@
       "source_framework": "GEO Global Land Cover Harmonization",
       "query": "High-resolution 10 meter and 30 meter global multi-class land cover and land use classification maps derived from medium-resolution optical satellites",
       "filters": {
+        "geo_scope": "global",
         "max_grid_m": 100.0,
         "strict_eo_only": true
       },
-      "n_expected_families": 3,
+      "n_expected_families": 4,
       "expected_families": [
         {
           "family_id": "globeland30",
@@ -378,33 +378,47 @@
         },
         {
           "family_id": "esri_io_lulc",
-          "n_matches": 2,
-          "n_reachable_under_filter": 2,
+          "n_matches": 3,
+          "n_reachable_under_filter": 3,
           "sample_titles": [
-            "io_lulc: Impact Observatory (ESRI) Landcover Classification 9 Class",
-            "io_lulc_v2: Impact Observatory (ESRI) Landcover Classification 9 Class V2"
+            "Esri 10-Meter Land Cover (10-class)",
+            "10m Annual Land Use Land Cover (9-class) V1",
+            "10m Annual Land Use Land Cover (9-class) V2"
           ],
           "record_ids": [
-            "31_digital_earth_africa_and_pacific::DEAFRICA:io_lulc",
-            "31_digital_earth_africa_and_pacific::DEAFRICA:io_lulc_v2"
+            "28_planetary_computer_stac::io-lulc",
+            "28_planetary_computer_stac::io-lulc-9-class",
+            "28_planetary_computer_stac::io-lulc-annual-v02"
           ]
         },
         {
-          "family_id": "esa_hrlc_cci",
-          "n_matches": 6,
-          "n_reachable_under_filter": 6,
+          "family_id": "from_glc10",
+          "n_matches": 2,
+          "n_reachable_under_filter": 2,
           "sample_titles": [
-            "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover and Land Cover Change Maps in Siberia (Norther Siberia region) at 30m spatial resolution in GeoTiff format, 1990-2019, v1.2",
-            "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover and Land Cover Change Maps in Africa (Eastern Sahel region) at 30m spatial resolution in GeoTiff format, 1990-2019, v1.2",
-            "ESA High Resolution Land Cover Climate Change Initiative (High_Resolution_Land_Cover_cci): High Resolution Land Cover and Land Cover Change Maps in Amazonia (Eastern Amazonas region) at 30m spatial resolution in GeoTiff format, 1990-2019, v1.2"
+            "Global Land Cover 10",
+            "Finer Resolution Observation and Monitoring of Global Land Cover 10m (FROM-GLC10)"
           ],
           "record_ids": [
-            "14_ceos_fedeo_agencies::854cc98dbc634cdb8afa8835994428f5",
-            "14_ceos_fedeo_agencies::a3fb75aa46db4711ab587f3fa3ca01fe",
-            "14_ceos_fedeo_agencies::b053b51e854d484a9657f6bfb5ebd516",
-            "14_ceos_fedeo_agencies::0bc7042123984c69aa45cb6788bfdaa0",
-            "14_ceos_fedeo_agencies::e7864129084c4baaa34be3a1cfaaa13d",
-            "14_ceos_fedeo_agencies::f107a4ce186844bb8adf8cd1f2f6d552"
+            "15_geobon_and_geokhub::GEOKHUB:8k6hs-3as77",
+            "29_awesome_gee_community::projects/sat-io/open-datasets/FROM-GLC10"
+          ]
+        },
+        {
+          "family_id": "glc_fcs30",
+          "n_matches": 5,
+          "n_reachable_under_filter": 4,
+          "sample_titles": [
+            "GLC_FCS30D annual land land-cover dynamic monitoring product",
+            "GLC_FCS30D: the first global 30-m land-cover dynamic monitoring product with fine classification system from 1985 to 2022",
+            "GLC_FCS30-2020:Global Land Cover with Fine Classification System at 30m in 2020"
+          ],
+          "record_ids": [
+            "24_openlandmap_stac::lc_glc.fcs30d",
+            "26_fao_unep_and_thematic_benchmarks::ZENODO:15063683",
+            "26_fao_unep_and_thematic_benchmarks::ZENODO:4280923",
+            "29_awesome_gee_community::projects/sat-io/open-datasets/GLC-FCS30D/annual",
+            "29_awesome_gee_community::projects/sat-io/open-datasets/GLC-FCS30D/five-years-map"
           ]
         }
       ]
@@ -728,8 +742,8 @@
         },
         {
           "family_id": "wetcharts_upch4",
-          "n_matches": 4,
-          "n_reachable_under_filter": 4,
+          "n_matches": 3,
+          "n_reachable_under_filter": 3,
           "sample_titles": [
             "CMS_Global_Monthly_Wetland_CH4_1502: CMS: Global 0.5-deg Wetland Methane Emissions and Uncertainty (WetCHARTs v1.0)",
             "Global_Freshwater_CH4Emissions_2253: Global Wetland Methane Emissions derived from FLUXNET and the UpCH4 Model, 2001-2018",
@@ -738,8 +752,7 @@
           "record_ids": [
             "16_nasa_cmr::C2389102945-ORNL_CLOUD",
             "16_nasa_cmr::C2840821292-ORNL_CLOUD",
-            "16_nasa_cmr::C3236621594-ORNL_CLOUD",
-            "16_nasa_cmr::C3170774861-ORNL_CLOUD"
+            "16_nasa_cmr::C3236621594-ORNL_CLOUD"
           ]
         }
       ]
@@ -1076,28 +1089,37 @@
       "query_id": "HB30_GLOBAL_LIGHTNING_CLIMATOLOGY",
       "domain": "Atmosphere & Air Quality",
       "source_framework": "WMO Severe Convection & Atmospheric Electricity",
-      "query": "High-resolution 0.1 degree global satellite gridded climatology of lightning flash rate density and diurnal convective cycles",
+      "query": "Quasi-global and global 0.1 degree and 0.5 degree satellite gridded climatology of lightning flash rate density and diurnal convective cycles",
       "filters": {
-        "geo_scope": "global",
         "strict_eo_only": true
       },
       "n_expected_families": 1,
       "expected_families": [
         {
           "family_id": "lis_lightning_clim",
-          "n_matches": 5,
-          "n_reachable_under_filter": 5,
+          "n_matches": 15,
+          "n_reachable_under_filter": 15,
           "sample_titles": [
-            "lisvhrac: LIS 0.1 DEGREE VERY HIGH RESOLUTION GRIDDED LIGHTNING ANNUAL CLIMATOLOGY (VHRAC) V1",
-            "lisvhrdc: LIS 0.1 DEGREE VERY HIGH RESOLUTION GRIDDED LIGHTNING DIURNAL CLIMATOLOGY (VHRDC) V1",
-            "lisvhrfc: LIS 0.1 DEGREE VERY HIGH RESOLUTION GRIDDED LIGHTNING FULL CLIMATOLOGY (VHRFC) V1"
+            "lolracts: LIS/OTD 2.5 Degree Low Resolution Annual Climatology Time Series (LRACTS) V2.3.2015",
+            "lolrmts: LIS/OTD 2.5 Degree Low Resolution Monthly Climatology Time Series (LRMTS) V2.3.2015",
+            "lolrts: LIS/OTD 2.5 Degree Low Resolution Time Series (LRTS) V2.3.2015"
           ],
           "record_ids": [
+            "16_nasa_cmr::C1995863430-GHRC_DAAC",
+            "16_nasa_cmr::C1995865015-GHRC_DAAC",
+            "16_nasa_cmr::C1995865470-GHRC_DAAC",
             "16_nasa_cmr::C1979882997-GHRC_DAAC",
             "16_nasa_cmr::C1979883116-GHRC_DAAC",
             "16_nasa_cmr::C1979883245-GHRC_DAAC",
             "16_nasa_cmr::C1979883359-GHRC_DAAC",
-            "16_nasa_cmr::C1979883491-GHRC_DAAC"
+            "16_nasa_cmr::C1979883491-GHRC_DAAC",
+            "16_nasa_cmr::C1995863067-GHRC_DAAC",
+            "16_nasa_cmr::C1995863244-GHRC_DAAC",
+            "16_nasa_cmr::C1995863290-GHRC_DAAC",
+            "16_nasa_cmr::C1995863391-GHRC_DAAC",
+            "16_nasa_cmr::C1995863553-GHRC_DAAC",
+            "16_nasa_cmr::C1995863733-GHRC_DAAC",
+            "16_nasa_cmr::C1995864215-GHRC_DAAC"
           ]
         }
       ]
@@ -1340,17 +1362,13 @@
       "expected_families": [
         {
           "family_id": "glacier_mass_change",
-          "n_matches": 3,
+          "n_matches": 1,
           "n_reachable_under_filter": 1,
           "sample_titles": [
-            "Glacier mass change gridded data from 1976 to present derived from the Fluctuations of Glaciers Database",
-            "Glacier Mass Balance Intercomparison Exercise (GlaMBIE) Dataset",
-            "Glacier mass change gridded data from 1976 to present derived from the Fluctuations of Glaciers Database"
+            "Glacier Mass Balance Intercomparison Exercise (GlaMBIE) Dataset"
           ],
           "record_ids": [
-            "03_copernicus_c3s_cds::derived-gridded-glacier-mass-change",
-            "18_esa_osc_earthcode::glambie-dataset",
-            "09_wekeo_dias::EO:ECMWF:DAT:DERIVED_GRIDDED_GLACIER_MASS_CHANGE"
+            "18_esa_osc_earthcode::glambie-dataset"
           ]
         }
       ]
@@ -1586,15 +1604,14 @@
         },
         {
           "family_id": "gridded_pco2_flux",
-          "n_matches": 4,
+          "n_matches": 3,
           "n_reachable_under_filter": 3,
           "sample_titles": [
-            "CMS_Monthly_CO2_Gulf_1668: Ocean Surface pCO2 and Air-Sea CO2 Flux in the Northern Gulf of America, 2006-2010",
             "An observation-based global monthly gridded sea surface pCO2 and air-sea CO2 flux product from 1982 onward and its monthly climatology (NCEI Accession 0160558)",
-            "Global Carbon Budget 2024, surface ocean fugacity of CO2 (fCO2) and air-sea CO2 flux of individual global ocean biogeochemical models and surface ocean fCO2-based data-products"
+            "Global Carbon Budget 2024, surface ocean fugacity of CO2 (fCO2) and air-sea CO2 flux of individual global ocean biogeochemical models and surface ocean fCO2-based data-products",
+            "Global Carbon Budget 2025, surface ocean fugacity of CO2 (fCO2) and air-sea CO2 flux of individual global ocean biogeochemical models and surface ocean fCO2-based data-products"
           ],
           "record_ids": [
-            "16_nasa_cmr::C2389022189-ORNL_CLOUD",
             "20_noaa_onestop::f1aceee2-a32f-4428-8f78-07e147952746",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:14639761",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:21223061"
@@ -1669,30 +1686,23 @@
         },
         {
           "family_id": "coral_bleaching_crw",
-          "n_matches": 16,
-          "n_reachable_under_filter": 10,
+          "n_matches": 9,
+          "n_reachable_under_filter": 9,
           "sample_titles": [
-            "Global Coral Bleaching Database (NCEI Accession 0228498)",
             "NOAA Coral Reef Watch Monthly Global 5-km Satellite Coral Bleaching Monitoring Products",
-            "NOAA Coral Reef Watch (CRW) Daily Global 5-km (0.05 degree) Satellite Coral Bleaching Heat Stress Monitoring Product Suite"
+            "NOAA Coral Reef Watch (CRW) Daily Global 5-km (0.05 degree) Satellite Coral Bleaching Heat Stress Monitoring Product Suite",
+            "Climatology for NOAA Coral Reef Watch (CRW) Daily Global 5km Satellite Coral Bleaching Heat Stress Monitoring Product Suite Version 3.1 for 1985-01-01 to 2012-12-31 (NCEI Accession 0185742)"
           ],
           "record_ids": [
-            "20_noaa_onestop::a6b5af62-c9e1-4e58-9061-4e056aed043b",
             "20_noaa_onestop::0aa358ff-12d5-489e-b172-aeb2274a5123",
             "20_noaa_onestop::576eb3a5-6b34-470e-b817-8f3fd9651ec9",
-            "20_noaa_onestop::6ad6aef9-e829-45eb-85ae-2d9abf0d677a",
             "20_noaa_onestop::90ed424e-cdd8-455b-a973-789668898919",
             "20_noaa_onestop::9a9a2be0-9676-41d2-b8b0-9f4f23eea9ca",
             "20_noaa_onestop::a511b1eb-b6f7-46df-8832-56cf0f3e39a7",
             "20_noaa_onestop::b7813dae-db64-4d39-b120-da50da017b3a",
             "20_noaa_onestop::bb78c1e5-4d16-4fe3-b4d9-4a1b7a4ae322",
             "20_noaa_onestop::bdb16b53-4fa2-4bcf-b5fb-4b6a095b67ab",
-            "20_noaa_onestop::783cf357-14f5-402b-a97b-d72138d8c666",
-            "20_noaa_onestop::19d1183d-3d2b-4dbd-8597-7eca06c29330",
-            "20_noaa_onestop::465b2230-829c-45bb-87d5-bdfe13abbc7e",
-            "20_noaa_onestop::7b8f82f5-1972-46b0-8653-655fd037c5ca",
-            "20_noaa_onestop::07224f05-c4d2-4787-aa16-7143adfcbb9d",
-            "20_noaa_onestop::ca990e21-18cb-4014-bea1-6770cdbcd23a"
+            "20_noaa_onestop::7b8f82f5-1972-46b0-8653-655fd037c5ca"
           ]
         }
       ]
@@ -1710,7 +1720,7 @@
       "expected_families": [
         {
           "family_id": "phytoplankton_carbon_pft",
-          "n_matches": 31,
+          "n_matches": 28,
           "n_reachable_under_filter": 28,
           "sample_titles": [
             "MODIST_L4b_CARBON: Terra MODIS Level-4 Global Binned Phytoplankton Carbon Data, version 2022.0",
@@ -1744,9 +1754,6 @@
             "18_esa_osc_earthcode::monthly-global-microphytoplankton-carbon-dataset-9-km-oc-cci-v5",
             "18_esa_osc_earthcode::monthly-global-nanophytoplankton-carbon-dataset-9-km-oc-cci-v5",
             "18_esa_osc_earthcode::monthly-global-picophytoplankton-carbon-dataset-9-km-oc-cci-v5",
-            "18_esa_osc_earthcode::phytoplankton-group-chl-ll-using-the-mean-dac-over-the-first-optical-depth-kdmean-of-the-measured-radiometric-profile",
-            "18_esa_osc_earthcode::phytoplankton-pigment-concentration-and-phytoplankton-groups-polarstern-cruise-ps113",
-            "18_esa_osc_earthcode::4dmed-2d-pft-kd",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:17077475",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:7829180"
           ]
@@ -2121,7 +2128,7 @@
       "expected_families": [
         {
           "family_id": "clms_dmp",
-          "n_matches": 32,
+          "n_matches": 30,
           "n_reachable_under_filter": 30,
           "sample_titles": [
             "Gross Dry Matter Productivity 1999-2020 (raster 1 km), global, 10-daily \u2013 version 2",
@@ -2133,8 +2140,6 @@
             "02_copernicus_clms::aab8b5172e53467a9c17d20721c3d393",
             "02_copernicus_clms::347d2b805f264cf091fc0171a49988db",
             "02_copernicus_clms::e149413fc0054aa79632ae77cfb4afc7",
-            "17_eumetsat_product_navigator::EO:EUM:DAT:0565",
-            "17_eumetsat_product_navigator::EO:EUM:DAT:0566",
             "11_eea_and_emodnet::b54be6e3-5962-4e9a-a443-9ff7ea943dfe",
             "11_eea_and_emodnet::c8cf5bec-83e9-4e27-8c13-80f74a89bd0c",
             "11_eea_and_emodnet::076c1f2a-49a6-4271-8468-8e5770048f0e",
@@ -2197,17 +2202,15 @@
       "expected_families": [
         {
           "family_id": "ibtracs_cyclones",
-          "n_matches": 3,
-          "n_reachable_under_filter": 3,
+          "n_matches": 2,
+          "n_reachable_under_filter": 2,
           "sample_titles": [
             "NCDC International Best Track Archive for Climate Stewardship (IBTrACS) Project, Version 3",
-            "International Best Track Archive for Climate Stewardship (IBTrACS) Project, Version 4.01",
-            "International Best Track Archive for Climate Stewardship Project"
+            "International Best Track Archive for Climate Stewardship (IBTrACS) Project, Version 4.01"
           ],
           "record_ids": [
             "20_noaa_onestop::1c348372-2402-4c61-95a6-c8147321fd1c",
-            "20_noaa_onestop::1ffdda47-1354-4d86-b74e-adc5f467aaee",
-            "27_gee_official_stac::NOAA/IBTrACS/v4"
+            "20_noaa_onestop::1ffdda47-1354-4d86-b74e-adc5f467aaee"
           ]
         }
       ]
@@ -2247,15 +2250,13 @@
         },
         {
           "family_id": "global_flood_hazard",
-          "n_matches": 2,
+          "n_matches": 1,
           "n_reachable_under_filter": 1,
           "sample_titles": [
-            "CIESIN_CHRR_NDH_FLOOD_HFD: Global Flood Hazard Frequency and Distribution",
-            "Coastal Flood Hazard Composite Layer for the Coastal Flood Exposure Mapper"
+            "CIESIN_CHRR_NDH_FLOOD_HFD: Global Flood Hazard Frequency and Distribution"
           ],
           "record_ids": [
-            "16_nasa_cmr::C3550186069-ESDIS",
-            "20_noaa_onestop::1919e22c-9646-4646-9a39-c539b3a79945"
+            "16_nasa_cmr::C3550186069-ESDIS"
           ]
         }
       ]

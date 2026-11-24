@@ -1,66 +1,66 @@
 {
   "all_45": {
     "NullSafe_Stage1": {
-      "fam_ndcg_10": 55.87,
-      "mrr_10": 59.05,
-      "fam_r_50": 93.89
+      "fam_ndcg_10": 52.65,
+      "mrr_10": 58.08,
+      "fam_r_50": 92.22
     },
     "NaiveStrict_Stage1": {
-      "fam_ndcg_10": 56.67,
-      "mrr_10": 58.1,
-      "fam_r_50": 93.15
+      "fam_ndcg_10": 53.67,
+      "mrr_10": 57.21,
+      "fam_r_50": 89.63
     },
     "NullSafe_Jina50_Blend": {
-      "fam_ndcg_10": 65.88,
-      "mrr_10": 74.48,
-      "fam_r_50": 93.89
+      "fam_ndcg_10": 63.03,
+      "mrr_10": 70.31,
+      "fam_r_50": 92.22
     },
     "NullSafe_Qwen3_50_Blend": {
-      "fam_ndcg_10": 61.55,
-      "mrr_10": 63.45,
-      "fam_r_50": 93.89
+      "fam_ndcg_10": 59.48,
+      "mrr_10": 63.8,
+      "fam_r_50": 92.22
     },
     "NaiveStrict_Jina50_Blend": {
-      "fam_ndcg_10": 66.07,
-      "mrr_10": 73.33,
-      "fam_r_50": 93.15
+      "fam_ndcg_10": 62.17,
+      "mrr_10": 68.54,
+      "fam_r_50": 89.63
     },
     "NaiveStrict_Qwen3_50_Blend": {
-      "fam_ndcg_10": 62.89,
-      "mrr_10": 67.2,
-      "fam_r_50": 93.15
+      "fam_ndcg_10": 60.2,
+      "mrr_10": 66.59,
+      "fam_r_50": 89.63
     }
   },
   "grid_filtered_13": {
     "NullSafe_Stage1": {
-      "fam_ndcg_10": 54.13,
-      "mrr_10": 64.02,
-      "fam_r_50": 92.95
+      "fam_ndcg_10": 51.11,
+      "mrr_10": 62.39,
+      "fam_r_50": 90.38
     },
     "NaiveStrict_Stage1": {
-      "fam_ndcg_10": 57.4,
-      "mrr_10": 66.75,
-      "fam_r_50": 90.38
+      "fam_ndcg_10": 55.82,
+      "mrr_10": 66.18,
+      "fam_r_50": 83.33
     },
     "NullSafe_Jina50_Blend": {
-      "fam_ndcg_10": 59.35,
-      "mrr_10": 67.18,
-      "fam_r_50": 92.95
+      "fam_ndcg_10": 61.44,
+      "mrr_10": 71.03,
+      "fam_r_50": 90.38
     },
     "NullSafe_Qwen3_50_Blend": {
-      "fam_ndcg_10": 60.24,
-      "mrr_10": 64.18,
-      "fam_r_50": 92.95
+      "fam_ndcg_10": 64.53,
+      "mrr_10": 74.04,
+      "fam_r_50": 90.38
     },
     "NaiveStrict_Jina50_Blend": {
-      "fam_ndcg_10": 64.28,
+      "fam_ndcg_10": 63.12,
       "mrr_10": 72.56,
-      "fam_r_50": 90.38
+      "fam_r_50": 83.33
     },
     "NaiveStrict_Qwen3_50_Blend": {
-      "fam_ndcg_10": 64.88,
-      "mrr_10": 75.64,
-      "fam_r_50": 90.38
+      "fam_ndcg_10": 64.78,
+      "mrr_10": 78.21,
+      "fam_r_50": 83.33
     }
   }
 }

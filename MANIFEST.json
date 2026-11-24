@@ -1,10 +1,10 @@
 {
   "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
-  "generated_at_utc": "2026-11-24T06:50:29Z",
+  "generated_at_utc": "2026-11-24T13:23:54Z",
   "total_raw_sources": 35,
   "total_raw_records_retrieved": 52612,
   "total_files_hashed": 363,
-  "total_bytes": 1206101068,
+  "total_bytes": 1206120137,
   "sources": [
     {
       "source_id": "01_copernicus_cmems",
@@ -2025,14 +2025,14 @@
     {
       "path": "02_preparation/data/33_us_ghg_center_stac.jsonl",
       "stage": "02_preparation",
-      "bytes": 91646,
-      "sha256": "dd62b3c4b13c0d2e7aa53a4a6958fa109148e9a5e0ca68f0275527ae12436aca"
+      "bytes": 91626,
+      "sha256": "e402a7639712bbe31177ed555a4f2cf40d989c9f572a4bdbb94308c0668a1811"
     },
     {
       "path": "02_preparation/data/33_us_ghg_center_stac.parquet",
       "stage": "02_preparation",
-      "bytes": 48205,
-      "sha256": "476a27c3e40de1b7cc672f31d76e268b2bbeccd68480fd2f77d2731505da3e7c"
+      "bytes": 48208,
+      "sha256": "3b07f25f2c8437001f8e8fa4bfbefd1aa35f1920b7d54ca0a1c637bcfe511e89"
     },
     {
       "path": "02_preparation/data/34_fao_geospatial_catalog_ckan.jsonl",
@@ -2049,14 +2049,14 @@
     {
       "path": "02_preparation/data/35_cnes_geodes_stac.jsonl",
       "stage": "02_preparation",
-      "bytes": 46841,
-      "sha256": "90b02fa0ab09d91a21a7a9fcce4de6f9e1a98dd0e68decc05b71df3af53fde39"
+      "bytes": 46851,
+      "sha256": "a3b94ade5df11969dd5456840b95c193a5f8fefae7ec878e61a29e7af1126677"
     },
     {
       "path": "02_preparation/data/35_cnes_geodes_stac.parquet",
       "stage": "02_preparation",
-      "bytes": 34258,
-      "sha256": "c424fde5cb142463245b20f731f0394cdae17230b09303429d48d0ab5eb2fb40"
+      "bytes": 34322,
+      "sha256": "b79c30eff6ca747363857da0a8d2f38c53bbda3e92554adfff5ab296f78f7387"
     },
     {
       "path": "02_preparation/data/excluded_records_log.parquet",
@@ -2073,8 +2073,8 @@
     {
       "path": "02_preparation/prepare_all.py",
       "stage": "02_preparation",
-      "bytes": 203101,
-      "sha256": "a96965615b84fb8abb996c4086dc06ce45ba8554767c8b20d44d99886dffbd57"
+      "bytes": 203033,
+      "sha256": "a6b9b2d2cbf10d2ba5e68724a3ee106ac8f6c3d6658330e824e714bb7a8f8689"
     },
     {
       "path": "02_preparation/reference_taxonomies/wmo_oscar_satellites.parquet",
@@ -2097,62 +2097,62 @@
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records.parquet",
       "stage": "03_harmonization",
-      "bytes": 26739247,
-      "sha256": "6d254f0db7cd79529fdbc5766289af6542a1e26fd3225744d0378f900cf99de3"
+      "bytes": 26738775,
+      "sha256": "c49752e20148dc3d75149a7048415f3feb3d0c29ca2fd0d6aa249dd4f9294fe5"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part01.jsonl",
       "stage": "03_harmonization",
-      "bytes": 19154902,
-      "sha256": "2d714fe8cc5a1d6559f740fea1b2b1a26a7967f51ff8e484eac86872935ffd3b"
+      "bytes": 19154804,
+      "sha256": "a83b40993d5b880820e506bf60f1dfc9c28c963e86a1ca5b4a51ca0c30523d0f"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part02.jsonl",
       "stage": "03_harmonization",
-      "bytes": 20876789,
-      "sha256": "1c693544d5a1e5049a91a149468a33d628c8bc0f61cbe3c287b62d1561f8ef31"
+      "bytes": 20876641,
+      "sha256": "9e8b87ae16c83ab1106e0c6a13bc2c8e10d75d76043a7710dc9c1c3b8f2d0218"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part03.jsonl",
       "stage": "03_harmonization",
-      "bytes": 26979806,
-      "sha256": "b14bba91274755600677de0a1a6a13b5268b1210b6b9e2179e1fdbc6aa54c999"
+      "bytes": 26979790,
+      "sha256": "5bd0b035c30ec2333e54026ae627bd9ea64bed49c520316501fce1d391275881"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part04.jsonl",
       "stage": "03_harmonization",
-      "bytes": 26709207,
-      "sha256": "a8477eb5855464451f03eda4612c3cc67872c04a13b8bad00af3174f16ea50ad"
+      "bytes": 26709205,
+      "sha256": "8eb7afa2b812e9c451bbf7ab3c655453844ce36f34782dd84c7eb7cb0ec89467"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part05.jsonl",
       "stage": "03_harmonization",
-      "bytes": 26295339,
-      "sha256": "ea688f7c17455cc67991620ff371b06ba9ab614d747aa59e2cc44dbf21d47382"
+      "bytes": 26295337,
+      "sha256": "ff1386396c00e1e8d2ec8f861f143baff131d8279f8563a7cd102033b2daf6b7"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part06.jsonl",
       "stage": "03_harmonization",
-      "bytes": 16686490,
-      "sha256": "aca78ec4eec73393cecbdaf967993c77fc8a1af98fce3787088b7d3f5c21ec2a"
+      "bytes": 16686446,
+      "sha256": "7a9e3920749a0807bd1b1d7c80ed411dc6deb32d81f98bf17ca5f84fe224adbc"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part07.jsonl",
       "stage": "03_harmonization",
-      "bytes": 16982340,
-      "sha256": "2931671bd873367a40baae4475c883196c9dfe0e76948be13a5ebb420f0bd492"
+      "bytes": 16982208,
+      "sha256": "f238f14b40c5db762a663e0d878b1a6f18c390962b669e9cb82f1d76c71c67e8"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part08.jsonl",
       "stage": "03_harmonization",
-      "bytes": 18926422,
-      "sha256": "61b05231500b86ced27a1c505facdc27010eeb9043abf627e7a54f5210b6db92"
+      "bytes": 18927990,
+      "sha256": "aa1f76b5d14b506cf27d438e301b1dec39ebcd02a558592e79362e3391dd138d"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part09.jsonl",
       "stage": "03_harmonization",
-      "bytes": 18068416,
-      "sha256": "e0fe755a9b028cf89864adba16d403275f6f6f1da3ec04a152a0650d44939de3"
+      "bytes": 18068267,
+      "sha256": "82384756526d4ddc535626a77307984db8db280ccbb8f813a467a4b25315ef86"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_all_catalogue_records_part10.jsonl",
@@ -2169,8 +2169,8 @@
     {
       "path": "03_harmonization/data/eo_l3_l4_canonical_products.parquet",
       "stage": "03_harmonization",
-      "bytes": 24556236,
-      "sha256": "4637f8ea21a111c1fa86a1384cf278c843f3c9b8ad3d6f859da782f618695a42"
+      "bytes": 24556077,
+      "sha256": "955feb4ca1351c99d5e958650fcf3a7efcef0bd17592771852885f0ea004c9fc"
     },
     {
       "path": "03_harmonization/data/eo_l3_l4_product_variants.jsonl",
@@ -2187,26 +2187,26 @@
     {
       "path": "03_harmonization/harmonize_catalogue.py",
       "stage": "03_harmonization",
-      "bytes": 145408,
-      "sha256": "d6ae68c96b556d75703bc06c85927a704301e03c2a068c0a0394b506aa645d9b"
+      "bytes": 146147,
+      "sha256": "808c587b177665a4116ea17611f29cf7f0691d94ed7cec5ad1097d1f6b727fda"
     },
     {
       "path": "03_harmonization/provider_pool_and_sentinel_summary.csv",
       "stage": "03_harmonization",
       "bytes": 3065,
-      "sha256": "0f58514c842fbfed44cd1d5d7b96cdae0a16d75f7fd5f35a2915b2c836fd6035"
+      "sha256": "32bf89ba034c663db5d5cf8766ac24e45a4d1730436d31062ff6652801d710a3"
     },
     {
       "path": "03_harmonization/schema_completeness_report.csv",
       "stage": "03_harmonization",
-      "bytes": 2966,
-      "sha256": "2bad66b4bab5677ffdfd5206ea9a3d616ec1c50e7657f6ea03a3cced8cdd8974"
+      "bytes": 2968,
+      "sha256": "c57539742777ddeeeeea5b294b0f000bbe55cfe7d4ab9babfd65da0c455a93a4"
     },
     {
       "path": "03_harmonization/verify_catalogue.py",
       "stage": "03_harmonization",
-      "bytes": 50343,
-      "sha256": "098266a1b2bb5f9d41f9514c4eee632117d48483f7915eee7cf057ec6a4e3af0"
+      "bytes": 50562,
+      "sha256": "df0b3e4950d65f36c67560dac9b612b67d067ea1d5908d5a288df56da483d8da"
     },
     {
       "path": "04_validation_and_review/README.md",
@@ -2277,14 +2277,14 @@
     {
       "path": "05_external_policy_validation/03_validate_against_catalogue.py",
       "stage": "05_external_policy_validation",
-      "bytes": 34922,
-      "sha256": "023e2d881b449d70a8801ee0a0dc7ec6951758e30ef2da846acc727830da94a2"
+      "bytes": 43091,
+      "sha256": "39ff3ab2ad8d232ecebad6b463882d82ae015b24696edcbc2ad3f7cabed399de"
     },
     {
       "path": "05_external_policy_validation/README.md",
       "stage": "05_external_policy_validation",
-      "bytes": 7276,
-      "sha256": "fd1fe4150d055d7dd6eef365c83b120d070c17237d766ac0a3b30d8f24e44dd8"
+      "bytes": 9307,
+      "sha256": "a8b683402aebe6ba3af92d491864929acff7987a2851e015e11e346f000c0308"
     },
     {
       "path": "05_external_policy_validation/raw/01_ceos_gst_portal/GEDI-biomass.html",
@@ -2571,20 +2571,20 @@
     {
       "path": "05_external_policy_validation/results/gap_analysis.csv",
       "stage": "05_external_policy_validation",
-      "bytes": 5860,
-      "sha256": "629f705208b62d1577f6413d39019b4f31e762395e533bf62a7ecb21ee9e342e"
+      "bytes": 5983,
+      "sha256": "21ffa6f13452a92d03182a2b13cc5e8e9641ffb8ae2915a9db52f75eaa280834"
     },
     {
       "path": "05_external_policy_validation/results/validation_matches.csv",
       "stage": "05_external_policy_validation",
-      "bytes": 311244,
-      "sha256": "b10e2c0d640a0b9a73e7dd2aa75257543395ea00a4428709df405e85c8edb67c"
+      "bytes": 318399,
+      "sha256": "cfb03075720183d45d0a483cd9835f543168d5c4fcffe617d7635fa133a0b617"
     },
     {
       "path": "05_external_policy_validation/results/validation_summary.csv",
       "stage": "05_external_policy_validation",
-      "bytes": 1652,
-      "sha256": "7431ff994b80a753bc5c9829e6d5a2c8e986f7af4fb61b2aa731f391ded9566e"
+      "bytes": 1948,
+      "sha256": "2cec7b126054a236e1caaf4a19e0be41fc77da24ada72bfb59583551903fc3cd"
     }
   ]
 }

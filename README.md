@@ -1,6 +1,6 @@
 # Global Harmonized L3/L4 Earth Observation Product Catalogue
 
-A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **fully validated** on human labels achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 86.5% Fam-nDCG@10 (78.3% P@1, 96.1% family Recall@10, 100% Hit@10) on a 60-query blind holdout.
+A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **evaluated against curated family rules** achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 86.96% Fam-nDCG@10 (80.00% P@1, 96.39% family Recall@10, 100.00% Hit@10) on a 60-query blind holdout.
 
 - **Interactive viewer & lightweight full-text and stuctural search:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/)
 - **Source registry & ontology:** [`docs/SOURCES.md`](docs/SOURCES.md)
@@ -35,7 +35,7 @@ Keep three properties in mind when working with these tables:
 | — `non_eu` | **30,616** | `28,269` third-country agencies & consortia (NASA, NOAA, USGS, U.S. GHG Center, JAXA, NRCan, GA DEA, DE Africa/Pacific, INPE, WRI, Esri), `2,322` UN/international bodies (FAO GISMGR & Geospatial CKAN, UNEP-WCMC, WMO, GEO BON), `25` Swiss institutions (`european_esa_non_copernicus_state`) |
 | **Documented Sentinel input (canonical)** | **2,280** | `673` Copernicus Services, `592` EU non-Copernicus, `1,015` non-EU (`1,607` outside Copernicus); separates `confirmed_input_mission` / `retrospective_or_mixed_epoch_series` from `explicit_non_sentinel`, target-grid references (`HLSL30`), and `unassessed_no_platform_metadata` |
 | **Internal QA (`04_validation_and_review/`)** | **PASS** | `25` structural/ontology suites, `26` QA assertions, `77/77` checked EU policy families, `40/40` GCOS ECV groups, `79/79` curated product & holdout checks |
-| **External policy validation (`05_external_policy_validation/`)** | **95.7%** | `221/231` (`95.7%`) across `8` strictly independent international & U.S. policy benchmarks (`328/338 = 97.0%` across all `10` tracks; `1,526/1,739 = 87.8%` USGEO EOA 2023 KPSO-weighted) |
+| **External policy validation (`05_external_policy_validation/`)** | **90.0% strict / 95.7% broad** | `208/231` (`90.0%` exact/compatible) and `221/231` (`95.7%` incl. related) across `8` strictly independent international & U.S. policy benchmarks (`315/338 = 93.2%` strict / `328/338 = 97.0%` broad across all `10` tracks; `1,442/1,739 = 82.9%` strict / `1,526/1,739 = 87.8%` broad USGEO EOA 2023 KPSO-weighted) |
 
 Every canonical record carries both `provider_pool` and `provider_jurisdiction_tier` so analysts can compare counts across EU-27, Copernicus-associated, and ESA boundaries. Full column-level completeness is reported in [`03_harmonization/schema_completeness_report.csv`](03_harmonization/schema_completeness_report.csv), pool and Sentinel breakdowns in [`03_harmonization/provider_pool_and_sentinel_summary.csv`](03_harmonization/provider_pool_and_sentinel_summary.csv), and per-source filtering counts in [`02_preparation/exclusion_audit_summary.csv`](02_preparation/exclusion_audit_summary.csv).
 
@@ -147,9 +147,10 @@ uv run 05_external_policy_validation/03_validate_against_catalogue.py
 uv run docs/build_viewer_data.py
 python3 -m http.server 8080 -d docs
 
-# 6. Build local hybrid search indexes (auto-selects MLX / CUDA / CPU) & launch the search UI:
-uv run 06_semantic_hybrid_search/05_index_full_catalogue.py   # or `--bm25-only` (~35 s, zero models)
+# 6. Launch the search UI (auto-downloads & SHA-256-verifies v4.1.0-indexes on first run; or `--rebuild-index` locally):
 uv run 06_semantic_hybrid_search/04_search_server.py --port 8080 --open
+# Optional local index rebuild (auto-selects MLX / CUDA / CPU):
+uv run 06_semantic_hybrid_search/05_index_full_catalogue.py   # or `--bm25-only` (~35 s, zero models)
 
 # 7. Regenerate cryptographic MANIFEST.json and SHA256SUMS.txt:
 uv run build_manifest.py

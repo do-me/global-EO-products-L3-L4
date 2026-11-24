@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "huggingface_hub>=0.30.0",
 #   "numpy>=1.26.0",
 #   "pandas>=2.2.0",
@@ -51,6 +51,7 @@ ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
 
 sys.path.insert(0, str(SCRIPT_DIR))
 from eo_search_lib import (  # noqa: E402
+    DEFAULT_INDEX_RELEASE_TAG,
     DEFAULT_MODEL_BF16,
     DuckDBLexicalIndex,
     SearchFilters,
@@ -58,10 +59,13 @@ from eo_search_lib import (  # noqa: E402
     build_eo_document,
     collapse_product_families,
     compute_family_signature,
+    compute_record_ids_sha256,
     deterministic_topk,
+    filter_benchmark_family_mask,
     load_dense_embedder,
     matryoshka_truncate,
     rrf_fuse,
+    verify_index_alignment,
 )
 
 # Import benchmark specs cleanly so full-catalogue evaluation uses identical ground-truth definitions
@@ -186,6 +190,7 @@ def main() -> None:
         shutil.copy2(CANONICAL_PARQUET, full_pq)
 
     # 1. Build EO-structured documents & family signatures
+    cat_sha = sha256_file(full_pq)
     t0 = time.perf_counter()
     rows = df.to_dict(orient="records")
     eo_docs = [build_eo_document(r) for r in rows] if not args.bm25_only else []
@@ -194,6 +199,9 @@ def main() -> None:
             str(r.get("title", "")),
             str(r.get("raw_id", "")),
             str(r.get("canonical_product_key", "")),
+            cadence_class=str(r.get("temporal_cadence_class") or ""),
+            grid_meters=r.get("adjudicated_output_grid_meters"),
+            geo_class=str(r.get("geographic_coverage_class") or ""),
         )
         for r in rows
     ] if not args.bm25_only else []
@@ -206,7 +214,7 @@ def main() -> None:
     if bm25_db.exists():
         bm25_db.unlink()
     lex_index = DuckDBLexicalIndex(str(bm25_db))
-    t_bm25 = lex_index.build_from_dataframe(df)
+    t_bm25 = lex_index.build_from_dataframe(df, catalogue_sha256=cat_sha)
     lex_index.con.close()
     print(
         f"[2/4] Built DuckDB multi-field BM25 index ({n_total:,} docs) in {t_bm25:.2f}s "
@@ -216,8 +224,9 @@ def main() -> None:
     if args.bm25_only:
         print(f"Done (--bm25-only) in {time.perf_counter() - t_all0:.2f}s.", flush=True)
         return
-    # Reopen read-only (enforcing SET threads=1) for bit-deterministic Step 4 evaluation parity!
+    # Reopen read-only (enforcing SET threads=1) and bind ordered record_ids cleanly
     lex_index = DuckDBLexicalIndex(str(bm25_db), read_only=True)
+    lex_index.verify_against_dataframe(df, catalogue_sha256=cat_sha)
 
     # 3. Run full 39,474-record EmbeddingGemma 2 inference (auto: MLX -> CUDA -> CPU)
     enc, resolved_device, resolved_model_id = load_dense_embedder(device=args.device)
@@ -255,7 +264,10 @@ def main() -> None:
         embeddings_f16=vecs.astype(np.float16),
         record_ids=np.array(rid_by_idx, dtype=object),
         family_sigs=np.array(family_sigs, dtype=object),
+        catalogue_sha256=np.array(cat_sha, dtype=object),
     )
+    with np.load(emb_path, allow_pickle=True) as emb_chk:
+        verify_index_alignment(df, lex_index=lex_index, emb_npz=emb_chk, catalogue_path=full_pq)
     t_save = time.perf_counter() - t_save0
     emb_mb = emb_path.stat().st_size / (1024**2)
     print(
@@ -324,6 +336,7 @@ def main() -> None:
             hit = active_mask & combined.str.contains(pat, regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 hit = hit & ~combined.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            hit = filter_benchmark_family_mask(df, hit, flt_spec)
             idxs = np.flatnonzero(hit)
             if len(idxs) > 0:
                 fam_rids[fam["family_id"]] = set(df.iloc[idxs]["record_id"].tolist())
@@ -376,20 +389,20 @@ def main() -> None:
         lat_ms["05_Hybrid_RRF_NullSafeFilter_Full39k"].append(mean_q_enc_ms + t_ns)
 
         t0 = time.perf_counter()
-        sota_768 = collapse_product_families(f_ns, df, top_k=50, family_sigs=family_sigs, vectors=vecs_f16_rt, near_dup_cos=0.94, sensor_guard=True)
+        sota_768 = collapse_product_families(f_ns, df, top_k=50, family_sigs=family_sigs, vectors=vecs_f16_rt, near_dup_cos=0.94, sensor_guard=True, query_text=qtxt)
         t_col = (time.perf_counter() - t0) * 1000.0
         lat_ms["06_SOTA_Hybrid_RRF_NullSafe_Collapse_768d"].append(mean_q_enc_ms + t_ns + t_col)
 
         t0 = time.perf_counter()
         sc_512 = vecs_512 @ q_vecs_512[qi]
         f_512 = rrf_fuse(topk_from_scores(sc_512, k=300, mask=mask_ns), b_ns, rrf_k=60, w_dense=1.0, w_bm25=0.6)
-        sota_512 = collapse_product_families(f_512, df, top_k=50, family_sigs=family_sigs, vectors=vecs_512, near_dup_cos=0.94, sensor_guard=True)
+        sota_512 = collapse_product_families(f_512, df, top_k=50, family_sigs=family_sigs, vectors=vecs_512, near_dup_cos=0.94, sensor_guard=True, query_text=qtxt)
         lat_ms["07_SOTA_Hybrid_RRF_NullSafe_Collapse_512d"].append(mean_q_enc_ms + (time.perf_counter() - t0) * 1000.0)
 
         t0 = time.perf_counter()
         sc_256 = vecs_256 @ q_vecs_256[qi]
         f_256 = rrf_fuse(topk_from_scores(sc_256, k=300, mask=mask_ns), b_ns, rrf_k=60, w_dense=1.0, w_bm25=0.6)
-        sota_256 = collapse_product_families(f_256, df, top_k=50, family_sigs=family_sigs, vectors=vecs_256, near_dup_cos=0.94, sensor_guard=True)
+        sota_256 = collapse_product_families(f_256, df, top_k=50, family_sigs=family_sigs, vectors=vecs_256, near_dup_cos=0.94, sensor_guard=True, query_text=qtxt)
         lat_ms["08_SOTA_Hybrid_RRF_NullSafe_Collapse_256d"].append(mean_q_enc_ms + (time.perf_counter() - t0) * 1000.0)
 
         ranked_map = {
@@ -445,11 +458,14 @@ def main() -> None:
     full_diagnostics.sort(key=lambda d: (d["fam_r_10"], d["mrr_10"]))
     (ARTIFACTS_DIR / "full_error_analysis.json").write_text(json.dumps(full_diagnostics, indent=2), encoding="utf-8")
 
+    bm25_content_sha = lex_index.compute_content_sha256()
+    record_ids_sha = compute_record_ids_sha256(rid_by_idx)
     lex_index.con.close()
     manifest = {
         "corpus_records": n_total,
         "device": resolved_device,
         "model_id": resolved_model_id,
+        "release_tag": DEFAULT_INDEX_RELEASE_TAG,
         "batch_size": batch_size,
         "fixed_buckets": fixed_buckets,
         "max_length": 512,
@@ -464,15 +480,19 @@ def main() -> None:
         "norm_max": round(float(norms.max()), 6),
         "total_wall_seconds": round(time.perf_counter() - t_all0, 2),
         "single_query_encode_ms": round(mean_q_enc_ms, 2),
-        "family_sigs_type": "100pct_generic_zero_hardcoding",
+        "family_sigs_type": "100pct_generic_zero_hardcoding_cadence_grid_geo",
         "unique_generic_family_signatures": int(len(set(family_sigs))),
         "updated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "record_ids_sha256": record_ids_sha,
+        "bm25_content_sha256": bm25_content_sha,
         "sha256": {
             "eo_search_lib.py": sha256_file(SCRIPT_DIR / "eo_search_lib.py"),
             "06_eval_rerankers.py": sha256_file(SCRIPT_DIR / "06_eval_rerankers.py"),
-            "full_catalogue.parquet": sha256_file(full_pq),
+            "full_catalogue.parquet": cat_sha,
             "full_embeddings_bf16.npz": sha256_file(emb_path),
             "full_bm25.duckdb": sha256_file(bm25_db),
+            "bm25_content_sha256": bm25_content_sha,
+            "record_ids_sha256": record_ids_sha,
         },
     }
     (ARTIFACTS_DIR / "full_index_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")

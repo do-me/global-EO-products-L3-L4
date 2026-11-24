@@ -2915,14 +2915,15 @@ def parse_33_us_ghg_center_stac() -> list[dict[str, Any]]:
         prod = prod or "U.S. Greenhouse Gas Center (NASA / EPA / NIST / NOAA)"
 
         td_raw = clean_str(c.get("dashboard:time_density") or c.get("time_density") or c.get("temporal_frequency"))
-        temp_res = td_map.get(td_raw.lower(), td_raw) if td_raw else None
+        is_periodic = bool(c.get("dashboard:is_periodic"))
+        if "-yeargrid5yr-" in cid_low:
+            temp_res = "5 years"
+        elif is_periodic and td_raw and "mean" not in cid_low and "5yr" not in cid_low:
+            temp_res = td_map.get(td_raw.lower(), td_raw)
+        else:
+            temp_res = None
 
         lvl = clean_str(c.get("product_level") or c.get("processing:level"))
-        if not lvl:
-            if any(k in cid_low for k in ("mip", "ct-ch4", "tm54dvar", "eccodarwin", "lpjwsl", "lpjeosim", "casagfed", "micasa", "blueflux", "gosat-based-ch4", "geos-", "oco2geos")):
-                lvl = "L4"
-            elif any(k in cid_low for k in ("oco3-", "goes-ch4", "emit-ch4", "omi_", "cms-mangrove")):
-                lvl = "L3"
 
         plat_hints: list[str] = []
         for pat, lbl in (
@@ -3195,11 +3196,16 @@ def parse_35_cnes_geodes_stac() -> list[dict[str, Any]]:
         # Ensure bare numeric gsd in GEODES summaries carries meters unit (m)
         if pr.get("spatial_resolution_raw") and re.fullmatch(r"\d+(?:\.\d+)?", str(pr["spatial_resolution_raw"]).strip()):
             pr["spatial_resolution_raw"] = f"{str(pr['spatial_resolution_raw']).strip()} m"
-        # Drop bare unitless integer temporal_resolution (e.g. '144') in favor of explicit production_frequency/text
-        if pr.get("temporal_resolution_raw") and re.fullmatch(r"\d+(?:\.\d+)?", str(pr["temporal_resolution_raw"]).strip()):
-            pr["temporal_resolution_raw"] = clean_str(summaries.get("production_frequency")) or _extract_cadence_from_text(pr.get("title"), pr.get("description"))
-        elif not pr.get("temporal_resolution_raw"):
-            pr["temporal_resolution_raw"] = clean_str(summaries.get("production_frequency")) or _extract_cadence_from_text(pr.get("title"), pr.get("description"))
+        prod_freq = clean_str(summaries.get("production_frequency"))
+        if prod_freq and not pr.get("update_frequency_raw"):
+            pr["update_frequency_raw"] = prod_freq
+        # Keep production/update frequency separate from observation cadence; drop bare unitless integers (e.g. '144')
+        tr_curr = str(pr.get("temporal_resolution_raw") or "").strip()
+        if not tr_curr or re.fullmatch(r"\d+(?:\.\d+)?", tr_curr):
+            if "_1month_" in cid_low:
+                pr["temporal_resolution_raw"] = "1 month"
+            else:
+                pr["temporal_resolution_raw"] = _extract_cadence_from_text(pr.get("title"), pr.get("description"))
     return parsed
 
 

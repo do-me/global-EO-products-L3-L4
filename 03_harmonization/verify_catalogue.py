@@ -46,6 +46,9 @@ def main() -> None:
     max_file_path = ""
     for f in REPO_ROOT.rglob("*"):
         if f.is_file() and ".git" not in f.parts:
+            # Release-hosted search index artifacts are gitignored and distributed via GitHub Releases
+            if "06_semantic_hybrid_search" in f.parts and f.suffix in {".duckdb", ".npz"}:
+                continue
             mb = f.stat().st_size / (1024 * 1024)
             if mb > max_file_mb:
                 max_file_mb = mb

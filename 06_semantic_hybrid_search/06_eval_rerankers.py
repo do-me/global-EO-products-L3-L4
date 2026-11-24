@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "huggingface_hub>=0.30.0",
 #   "numpy>=1.26.0",
 #   "pandas>=2.2.0",

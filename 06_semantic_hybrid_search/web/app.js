@@ -71,6 +71,7 @@ const dom = {
   optTopK: document.getElementById('opt-topk'),
   optStrictEo: document.getElementById('opt-strict-eo'),
   optNullSafe: document.getElementById('opt-null-safe'),
+  optHardLimits: document.getElementById('opt-hard-limits'),
   optCollapse: document.getElementById('opt-collapse'),
   optPure: document.getElementById('opt-pure'),
   btnReset: document.getElementById('btn-reset'),
@@ -235,11 +236,22 @@ function buildSearchPayload() {
     max_grid_m: gridVal ? Number(gridVal) : null,
     eo_scope: dom.optStrictEo.checked ? 'strict_eo' : 'all',
     levels: levelVal ? levelVal.split(',') : null,
-    null_safe: dom.optNullSafe.checked,
+    null_safe: dom.optHardLimits && dom.optHardLimits.checked ? false : dom.optNullSafe.checked,
+    hard_limits: Boolean(dom.optHardLimits && dom.optHardLimits.checked),
     collapse: dom.optCollapse.checked,
     rerank_pure: dom.optPure.checked,
     top_k: Number(dom.optTopK.value || 20),
   };
+}
+
+function syncHardLimitsToggle() {
+  if (!dom.optHardLimits || !dom.optNullSafe) return;
+  const hard = dom.optHardLimits.checked;
+  if (hard) dom.optNullSafe.checked = false;
+  dom.optNullSafe.disabled = hard;
+  if (dom.optNullSafe.parentElement) {
+    dom.optNullSafe.parentElement.classList.toggle('opacity-50', hard);
+  }
 }
 
 function syncUrlFromControls() {
@@ -262,7 +274,8 @@ function syncUrlFromControls() {
   if (dom.optLevel.value) params.set('level', dom.optLevel.value);
   if (dom.optTopK.value !== '20') params.set('k', dom.optTopK.value);
   if (dom.optStrictEo.checked) params.set('strict_eo', '1');
-  if (!dom.optNullSafe.checked) params.set('null_safe', '0');
+  if (dom.optHardLimits && dom.optHardLimits.checked) params.set('hard', '1');
+  else if (!dom.optNullSafe.checked) params.set('null_safe', '0');
   if (!dom.optCollapse.checked) params.set('collapse', '0');
   if (dom.optPure.checked) params.set('pure', '1');
   const qs = params.toString();
@@ -294,7 +307,9 @@ function applyUrlToControls() {
   if (params.has('level')) dom.optLevel.value = params.get('level') || '';
   if (params.has('k')) dom.optTopK.value = params.get('k') || '20';
   if (params.get('strict_eo') === '1') dom.optStrictEo.checked = true;
+  if (params.get('hard') === '1' && dom.optHardLimits) dom.optHardLimits.checked = true;
   if (params.get('null_safe') === '0') dom.optNullSafe.checked = false;
+  syncHardLimitsToggle();
   if (params.get('collapse') === '0') dom.optCollapse.checked = false;
   if (params.get('pure') === '1') dom.optPure.checked = true;
   dom.btnClearQuery.classList.toggle('hidden', !dom.queryInput.value);
@@ -394,7 +409,14 @@ function renderResults(data) {
   const colNote = data.total_collapsed_in_results > 0
     ? ` · ${data.total_collapsed_in_results} mirrors collapsed`
     : '';
-  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} eligible active products (${modeName}${colNote})`;
+  let hardNote = '';
+  if (data.hard_limits && data.unknown_metadata_counts) {
+    const u = data.unknown_metadata_counts;
+    hardNote = ` · Hard limits verified (excluded unknown: grid ${Number(u.grid_meters || 0).toLocaleString()}, level ${Number(u.processing_level || 0).toLocaleString()}, geo ${Number(u.geographic_coverage || 0).toLocaleString()})`;
+  } else if (!data.null_safe_filter && data.unknown_metadata_counts) {
+    hardNote = ' · Strict NULL-dropping active';
+  }
+  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} eligible active products (${modeName}${colNote}${hardNote})`;
 
   const timingParts = [`Stage 1: ${data.stage1_ms.toFixed(0)} ms`];
   if (data.rerank_ms > 0) timingParts.push(`Rerank: ${data.rerank_ms.toFixed(0)} ms`);
@@ -854,6 +876,13 @@ function wireEvents() {
     });
   });
 
+  if (dom.optHardLimits) {
+    dom.optHardLimits.addEventListener('change', () => {
+      syncHardLimitsToggle();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  }
+
   if (dom.btnPool) {
     dom.btnPool.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -892,6 +921,8 @@ function wireEvents() {
     dom.optTopK.value = '20';
     dom.optStrictEo.checked = false;
     dom.optNullSafe.checked = true;
+    if (dom.optHardLimits) dom.optHardLimits.checked = false;
+    syncHardLimitsToggle();
     dom.optCollapse.checked = true;
     dom.optPure.checked = false;
     if (state.status) dom.optMode.value = state.status.default_mode;

@@ -293,7 +293,7 @@ _SUB_DAILY_OR_DAILY_RE = re.compile(
 )
 
 _MONTHLY_OR_SEASONAL_RE = re.compile(
-    r"(?<!semi[- ])(?<!twice[- ])(?<!bi[- ])(?<!bi)\b(?:monthly|quarterly|seasonal|1-months?|3-month(?:ly)?|p1m|p3m)\b|"
+    r"(?<!semi[- ])(?<!half[- ])(?<!half)(?<!twice[- ])(?<!bi[- ])(?<!bi)\b(?:monthly|quarterly|seasonal|1-months?|3-month(?:ly)?|p1m|p3m)\b|"
     rf"{_NUM_GUARD}\b(?:1\s*months?|3\s*month(?:ly)?|30[- ]*days?|(?:[2-9]|1[01])\s*months?)(?!\s+accumulation)\b",
     re.IGNORECASE,
 )
@@ -623,7 +623,14 @@ def classify_geographic_coverage(
     desc_str = desc or ""
     head_geo = f"{rid_str} {title_str}"
     domain_mask = _detect_observation_domain_mask(raw_id, title, kw_raw, desc=desc_str)
-    has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_str, re.IGNORECASE))
+    title_for_global_chk = re.sub(
+        r"\b(?:Global\s+Soil\s+Information\s+System|Global\s+Ecosystem\s+Dynamics\s+Investigation|"
+        r"Global\s+Precipitation\s+Measurement|Global\s+Forest\s+Watch|Global\s+Change\s+Master\s+Directory)\b",
+        " ",
+        title_str,
+        flags=re.IGNORECASE,
+    )
+    has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_for_global_chk, re.IGNORECASE))
     has_both_hemispheres = bool(
         re.search(
             r"\bnorthern\s+(?:hemisphere\s+)?and\s+southern\s+hemispheres?\b|\b(?:arctic.*antarctic|antarctic.*arctic)\b",
@@ -638,11 +645,11 @@ def classify_geographic_coverage(
     desc_affirms_global = bool(_DESC_AFFIRMS_GLOBAL_RE.search(desc_str))
     hemi_restriction: str | None = None
     if not has_both_hemispheres and not desc_has_both_hemi:
-        m_ht_only = re.search(r"\b(northern|southern)\s+hemisphere\s+only\b", title_str, re.IGNORECASE)
+        m_ht_only = re.search(r"\b(northern|southern)\s*hemisphere\s+only\b", head_geo, re.IGNORECASE)
         if m_ht_only:
             hemi_restriction = f"{m_ht_only.group(1).lower()}_hemisphere_only"
         elif not has_global_in_title:
-            m_ht = re.search(r"\b(northern|southern)\s+hemisphere\b", title_str, re.IGNORECASE)
+            m_ht = re.search(r"\b(northern|southern)\s*hemisphere\b", head_geo, re.IGNORECASE)
             if m_ht:
                 hemi_restriction = f"{m_ht.group(1).lower()}_hemisphere_only"
         if hemi_restriction is None and not desc_affirms_global:
@@ -694,14 +701,10 @@ def classify_geographic_coverage(
             h_dom = "northern_hemisphere_only" if m_pol.group(1).lower() == "north" else "southern_hemisphere_only"
             return None, None, None, None, "hemispheric_or_pantropical", h_dom, "explicit_title_or_abstract_scope", (domain_mask or "cryosphere_or_glacier_mask")
         if source_id == "31_digital_earth_africa_and_pacific":
-            if rid_str.startswith("DEPACIFIC:"):
+            if rid_str.startswith(("DEPACIFIC:", "DEAFRICA:")):
                 return None, None, None, None, "regional_or_local", "regional_or_local", "regional_hub_scope", domain_mask
-            if rid_str.startswith("DEAFRICA:") and not re.search(
-                r"^DEAFRICA:(?:dem_cop_|dem_srtm|nasadem|cgls_|cci_landcover|esa_world|wsf_|alos_palsar|jers_sar|gmw|io_lulc|rainfall_chirps|s3_syn_|wapor_)",
-                rid_str,
-                re.IGNORECASE,
-            ):
-                return None, None, None, None, "regional_or_local", "regional_or_local", "regional_hub_scope", domain_mask
+        if re.match(r"^FAO_GISMGR:GLOSIS:[A-Z]{2}-", rid_str):
+            return None, None, None, None, "regional_or_local", "regional_or_local", "explicit_title_or_abstract_scope", domain_mask
         if source_id == "33_us_ghg_center_stac":
             if rid_str.lower().startswith("epa-ch4"):
                 return None, None, None, None, "regional_or_local", "regional_or_local", "explicit_title_or_abstract_scope", domain_mask
@@ -725,7 +728,7 @@ def classify_geographic_coverage(
             if _EXPLICIT_EUROPE_SCOPE_RE.search(title_str) or re.search(r"_europe_|^efas-", rid_str, re.IGNORECASE):
                 return None, None, None, None, "europe_regional", "europe_regional", "explicit_title_or_abstract_scope", domain_mask
             if _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str) and not has_both_hemispheres:
-                return None, None, None, None, "hemispheric_or_pantropical", "hemispheric_or_pantropical", "explicit_title_or_abstract_scope", domain_mask
+                return None, None, None, None, "hemispheric_or_pantropical", (hemi_restriction or "hemispheric_or_pantropical"), "explicit_title_or_abstract_scope", domain_mask
             if _EXPLICIT_REGIONAL_SCOPE_RE.search(title_str):
                 return None, None, None, None, "regional_or_local", "regional_or_local", "explicit_title_or_abstract_scope", domain_mask
             return None, None, None, None, None, None, "unassessed_no_spatial_extent", domain_mask
@@ -768,13 +771,19 @@ def classify_geographic_coverage(
             or n <= 5.0
             or (not has_global_in_title and not has_both_hemispheres and _EXPLICIT_POLAR_HEMISPHERIC_RE.search(title_str))
         ):
-            return w, s, e, n, "hemispheric_or_pantropical", (hemi_restriction or "hemispheric_or_pantropical"), bbox_prov or "upstream_bbox", domain_mask
+            inferred_hemi = hemi_restriction or (
+                "northern_hemisphere_only" if s >= -5.0 else ("southern_hemisphere_only" if n <= 5.0 else "hemispheric_or_pantropical")
+            )
+            return w, s, e, n, "hemispheric_or_pantropical", inferred_hemi, bbox_prov or "upstream_bbox", domain_mask
         if dlat >= 120.0:
             cov, domain = "global", "global_nominal_envelope"
         else:
             cov, domain = "quasi_global", "quasi_global_envelope"
     elif (dlon >= 300.0 and dlat >= 40.0) or (dlon >= 120.0 and dlat >= 120.0):
-        cov, domain = "hemispheric_or_pantropical", "hemispheric_or_pantropical"
+        cov = "hemispheric_or_pantropical"
+        domain = hemi_restriction or (
+            "northern_hemisphere_only" if s >= -5.0 else ("southern_hemisphere_only" if n <= 5.0 else "hemispheric_or_pantropical")
+        )
     elif not (w > e) and -65.0 <= w <= 45.0 and 10.0 <= s <= 75.0 and -10.0 <= e <= 85.0 and 35.0 <= n <= 90.0:
         cov = "europe_regional"
         domain = "geostationary_disk_or_sector" if is_single_geo_disk else "europe_regional"
@@ -1481,6 +1490,7 @@ def classify_level_and_ontology(
     lvl_raw: str | None,
     kw_raw: str | None,
     eumetsat_primary: dict[str, Any] | None = None,
+    doi_raw: str | None = None,
 ) -> tuple[str | None, str, str, bool, str | None, str, str, bool, str | None]:
     """
     Returns:
@@ -1503,7 +1513,7 @@ def classify_level_and_ontology(
     is_hybrid = bool(HYBRID_EO_CONSTRAINED_RE.search(head) or source_id in ("24_openlandmap_stac", "25_worldpop_and_ciesin_stac"))
     is_non_satellite = is_ref_geom or is_insitu or is_non_eo
 
-    # 2. Extract explicit processing levels from lvl_raw, title/id, or explicit multi-level description
+    # 2. Extract explicit processing levels from lvl_raw, title/id, DOI shortname, or explicit multi-level description
     has_raw_l1 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?1[abc]?\b", lvl_clean))
     has_raw_l2 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?2[abcs]?\b", lvl_clean))
     has_raw_l3 = bool(lvl_clean and re.search(r"\b(?:level[- ]?|l)?3[abcgs]?\b", lvl_clean))
@@ -1515,7 +1525,10 @@ def classify_level_and_ontology(
     explicit_l4_title = bool(re.search(r"\b(?:level[- ]?4[a-d]?|l4[a-d]?)\b", head_lvl, re.IGNORECASE))
     explicit_l3_title = bool(re.search(r"\b(?:level[- ]?3[abcgsup]?|l3[abcgsup]?)\b", head_lvl, re.IGNORECASE))
     explicit_l1_title = bool(re.search(r"\b(?:level[- ]?1[abc]?|l1[abc]?)\b", head_lvl, re.IGNORECASE))
-    explicit_l2_title = bool(re.search(r"\b(?:level[- ]?2[abcgprt]?|l2[abcgprt]?)\b", head_lvl, re.IGNORECASE))
+    doi_explicit_l2 = bool(
+        doi_raw and re.search(r"\b(?:level[- ]?2[abcgprt]?|l2[abcgprt]?)\b|(?:emit|oco[23]|gosat|tropomi|viirs|modis)[-_]?l2[ab]?", doi_raw, re.IGNORECASE)
+    )
+    explicit_l2_title = bool(re.search(r"\b(?:level[- ]?2[abcgprt]?|l2[abcgprt]?)\b", head_lvl, re.IGNORECASE)) or doi_explicit_l2
     title_has_l3_l4 = bool(re.search(r"\bL3[/;]L4\b|\bLevel[- ]?3\s*[/;&]\s*(?:Level[- ]?)?4\b", head_lvl, re.IGNORECASE))
     desc_has_l2_l3 = bool(
         desc
@@ -2509,7 +2522,7 @@ def main() -> None:
 
             # 7. Processing level, subtype, conflict provenance & EO ontology
             p_lvl, p_subtype, ont_cls, is_ard, lvls_avail, lvl_prov, out_cat, lvl_conflict, lvl_conflict_reason = classify_level_and_ontology(
-                sid, raw_id, title, desc, lvl_raw, kw_raw, eumetsat_primary=eum_p
+                sid, raw_id, title, desc, lvl_raw, kw_raw, eumetsat_primary=eum_p, doi_raw=doi_raw
             )
             if (
                 sid == "07_ec_jrc_data_catalogue"

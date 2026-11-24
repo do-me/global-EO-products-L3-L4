@@ -12,7 +12,10 @@ Built specifically for the harmonized Global L3/L4 EO Product Catalogue
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
+import json
+import math
 import os
 import platform
 import queue
@@ -20,8 +23,10 @@ import re
 import sys
 import threading
 import time
-from dataclasses import dataclass, field
+import urllib.request
+from pathlib import Path
 from typing import Any, Iterable, Optional
+from dataclasses import dataclass, field
 
 import duckdb
 import numpy as np
@@ -34,6 +39,105 @@ DEFAULT_MODEL_BF16 = "mlx-community/embeddinggemma-2-bf16"
 DEFAULT_MODEL_8BIT = "mlx-community/embeddinggemma-2-8bit"
 DEFAULT_PT_EMBED_MODEL = "google/embeddinggemma-2"
 QUERY_PROMPT_PREFIX = "task: search result | query: "
+GITHUB_REPO = "do-me/global-EO-products-L3-L4"
+DEFAULT_INDEX_RELEASE_TAG = "v4.1.0-indexes"
+INDEX_ASSET_NAMES = ("full_bm25.duckdb", "full_embeddings_bf16.npz", "full_index_manifest.json")
+
+
+def compute_file_sha256(path: Path) -> str:
+    """Compute SHA-256 hex digest of a file using bounded 1 MiB reads."""
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def compute_record_ids_sha256(record_ids: Iterable[str]) -> str:
+    """Compute deterministic SHA-256 over an ordered sequence of catalogue record_ids."""
+    h = hashlib.sha256()
+    for rid in record_ids:
+        h.update(str(rid).encode("utf-8"))
+        h.update(b"\n")
+    return h.hexdigest()
+
+
+def _download_release_asset(
+    base_url: str,
+    filename: str,
+    dest_path: Path,
+    expected_sha256: str = "",
+) -> Path:
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    url = f"{base_url.rstrip('/')}/{filename}"
+    tmp_path = dest_path.with_suffix(dest_path.suffix + ".download.tmp")
+    print(f"[eo-search] Downloading {filename} from {url} ...", file=sys.stderr, flush=True)
+    req = urllib.request.Request(url, headers={"User-Agent": "global-eo-search/4.1"})
+    with urllib.request.urlopen(req, timeout=180) as resp, tmp_path.open("wb") as out:
+        while True:
+            chunk = resp.read(1 << 20)
+            if not chunk:
+                break
+            out.write(chunk)
+    actual_sha = compute_file_sha256(tmp_path)
+    if expected_sha256 and actual_sha != expected_sha256:
+        tmp_path.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"SHA-256 mismatch after downloading {filename}: expected {expected_sha256}, got {actual_sha}"
+        )
+    tmp_path.replace(dest_path)
+    return dest_path
+
+
+def ensure_search_indexes(
+    artifacts_dir: Path,
+    require_dense: bool = True,
+    allow_download: bool = True,
+    release_tag: str = DEFAULT_INDEX_RELEASE_TAG,
+) -> dict[str, Path]:
+    """Ensure full_bm25.duckdb (and optionally full_embeddings_bf16.npz) exist and match manifest SHA-256.
+
+    When missing or stale vs `full_index_manifest.json`, downloads the published release assets from
+    GitHub Releases (or `EO_SEARCH_INDEX_RELEASE_URL` when set) unless `allow_download=False`.
+    """
+    base_url = os.environ.get(
+        "EO_SEARCH_INDEX_RELEASE_URL",
+        f"https://github.com/{GITHUB_REPO}/releases/download/{release_tag}",
+    )
+    manifest_path = artifacts_dir / "full_index_manifest.json"
+    if not manifest_path.exists():
+        if not allow_download:
+            raise FileNotFoundError(f"Missing index manifest: {manifest_path}")
+        _download_release_asset(base_url, "full_index_manifest.json", manifest_path)
+
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    sha_map: dict[str, str] = {}
+    for k, v in (manifest.get("sha256") or {}).items():
+        if isinstance(v, str) and v:
+            sha_map[k] = v
+    for k, meta in (manifest.get("release_assets") or {}).items():
+        if isinstance(meta, dict) and isinstance(meta.get("sha256"), str):
+            sha_map.setdefault(k, meta["sha256"])
+
+    needed = ["full_bm25.duckdb"]
+    if require_dense:
+        needed.append("full_embeddings_bf16.npz")
+
+    for fname in needed:
+        target = artifacts_dir / fname
+        expected = sha_map.get(fname, "")
+        valid = target.exists() and (not expected or compute_file_sha256(target) == expected)
+        if not valid:
+            if not allow_download:
+                reason = "missing" if not target.exists() else f"SHA-256 mismatch (expected {expected})"
+                raise FileNotFoundError(f"Search index asset {target} is {reason} and auto-download is disabled.")
+            _download_release_asset(base_url, fname, target, expected_sha256=expected)
+
+    return {
+        "manifest": manifest_path,
+        "bm25": artifacts_dir / "full_bm25.duckdb",
+        "embeddings": artifacts_dir / "full_embeddings_bf16.npz",
+    }
 
 
 def resolve_device(device: str = "auto") -> str:
@@ -1066,8 +1170,8 @@ def maxsim_chunk_scores(
 class DuckDBLexicalIndex:
     """Embedded DuckDB multi-field BM25 FTS index + naive ILIKE baseline.
 
-    Supports read-only query connections and true SQL-side pre-filtering (`eligible_mask`)
-    before `LIMIT top_k` so lexical candidate depth stays symmetrical with dense search.
+    Keyed by immutable `record_id` (not mutable row position) so prefiltering,
+    FTS scoring, and dense vector fusion remain aligned even if row order shifts.
     """
 
     def __init__(self, db_path: str = ":memory:", read_only: bool = False):
@@ -1082,19 +1186,98 @@ class DuckDBLexicalIndex:
             self.con.execute("LOAD fts;")
         except Exception:
             self.con.execute("INSTALL fts; LOAD fts;")
+        self._bound_rids: Optional[np.ndarray] = None
+        self._bound_rid_to_idx: Optional[dict[str, int]] = None
+        self._db_rids: Optional[np.ndarray] = None
+        self._db_rid_to_idx: Optional[dict[str, int]] = None
+        if self.read_only:
+            try:
+                rows = self.con.execute("SELECT record_id FROM eo_docs ORDER BY doc_idx ASC").fetchall()
+                rids = [str(r[0]) for r in rows]
+                self._db_rids = np.asarray(rids, dtype=object)
+                self._db_rid_to_idx = {r: i for i, r in enumerate(rids)}
+            except Exception:
+                pass
 
-    def build_from_dataframe(self, df: pd.DataFrame) -> float:
+    def get_meta(self) -> dict[str, str]:
+        """Return index alignment metadata stored inside `eo_meta`."""
+        try:
+            rows = self.con.execute("SELECT key, val FROM eo_meta").fetchall()
+            return {str(k): str(v) for k, v in rows}
+        except Exception:
+            return {}
+
+    def compute_content_sha256(self) -> str:
+        """Compute deterministic SHA-256 over indexed lexical fields independent of DuckDB storage pages."""
+        h = hashlib.sha256()
+        cur = self.con.execute(
+            "SELECT record_id, title_bm25, keywords_bm25, body_bm25 FROM eo_docs ORDER BY doc_idx ASC, record_id ASC"
+        )
+        while True:
+            rows = cur.fetchmany(2048)
+            if not rows:
+                break
+            for rid, t_bm, k_bm, b_bm in rows:
+                h.update(str(rid or "").encode("utf-8"))
+                h.update(b"\x00")
+                h.update(str(t_bm or "").encode("utf-8"))
+                h.update(b"\x00")
+                h.update(str(k_bm or "").encode("utf-8"))
+                h.update(b"\x00")
+                h.update(str(b_bm or "").encode("utf-8"))
+                h.update(b"\n")
+        return h.hexdigest()
+
+    def verify_against_dataframe(self, df: pd.DataFrame, catalogue_sha256: str = "") -> dict[str, str]:
+        """Verify ordered `record_id` and `catalogue_sha256` alignment and bind DataFrame row positions."""
+        db_rows = self.con.execute("SELECT record_id FROM eo_docs ORDER BY doc_idx ASC").fetchall()
+        db_rids = [str(r[0]) for r in db_rows]
+        df_rids = [str(r) for r in df["record_id"]]
+        if len(db_rids) != len(df_rids):
+            raise RuntimeError(
+                f"BM25 index row count mismatch: index has {len(db_rids)} rows vs DataFrame {len(df_rids)} rows."
+            )
+        if db_rids != df_rids:
+            mismatch_idx = next((i for i, (a, b) in enumerate(zip(db_rids, df_rids)) if a != b), 0)
+            raise RuntimeError(
+                f"BM25 index record_id ordering mismatch at row {mismatch_idx}: "
+                f"index={db_rids[mismatch_idx]!r} vs catalogue={df_rids[mismatch_idx]!r}. "
+                "Rebuild search indexes via 05_index_full_catalogue.py."
+            )
+        meta = self.get_meta()
+        meta_cat_sha = meta.get("catalogue_sha256", "")
+        if catalogue_sha256 and meta_cat_sha and catalogue_sha256 != meta_cat_sha:
+            raise RuntimeError(
+                f"BM25 catalogue_sha256 mismatch: index={meta_cat_sha} vs parquet={catalogue_sha256}. "
+                "Rebuild search indexes via 05_index_full_catalogue.py."
+            )
+        meta_rids_sha = meta.get("record_ids_sha256", "")
+        actual_rids_sha = compute_record_ids_sha256(df_rids)
+        if meta_rids_sha and meta_rids_sha != actual_rids_sha:
+            raise RuntimeError(
+                f"BM25 record_ids_sha256 mismatch: index={meta_rids_sha} vs catalogue={actual_rids_sha}."
+            )
+        self._bound_rids = np.asarray(df_rids, dtype=object)
+        self._bound_rid_to_idx = {r: i for i, r in enumerate(df_rids)}
+        self._db_rids = self._bound_rids
+        self._db_rid_to_idx = self._bound_rid_to_idx
+        return meta
+
+    def build_from_dataframe(self, df: pd.DataFrame, catalogue_sha256: str = "") -> float:
         t0 = time.perf_counter()
         records = []
+        rids_ordered: list[str] = []
         for idx, row in enumerate(df.to_dict(orient="records")):
             t_bm, k_bm, b_bm = build_bm25_fields(row)
             raw_title = _safe_str(row.get("title"))
             raw_desc = _safe_str(row.get("description"))[:3000]
             raw_kw = _safe_str(row.get("keywords"))[:1000]
+            rid = str(row["record_id"])
+            rids_ordered.append(rid)
             records.append(
                 (
                     idx,
-                    str(row["record_id"]),
+                    rid,
                     t_bm,
                     k_bm,
                     b_bm,
@@ -1102,11 +1285,12 @@ class DuckDBLexicalIndex:
                 )
             )
         self.con.execute("DROP TABLE IF EXISTS eo_docs")
+        self.con.execute("DROP TABLE IF EXISTS eo_meta")
         self.con.execute(
             """
             CREATE TABLE eo_docs (
-                doc_idx INTEGER PRIMARY KEY,
-                record_id VARCHAR,
+                doc_idx INTEGER,
+                record_id VARCHAR PRIMARY KEY,
                 title_bm25 VARCHAR,
                 keywords_bm25 VARCHAR,
                 body_bm25 VARCHAR,
@@ -1118,11 +1302,28 @@ class DuckDBLexicalIndex:
         self.con.execute(
             """
             PRAGMA create_fts_index(
-                'eo_docs', 'doc_idx', 'title_bm25', 'keywords_bm25', 'body_bm25',
+                'eo_docs', 'record_id', 'title_bm25', 'keywords_bm25', 'body_bm25',
                 stemmer='porter', stopwords='english', lower=1, strip_accents=1, overwrite=1
             )
             """
         )
+        content_sha = self.compute_content_sha256()
+        rids_sha = compute_record_ids_sha256(rids_ordered)
+        self.con.execute("CREATE TABLE eo_meta (key VARCHAR PRIMARY KEY, val VARCHAR)")
+        self.con.executemany(
+            "INSERT INTO eo_meta VALUES (?, ?)",
+            [
+                ("schema_version", "4.1"),
+                ("n_rows", str(len(df))),
+                ("catalogue_sha256", catalogue_sha256),
+                ("record_ids_sha256", rids_sha),
+                ("bm25_content_sha256", content_sha),
+            ],
+        )
+        self._bound_rids = np.asarray(rids_ordered, dtype=object)
+        self._bound_rid_to_idx = {r: i for i, r in enumerate(rids_ordered)}
+        self._db_rids = self._bound_rids
+        self._db_rid_to_idx = self._bound_rid_to_idx
         return time.perf_counter() - t0
 
     def search_bm25(
@@ -1135,57 +1336,84 @@ class DuckDBLexicalIndex:
         k1: float = 1.2,
         b: float = 0.75,
         eligible_mask: Optional[np.ndarray] = None,
+        eligible_record_ids: Optional[Iterable[str]] = None,
     ) -> list[tuple[int, float]]:
         q_norm = normalize_eo_text(query)
         if not q_norm:
             return []
-        if eligible_mask is not None:
-            elig_ids = np.flatnonzero(eligible_mask).astype(np.int32)
-            if len(elig_ids) == 0:
+
+        rid_to_idx = self._bound_rid_to_idx if self._bound_rid_to_idx is not None else self._db_rid_to_idx
+        rids_arr = self._bound_rids if self._bound_rids is not None else self._db_rids
+        if rid_to_idx is None:
+            rows = self.con.execute("SELECT record_id FROM eo_docs ORDER BY doc_idx ASC").fetchall()
+            rids_list = [str(r[0]) for r in rows]
+            rids_arr = np.asarray(rids_list, dtype=object)
+            rid_to_idx = {r: i for i, r in enumerate(rids_list)}
+            self._db_rids = rids_arr
+            self._db_rid_to_idx = rid_to_idx
+
+        elig_rids: Optional[list[str]] = None
+        if eligible_record_ids is not None:
+            elig_rids = [str(r) for r in eligible_record_ids]
+        elif eligible_mask is not None:
+            if rids_arr is None or len(eligible_mask) != len(rids_arr):
+                raise RuntimeError(
+                    f"eligible_mask length {len(eligible_mask)} != BM25 index length {0 if rids_arr is None else len(rids_arr)}"
+                )
+            elig_rids = [str(r) for r in rids_arr[np.asarray(eligible_mask, dtype=bool)]]
+
+        if elig_rids is not None:
+            if not elig_rids:
                 return []
-            elig_df = pd.DataFrame({"doc_idx": elig_ids})
-            self.con.register("_elig_ids", elig_df)
+            elig_df = pd.DataFrame({"record_id": elig_rids})
+            self.con.register("_elig_rids", elig_df)
             try:
                 rows = self.con.execute(
                     """
-                    SELECT doc_idx,
+                    SELECT record_id,
                            COALESCE(s_t, 0.0) * ? + COALESCE(s_k, 0.0) * ? + COALESCE(s_b, 0.0) * ? AS score
                     FROM (
-                        SELECT e.doc_idx,
-                               fts_main_eo_docs.match_bm25(e.doc_idx, ?, fields := 'title_bm25', k := ?, b := ?) AS s_t,
-                               fts_main_eo_docs.match_bm25(e.doc_idx, ?, fields := 'keywords_bm25', k := ?, b := ?) AS s_k,
-                               fts_main_eo_docs.match_bm25(e.doc_idx, ?, fields := 'body_bm25', k := ?, b := ?) AS s_b
+                        SELECT e.record_id,
+                               fts_main_eo_docs.match_bm25(e.record_id, ?, fields := 'title_bm25', k := ?, b := ?) AS s_t,
+                               fts_main_eo_docs.match_bm25(e.record_id, ?, fields := 'keywords_bm25', k := ?, b := ?) AS s_k,
+                               fts_main_eo_docs.match_bm25(e.record_id, ?, fields := 'body_bm25', k := ?, b := ?) AS s_b
                         FROM eo_docs e
-                        INNER JOIN _elig_ids f ON e.doc_idx = f.doc_idx
+                        INNER JOIN _elig_rids f ON e.record_id = f.record_id
                     ) t
                     WHERE s_t IS NOT NULL OR s_k IS NOT NULL OR s_b IS NOT NULL
-                    ORDER BY ROUND(score, 10) DESC, doc_idx ASC
+                    ORDER BY ROUND(score, 10) DESC, record_id ASC
                     LIMIT ?
                     """,
                     [w_title, w_keywords, w_body, q_norm, k1, b, q_norm, k1, b, q_norm, k1, b, top_k],
                 ).fetchall()
             finally:
-                self.con.unregister("_elig_ids")
-            return [(int(r[0]), float(r[1])) for r in rows]
+                self.con.unregister("_elig_rids")
+        else:
+            rows = self.con.execute(
+                """
+                SELECT record_id,
+                       COALESCE(s_t, 0.0) * ? + COALESCE(s_k, 0.0) * ? + COALESCE(s_b, 0.0) * ? AS score
+                FROM (
+                    SELECT record_id,
+                           fts_main_eo_docs.match_bm25(record_id, ?, fields := 'title_bm25', k := ?, b := ?) AS s_t,
+                           fts_main_eo_docs.match_bm25(record_id, ?, fields := 'keywords_bm25', k := ?, b := ?) AS s_k,
+                           fts_main_eo_docs.match_bm25(record_id, ?, fields := 'body_bm25', k := ?, b := ?) AS s_b
+                    FROM eo_docs
+                ) t
+                WHERE s_t IS NOT NULL OR s_k IS NOT NULL OR s_b IS NOT NULL
+                ORDER BY ROUND(score, 10) DESC, record_id ASC
+                LIMIT ?
+                """,
+                [w_title, w_keywords, w_body, q_norm, k1, b, q_norm, k1, b, q_norm, k1, b, top_k],
+            ).fetchall()
 
-        rows = self.con.execute(
-            """
-            SELECT doc_idx,
-                   COALESCE(s_t, 0.0) * ? + COALESCE(s_k, 0.0) * ? + COALESCE(s_b, 0.0) * ? AS score
-            FROM (
-                SELECT doc_idx,
-                       fts_main_eo_docs.match_bm25(doc_idx, ?, fields := 'title_bm25', k := ?, b := ?) AS s_t,
-                       fts_main_eo_docs.match_bm25(doc_idx, ?, fields := 'keywords_bm25', k := ?, b := ?) AS s_k,
-                       fts_main_eo_docs.match_bm25(doc_idx, ?, fields := 'body_bm25', k := ?, b := ?) AS s_b
-                FROM eo_docs
-            ) t
-            WHERE s_t IS NOT NULL OR s_k IS NOT NULL OR s_b IS NOT NULL
-            ORDER BY ROUND(score, 10) DESC, doc_idx ASC
-            LIMIT ?
-            """,
-            [w_title, w_keywords, w_body, q_norm, k1, b, q_norm, k1, b, q_norm, k1, b, top_k],
-        ).fetchall()
-        return [(int(r[0]), float(r[1])) for r in rows]
+        out: list[tuple[int, float]] = []
+        for rid_raw, sc in rows:
+            rid = str(rid_raw)
+            if rid not in rid_to_idx:
+                raise RuntimeError(f"BM25 returned unmapped record_id={rid!r}; index is stale.")
+            out.append((int(rid_to_idx[rid]), float(sc)))
+        return out
 
     def search_naive_like(self, query: str, top_k: int = 200) -> list[tuple[int, float]]:
         """Naive plain-string token ILIKE baseline (counts raw substring token matches)."""
@@ -1202,25 +1430,70 @@ class DuckDBLexicalIndex:
             tokens = [t for t in re.findall(r"[a-z0-9]+", query.lower()) if len(t) >= 3]
         if not tokens:
             return []
-        # Deduplicate keeping first 8 content tokens
         uniq: list[str] = []
         for t in tokens:
             if t not in uniq:
                 uniq.append(t)
             if len(uniq) >= 8:
                 break
+        rid_to_idx = self._bound_rid_to_idx if self._bound_rid_to_idx is not None else self._db_rid_to_idx
+        if rid_to_idx is None:
+            rows_r = self.con.execute("SELECT record_id FROM eo_docs ORDER BY doc_idx ASC").fetchall()
+            rid_to_idx = {str(r[0]): i for i, r in enumerate(rows_r)}
         expr = " + ".join([f"(CASE WHEN instr(raw_lower, ?) > 0 THEN 1 ELSE 0 END)" for _ in uniq])
         rows = self.con.execute(
             f"""
-            SELECT doc_idx, ({expr}) AS hits
+            SELECT record_id, ({expr}) AS hits
             FROM eo_docs
             WHERE ({expr}) > 0
-            ORDER BY hits DESC, doc_idx ASC
+            ORDER BY hits DESC, record_id ASC
             LIMIT ?
             """,
             uniq + uniq + [top_k],
         ).fetchall()
-        return [(int(r[0]), float(r[1])) for r in rows]
+        return [(int(rid_to_idx[str(r[0])]), float(r[1])) for r in rows if str(r[0]) in rid_to_idx]
+
+
+def verify_index_alignment(
+    df: pd.DataFrame,
+    lex_index: Optional[DuckDBLexicalIndex] = None,
+    emb_npz: Optional[Any] = None,
+    catalogue_path: Optional[Path] = None,
+) -> dict[str, Any]:
+    """Fail fast if catalogue row count, ordered `record_id` vector, or `catalogue_sha256` diverges."""
+    df_rids = [str(r) for r in df["record_id"]]
+    cat_sha = compute_file_sha256(catalogue_path) if catalogue_path is not None and catalogue_path.exists() else ""
+
+    if lex_index is not None:
+        lex_index.verify_against_dataframe(df, catalogue_sha256=cat_sha)
+
+    if emb_npz is not None:
+        if "record_ids" not in emb_npz:
+            raise RuntimeError("Embeddings NPZ missing `record_ids` array; rebuild search indexes.")
+        emb_rids = [str(r) for r in emb_npz["record_ids"].tolist()]
+        if len(emb_rids) != len(df_rids):
+            raise RuntimeError(
+                f"Embeddings row count mismatch: npz has {len(emb_rids)} vs catalogue {len(df_rids)}."
+            )
+        if emb_rids != df_rids:
+            mismatch_idx = next((i for i, (a, b) in enumerate(zip(emb_rids, df_rids)) if a != b), 0)
+            raise RuntimeError(
+                f"Embeddings record_id ordering mismatch at row {mismatch_idx}: "
+                f"npz={emb_rids[mismatch_idx]!r} vs catalogue={df_rids[mismatch_idx]!r}."
+            )
+        if cat_sha and "catalogue_sha256" in emb_npz:
+            raw_cat = emb_npz["catalogue_sha256"]
+            npz_cat_sha = str(raw_cat.item() if np.ndim(raw_cat) == 0 else raw_cat[0])
+            if npz_cat_sha and npz_cat_sha != cat_sha:
+                raise RuntimeError(
+                    f"Embeddings catalogue_sha256 mismatch: npz={npz_cat_sha} vs parquet={cat_sha}."
+                )
+
+    return {
+        "n_rows": len(df_rids),
+        "record_ids_sha256": compute_record_ids_sha256(df_rids),
+        "catalogue_sha256": cat_sha,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -1244,6 +1517,7 @@ class SearchFilters:
     min_end_year: Optional[int] = None
     max_start_year: Optional[int] = None
     null_safe: bool = True
+    hard_limits: bool = False  # Verified mode: null_safe=False, 1.0x grid tolerance, strict global footprint
 
 
 _REGION_BBOX = {
@@ -1255,10 +1529,72 @@ _REGION_BBOX = {
 _OBSOLETE_TITLE_RE = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
 
 
+def compute_unknown_metadata_counts(df: pd.DataFrame, active_only: bool = True) -> dict[str, int]:
+    """Count records missing structured metadata fields (excluded in Hard Limits / Verified mode)."""
+    n = len(df)
+    if n == 0:
+        return {"total_records": 0, "processing_level": 0, "grid_meters": 0, "geographic_coverage": 0, "cadence": 0}
+    mask = np.ones(n, dtype=bool)
+    if active_only:
+        if "is_superseded_edition" in df.columns:
+            mask &= ~df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)
+        if "title" in df.columns:
+            mask &= ~df["title"].fillna("").str.contains(_OBSOLETE_TITLE_RE, regex=True).to_numpy(dtype=bool, copy=True)
+
+    pl_null = (
+        int((mask & (df["processing_level"].isna() | (df["processing_level"].astype(str) == ""))).sum())
+        if "processing_level" in df.columns else 0
+    )
+    g_null = (
+        int((mask & pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").isna()).sum())
+        if "adjudicated_output_grid_meters" in df.columns else 0
+    )
+    geo_null = (
+        int((mask & (df["geographic_coverage_class"].isna() | (df["geographic_coverage_class"].astype(str) == ""))).sum())
+        if "geographic_coverage_class" in df.columns else 0
+    )
+    cad_null = (
+        int((mask & (df["temporal_cadence_class"].isna() | (df["temporal_cadence_class"].astype(str) == ""))).sum())
+        if "temporal_cadence_class" in df.columns else 0
+    )
+    return {
+        "total_records": int(mask.sum()),
+        "processing_level": pl_null,
+        "grid_meters": g_null,
+        "geographic_coverage": geo_null,
+        "cadence": cad_null,
+    }
+
+
+def filter_benchmark_family_mask(
+    df: pd.DataFrame,
+    hit_mask: np.ndarray,
+    query_filters: Optional[dict[str, Any]] = None,
+) -> np.ndarray:
+    """Restrict ground-truth family matches so global queries never credit regional/narrow-strip rows."""
+    out = np.asarray(hit_mask, dtype=bool).copy()
+    scope = str((query_filters or {}).get("geo_scope") or "").lower()
+    if scope == "global":
+        if "geographic_coverage_class" in df.columns:
+            gc = df["geographic_coverage_class"].fillna("").to_numpy()
+            out &= gc != "regional_or_local"
+        if "observation_domain_mask" in df.columns:
+            odm = df["observation_domain_mask"].fillna("").to_numpy()
+            out &= ~np.isin(odm, ["northern_hemisphere_only", "southern_hemisphere_only"])
+        if "bbox_south" in df.columns and "bbox_north" in df.columns:
+            bs = pd.to_numeric(df["bbox_south"], errors="coerce").to_numpy(dtype=np.float64)
+            bn = pd.to_numeric(df["bbox_north"], errors="coerce").to_numpy(dtype=np.float64)
+            has_lat = ~(np.isnan(bs) | np.isnan(bn))
+            out &= ~has_lat | ((bn - bs) >= 90.0)
+    return out
+
+
 def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
-    """Return boolean mask of eligible rows respecting null-safety & spherical bbox geometry."""
+    """Return boolean mask of eligible rows respecting null-safety, hard-limits mode & spherical bbox geometry."""
     n = len(df)
     mask = np.ones(n, dtype=bool)
+    eff_null_safe = False if flt.hard_limits else flt.null_safe
+    eff_grid_tol = 1.0 if flt.hard_limits else flt.grid_tolerance
 
     if flt.exclude_superseded:
         if "is_superseded_edition" in df.columns:
@@ -1293,20 +1629,20 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
             [any(tok.strip() in allowed for tok in str(v).split(";")) if not n_ else False for v, n_ in zip(pl, is_null)],
             dtype=bool,
         )
-        mask &= (in_allowed | is_null) if flt.null_safe else in_allowed
+        mask &= (in_allowed | is_null) if eff_null_safe else in_allowed
 
     if flt.max_grid_m is not None and "adjudicated_output_grid_meters" in df.columns:
         g = pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy()
-        # Grid tolerance is orthogonal to null_safe so NaiveStrict cleanly isolates NULL-dropping!
-        thresh = flt.max_grid_m * flt.grid_tolerance
+        # Grid tolerance is orthogonal to null_safe when hard_limits=False so NaiveStrict isolates NULL-dropping!
+        thresh = flt.max_grid_m * eff_grid_tol
         is_null = np.isnan(g)
-        ok = np.where(is_null, flt.null_safe, g <= thresh)
+        ok = np.where(is_null, eff_null_safe, g <= thresh)
         mask &= ok
 
     if flt.min_grid_m is not None and "adjudicated_output_grid_meters" in df.columns:
         g = pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy()
         is_null = np.isnan(g)
-        ok = np.where(is_null, flt.null_safe, g >= flt.min_grid_m)
+        ok = np.where(is_null, eff_null_safe, g >= flt.min_grid_m)
         mask &= ok
 
     if flt.cadence_classes and "temporal_cadence_class" in df.columns:
@@ -1314,20 +1650,35 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
         cad = df["temporal_cadence_class"].to_numpy()
         is_null = pd.isna(cad) | (cad == "")
         in_allowed = np.isin(cad, list(allowed))
-        mask &= (in_allowed | is_null) if flt.null_safe else in_allowed
+        mask &= (in_allowed | is_null) if eff_null_safe else in_allowed
 
     if "geographic_coverage_class" in df.columns:
         gc = df["geographic_coverage_class"].to_numpy()
         is_null = pd.isna(gc) | (gc == "")
         if flt.exclude_local:
             not_local = np.isin(gc, ["global", "quasi_global", "hemispheric_or_pantropical", "europe_regional"])
-            mask &= (not_local | is_null) if flt.null_safe else not_local
+            mask &= (not_local | is_null) if eff_null_safe else not_local
         if flt.geo_scope:
             scope = flt.geo_scope.lower()
             if scope == "global":
-                # Intentionally includes hemispheric_or_pantropical (737 records) for high-recall tropical queries
-                ok = np.isin(gc, ["global", "quasi_global", "hemispheric_or_pantropical"])
-                mask &= (ok | is_null) if flt.null_safe else ok
+                if flt.hard_limits:
+                    ok = gc == "global"
+                    if "observation_domain_class" in df.columns:
+                        od = df["observation_domain_class"].fillna("").to_numpy()
+                        ok &= ~np.isin(od, ["hemispheric_or_pantropical", "regional_or_local"])
+                    if "observation_domain_mask" in df.columns:
+                        odm = df["observation_domain_mask"].fillna("").to_numpy()
+                        ok &= ~np.isin(odm, ["northern_hemisphere_only", "southern_hemisphere_only"])
+                    if "bbox_south" in df.columns and "bbox_north" in df.columns:
+                        bs = pd.to_numeric(df["bbox_south"], errors="coerce").to_numpy(dtype=np.float64)
+                        bn = pd.to_numeric(df["bbox_north"], errors="coerce").to_numpy(dtype=np.float64)
+                        has_lat = ~(np.isnan(bs) | np.isnan(bn))
+                        ok &= ~has_lat | ((bs <= -55.0) & (bn >= 55.0))
+                    mask &= ok
+                else:
+                    # Broad discovery mode includes quasi_global & hemispheric_or_pantropical
+                    ok = np.isin(gc, ["global", "quasi_global", "hemispheric_or_pantropical"])
+                    mask &= (ok | is_null) if eff_null_safe else ok
             elif scope in _REGION_BBOX:
                 bw_min, bs_min, be_max, bn_max = _REGION_BBOX[scope]
                 # Global / quasi-global products cover every region; hemispheric/regional require bbox check.
@@ -1356,9 +1707,9 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
                     )
                     intersects = has_bbox & lon_ok & (bn >= bs_min) & (bs <= bn_max)
                     bbox_classes = np.isin(gc, ["regional_or_local", "hemispheric_or_pantropical"])
-                    reg_ok = bbox_classes & (intersects | (~has_bbox & flt.null_safe))
+                    reg_ok = bbox_classes & (intersects | (~has_bbox & eff_null_safe))
                     ok |= reg_ok
-                mask &= (ok | is_null) if flt.null_safe else ok
+                mask &= (ok | is_null) if eff_null_safe else ok
 
     if flt.min_end_year is not None and "temporal_end_year" in df.columns:
         ey = pd.to_numeric(df["temporal_end_year"], errors="coerce").to_numpy()
@@ -1368,13 +1719,13 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
             else np.zeros(n, dtype=bool)
         )
         is_null = np.isnan(ey)
-        ok = ongoing | np.where(is_null, flt.null_safe, ey >= flt.min_end_year)
+        ok = ongoing | np.where(is_null, eff_null_safe, ey >= flt.min_end_year)
         mask &= ok
 
     if flt.max_start_year is not None and "temporal_start_year" in df.columns:
         sy = pd.to_numeric(df["temporal_start_year"], errors="coerce").to_numpy()
         is_null = np.isnan(sy)
-        ok = np.where(is_null, flt.null_safe, sy <= flt.max_start_year)
+        ok = np.where(is_null, eff_null_safe, sy <= flt.max_start_year)
         mask &= ok
 
     return mask
@@ -1432,8 +1783,7 @@ _VERSION_YEAR_STRIP_RE = re.compile(
     r"\b(?:v|ver|version|r|rel|release|edition|ed|collection|coll)[\s._-]*\d+(?:\.\d+)*[a-z]?\b|"
     r"\((?:raster|vector|cog|geotiff|netcdf|hdf\d?|csv|shapefile)[^)]*\)|"
     r"\b\d+(?:\.\d+)?\s*(?:m|km|deg|degree|degrees|arc-?sec(?:ond)?s?|min)\b|"
-    r"\b(?:yearly|annual|monthly|weekly|daily|hourly|sub-?daily|10-?daily|8-?day|16-?day|6-?yearly|3-?yearly|"
-    r"europe|european|global|regional|nrt|near\s+real\s+time|provisional|validated|reprocessed|interim|"
+    r"\b(?:nrt|near\s+real\s+time|provisional|validated|reprocessed|interim|"
     r"status|change|product|products|dataset|data\s+set|map|maps|layer|layers|grid|gridded|series)\b",
     re.IGNORECASE,
 )
@@ -1485,8 +1835,26 @@ def _extract_sensor_set(title: str, raw_id: str = "", platform_sensor: str = "")
     return frozenset(name for name, pat in _SENSOR_CONFLICT_PATTERNS if pat.search(text))
 
 
-def compute_generic_family_signature(title: str, canonical_key: str = "") -> str:
-    """100% generic, zero-hardcoding product-family signature (no dataset-specific regexes)."""
+def _grid_bucket_tag(grid_meters: Optional[float]) -> str:
+    if grid_meters is None:
+        return ""
+    try:
+        g = float(grid_meters)
+    except (TypeError, ValueError):
+        return ""
+    if not math.isfinite(g) or g <= 0.0:
+        return ""
+    return f"grid:b{int(round(math.log10(g) * 4.0))}"
+
+
+def compute_generic_family_signature(
+    title: str,
+    canonical_key: str = "",
+    cadence_class: str = "",
+    grid_meters: Optional[float] = None,
+    geo_class: str = "",
+) -> str:
+    """100% generic, zero-hardcoding product-family signature separated by cadence/grid/geo."""
     t = _safe_str(title).translate(_SUBSCRIPT_MAP)
     t_clean = _LEADING_CODE_PREFIX_RE.sub("", t).strip()
     t_clean = re.sub(r"\([^)]{1,45}\)\s*$", "", t_clean).strip()
@@ -1494,19 +1862,105 @@ def compute_generic_family_signature(title: str, canonical_key: str = "") -> str
     stem = re.sub(r"[^a-z0-9]+", " ", stem).strip()
     stop = {"the", "of", "for", "from", "in", "on", "to", "and", "by", "at", "with", "derived", "based"}
     tokens = [w for w in stem.split() if len(w) > 1 and w not in stop][:6]
-    if len(tokens) >= 2:
-        return "gstem:" + "_".join(tokens)
-    return "key:" + (_safe_str(canonical_key) or stem or t.lower())
+    base = "gstem:" + "_".join(tokens) if len(tokens) >= 2 else "key:" + (_safe_str(canonical_key) or stem or t.lower())
+    qualifiers: list[str] = []
+    cad = _safe_str(cadence_class)
+    if cad:
+        qualifiers.append(f"cad:{cad}")
+    gb = _grid_bucket_tag(grid_meters)
+    if gb:
+        qualifiers.append(gb)
+    geo = _safe_str(geo_class)
+    if geo:
+        qualifiers.append(f"geo:{geo}")
+    return f"{base}|{'|'.join(qualifiers)}" if qualifiers else base
 
 
 def compute_family_signature(
     title: str,
     raw_id: str = "",
     canonical_key: str = "",
+    cadence_class: str = "",
+    grid_meters: Optional[float] = None,
+    geo_class: str = "",
 ) -> str:
     """100% generic, domain-agnostic product-family signature (zero benchmark-specific regexes)."""
     _ = raw_id
-    return compute_generic_family_signature(title, canonical_key)
+    return compute_generic_family_signature(
+        title,
+        canonical_key=canonical_key,
+        cadence_class=cadence_class,
+        grid_meters=grid_meters,
+        geo_class=geo_class,
+    )
+
+
+_Q_RES_RE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(?:-\s*)?(meter|meters|m|kilometer|kilometers|km|deg|degree|degrees)\b", re.I)
+_Q_CAD_MAP: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\b(?:hourly|sub-?hourly|sub-?daily|\d+-?hourly)\b", re.I), "hourly"),
+    (re.compile(r"\bdaily\b", re.I), "daily"),
+    (re.compile(r"\b(?:weekly|8-?day|10-?daily|16-?day|pentad|dekadal|semi-?monthly|half-?monthly)\b", re.I), "multi_day"),
+    (re.compile(r"\b(?:monthly|seasonal)\b", re.I), "monthly"),
+    (re.compile(r"\b(?:annual|yearly|multi-?year|climatolog)\b", re.I), "annual"),
+]
+_Q_GEO_MAP: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"\bglobal\b", re.I), "global"),
+    (re.compile(r"\b(?:europe|european|pan-?european)\b", re.I), "europe"),
+    (re.compile(r"\bafrica\b", re.I), "africa"),
+    (re.compile(r"\bnorth\s+america\b", re.I), "north_america"),
+]
+
+
+def _extract_query_variant_prefs(query_text: str) -> tuple[list[float], list[str], list[str]]:
+    if not query_text:
+        return [], [], []
+    res_targets: list[float] = []
+    for num_s, unit_s in _Q_RES_RE.findall(query_text):
+        v = float(num_s)
+        u = unit_s.lower()
+        if u in ("km", "kilometer", "kilometers"):
+            v *= 1000.0
+        elif u in ("deg", "degree", "degrees"):
+            v *= 111320.0
+        if v > 0:
+            res_targets.append(v)
+    cad_prefs = [lbl for pat, lbl in _Q_CAD_MAP if pat.search(query_text)]
+    geo_prefs = [lbl for pat, lbl in _Q_GEO_MAP if pat.search(query_text)]
+    return res_targets, cad_prefs, geo_prefs
+
+
+def _variant_query_match_score(
+    res_targets: list[float],
+    cad_prefs: list[str],
+    geo_prefs: list[str],
+    title: str,
+    cad: str,
+    grid_m: float,
+    geo: str,
+) -> int:
+    score = 0
+    t_low = title.lower()
+    for target_m in res_targets:
+        if math.isfinite(grid_m) and grid_m > 0 and max(grid_m, target_m) / min(grid_m, target_m) <= 1.25:
+            score += 2
+    for cp in cad_prefs:
+        if (
+            (cp == "hourly" and "hourly" in cad)
+            or (cp == "daily" and "daily" in cad)
+            or (cp == "multi_day" and ("multi_day" in cad or "weekly" in cad))
+            or (cp == "monthly" and "monthly" in cad)
+            or (cp == "annual" and ("annual" in cad or "climatolog" in cad or "multi_year" in cad))
+            or re.search(rf"\b{cp}\b", t_low)
+        ):
+            score += 2
+    for gp in geo_prefs:
+        if (
+            (gp == "global" and geo == "global")
+            or (gp == "europe" and (geo == "europe_regional" or "europe" in t_low))
+            or (gp in t_low)
+        ):
+            score += 2
+    return score
 
 
 def collapse_product_families(
@@ -1517,29 +1971,39 @@ def collapse_product_families(
     vectors: Optional[np.ndarray] = None,
     near_dup_cos: float = 0.94,
     sensor_guard: bool = True,
+    query_text: str = "",
 ) -> list[tuple[int, float, dict[str, Any]]]:
     """Collapse sibling editions & unlinked catalogue mirrors into single family representatives.
 
-    Preserves full provenance of collapsed siblings inside `meta["collapsed_siblings"]` and
-    scans up to `max(top_k * 3, 200)` items so sibling counts for all top-K families stay accurate.
-    When `sensor_guard=True`, NEITHER exact generic stem matching NOR cosine near-duplicate merging
-    collapses two records that explicitly name disjoint physical satellite instruments.
+    Enforces distinct-DOI, distinct-cadence, distinct-geographic-coverage, >2x resolution, and
+    physical-sensor guards so distinct products are never merged. When `query_text` is provided,
+    promotes any collapsed cluster sibling matching explicit resolution/cadence/scope tokens.
     """
-    # Cache column lists on df.attrs to avoid O(N) pandas Series->list conversion on every query!
-    cache = df.attrs.get("_eo_collapse_cache_v31")
+    cache = df.attrs.get("_eo_collapse_cache_v41")
     if cache is None or cache[0] != len(df):
-        titles_c = df["title"].tolist()
-        rids_c = df["record_id"].tolist()
-        srcs_c = df["source_catalogue"].tolist()
-        raw_ids_c = df["raw_id"].tolist() if "raw_id" in df.columns else [""] * len(df)
-        psens_c = df["platform_sensor_raw"].tolist() if "platform_sensor_raw" in df.columns else [""] * len(df)
-        df.attrs["_eo_collapse_cache_v31"] = (len(df), titles_c, rids_c, srcs_c, raw_ids_c, psens_c)
+        titles_c = df["title"].fillna("").astype(str).tolist()
+        rids_c = df["record_id"].fillna("").astype(str).tolist()
+        srcs_c = df["source_catalogue"].fillna("").astype(str).tolist()
+        raw_ids_c = df["raw_id"].fillna("").astype(str).tolist() if "raw_id" in df.columns else [""] * len(df)
+        psens_c = df["platform_sensor_raw"].fillna("").astype(str).tolist() if "platform_sensor_raw" in df.columns else [""] * len(df)
+        dois_c = df["doi"].fillna("").astype(str).str.lower().str.strip().tolist() if "doi" in df.columns else [""] * len(df)
+        cads_c = df["temporal_cadence_class"].fillna("").astype(str).tolist() if "temporal_cadence_class" in df.columns else [""] * len(df)
+        geos_c = df["geographic_coverage_class"].fillna("").astype(str).tolist() if "geographic_coverage_class" in df.columns else [""] * len(df)
+        grids_c = (
+            pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy(dtype=np.float64)
+            if "adjudicated_output_grid_meters" in df.columns
+            else np.full(len(df), np.nan, dtype=np.float64)
+        )
+        df.attrs["_eo_collapse_cache_v41"] = (len(df), titles_c, rids_c, srcs_c, raw_ids_c, psens_c, dois_c, cads_c, geos_c, grids_c)
     else:
-        _, titles_c, rids_c, srcs_c, raw_ids_c, psens_c = cache
+        _, titles_c, rids_c, srcs_c, raw_ids_c, psens_c, dois_c, cads_c, geos_c, grids_c = cache
 
     if family_sigs is None:
-        ckeys = df["canonical_product_key"].tolist() if "canonical_product_key" in df.columns else [""] * len(df)
-        family_sigs = [compute_generic_family_signature(t, c) for t, c in zip(titles_c, ckeys)]
+        ckeys = df["canonical_product_key"].fillna("").astype(str).tolist() if "canonical_product_key" in df.columns else [""] * len(df)
+        family_sigs = [
+            compute_generic_family_signature(t, c, cad, float(g) if np.isfinite(g) else None, geo)
+            for t, c, cad, g, geo in zip(titles_c, ckeys, cads_c, grids_c, geos_c)
+        ]
 
     kept: list[tuple[int, float, dict[str, Any]]] = []
     seen_sig_to_positions: dict[str, list[int]] = {}
@@ -1547,21 +2011,44 @@ def collapse_product_families(
     kept_sensors: list[frozenset[str]] = []
     scan_limit = min(len(ranked_items), max(top_k * 3, 200))
 
+    def _pair_conflicts(cpos: int, cur_sensors: Optional[frozenset[str]], cur_doi: str, cur_cad: str, cur_geo: str, cur_grid: float) -> bool:
+        k_idx = kept[cpos][0]
+        if sensor_guard and cur_sensors and kept_sensors[cpos] and cur_sensors.isdisjoint(kept_sensors[cpos]):
+            return True
+        k_doi = dois_c[k_idx]
+        if cur_doi and k_doi and cur_doi != k_doi:
+            return True
+        k_cad = cads_c[k_idx]
+        if cur_cad and k_cad and cur_cad != k_cad:
+            return True
+        k_geo = geos_c[k_idx]
+        if cur_geo and k_geo and cur_geo != k_geo:
+            return True
+        k_grid = float(grids_c[k_idx])
+        if np.isfinite(cur_grid) and np.isfinite(k_grid) and cur_grid > 0.0 and k_grid > 0.0:
+            if max(cur_grid, k_grid) / min(cur_grid, k_grid) > 2.0:
+                return True
+        return False
+
     for pos_i, (doc_idx, score, meta) in enumerate(ranked_items):
         sig = family_sigs[doc_idx]
         cur_sensors: Optional[frozenset[str]] = (
             _extract_sensor_set(titles_c[doc_idx], raw_ids_c[doc_idx], psens_c[doc_idx]) if sensor_guard else None
         )
+        cur_doi = dois_c[doc_idx]
+        cur_cad = cads_c[doc_idx]
+        cur_geo = geos_c[doc_idx]
+        cur_grid = float(grids_c[doc_idx])
         matched_pos: Optional[int] = None
 
-        # 1. Exact generic stem match (guarded against disjoint physical instruments!)
+        # 1. Exact generic stem match (with DOI/cadence/geo/resolution/sensor guards)
         for cpos in seen_sig_to_positions.get(sig, ()):
-            if sensor_guard and cur_sensors and kept_sensors[cpos] and cur_sensors.isdisjoint(kept_sensors[cpos]):
+            if _pair_conflicts(cpos, cur_sensors, cur_doi, cur_cad, cur_geo, cur_grid):
                 continue
             matched_pos = cpos
             break
 
-        # 2. Generic high-cosine mirror catch (also guarded against disjoint physical instruments!)
+        # 2. Generic high-cosine mirror catch (with DOI/cadence/geo/resolution/sensor guards)
         if matched_pos is None and vectors is not None and kept_vecs and near_dup_cos < 1.0:
             v = vectors[doc_idx]
             sims = np.dot(np.asarray(kept_vecs), v)
@@ -1570,7 +2057,7 @@ def collapse_product_families(
                 order = above[np.lexsort((above, -sims[above]))]
                 for cand_pos in order:
                     cpos = int(cand_pos)
-                    if sensor_guard and cur_sensors and kept_sensors[cpos] and cur_sensors.isdisjoint(kept_sensors[cpos]):
+                    if _pair_conflicts(cpos, cur_sensors, cur_doi, cur_cad, cur_geo, cur_grid):
                         continue
                     matched_pos = cpos
                     break
@@ -1599,6 +2086,43 @@ def collapse_product_families(
             kept_vecs.append(vectors[doc_idx])
         if sensor_guard:
             kept_sensors.append(cur_sensors if cur_sensors is not None else frozenset())
+
+    res_targets, cad_prefs, geo_prefs = _extract_query_variant_prefs(query_text)
+    if res_targets or cad_prefs or geo_prefs:
+        promoted: list[tuple[int, float, dict[str, Any]]] = []
+        for rep_idx, rep_sc, rep_meta in kept:
+            sibs = rep_meta.get("collapsed_siblings", [])
+            if not sibs:
+                promoted.append((rep_idx, rep_sc, rep_meta))
+                continue
+            rep_q = _variant_query_match_score(
+                res_targets, cad_prefs, geo_prefs,
+                titles_c[rep_idx], cads_c[rep_idx], float(grids_c[rep_idx]), geos_c[rep_idx],
+            )
+            best_sib_pos = -1
+            best_q = rep_q
+            for s_pos, sib in enumerate(sibs):
+                s_idx = int(sib["doc_idx"])
+                sq = _variant_query_match_score(
+                    res_targets, cad_prefs, geo_prefs,
+                    titles_c[s_idx], cads_c[s_idx], float(grids_c[s_idx]), geos_c[s_idx],
+                )
+                if sq > best_q:
+                    best_q = sq
+                    best_sib_pos = s_pos
+            if best_sib_pos >= 0:
+                chosen_idx = int(sibs[best_sib_pos]["doc_idx"])
+                new_sibs = [
+                    {"record_id": rids_c[rep_idx], "source": srcs_c[rep_idx], "doc_idx": rep_idx}
+                ] + [s for j, s in enumerate(sibs) if j != best_sib_pos]
+                upd_meta = dict(rep_meta)
+                upd_meta["family_signature"] = family_sigs[chosen_idx]
+                upd_meta["collapsed_siblings"] = new_sibs
+                upd_meta["sibling_count"] = len(new_sibs)
+                promoted.append((chosen_idx, rep_sc, upd_meta))
+            else:
+                promoted.append((rep_idx, rep_sc, rep_meta))
+        kept = promoted
 
     return kept[:top_k]
 

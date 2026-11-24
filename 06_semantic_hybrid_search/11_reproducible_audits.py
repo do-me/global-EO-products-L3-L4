@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "huggingface_hub>=0.30.0",
 #   "mlx>=0.32.3; sys_platform == 'darwin' and platform_machine == 'arm64'",
 #   "mlx-lm>=0.25.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
@@ -45,6 +45,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 from typing import Any
@@ -66,9 +67,12 @@ from eo_search_lib import (  # noqa: E402
     build_eo_document,
     collapse_product_families,
     deterministic_topk,
+    ensure_search_indexes,
+    filter_benchmark_family_mask,
     load_dense_embedder,
     resolve_device,
     rrf_fuse,
+    verify_index_alignment,
 )
 
 _ev06_spec = importlib.util.spec_from_file_location("ev06", SCRIPT_DIR / "06_eval_rerankers.py")
@@ -138,9 +142,9 @@ def eval_stage1_metrics(
     }
 
 
-def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex) -> dict[str, Any]:
-    """Verify 100% bit-exact DuckDB BM25 determinism across all 45 Dev-45 queries (NullSafe & NaiveStrict)."""
-    print("\n--- [AUDIT 0] DuckDB BM25 Bit-Exact Determinism Audit (45 Queries x 2 Modes = 90 Paired Checks) ---")
+def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex, cfg: dict[str, Any]) -> dict[str, Any]:
+    """Verify DuckDB BM25 query determinism, content SHA reproducibility, and permutation rejection."""
+    print("\n--- [AUDIT 0] DuckDB BM25 Determinism, Content SHA & Record-ID Alignment Audit ---")
     ns_diffs = 0
     st_diffs = 0
     for sp in DEV_BENCHMARK_SPECS:
@@ -162,15 +166,52 @@ def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex) -> dict[
                 else:
                     st_diffs += 1
     assert ns_diffs == 0 and st_diffs == 0, f"BM25 non-determinism detected: ns={ns_diffs}, st={st_diffs}"
+
+    # Verify deterministic bm25_content_sha256 across fresh independent DuckDB builds + locked manifest
+    content_sha_main = lex.compute_content_sha256()
+    locked_sha = cfg.get("locked_artifact_sha256", cfg["code_and_index_sha256"]).get("bm25_content_sha256", "")
+    if locked_sha:
+        assert content_sha_main == locked_sha, f"bm25_content_sha256 mismatch: {content_sha_main} vs {locked_sha}"
+    with tempfile.TemporaryDirectory() as tmpd:
+        tmp_db1 = Path(tmpd) / "rebuild1.duckdb"
+        tmp_db2 = Path(tmpd) / "rebuild2.duckdb"
+        for dbp in (tmp_db1, tmp_db2):
+            b = DuckDBLexicalIndex(str(dbp))
+            b.build_from_dataframe(df)
+            b.con.close()
+        r_b1 = DuckDBLexicalIndex(str(tmp_db1), read_only=True)
+        r_b2 = DuckDBLexicalIndex(str(tmp_db2), read_only=True)
+        csha1 = r_b1.compute_content_sha256()
+        csha2 = r_b2.compute_content_sha256()
+        r_b1.con.close()
+        r_b2.con.close()
+    assert csha1 == csha2 == content_sha_main, f"Rebuild bm25_content_sha256 drifted: {csha1} vs {csha2} vs {content_sha_main}"
+
+    # Verify same_length_different_order permutation raises RuntimeError in verify_index_alignment()
+    perm_idx = [1, 0] + list(range(2, len(df)))
+    df_perm = df.iloc[perm_idx].reset_index(drop=True)
+    perm_rejected = False
+    try:
+        verify_index_alignment(df_perm, lex_index=lex)
+    except RuntimeError:
+        perm_rejected = True
+    assert perm_rejected, "verify_index_alignment failed to reject same_length_different_order DataFrame!"
+
     out = {
         "n_queries_checked": len(DEV_BENCHMARK_SPECS),
         "nullsafe_top300_diffs": ns_diffs,
         "naivestrict_top300_diffs": st_diffs,
         "total_paired_checks": len(DEV_BENCHMARK_SPECS) * 2,
+        "bm25_content_sha256": content_sha_main,
+        "rebuild_content_sha_identical": True,
+        "same_length_different_order_rejected": perm_rejected,
         "exact_determinism_passed": True,
     }
     (ARTIFACTS_DIR / "audit_bm25_determinism.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
-    print(f"  [OK] Back-to-back Top-300 BM25 diffs: NullSafe={ns_diffs}/45 | NaiveStrict={st_diffs}/45 (100% deterministic)")
+    print(
+        f"  [OK] Top-300 BM25 diffs: NullSafe={ns_diffs}/45 | NaiveStrict={st_diffs}/45 | "
+        f"rebuild content SHA identical={content_sha_main[:12]}... | same-length perm rejected=True"
+    )
     return out
 
 
@@ -345,6 +386,7 @@ def audit_3_false_collapse(
             hit = active_mask & comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 hit = hit & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
+            hit = filter_benchmark_family_mask(df, hit, sp.get("filters"))
             fams_out.append({"family_id": fam["family_id"], "record_ids": df.iloc[np.flatnonzero(hit)]["record_id"].tolist()})
         dev_items.append({"query_id": sp["query_id"], "query": sp["query"], "filters": sp.get("filters", {}), "expected_families": fams_out})
 
@@ -379,7 +421,9 @@ def audit_3_false_collapse(
             d_res = deterministic_topk(vecs @ qv, k=300, mask=mask)
             b_res = lex.search_bm25(it["query"], top_k=300, eligible_mask=mask)
             fused = rrf_fuse(d_res, b_res, rrf_k=60, w_dense=1.0, w_bm25=0.6)
-            col = collapse_product_families(fused, df, top_k=top_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg)
+            col = collapse_product_families(
+                fused, df, top_k=top_k, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg, query_text=it["query"]
+            )
 
             scanned_rids = {rid_by_idx[i] for i, _, _ in fused[:scan_limit]}
             kept_rids = {rid_by_idx[i] for i, _, _ in col}
@@ -467,7 +511,9 @@ def audit_4_nested_lofo_cv(
         fused = rrf_fuse(d_res, b_res, rrf_k=60, w_dense=1.0, w_bm25=0.6)
         fam_sets = {f["family_id"]: set(f["record_ids"]) for f in it["expected_families"]}
         for cos_th in cos_grid:
-            col = collapse_product_families(fused, df, top_k=50, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=True)
+            col = collapse_product_families(
+                fused, df, top_k=50, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=True, query_text=it["query"]
+            )
             ms = eval_stage1_metrics([i for i, _, _ in col], rid_by_idx, fam_sets)
             s1_grid_rows.append({
                 "item_id": it["query_id"],
@@ -758,7 +804,7 @@ print(json.dumps({{"emb": emb, "jina": sc_j, "qwen": sc_q}}))
         "--with", "numpy>=1.26.0",
         "--with", "pandas>=2.2.0",
         "--with", "pyarrow>=18.0.0",
-        "--with", "duckdb>=1.2.0",
+        "--with", "duckdb>=1.5.0",
         "python3", "-c", pt_code,
     ]
     res = subprocess.run(cmd, capture_output=True, text=True, check=True)
@@ -823,6 +869,7 @@ def main() -> None:
     device = resolve_device(args.device)
 
     t0 = time.perf_counter()
+    ensure_search_indexes(ARTIFACTS_DIR, require_dense=True, allow_download=True)
     cfg = json.loads((ARTIFACTS_DIR / "frozen_v4_config.json").read_text(encoding="utf-8"))
     cat_pq = ARTIFACTS_DIR / "full_catalogue.parquet"
     if not cat_pq.exists():
@@ -833,8 +880,9 @@ def main() -> None:
     vecs /= np.maximum(np.linalg.norm(vecs, axis=1, keepdims=True), 1e-12)
     generic_sigs = [str(s) for s in z["family_sigs"].tolist()]
     lex = DuckDBLexicalIndex(str(ARTIFACTS_DIR / "full_bm25.duckdb"), read_only=True)
+    verify_index_alignment(df, lex_index=lex, emb_npz=z, catalogue_path=cat_pq)
 
-    audit_0_bm25_determinism(df, lex)
+    audit_0_bm25_determinism(df, lex, cfg)
     audit_1_dense_exactness(df, device)
     audit_2_jina_position_bias(df, cfg, device)
     _, dev_items, dev_qvecs = audit_3_false_collapse(df, vecs, generic_sigs, lex, cfg, device)
@@ -843,7 +891,7 @@ def main() -> None:
     lex.con.close()
     audit_6_cli_latency(device)
     audit_7_backend_parity(device)
-    print(f"\n[DONE] All 8 reproducible v4.0-standalone audits completed in {(time.perf_counter() - t0):.1f} s.")
+    print(f"\n[DONE] All 8 reproducible {cfg['protocol_version']} audits completed in {(time.perf_counter() - t0):.1f} s.")
 
 
 if __name__ == "__main__":

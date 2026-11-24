@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "mlx>=0.32.3; sys_platform == 'darwin' and platform_machine == 'arm64'",
 #   "mlx-vlm>=0.8.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
 #   "torch>=2.4.0; sys_platform != 'darwin' or platform_machine != 'arm64'",
@@ -50,10 +50,13 @@ from eo_search_lib import (  # noqa: E402
     SearchFilters,
     apply_filters_mask,
     collapse_product_families,
+    compute_record_ids_sha256,
     deterministic_topk,
+    filter_benchmark_family_mask,
     load_dense_embedder,
     resolve_device,
     rrf_fuse,
+    verify_index_alignment,
 )
 
 _b02_spec = importlib.util.spec_from_file_location("b02", SCRIPT_DIR / "02_build_policy_benchmark.py")
@@ -162,6 +165,9 @@ def main() -> None:
     generic_sigs = [str(s) for s in z["family_sigs"].tolist()]
     assert not any(s.startswith("fam:") for s in generic_sigs), "Legacy fam: sig detected!"
     lex = DuckDBLexicalIndex(str(ARTIFACTS_DIR / "full_bm25.duckdb"), read_only=True)
+    verify_index_alignment(df, lex_index=lex, emb_npz=z, catalogue_path=cat_pq)
+    bm25_content_sha = lex.compute_content_sha256()
+    rids_sha = compute_record_ids_sha256(rid_by_idx)
 
     obs_re = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
     active_mask = (~df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)) & (
@@ -181,6 +187,7 @@ def main() -> None:
             hit = active_mask & combined.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 hit = hit & ~combined.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
+            hit = filter_benchmark_family_mask(df, hit, sp.get("filters"))
             idxs = np.flatnonzero(hit)
             assert len(idxs) > 0, f"0 matches for {sp['query_id']} / {fam['family_id']}"
             fam_rids[fam["family_id"]] = set(df.iloc[idxs]["record_id"].tolist())
@@ -226,7 +233,7 @@ def main() -> None:
                 idxs = [i for i, _, _ in fused[:50]]
             else:
                 collapsed = collapse_product_families(
-                    fused, df, top_k=50, family_sigs=sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg
+                    fused, df, top_k=50, family_sigs=sigs, vectors=vecs, near_dup_cos=cos_th, sensor_guard=sg, query_text=sp["query"]
                 )
                 idxs = [i for i, _, _ in collapsed]
             m = eval_ranking(idxs, rid_by_idx, gt_by_q[qi])
@@ -262,7 +269,7 @@ def main() -> None:
             b_f = lex.search_bm25(sp["query"], top_k=300, eligible_mask=m_f)
             f_f = rrf_fuse(d_f, b_f, rrf_k=60, w_dense=1.0, w_bm25=0.6)
             c_f = collapse_product_families(
-                f_f, df, top_k=50, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=chosen_cos, sensor_guard=True
+                f_f, df, top_k=50, family_sigs=generic_sigs, vectors=vecs, near_dup_cos=chosen_cos, sensor_guard=True, query_text=sp["query"]
             )
             filt_rows.append({
                 "mode": mode_name,
@@ -281,14 +288,26 @@ def main() -> None:
     print(f"\n--- [2] ORTHOGONAL NULL-SAFE vs NAIVE-STRICT ABLATION ON DEV-45 (cos={chosen_cos}, grid_tol=1.25 BOTH) ---")
     print(df_filt_sum.to_string(index=False))
 
-    # 3. Freeze Immutable Pre-Registered v4.0-standalone Manifest (5-Artifact SHA-256 Lock)
+    # 3. Freeze Immutable Pre-Registered v4.1-standalone Manifest
+    locked_hashes = {
+        "eo_search_lib.py": sha256_file(SCRIPT_DIR / "eo_search_lib.py"),
+        "06_eval_rerankers.py": sha256_file(SCRIPT_DIR / "06_eval_rerankers.py"),
+        "10_run_blind_holdouts.py": sha256_file(SCRIPT_DIR / "10_run_blind_holdouts.py"),
+        "full_catalogue.parquet": sha256_file(cat_pq),
+        "full_embeddings_bf16.npz": sha256_file(ARTIFACTS_DIR / "full_embeddings_bf16.npz"),
+        "bm25_content_sha256": bm25_content_sha,
+        "record_ids_sha256": rids_sha,
+        "policy_retrieval_benchmark.json": sha256_file(ARTIFACTS_DIR / "policy_retrieval_benchmark.json"),
+        "holdout_a_external_benchmark.json": sha256_file(ARTIFACTS_DIR / "holdout_a_external_benchmark.json"),
+        "holdout_b_blind_benchmark.json": sha256_file(ARTIFACTS_DIR / "holdout_b_blind_benchmark.json"),
+    }
     frozen_v4 = {
-        "protocol_version": "v4.0-standalone",
+        "protocol_version": "v4.1-standalone",
         "frozen_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "device_used_for_freeze": device,
         "rule": (
-            "IMMUTABLE v4.0-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + Bit-Deterministic DuckDB BM25 + "
-            "Enriched Sensor Guard + 5-Artifact SHA-256 Lock). Strictly self-contained standalone catalogue "
+            "IMMUTABLE v4.1-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + record_id-keyed DuckDB BM25 + "
+            "Cadence/Grid/Geo-Aware Collapser + Deterministic Content & Benchmark SHA-256 Lock). Strictly self-contained standalone catalogue "
             "validation: Dev-45 (development), Holdout A (retrospective GT-audited external domains, N=35), "
             "and Prospective Single-Shot Blind Holdout B (N=60 completely unseen disjoint EO queries, G=G_eff=60)."
         ),
@@ -307,13 +326,8 @@ def main() -> None:
             "H5_Qwen3_vs_Stage1: Qwen3_Top50_RRFBlend vs HybridRRF+GenericCollapse",
             "H6_Jina_vs_Qwen3: JinaV35_Top50_RRFBlend vs Qwen3_Top50_RRFBlend",
         ],
-        "code_and_index_sha256": {
-            "eo_search_lib.py": sha256_file(SCRIPT_DIR / "eo_search_lib.py"),
-            "06_eval_rerankers.py": sha256_file(SCRIPT_DIR / "06_eval_rerankers.py"),
-            "full_catalogue.parquet": sha256_file(cat_pq),
-            "full_embeddings_bf16.npz": sha256_file(ARTIFACTS_DIR / "full_embeddings_bf16.npz"),
-            "full_bm25.duckdb": sha256_file(ARTIFACTS_DIR / "full_bm25.duckdb"),
-        },
+        "locked_artifact_sha256": locked_hashes,
+        "code_and_index_sha256": locked_hashes,
         "stage1": {
             "dense_model_mlx": DEFAULT_MODEL_BF16,
             "dense_model_pytorch": DEFAULT_PT_EMBED_MODEL,
@@ -322,6 +336,7 @@ def main() -> None:
             "chunking": False,
             "query_encode_batch_size": 1,
             "bm25_prefilter_sql": True,
+            "bm25_record_id_keyed": True,
             "bm25_deterministic_threads1_round10": True,
             "bm25_weights": {"title": 2.5, "keywords": 1.5, "body": 1.0, "k1": 1.2, "b": 0.75},
             "rrf": {"k": 60, "w_dense": 1.0, "w_bm25": 0.6, "candidate_k": 300},
@@ -331,6 +346,8 @@ def main() -> None:
                 "near_dup_cos": chosen_cos,
                 "sensor_guard": True,
                 "sensor_guard_on_gstem": True,
+                "cadence_grid_geo_doi_guards": True,
+                "query_variant_promotion": True,
                 "sensor_guard_fields": ["title", "raw_id", "platform_sensor_raw"],
             },
             "null_safe_filter": True,
@@ -374,17 +391,18 @@ def main() -> None:
     out_cfg = ARTIFACTS_DIR / "frozen_v4_config.json"
     out_cfg.write_text(json.dumps(frozen_v4, indent=2), encoding="utf-8")
 
-    # Sync code hashes in full_index_manifest.json while asserting binary index files are unchanged
+    # Sync code & benchmark hashes in full_index_manifest.json
     man_path = ARTIFACTS_DIR / "full_index_manifest.json"
     if man_path.exists():
         man = json.loads(man_path.read_text(encoding="utf-8"))
-        for idx_k in ("full_catalogue.parquet", "full_embeddings_bf16.npz", "full_bm25.duckdb"):
-            assert man["sha256"][idx_k] == frozen_v4["code_and_index_sha256"][idx_k], f"Index drift on {idx_k}"
-        man["sha256"]["eo_search_lib.py"] = frozen_v4["code_and_index_sha256"]["eo_search_lib.py"]
-        man["sha256"]["06_eval_rerankers.py"] = frozen_v4["code_and_index_sha256"]["06_eval_rerankers.py"]
+        for idx_k in ("full_catalogue.parquet", "full_embeddings_bf16.npz", "bm25_content_sha256", "record_ids_sha256"):
+            assert man["sha256"][idx_k] == locked_hashes[idx_k], f"Index drift on {idx_k}"
+        man["sha256"]["eo_search_lib.py"] = locked_hashes["eo_search_lib.py"]
+        man["sha256"]["06_eval_rerankers.py"] = locked_hashes["06_eval_rerankers.py"]
         man["updated_at_utc"] = frozen_v4["frozen_at_utc"]
         man_path.write_text(json.dumps(man, indent=2), encoding="utf-8")
-    print(f"\n[FROZEN] Wrote immutable v4.0-standalone 5-artifact SHA-256 manifest -> {out_cfg}")
+    lex.con.close()
+    print(f"\n[FROZEN] Wrote immutable v4.1-standalone artifact SHA-256 manifest -> {out_cfg}")
 
 
 if __name__ == "__main__":

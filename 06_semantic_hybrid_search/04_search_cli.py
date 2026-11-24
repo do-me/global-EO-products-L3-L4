@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#   "duckdb>=1.2.0",
+#   "duckdb>=1.5.0",
 #   "huggingface_hub>=0.30.0",
 #   "numpy>=1.26.0",
 #   "pandas>=2.2.0",
@@ -33,6 +33,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import subprocess
 import sys
 import time
 import urllib.error
@@ -55,11 +56,14 @@ from eo_search_lib import (  # noqa: E402
     apply_filters_mask,
     collapse_product_families,
     compute_generic_family_signature,
+    compute_unknown_metadata_counts,
     deterministic_topk,
+    ensure_search_indexes,
     format_resolution_human,
     load_dense_embedder,
     matryoshka_truncate,
     rrf_fuse,
+    verify_index_alignment,
 )
 
 
@@ -129,6 +133,13 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--rerank-pure", "--no-blend", dest="rerank_pure", action="store_true", help="Use pure reranker order without Stage-1 RRF blend.")
     p.add_argument("--no-collapse", action="store_true", help="Disable product-family mirror/edition collapsing.")
     p.add_argument("--naive-filter", "--strict-filter", dest="naive_filter", action="store_true", help="Drop NULL metadata fields strictly under orthogonal 1.25x grid tolerance.")
+    p.add_argument(
+        "--hard-limits",
+        action="store_true",
+        help="Verified mode: drop unknown metadata (NULLs), enforce exact 1.0x grid cutoff, and restrict --geo global to true global footprints.",
+    )
+    p.add_argument("--rebuild-index", action="store_true", help="Rebuild local BM25/dense index from canonical parquet before searching.")
+    p.add_argument("--no-download-index", action="store_true", help="Do not download missing/stale release indexes from GitHub Releases.")
     p.add_argument("--json", action="store_true", help="Emit machine-readable JSON on stdout.")
     return p.parse_args()
 
@@ -172,6 +183,7 @@ def _query_server(args: argparse.Namespace) -> dict[str, Any]:
         "levels": args.level,
         "min_end_year": args.min_end_year,
         "null_safe": not args.naive_filter,
+        "hard_limits": args.hard_limits,
         "collapse": not args.no_collapse,
         "dim": args.dim,
         "w_dense": args.w_dense,
@@ -237,8 +249,16 @@ def _print_human(payload: dict[str, Any]) -> None:
     print(
         f"Index     : {payload.get('index_prefix', 'server')} ({payload['corpus_size']:,} docs | "
         f"{payload['eligible_after_filter']:,} eligible | device={payload.get('device', 'server')} | "
-        f"mode={payload.get('mode_used', payload.get('reranker'))} | null_safe={payload['null_safe_filter']})"
+        f"mode={payload.get('mode_used', payload.get('reranker'))} | null_safe={payload['null_safe_filter']} | "
+        f"hard_limits={payload.get('hard_limits', False)})"
     )
+    if payload.get("hard_limits") and payload.get("unknown_metadata_counts"):
+        u = payload["unknown_metadata_counts"]
+        print(
+            f"Unknowns  : excluded unknown metadata (level={u.get('processing_level', 0):,}, "
+            f"grid={u.get('grid_meters', 0):,}, geo={u.get('geographic_coverage', 0):,}, "
+            f"cadence={u.get('cadence', 0):,})"
+        )
     startup_s = payload.get("load_seconds", 0.0)
     print(
         f"Timing    : stage1={payload['stage1_ms']:.1f} ms | rerank={payload['rerank_ms']:.1f} ms "
@@ -279,6 +299,19 @@ def main() -> None:
     emb_path = ARTIFACTS_DIR / f"{args.index_prefix}_embeddings_bf16.npz"
     db_path = ARTIFACTS_DIR / f"{args.index_prefix}_bm25.duckdb"
 
+    if args.index_prefix == "full":
+        if args.rebuild_index:
+            cmd = [sys.executable, str(SCRIPT_DIR / "05_index_full_catalogue.py")]
+            if args.bm25_only:
+                cmd.append("--bm25-only")
+            subprocess.run(cmd, check=True)
+        else:
+            ensure_search_indexes(
+                ARTIFACTS_DIR,
+                require_dense=not args.bm25_only,
+                allow_download=not args.no_download_index,
+            )
+
     if not db_path.exists():
         raise FileNotFoundError(
             f"Missing BM25 index: {db_path}\n"
@@ -298,6 +331,7 @@ def main() -> None:
     df = pd.read_parquet(pq_path)
     vecs: np.ndarray | None = None
     enc: Any = None
+    z: Any = None
     resolved_device = "bm25"
     if not use_bm25_only:
         try:
@@ -309,8 +343,20 @@ def main() -> None:
                 family_sigs = [str(s) for s in z["family_sigs"].tolist()]
             else:
                 family_sigs = [
-                    compute_generic_family_signature(str(t), str(c))
-                    for t, c in zip(df["title"], df["canonical_product_key"])
+                    compute_generic_family_signature(
+                        str(t),
+                        str(c),
+                        cadence_class=str(cad or ""),
+                        grid_meters=gm,
+                        geo_class=str(geo or ""),
+                    )
+                    for t, c, cad, gm, geo in zip(
+                        df["title"],
+                        df["canonical_product_key"],
+                        df.get("temporal_cadence_class", [""] * len(df)),
+                        df.get("adjudicated_output_grid_meters", [None] * len(df)),
+                        df.get("geographic_coverage_class", [""] * len(df)),
+                    )
                 ]
         except RuntimeError as exc:
             if args.device != "auto":
@@ -318,19 +364,51 @@ def main() -> None:
             print(f"[info] Falling back to BM25 lexical mode ({exc}).", file=sys.stderr)
             use_bm25_only = True
             family_sigs = [
-                compute_generic_family_signature(str(t), str(c))
-                for t, c in zip(df["title"], df["canonical_product_key"])
+                compute_generic_family_signature(
+                    str(t),
+                    str(c),
+                    cadence_class=str(cad or ""),
+                    grid_meters=gm,
+                    geo_class=str(geo or ""),
+                )
+                for t, c, cad, gm, geo in zip(
+                    df["title"],
+                    df["canonical_product_key"],
+                    df.get("temporal_cadence_class", [""] * len(df)),
+                    df.get("adjudicated_output_grid_meters", [None] * len(df)),
+                    df.get("geographic_coverage_class", [""] * len(df)),
+                )
             ]
     else:
         family_sigs = [
-            compute_generic_family_signature(str(t), str(c))
-            for t, c in zip(df["title"], df["canonical_product_key"])
+            compute_generic_family_signature(
+                str(t),
+                str(c),
+                cadence_class=str(cad or ""),
+                grid_meters=gm,
+                geo_class=str(geo or ""),
+            )
+            for t, c, cad, gm, geo in zip(
+                df["title"],
+                df["canonical_product_key"],
+                df.get("temporal_cadence_class", [""] * len(df)),
+                df.get("adjudicated_output_grid_meters", [None] * len(df)),
+                df.get("geographic_coverage_class", [""] * len(df)),
+            )
         ]
 
     lex = DuckDBLexicalIndex(str(db_path), read_only=True)
+    verify_index_alignment(
+        df,
+        lex_index=lex,
+        emb_npz=z if (not use_bm25_only and z is not None) else None,
+        catalogue_path=pq_path,
+    )
+    unknown_counts = compute_unknown_metadata_counts(df, active_only=True)
     t_load = time.perf_counter() - t0
 
     t_q0 = time.perf_counter()
+    eff_null_safe = False if args.hard_limits else (not args.naive_filter)
     flt = SearchFilters(
         geo_scope=args.geo,
         exclude_local=args.exclude_local,
@@ -341,7 +419,8 @@ def main() -> None:
         exclude_superseded=True,
         provider_pool=args.pool,
         min_end_year=args.min_end_year,
-        null_safe=not args.naive_filter,
+        null_safe=eff_null_safe,
+        hard_limits=args.hard_limits,
     )
     mask = apply_filters_mask(df, flt)
     n_eligible = int(mask.sum())
@@ -375,6 +454,7 @@ def main() -> None:
             vectors=vecs,
             near_dup_cos=0.94 if vecs is not None else 1.0,
             sensor_guard=True,
+            query_text=args.query,
         )
     t_stage1_ms = (time.perf_counter() - t_q0) * 1000.0
 
@@ -426,7 +506,9 @@ def main() -> None:
         "eligible_after_filter": n_eligible,
         "reranker": effective_rerank,
         "mode_used": "bm25" if use_bm25_only else effective_rerank,
-        "null_safe_filter": not args.naive_filter,
+        "null_safe_filter": eff_null_safe,
+        "hard_limits": args.hard_limits,
+        "unknown_metadata_counts": unknown_counts,
         "dim": args.dim,
         "load_seconds": round(t_load, 2),
         "stage1_ms": round(t_stage1_ms, 1),
