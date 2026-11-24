@@ -1,4 +1,4 @@
 suite,comparison,fam_ndcg_10_delta,fam_ndcg_10_ci95,fam_ndcg_10_p,mrr_10_delta,mrr_10_ci95,mrr_10_p,fam_r_10_delta,fam_r_10_ci95,fam_r_10_p,hit_5_delta,hit_5_ci95,hit_5_p,hit_10_delta,hit_10_ci95,hit_10_p
-dev45_v4,JinaV35_Top50_RRFBlend vs JinaV35_Top50_Pure (Unconfounded Fixed k=50),-0.87,"[-3.3, +1.5]",0.49505,-2.37,"[-7.7, +2.1]",0.37536,1.48,"[-2.2, +5.2]",0.61944,0.0,"[-6.7, +6.7]",1.0,0.0,"[+0.0, +0.0]",1.0
-holdout_a_v4,JinaV35_Top50_RRFBlend vs JinaV35_Top50_Pure (Unconfounded Fixed k=50),4.36,"[+0.6, +8.8]",0.0409,7.71,"[+1.9, +14.6]",0.0307,-0.95,"[-2.9, +0.0]",1.0,2.86,"[+0.0, +8.6]",1.0,0.0,"[+0.0, +0.0]",1.0
-holdout_b_v4,JinaV35_Top50_RRFBlend vs JinaV35_Top50_Pure (Unconfounded Fixed k=50),-0.42,"[-2.3, +1.4]",0.66993,0.0,"[-2.9, +3.2]",1.0,0.0,"[+0.0, +0.0]",1.0,0.0,"[+0.0, +0.0]",1.0,0.0,"[+0.0, +0.0]",1.0
+dev45_v4,JinaV35_Top50_RRFBlend vs JinaV35_Top50_Pure (Unconfounded Fixed k=50),-1.15,"[-3.8, +1.4]",0.39646,-2.72,"[-8.1, +1.8]",0.31927,0.37,"[-4.1, +4.4]",1.0,2.22,"[+0.0, +6.7]",1.0,0.0,"[+0.0, +0.0]",1.0
+holdout_a_v4,JinaV35_Top50_RRFBlend vs JinaV35_Top50_Pure (Unconfounded Fixed k=50),4.34,"[+0.5, +8.8]",0.0426,7.71,"[+1.9, +14.7]",0.0298,-0.95,"[-2.9, +0.0]",1.0,2.86,"[-5.7, +14.3]",1.0,0.0,"[+0.0, +0.0]",1.0
+holdout_b_v4,JinaV35_Top50_RRFBlend vs JinaV35_Top50_Pure (Unconfounded Fixed k=50),-0.56,"[-2.9, +1.6]",0.64344,-0.42,"[-3.8, +3.2]",0.89171,0.0,"[+0.0, +0.0]",1.0,0.0,"[+0.0, +0.0]",1.0,0.0,"[+0.0, +0.0]",1.0

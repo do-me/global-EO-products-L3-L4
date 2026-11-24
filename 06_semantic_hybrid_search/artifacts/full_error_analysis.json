@@ -1,5 +1,51 @@
 [
   {
+    "query_id": "Q06_EU_SEABED_HABITATS",
+    "fam_r_10": 0.0,
+    "fam_r_20": 0.0,
+    "mrr_10": 0.0,
+    "missed_families_in_top50": [
+      "emodnet_euseamap"
+    ],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "11_eea_and_emodnet::8853b872-d247-411e-84f0-5eb72d77e3c7",
+        "title": "Hierarchical benthic habitat classification in the Atlantic Ocean",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 2,
+        "record_id": "11_eea_and_emodnet::d4cb5fe3-7f2d-4b57-b87e-350219f16f8a",
+        "title": "EUSeaMap (2021) Broad-Scale Predictive Habitat Map - Confidence in classification of subst",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "07_ec_jrc_data_catalogue::0ce69f28-b0a4-43f6-8d59-34cc6e47e825",
+        "title": "EMIS - EUNIS Broadscale Seabed Habitats of the Northeast Atlantic and Adjacent Seas",
+        "source": "07_ec_jrc_data_catalogue",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "11_eea_and_emodnet::fd9b39f0-160b-4c3f-93f2-183e85d11f86",
+        "title": "EUSeaMap (2023) Broad-Scale Predictive Habitat Map for the Caspian- Confidence in classifi",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "11_eea_and_emodnet::6e2e8ce0-7d81-4904-bf52-e919f784ef6e",
+        "title": "Physical loss to seabed in Europe Seas, Jan. 2020",
+        "source": "11_eea_and_emodnet",
+        "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
     "query_id": "Q12_EU_CROP_TYPE_DIVERSITY",
     "fam_r_10": 0.0,
     "fam_r_20": 0.5,
@@ -211,7 +257,7 @@
         "record_id": "20_noaa_onestop::055a4e66-1ac2-4312-933d-847cc97f87e6",
         "title": "Monthly and 8-day mean Level-3 satellite Sea Surface Salinity created by National Centers ",
         "source": "20_noaa_onestop",
-        "siblings_collapsed": 1
+        "siblings_collapsed": 0
       },
       {
         "rank": 5,
@@ -219,6 +265,52 @@
         "title": "AQUARIUS_L3_SSS_SMIA_ANNUAL_V5: Aquarius Official Release Level 3 Sea Surface Salinity Sta",
         "source": "16_nasa_cmr",
         "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q26_GST_GLOBAL_LAND_COVER_MULTIDECADAL",
+    "fam_r_10": 0.25,
+    "fam_r_20": 0.5,
+    "mrr_10": 0.2,
+    "missed_families_in_top50": [
+      "esa_worldcover"
+    ],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "20_noaa_onestop::4974e4c4-3cce-4a54-a49d-2d356690da3d",
+        "title": "Historical Land-Cover Change and Land-Use Conversions Global Dataset",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "24_openlandmap_stac::lc_glad.glcluc.change",
+        "title": "UMD GLAD annual land cover and land use change (GLCLUC)",
+        "source": "24_openlandmap_stac",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2784888644-ORNL_CLOUD",
+        "title": "historic_landcover_xdeg_967: ISLSCP II Historical Land Cover and Land Use, 1700-1990",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "23_wri_gfw_and_resourcewatch::GFW:umd_land_cover_2000_2020",
+        "title": "Land Cover 2000-2020",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11520",
+        "title": "ESA Land Cover Climate Change Initiative (Land_Cover_cci): Global Land Cover Maps, Version",
+        "source": "12_ceos_cgms_wgclimate_ecv",
+        "siblings_collapsed": 2
       }
     ]
   },
@@ -533,52 +625,6 @@
         "title": "Snow Water Equivalent 2024-present (raster 5 km), Northern Hemisphere, daily \u2013 version 2",
         "source": "02_copernicus_clms",
         "siblings_collapsed": 2
-      }
-    ]
-  },
-  {
-    "query_id": "Q26_GST_GLOBAL_LAND_COVER_MULTIDECADAL",
-    "fam_r_10": 0.5,
-    "fam_r_20": 0.75,
-    "mrr_10": 0.2,
-    "missed_families_in_top50": [
-      "esa_worldcover"
-    ],
-    "top5_returned": [
-      {
-        "rank": 1,
-        "record_id": "20_noaa_onestop::4974e4c4-3cce-4a54-a49d-2d356690da3d",
-        "title": "Historical Land-Cover Change and Land-Use Conversions Global Dataset",
-        "source": "20_noaa_onestop",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 2,
-        "record_id": "24_openlandmap_stac::lc_glad.glcluc.change",
-        "title": "UMD GLAD annual land cover and land use change (GLCLUC)",
-        "source": "24_openlandmap_stac",
-        "siblings_collapsed": 1
-      },
-      {
-        "rank": 3,
-        "record_id": "16_nasa_cmr::C2784888644-ORNL_CLOUD",
-        "title": "historic_landcover_xdeg_967: ISLSCP II Historical Land Cover and Land Use, 1700-1990",
-        "source": "16_nasa_cmr",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 4,
-        "record_id": "23_wri_gfw_and_resourcewatch::GFW:umd_land_cover_2000_2020",
-        "title": "Land Cover 2000-2020",
-        "source": "23_wri_gfw_and_resourcewatch",
-        "siblings_collapsed": 1
-      },
-      {
-        "rank": 5,
-        "record_id": "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11520",
-        "title": "ESA Land Cover Climate Change Initiative (Land_Cover_cci): Global Land Cover Maps, Version",
-        "source": "12_ceos_cgms_wgclimate_ecv",
-        "siblings_collapsed": 4
       }
     ]
   },
@@ -1253,50 +1299,6 @@
     ]
   },
   {
-    "query_id": "Q06_EU_SEABED_HABITATS",
-    "fam_r_10": 1.0,
-    "fam_r_20": 1.0,
-    "mrr_10": 0.5,
-    "missed_families_in_top50": [],
-    "top5_returned": [
-      {
-        "rank": 1,
-        "record_id": "11_eea_and_emodnet::8853b872-d247-411e-84f0-5eb72d77e3c7",
-        "title": "Hierarchical benthic habitat classification in the Atlantic Ocean",
-        "source": "11_eea_and_emodnet",
-        "siblings_collapsed": 1
-      },
-      {
-        "rank": 2,
-        "record_id": "11_eea_and_emodnet::d4cb5fe3-7f2d-4b57-b87e-350219f16f8a",
-        "title": "EUSeaMap (2021) Broad-Scale Predictive Habitat Map - Confidence in classification of subst",
-        "source": "11_eea_and_emodnet",
-        "siblings_collapsed": 1
-      },
-      {
-        "rank": 3,
-        "record_id": "07_ec_jrc_data_catalogue::0ce69f28-b0a4-43f6-8d59-34cc6e47e825",
-        "title": "EMIS - EUNIS Broadscale Seabed Habitats of the Northeast Atlantic and Adjacent Seas",
-        "source": "07_ec_jrc_data_catalogue",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 4,
-        "record_id": "11_eea_and_emodnet::fd9b39f0-160b-4c3f-93f2-183e85d11f86",
-        "title": "EUSeaMap (2023) Broad-Scale Predictive Habitat Map for the Caspian- Confidence in classifi",
-        "source": "11_eea_and_emodnet",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 5,
-        "record_id": "11_eea_and_emodnet::6e2e8ce0-7d81-4904-bf52-e919f784ef6e",
-        "title": "Physical loss to seabed in Europe Seas, Jan. 2020",
-        "source": "11_eea_and_emodnet",
-        "siblings_collapsed": 0
-      }
-    ]
-  },
-  {
     "query_id": "Q10_EU_WETLAND_RIPARIAN",
     "fam_r_10": 1.0,
     "fam_r_20": 1.0,
@@ -1755,27 +1757,27 @@
         "record_id": "02_copernicus_clms::dfab5f4845374872bf5a091215c1037a",
         "title": "Plant Phenology Index Seasonal Trajectories 2017-present (raster 10 m), Europe, 10-daily",
         "source": "02_copernicus_clms",
-        "siblings_collapsed": 2
+        "siblings_collapsed": 1
       },
       {
         "rank": 3,
+        "record_id": "02_copernicus_clms::63125b90bd8746dbbd720dad9db37bd4",
+        "title": "Plant Phenology Index Seasonal Trajectories Quality Flag 2017-present (raster 10 m), Europ",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
         "record_id": "11_eea_and_emodnet::02741372-8b9a-4469-a169-773a098812cf",
         "title": "Annual start of vegetation growing season and trends",
         "source": "11_eea_and_emodnet",
         "siblings_collapsed": 1
       },
       {
-        "rank": 4,
+        "rank": 5,
         "record_id": "11_eea_and_emodnet::2512bab8-9221-422c-acbf-08167ed90649",
         "title": "High Resolution Vegetation Phenology and Productivity: PPI Seasonal Trajectories (raster 1",
         "source": "11_eea_and_emodnet",
-        "siblings_collapsed": 4
-      },
-      {
-        "rank": 5,
-        "record_id": "08_destine_dedl_stac::EO.CLMS.DAT.SENTINEL-2.HRVPP_VPP",
-        "title": "Vegetation Phenology and Productivity, yearly, UTM projection",
-        "source": "08_destine_dedl_stac",
         "siblings_collapsed": 1
       }
     ]

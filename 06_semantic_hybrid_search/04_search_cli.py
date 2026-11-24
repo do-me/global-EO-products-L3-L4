@@ -255,8 +255,9 @@ def _print_human(payload: dict[str, Any]) -> None:
     if payload.get("hard_limits") and payload.get("unknown_metadata_counts"):
         u = payload["unknown_metadata_counts"]
         print(
-            f"Unknowns  : excluded unknown metadata (level={u.get('processing_level', 0):,}, "
-            f"grid={u.get('grid_meters', 0):,}, geo={u.get('geographic_coverage', 0):,}, "
+            f"Unknowns  : excluded unknown/unverified metadata (level={u.get('processing_level', 0):,}, "
+            f"grid={u.get('grid_meters', 0):,}, unverified_grid={u.get('unverified_grid_source', 0):,}, "
+            f"geo={u.get('geographic_coverage', 0):,}, end_year={u.get('temporal_end_year', 0):,}, "
             f"cadence={u.get('cadence', 0):,})"
         )
     startup_s = payload.get("load_seconds", 0.0)
@@ -333,6 +334,7 @@ def main() -> None:
     enc: Any = None
     z: Any = None
     resolved_device = "bm25"
+    family_sigs: list[str] | None = None
     if not use_bm25_only:
         try:
             enc, resolved_device, _ = load_dense_embedder(device=args.device)
@@ -341,61 +343,11 @@ def main() -> None:
             vecs /= np.maximum(np.linalg.norm(vecs, axis=1, keepdims=True), 1e-12)
             if "family_sigs" in z:
                 family_sigs = [str(s) for s in z["family_sigs"].tolist()]
-            else:
-                family_sigs = [
-                    compute_generic_family_signature(
-                        str(t),
-                        str(c),
-                        cadence_class=str(cad or ""),
-                        grid_meters=gm,
-                        geo_class=str(geo or ""),
-                    )
-                    for t, c, cad, gm, geo in zip(
-                        df["title"],
-                        df["canonical_product_key"],
-                        df.get("temporal_cadence_class", [""] * len(df)),
-                        df.get("adjudicated_output_grid_meters", [None] * len(df)),
-                        df.get("geographic_coverage_class", [""] * len(df)),
-                    )
-                ]
         except RuntimeError as exc:
             if args.device != "auto":
                 raise
             print(f"[info] Falling back to BM25 lexical mode ({exc}).", file=sys.stderr)
             use_bm25_only = True
-            family_sigs = [
-                compute_generic_family_signature(
-                    str(t),
-                    str(c),
-                    cadence_class=str(cad or ""),
-                    grid_meters=gm,
-                    geo_class=str(geo or ""),
-                )
-                for t, c, cad, gm, geo in zip(
-                    df["title"],
-                    df["canonical_product_key"],
-                    df.get("temporal_cadence_class", [""] * len(df)),
-                    df.get("adjudicated_output_grid_meters", [None] * len(df)),
-                    df.get("geographic_coverage_class", [""] * len(df)),
-                )
-            ]
-    else:
-        family_sigs = [
-            compute_generic_family_signature(
-                str(t),
-                str(c),
-                cadence_class=str(cad or ""),
-                grid_meters=gm,
-                geo_class=str(geo or ""),
-            )
-            for t, c, cad, gm, geo in zip(
-                df["title"],
-                df["canonical_product_key"],
-                df.get("temporal_cadence_class", [""] * len(df)),
-                df.get("adjudicated_output_grid_meters", [None] * len(df)),
-                df.get("geographic_coverage_class", [""] * len(df)),
-            )
-        ]
 
     lex = DuckDBLexicalIndex(str(db_path), read_only=True)
     verify_index_alignment(

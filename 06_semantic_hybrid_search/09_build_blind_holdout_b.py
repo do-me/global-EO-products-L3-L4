@@ -372,7 +372,7 @@ HOLDOUT_B_SPECS: list[dict[str, Any]] = [
         "domain": "Atmosphere & Air Quality",
         "source_framework": "WMO Severe Convection & Atmospheric Electricity",
         "query": "Quasi-global and global 0.1 degree and 0.5 degree satellite gridded climatology of lightning flash rate density and diurnal convective cycles",
-        "filters": {"strict_eo_only": True},
+        "filters": {"strict_eo_only": True, "max_grid_m": 60000},
         "expected_families": [
             {"family_id": "lis_lightning_clim", "regex": r"\blis\b.*lightning|gridded\s+lightning\s+climatology|lis/otd"},
         ],
@@ -737,7 +737,7 @@ def _load_rids_from_specs(
             m = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 m &= ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            m = filter_benchmark_family_mask(df, m, sp.get("filters"))
+            m = filter_benchmark_family_mask(df, m, sp.get("filters"), query_text=sp["query"])
             rids.update(df.iloc[np.flatnonzero(m)]["record_id"].tolist())
     return rids
 
@@ -799,7 +799,7 @@ def main() -> None:
             mask = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 mask &= ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            mask = filter_benchmark_family_mask(df, mask, flt_spec)
+            mask = filter_benchmark_family_mask(df, mask, flt_spec, query_text=sp["query"])
             idxs = np.flatnonzero(mask)
             if len(idxs) == 0:
                 missing.append((sp["query_id"], fam["family_id"]))
@@ -874,8 +874,8 @@ def main() -> None:
         print(f"  - {dom:28s}: {cnt} queries")
 
     payload = {
-        "benchmark_name": "Prospective_Single_Shot_Blind_Holdout_B_v4_standalone",
-        "blind_status": "prospective_single_shot_blind",
+        "benchmark_name": "Retrospectively_Audited_Holdout_B_v4_2_standalone",
+        "blind_status": "retrospectively_audited_holdout",
         "n_queries": len(resolved),
         "n_total_families": total_fams,
         "n_unique_active_record_ids": len(hb_rids),

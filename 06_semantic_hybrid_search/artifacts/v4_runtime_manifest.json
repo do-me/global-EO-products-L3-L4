@@ -1,21 +1,26 @@
 {
-  "protocol_version": "v4.1-standalone",
+  "protocol_version": "v4.2-standalone",
   "device": "mlx",
-  "frozen_at_utc": "2026-11-24T12:24:29Z",
-  "completed_at_utc": "2026-11-24T13:00:11Z",
-  "strictly_prospective_timestamp_order": true,
+  "frozen_at_utc": "2026-11-24T18:30:32Z",
+  "completed_at_utc": "2026-11-24T19:13:47Z",
+  "config_frozen_before_eval_run": true,
+  "locked_model_revisions": {
+    "mlx-community/embeddinggemma-2-bf16": "1a4ffddb7905d3f63486748deabe091a01fb6201",
+    "jinaai/jina-reranker-v3.5-mlx": "3dd4ac901ccdcac85abe3815df0a0aaaf44e4a21",
+    "Qwen/Qwen3-Reranker-0.6B": "e61197ed45024b0ed8a2d74b80b4d909f1255473"
+  },
   "total_queries_encoded_solo": 140,
-  "single_query_encode_ms_mean": 8.27,
-  "single_query_encode_ms_p50": 8.0,
-  "single_query_encode_ms_p95": 9.53,
-  "stage1_mean_ms_all_queries": 663.44,
-  "stage2_jina50_mean_ms_all_queries": 4442.2,
-  "stage2_jina25_mean_ms_all_queries": 1458.6,
-  "stage2_qwen50_mean_ms_all_queries": 4472.8,
+  "single_query_encode_ms_mean": 8.61,
+  "single_query_encode_ms_p50": 8.05,
+  "single_query_encode_ms_p95": 10.23,
+  "stage1_mean_ms_all_queries": 1143.97,
+  "stage2_jina50_mean_ms_all_queries": 4246.6,
+  "stage2_jina25_mean_ms_all_queries": 1402.4,
+  "stage2_qwen50_mean_ms_all_queries": 3720.7,
   "suite_sizes": {
     "dev45": 45,
-    "holdout_a_audited": 35,
-    "holdout_b_prospective_blind": 60
+    "holdout_a_retrospectively_audited": 35,
+    "holdout_b_retrospectively_audited": 60
   },
-  "total_wall_minutes": 35.57
+  "total_wall_minutes": 42.7
 }

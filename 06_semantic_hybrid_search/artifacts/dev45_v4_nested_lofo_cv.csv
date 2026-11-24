@@ -1,7 +1,7 @@
 held_out_framework,n_queries,nested_s1_cos_selected,nested_s1_ndcg10,nested_s2_selected,lofo_s2_ndcg10,delta_ndcg10,nested_s2_with_08b_selected,lofo_s2_with_08b_ndcg10,lofo_s2_with_08b_delta,fixed_jina50_ndcg10,fixed_jina50_delta,lofo_mrr10,lofo_fam_r10
-F1_EU_BDS_2030,14,0.94,65.3,09_Frozen_Fast_JinaV35_Top25_Pure,71.16,5.86,08b_JinaV35_Top50_Pure,74.92,9.62,73.27,7.97,79.76,80.95
+F1_EU_BDS_2030,14,0.94,60.79,09_Frozen_Fast_JinaV35_Top25_Pure,64.01,3.22,08b_JinaV35_Top50_Pure,67.11,6.31,66.13,5.33,72.62,73.81
 F2_KCEO_Urban_Adaptation,5,0.94,54.54,08_Frozen_Best_JinaV35_Top50_RRFBlend,69.35,14.81,08b_JinaV35_Top50_Pure,77.14,22.61,69.35,14.81,76.67,80.0
-F3_UNFCCC_GST,7,0.94,47.07,08_Frozen_Best_JinaV35_Top50_RRFBlend,50.22,3.15,08b_JinaV35_Top50_Pure,49.44,2.37,50.22,3.15,59.52,64.29
-F4_UN_SDGs,7,0.94,39.02,08_Frozen_Best_JinaV35_Top50_RRFBlend,56.12,17.1,08b_JinaV35_Top50_Pure,57.35,18.32,56.12,17.1,62.86,73.81
-F5_CBD_GBF_A2,7,0.94,60.94,08_Frozen_Best_JinaV35_Top50_RRFBlend,69.78,8.84,08b_JinaV35_Top50_Pure,65.9,4.96,69.78,8.84,71.43,87.14
-F6_USGEO_SNWG,5,0.94,30.66,09_Frozen_Fast_JinaV35_Top25_Pure,37.97,7.31,08b_JinaV35_Top50_Pure,46.43,15.77,46.24,15.58,51.67,48.33
+F3_UNFCCC_GST,7,0.94,45.46,08_Frozen_Best_JinaV35_Top50_RRFBlend,49.49,4.03,08b_JinaV35_Top50_Pure,49.44,3.98,49.49,4.03,57.14,64.29
+F4_UN_SDGs,7,0.94,39.02,09_Frozen_Fast_JinaV35_Top25_Pure,55.44,16.42,08b_JinaV35_Top50_Pure,57.81,18.79,56.16,17.14,67.86,69.05
+F5_CBD_GBF_A2,7,0.94,60.94,09_Frozen_Fast_JinaV35_Top25_Pure,68.94,8.0,08b_JinaV35_Top50_Pure,65.9,4.96,69.78,8.84,69.05,87.14
+F6_USGEO_SNWG,5,0.94,30.66,09_Frozen_Fast_JinaV35_Top25_Pure,37.97,7.31,08b_JinaV35_Top50_Pure,45.38,14.72,42.37,11.71,51.67,48.33

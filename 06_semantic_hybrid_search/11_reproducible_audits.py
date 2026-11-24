@@ -66,6 +66,7 @@ from eo_search_lib import (  # noqa: E402
     apply_filters_mask,
     build_eo_document,
     collapse_product_families,
+    compute_file_sha256,
     deterministic_topk,
     ensure_search_indexes,
     filter_benchmark_family_mask,
@@ -80,17 +81,12 @@ _ev06 = importlib.util.module_from_spec(_ev06_spec)
 assert _ev06_spec and _ev06_spec.loader
 _ev06_spec.loader.exec_module(_ev06)
 
-_b02_spec = importlib.util.spec_from_file_location("b02", SCRIPT_DIR / "02_build_policy_benchmark.py")
-_b02 = importlib.util.module_from_spec(_b02_spec)
-assert _b02_spec and _b02_spec.loader
-_b02_spec.loader.exec_module(_b02)
-
 load_reranker = _ev06.load_reranker
 clear_device_cache = _ev06.clear_device_cache
 EO_RERANK_INSTRUCTION = _ev06.EO_RERANK_INSTRUCTION
 format_reranker_doc = _ev06.format_reranker_doc
 blend_rrf_and_rerank = _ev06.blend_rrf_and_rerank
-DEV_BENCHMARK_SPECS = _b02.BENCHMARK_SPECS
+DEV_BENCHMARK_SPECS = json.loads((ARTIFACTS_DIR / "policy_retrieval_benchmark.json").read_text(encoding="utf-8"))["queries"]
 
 
 def map_framework_group(fw: str) -> str:
@@ -197,6 +193,58 @@ def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex, cfg: dic
         perm_rejected = True
     assert perm_rejected, "verify_index_alignment failed to reject same_length_different_order DataFrame!"
 
+    # Verify same record_ids with mutated metadata raises RuntimeError in verify_index_alignment()
+    df_mut = df.copy()
+    df_mut.loc[df_mut.index[0], "title"] = str(df_mut.loc[df_mut.index[0], "title"]) + " [MUTATED]"
+    meta_mut_rejected = False
+    try:
+        verify_index_alignment(df_mut, lex_index=lex)
+    except RuntimeError:
+        meta_mut_rejected = True
+    assert meta_mut_rejected, "verify_index_alignment failed to reject same-IDs mutated-metadata DataFrame!"
+
+    # Verify ensure_search_indexes(..., allow_download=False) accepts equivalent local BM25 rebuild by semantic content
+    with tempfile.TemporaryDirectory() as tmpd2:
+        tmp_art = Path(tmpd2)
+        man_copy = json.loads((ARTIFACTS_DIR / "full_index_manifest.json").read_text(encoding="utf-8"))
+        # Force file-byte SHA mismatch on full_bm25.duckdb while preserving exact semantic content hashes
+        man_copy["sha256"]["full_bm25.duckdb"] = "0" * 64
+        (tmp_art / "full_index_manifest.json").write_text(json.dumps(man_copy, indent=2), encoding="utf-8")
+        cat_pq = ARTIFACTS_DIR / "full_catalogue.parquet"
+        cat_sha_tmp = compute_file_sha256(cat_pq) if cat_pq.exists() else ""
+        b_loc = DuckDBLexicalIndex(str(tmp_art / "full_bm25.duckdb"))
+        b_loc.build_from_dataframe(df, catalogue_sha256=cat_sha_tmp)
+        b_loc.con.close()
+        ensure_search_indexes(tmp_art, require_dense=False, allow_download=False)
+        local_semantic_ok = True
+
+    # Verify Verified hard-limits filters: min_end_year=2035 & documented output grid exclusion of OTD / GCMD bands
+    m_2035 = apply_filters_mask(df, SearchFilters(min_end_year=2035, hard_limits=True))
+    ey_2035 = pd.to_numeric(df.loc[m_2035, "temporal_end_year"], errors="coerce")
+    hard_2035_ok = bool(ey_2035.notna().all() and (ey_2035 >= 2035).all())
+    assert hard_2035_ok, f"Hard min_end_year=2035 admitted invalid rows: {len(ey_2035)}"
+
+    m_grid12k = apply_filters_mask(df, SearchFilters(geo_scope="global", max_grid_m=12000, hard_limits=True))
+    sub_grid12k = df.loc[m_grid12k]
+    otd_excluded = "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11956" not in set(sub_grid12k["record_id"])
+    gcmd_excluded = "gcmd_coarse_resolution_band" not in set(sub_grid12k["adjudicated_spatial_resolution_source"].fillna(""))
+    ecv_excluded = "ecv_inventory_horizontal_resolution" not in set(sub_grid12k["adjudicated_spatial_resolution_source"].fillna(""))
+    hard_grid_ok = bool(otd_excluded and gcmd_excluded and ecv_excluded)
+    assert hard_grid_ok, f"Hard grid filter failed: otd={otd_excluded}, gcmd={gcmd_excluded}, ecv={ecv_excluded}"
+
+    # Verify Annual NLCD 6 distinct delivered variables & GLC_FCS30D annual vs five-year do not collapse
+    nlcd_idxs = df.index[df["raw_id"].fillna("").str.contains("ANNUAL_NLCD/", regex=False)].tolist()
+    nlcd_ranked = [(int(i), 1.0 - 0.01 * k, {}) for k, i in enumerate(nlcd_idxs)]
+    nlcd_col = collapse_product_families(nlcd_ranked, df, top_k=20, near_dup_cos=0.94, sensor_guard=True)
+    nlcd_distinct_ok = len(nlcd_col) == len(nlcd_idxs) and len(nlcd_idxs) >= 6
+    assert nlcd_distinct_ok, f"Annual NLCD collapsed distinct variables: {len(nlcd_col)} vs {len(nlcd_idxs)}"
+
+    glc_idxs = df.index[df["raw_id"].fillna("").str.contains("GLC-FCS30D/", regex=False)].tolist()
+    glc_ranked = [(int(i), 1.0 - 0.01 * k, {}) for k, i in enumerate(glc_idxs)]
+    glc_col = collapse_product_families(glc_ranked, df, top_k=20, near_dup_cos=0.94, sensor_guard=True)
+    glc_distinct_ok = len(glc_col) == len(glc_idxs) and len(glc_idxs) >= 2
+    assert glc_distinct_ok, f"GLC_FCS30D collapsed annual & five-year variants: {len(glc_col)} vs {len(glc_idxs)}"
+
     out = {
         "n_queries_checked": len(DEV_BENCHMARK_SPECS),
         "nullsafe_top300_diffs": ns_diffs,
@@ -205,12 +253,19 @@ def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex, cfg: dic
         "bm25_content_sha256": content_sha_main,
         "rebuild_content_sha_identical": True,
         "same_length_different_order_rejected": perm_rejected,
+        "same_ids_changed_metadata_rejected": meta_mut_rejected,
+        "local_rebuild_semantic_preflight_accepted": local_semantic_ok,
+        "verified_hard_limits_min_end_year_2035_zero_violations": hard_2035_ok,
+        "verified_hard_limits_grid_excludes_otd_and_gcmd": hard_grid_ok,
+        "annual_nlcd_distinct_variables_preserved": nlcd_distinct_ok,
+        "glc_fcs30d_cadence_variants_preserved": glc_distinct_ok,
         "exact_determinism_passed": True,
     }
     (ARTIFACTS_DIR / "audit_bm25_determinism.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(
         f"  [OK] Top-300 BM25 diffs: NullSafe={ns_diffs}/45 | NaiveStrict={st_diffs}/45 | "
-        f"rebuild content SHA identical={content_sha_main[:12]}... | same-length perm rejected=True"
+        f"rebuild content SHA identical={content_sha_main[:12]}... | perm/meta rejected=True | "
+        f"local semantic preflight=True | hard-limits & variable/cadence grouping=PASS"
     )
     return out
 
@@ -374,20 +429,9 @@ def audit_3_false_collapse(
     rid_by_idx = df["record_id"].tolist()
     titles = df["title"].tolist()
 
-    obs_re = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
-    active_mask = (~df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)) & (
-        ~df["title"].fillna("").str.contains(obs_re, regex=True).to_numpy(dtype=bool, copy=True)
-    )
-    comb = df["title"].fillna("") + " || " + df["raw_id"].fillna("") + " || " + df["source_catalogue"].fillna("")
     dev_items = []
     for sp in DEV_BENCHMARK_SPECS:
-        fams_out = []
-        for fam in sp["expected_families"]:
-            hit = active_mask & comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
-            if fam.get("exclude_regex"):
-                hit = hit & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            hit = filter_benchmark_family_mask(df, hit, sp.get("filters"))
-            fams_out.append({"family_id": fam["family_id"], "record_ids": df.iloc[np.flatnonzero(hit)]["record_id"].tolist()})
+        fams_out = [{"family_id": fam["family_id"], "record_ids": fam["record_ids"]} for fam in sp["expected_families"]]
         dev_items.append({"query_id": sp["query_id"], "query": sp["query"], "filters": sp.get("filters", {}), "expected_families": fams_out})
 
     ha_items = json.loads((ARTIFACTS_DIR / "holdout_a_external_benchmark.json").read_text(encoding="utf-8"))["queries"]

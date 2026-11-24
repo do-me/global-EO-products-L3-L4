@@ -2,9 +2,9 @@
   "bm25_only_zero_gpu": {
     "json_valid": true,
     "device": "bm25",
-    "eligible_after_filter": 38852,
-    "load_seconds": 0.73,
-    "stage1_ms": 143.4,
+    "eligible_after_filter": 38850,
+    "load_seconds": 0.34,
+    "stage1_ms": 179.9,
     "rerank_ms": 0.0,
     "n_results": 3,
     "top1_title": "Global river flood hazard maps"
@@ -13,8 +13,8 @@
     "json_valid": true,
     "device": "mlx",
     "eligible_after_filter": 3709,
-    "load_seconds": 2.87,
-    "stage1_ms": 166.2,
+    "load_seconds": 2.95,
+    "stage1_ms": 161.0,
     "rerank_ms": 0.0,
     "n_results": 3,
     "top1_title": "Global river flood hazard maps"
@@ -22,9 +22,9 @@
   "global_grid_filtered_stage1_none": {
     "json_valid": true,
     "device": "mlx",
-    "eligible_after_filter": 12837,
-    "load_seconds": 2.12,
-    "stage1_ms": 180.6,
+    "eligible_after_filter": 12827,
+    "load_seconds": 2.21,
+    "stage1_ms": 180.7,
     "rerank_ms": 0.0,
     "n_results": 10,
     "top1_title": "Global Surface Water Extent"
@@ -33,9 +33,9 @@
     "json_valid": true,
     "device": "mlx",
     "eligible_after_filter": 3709,
-    "load_seconds": 2.2,
-    "stage1_ms": 168.9,
-    "rerank_ms": 1164.9,
+    "load_seconds": 2.17,
+    "stage1_ms": 160.1,
+    "rerank_ms": 1107.3,
     "n_results": 3,
     "top1_title": "Global river flood hazard maps"
   },
@@ -43,9 +43,9 @@
     "json_valid": true,
     "device": "mlx",
     "eligible_after_filter": 3709,
-    "load_seconds": 2.18,
-    "stage1_ms": 158.2,
-    "rerank_ms": 3373.6,
+    "load_seconds": 2.08,
+    "stage1_ms": 161.6,
+    "rerank_ms": 3075.4,
     "n_results": 3,
     "top1_title": "Global river flood hazard maps"
   },
@@ -53,9 +53,9 @@
     "json_valid": true,
     "device": "mlx",
     "eligible_after_filter": 3709,
-    "load_seconds": 2.16,
-    "stage1_ms": 159.7,
-    "rerank_ms": 1822.9,
+    "load_seconds": 2.08,
+    "stage1_ms": 160.2,
+    "rerank_ms": 1801.8,
     "n_results": 3,
     "top1_title": "Global river flood hazard maps"
   }

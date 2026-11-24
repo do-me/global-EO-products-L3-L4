@@ -624,6 +624,7 @@ def main() -> None:
     htap_u = df_all[df_all["record_id"] == "07_ec_jrc_data_catalogue::8626f4f4-67e3-4d0a-9457-d432f35ae3da"]
     swe_c_u = df_canon[df_canon["canonical_product_key"] == "doi:10.5285/edf8abd23f4a40aabd4d52e48dec06ea"]
     gpcp_u = df_all[df_all["record_id"] == "20_noaa_onestop::7180fc6a-a5a4-4857-925a-a0fa4f7f7727"]
+    gpcp_day_u = df_all[df_all["record_id"] == "20_noaa_onestop::07090ac2-b1fa-4335-b195-745b22b68398"]
     ce1_u = df_all[df_all["record_id"] == "16_nasa_cmr::C3880496704-LARC_CLOUD"]
     wekeo_utci_u = df_all[df_all["record_id"] == "09_wekeo_dias::EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL"]
     noaa_mesa_u = df_all[df_all["record_id"] == "20_noaa_onestop::6dc622ed-8446-4bc0-af4c-0b6b15bcacdd"]
@@ -636,6 +637,7 @@ def main() -> None:
         and len(htap_u) == 1 and htap_u.iloc[0]["geographic_coverage_class"] == "global"
         and len(swe_c_u) == 1 and swe_c_u.iloc[0]["geographic_coverage_class"] == "hemispheric_or_pantropical"
         and len(gpcp_u) == 1 and gpcp_u.iloc[0]["temporal_output_cadences"] == "monthly_or_seasonal" and float(gpcp_u.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0
+        and len(gpcp_day_u) == 1 and float(gpcp_day_u.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0 and gpcp_day_u.iloc[0]["adjudicated_spatial_resolution_source"] == "prose_delivered_output_grid"
         and len(ce1_u) == 1 and ce1_u.iloc[0]["geographic_coverage_class"] == "global"
         and len(wekeo_utci_u) == 1 and "&dataset=EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL" in str(wekeo_utci_u.iloc[0]["access_url"])
         and len(noaa_mesa_u) == 1 and "&view=getDataView&header=none" in str(noaa_mesa_u.iloc[0]["access_url"])
@@ -648,7 +650,7 @@ def main() -> None:
             (
                 "HTML Comparison Hygiene, URL Query Preservation, S2 Lineage, Paired SMAP/SWE & Spot Panel Invariants",
                 "PASS",
-                f"jrc_162768e1=S2, forestco2=S2, url_bare_amp={url_bare_amp_u}, smap_spl3ftp_e=global, htapv3=global, snow_swe=NH, gpcp_v33=0.5deg/monthly, ceres_ebaf=global",
+                f"jrc_162768e1=S2, forestco2=S2, url_bare_amp={url_bare_amp_u}, smap_spl3ftp_e=global, htapv3=global, snow_swe=NH, gpcp_v33=0.5deg(monthly+daily), ceres_ebaf=global",
             )
         )
     else:
@@ -716,8 +718,14 @@ def main() -> None:
     mirca_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.5281/zenodo.7422506"]
     mircaos_w = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.4211/hs.60a890eb841c460192c03bb590687145"]
 
+    s33_emit_w = s33_w[s33_w["raw_id"].isin(["emit-ch4plume-v1", "emit-ch4plume-v2"])]
+    exc_log_w = pd.read_parquet(REPO_ROOT / "02_preparation/data/excluded_records_log.parquet")
+    s33_emit_exc_w = exc_log_w[
+        (exc_log_w["source_id"] == "33_us_ghg_center_stac")
+        & (exc_log_w["raw_id"].isin(["emit-ch4plume-v1", "emit-ch4plume-v2"]))
+    ]
     w_ok = (
-        len(s33_w) == 37 and (s33_w["provider_pool"] == "non_eu").all()
+        len(s33_w) == 35 and len(s33_emit_w) == 0 and len(s33_emit_exc_w) == 2 and (s33_w["provider_pool"] == "non_eu").all()
         and len(ghg_oco2_w) == 1 and str(ghg_oco2_w.iloc[0]["doi"]) == "10.48588/npf6-sw92"
         and len(ghg_gosat_w) == 1 and ghg_gosat_w.iloc[0]["geographic_coverage_class"] == "global"
         and len(ghg_epa_w) == 1 and ghg_epa_w.iloc[0]["geographic_coverage_class"] == "regional_or_local" and ghg_epa_w.iloc[0]["product_ontology_class"] == "non_eo_inventory_or_census"

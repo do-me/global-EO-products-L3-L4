@@ -4,7 +4,7 @@ Soil moisture,66,630,563,\b(?:soil\s+moisture|soil\s+water\s+index|\bswi\b|\bssm
 Aerosols properties,63,781,694,\b(?:aerosols?|aerosol\s+optical\s+depth|(?<!vegetation\s)optical\s+depth\s+of\s+aerosol|\baod\b|\baai\b|absorbing\s+aerosol|particulate\s+matter|pm2\.5|pm10)\b
 Upper-air Water Vapour,49,1543,1497,\b(?:water\s+vapou?r|total\s+column\s+water\s+vapou?r|\btcwv\b|precipitable\s+water|upper[- ]tropospher(?:e|ic)\s+humidity|specific\s+humidity\s+profile)\b
 Earth radiation budget,47,323,274,\b(?:earth\s+radiation\s+budget|top[- ]of[- ]atmosphere.*(?:radiation|flux|irradiance)|outgoing\s+longwave\s+radiation|\bolr\b|\bceres\b|erbe)\b
-"Carbon Dioxide, Methane and other greenhouse gases",45,1203,1165,\b(?:carbon\s+dioxide|\bco2\b|\bxco2\b|\bmethane\b|\bch4\b|\bxch4\b|\bn2o\b|nitrous\s+oxide|greenhouse\s+gas(?:es)?)\b
+"Carbon Dioxide, Methane and other greenhouse gases",45,1201,1163,\b(?:carbon\s+dioxide|\bco2\b|\bxco2\b|\bmethane\b|\bch4\b|\bxch4\b|\bn2o\b|nitrous\s+oxide|greenhouse\s+gas(?:es)?)\b
 Surface radiation budget,42,506,464,\b(?:surface\s+radiation\s+budget|surface\s+solar\s+irradiance|downward\s+shortwave|downward\s+longwave|(?<!absorbed\s)(?<!absorbed\s\bof\s)(?<!fraction\s)(?<!fraction\sabsorbed\s)photosynthetically\s+active\s+radiation(?!\s*\(?fapar\b)|surface\s+net\s+radiation)\b
 Fire,41,689,658,\b(?:burned\s+area|burnt\s+area|active\s+fire|fire\s+radiative\s+power|\bfrp\b|fire\s+danger|fire\s+weather\s+index|wildfire)\b
 Upper-air temperature,36,242,208,\b(?:upper[- ]air\s+temperature|atmospheric\s+temperature\s+profile|stratospheric\s+temperature|tropospheric\s+temperature|msu/amsu|radio\s+occultation.*temperature)\b

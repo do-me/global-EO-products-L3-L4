@@ -34,7 +34,7 @@ eu_non_copernicus,,False,unassessed_no_platform_metadata,2836
 eu_non_copernicus,,True,confirmed_input_mission,332
 eu_non_copernicus,,True,retrospective_or_mixed_epoch_series,106
 non_eu,L1,False,unassessed_no_platform_metadata,13
-non_eu,L2,False,explicit_non_sentinel,110
+non_eu,L2,False,explicit_non_sentinel,108
 non_eu,L2,False,unassessed_no_platform_metadata,15
 non_eu,L2,True,confirmed_input_mission,1
 non_eu,L3,False,explicit_non_sentinel,5263

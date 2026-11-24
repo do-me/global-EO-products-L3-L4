@@ -1,12 +1,12 @@
 {
-  "protocol_version": "v4.1-standalone",
-  "frozen_at_utc": "2026-11-24T12:24:29Z",
+  "protocol_version": "v4.2-standalone",
+  "frozen_at_utc": "2026-11-24T18:30:32Z",
   "device_used_for_freeze": "mlx",
-  "rule": "IMMUTABLE v4.1-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + record_id-keyed DuckDB BM25 + Cadence/Grid/Geo-Aware Collapser + Deterministic Content & Benchmark SHA-256 Lock). Strictly self-contained standalone catalogue validation: Dev-45 (development), Holdout A (retrospective GT-audited external domains, N=35), and Prospective Single-Shot Blind Holdout B (N=60 completely unseen disjoint EO queries, G=G_eff=60).",
+  "rule": "IMMUTABLE v4.2-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + record_id- & content-hash-bound DuckDB BM25 + Variable/Layer-Role/Cadence/Grid/Geo-Aware Collapser + Verified Hard-Limits Mode + Locked Benchmark JSONs & Model Revisions). Strictly self-contained standalone catalogue evaluation: Dev-45 (development, N=45), Holdout A (retrospectively audited external domains, N=35), and Holdout B (retrospectively audited 60-query cross-domain holdout, disjoint from Dev-45 & Holdout A, G=G_eff=60).",
   "benchmark_provenance": {
-    "dev45": "development_tuning_set_45_queries",
-    "holdout_a": "retrospective_gt_audited_external_domains_35_queries",
-    "holdout_b_blind": "prospective_single_shot_blind_60_queries_disjoint_from_dev45_and_holdout_a"
+    "dev45": "development_tuning_set_45_queries_locked_json",
+    "holdout_a": "retrospectively_audited_external_domains_35_queries_locked_json",
+    "holdout_b": "retrospectively_audited_60_queries_disjoint_from_dev45_and_holdout_a_locked_json"
   },
   "preregistered_primary_metric": "fam_ndcg_10",
   "preregistered_secondary_metrics": [
@@ -24,28 +24,37 @@
     "H6_Jina_vs_Qwen3: JinaV35_Top50_RRFBlend vs Qwen3_Top50_RRFBlend"
   ],
   "locked_artifact_sha256": {
-    "eo_search_lib.py": "a8ef9853c546a4969c1300f91471de9c438f3009e23c6d032494b9bdb5711e7d",
+    "eo_search_lib.py": "e387ac9a15bcaf88de405d4f87006d84961bc741e61f4b2025a9eb90c70614b7",
+    "02_build_policy_benchmark.py": "e565f816ac81a181bde4814bf61d05352ea65c53fcf65f82af7c0e40026245e7",
     "06_eval_rerankers.py": "0b8a1904c5357b0b1257491816e7a5647475b334465043cf60133f99e3f36af3",
-    "10_run_blind_holdouts.py": "320a786d54f2dc0f5562c4ab819cbf0d1f2b663983bf2064c37d124b512df2d9",
-    "full_catalogue.parquet": "955feb4ca1351c99d5e958650fcf3a7efcef0bd17592771852885f0ea004c9fc",
-    "full_embeddings_bf16.npz": "cb95dad9170734f38109823ee658f85b4ee83b42eab613b834c7e0b8654609b9",
-    "bm25_content_sha256": "1bd2202151893d6599fda3b4b8d447968a7fa135437628c9cdc9594f7df06063",
-    "record_ids_sha256": "668e2f35f782789169d7545cda38b345ec68881cc7cf5121a6ffd18db2438c09",
-    "policy_retrieval_benchmark.json": "0471fdae92f5b511a4565f75cb9ec83603b5d9709d3c1c5874f92df64a5791cd",
-    "holdout_a_external_benchmark.json": "630f1e300ce3576ac14652e6752d0923d2c9230be948043d72808d54daced604",
-    "holdout_b_blind_benchmark.json": "a5b7e0ebd442712fb3929a931745bed86ad1e4aff0ace1f4cf15aa5985147576"
+    "10_run_blind_holdouts.py": "017da4f8b878dbaa92902a49d2d13fdf43fa17d17fc602080db8dbc77deef256",
+    "full_catalogue.parquet": "aee38c089100e5aac76e89e9ed5f51a08a979473878fffe8b71e6814370313a6",
+    "catalogue_content_sha256": "fe1ce75e4d2b3c2599fb3130205e59c75f3a84953d2fee33ba23006c200f9fb6",
+    "full_embeddings_bf16.npz": "471eb1768b67d3adc2451c2d5b6ed95508305763ef3a4738eeddf2226db3a910",
+    "bm25_content_sha256": "278a7e98ccb9612fde6abaad7a8f3556f4041f7e9e62987e34723f847157a3db",
+    "record_ids_sha256": "2132077651b52ad88934ec0da5164700955afb3e83cafc80ea86a636bffb790d",
+    "policy_retrieval_benchmark.json": "f11fc1c03bbb8c2947c8105ff77a3c988d57d1b70722c33f09a0e56b16b9d526",
+    "holdout_a_external_benchmark.json": "64ebd7f55fae32c730e0825dd5824a97a5b477141b960306f1264716e0db4bf6",
+    "holdout_b_blind_benchmark.json": "dadc99a960e78db817ecea85cfef7c344f6c5faa065ed4c4442c291cc26a6679"
   },
   "code_and_index_sha256": {
-    "eo_search_lib.py": "a8ef9853c546a4969c1300f91471de9c438f3009e23c6d032494b9bdb5711e7d",
+    "eo_search_lib.py": "e387ac9a15bcaf88de405d4f87006d84961bc741e61f4b2025a9eb90c70614b7",
+    "02_build_policy_benchmark.py": "e565f816ac81a181bde4814bf61d05352ea65c53fcf65f82af7c0e40026245e7",
     "06_eval_rerankers.py": "0b8a1904c5357b0b1257491816e7a5647475b334465043cf60133f99e3f36af3",
-    "10_run_blind_holdouts.py": "320a786d54f2dc0f5562c4ab819cbf0d1f2b663983bf2064c37d124b512df2d9",
-    "full_catalogue.parquet": "955feb4ca1351c99d5e958650fcf3a7efcef0bd17592771852885f0ea004c9fc",
-    "full_embeddings_bf16.npz": "cb95dad9170734f38109823ee658f85b4ee83b42eab613b834c7e0b8654609b9",
-    "bm25_content_sha256": "1bd2202151893d6599fda3b4b8d447968a7fa135437628c9cdc9594f7df06063",
-    "record_ids_sha256": "668e2f35f782789169d7545cda38b345ec68881cc7cf5121a6ffd18db2438c09",
-    "policy_retrieval_benchmark.json": "0471fdae92f5b511a4565f75cb9ec83603b5d9709d3c1c5874f92df64a5791cd",
-    "holdout_a_external_benchmark.json": "630f1e300ce3576ac14652e6752d0923d2c9230be948043d72808d54daced604",
-    "holdout_b_blind_benchmark.json": "a5b7e0ebd442712fb3929a931745bed86ad1e4aff0ace1f4cf15aa5985147576"
+    "10_run_blind_holdouts.py": "017da4f8b878dbaa92902a49d2d13fdf43fa17d17fc602080db8dbc77deef256",
+    "full_catalogue.parquet": "aee38c089100e5aac76e89e9ed5f51a08a979473878fffe8b71e6814370313a6",
+    "catalogue_content_sha256": "fe1ce75e4d2b3c2599fb3130205e59c75f3a84953d2fee33ba23006c200f9fb6",
+    "full_embeddings_bf16.npz": "471eb1768b67d3adc2451c2d5b6ed95508305763ef3a4738eeddf2226db3a910",
+    "bm25_content_sha256": "278a7e98ccb9612fde6abaad7a8f3556f4041f7e9e62987e34723f847157a3db",
+    "record_ids_sha256": "2132077651b52ad88934ec0da5164700955afb3e83cafc80ea86a636bffb790d",
+    "policy_retrieval_benchmark.json": "f11fc1c03bbb8c2947c8105ff77a3c988d57d1b70722c33f09a0e56b16b9d526",
+    "holdout_a_external_benchmark.json": "64ebd7f55fae32c730e0825dd5824a97a5b477141b960306f1264716e0db4bf6",
+    "holdout_b_blind_benchmark.json": "dadc99a960e78db817ecea85cfef7c344f6c5faa065ed4c4442c291cc26a6679"
+  },
+  "locked_model_revisions": {
+    "mlx-community/embeddinggemma-2-bf16": "1a4ffddb7905d3f63486748deabe091a01fb6201",
+    "jinaai/jina-reranker-v3.5-mlx": "3dd4ac901ccdcac85abe3815df0a0aaaf44e4a21",
+    "Qwen/Qwen3-Reranker-0.6B": "e61197ed45024b0ed8a2d74b80b4d909f1255473"
   },
   "stage1": {
     "dense_model_mlx": "mlx-community/embeddinggemma-2-bf16",

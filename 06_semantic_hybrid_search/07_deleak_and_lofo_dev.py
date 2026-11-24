@@ -11,17 +11,17 @@
 #   "transformers>=5.18.0",
 # ]
 # ///
-"""07. Strictly-on-Dev-45 Collapser Selection, Orthogonal Filter Ablation & Pre-Registered v4.0 Freeze.
+"""07. Strictly-on-Dev-45 Collapser Selection, Orthogonal Filter Ablation & v4.2-standalone Freeze.
 
-Executes strictly on the 45-query Development set (ZERO access to Holdout A or Prospective Blind Holdout B):
+Executes strictly on the 45-query Development set (ZERO access to Holdout A or Retrospectively Audited Holdout B):
   1. Uses solo `batch_size=1` query encoding (bit-identical to `10_run_blind_holdouts.py` & `04_search_cli.py`),
      with device-agnostic auto-selection (`--device auto|mlx|cuda|mps|cpu`).
   2. Sweeps generic `near_dup_cos` with `sensor_guard=True` (`1.0, 0.98, 0.97, 0.96, 0.94`) on Dev-45,
      breaking ties by `(fam_ndcg_10 desc, fam_r_50 desc, near_dup_cos desc)`.
   3. Persists the orthogonal `NullSafe` vs `NaiveStrict` full-catalogue ablation (including `FamR@50` and
      the 13 grid-filtered queries) at the exact selected `near_dup_cos` -> `artifacts/dev45_filter_ablation_v4.csv`.
-  4. Locks immutable `artifacts/frozen_v4_config.json` with 5-artifact SHA-256 hashes (including
-     `eo_search_lib.py` and `06_eval_rerankers.py`) and explicit benchmark provenance classifications.
+  4. Locks immutable `artifacts/frozen_v4_config.json` with artifact SHA-256 hashes (including
+     `eo_search_lib.py`, `06_eval_rerankers.py`, locked JSON benchmarks, and locked HuggingFace model revisions).
 """
 
 from __future__ import annotations
@@ -50,20 +50,16 @@ from eo_search_lib import (  # noqa: E402
     SearchFilters,
     apply_filters_mask,
     collapse_product_families,
+    compute_catalogue_content_sha256,
     compute_record_ids_sha256,
     deterministic_topk,
     filter_benchmark_family_mask,
     load_dense_embedder,
     resolve_device,
+    resolve_hf_model_revision,
     rrf_fuse,
     verify_index_alignment,
 )
-
-_b02_spec = importlib.util.spec_from_file_location("b02", SCRIPT_DIR / "02_build_policy_benchmark.py")
-_b02 = importlib.util.module_from_spec(_b02_spec)
-assert _b02_spec and _b02_spec.loader
-_b02_spec.loader.exec_module(_b02)
-BENCHMARK_SPECS = _b02.BENCHMARK_SPECS
 
 
 def sha256_file(p: Path) -> str:
@@ -168,35 +164,23 @@ def main() -> None:
     verify_index_alignment(df, lex_index=lex, emb_npz=z, catalogue_path=cat_pq)
     bm25_content_sha = lex.compute_content_sha256()
     rids_sha = compute_record_ids_sha256(rid_by_idx)
+    cat_content_sha = compute_catalogue_content_sha256(df)
 
-    obs_re = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
-    active_mask = (~df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)) & (
-        ~df["title"].fillna("").str.contains(obs_re, regex=True).to_numpy(dtype=bool, copy=True)
-    )
-    combined = (
-        df["title"].fillna("")
-        + " || "
-        + df["raw_id"].fillna("")
-        + " || "
-        + df["source_catalogue"].fillna("")
-    )
+    dev_bench_path = ARTIFACTS_DIR / "policy_retrieval_benchmark.json"
+    dev_queries = json.loads(dev_bench_path.read_text(encoding="utf-8"))["queries"]
     gt_by_q = []
-    for sp in BENCHMARK_SPECS:
+    for sp in dev_queries:
         fam_rids = {}
         for fam in sp["expected_families"]:
-            hit = active_mask & combined.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
-            if fam.get("exclude_regex"):
-                hit = hit & ~combined.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
-            hit = filter_benchmark_family_mask(df, hit, sp.get("filters"))
-            idxs = np.flatnonzero(hit)
-            assert len(idxs) > 0, f"0 matches for {sp['query_id']} / {fam['family_id']}"
-            fam_rids[fam["family_id"]] = set(df.iloc[idxs]["record_id"].tolist())
+            rlist = fam.get("record_ids")
+            assert rlist and len(rlist) > 0, f"0 locked record_ids for {sp['query_id']} / {fam['family_id']}"
+            fam_rids[fam["family_id"]] = set(rlist)
         gt_by_q.append(fam_rids)
 
     # Solo batch_size=1 query encoding (bit-identical with 10_run_blind_holdouts.py & 04_search_cli.py)
-    enc, _, _ = load_dense_embedder(device=device)
+    enc, _, resolved_embed_model = load_dense_embedder(device=device)
     _ = enc.encode_queries(["warmup satellite query"], max_length=256)
-    q_vecs = np.vstack([enc.encode_queries([sp["query"]], max_length=256)[0] for sp in BENCHMARK_SPECS])
+    q_vecs = np.vstack([enc.encode_queries([sp["query"]], max_length=256)[0] for sp in dev_queries])
     del enc
     _clear_cache(device)
 
@@ -211,7 +195,7 @@ def main() -> None:
         ("06_Generic_SensorGuard_cos0.94", generic_sigs, 0.94, True),
     ]
     col_rows = []
-    for qi, sp in enumerate(BENCHMARK_SPECS):
+    for qi, sp in enumerate(dev_queries):
         flt_spec = sp.get("filters", {})
         flt_ns = SearchFilters(
             geo_scope=flt_spec.get("geo_scope"),
@@ -253,7 +237,7 @@ def main() -> None:
 
     # 2. Orthogonal NullSafe vs NaiveStrict Filter Ablation AT EXACT SELECTED near_dup_cos (Top-50)
     filt_rows = []
-    for qi, sp in enumerate(BENCHMARK_SPECS):
+    for qi, sp in enumerate(dev_queries):
         flt_spec = sp.get("filters", {})
         has_grid = flt_spec.get("max_grid_m") is not None
         for mode_name, ns_flag in [("NullSafe_Collapse", True), ("NaiveStrict_Collapse", False)]:
@@ -288,33 +272,43 @@ def main() -> None:
     print(f"\n--- [2] ORTHOGONAL NULL-SAFE vs NAIVE-STRICT ABLATION ON DEV-45 (cos={chosen_cos}, grid_tol=1.25 BOTH) ---")
     print(df_filt_sum.to_string(index=False))
 
-    # 3. Freeze Immutable Pre-Registered v4.1-standalone Manifest
+    # 3. Freeze Immutable v4.2-standalone Manifest (locking all benchmark JSONs, code, semantic index hashes & model revisions)
+    jina_model_id = "jinaai/jina-reranker-v3.5-mlx" if device == "mlx" else "jinaai/jina-reranker-v3.5"
+    qwen_model_id = "Qwen/Qwen3-Reranker-0.6B"
+    locked_model_revisions = {
+        resolved_embed_model: resolve_hf_model_revision(resolved_embed_model),
+        jina_model_id: resolve_hf_model_revision(jina_model_id),
+        qwen_model_id: resolve_hf_model_revision(qwen_model_id),
+    }
     locked_hashes = {
         "eo_search_lib.py": sha256_file(SCRIPT_DIR / "eo_search_lib.py"),
+        "02_build_policy_benchmark.py": sha256_file(SCRIPT_DIR / "02_build_policy_benchmark.py"),
         "06_eval_rerankers.py": sha256_file(SCRIPT_DIR / "06_eval_rerankers.py"),
         "10_run_blind_holdouts.py": sha256_file(SCRIPT_DIR / "10_run_blind_holdouts.py"),
         "full_catalogue.parquet": sha256_file(cat_pq),
+        "catalogue_content_sha256": cat_content_sha,
         "full_embeddings_bf16.npz": sha256_file(ARTIFACTS_DIR / "full_embeddings_bf16.npz"),
         "bm25_content_sha256": bm25_content_sha,
         "record_ids_sha256": rids_sha,
-        "policy_retrieval_benchmark.json": sha256_file(ARTIFACTS_DIR / "policy_retrieval_benchmark.json"),
+        "policy_retrieval_benchmark.json": sha256_file(dev_bench_path),
         "holdout_a_external_benchmark.json": sha256_file(ARTIFACTS_DIR / "holdout_a_external_benchmark.json"),
         "holdout_b_blind_benchmark.json": sha256_file(ARTIFACTS_DIR / "holdout_b_blind_benchmark.json"),
     }
     frozen_v4 = {
-        "protocol_version": "v4.1-standalone",
+        "protocol_version": "v4.2-standalone",
         "frozen_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "device_used_for_freeze": device,
         "rule": (
-            "IMMUTABLE v4.1-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + record_id-keyed DuckDB BM25 + "
-            "Cadence/Grid/Geo-Aware Collapser + Deterministic Content & Benchmark SHA-256 Lock). Strictly self-contained standalone catalogue "
-            "validation: Dev-45 (development), Holdout A (retrospective GT-audited external domains, N=35), "
-            "and Prospective Single-Shot Blind Holdout B (N=60 completely unseen disjoint EO queries, G=G_eff=60)."
+            "IMMUTABLE v4.2-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + record_id- & content-hash-bound DuckDB BM25 + "
+            "Variable/Layer-Role/Cadence/Grid/Geo-Aware Collapser + Verified Hard-Limits Mode + Locked Benchmark JSONs & Model Revisions). "
+            "Strictly self-contained standalone catalogue evaluation: Dev-45 (development, N=45), "
+            "Holdout A (retrospectively audited external domains, N=35), and "
+            "Holdout B (retrospectively audited 60-query cross-domain holdout, disjoint from Dev-45 & Holdout A, G=G_eff=60)."
         ),
         "benchmark_provenance": {
-            "dev45": "development_tuning_set_45_queries",
-            "holdout_a": "retrospective_gt_audited_external_domains_35_queries",
-            "holdout_b_blind": "prospective_single_shot_blind_60_queries_disjoint_from_dev45_and_holdout_a",
+            "dev45": "development_tuning_set_45_queries_locked_json",
+            "holdout_a": "retrospectively_audited_external_domains_35_queries_locked_json",
+            "holdout_b": "retrospectively_audited_60_queries_disjoint_from_dev45_and_holdout_a_locked_json",
         },
         "preregistered_primary_metric": "fam_ndcg_10",
         "preregistered_secondary_metrics": ["mrr_10", "fam_r_10", "hit_5", "hit_10"],
@@ -328,6 +322,7 @@ def main() -> None:
         ],
         "locked_artifact_sha256": locked_hashes,
         "code_and_index_sha256": locked_hashes,
+        "locked_model_revisions": locked_model_revisions,
         "stage1": {
             "dense_model_mlx": DEFAULT_MODEL_BF16,
             "dense_model_pytorch": DEFAULT_PT_EMBED_MODEL,
@@ -402,7 +397,7 @@ def main() -> None:
         man["updated_at_utc"] = frozen_v4["frozen_at_utc"]
         man_path.write_text(json.dumps(man, indent=2), encoding="utf-8")
     lex.con.close()
-    print(f"\n[FROZEN] Wrote immutable v4.1-standalone artifact SHA-256 manifest -> {out_cfg}")
+    print(f"\n[FROZEN] Wrote immutable v4.2-standalone artifact SHA-256 manifest -> {out_cfg}")
 
 
 if __name__ == "__main__":

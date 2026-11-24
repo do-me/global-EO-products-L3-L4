@@ -3,8 +3,14 @@
   "nullsafe_top300_diffs": 0,
   "naivestrict_top300_diffs": 0,
   "total_paired_checks": 90,
-  "bm25_content_sha256": "1bd2202151893d6599fda3b4b8d447968a7fa135437628c9cdc9594f7df06063",
+  "bm25_content_sha256": "278a7e98ccb9612fde6abaad7a8f3556f4041f7e9e62987e34723f847157a3db",
   "rebuild_content_sha_identical": true,
   "same_length_different_order_rejected": true,
+  "same_ids_changed_metadata_rejected": true,
+  "local_rebuild_semantic_preflight_accepted": true,
+  "verified_hard_limits_min_end_year_2035_zero_violations": true,
+  "verified_hard_limits_grid_excludes_otd_and_gcmd": true,
+  "annual_nlcd_distinct_variables_preserved": true,
+  "glc_fcs30d_cadence_variants_preserved": true,
   "exact_determinism_passed": true
 }

@@ -169,6 +169,11 @@ def parse_resolution_meters(res_str: str | None) -> float | None:
         return val if 0 < val <= 600_000.0 else None
 
     candidates: list[float] = []
+    # Verbal degree fractions (e.g. "half degree", "quarter-degree")
+    if re.search(r"\bhalf[-\s]+degree\b", s):
+        candidates.append(round(0.5 * 111_320.0, 2))
+    if re.search(r"\bquarter[-\s]+degree\b", s):
+        candidates.append(round(0.25 * 111_320.0, 2))
     # Explicit fractional degree grids such as "1/12°" or "1/20 degree" (prevent misreading denominator as integer deg)
     frac_deg_pat = re.compile(
         r"(?<![\d.])(\d+)\s*/\s*(\d+)\s*(?:°|(?:decimal\s+)?(?:deg|degrees?)\b)(?![\s°]*[cfknswe]\b)"
@@ -305,7 +310,7 @@ _NON_CADENCE_SEASONAL_PHRASE_RE = re.compile(
 )
 
 _MULTI_YEAR_RE = re.compile(
-    r"(?<!multi-)\b(?:[2-9]-year(?:ly|s)?|10-year(?:ly|s)?|decadal)\b|"
+    r"(?<!multi-)\b(?:[2-9]-year(?:ly|s)?|10-year(?:ly|s)?|five[- ]?year(?:ly|s)?|decadal)\b|"
     rf"{_NUM_GUARD}\b(?:[2-9]\s*year(?:ly|s)?|10\s*year(?:ly|s)?)(?!\s+(?:time\s+series|period|record|span|archive|dataset))\b",
     re.IGNORECASE,
 )
@@ -2443,9 +2448,17 @@ def main() -> None:
             elif is_gcmd_coarse_spat and title_spat_m is not None:
                 adj_spat_m = title_spat_m
                 adj_spat_src = "title_token_fallback"
+            elif is_gcmd_coarse_spat and spat_m is not None:
+                # Preserve lower bound for broad discovery while marking explicitly as a coarse GCMD range band (not an exact output grid)
+                adj_spat_m = spat_m
+                adj_spat_src = "gcmd_coarse_resolution_band"
             elif spat_m is not None:
                 adj_spat_m = spat_m
-                adj_spat_src = "upstream_spatial_resolution_raw"
+                adj_spat_src = (
+                    "ecv_inventory_horizontal_resolution"
+                    if sid == "12_ceos_cgms_wgclimate_ecv"
+                    else "upstream_spatial_resolution_raw"
+                )
             elif prose_spat_m is not None and (title_spat_m is None or (0.4 <= (prose_spat_m / title_spat_m) <= 2.5)):
                 adj_spat_m = prose_spat_m
                 adj_spat_src = "prose_delivered_output_grid"

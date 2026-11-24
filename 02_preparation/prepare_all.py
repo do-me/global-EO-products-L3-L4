@@ -2924,6 +2924,14 @@ def parse_33_us_ghg_center_stac() -> list[dict[str, Any]]:
             temp_res = None
 
         lvl = clean_str(c.get("product_level") or c.get("processing:level"))
+        if not lvl and doi:
+            m_doi_lvl = re.search(
+                r"(?:emit|oco[23]|gosat|tropomi|viirs|modis)[-_]?(l[12][ab]?)",
+                doi,
+                re.IGNORECASE,
+            )
+            if m_doi_lvl:
+                lvl = m_doi_lvl.group(1).upper()
 
         plat_hints: list[str] = []
         for pat, lbl in (
@@ -3446,19 +3454,23 @@ def main() -> None:
 
     _PROSE_SPAT_PATS = [
         re.compile(
-            r"(?:with\s+a\s+)?(?:spatial|horizontal|grid)\s+resolution\s*(?:of|is|at|:)\s*"
-            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
+            r"(?:with\s+a\s+|at\s+a\s+)?(?:spatial|horizontal|grid)\s+resolution\s*(?:of|is|at|:)\s*(?:a\s+)?"
+            r"((?:half|quarter)[-\s]+degree|\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
             r"(?![\s°º]*[cfknswe]\b)",
             re.IGNORECASE,
         ),
         re.compile(
-            r"(?:with\s+a\s+|at\s+a?\s*)resolution\s+(?:of|is|:)\s*"
-            r"(\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
+            r"(?:with\s+a\s+|at\s+a?\s*)resolution\s+(?:of|is|:)\s*(?:a\s+)?"
+            r"((?:half|quarter)[-\s]+degree|\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|kilometers?|kilometres?|m|meters?|metres?|arcmin|arcsec))"
             r"(?![\s°º]*[cfknswe]\b)",
             re.IGNORECASE,
         ),
         re.compile(
             r"(?<![x×.\d])(\d+\s*/\s*\d+\s*[°º]|(?:0\.\d+|1\.\d+|2\.\d+|5\.0)[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg))(?:\s*(?:geographic\s+)?grid)?(?![\s°º]*(?:[cfknswe]|lat|lon)\b)",
+            re.IGNORECASE,
+        ),
+        re.compile(
+            r"\b((?:half|quarter)[-\s]+degree)\s+(?:latitude[- ]longitude|lat[- /]lon|geographic|global|spatial)?\s*(?:grid|resolution|latitude[- ]longitude)",
             re.IGNORECASE,
         ),
         re.compile(
@@ -3489,8 +3501,8 @@ def main() -> None:
         r"\b(?:this\s+dataset|the\s+product|dataset|data|composite\s+maps?|maps?|grid|product)\b.{0,120}"
         r"\b(?:produced|delivered|distributed|provided|generated|posted|mapped|gridded|archives|has|had|is|with|at|on)\b.{0,100}"
         r"(?:spatial\s+resolution|horizontal\s+resolution|grid\s+resolution|resolution\s+(?:of|is)|on\s+a\s+(?:regional|global|regular|geographic).{0,30}grid|gridded\s+at)|"
-        r"\bwith\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
-        r"\b(?:at|with|and)\s+\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|m)\s+(?:spatial|horizontal|grid)\s+resolution\b|"
+        r"\b(?:with|at)\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
+        r"\b(?:at|with|and)\s+(?:a\s+)?(?:(?:half|quarter)[-\s]+degree|\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|decimal\s+degrees?|degrees?|deg|km|m))\s+(?:spatial|horizontal|grid|latitude[- ]longitude)\s+(?:resolution|grid)\b|"
         r"\b(?:elevation\s+change\s+)?maps?\s+(?:at|with)\s+\d+(?:\.\d+)?(?:\s*/\s*\d+)?[-\s]*(?:[°º]|km|m)\s+resolution\b|"
         r"\b(?:have|had)\s+a\s+(?:spatial\s+|horizontal\s+|grid\s+)?resolution\s+of\b|"
         r"\b(?:this\s+repository\s+archives|comprehensive)\s+\d+(?:\.\d+)?\s*[°º]\s+(?:dataset|grid|product)\b|"
@@ -3509,6 +3521,10 @@ def main() -> None:
 
     def _cand_to_approx_m(cand: str) -> float | None:
         c = cand.lower().replace("º", "°").strip()
+        if re.match(r"^half[-\s]+degree$", c):
+            return 0.5 * 111320.0
+        if re.match(r"^quarter[-\s]+degree$", c):
+            return 0.25 * 111320.0
         mf = re.match(r"^(\d+)\s*/\s*(\d+)\s*(?:°|deg|degree|degrees)$", c)
         if mf and float(mf.group(2)) > 0:
             return (float(mf.group(1)) / float(mf.group(2))) * 111320.0

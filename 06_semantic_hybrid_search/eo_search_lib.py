@@ -40,8 +40,22 @@ DEFAULT_MODEL_8BIT = "mlx-community/embeddinggemma-2-8bit"
 DEFAULT_PT_EMBED_MODEL = "google/embeddinggemma-2"
 QUERY_PROMPT_PREFIX = "task: search result | query: "
 GITHUB_REPO = "do-me/global-EO-products-L3-L4"
-DEFAULT_INDEX_RELEASE_TAG = "v4.1.0-indexes"
+DEFAULT_INDEX_RELEASE_TAG = "v4.2.0-indexes"
 INDEX_ASSET_NAMES = ("full_bm25.duckdb", "full_embeddings_bf16.npz", "full_index_manifest.json")
+
+_CATALOGUE_CONTENT_HASH_COLS = (
+    "record_id",
+    "title",
+    "description",
+    "keywords",
+    "adjudicated_output_grid_meters",
+    "adjudicated_spatial_resolution_source",
+    "geographic_coverage_class",
+    "processing_level",
+    "temporal_cadence_class",
+    "temporal_end_year",
+    "doi",
+)
 
 
 def compute_file_sha256(path: Path) -> str:
@@ -60,6 +74,44 @@ def compute_record_ids_sha256(record_ids: Iterable[str]) -> str:
         h.update(str(rid).encode("utf-8"))
         h.update(b"\n")
     return h.hexdigest()
+
+
+def compute_catalogue_content_sha256(df: pd.DataFrame) -> str:
+    """Compute deterministic SHA-256 over key indexed and filterable catalogue columns."""
+    h = hashlib.sha256()
+    cols = [c for c in _CATALOGUE_CONTENT_HASH_COLS if c in df.columns]
+    h.update(("|".join(cols) + "\n").encode("utf-8"))
+    if not cols or len(df) == 0:
+        return h.hexdigest()
+    col_lists = [df[c].tolist() for c in cols]
+    for row_vals in zip(*col_lists):
+        parts = []
+        for v in row_vals:
+            if v is None or (isinstance(v, float) and math.isnan(v)) or pd.isna(v):
+                parts.append("")
+            else:
+                parts.append(str(v))
+        h.update("\x00".join(parts).encode("utf-8"))
+        h.update(b"\n")
+    return h.hexdigest()
+
+
+def resolve_hf_model_revision(model_id: str) -> str:
+    """Resolve the exact 40-char HuggingFace snapshot commit SHA from local cache when available."""
+    hf_home = Path(os.environ.get("HF_HOME", Path.home() / ".cache" / "huggingface"))
+    hub_dir = Path(os.environ.get("HF_HUB_CACHE", hf_home / "hub"))
+    repo_dir = hub_dir / ("models--" + model_id.replace("/", "--"))
+    ref_main = repo_dir / "refs" / "main"
+    if ref_main.exists():
+        rev = ref_main.read_text(encoding="utf-8").strip()
+        if rev:
+            return rev
+    snaps = repo_dir / "snapshots"
+    if snaps.exists():
+        dirs = sorted(p.name for p in snaps.iterdir() if p.is_dir())
+        if dirs:
+            return dirs[-1]
+    return "unresolved"
 
 
 def _download_release_asset(
@@ -89,16 +141,49 @@ def _download_release_asset(
     return dest_path
 
 
+def _bm25_matches_manifest_content(db_path: Path, manifest: dict[str, Any]) -> bool:
+    """Validate a local DuckDB BM25 index by semantic content identity rather than file-page bytes."""
+    exp_content = str(manifest.get("bm25_content_sha256") or "")
+    exp_rids = str(manifest.get("record_ids_sha256") or "")
+    exp_cat_content = str(manifest.get("catalogue_content_sha256") or "")
+    if not exp_content and not exp_rids:
+        return False
+    lex: Optional[DuckDBLexicalIndex] = None
+    try:
+        lex = DuckDBLexicalIndex(str(db_path), read_only=True)
+        meta = lex.get_meta()
+        if exp_rids and meta.get("record_ids_sha256", "") != exp_rids:
+            return False
+        if exp_cat_content and meta.get("catalogue_content_sha256", "") != exp_cat_content:
+            return False
+        if exp_content:
+            if meta.get("bm25_content_sha256", "") != exp_content:
+                return False
+            if lex.compute_content_sha256() != exp_content:
+                return False
+        return True
+    except Exception:
+        return False
+    finally:
+        if lex is not None:
+            try:
+                lex.con.close()
+            except Exception:
+                pass
+
+
 def ensure_search_indexes(
     artifacts_dir: Path,
     require_dense: bool = True,
     allow_download: bool = True,
     release_tag: str = DEFAULT_INDEX_RELEASE_TAG,
 ) -> dict[str, Path]:
-    """Ensure full_bm25.duckdb (and optionally full_embeddings_bf16.npz) exist and match manifest SHA-256.
+    """Ensure full_bm25.duckdb (and optionally full_embeddings_bf16.npz) exist and match manifest identity.
 
-    When missing or stale vs `full_index_manifest.json`, downloads the published release assets from
-    GitHub Releases (or `EO_SEARCH_INDEX_RELEASE_URL` when set) unless `allow_download=False`.
+    Local DuckDB rebuilds are validated by deterministic semantic content (`bm25_content_sha256`,
+    `record_ids_sha256`, `catalogue_content_sha256`) so equivalent local rebuilds pass preflight
+    even when DuckDB storage page bytes differ. Downloaded release archives are still verified
+    against their exact release file SHA-256.
     """
     base_url = os.environ.get(
         "EO_SEARCH_INDEX_RELEASE_URL",
@@ -126,10 +211,21 @@ def ensure_search_indexes(
     for fname in needed:
         target = artifacts_dir / fname
         expected = sha_map.get(fname, "")
-        valid = target.exists() and (not expected or compute_file_sha256(target) == expected)
+        if fname == "full_bm25.duckdb":
+            if target.exists():
+                if manifest.get("bm25_content_sha256"):
+                    valid = _bm25_matches_manifest_content(target, manifest)
+                else:
+                    valid = not expected or compute_file_sha256(target) == expected
+            else:
+                valid = False
+        else:
+            valid = target.exists() and (not expected or compute_file_sha256(target) == expected)
         if not valid:
             if not allow_download:
-                reason = "missing" if not target.exists() else f"SHA-256 mismatch (expected {expected})"
+                reason = "missing" if not target.exists() else (
+                    "semantic content mismatch vs manifest" if fname == "full_bm25.duckdb" else f"SHA-256 mismatch (expected {expected})"
+                )
                 raise FileNotFoundError(f"Search index asset {target} is {reason} and auto-download is disabled.")
             _download_release_asset(base_url, fname, target, expected_sha256=expected)
 
@@ -1246,10 +1342,23 @@ class DuckDBLexicalIndex:
             )
         meta = self.get_meta()
         meta_cat_sha = meta.get("catalogue_sha256", "")
-        if catalogue_sha256 and meta_cat_sha and catalogue_sha256 != meta_cat_sha:
+        if catalogue_sha256:
+            if not meta_cat_sha or catalogue_sha256 != meta_cat_sha:
+                raise RuntimeError(
+                    f"BM25 catalogue_sha256 mismatch: index={meta_cat_sha!r} vs parquet={catalogue_sha256!r}. "
+                    "Rebuild search indexes via 05_index_full_catalogue.py."
+                )
+        meta_cat_content_sha = meta.get("catalogue_content_sha256", "")
+        actual_cat_content_sha = compute_catalogue_content_sha256(df)
+        if meta_cat_content_sha:
+            if meta_cat_content_sha != actual_cat_content_sha:
+                raise RuntimeError(
+                    f"BM25 catalogue_content_sha256 mismatch: index={meta_cat_content_sha} vs live DataFrame={actual_cat_content_sha}. "
+                    "Catalogue metadata changed with the same record_ids; rebuild search indexes via 05_index_full_catalogue.py."
+                )
+        elif not catalogue_sha256:
             raise RuntimeError(
-                f"BM25 catalogue_sha256 mismatch: index={meta_cat_sha} vs parquet={catalogue_sha256}. "
-                "Rebuild search indexes via 05_index_full_catalogue.py."
+                "BM25 index metadata lacks `catalogue_content_sha256` and no `catalogue_sha256` was provided; rebuild search indexes."
             )
         meta_rids_sha = meta.get("record_ids_sha256", "")
         actual_rids_sha = compute_record_ids_sha256(df_rids)
@@ -1309,13 +1418,15 @@ class DuckDBLexicalIndex:
         )
         content_sha = self.compute_content_sha256()
         rids_sha = compute_record_ids_sha256(rids_ordered)
+        cat_content_sha = compute_catalogue_content_sha256(df)
         self.con.execute("CREATE TABLE eo_meta (key VARCHAR PRIMARY KEY, val VARCHAR)")
         self.con.executemany(
             "INSERT INTO eo_meta VALUES (?, ?)",
             [
-                ("schema_version", "4.1"),
+                ("schema_version", "4.2"),
                 ("n_rows", str(len(df))),
                 ("catalogue_sha256", catalogue_sha256),
+                ("catalogue_content_sha256", cat_content_sha),
                 ("record_ids_sha256", rids_sha),
                 ("bm25_content_sha256", content_sha),
             ],
@@ -1462,7 +1573,8 @@ def verify_index_alignment(
 ) -> dict[str, Any]:
     """Fail fast if catalogue row count, ordered `record_id` vector, or `catalogue_sha256` diverges."""
     df_rids = [str(r) for r in df["record_id"]]
-    cat_sha = compute_file_sha256(catalogue_path) if catalogue_path is not None and catalogue_path.exists() else ""
+    cat_path = Path(catalogue_path) if catalogue_path is not None else None
+    cat_sha = compute_file_sha256(cat_path) if cat_path is not None and cat_path.exists() else ""
 
     if lex_index is not None:
         lex_index.verify_against_dataframe(df, catalogue_sha256=cat_sha)
@@ -1528,12 +1640,37 @@ _REGION_BBOX = {
 
 _OBSOLETE_TITLE_RE = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
 
+_VERIFIED_OUTPUT_GRID_SOURCES = {
+    "upstream_spatial_resolution_raw",
+    "prose_delivered_output_grid",
+    "title_token_fallback",
+    "provider_documented_errata_adjudication",
+}
+
+_DISCOVERY_CURRENT_YEAR = 2026
+
+_BENCHMARK_AUX_LAYER_RE = re.compile(
+    r"\b(?:distance[- ]to[- ]second|quality\s+flag|qa\s+(?:brdf|local|validobs|snow|uncertainty|pixel)|"
+    r"confidence\s+in\s+classification|landcover\s+confidence|land\s+cover\s+confidence|"
+    r"(?:data|static)\s+mask|land/sea\s+static\s+mask|impervious\s+descriptor|"
+    r"spectral\s+change\s+doy|error\s+(?:map|layer))\b",
+    re.IGNORECASE,
+)
+
 
 def compute_unknown_metadata_counts(df: pd.DataFrame, active_only: bool = True) -> dict[str, int]:
     """Count records missing structured metadata fields (excluded in Hard Limits / Verified mode)."""
     n = len(df)
     if n == 0:
-        return {"total_records": 0, "processing_level": 0, "grid_meters": 0, "geographic_coverage": 0, "cadence": 0}
+        return {
+            "total_records": 0,
+            "processing_level": 0,
+            "grid_meters": 0,
+            "unverified_grid_source": 0,
+            "geographic_coverage": 0,
+            "cadence": 0,
+            "temporal_end_year": 0,
+        }
     mask = np.ones(n, dtype=bool)
     if active_only:
         if "is_superseded_edition" in df.columns:
@@ -1545,9 +1682,21 @@ def compute_unknown_metadata_counts(df: pd.DataFrame, active_only: bool = True) 
         int((mask & (df["processing_level"].isna() | (df["processing_level"].astype(str) == ""))).sum())
         if "processing_level" in df.columns else 0
     )
-    g_null = (
-        int((mask & pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").isna()).sum())
-        if "adjudicated_output_grid_meters" in df.columns else 0
+    g_vals = (
+        pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy()
+        if "adjudicated_output_grid_meters" in df.columns
+        else np.full(n, np.nan)
+    )
+    g_null = int((mask & np.isnan(g_vals)).sum())
+    unver_grid = (
+        int(
+            (
+                mask
+                & ~np.isnan(g_vals)
+                & ~df["adjudicated_spatial_resolution_source"].fillna("").isin(_VERIFIED_OUTPUT_GRID_SOURCES).to_numpy()
+            ).sum()
+        )
+        if "adjudicated_spatial_resolution_source" in df.columns else 0
     )
     geo_null = (
         int((mask & (df["geographic_coverage_class"].isna() | (df["geographic_coverage_class"].astype(str) == ""))).sum())
@@ -1557,12 +1706,18 @@ def compute_unknown_metadata_counts(df: pd.DataFrame, active_only: bool = True) 
         int((mask & (df["temporal_cadence_class"].isna() | (df["temporal_cadence_class"].astype(str) == ""))).sum())
         if "temporal_cadence_class" in df.columns else 0
     )
+    ey_null = (
+        int((mask & pd.to_numeric(df["temporal_end_year"], errors="coerce").isna()).sum())
+        if "temporal_end_year" in df.columns else 0
+    )
     return {
         "total_records": int(mask.sum()),
         "processing_level": pl_null,
         "grid_meters": g_null,
+        "unverified_grid_source": unver_grid,
         "geographic_coverage": geo_null,
         "cadence": cad_null,
+        "temporal_end_year": ey_null,
     }
 
 
@@ -1570,10 +1725,32 @@ def filter_benchmark_family_mask(
     df: pd.DataFrame,
     hit_mask: np.ndarray,
     query_filters: Optional[dict[str, Any]] = None,
+    query_text: str = "",
 ) -> np.ndarray:
-    """Restrict ground-truth family matches so global queries never credit regional/narrow-strip rows."""
+    """Restrict ground-truth family matches to records satisfying requested variable, level, grid & footprint."""
     out = np.asarray(hit_mask, dtype=bool).copy()
-    scope = str((query_filters or {}).get("geo_scope") or "").lower()
+    qf = query_filters or {}
+
+    # 1. Exclude non-L3/L4 (L1/L2) upstream records unless explicitly requested
+    req_levels = set(qf.get("processing_levels") or [])
+    if "processing_level" in df.columns and not (req_levels & {"L1", "L2"}):
+        pl = df["processing_level"].fillna("").astype(str).to_numpy()
+        out &= ~np.isin(pl, ["L1", "L2"])
+
+    # 2. Exclude standalone auxiliary confidence / QA / static-mask layers unless requested in query
+    if "title" in df.columns and not _BENCHMARK_AUX_LAYER_RE.search(query_text or ""):
+        is_aux = df["title"].fillna("").str.contains(_BENCHMARK_AUX_LAYER_RE, regex=True).to_numpy(dtype=bool, copy=True)
+        out &= ~is_aux
+
+    # 3. Enforce max_grid_m on known output grids so coarse 2.5 deg products never satisfy 0.1/0.5 deg queries
+    max_g = qf.get("max_grid_m")
+    if max_g is not None and "adjudicated_output_grid_meters" in df.columns:
+        g = pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy(dtype=np.float64)
+        has_g = ~np.isnan(g)
+        out &= ~has_g | (g <= float(max_g) * 1.25)
+
+    # 4. Global geographic scope guard
+    scope = str(qf.get("geo_scope") or "").lower()
     if scope == "global":
         if "geographic_coverage_class" in df.columns:
             gc = df["geographic_coverage_class"].fillna("").to_numpy()
@@ -1637,12 +1814,28 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
         thresh = flt.max_grid_m * eff_grid_tol
         is_null = np.isnan(g)
         ok = np.where(is_null, eff_null_safe, g <= thresh)
+        if flt.hard_limits:
+            # Verified hard grid limits require documented output-grid spacing (not coarse GCMD bands or untyped sensor IFOV)
+            if "adjudicated_spatial_resolution_source" in df.columns:
+                src_ok = df["adjudicated_spatial_resolution_source"].fillna("").isin(_VERIFIED_OUTPUT_GRID_SOURCES).to_numpy()
+                ok &= src_ok
+            if "spatial_resolution_conflict" in df.columns:
+                ok &= ~df["spatial_resolution_conflict"].fillna(False).to_numpy(dtype=bool, copy=True)
+            if "processing_level" in df.columns and not (set(flt.processing_levels or []) & {"L1", "L2"}):
+                pl_s = df["processing_level"].fillna("").astype(str).to_numpy()
+                ok &= ~np.isin(pl_s, ["L1", "L2"])
         mask &= ok
 
     if flt.min_grid_m is not None and "adjudicated_output_grid_meters" in df.columns:
         g = pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy()
         is_null = np.isnan(g)
         ok = np.where(is_null, eff_null_safe, g >= flt.min_grid_m)
+        if flt.hard_limits:
+            if "adjudicated_spatial_resolution_source" in df.columns:
+                src_ok = df["adjudicated_spatial_resolution_source"].fillna("").isin(_VERIFIED_OUTPUT_GRID_SOURCES).to_numpy()
+                ok &= src_ok
+            if "spatial_resolution_conflict" in df.columns:
+                ok &= ~df["spatial_resolution_conflict"].fillna(False).to_numpy(dtype=bool, copy=True)
         mask &= ok
 
     if flt.cadence_classes and "temporal_cadence_class" in df.columns:
@@ -1713,13 +1906,18 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
 
     if flt.min_end_year is not None and "temporal_end_year" in df.columns:
         ey = pd.to_numeric(df["temporal_end_year"], errors="coerce").to_numpy()
-        ongoing = (
-            df["is_ongoing_archive"].fillna(False).to_numpy(dtype=bool, copy=True)
-            if "is_ongoing_archive" in df.columns
-            else np.zeros(n, dtype=bool)
-        )
         is_null = np.isnan(ey)
-        ok = ongoing | np.where(is_null, eff_null_safe, ey >= flt.min_end_year)
+        if flt.hard_limits:
+            # Verified hard date limits require a documented coverage end >= min_end_year (ongoing cannot bypass)
+            ok = (~is_null) & (ey >= flt.min_end_year)
+        else:
+            ongoing = (
+                df["is_ongoing_archive"].fillna(False).to_numpy(dtype=bool, copy=True)
+                if "is_ongoing_archive" in df.columns
+                else np.zeros(n, dtype=bool)
+            )
+            ongoing_ok = ongoing if flt.min_end_year <= _DISCOVERY_CURRENT_YEAR else np.zeros(n, dtype=bool)
+            ok = ongoing_ok | np.where(is_null, eff_null_safe, ey >= flt.min_end_year)
         mask &= ok
 
     if flt.max_start_year is not None and "temporal_start_year" in df.columns:
@@ -1784,9 +1982,79 @@ _VERSION_YEAR_STRIP_RE = re.compile(
     r"\((?:raster|vector|cog|geotiff|netcdf|hdf\d?|csv|shapefile)[^)]*\)|"
     r"\b\d+(?:\.\d+)?\s*(?:m|km|deg|degree|degrees|arc-?sec(?:ond)?s?|min)\b|"
     r"\b(?:nrt|near\s+real\s+time|provisional|validated|reprocessed|interim|"
-    r"status|change|product|products|dataset|data\s+set|map|maps|layer|layers|grid|gridded|series)\b",
+    r"status|product|products|dataset|data\s+set|map|maps|layer|layers|grid|gridded|series)\b",
     re.IGNORECASE,
 )
+
+# Product layer-role & delivered-variable guards for generic collapsing (prevents merging distinct
+# variables or auxiliary confidence/QA/mask/descriptor layers within multi-product suites like Annual NLCD)
+_LAYER_ROLE_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("confidence", re.compile(r"\b(?:confidence|distance[- ]to[- ]second)\b", re.I)),
+    ("quality_flag", re.compile(r"\b(?:quality\s+flag|qa\b|validobs)\b", re.I)),
+    ("spectral_change", re.compile(r"\b(?:spectral\s+change|change\s+doy)\b|spectral_change_doy", re.I)),
+    ("impervious_descriptor", re.compile(r"\bimpervious\s+descriptor\b|impervious_descriptor", re.I)),
+    ("mask", re.compile(r"\b(?:(?:data|water|cloud|land/sea\s+(?:static\s+)?)mask)\b", re.I)),
+    ("error_uncertainty", re.compile(r"\b(?:error\s+(?:map|layer)|uncertainty\s+(?:map|layer))\b", re.I)),
+]
+
+_DELIVERED_VAR_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("fractional_impervious", re.compile(r"\b(?:fractional\s+impervious|impervious\s+surface|imperviousness)\b|fractional_impervious", re.I)),
+    ("land_cover_change", re.compile(r"\bland\s*cover\s*change\b|landcover_change", re.I)),
+    ("land_cover", re.compile(r"\b(?:land\s*cover|landcover|lulc)\b", re.I)),
+    ("tree_canopy", re.compile(r"\b(?:tree\s+canopy|canopy\s+cover|canopy\s+height)\b", re.I)),
+    ("biomass", re.compile(r"\b(?:biomass|aboveground\s+biomass|\bagb\b)\b", re.I)),
+    ("burned_area", re.compile(r"\b(?:burn(?:ed|t)\s+area|fire\s+radiative|active\s+fire)\b", re.I)),
+    ("surface_water", re.compile(r"\b(?:surface\s+water|water\s+bodies|inundation)\b", re.I)),
+    ("snow_swe", re.compile(r"\b(?:snow\s+water\s+equivalent|\bswe\b)\b", re.I)),
+    ("snow_cover", re.compile(r"\b(?:snow\s+cover|snow\s+extent|fractional\s+snow)\b", re.I)),
+    ("soil_moisture", re.compile(r"\b(?:soil\s+moisture|soil\s+water\s+index)\b", re.I)),
+    ("soil_carbon", re.compile(r"\b(?:soil\s+organic\s+carbon|\bsoc\b|\bgsoc)\b", re.I)),
+    ("evapotranspiration", re.compile(r"\b(?:evapotranspiration|evaporation)\b", re.I)),
+    ("lai_fapar", re.compile(r"\b(?:leaf\s+area\s+index|\blai\b|fapar|fpar)\b", re.I)),
+    ("ndvi_evi", re.compile(r"\b(?:ndvi|\bevi\b|vegetation\s+greenness)\b", re.I)),
+    ("gpp_npp", re.compile(r"\b(?:gross\s+primary\s+prod|\bgpp\b|net\s+primary\s+prod|\bnpp\b)\b", re.I)),
+    ("albedo", re.compile(r"\balbedo\b", re.I)),
+    ("lst", re.compile(r"\b(?:land\s+surface\s+temperature|\blst\b)\b", re.I)),
+    ("sst", re.compile(r"\b(?:sea\s+surface\s+temperature|\bsst\b)\b", re.I)),
+    ("chlorophyll", re.compile(r"\b(?:chlorophyll|ocean\s+colou?r)\b", re.I)),
+    ("precipitation", re.compile(r"\b(?:precipitation|rainfall)\b", re.I)),
+    ("elevation_dem", re.compile(r"\b(?:digital\s+elevation|digital\s+surface\s+model|\bdem\b|\bdsm\b)\b", re.I)),
+    ("methane", re.compile(r"\b(?:methane|\bch4\b)\b", re.I)),
+    ("co2", re.compile(r"\b(?:carbon\s+dioxide|\bco2\b)\b", re.I)),
+]
+
+_TITLE_CADENCE_FALLBACK_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
+    ("multi_year_periodic", re.compile(r"\b(?:five[- ]?years?|5[- ]?years?|multi[- ]?year|decadal)\b|five[-_]years", re.I)),
+    ("annual", re.compile(r"\b(?:annual(?:ly)?|yearly)\b|/annual\b", re.I)),
+    ("monthly_or_seasonal", re.compile(r"\b(?:monthly|seasonal)\b", re.I)),
+    ("multi_day_or_dekadal", re.compile(r"\b(?:8[- ]?day|10[- ]?daily|16[- ]?day|dekadal|weekly|bi[- ]?weekly|semi[- ]?monthly|half[- ]?monthly)\b", re.I)),
+    ("sub_daily_or_daily", re.compile(r"\b(?:daily|hourly|sub[- ]?daily)\b", re.I)),
+    ("static_or_single_epoch", re.compile(r"\b(?:static|single[- ]?epoch)\b", re.I)),
+]
+
+
+def _extract_product_layer_and_var(title: str, raw_id: str = "", cadence_class: str = "") -> tuple[str, frozenset[str], str]:
+    text = f"{_safe_str(title)} | {_safe_str(raw_id)}"
+    role = "primary"
+    for rname, pat in _LAYER_ROLE_PATTERNS:
+        if pat.search(text):
+            role = rname
+            break
+    vtags: set[str] = set()
+    if role == "primary":
+        for vname, pat in _DELIVERED_VAR_PATTERNS:
+            if pat.search(text):
+                vtags.add(vname)
+        # Keep land_cover_change distinct from plain land_cover
+        if "land_cover_change" in vtags and "land_cover" in vtags:
+            vtags.discard("land_cover")
+    eff_cad = _safe_str(cadence_class)
+    if not eff_cad:
+        for cname, pat in _TITLE_CADENCE_FALLBACK_PATTERNS:
+            if pat.search(text):
+                eff_cad = cname
+                break
+    return role, frozenset(vtags), eff_cad
 
 
 _LEADING_CODE_PREFIX_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{2,45}:\s+")
@@ -1863,10 +2131,14 @@ def compute_generic_family_signature(
     stop = {"the", "of", "for", "from", "in", "on", "to", "and", "by", "at", "with", "derived", "based"}
     tokens = [w for w in stem.split() if len(w) > 1 and w not in stop][:6]
     base = "gstem:" + "_".join(tokens) if len(tokens) >= 2 else "key:" + (_safe_str(canonical_key) or stem or t.lower())
+    role, vtags, eff_cad = _extract_product_layer_and_var(t, canonical_key, cadence_class)
     qualifiers: list[str] = []
-    cad = _safe_str(cadence_class)
-    if cad:
-        qualifiers.append(f"cad:{cad}")
+    if role != "primary":
+        qualifiers.append(f"role:{role}")
+    if vtags:
+        qualifiers.append("var:" + "+".join(sorted(vtags)))
+    if eff_cad:
+        qualifiers.append(f"cad:{eff_cad}")
     gb = _grid_bucket_tag(grid_meters)
     if gb:
         qualifiers.append(gb)
@@ -1979,7 +2251,7 @@ def collapse_product_families(
     physical-sensor guards so distinct products are never merged. When `query_text` is provided,
     promotes any collapsed cluster sibling matching explicit resolution/cadence/scope tokens.
     """
-    cache = df.attrs.get("_eo_collapse_cache_v41")
+    cache = df.attrs.get("_eo_collapse_cache_v42")
     if cache is None or cache[0] != len(df):
         titles_c = df["title"].fillna("").astype(str).tolist()
         rids_c = df["record_id"].fillna("").astype(str).tolist()
@@ -1987,23 +2259,41 @@ def collapse_product_families(
         raw_ids_c = df["raw_id"].fillna("").astype(str).tolist() if "raw_id" in df.columns else [""] * len(df)
         psens_c = df["platform_sensor_raw"].fillna("").astype(str).tolist() if "platform_sensor_raw" in df.columns else [""] * len(df)
         dois_c = df["doi"].fillna("").astype(str).str.lower().str.strip().tolist() if "doi" in df.columns else [""] * len(df)
-        cads_c = df["temporal_cadence_class"].fillna("").astype(str).tolist() if "temporal_cadence_class" in df.columns else [""] * len(df)
+        cads_raw_c = df["temporal_cadence_class"].fillna("").astype(str).tolist() if "temporal_cadence_class" in df.columns else [""] * len(df)
         geos_c = df["geographic_coverage_class"].fillna("").astype(str).tolist() if "geographic_coverage_class" in df.columns else [""] * len(df)
+        ckeys_c = df["canonical_product_key"].fillna("").astype(str).tolist() if "canonical_product_key" in df.columns else [""] * len(df)
         grids_c = (
             pd.to_numeric(df["adjudicated_output_grid_meters"], errors="coerce").to_numpy(dtype=np.float64)
             if "adjudicated_output_grid_meters" in df.columns
             else np.full(len(df), np.nan, dtype=np.float64)
         )
-        df.attrs["_eo_collapse_cache_v41"] = (len(df), titles_c, rids_c, srcs_c, raw_ids_c, psens_c, dois_c, cads_c, geos_c, grids_c)
+        rv_cache: dict[int, tuple[str, frozenset[str], str]] = {}
+        sig_cache: dict[int, str] = {}
+        df.attrs["_eo_collapse_cache_v42"] = (
+            len(df), titles_c, rids_c, srcs_c, raw_ids_c, psens_c, dois_c, cads_raw_c, geos_c, ckeys_c, grids_c, rv_cache, sig_cache
+        )
     else:
-        _, titles_c, rids_c, srcs_c, raw_ids_c, psens_c, dois_c, cads_c, geos_c, grids_c = cache
+        _, titles_c, rids_c, srcs_c, raw_ids_c, psens_c, dois_c, cads_raw_c, geos_c, ckeys_c, grids_c, rv_cache, sig_cache = cache
 
-    if family_sigs is None:
-        ckeys = df["canonical_product_key"].fillna("").astype(str).tolist() if "canonical_product_key" in df.columns else [""] * len(df)
-        family_sigs = [
-            compute_generic_family_signature(t, c, cad, float(g) if np.isfinite(g) else None, geo)
-            for t, c, cad, g, geo in zip(titles_c, ckeys, cads_c, grids_c, geos_c)
-        ]
+    def _get_rv(didx: int) -> tuple[str, frozenset[str], str]:
+        hit = rv_cache.get(didx)
+        if hit is None:
+            hit = _extract_product_layer_and_var(titles_c[didx], raw_ids_c[didx], cads_raw_c[didx])
+            rv_cache[didx] = hit
+        return hit
+
+    def _get_sig(didx: int) -> str:
+        if family_sigs is not None:
+            return family_sigs[didx]
+        hit = sig_cache.get(didx)
+        if hit is None:
+            _, _, ec = _get_rv(didx)
+            g_v = float(grids_c[didx])
+            hit = compute_generic_family_signature(
+                titles_c[didx], ckeys_c[didx], ec, g_v if np.isfinite(g_v) else None, geos_c[didx]
+            )
+            sig_cache[didx] = hit
+        return hit
 
     kept: list[tuple[int, float, dict[str, Any]]] = []
     seen_sig_to_positions: dict[str, list[int]] = {}
@@ -2011,14 +2301,27 @@ def collapse_product_families(
     kept_sensors: list[frozenset[str]] = []
     scan_limit = min(len(ranked_items), max(top_k * 3, 200))
 
-    def _pair_conflicts(cpos: int, cur_sensors: Optional[frozenset[str]], cur_doi: str, cur_cad: str, cur_geo: str, cur_grid: float) -> bool:
+    def _pair_conflicts(
+        cpos: int,
+        cur_sensors: Optional[frozenset[str]],
+        cur_doi: str,
+        cur_cad: str,
+        cur_geo: str,
+        cur_grid: float,
+        cur_role: str,
+        cur_vtags: frozenset[str],
+    ) -> bool:
         k_idx = kept[cpos][0]
+        k_role, k_vtags, k_cad = _get_rv(k_idx)
+        if cur_role != k_role:
+            return True
+        if cur_vtags and k_vtags and cur_vtags.isdisjoint(k_vtags):
+            return True
         if sensor_guard and cur_sensors and kept_sensors[cpos] and cur_sensors.isdisjoint(kept_sensors[cpos]):
             return True
         k_doi = dois_c[k_idx]
         if cur_doi and k_doi and cur_doi != k_doi:
             return True
-        k_cad = cads_c[k_idx]
         if cur_cad and k_cad and cur_cad != k_cad:
             return True
         k_geo = geos_c[k_idx]
@@ -2031,24 +2334,24 @@ def collapse_product_families(
         return False
 
     for pos_i, (doc_idx, score, meta) in enumerate(ranked_items):
-        sig = family_sigs[doc_idx]
+        sig = _get_sig(doc_idx)
         cur_sensors: Optional[frozenset[str]] = (
             _extract_sensor_set(titles_c[doc_idx], raw_ids_c[doc_idx], psens_c[doc_idx]) if sensor_guard else None
         )
         cur_doi = dois_c[doc_idx]
-        cur_cad = cads_c[doc_idx]
+        cur_role, cur_vtags, cur_cad = _get_rv(doc_idx)
         cur_geo = geos_c[doc_idx]
         cur_grid = float(grids_c[doc_idx])
         matched_pos: Optional[int] = None
 
-        # 1. Exact generic stem match (with DOI/cadence/geo/resolution/sensor guards)
+        # 1. Exact generic stem match (with variable/role/DOI/cadence/geo/resolution/sensor guards)
         for cpos in seen_sig_to_positions.get(sig, ()):
-            if _pair_conflicts(cpos, cur_sensors, cur_doi, cur_cad, cur_geo, cur_grid):
+            if _pair_conflicts(cpos, cur_sensors, cur_doi, cur_cad, cur_geo, cur_grid, cur_role, cur_vtags):
                 continue
             matched_pos = cpos
             break
 
-        # 2. Generic high-cosine mirror catch (with DOI/cadence/geo/resolution/sensor guards)
+        # 2. Generic high-cosine mirror catch (with variable/role/DOI/cadence/geo/resolution/sensor guards)
         if matched_pos is None and vectors is not None and kept_vecs and near_dup_cos < 1.0:
             v = vectors[doc_idx]
             sims = np.dot(np.asarray(kept_vecs), v)
@@ -2057,7 +2360,7 @@ def collapse_product_families(
                 order = above[np.lexsort((above, -sims[above]))]
                 for cand_pos in order:
                     cpos = int(cand_pos)
-                    if _pair_conflicts(cpos, cur_sensors, cur_doi, cur_cad, cur_geo, cur_grid):
+                    if _pair_conflicts(cpos, cur_sensors, cur_doi, cur_cad, cur_geo, cur_grid, cur_role, cur_vtags):
                         continue
                     matched_pos = cpos
                     break
@@ -2097,7 +2400,7 @@ def collapse_product_families(
                 continue
             rep_q = _variant_query_match_score(
                 res_targets, cad_prefs, geo_prefs,
-                titles_c[rep_idx], cads_c[rep_idx], float(grids_c[rep_idx]), geos_c[rep_idx],
+                titles_c[rep_idx], _get_rv(rep_idx)[2], float(grids_c[rep_idx]), geos_c[rep_idx],
             )
             best_sib_pos = -1
             best_q = rep_q
@@ -2105,7 +2408,7 @@ def collapse_product_families(
                 s_idx = int(sib["doc_idx"])
                 sq = _variant_query_match_score(
                     res_targets, cad_prefs, geo_prefs,
-                    titles_c[s_idx], cads_c[s_idx], float(grids_c[s_idx]), geos_c[s_idx],
+                    titles_c[s_idx], _get_rv(s_idx)[2], float(grids_c[s_idx]), geos_c[s_idx],
                 )
                 if sq > best_q:
                     best_q = sq
@@ -2116,7 +2419,7 @@ def collapse_product_families(
                     {"record_id": rids_c[rep_idx], "source": srcs_c[rep_idx], "doc_idx": rep_idx}
                 ] + [s for j, s in enumerate(sibs) if j != best_sib_pos]
                 upd_meta = dict(rep_meta)
-                upd_meta["family_signature"] = family_sigs[chosen_idx]
+                upd_meta["family_signature"] = _get_sig(chosen_idx)
                 upd_meta["collapsed_siblings"] = new_sibs
                 upd_meta["sibling_count"] = len(new_sibs)
                 promoted.append((chosen_idx, rep_sc, upd_meta))

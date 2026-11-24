@@ -662,13 +662,23 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
 
     # 22. Full snapshot ID delta, prose provenance separation, GEDI L4A conflict, TCSIF/SST variants & EUMETSAT crosswalk
     all_ids_path = BASE_DIR / "verified_record_ids.json"
+    _DOCUMENTED_REMOVED_PRIOR_IDS = {
+        "33_us_ghg_center_stac::emit-ch4plume-v1": "NASA LP DAAC L2B product (10.5067/EMIT/EMITL2BCH4PLM.001)",
+        "33_us_ghg_center_stac::emit-ch4plume-v2": "NASA LP DAAC L2B product (10.5067/EMIT/EMITL2BCH4PLM.002)",
+    }
     id_delta_ok = False
     id_missing_cnt = -1
     if all_ids_path.exists():
         exp_ids = set(json.loads(all_ids_path.read_text(encoding="utf-8")).get("record_ids", []))
         got_ids = set(df_all["record_id"].astype(str))
-        id_missing_cnt = len(exp_ids - got_ids)
-        id_delta_ok = len(exp_ids) >= 38900 and id_missing_cnt == 0
+        undoc_missing = (exp_ids - got_ids) - set(_DOCUMENTED_REMOVED_PRIOR_IDS)
+        df_excl_22 = pd.read_parquet(PREP_DIR / "excluded_records_log.parquet")
+        excl_pairs = set(zip(df_excl_22["source_id"].astype(str), df_excl_22["raw_id"].astype(str)))
+        doc_logged = all(
+            tuple(rid.split("::", 1)) in excl_pairs for rid in (exp_ids - got_ids) & set(_DOCUMENTED_REMOVED_PRIOR_IDS)
+        )
+        id_missing_cnt = len(undoc_missing)
+        id_delta_ok = len(exp_ids) >= 38900 and id_missing_cnt == 0 and doc_logged
 
     amsr2 = df_all[df_all["raw_id"] == "C1886605828-LANCEAMSR2"]
     remo = df_all[df_all["raw_id"] == "cd0b21c3-dc1c-4e44-860d-eeb714da19c6"]
@@ -887,12 +897,17 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     )
 
     gpcp_n = df_all[df_all["record_id"] == "20_noaa_onestop::7180fc6a-a5a4-4857-925a-a0fa4f7f7727"]
+    gpcp_day_n = df_all[df_all["record_id"] == "20_noaa_onestop::07090ac2-b1fa-4335-b195-745b22b68398"]
     ce1 = df_all[df_all["record_id"] == "16_nasa_cmr::C3880496704-LARC_CLOUD"]
     ce2 = df_all[df_all["record_id"] == "16_nasa_cmr::C3880497643-LARC_CLOUD"]
     spot_panel_ok = (
         len(gpcp_n) == 1
         and gpcp_n.iloc[0]["temporal_output_cadences"] == "monthly_or_seasonal"
         and float(gpcp_n.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0
+        and len(gpcp_day_n) == 1
+        and gpcp_day_n.iloc[0]["temporal_cadence_class"] == "sub_daily_or_daily"
+        and float(gpcp_day_n.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0
+        and gpcp_day_n.iloc[0]["adjudicated_spatial_resolution_source"] == "prose_delivered_output_grid"
         and len(ce1) == 1 and ce1.iloc[0]["geographic_coverage_class"] == "global"
         and ce1.iloc[0]["geographic_coverage_provenance"] == "provider_documented_specification"
         and len(ce2) == 1 and ce2.iloc[0]["geographic_coverage_class"] == "global"
@@ -970,7 +985,8 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     mircaos_q = df_all[df_all["raw_id"].astype(str).str.lower() == "datacite:10.4211/hs.60a890eb841c460192c03bb590687145"]
 
     exp33_35_ok = (
-        len(s33_q) == 37 and bool((s33_q["provider_pool"] == "non_eu").all()) and ghg_bad_bb_q == 0
+        len(s33_q) == 35 and bool((s33_q["provider_pool"] == "non_eu").all()) and ghg_bad_bb_q == 0
+        and len(s33_q[s33_q["raw_id"].isin(["emit-ch4plume-v1", "emit-ch4plume-v2"])]) == 0
         and len(ghg_epa_q) == 1 and ghg_epa_q.iloc[0]["geographic_coverage_class"] == "regional_or_local"
         and len(ghg_gedi_q) == 1 and ghg_gedi_q.iloc[0]["geographic_coverage_class"] == "hemispheric_or_pantropical"
         and len(s34_q) >= 840 and bool((s34_q["provider_jurisdiction_tier"] == "un_or_international_body").all())

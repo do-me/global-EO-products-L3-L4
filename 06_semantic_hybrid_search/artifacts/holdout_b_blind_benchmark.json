@@ -1,9 +1,9 @@
 {
-  "benchmark_name": "Prospective_Single_Shot_Blind_Holdout_B_v4_standalone",
-  "blind_status": "prospective_single_shot_blind",
+  "benchmark_name": "Retrospectively_Audited_Holdout_B_v4_2_standalone",
+  "blind_status": "retrospectively_audited_holdout",
   "n_queries": 60,
   "n_total_families": 80,
-  "n_unique_active_record_ids": 697,
+  "n_unique_active_record_ids": 687,
   "disjoint_from_dev_45": true,
   "disjoint_from_holdout_a": true,
   "disjoint_across_all_holdout_b_queries": true,
@@ -159,16 +159,14 @@
       "expected_families": [
         {
           "family_id": "tree_species_maps",
-          "n_matches": 3,
-          "n_reachable_under_filter": 3,
+          "n_matches": 2,
+          "n_reachable_under_filter": 2,
           "sample_titles": [
             "Canada Long Term Tree Species (1984-2022)",
-            "Distance-to-second class for the leading tree species map 2019",
             "Leading tree species 2019"
           ],
           "record_ids": [
             "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/SPECIES-1984-2022",
-            "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/DISTANCE2SECOND",
             "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/LEAD_TREE_SPECIES"
           ]
         }
@@ -697,16 +695,13 @@
       "expected_families": [
         {
           "family_id": "emit_ch4_plumes",
-          "n_matches": 4,
-          "n_reachable_under_filter": 4,
+          "n_matches": 2,
+          "n_reachable_under_filter": 2,
           "sample_titles": [
-            "EMIT Methane Point Source Plume Complexes v1",
-            "EMIT Methane Point Source Plume Complexes v2",
-            "MAPL-EMIT: Modeled Methane Enhancement and Plume Probability"
+            "MAPL-EMIT: Modeled Methane Enhancement and Plume Probability",
+            "MAPL-EMIT: Modeled Methane Plumes"
           ],
           "record_ids": [
-            "33_us_ghg_center_stac::emit-ch4plume-v1",
-            "33_us_ghg_center_stac::emit-ch4plume-v2",
             "27_gee_official_stac::projects/climate-and-sustainability/assets/ghg/emit/mapl_emit_enhancements_v1_0",
             "27_gee_official_stac::projects/climate-and-sustainability/assets/ghg/emit/mapl_emit_plumes_v1_0"
           ]
@@ -1091,23 +1086,21 @@
       "source_framework": "WMO Severe Convection & Atmospheric Electricity",
       "query": "Quasi-global and global 0.1 degree and 0.5 degree satellite gridded climatology of lightning flash rate density and diurnal convective cycles",
       "filters": {
-        "strict_eo_only": true
+        "strict_eo_only": true,
+        "max_grid_m": 60000
       },
       "n_expected_families": 1,
       "expected_families": [
         {
           "family_id": "lis_lightning_clim",
-          "n_matches": 15,
-          "n_reachable_under_filter": 15,
+          "n_matches": 8,
+          "n_reachable_under_filter": 8,
           "sample_titles": [
-            "lolracts: LIS/OTD 2.5 Degree Low Resolution Annual Climatology Time Series (LRACTS) V2.3.2015",
-            "lolrmts: LIS/OTD 2.5 Degree Low Resolution Monthly Climatology Time Series (LRMTS) V2.3.2015",
-            "lolrts: LIS/OTD 2.5 Degree Low Resolution Time Series (LRTS) V2.3.2015"
+            "lisvhrac: LIS 0.1 DEGREE VERY HIGH RESOLUTION GRIDDED LIGHTNING ANNUAL CLIMATOLOGY (VHRAC) V1",
+            "lisvhrdc: LIS 0.1 DEGREE VERY HIGH RESOLUTION GRIDDED LIGHTNING DIURNAL CLIMATOLOGY (VHRDC) V1",
+            "lisvhrfc: LIS 0.1 DEGREE VERY HIGH RESOLUTION GRIDDED LIGHTNING FULL CLIMATOLOGY (VHRFC) V1"
           ],
           "record_ids": [
-            "16_nasa_cmr::C1995863430-GHRC_DAAC",
-            "16_nasa_cmr::C1995865015-GHRC_DAAC",
-            "16_nasa_cmr::C1995865470-GHRC_DAAC",
             "16_nasa_cmr::C1979882997-GHRC_DAAC",
             "16_nasa_cmr::C1979883116-GHRC_DAAC",
             "16_nasa_cmr::C1979883245-GHRC_DAAC",
@@ -1115,11 +1108,7 @@
             "16_nasa_cmr::C1979883491-GHRC_DAAC",
             "16_nasa_cmr::C1995863067-GHRC_DAAC",
             "16_nasa_cmr::C1995863244-GHRC_DAAC",
-            "16_nasa_cmr::C1995863290-GHRC_DAAC",
-            "16_nasa_cmr::C1995863391-GHRC_DAAC",
-            "16_nasa_cmr::C1995863553-GHRC_DAAC",
-            "16_nasa_cmr::C1995863733-GHRC_DAAC",
-            "16_nasa_cmr::C1995864215-GHRC_DAAC"
+            "16_nasa_cmr::C1995863290-GHRC_DAAC"
           ]
         }
       ]

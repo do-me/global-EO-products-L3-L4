@@ -71,6 +71,7 @@ from eo_search_lib import (  # noqa: E402
     apply_filters_mask,
     clean_description,
     collapse_product_families,
+    compute_file_sha256,
     compute_generic_family_signature,
     compute_unknown_metadata_counts,
     deterministic_topk,
@@ -281,7 +282,7 @@ class SearchEngine:
             ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
             print(f"[server] Building {bm25_path.name} from {pq_path.name} (~35 s one-time setup)...", flush=True)
             builder = DuckDBLexicalIndex(str(bm25_path))
-            dt_bm = builder.build_from_dataframe(self.df)
+            dt_bm = builder.build_from_dataframe(self.df, catalogue_sha256=compute_file_sha256(pq_path))
             builder.con.close()
             print(f"[server] Built {bm25_path.name} in {dt_bm:.1f} s.", flush=True)
 
@@ -297,22 +298,7 @@ class SearchEngine:
         self._reranker_name: Optional[str] = None
         self._reranker_obj: Any = None
 
-        default_sigs = [
-            compute_generic_family_signature(
-                str(t),
-                str(c),
-                cadence_class=str(cad or ""),
-                grid_meters=gm,
-                geo_class=str(geo or ""),
-            )
-            for t, c, cad, gm, geo in zip(
-                self.df["title"],
-                self.df["canonical_product_key"],
-                self.df.get("temporal_cadence_class", [""] * len(self.df)),
-                self.df.get("adjudicated_output_grid_meters", [None] * len(self.df)),
-                self.df.get("geographic_coverage_class", [""] * len(self.df)),
-            )
-        ]
+        self.family_sigs: Optional[list[str]] = None
 
         if want_hybrid and emb_path.exists():
             try:
@@ -327,8 +313,6 @@ class SearchEngine:
                 self.embed_model_id = embed_model_id
                 if "family_sigs" in z:
                     self.family_sigs = [str(s) for s in z["family_sigs"].tolist()]
-                else:
-                    self.family_sigs = default_sigs
                 self.hybrid_available = True
                 if preload_reranker in ("jina-v3.5", "qwen3-0.6b"):
                     self._ensure_reranker(preload_reranker)
@@ -337,7 +321,6 @@ class SearchEngine:
                     raise
                 verify_index_alignment(self.df, lex_index=self.lex, catalogue_path=pq_path)
                 self.fallback_reason = f"Running in BM25 lexical mode (neural backend unavailable: {exc})."
-                self.family_sigs = default_sigs
         else:
             if requested_mode == "hybrid":
                 raise RuntimeError(
@@ -352,7 +335,6 @@ class SearchEngine:
                     "Running in BM25 lexical mode because artifacts/full_embeddings_bf16.npz is not built yet. "
                     "Run `uv run 06_semantic_hybrid_search/05_index_full_catalogue.py` to build embeddings (MLX/CUDA/CPU)."
                 )
-            self.family_sigs = default_sigs
 
         self.load_seconds = round(time.perf_counter() - self.load_started, 2)
 

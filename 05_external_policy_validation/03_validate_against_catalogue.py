@@ -79,7 +79,7 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"BlueFlux|blueflux", r"\bBlueFlux\b", None, "EXACT_PRODUCT"),
     (r"GRA2PES|GRA²PES|gra2pes", r"GRA2PES|GRA²PES|mds2-3520", None, "EXACT_PRODUCT"),
     (r"cms-mangrove-agb|Global Mangrove Aboveground Biomass", r"CMS.*Mangrove.*(?:Biomass|Canopy)|Global Mangrove.*(?:Biomass|Canopy Height)", None, "EXACT_PRODUCT"),
-    (r"emit-ch4plume|EMIT Methane.*Plume", r"EMIT.*(?:Methane|CH4).*Plume|EMITL2BCH4PLM|MAPL-EMIT", None, "EXACT_PRODUCT"),
+    (r"emit-ch4plume|EMIT Methane.*Plume", r"EMITL2BCH4PLM|emit-ch4plume", None, "EXACT_PRODUCT"),
     (r"goes-ch4plume|Geostationary.*Methane.*Oil and Gas", r"GOES.*(?:Methane|CH4).*Plume", None, "EXACT_PRODUCT"),
     (r"geos-co2-daygrid|GEOS Assimilated CO₂ Column", r"OCO-?2 GEOS.*assimilated CO2|GEOS.*CO2.*Column", None, "EXACT_PRODUCT"),
     (r"geos-co-ch4|geos-ghg|GEOS Assimilated (?:CH₄|CO₂, CH₄)", r"GEOS.*(?:CH4|Methane).*Column|GEOS-?CF.*CH4", None, "EXACT_PRODUCT"),
@@ -196,7 +196,7 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"Global Leaf Chlorophyll Content|GCOM-C SGLI Chlorophyll", r"Global.*Leaf Chlorophyll|Xu.*2022.*Chlorophyll|GCOM-C.*Leaf Chlorophyll", None, "EXACT_PRODUCT"),
     (r"MODIS / GIMMS fAPAR|Zhu et al", r"GIMMS.*(?:FPAR|fAPAR)|MOD15A2H|MCD15A2H", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"MODIS GPP / NPP|MOD17", r"MOD17A2H|MOD17A3|MYD17A2H", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
-    (r"Solar-Induced Fluorescence.*Joiner", r"SIF_SCIAMACHY_GOME2|OCO-?3.*SIF|GOSAT.*SIF|TROPOSIF|TCSIF|GOSIF", None, "EXACT_PRODUCT"),
+    (r"Solar-Induced Fluorescence.*Joiner", r"SIF_SCIAMACHY_GOME2|OCO-?3.*SIF|GOSAT.*SIF|TROPOSIF|TCSIF|GOSIF", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
 
     # --- DEMs & Topography ---
     (r"Copernicus DEM GLO-30", r"COP-?DEM.*GLO-?30|CopDEM.*30\s*m|GLO-30", None, "EXACT_PRODUCT"),
@@ -220,6 +220,7 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
 
     # --- USGEO EOA 2023 Specific Products ---
     (r"OSISAF Global Daily Sea Ice|DB_SeaIce_METSAT_NCEI", r"Global Sea Ice Concentration Climate Data Record|OSI\s*SAF.*Sea Ice Concentration", None, "EXACT_PRODUCT"),
+    (r"NLCD.*Tree Canopy", r"NLCD_RELEASES/.*/TCC|USFS Tree Canopy Cover", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"National Land Cover Data(?:base|set)|\bNLCD\b", r"National Land Cover Database|\bNLCD\b", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"LANDFIRE.*EVT|Existing Vegetation Type", r"LANDFIRE.*(?:EVT|Existing Vegetation Type)", None, "EXACT_PRODUCT"),
     (r"LANDFIRE.*ExistVegCover|Existing Vegetation Cover", r"LANDFIRE.*(?:EVC|Existing Vegetation Cover)", None, "EXACT_PRODUCT"),
@@ -245,7 +246,7 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"Copernicus Marine Environment Monitoring Service|DB_CMEMS_EU", r"GLOBAL_.*_001_", "src:01_copernicus_cmems", "RELATED_PROXY_OR_SUBSET"),
     (r"VIIRS Land Cover", r"VNP12|VIIRS.*(?:Land Cover|Surface Type)", None, "EXACT_PRODUCT"),
     (r"GAP Land Cover", r"USGS GAP|GAP/LANDFIRE", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
-    (r"GridSat-GOES|DB_GVAR_NCEI", r"GridSat", None, "EXACT_PRODUCT"),
+    (r"GridSat-GOES|DB_GVAR_NCEI", r"GridSat-GOES|10\.7289/V5HM56GM", "src:20_noaa_onestop", "EXACT_PRODUCT"),
     (r"GHRSST.*Level 4", r"GHRSST Level 4|MUR-JPL-L4", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"AVHRR Pathfinder.*Aerosol|DB_AerosolOD_AVHRR_NCEI", r"CDR.*AVHRR.*Aerosol Optical Thickness|PATMOS-x", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"Pathfinder.*Sea Surface Temperature|DB_SST_AVHRR_NCEI", r"AVHRR Pathfinder.*Sea Surface Temperature", None, "EXACT_PRODUCT"),
@@ -307,6 +308,12 @@ _OBSOLETE_TITLE_RE = re.compile(
     re.IGNORECASE,
 )
 
+_AUX_LAYER_TITLE_RE = re.compile(
+    r"\b(?:confidence\s+in\s+classification|quality\s+flag|static\s+layers?|"
+    r"distance[- ]to[- ]second|uncertainty\s+layer|error\s+map|input\b)\b",
+    re.IGNORECASE,
+)
+
 
 def classify_match_specificity_tier(
     pname: str,
@@ -327,7 +334,12 @@ def classify_match_specificity_tier(
     m_geo = str(matched_can.get("geographic_coverage_class") or "")
     m_is_dep = bool(matched_can.get("is_superseded_edition")) or bool(_OBSOLETE_TITLE_RE.search(m_title))
 
-    if re.search(r"\bglobal\b", pname, re.IGNORECASE) and m_geo == "regional_or_local":
+    # Auxiliary confidence, quality-flag, static-mask, or input layers cannot receive strict primary-product credit
+    if _AUX_LAYER_TITLE_RE.search(m_title) and not _AUX_LAYER_TITLE_RE.search(pname):
+        return "RELATED_PROXY_OR_SUBSET"
+    if re.search(r"\bglobal\b", pname, re.IGNORECASE) and (
+        m_geo == "regional_or_local" or re.search(r"\b(?:arctic|antarctic)\b", m_title, re.IGNORECASE)
+    ):
         return "RELATED_PROXY_OR_SUBSET"
     if re.search(r"\balaska\b", pname, re.IGNORECASE) and not re.search(r"\balaska\b", m_title, re.IGNORECASE):
         return "RELATED_PROXY_OR_SUBSET"
@@ -363,6 +375,12 @@ def main() -> None:
         | all_df["title"].fillna("").str.contains(_OBSOLETE_TITLE_RE, regex=True)
     ).astype(int)
 
+    all_df["_is_aux"] = all_df["title"].fillna("").str.contains(_AUX_LAYER_TITLE_RE, regex=True).astype(int)
+    all_df["_is_non_global"] = (
+        all_df["geographic_coverage_class"].fillna("").isin(["regional_or_local", "hemispheric_or_pantropical"])
+        | all_df["title"].fillna("").str.contains(r"\b(?:arctic|antarctic)\b", case=False, regex=True)
+    ).astype(int)
+
     doi_map: dict[str, list[int]] = {}
     raw_map: dict[str, list[int]] = {}
     for idx, (d_v, r_v) in enumerate(zip(all_df["_doi_low"], all_df["_raw_low"])):
@@ -377,8 +395,15 @@ def main() -> None:
         if rid_e and rid_e not in exc_raw_map:
             exc_raw_map[rid_e] = (str(er.get("source_id") or ""), str(er.get("exclusion_reason") or ""))
 
-    def _pick_best_canonical(row_indices: list[int]) -> tuple[pd.Series, int]:
-        sub = all_df.iloc[row_indices].sort_values(["_is_dep", "source_authority_rank"])
+    def _pick_best_canonical(row_indices: list[int], pname_hint: str = "") -> tuple[pd.Series, int]:
+        sub = all_df.iloc[row_indices].copy()
+        sort_cols = ["_is_dep"]
+        if not _AUX_LAYER_TITLE_RE.search(pname_hint):
+            sort_cols.append("_is_aux")
+        if re.search(r"\bglobal\b", pname_hint, re.IGNORECASE):
+            sort_cols.append("_is_non_global")
+        sort_cols.append("source_authority_rank")
+        sub = sub.sort_values(sort_cols)
         ckeys = list(dict.fromkeys(sub["canonical_product_key"].tolist()))
         best_ckey = ckeys[0]
         if best_ckey in can_by_key.index:
@@ -453,7 +478,7 @@ def main() -> None:
                             mask = mask & (all_df["source_catalogue"].isin(srcs))
                     idxs = all_df.index[mask].tolist()
                     if idxs:
-                        matched_can, n_matches = _pick_best_canonical(idxs)
+                        matched_can, n_matches = _pick_best_canonical(idxs, pname_hint=pname)
                         match_method = "PRODUCT_FAMILY_SIGNATURE"
                         rule_tier = r_tier
                     break

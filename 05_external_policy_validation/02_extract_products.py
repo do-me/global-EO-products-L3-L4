@@ -674,10 +674,13 @@ def extract_08_us_ghg_center() -> list[dict[str, Any]]:
         desc = str(col.get("description") or "")
         provs = "; ".join(p.get("name", "") for p in (col.get("providers") or []) if isinstance(p, dict) and p.get("name"))
         doi = _norm_doi(desc)
-        # Classify scope transparently (note: VIIRS Black Marble VNP46A1_NRT is gridded L3)
-        if cid in ("emit-ch4plume-v1", "emit-ch4plume-v2", "goes-ch4plume-v1"):
+        # Classify scope transparently (note: VIIRS Black Marble VNP46A1_NRT is gridded L3; EMIT CH4 plumes are NASA L2B)
+        if cid in ("emit-ch4plume-v1", "emit-ch4plume-v2"):
+            scope = "OUT_OF_SCOPE_RAW_L0_L2"
+            rat = "NASA LP DAAC Level-2B methane point-source plume product (10.5067/EMIT/EMITL2BCH4PLM.001/.002), outside L3/L4 gridded scope"
+        elif cid == "goes-ch4plume-v1":
             scope = "IN_SCOPE_OPEN_L3_L4_EO"
-            rat = "Derived satellite methane point-source plume complex product (EO event/plume L3/L4)"
+            rat = "Derived geostationary satellite methane plume dataset in US GHG Center"
         else:
             scope = "IN_SCOPE_OPEN_L3_L4_EO"
             rat = "Open gridded L3/L4 GHG flux, concentration, biomass, nighttime-lights, or emissions dataset in US GHG Center"

@@ -1,6 +1,6 @@
 # Global Harmonized L3/L4 Earth Observation Product Catalogue
 
-A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **evaluated against curated family rules** achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 86.96% Fam-nDCG@10 (80.00% P@1, 96.39% family Recall@10, 100.00% Hit@10) on a 60-query blind holdout.
+A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **evaluated against curated family rules** achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 85.67% Fam-nDCG@10 (76.67% P@1, 96.39% family Recall@10, 100.00% Hit@10) on a 60-query retrospectively audited cross-domain holdout.
 
 - **Interactive viewer & lightweight full-text and stuctural search:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/)
 - **Source registry & ontology:** [`docs/SOURCES.md`](docs/SOURCES.md)
@@ -17,7 +17,7 @@ This repository helps EO researchers and analysts **discover candidate gridded L
 Keep three properties in mind when working with these tables:
 
 1. **Catalogue-inventory counts, not distinct global products.** The pipeline favors high recall so eligible L3/L4 products are not silently dropped. Deduplication is deliberately conservative (matching exact normalized DOI or pool + normalized full title). Unlinked cloud mirrors without shared DOIs, versioned releases, multi-level agency collections, and asset-level sub-collections in `29_awesome_gee_community` remain as separate rows. Treat pool totals as harmonized catalogue-inventory counts and perform task-specific screening and deduplication against primary documentation.
-2. **Structured metadata is only as complete as upstream APIs.** Agency and cloud portals frequently omit structured fields: in the canonical table, `processing_level` is null on `73.6%` of rows, `adjudicated_output_grid_meters` on `70.9%`, `temporal_cadence_class` on `69.7%`, `doi` on `68.3%`, and `platform_sensor_raw` on `50.28%` (leaving unattributed records in `unassessed_no_platform_metadata` rather than `explicit_non_sentinel`). Missing or conflicting upstream attributes remain `null`, while text-extracted hints are stored in separate provenance columns. Pair free-text search with faceted filters rather than relying on structured fields alone.
+2. **Structured metadata is only as complete as upstream APIs.** Agency and cloud portals frequently omit structured fields: in the canonical table, `processing_level` is null on `73.7%` of rows, `adjudicated_output_grid_meters` on `70.8%`, `temporal_cadence_class` on `69.6%`, `doi` on `68.3%`, and `platform_sensor_raw` on `50.29%` (leaving unattributed records in `unassessed_no_platform_metadata` rather than `explicit_non_sentinel`). Missing or conflicting upstream attributes remain `null`, while text-extracted hints are stored in separate provenance columns. Pair free-text search with faceted filters rather than relying on structured fields alone.
 3. **Open-API harvest boundary, not an exhaustive world census.** Only public, unauthenticated machine-readable endpoints (STAC, REST, CSW, CKAN, Elasticsearch, DCAT-AP, DataCite, Zenodo) are harvested directly. Catalogues and operational streams excluded from direct harvesting are listed explicitly in Section 3 below.
 
 ---
@@ -28,14 +28,14 @@ Keep three properties in mind when working with these tables:
 | :--- | ---: | :--- |
 | **Upstream sources (`01_raw/`)** | **35** | `34` EO product catalogues + `1` WMO OSCAR/Space reference taxonomy (`1,300` variable/satellite rows) |
 | **Raw records parsed** | **50,263** | Parsed across `34` product catalogues (`52,612` total retrieved across all `35` `last_access.txt` endpoints) |
-| **Prepared L3/L4 records (`02_preparation/`)** | **40,118** | Excludes `4,650` logged L0–L2/aerial/in-situ records (`2,622` L0–L2/aerial + `2,028` in-situ), `4,694` pre-excluded non-EO records, and `801` within-source duplicates |
-| **Canonical catalogue records (`03_harmonization/`)** | **39,474** | `33,250` strict EO + `6,224` flagged sensitivity/hybrid/reference (`611` mirror groups collapsing `644` duplicates); plus `60` explicit sub-product variant rows |
+| **Prepared L3/L4 records (`02_preparation/`)** | **40,116** | Excludes `4,652` logged L0–L2/aerial/in-situ records (`2,624` L0–L2/aerial + `2,028` in-situ), `4,694` pre-excluded non-EO records, and `801` within-source duplicates |
+| **Canonical catalogue records (`03_harmonization/`)** | **39,472** | `33,248` strict EO + `6,224` flagged sensitivity/hybrid/reference (`611` mirror groups collapsing `644` duplicates); plus `60` explicit sub-product variant rows |
 | — `copernicus_services` | **3,792** | `CMEMS`, `CLMS`, `C3S`, `CAMS`, `CEMS` (incl. `GHSL`, `GFM`, `GloFAS`, `EFAS`, `EDO/GDO`, `EFFIS/GWIS`), and `COP_DEM` |
 | — `eu_non_copernicus` | **5,066** | `2,898` EU-27 national/EC agencies (JRC, EEA, EMODnet, DLR, CNES GEODES/Theia, VITO, OpenGeoHub), `1,760` European space/met IGOs (ESA, EUMETSAT/SAFs, ECMWF DestinE), `408` Copernicus Associated States (UK, NO, IS under Reg. (EU) 2021/696) |
-| — `non_eu` | **30,616** | `28,269` third-country agencies & consortia (NASA, NOAA, USGS, U.S. GHG Center, JAXA, NRCan, GA DEA, DE Africa/Pacific, INPE, WRI, Esri), `2,322` UN/international bodies (FAO GISMGR & Geospatial CKAN, UNEP-WCMC, WMO, GEO BON), `25` Swiss institutions (`european_esa_non_copernicus_state`) |
+| — `non_eu` | **30,614** | `28,267` third-country agencies & consortia (NASA, NOAA, USGS, U.S. GHG Center, JAXA, NRCan, GA DEA, DE Africa/Pacific, INPE, WRI, Esri), `2,322` UN/international bodies (FAO GISMGR & Geospatial CKAN, UNEP-WCMC, WMO, GEO BON), `25` Swiss institutions (`european_esa_non_copernicus_state`) |
 | **Documented Sentinel input (canonical)** | **2,280** | `673` Copernicus Services, `592` EU non-Copernicus, `1,015` non-EU (`1,607` outside Copernicus); separates `confirmed_input_mission` / `retrospective_or_mixed_epoch_series` from `explicit_non_sentinel`, target-grid references (`HLSL30`), and `unassessed_no_platform_metadata` |
 | **Internal QA (`04_validation_and_review/`)** | **PASS** | `25` structural/ontology suites, `26` QA assertions, `77/77` checked EU policy families, `40/40` GCOS ECV groups, `79/79` curated product & holdout checks |
-| **External policy validation (`05_external_policy_validation/`)** | **90.0% strict / 95.7% broad** | `208/231` (`90.0%` exact/compatible) and `221/231` (`95.7%` incl. related) across `8` strictly independent international & U.S. policy benchmarks (`315/338 = 93.2%` strict / `328/338 = 97.0%` broad across all `10` tracks; `1,442/1,739 = 82.9%` strict / `1,526/1,739 = 87.8%` broad USGEO EOA 2023 KPSO-weighted) |
+| **External policy validation (`05_external_policy_validation/`)** | **90.0% strict / 95.7% broad** | `208/231` (`90.0%` exact/compatible) and `221/231` (`95.7%` incl. related) across `8` strictly independent international & U.S. policy benchmarks (`313/336 = 93.2%` strict / `326/336 = 97.0%` broad across all `10` tracks; `1,442/1,739 = 82.9%` strict / `1,526/1,739 = 87.8%` broad USGEO EOA 2023 KPSO-weighted) |
 
 Every canonical record carries both `provider_pool` and `provider_jurisdiction_tier` so analysts can compare counts across EU-27, Copernicus-associated, and ESA boundaries. Full column-level completeness is reported in [`03_harmonization/schema_completeness_report.csv`](03_harmonization/schema_completeness_report.csv), pool and Sentinel breakdowns in [`03_harmonization/provider_pool_and_sentinel_summary.csv`](03_harmonization/provider_pool_and_sentinel_summary.csv), and per-source filtering counts in [`02_preparation/exclusion_audit_summary.csv`](02_preparation/exclusion_audit_summary.csv).
 
@@ -99,8 +99,8 @@ Full per-source API endpoints, processing-level rules, and attribution logic are
 │   ├── provider_pool_and_sentinel_summary.csv
 │   ├── schema_completeness_report.csv                # Non-null & null counts across all 78 harmonized columns
 │   └── data/
-│       ├── eo_l3_l4_all_catalogue_records.parquet    # 40,118 harmonized L3/L4 records (78 columns) + .jsonl parts
-│       ├── eo_l3_l4_canonical_products.parquet       # 39,474 canonical L3/L4 records (80 columns)
+│       ├── eo_l3_l4_all_catalogue_records.parquet    # 40,116 harmonized L3/L4 records (78 columns) + .jsonl parts
+│       ├── eo_l3_l4_canonical_products.parquet       # 39,472 canonical L3/L4 records (80 columns)
 │       └── eo_l3_l4_product_variants.parquet         # 60 explicit sub-product variant rows (19 columns)
 │
 ├── 04_validation_and_review/                         # Internal QA & domain verification suites
@@ -147,10 +147,10 @@ uv run 05_external_policy_validation/03_validate_against_catalogue.py
 uv run docs/build_viewer_data.py
 python3 -m http.server 8080 -d docs
 
-# 6. Launch the search UI (auto-downloads & SHA-256-verifies v4.1.0-indexes on first run; or `--rebuild-index` locally):
+# 6. Launch the search UI (auto-downloads & SHA-256-verifies v4.2.0-indexes on first run; or `--rebuild-index` locally):
 uv run 06_semantic_hybrid_search/04_search_server.py --port 8080 --open
 # Optional local index rebuild (auto-selects MLX / CUDA / CPU):
-uv run 06_semantic_hybrid_search/05_index_full_catalogue.py   # or `--bm25-only` (~35 s, zero models)
+uv run 06_semantic_hybrid_search/05_index_full_catalogue.py   # or `--bm25-only` (~38 s, zero models)
 
 # 7. Regenerate cryptographic MANIFEST.json and SHA256SUMS.txt:
 uv run build_manifest.py
@@ -163,7 +163,7 @@ uv run build_manifest.py
 
 ## 6. Interactive Static Viewer (`docs/`)
 
-The `docs/` directory hosts a zero-backend Tailwind CSS viewer published directly from `main` (`/docs` with `.nojekyll`) covering all **39,474 canonical records** across **34 sources** (`docs/data/index_meta.json`, 4 index shards, and 66 on-demand provenance detail chunks). It supports multi-term search, faceted filtering (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, filtered exports in CSV, JSON, Excel (`.xlsx`), and Parquet, an HTML/Markdown toggle for the source registry (`docs/sources.html`), and a slide-over provenance panel with a **MapLibre GL + OpenFreeMap** bounding-box viewer (handling antimeridian crossings).
+The `docs/` directory hosts a zero-backend Tailwind CSS viewer published directly from `main` (`/docs` with `.nojekyll`) covering all **39,472 canonical records** across **34 sources** (`docs/data/index_meta.json`, 4 index shards, and 66 on-demand provenance detail chunks). It supports multi-term search, faceted filtering (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, filtered exports in CSV, JSON, Excel (`.xlsx`), and Parquet, an HTML/Markdown toggle for the source registry (`docs/sources.html`), and a slide-over provenance panel with a **MapLibre GL + OpenFreeMap** bounding-box viewer (handling antimeridian crossings).
 
 ---
 

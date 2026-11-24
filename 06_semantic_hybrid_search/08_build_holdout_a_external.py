@@ -477,10 +477,7 @@ def main() -> None:
         raise ValueError(f"Product/mission name leakage in Holdout A queries: {leaks}")
     print(f"[OK] Anti-leakage check passed across all {len(HOLDOUT_A_SPECS)} Holdout A queries (0 leaks).")
 
-    df = pd.read_parquet(
-        CANONICAL_PARQUET,
-        columns=["record_id", "title", "raw_id", "source_catalogue", "is_superseded_edition"],
-    )
+    df = pd.read_parquet(CANONICAL_PARQUET)
     obs_re = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
     active_mask = (~df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)) & (
         ~df["title"].fillna("").str.contains(obs_re, regex=True).to_numpy(dtype=bool, copy=True)
@@ -497,7 +494,7 @@ def main() -> None:
             mask = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 mask = mask & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            mask = filter_benchmark_family_mask(df, mask, sp.get("filters"))
+            mask = filter_benchmark_family_mask(df, mask, sp.get("filters"), query_text=sp["query"])
             idxs = np.flatnonzero(mask)
             if len(idxs) == 0:
                 missing.append((sp["query_id"], fam["family_id"]))
@@ -557,7 +554,7 @@ def main() -> None:
             m = comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 m = m & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            m = filter_benchmark_family_mask(df, m, sp.get("filters"))
+            m = filter_benchmark_family_mask(df, m, sp.get("filters"), query_text=sp["query"])
             dev_rids.update(df.iloc[np.flatnonzero(m)]["record_id"].tolist())
     ha_rids: set[str] = set()
     for q in resolved:

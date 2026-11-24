@@ -18,7 +18,7 @@
       "expected_families": [
         {
           "family_id": "gpm_imerg",
-          "n_matches": 125,
+          "n_matches": 109,
           "sample_titles": [
             "GPM SSMI on F08 (GPROF) Climate-based Radiometer Precipitation Profiling L3 1 month 0.25 degree x 0.25 degree V07 (GPM_3GPROFF08SSMI_CLIM)",
             "GPM SSMI on F08 (GPROF) Climate-based Radiometer Precipitation Profiling L3 1 day 0.25 degree x 0.25 degree V07 (GPM_3GPROFF08SSMI_DAY_CLIM)",
@@ -37,13 +37,8 @@
             "16_nasa_cmr::C2264132424-GES_DISC",
             "16_nasa_cmr::C2264132435-GES_DISC",
             "16_nasa_cmr::C2264132441-GES_DISC",
-            "16_nasa_cmr::C2264132450-GES_DISC",
-            "16_nasa_cmr::C2264132469-GES_DISC",
             "16_nasa_cmr::C2264135224-GES_DISC",
             "16_nasa_cmr::C2264135246-GES_DISC",
-            "16_nasa_cmr::C2264136122-GES_DISC",
-            "16_nasa_cmr::C2264136142-GES_DISC",
-            "16_nasa_cmr::C1617332035-GES_DISC",
             "16_nasa_cmr::C2723754845-GES_DISC",
             "16_nasa_cmr::C2723754847-GES_DISC",
             "16_nasa_cmr::C2723754850-GES_DISC",
@@ -57,7 +52,6 @@
             "16_nasa_cmr::C2264135823-GES_DISC",
             "16_nasa_cmr::C2264135852-GES_DISC",
             "16_nasa_cmr::C2264135870-GES_DISC",
-            "16_nasa_cmr::C2550019170-ORNL_CLOUD",
             "16_nasa_cmr::C2670410720-GES_DISC",
             "16_nasa_cmr::C2264134954-GES_DISC",
             "16_nasa_cmr::C2264134971-GES_DISC",
@@ -69,18 +63,14 @@
             "16_nasa_cmr::C2264135974-GES_DISC",
             "16_nasa_cmr::C2264135573-GES_DISC",
             "16_nasa_cmr::C2264135591-GES_DISC",
-            "16_nasa_cmr::C1982863420-GHRC_DAAC",
             "16_nasa_cmr::C2264135360-GES_DISC",
             "16_nasa_cmr::C2264135388-GES_DISC",
             "16_nasa_cmr::C2264135995-GES_DISC",
             "16_nasa_cmr::C2264136015-GES_DISC",
-            "16_nasa_cmr::C1979683525-GHRC_DAAC",
             "16_nasa_cmr::C2264135411-GES_DISC",
             "16_nasa_cmr::C2264135441-GES_DISC",
             "16_nasa_cmr::C1596594717-GES_DISC",
             "16_nasa_cmr::C1596594719-GES_DISC",
-            "16_nasa_cmr::C1979683115-GHRC_DAAC",
-            "16_nasa_cmr::C1979686308-GHRC_DAAC",
             "16_nasa_cmr::C2264136081-GES_DISC",
             "16_nasa_cmr::C2264136106-GES_DISC",
             "16_nasa_cmr::C2264135524-GES_DISC",
@@ -88,13 +78,10 @@
             "16_nasa_cmr::C2264135677-GES_DISC",
             "16_nasa_cmr::C2264135750-GES_DISC",
             "16_nasa_cmr::C1979566372-GHRC_DAAC",
-            "16_nasa_cmr::C1979668994-GHRC_DAAC",
             "16_nasa_cmr::C1979823036-GHRC_DAAC",
             "16_nasa_cmr::C1596594716-GES_DISC",
             "16_nasa_cmr::C1596594718-GES_DISC",
-            "16_nasa_cmr::C1979717298-GHRC_DAAC",
             "16_nasa_cmr::C1979825245-GHRC_DAAC",
-            "16_nasa_cmr::C1980955793-GHRC_DAAC",
             "16_nasa_cmr::C2179081580-GES_DISC",
             "16_nasa_cmr::C2179081590-GES_DISC",
             "16_nasa_cmr::C2179081652-GES_DISC",
@@ -111,11 +98,8 @@
             "16_nasa_cmr::C4054955139-GES_DISC",
             "16_nasa_cmr::C4054955176-GES_DISC",
             "16_nasa_cmr::C4054955204-GES_DISC",
-            "16_nasa_cmr::C1979684276-GHRC_DAAC",
-            "16_nasa_cmr::C1979686100-GHRC_DAAC",
             "16_nasa_cmr::C2264136034-GES_DISC",
             "16_nasa_cmr::C2264136066-GES_DISC",
-            "16_nasa_cmr::C2647820404-GHRC_DAAC",
             "16_nasa_cmr::C2264135766-GES_DISC",
             "16_nasa_cmr::C2264135780-GES_DISC",
             "16_nasa_cmr::C2264134492-GES_DISC",
@@ -154,7 +138,7 @@
         },
         {
           "family_id": "chirps",
-          "n_matches": 47,
+          "n_matches": 45,
           "sample_titles": [
             "FLDAS Noah Land Surface Model L4 Global Monthly 0.1 x 0.1 degree (MERRA-2 and CHIRPS) V001 (FLDAS_NOAH01_C_GL_M)",
             "FLDAS Noah Land Surface Model L4 Global Monthly Anomaly 0.1 x 0.1 degree (MERRA-2 and CHIRPS) V001 (FLDAS_NOAH01_C_GL_MA)",
@@ -198,8 +182,6 @@
             "26_fao_unep_and_thematic_benchmarks::FAO_GISMGR:CHIRPS:EWX-GP-D",
             "26_fao_unep_and_thematic_benchmarks::FAO_GISMGR:CHIRPS:EWX-GP-Z",
             "26_fao_unep_and_thematic_benchmarks::FAO_GISMGR:CHIRPS:GEFS-15DAY-D",
-            "31_digital_earth_africa_and_pacific::DEAFRICA:rainfall_chirps_daily",
-            "31_digital_earth_africa_and_pacific::DEAFRICA:rainfall_chirps_monthly",
             "15_geobon_and_geokhub::GEOKHUB:t19sz-4xq89",
             "23_wri_gfw_and_resourcewatch::RW:774ef885-a9cb-4315-98c3-36a37f329b7e",
             "27_gee_official_stac::UCSB-CHC/CHIRPS/V3/DAILY_RNL",
@@ -212,7 +194,7 @@
         },
         {
           "family_id": "cpc_gpcp_precip",
-          "n_matches": 7,
+          "n_matches": 6,
           "sample_titles": [
             "NCAR_DS728.0: GPCP Combined Precipitation Data",
             "GPCP Precipitation Level 3 Monthly 0.5-Degree V3.3 (GPCPMON)",
@@ -224,7 +206,6 @@
             "16_nasa_cmr::C2784899581-ORNL_CLOUD",
             "16_nasa_cmr::C2785267282-ORNL_CLOUD",
             "16_nasa_cmr::C3405928682-GES_DISC",
-            "16_nasa_cmr::C2788385787-ORNL_CLOUD",
             "27_gee_official_stac::NOAA/CPC/Precipitation"
           ]
         }
@@ -243,7 +224,7 @@
       "expected_families": [
         {
           "family_id": "era5_drought",
-          "n_matches": 96,
+          "n_matches": 75,
           "sample_titles": [
             "LDEO_SPI: Standardized Precipitation Index (SPI) Analyses of Multiple Global Precipitation Datasets at LDEO/IRI Climate Data Library",
             "Monthly drought indices from 1940 to present derived from ERA5 reanalysis",
@@ -272,17 +253,10 @@
             "07_ec_jrc_data_catalogue::ca9f628f-8595-4539-863a-fc9285499496",
             "07_ec_jrc_data_catalogue::d8010f97-4ca9-4a5d-883d-455f85d03408",
             "07_ec_jrc_data_catalogue::090b7a35-e576-42df-acf5-a1a8480cb745",
-            "07_ec_jrc_data_catalogue::0fcfad3b-daf2-40a8-8f6d-1d65d6d433d5",
             "07_ec_jrc_data_catalogue::158f2524-bf92-4396-b21a-f609ad5378b5",
-            "07_ec_jrc_data_catalogue::18ae5807-4508-4361-af43-b51e215349f5",
             "07_ec_jrc_data_catalogue::20384c0b-2505-45ee-8a01-ab4b57f6c167",
-            "07_ec_jrc_data_catalogue::24e22cae-0a4a-498c-924e-742978ae2c21",
-            "07_ec_jrc_data_catalogue::281700e6-8bbf-40e0-b156-6f06cf720fd7",
-            "07_ec_jrc_data_catalogue::28d4fcbf-92cd-4cf6-80af-f2b9556af728",
             "07_ec_jrc_data_catalogue::2ef56da7-7034-42d7-8950-1eb7d10263f1",
-            "07_ec_jrc_data_catalogue::302c50f4-9ebb-4462-8744-40cd749d5fe4",
             "07_ec_jrc_data_catalogue::31856d1d-6201-45ca-b10f-8493b7103b4a",
-            "07_ec_jrc_data_catalogue::31c8438c-925d-45a9-ae4d-9b13efda5d84",
             "07_ec_jrc_data_catalogue::330c6747-3f18-440e-97c7-a04adee722f9",
             "07_ec_jrc_data_catalogue::334bab8f-3467-4d89-8b7a-536a06227a7e",
             "07_ec_jrc_data_catalogue::3c6ca009-e523-4b77-9c24-58593bb49e2b",
@@ -295,40 +269,27 @@
             "07_ec_jrc_data_catalogue::4f0e4a38-2433-43bf-8017-7b5074ef01f7",
             "07_ec_jrc_data_catalogue::518fed48-2fd2-41cc-a9cd-a987fa5c79a1",
             "07_ec_jrc_data_catalogue::557e3cde-09f6-4cee-ae0a-a1d610d22cf2",
-            "07_ec_jrc_data_catalogue::5a88c6b8-93fb-44b4-babb-d8f61d79d866",
             "07_ec_jrc_data_catalogue::60d853f8-14ab-4f05-81e2-09fb31c3c2e1",
             "07_ec_jrc_data_catalogue::63c5488b-7ac9-4e0b-a0e1-9e82a5a4420b",
             "07_ec_jrc_data_catalogue::6447d015-ffe2-4214-9933-8c7c1d6a037e",
             "07_ec_jrc_data_catalogue::704fdf89-c315-4ef9-b17f-742a82a27229",
             "07_ec_jrc_data_catalogue::7521b362-01e4-43f1-bbfc-785d4895fd52",
             "07_ec_jrc_data_catalogue::76232a3b-e0da-4781-ad07-453de2b5ce51",
-            "07_ec_jrc_data_catalogue::7aed9209-5205-40ff-b27b-29a4145a6211",
             "07_ec_jrc_data_catalogue::7e0ba3cf-a657-4823-b93d-85753f9bc51f",
-            "07_ec_jrc_data_catalogue::7e8519d2-6abb-4901-875f-88467c6d43f9",
             "07_ec_jrc_data_catalogue::7f9df7ca-c893-407a-9180-8e40afc84775",
-            "07_ec_jrc_data_catalogue::80361540-157a-4b5a-a8af-f80db7cd1a0e",
             "07_ec_jrc_data_catalogue::807678ca-8c04-4ac7-8879-75b2041f4dca",
             "07_ec_jrc_data_catalogue::8e64010a-493f-4c28-80e1-6315f5992944",
             "07_ec_jrc_data_catalogue::922a1f71-e1a4-480b-bbd2-a5ee75bb30c9",
-            "07_ec_jrc_data_catalogue::96591da1-112f-45c0-8288-5fcbd7024dd3",
             "07_ec_jrc_data_catalogue::98d333e9-ef2a-410c-a430-ff6ebd2ada98",
             "07_ec_jrc_data_catalogue::9ba5d11c-03c0-4898-b8c9-1f26935007b9",
-            "07_ec_jrc_data_catalogue::9bd0a396-2fdd-4651-8c51-8afd18ffe8f7",
-            "07_ec_jrc_data_catalogue::9d57494f-fd53-4ff0-8c4c-4606fc2c6d81",
             "07_ec_jrc_data_catalogue::a5f0cc2f-6ce8-48d6-8bd3-41405fb8272d",
             "07_ec_jrc_data_catalogue::a8f77e7d-7ebc-42b4-bc95-f9477185e321",
             "07_ec_jrc_data_catalogue::ab2624dd-33eb-41da-9fa1-a8ca0c615ba7",
-            "07_ec_jrc_data_catalogue::b169843a-5866-4a39-b948-3a95d363a055",
-            "07_ec_jrc_data_catalogue::b2abed97-c602-4d34-862d-8f0e34ed0f64",
             "07_ec_jrc_data_catalogue::b4142760-a91d-46f6-a9df-311484d3f3f1",
-            "07_ec_jrc_data_catalogue::b80b5c64-75b9-4f98-a70f-41f11cf0757f",
             "07_ec_jrc_data_catalogue::c72838ec-c116-473e-adae-fef289aa2e73",
-            "07_ec_jrc_data_catalogue::cc10cb29-0311-4987-b902-16cc8274b088",
             "07_ec_jrc_data_catalogue::d63d2681-db01-43b4-a52d-d4cf5c71ce28",
             "07_ec_jrc_data_catalogue::d66fe0ce-12ee-487d-8378-6fefa52b51d4",
             "07_ec_jrc_data_catalogue::d6bd6322-a1a5-47a1-ad52-a69ea830e052",
-            "07_ec_jrc_data_catalogue::d6be5a6f-9541-48b6-938c-115f6116a696",
-            "07_ec_jrc_data_catalogue::d89717dd-1bca-4e70-8e91-2d9516e5f5a8",
             "07_ec_jrc_data_catalogue::d955da08-0348-46a7-9c17-d28cdc3ba805",
             "07_ec_jrc_data_catalogue::da6a8290-79b3-424d-ae76-293f8f8e173a",
             "07_ec_jrc_data_catalogue::dabe624d-a073-4450-9f1e-4e3933ff2fd2",
@@ -339,7 +300,6 @@
             "07_ec_jrc_data_catalogue::ef2a37ee-f518-4182-9457-40e2972c5489",
             "07_ec_jrc_data_catalogue::f5b6a5d1-50d5-4378-a9c1-35b90e1b445b",
             "07_ec_jrc_data_catalogue::f989a7d4-9659-4c68-85b6-0a2e27683405",
-            "07_ec_jrc_data_catalogue::facce4de-90bc-47a6-b3b0-09e60a711519",
             "07_ec_jrc_data_catalogue::fe46e164-241f-40c0-9614-442c6e25d380",
             "07_ec_jrc_data_catalogue::84dabbbc-c0ca-42f8-b0cc-b7ddaf6423ca",
             "07_ec_jrc_data_catalogue::dfee762b-0578-468e-8b96-68562765daac",
@@ -418,14 +378,12 @@
         },
         {
           "family_id": "esa_cci_glaciers",
-          "n_matches": 2,
+          "n_matches": 1,
           "sample_titles": [
-            "ESA Glaciers Climate Change Initiative (Glaciers CCI): Randolph Glacier Inventory gridded data product, v5.0",
-            "ESA Glaciers Climate Change Initiative (Glaciers_cci): 2017 inventory of ice marginal lakes in Greenland (IIML), v1"
+            "ESA Glaciers Climate Change Initiative (Glaciers CCI): Randolph Glacier Inventory gridded data product, v5.0"
           ],
           "record_ids": [
-            "14_ceos_fedeo_agencies::5daf1ff8dd2941a18bb4120ceea95721",
-            "14_ceos_fedeo_agencies::7ea7540135f441369716ef867d217519"
+            "14_ceos_fedeo_agencies::5daf1ff8dd2941a18bb4120ceea95721"
           ]
         }
       ]
@@ -740,7 +698,7 @@
         },
         {
           "family_id": "total_col_ozone",
-          "n_matches": 32,
+          "n_matches": 31,
           "sample_titles": [
             "BUV/Nimbus-4 Ozone (O3) Profile and Total Column Ozone 1 Month Zonal Mean L3 Global 5.0 degree Latitude Zones V1 (BUVN04L3zm)",
             "TOMS Nimbus-7 Total Ozone Aerosol Index UV-Reflectivity UV-B Erythemal Irradiances Daily L3 Global 1 deg x 1.25 deg V008 (TOMSN7L3)",
@@ -777,8 +735,7 @@
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10841",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10842",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10843",
-            "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10844",
-            "18_esa_osc_earthcode::total-ozone-anreo"
+            "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10844"
           ]
         }
       ]
@@ -1054,7 +1011,7 @@
         },
         {
           "family_id": "clara_radiation",
-          "n_matches": 7,
+          "n_matches": 5,
           "sample_titles": [
             "Surface radiation budget from 1979 to present derived from satellite observations",
             "CLARA-A3: CM SAF cLoud, Albedo and surface RAdiation dataset from AVHRR data - Edition 3",
@@ -1064,8 +1021,6 @@
             "03_copernicus_c3s_cds::satellite-surface-radiation-budget",
             "17_eumetsat_product_navigator::EO:EUM:DAT:0874",
             "16_nasa_cmr::C2785335036-ORNL_CLOUD",
-            "20_noaa_onestop::3a21e22f-45cc-43d1-86b5-3b1e3008dced",
-            "20_noaa_onestop::f27e2d95-f0a5-4501-b608-9f79370fb0a9",
             "08_destine_dedl_stac::EO.EUM.DAT.MULT.OLR-CM-11342-CM-6321",
             "09_wekeo_dias::EO:ECMWF:DAT:SATELLITE_SURFACE_RADIATION_BUDGET"
           ]
@@ -1112,7 +1067,7 @@
       "expected_families": [
         {
           "family_id": "modis_lst",
-          "n_matches": 69,
+          "n_matches": 67,
           "sample_titles": [
             "MODIS/Terra Monthly mean Day-Time Land Surface Temperature at 1x1 degree V005 (MOD11CM1D)",
             "MODIS/Terra Monthly mean Night-Time Land Surface Temperature at 1x1 degree V005 (MOD11CM1N)",
@@ -1171,9 +1126,7 @@
             "30_jaxa_earth_stac::NASA.EOSDIS_Terra.MODIS_MOD11C1-LST.daytime.v061_global_monthly-normal",
             "30_jaxa_earth_stac::NASA.EOSDIS_Terra.MODIS_MOD11C1-LST.nighttime.v061_global_half-monthly-normal",
             "30_jaxa_earth_stac::NASA.EOSDIS_Terra.MODIS_MOD11C1-LST.nighttime.v061_global_monthly-normal",
-            "14_ceos_fedeo_agencies::mod11a2-6.1",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.934",
-            "14_ceos_fedeo_agencies::myd11a2-6.1",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.57760/sciencedb.018ot",
             "10_cdse_stac::modis-terra-mod11a1",
             "10_cdse_stac::modis-terra-mod11a2",
@@ -1355,7 +1308,7 @@
         },
         {
           "family_id": "active_fire_frp",
-          "n_matches": 39,
+          "n_matches": 37,
           "sample_titles": [
             "MOD14A1: MODIS/Terra Thermal Anomalies/Fire Daily L3 Global 1km SIN Grid V061",
             "MOD14A2: MODIS/Terra Thermal Anomalies/Fire 8-Day L3 Global 1km SIN Grid V061",
@@ -1367,8 +1320,6 @@
             "16_nasa_cmr::C2565794059-LPCLOUD",
             "16_nasa_cmr::C2565794060-LPCLOUD",
             "04_copernicus_cams_ads::cams-global-fire-emissions-gfas",
-            "17_eumetsat_product_navigator::EO:EUM:DAT:0148",
-            "17_eumetsat_product_navigator::EO:EUM:DAT:MSG:FRPGRID-SEVIRI",
             "16_nasa_cmr::C2545314541-LPCLOUD",
             "16_nasa_cmr::C2545310874-LPCLOUD",
             "03_copernicus_c3s_cds::satellite-fire-radiative-power",
@@ -1456,7 +1407,7 @@
       "expected_families": [
         {
           "family_id": "ocean_wind_scat_cmems",
-          "n_matches": 82,
+          "n_matches": 58,
           "sample_titles": [
             "Sea Surface Wind Stress, NOAA NCEI blended daily averaged 0.25\u00b0 Version 2.0, Science Quality (1987-recent), Daily",
             "Sea Surface Wind, NOAA NCEI blended daily averaged 0.25\u00b0 Version 2.0, Science Quality (1987-recent), Daily",
@@ -1479,20 +1430,10 @@
             "30_jaxa_earth_stac::JAXA.G-Portal_GCOM-W.AMSR2_standard.L3-SSW.nighttime.v4_global_monthly",
             "16_nasa_cmr::C3403169610-POCLOUD",
             "01_copernicus_cmems::WIND_GLO_PHY_L3_NRT_012_002",
-            "01_copernicus_cmems::WIND_ARC_PHY_HR_L3_MY_012_105",
-            "01_copernicus_cmems::WIND_ATL_PHY_HR_L3_MY_012_106",
-            "01_copernicus_cmems::WIND_BAL_PHY_HR_L3_MY_012_107",
-            "01_copernicus_cmems::WIND_BLK_PHY_HR_L3_MY_012_108",
-            "01_copernicus_cmems::WIND_MED_PHY_HR_L3_MY_012_109",
             "16_nasa_cmr::C3403197474-POCLOUD",
             "20_noaa_onestop::98e0edd6-06b3-4261-b32e-a296bd5ddf14",
             "20_noaa_onestop::1ddca027-1f42-4d07-84b8-f93f67c53b8f",
             "20_noaa_onestop::d57e8b32-dfbb-4e44-8ae7-a09387f6154d",
-            "01_copernicus_cmems::WIND_ARC_PHY_HR_L3_NRT_012_100",
-            "01_copernicus_cmems::WIND_ATL_PHY_HR_L3_NRT_012_101",
-            "01_copernicus_cmems::WIND_BAL_PHY_HR_L3_NRT_012_102",
-            "01_copernicus_cmems::WIND_BLK_PHY_HR_L3_NRT_012_103",
-            "01_copernicus_cmems::WIND_MED_PHY_HR_L3_NRT_012_104",
             "01_copernicus_cmems::WIND_GLO_PHY_L4_NRT_012_004",
             "14_ceos_fedeo_agencies::Aqua_AMSR-E_L3_AMSR2_Format_SSW_1day_0.1deg",
             "14_ceos_fedeo_agencies::Aqua_AMSR-E_L3_AMSR2_Format_SSW_1day_0.25deg",
@@ -1502,10 +1443,6 @@
             "14_ceos_fedeo_agencies::Aqua_AMSR-E_L3_SSW_1month_0.25deg",
             "14_ceos_fedeo_agencies::ADEOS-II_AMSR_L3_SSW_1day_0.25deg",
             "14_ceos_fedeo_agencies::ADEOS-II_AMSR_L3_SSW_1month_0.25deg",
-            "14_ceos_fedeo_agencies::GCOM-W_AMSR2_L3_SSW_1day_0.1deg",
-            "14_ceos_fedeo_agencies::GCOM-W_AMSR2_L3_SSW_1day_0.25deg",
-            "14_ceos_fedeo_agencies::GCOM-W_AMSR2_L3_SSW_1month_0.1deg",
-            "14_ceos_fedeo_agencies::GCOM-W_AMSR2_L3_SSW_1month_0.25deg",
             "14_ceos_fedeo_agencies::GOSAT-GW_AMSR3_L3_ASW_1Day_0.10deg_EQR",
             "14_ceos_fedeo_agencies::GOSAT-GW_AMSR3_L3_ASW_1Day_0.25deg_EQR",
             "14_ceos_fedeo_agencies::GOSAT-GW_AMSR3_L3_ASW_1Day_10km_PS",
@@ -1534,17 +1471,7 @@
             "09_wekeo_dias::EO:MO:DAT:WIND_GLO_PHY_CLIMATE_L4_MY_012_003",
             "09_wekeo_dias::EO:MO:DAT:WIND_GLO_PHY_L4_MY_012_006",
             "09_wekeo_dias::EO:MO:DAT:WIND_GLO_PHY_L3_NRT_012_002",
-            "09_wekeo_dias::EO:MO:DAT:WIND_ARC_PHY_HR_L3_MY_012_105",
-            "09_wekeo_dias::EO:MO:DAT:WIND_ATL_PHY_HR_L3_MY_012_106",
-            "09_wekeo_dias::EO:MO:DAT:WIND_BAL_PHY_HR_L3_MY_012_107",
-            "09_wekeo_dias::EO:MO:DAT:WIND_BLK_PHY_HR_L3_MY_012_108",
-            "09_wekeo_dias::EO:MO:DAT:WIND_MED_PHY_HR_L3_MY_012_109",
-            "09_wekeo_dias::EO:MO:DAT:WIND_GLO_PHY_L4_NRT_012_004",
-            "09_wekeo_dias::EO:MO:DAT:WIND_ARC_PHY_HR_L3_NRT_012_100",
-            "09_wekeo_dias::EO:MO:DAT:WIND_ATL_PHY_HR_L3_NRT_012_101",
-            "09_wekeo_dias::EO:MO:DAT:WIND_BAL_PHY_HR_L3_NRT_012_102",
-            "09_wekeo_dias::EO:MO:DAT:WIND_BLK_PHY_HR_L3_NRT_012_103",
-            "09_wekeo_dias::EO:MO:DAT:WIND_MED_PHY_HR_L3_NRT_012_104"
+            "09_wekeo_dias::EO:MO:DAT:WIND_GLO_PHY_L4_NRT_012_004"
           ]
         }
       ]
@@ -1578,20 +1505,13 @@
         },
         {
           "family_id": "esa_cci_seastate",
-          "n_matches": 22,
+          "n_matches": 15,
           "sample_titles": [
-            "Iberia Biscay Ireland Significant Wave Height extreme from Reanalysis",
-            "Black Sea Significant Wave Height extreme from Reanalysis",
-            "Mediterranean Sea Significant Wave Height extreme from Reanalysis"
+            "Global Ocean, extreme and mean significant wave height trends from satellite observations - seasonal trends",
+            "GLOBAL OCEAN L3 SIGNIFICANT WAVE HEIGHT FROM REPROCESSED SATELLITE MEASUREMENTS",
+            "GLOBAL OCEAN L4 SIGNIFICANT WAVE HEIGHT FROM REPROCESSED SATELLITE MEASUREMENTS"
           ],
           "record_ids": [
-            "01_copernicus_cmems::IBI_OMI_SEASTATE_extreme_var_swh_mean_and_anomaly",
-            "01_copernicus_cmems::BLKSEA_OMI_SEASTATE_extreme_var_swh_mean_and_anomaly",
-            "01_copernicus_cmems::MEDSEA_OMI_SEASTATE_extreme_var_swh_mean_and_anomaly",
-            "01_copernicus_cmems::OMI_EXTREME_WAVE_BALTIC_swh_mean_and_anomaly_obs",
-            "01_copernicus_cmems::OMI_EXTREME_WAVE_IBI_swh_mean_and_anomaly_obs",
-            "01_copernicus_cmems::OMI_EXTREME_WAVE_MEDSEA_swh_mean_and_anomaly_obs",
-            "01_copernicus_cmems::OMI_EXTREME_WAVE_NORTHWESTSHELF_swh_mean_and_anomaly_obs",
             "01_copernicus_cmems::OMI_EXTREME_STATE_GLOBAL_trend",
             "01_copernicus_cmems::WAVE_GLO_PHY_SWH_L3_MY_014_005",
             "01_copernicus_cmems::WAVE_GLO_PHY_SWH_L4_MY_014_007",
@@ -1624,7 +1544,7 @@
       "expected_families": [
         {
           "family_id": "oscar_globcurrent",
-          "n_matches": 12,
+          "n_matches": 11,
           "sample_titles": [
             "Global Total (COPERNICUS-GLOBCURRENT), Ekman and Geostrophic currents at the Surface and 15m",
             "Multi Observation Global Ocean 3D Temperature Salinity Height Geostrophic Current and MLD",
@@ -1639,7 +1559,6 @@
             "20_noaa_onestop::e8e2c43d-155e-4bff-97a1-c1d59faeea3d",
             "16_nasa_cmr::C2102959417-POCLOUD",
             "16_nasa_cmr::C2102958977-POCLOUD",
-            "18_esa_osc_earthcode::l4-geostrophic-currents-eo4sibs",
             "09_wekeo_dias::EO:MO:DAT:MULTIOBS_GLO_PHY_MYNRT_015_003",
             "09_wekeo_dias::EO:MO:DAT:MULTIOBS_GLO_PHY_TSUV_3D_MYNRT_015_012",
             "09_wekeo_dias::EO:MO:DAT:MULTIOBS_GLO_PHY_UVW_3D_MYNRT_015_007"
@@ -1660,7 +1579,7 @@
       "expected_families": [
         {
           "family_id": "grace_tws",
-          "n_matches": 29,
+          "n_matches": 28,
           "sample_titles": [
             "Terrestrial water storage anomaly data from 2002 to present derived from satellite gravimetry observations",
             "TELLUS_GRAC_L3_CSR_RL06_LND_v04: CSR TELLUS GRACE Level-3 Monthly Land Water-Equivalent-Thickness Surface Mass Anomaly Release 6.0 version 04",
@@ -1685,7 +1604,6 @@
             "26_fao_unep_and_thematic_benchmarks::ZENODO:19368157",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:20653776",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11946",
-            "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11950",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11951",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5880/g3p.2023.001",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5880/g3p.2024.001",
@@ -1748,14 +1666,13 @@
       "expected_families": [
         {
           "family_id": "modis_albedo",
-          "n_matches": 87,
+          "n_matches": 83,
           "sample_titles": [
-            "Albedo_Boreal_North_America_1605: ABoVE: MODIS-Derived Daily Mean Blue Sky Albedo for Northern North America, 2000-2017",
             "MCD43A4: MODIS/Terra+Aqua BRDF/Albedo Nadir BRDF-Adjusted Ref Daily L3 Global - 500m V061",
-            "MCD43A3: MODIS/Terra+Aqua BRDF/Albedo Albedo Daily L3 Global - 500m V061"
+            "MCD43A3: MODIS/Terra+Aqua BRDF/Albedo Albedo Daily L3 Global - 500m V061",
+            "MCD43A1: MODIS/Terra+Aqua BRDF/Albedo Model Parameters Daily L3 Global - 500m V061"
           ],
           "record_ids": [
-            "16_nasa_cmr::C2113058037-ORNL_CLOUD",
             "16_nasa_cmr::C2218719731-LPCLOUD",
             "16_nasa_cmr::C2278860820-LPCLOUD",
             "16_nasa_cmr::C2343116130-LPCLOUD",
@@ -1804,7 +1721,6 @@
             "16_nasa_cmr::C2540270771-LPCLOUD",
             "16_nasa_cmr::C2540270775-LPCLOUD",
             "16_nasa_cmr::C2540270779-LPCLOUD",
-            "16_nasa_cmr::C2540271801-LPCLOUD",
             "16_nasa_cmr::C2540271806-LPCLOUD",
             "16_nasa_cmr::C2540271810-LPCLOUD",
             "16_nasa_cmr::C2540271815-LPCLOUD",
@@ -1833,11 +1749,9 @@
             "16_nasa_cmr::C2540275748-LPCLOUD",
             "16_nasa_cmr::C2540275753-LPCLOUD",
             "16_nasa_cmr::C2763297158-LPCLOUD",
-            "16_nasa_cmr::C2789103516-ORNL_CLOUD",
             "16_nasa_cmr::C3216719281-LPCLOUD",
             "16_nasa_cmr::C2784882766-ORNL_CLOUD",
             "16_nasa_cmr::C2784886599-ORNL_CLOUD",
-            "16_nasa_cmr::C2517700524-ORNL_CLOUD",
             "16_nasa_cmr::C2129016354-LANCEMODIS",
             "16_nasa_cmr::C2128952410-LANCEMODIS",
             "16_nasa_cmr::C2130636890-LANCEMODIS",
@@ -1892,7 +1806,7 @@
         },
         {
           "family_id": "tcwv_tpw",
-          "n_matches": 44,
+          "n_matches": 43,
           "sample_titles": [
             "rss1tpwnv7r01: RSS MONTHLY 1-DEG MICROWAVE TOTAL PRECIPITABLE WATER NETCDF V7R01",
             "NVAP_CLIMATE_Layered-Precipitable-Water: NASA Water Vapor Project MEaSUREs (NVAP-M) CLIMATE Layered Precipitable Water",
@@ -1912,7 +1826,6 @@
             "16_nasa_cmr::C1214597461-SCIOPS",
             "20_noaa_onestop::fa5cb184-ae32-48fe-b4a8-3729a86b67f4",
             "17_eumetsat_product_navigator::EO:EUM:DAT:FENGYUN:FY2G-TPW",
-            "16_nasa_cmr::C3277813808-GHRC_DAAC",
             "17_eumetsat_product_navigator::EO:EUM:DAT:0039",
             "14_ceos_fedeo_agencies::GOME_Evl_ClimateProd_TCWV",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_10709",
@@ -1987,16 +1900,12 @@
         },
         {
           "family_id": "intertidal_change",
-          "n_matches": 3,
+          "n_matches": 1,
           "sample_titles": [
-            "Murray Global Intertidal Change Data Mask",
-            "Murray Global Intertidal Change Classification",
-            "Murray Global Intertidal Change QA Pixel Count"
+            "Murray Global Intertidal Change Classification"
           ],
           "record_ids": [
-            "27_gee_official_stac::UQ/murray/Intertidal/v1_1/data_mask",
-            "27_gee_official_stac::UQ/murray/Intertidal/v1_1/global_intertidal",
-            "27_gee_official_stac::UQ/murray/Intertidal/v1_1/qa_pixel_count"
+            "27_gee_official_stac::UQ/murray/Intertidal/v1_1/global_intertidal"
           ]
         },
         {
@@ -2055,7 +1964,7 @@
       "expected_families": [
         {
           "family_id": "so2_col",
-          "n_matches": 25,
+          "n_matches": 24,
           "sample_titles": [
             "Multi-Satellite Volcanic Sulfur Dioxide L4 Long-Term Global Database V4 (MSVOLSO2L4)",
             "OMI/Aura Sulfur Dioxide (SO2) Total Column Daily L3 1 day Best Pixel in 0.25 degree x 0.25 degree V3 (OMSO2e)",
@@ -2072,7 +1981,6 @@
             "19_dlr_eoc_stac::METOP_GOME2_L3_P1D_SO2",
             "16_nasa_cmr::C2567923363-GES_DISC",
             "19_dlr_eoc_stac::S5P_TROPOMI_L3_P1D_SO2_v2",
-            "16_nasa_cmr::C3540929090-ESDIS",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12774",
             "14_ceos_fedeo_agencies::6cec07af-ffcb-4077-bf67-b8b03fc001a8",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12772",

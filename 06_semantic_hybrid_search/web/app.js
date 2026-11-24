@@ -412,7 +412,7 @@ function renderResults(data) {
   let hardNote = '';
   if (data.hard_limits && data.unknown_metadata_counts) {
     const u = data.unknown_metadata_counts;
-    hardNote = ` · Hard limits verified (excluded unknown: grid ${Number(u.grid_meters || 0).toLocaleString()}, level ${Number(u.processing_level || 0).toLocaleString()}, geo ${Number(u.geographic_coverage || 0).toLocaleString()})`;
+    hardNote = ` · Hard limits verified (excluded unknown: grid ${Number(u.grid_meters || 0).toLocaleString()}, unverified-grid ${Number(u.unverified_grid_source || 0).toLocaleString()}, level ${Number(u.processing_level || 0).toLocaleString()}, geo ${Number(u.geographic_coverage || 0).toLocaleString()}, end-year ${Number(u.temporal_end_year || 0).toLocaleString()})`;
   } else if (!data.null_safe_filter && data.unknown_metadata_counts) {
     hardNote = ' · Strict NULL-dropping active';
   }

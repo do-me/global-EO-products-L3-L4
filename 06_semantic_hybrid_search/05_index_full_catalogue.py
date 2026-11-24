@@ -58,12 +58,14 @@ from eo_search_lib import (  # noqa: E402
     apply_filters_mask,
     build_eo_document,
     collapse_product_families,
+    compute_catalogue_content_sha256,
     compute_family_signature,
     compute_record_ids_sha256,
     deterministic_topk,
     filter_benchmark_family_mask,
     load_dense_embedder,
     matryoshka_truncate,
+    resolve_hf_model_revision,
     rrf_fuse,
     verify_index_alignment,
 )
@@ -336,7 +338,7 @@ def main() -> None:
             hit = active_mask & combined.str.contains(pat, regex=True).to_numpy(dtype=bool, copy=True)
             if fam.get("exclude_regex"):
                 hit = hit & ~combined.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            hit = filter_benchmark_family_mask(df, hit, flt_spec)
+            hit = filter_benchmark_family_mask(df, hit, flt_spec, query_text=qtxt)
             idxs = np.flatnonzero(hit)
             if len(idxs) > 0:
                 fam_rids[fam["family_id"]] = set(df.iloc[idxs]["record_id"].tolist())
@@ -460,11 +462,14 @@ def main() -> None:
 
     bm25_content_sha = lex_index.compute_content_sha256()
     record_ids_sha = compute_record_ids_sha256(rid_by_idx)
+    cat_content_sha = compute_catalogue_content_sha256(df)
+    model_rev = resolve_hf_model_revision(resolved_model_id)
     lex_index.con.close()
     manifest = {
         "corpus_records": n_total,
         "device": resolved_device,
         "model_id": resolved_model_id,
+        "model_revision": model_rev,
         "release_tag": DEFAULT_INDEX_RELEASE_TAG,
         "batch_size": batch_size,
         "fixed_buckets": fixed_buckets,
@@ -480,15 +485,17 @@ def main() -> None:
         "norm_max": round(float(norms.max()), 6),
         "total_wall_seconds": round(time.perf_counter() - t_all0, 2),
         "single_query_encode_ms": round(mean_q_enc_ms, 2),
-        "family_sigs_type": "100pct_generic_zero_hardcoding_cadence_grid_geo",
+        "family_sigs_type": "100pct_generic_zero_hardcoding_var_role_cadence_grid_geo",
         "unique_generic_family_signatures": int(len(set(family_sigs))),
         "updated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "catalogue_content_sha256": cat_content_sha,
         "record_ids_sha256": record_ids_sha,
         "bm25_content_sha256": bm25_content_sha,
         "sha256": {
             "eo_search_lib.py": sha256_file(SCRIPT_DIR / "eo_search_lib.py"),
             "06_eval_rerankers.py": sha256_file(SCRIPT_DIR / "06_eval_rerankers.py"),
             "full_catalogue.parquet": cat_sha,
+            "catalogue_content_sha256": cat_content_sha,
             "full_embeddings_bf16.npz": sha256_file(emb_path),
             "full_bm25.duckdb": sha256_file(bm25_db),
             "bm25_content_sha256": bm25_content_sha,

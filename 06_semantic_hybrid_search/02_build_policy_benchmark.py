@@ -644,7 +644,7 @@ def main() -> None:
             if fam.get("exclude_regex"):
                 ex_pat = re.compile(fam["exclude_regex"], re.IGNORECASE)
                 hit_mask = hit_mask & ~combined.str.contains(ex_pat, regex=True).to_numpy(dtype=bool)
-            hit_mask = filter_benchmark_family_mask(df, hit_mask, sp.get("filters"))
+            hit_mask = filter_benchmark_family_mask(df, hit_mask, sp.get("filters"), query_text=sp["query"])
             idxs = np.flatnonzero(hit_mask)
             if len(idxs) == 0:
                 missing_fams.append((sp["query_id"], fam["family_id"]))
@@ -761,14 +761,13 @@ def main() -> None:
     df_sub = df.iloc[subset_indices].reset_index(drop=True)
     sub_rids = set(df_sub["record_id"].tolist())
 
-    # Update each query's expected families with exact subset record_ids
+    # Update each query's expected families with exact subset AND full-catalogue record_ids
+    # (Keeping full `record_ids` inside the SHA-256-locked JSON guarantees 07/10/11 read locked JSON only.)
     for q in resolved_queries:
         for fam in q["expected_families"]:
             in_sub = [rid for rid in fam["record_ids"] if rid in sub_rids]
             fam["subset_record_ids"] = in_sub
             fam["subset_matches"] = len(in_sub)
-            # Don't bloat JSON with huge full-catalogue ID lists; keep subset_record_ids exact!
-            del fam["record_ids"]
         q["total_relevant_in_subset"] = len(
             {rid for fam in q["expected_families"] for rid in fam["subset_record_ids"]}
         )

@@ -5,10 +5,21 @@
     "scan_limit": 200,
     "gt_families_present_in_scan200": 98,
     "gt_families_reached_top50_or_swallowed": 90,
-    "gt_families_falsely_swallowed": 0,
-    "false_collapse_rate_scan200_pct": 0.0,
-    "false_collapse_rate_active_top50_pct": 0.0,
-    "cases": []
+    "gt_families_falsely_swallowed": 1,
+    "false_collapse_rate_scan200_pct": 1.02,
+    "false_collapse_rate_active_top50_pct": 1.11,
+    "cases": [
+      {
+        "item_id": "Q06_EU_SEABED_HABITATS",
+        "family_id": "emodnet_euseamap",
+        "kept_title": "Light (PAR) at the seabed - Europe-wide",
+        "kept_rid": "11_eea_and_emodnet::90669dac-a9cf-4e25-94ae-96e8c5e70005",
+        "swallowed_rid": "11_eea_and_emodnet::fe189a4e-ec83-4959-9410-97432045039d",
+        "swallowed_title": "Light at the seabed - EUSeaMap 2016 input",
+        "collapse_mechanism": "cosine",
+        "cosine_sim": 0.9608
+      }
+    ]
   },
   "holdout_a": {
     "near_dup_cos": 0.94,

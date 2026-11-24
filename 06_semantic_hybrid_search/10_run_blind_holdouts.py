@@ -58,12 +58,14 @@ from eo_search_lib import (  # noqa: E402
     SearchFilters,
     apply_filters_mask,
     collapse_product_families,
+    compute_catalogue_content_sha256,
     deterministic_topk,
     ensure_search_indexes,
     filter_benchmark_family_mask,
     holm_bonferroni_adjust,
     load_dense_embedder,
     resolve_device,
+    resolve_hf_model_revision,
     rrf_fuse,
     verify_index_alignment,
 )
@@ -73,17 +75,11 @@ _ev06 = importlib.util.module_from_spec(_ev06_spec)
 assert _ev06_spec and _ev06_spec.loader
 _ev06_spec.loader.exec_module(_ev06)
 
-_b02_spec = importlib.util.spec_from_file_location("b02", SCRIPT_DIR / "02_build_policy_benchmark.py")
-_b02 = importlib.util.module_from_spec(_b02_spec)
-assert _b02_spec and _b02_spec.loader
-_b02_spec.loader.exec_module(_b02)
-
 load_reranker = _ev06.load_reranker
 clear_device_cache = _ev06.clear_device_cache
 format_reranker_doc = _ev06.format_reranker_doc
 blend_rrf_and_rerank = _ev06.blend_rrf_and_rerank
 EO_RERANK_INSTRUCTION = _ev06.EO_RERANK_INSTRUCTION
-DEV_BENCHMARK_SPECS = _b02.BENCHMARK_SPECS
 
 
 def sha256_file(p: Path) -> str:
@@ -210,24 +206,16 @@ def cluster_bootstrap_and_perm(
     }
 
 
-def resolve_dev_items_full(df: pd.DataFrame) -> list[dict[str, Any]]:
-    """Resolve Dev-45 benchmark specs on active canonical catalogue with strict disjointness assertion."""
-    obs_re = re.compile(r"\b(?:obsolete\s+release|superseded|deprecated)\b", re.IGNORECASE)
-    active_mask = (~df["is_superseded_edition"].fillna(False).to_numpy(dtype=bool, copy=True)) & (
-        ~df["title"].fillna("").str.contains(obs_re, regex=True).to_numpy(dtype=bool, copy=True)
-    )
-    comb = df["title"].fillna("") + " || " + df["raw_id"].fillna("") + " || " + df["source_catalogue"].fillna("")
+def load_locked_dev_items() -> list[dict[str, Any]]:
+    """Load Dev-45 queries and resolved family record_ids strictly from SHA-256-locked policy_retrieval_benchmark.json."""
+    raw = json.loads((ARTIFACTS_DIR / "policy_retrieval_benchmark.json").read_text(encoding="utf-8"))["queries"]
     items = []
-    for sp in DEV_BENCHMARK_SPECS:
+    for sp in raw:
         fams_out = []
         for fam in sp["expected_families"]:
-            hit = active_mask & comb.str.contains(re.compile(fam["regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool, copy=True)
-            if fam.get("exclude_regex"):
-                hit = hit & ~comb.str.contains(re.compile(fam["exclude_regex"], re.IGNORECASE), regex=True).to_numpy(dtype=bool)
-            hit = filter_benchmark_family_mask(df, hit, sp.get("filters"))
-            idxs = np.flatnonzero(hit)
-            assert len(idxs) > 0, f"Dev family 0 matches: {sp['query_id']} / {fam['family_id']}"
-            fams_out.append({"family_id": fam["family_id"], "record_ids": df.iloc[idxs]["record_id"].tolist()})
+            rlist = fam.get("record_ids")
+            assert rlist and len(rlist) > 0, f"Locked policy_retrieval_benchmark.json missing record_ids for {sp['query_id']}/{fam['family_id']}"
+            fams_out.append({"family_id": fam["family_id"], "record_ids": rlist})
         for i in range(len(fams_out)):
             for j in range(i + 1, len(fams_out)):
                 inter = set(fams_out[i]["record_ids"]) & set(fams_out[j]["record_ids"])
@@ -485,7 +473,7 @@ def main() -> None:
     ensure_search_indexes(ARTIFACTS_DIR, require_dense=True, allow_download=True)
     cfg = json.loads((ARTIFACTS_DIR / "frozen_v4_config.json").read_text(encoding="utf-8"))
     print("=" * 112, flush=True)
-    print(f"10. {cfg['protocol_version'].upper()} EVALUATION — DEV-45 (N=45), AUDITED HOLDOUT A (N=35) & PROSPECTIVE BLIND HOLDOUT B (N=60) [{device}]", flush=True)
+    print(f"10. {cfg['protocol_version'].upper()} EVALUATION — DEV-45 (N=45), AUDITED HOLDOUT A (N=35) & RETROSPECTIVELY AUDITED HOLDOUT B (N=60) [{device}]", flush=True)
     print("=" * 112, flush=True)
 
     expected_sha = cfg.get("locked_artifact_sha256", cfg["code_and_index_sha256"])
@@ -499,6 +487,7 @@ def main() -> None:
         "full_embeddings_bf16.npz": ARTIFACTS_DIR / "full_embeddings_bf16.npz",
     }
     for opt_k, opt_p in (
+        ("02_build_policy_benchmark.py", SCRIPT_DIR / "02_build_policy_benchmark.py"),
         ("10_run_blind_holdouts.py", SCRIPT_DIR / "10_run_blind_holdouts.py"),
         ("policy_retrieval_benchmark.json", ARTIFACTS_DIR / "policy_retrieval_benchmark.json"),
         ("holdout_a_external_benchmark.json", ARTIFACTS_DIR / "holdout_a_external_benchmark.json"),
@@ -509,6 +498,13 @@ def main() -> None:
     for k, p in check_paths.items():
         actual = sha256_file(p)
         assert actual == expected_sha[k], f"SHA-256 mismatch for {k}: {actual} vs {expected_sha[k]}"
+
+    # Verify locked HuggingFace model revisions when recorded
+    locked_revs = cfg.get("locked_model_revisions") or {}
+    for mid, exp_rev in locked_revs.items():
+        if exp_rev and exp_rev != "unresolved":
+            got_rev = resolve_hf_model_revision(mid)
+            assert got_rev == exp_rev, f"Model revision mismatch for {mid}: {got_rev} vs {exp_rev}"
 
     df = pd.read_parquet(cat_pq)
     rid_by_idx = df["record_id"].tolist()
@@ -521,19 +517,24 @@ def main() -> None:
     align_info = verify_index_alignment(df, lex_index=lex, emb_npz=z, catalogue_path=cat_pq)
     if "record_ids_sha256" in expected_sha:
         assert align_info["record_ids_sha256"] == expected_sha["record_ids_sha256"], "record_ids_sha256 mismatch!"
+    if "catalogue_content_sha256" in expected_sha:
+        actual_cat_content = compute_catalogue_content_sha256(df)
+        assert actual_cat_content == expected_sha["catalogue_content_sha256"], (
+            f"catalogue_content_sha256 mismatch: {actual_cat_content} vs {expected_sha['catalogue_content_sha256']}"
+        )
     if "bm25_content_sha256" in expected_sha:
         actual_bm25_content = lex.compute_content_sha256()
         assert actual_bm25_content == expected_sha["bm25_content_sha256"], (
             f"bm25_content_sha256 mismatch: {actual_bm25_content} vs {expected_sha['bm25_content_sha256']}"
         )
     print(
-        f"[OK] Verified {cfg['protocol_version']} locked SHA-256 + record_id + bm25_content alignment "
+        f"[OK] Verified {cfg['protocol_version']} locked SHA-256 + model revisions + record_id + content alignment "
         f"(primary_metric={cfg['preregistered_primary_metric']}, near_dup_cos={cfg['stage1']['collapser']['near_dup_cos']}, "
         f"bm25_deterministic=True, sensor_guard=True).",
         flush=True,
     )
 
-    dev_items = resolve_dev_items_full(df)
+    dev_items = load_locked_dev_items()
     ha_items = json.loads((ARTIFACTS_DIR / "holdout_a_external_benchmark.json").read_text(encoding="utf-8"))["queries"]
     hb_items = json.loads((ARTIFACTS_DIR / "holdout_b_blind_benchmark.json").read_text(encoding="utf-8"))["queries"]
 
@@ -713,7 +714,7 @@ def main() -> None:
 
     hb_pq, _, _ = summarize_and_save_suite(
         "holdout_b_v4",
-        f"PROSPECTIVE SINGLE-SHOT BLIND HOLDOUT B {cfg['protocol_version'].upper()} (60 DISJOINT UNSEEN EO QUERIES, 10 DOMAINS, G=G_eff=60) [%]",
+        f"RETROSPECTIVELY AUDITED HOLDOUT B {cfg['protocol_version'].upper()} (60 DISJOINT EO QUERIES, 10 DOMAINS, G=G_eff=60) [%]",
         hb_items,
         _pack_systems(s1_hb, j_hb_b50, j_hb_p50, j_hb_p25, q_hb_b50),
         _pack_lats(s1_hb, j_hb_m50, j_hb_m25, q_hb_m50),
@@ -721,7 +722,7 @@ def main() -> None:
     )
     blend_rows.append(_save_blend_ablation("holdout_b_v4", hb_pq))
 
-    # Domain-stratified summary on Blind Holdout B
+    # Domain-stratified summary on Holdout B
     hb_dom = (
         hb_pq[hb_pq["system"].isin([
             "02_BM25_PreFilter_GenericCollapse",
@@ -746,7 +747,8 @@ def main() -> None:
         "device": device,
         "frozen_at_utc": cfg["frozen_at_utc"],
         "completed_at_utc": completed_utc,
-        "strictly_prospective_timestamp_order": cfg["frozen_at_utc"] < completed_utc,
+        "config_frozen_before_eval_run": cfg["frozen_at_utc"] < completed_utc,
+        "locked_model_revisions": cfg.get("locked_model_revisions") or {},
         "total_queries_encoded_solo": len(all_qms),
         "single_query_encode_ms_mean": round(mean_q_ms, 2),
         "single_query_encode_ms_p50": round(float(np.median(all_qms)), 2),
@@ -757,8 +759,8 @@ def main() -> None:
         "stage2_qwen50_mean_ms_all_queries": round(float(np.mean(q_dev_m50 + q_ha_m50 + q_hb_m50)), 1),
         "suite_sizes": {
             "dev45": len(dev_items),
-            "holdout_a_audited": len(ha_items),
-            "holdout_b_prospective_blind": len(hb_items),
+            "holdout_a_retrospectively_audited": len(ha_items),
+            "holdout_b_retrospectively_audited": len(hb_items),
         },
         "total_wall_minutes": round((time.perf_counter() - t_all0) / 60.0, 2),
     }
