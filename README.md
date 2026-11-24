@@ -1,8 +1,12 @@
 # Global Harmonized L3/L4 Earth Observation Product Catalogue
 
-A reproducible **Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy).
+A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **fully validated** on human labels achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 86.5% Fam-nDCG@10 (78.3% P@1, 96.1% family Recall@10, 100% Hit@10) on a 60-query blind holdout.
 
-**Interactive viewer:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/) · **Source registry & ontology:** [`docs/SOURCES.md`](docs/SOURCES.md)
+- **Interactive viewer & lightweight full-text and stuctural search:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/)
+- **Source registry & ontology:** [`docs/SOURCES.md`](docs/SOURCES.md)
+- **Hybrid search engine quickstart**: [`/06_semantic_hybrid_search#1-quick-start-uv-run`](/06_semantic_hybrid_search#1-quick-start-uv-run) 
+
+<img width="1963" height="1522" alt="image" src="https://github.com/user-attachments/assets/dfc5aad0-a119-403d-8ce8-e812c3de87e8" />
 
 ---
 
