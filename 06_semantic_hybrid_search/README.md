@@ -13,6 +13,12 @@ The search engine combines dense semantic embeddings (`EmbeddingGemma 2`), EO-no
 ## 1. Quick Start (`uv run`)
 
 All scripts use PEP 723 inline dependencies and require only [`uv`](https://docs.astral.sh/uv/). Run commands from the repository root.
+Recommended quickstart building the full index once and starting the GUI:
+
+```bash
+uv run 06_semantic_hybrid_search/05_index_full_catalogue.py
+uv run 06_semantic_hybrid_search/04_search_server.py --port 8080 --open
+```
 
 ### 1.1 Build Local Indexes (One-Time)
 
