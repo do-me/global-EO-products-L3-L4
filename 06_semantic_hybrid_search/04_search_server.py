@@ -169,6 +169,8 @@ class SearchRequest(BaseModel):
     query: str = Field(..., min_length=1, max_length=2000)
     mode: Literal["jina-v3.5", "jina-v3.5-fast", "qwen3-0.6b", "hybrid", "dense", "bm25"] = "jina-v3.5"
     pool: Optional[Literal["copernicus_services", "eu_non_copernicus", "non_eu"]] = None
+    pools: Optional[list[Literal["copernicus_services", "eu_non_copernicus", "non_eu"]]] = None
+    sources: Optional[list[str]] = None
     geo: Optional[Literal["global", "europe"]] = None
     exclude_local: bool = False
     max_grid_m: Optional[float] = Field(default=None, gt=0)
@@ -223,6 +225,17 @@ class SearchEngine:
             str(k): int(v)
             for k, v in self.df.loc[active_mask, "provider_pool"].value_counts().items()
         }
+        raw_src_counts = {
+            str(k): int(v)
+            for k, v in self.df.loc[active_mask, "source_catalogue"].value_counts().items()
+            if pd.notna(k) and str(k).strip()
+        }
+
+        def _src_num_key(name: str) -> tuple[int, str]:
+            m = re.match(r"^(\d+)", name)
+            return (int(m.group(1)) if m else 9999, name)
+
+        self.source_counts = {k: raw_src_counts[k] for k in sorted(raw_src_counts, key=_src_num_key)}
 
         bm25_path = ARTIFACTS_DIR / "full_bm25.duckdb"
         if not bm25_path.exists():
@@ -337,6 +350,7 @@ class SearchEngine:
             "corpus_size": self.corpus_size,
             "active_size": self.active_size,
             "pool_counts": self.pool_counts,
+            "source_counts": self.source_counts,
             "hybrid_available": self.hybrid_available,
             "device": self.resolved_device,
             "embed_model_id": self.embed_model_id,
@@ -375,6 +389,8 @@ class SearchEngine:
 
         with self._lock:
             t_q0 = time.perf_counter()
+            effective_pools = [p for p in (req.pools or []) if p] or ([req.pool] if req.pool else [])
+            effective_sources = [s for s in (req.sources or []) if s]
             flt = SearchFilters(
                 geo_scope=req.geo,
                 exclude_local=req.exclude_local,
@@ -383,11 +399,15 @@ class SearchEngine:
                 strict_eo_only=(req.eo_scope == "strict_eo"),
                 ontology_mode=req.eo_scope,
                 exclude_superseded=True,
-                provider_pool=req.pool,
+                provider_pool=effective_pools[0] if len(effective_pools) == 1 else None,
                 min_end_year=req.min_end_year,
                 null_safe=req.null_safe,
             )
             mask = apply_filters_mask(self.df, flt)
+            if len(effective_pools) > 1 and len(effective_pools) < 3:
+                mask = mask & self.df["provider_pool"].isin(effective_pools).to_numpy(dtype=bool)
+            if effective_sources:
+                mask = mask & self.df["source_catalogue"].isin(effective_sources).to_numpy(dtype=bool)
             n_eligible = int(mask.sum())
 
             vecs_for_collapse: Optional[np.ndarray] = None
@@ -637,6 +657,8 @@ def build_app(engine: SearchEngine) -> FastAPI:
         q: str = Query(..., min_length=1, max_length=2000),
         mode: Literal["jina-v3.5", "jina-v3.5-fast", "qwen3-0.6b", "hybrid", "dense", "bm25"] = "jina-v3.5",
         pool: Optional[Literal["copernicus_services", "eu_non_copernicus", "non_eu"]] = None,
+        pools: Optional[list[Literal["copernicus_services", "eu_non_copernicus", "non_eu"]]] = Query(default=None),
+        sources: Optional[list[str]] = Query(default=None),
         geo: Optional[Literal["global", "europe"]] = None,
         exclude_local: bool = False,
         max_grid_m: Optional[float] = Query(default=None, gt=0),
@@ -653,6 +675,8 @@ def build_app(engine: SearchEngine) -> FastAPI:
             query=q,
             mode=mode,
             pool=pool,
+            pools=pools,
+            sources=sources,
             geo=geo,
             exclude_local=exclude_local,
             max_grid_m=max_grid_m,

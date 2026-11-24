@@ -1636,7 +1636,12 @@ async function init() {
     state.enums = metaDoc.enums;
     dom.metaBadge.textContent = `${state.meta.total_canonical.toLocaleString()} canonical · ${state.meta.sources_count} sources`;
 
-    populateSelectOptions(dom.source, state.enums.source_catalogue, (v) => v);
+    const sortedSources = [...(state.enums.source_catalogue || [])].sort((a, b) => {
+      const na = Number.parseInt(String(a).match(/^(\d+)/)?.[1] ?? '9999', 10);
+      const nb = Number.parseInt(String(b).match(/^(\d+)/)?.[1] ?? '9999', 10);
+      return na !== nb ? na - nb : String(a).localeCompare(String(b));
+    });
+    populateSelectOptions(dom.source, sortedSources, (v) => v);
     populateSelectOptions(dom.tier, state.enums.provider_jurisdiction_tier);
     populateSelectOptions(dom.category, state.enums.product_output_category);
     populateSelectOptions(dom.cadence, state.enums.temporal_cadence_class, formatEnumLabel, true);

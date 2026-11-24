@@ -112,25 +112,50 @@ Rescores the Top-50 (or Top-25) collapsed family representatives using concise `
 
 ---
 
-## 3. Validation Protocol & Benchmark Suites (`v4.0-standalone`)
+## 3. Validation Protocol & Benchmark Construction (`v4.0-standalone`)
 
-Validation uses three strictly disjoint benchmark suites built exclusively from active canonical catalogue records (`38,852` records) and public EO domain/policy registries:
+### 3.1 What the Benchmarks Represent & How They Were Built
 
-| Suite | Builder & Artifact | Size | Expected Families | Unique Active Records | Provenance Classification |
+Each benchmark query represents a realistic Earth Observation discovery request phrased in domain and policy language—describing the biophysical variable, spatial/temporal requirement, or policy indicator *without* naming target products, satellite missions, or producing agencies. Because one scientific dataset often appears across dozens of versioned releases and cross-portal mirrors in the `39,474`-record catalogue, ground truth is defined at the **product-family level** (`1`–`3` distinct institutional product families per query) rather than single rows.
+
+Every benchmark suite is constructed deterministically in code directly against the `38,852` active, non-superseded records of [`eo_l3_l4_canonical_products.parquet`](../03_harmonization/data/eo_l3_l4_canonical_products.parquet):
+
+1. **Source selection:** Queries and expected product families are derived from authoritative public EO policy frameworks, Essential Climate Variable (ECV) registries, and domain catalogues—never generated from search-engine outputs.
+2. **Programmatic family resolution:** Each expected family is matched to all qualifying active records using explicit inclusion and exclusion regex rules over `title`, `raw_id`, and `source_catalogue`, automatically excluding records flagged as superseded, obsolete, or deprecated.
+3. **Automated integrity checks:** Each builder script enforces four programmatic assertions before writing its benchmark JSON:
+   - Every expected family matches `>= 1` active record and remains reachable under the query's structured filters (`geo_scope`, `max_grid_m`, `strict_eo_only`).
+   - `0` `record_id` overlaps exist between distinct expected families inside any query.
+   - `0` `record_id` overlaps exist across the three suites (`Dev-45 ∩ Holdout A = ∅`, `Dev-45 ∩ Holdout B = ∅`, `Holdout A ∩ Holdout B = ∅`), and `0` overlaps exist across any pair of `Holdout B` queries.
+   - `0` product brand names, mission/sensor codes, or provider shortnames appear in holdout query text (enforced by automated anti-leakage blocklists of `70+` terms in `Holdout A` and `110+` terms in `Holdout B`).
+
+### 3.2 Benchmark Suites & Source Provenance
+
+| Suite | Builder & Artifact | Size | Expected Families | Unique Active Records | Sources & Role |
 | :--- | :--- | ---: | ---: | ---: | :--- |
-| **Dev-45** | [`02_build_policy_benchmark.py`](02_build_policy_benchmark.py) → `policy_retrieval_benchmark.json` | 45 queries | 101 | 1,353 | Development set (used to select `near_dup_cos = 0.94` and verify nested 6-fold LOFO-CV) |
-| **Holdout A** | [`08_build_holdout_a_external.py`](08_build_holdout_a_external.py) → `holdout_a_external_benchmark.json` | 35 queries | 62 | 1,645 | Retrospective GT-audited external domains (GCOS ECV, USGEO EOA, NASA SNWG, WMO OSCAR; `0` overlap with Dev-45) |
-| **Holdout B (Primary Blind)** | [`09_build_blind_holdout_b.py`](09_build_blind_holdout_b.py) → `holdout_b_blind_benchmark.json` | **60 queries** | **79** | **704** | **Prospective single-shot blind holdout** across 10 EO domains (`6` queries/domain, `G = G_eff = 60`, `0` overlap with Dev-45 or Holdout A) |
+| **Dev-45** | [`02_build_policy_benchmark.py`](02_build_policy_benchmark.py) → `policy_retrieval_benchmark.json` | 45 queries (`32` multi-family) | 101 | 1,353 | **Development set** drawn from 6 policy-to-EO frameworks cross-referenced in `05_external_policy_validation/`: EU Biodiversity Strategy 2030 (`14`, EC KCEO Annex 3), CBD Kunming-Montreal GBF Indicator A.2 (`7`, CEOS EETT), UNFCCC Global Stocktake (`7`, CEOS GST / US GHG Center / UNCCD), UN SDGs `6.6.1`/`11.3.1`/`11.6.2`/`14.1.1a`/`15.3.1` (`7`, CEOS / UN-Habitat / UNCCD GPG v2), EC KCEO Urban Climate Adaptation (`5`), and USGEO EOA 2023 / NASA SNWG (`5`). Used solely to select `near_dup_cos = 0.94`, ablate filters, and run nested 6-fold Leave-One-Framework-Out CV. |
+| **Holdout A** | [`08_build_holdout_a_external.py`](08_build_holdout_a_external.py) → `holdout_a_external_benchmark.json` | 35 queries (`22` multi-family) | 62 | 1,645 | **Retrospective GT-audited external domain set** drawn from unused international science/policy registries: GCOS ECV (WGClimate), WMO OSCAR/Space, USGEO EOA 2023, NASA SNWG, EC KCEO Marine/Urban Adaptation, UN Ocean Decade (Seabed 2030), and FAO WaPOR (`0` record overlap with Dev-45). Labeled *retrospective* transparently because uniform, system-blind regex fixes (e.g., `sulfur`/`sulphur` spelling variants and omitted official editions) were applied during ground-truth auditing. |
+| **Holdout B (Primary Blind)** | [`09_build_blind_holdout_b.py`](09_build_blind_holdout_b.py) → `holdout_b_blind_benchmark.json` | **60 queries** (`16` multi-family) | **79** | **704** | **Prospective single-shot blind holdout** built strictly from the remaining untouched active catalogue records (`0` overlap with Dev-45 or Holdout A), balanced across **10 EO domains** (`6` queries each): Forests & Biomass, Urban & Settlements, Land Cover & Ecosystems, Greenhouse Gases & Carbon, Atmosphere & Air Quality, Climate & Reanalysis, Cryosphere & Polar, Oceans & Maritime, Hydrology & Soils, and Productivity & Hazards (`G = G_eff = 60` independent units). Never inspected by retrieval models during design and never modified after scoring. |
 
-### Anti-Leakage & Prospective Integrity Controls
-- **Zero cross-suite overlap:** `10_run_blind_holdouts.py` asserts programmatically that `Dev-45 ∩ Holdout A = ∅`, `Dev-45 ∩ Holdout B = ∅`, and `Holdout A ∩ Holdout B = ∅`, and `09_build_blind_holdout_b.py` asserts zero overlap across any pair of Holdout B queries.
-- **Zero product/mission leakage in queries:** Automated anti-leakage linters block product brand names, mission codes, and provider shortnames in `Holdout A` and `Holdout B` query text.
+### 3.3 Prospective Freeze & Statistical Controls
 - **5-artifact cryptographic freeze (`frozen_v4_config.json`):** `07_deleak_and_lofo_dev.py` runs strictly on `Dev-45` and records SHA-256 hashes of `eo_search_lib.py`, `06_eval_rerankers.py`, `full_catalogue.parquet`, `full_embeddings_bf16.npz`, and `full_bm25.duckdb` (`frozen_at_utc = 2026-11-24T06:52:50Z`). `10_run_blind_holdouts.py` verifies all 5 hashes before scoring `Holdout B` once (`completed_at_utc = 2026-11-24T07:26:34Z`; `strictly_prospective_timestamp_order = true`).
-- **Metrics & inference:** The pre-registered primary metric is **Family-level nDCG@10 (`Fam-nDCG@10`)**, where each distinct expected product family yields gain only on its first retrieved member (preventing duplicate editions from inflating scores). Secondary pre-registered metrics are `MRR@10`, `FamR@10`, `Hit@5`, and `Hit@10`. Paired 10,000-resample bootstrap 95% CIs, exact sign-flip permutation p-values, step-down Holm-Bonferroni family-wise adjustment (`p_holm` over 6 hypotheses), and small-sample Student-$t$ MDE80 are persisted per suite.
+- **Pre-registered inference:** Six hypotheses (`H1`–`H6`) are evaluated on the primary metric (`Fam-nDCG@10`) and four secondary metrics (`MRR@10`, `FamR@10`, `Hit@5`, `Hit@10`) using 10,000-resample paired bootstrap 95% confidence intervals, exact sign-flip permutation p-values, step-down Holm-Bonferroni adjustment (`p_holm`), and small-sample Student-$t$ MDE80.
+- **Scope note:** Ground truth comes from structured institutional/domain regex mappings rather than manual TREC pooling of every unjudged retrieved record; relevant datasets outside the pre-defined family regexes count as non-relevant, making reported metrics conservative lower bounds.
 
 ---
 
 ## 4. Evaluation Results (`v4.0-standalone`)
+
+### Reading the Metrics (Plain-Language Guide)
+
+| Metric | Scale | Plain-Language Meaning |
+| :--- | :--- | :--- |
+| **`Fam-nDCG@10`** (`nDCG@10`, primary) | `0–100%` | **Overall Top-10 ranking quality.** Rewards finding all expected product families within the Top 10 *and* placing them near rank `#1`. Each expected family only counts once (on its first hit), so duplicate editions cannot inflate the score. *(Preferred over fixed-$k$ `F1@10`, which is artificially capped at `22.9%` even for a perfect oracle when queries have only `1`–`3` expected families; at adaptive cutoff $k = R$, `R-Precision = P@R = Rec@R = F1@R` is `70.6%` on Blind Holdout B.)* |
+| **`P@1`** (`Hit@1`) | `0–100%` | **Top-1 precision.** Share of queries where the very first result (`#1`) belongs to an expected product family (`78.3%` for the best config on Blind Holdout B). |
+| **`Hit@10`** (and `Hit@5`) | `0–100%` | **Top-10 success rate.** Share of queries that return at least one right product family anywhere in the Top 10 (`100%` means zero complete misses across the suite). |
+| **`MRR@10`** | `0–100%` | **How high the first right answer sits.** Rank `#1` = `100%`, `#2` = `50%`, `#3` = `33%`, missing from Top 10 = `0%`, averaged over all queries. |
+| **`FamR@10`** (`Recall@10`, `FamR@50`) | `0–100%` | **Product-family recall.** Average fraction of a query's expected competing product families found in the Top 10 (or Top 50), regardless of exact rank order. |
+| **`Mean Latency (HB)`** | `ms` | Average end-to-end query latency on Blind Holdout B (`batch_size=1`, warm model on Apple Silicon M3 Max). |
+| **`pp`, `[95% CI]`, `p_holm`** *(Table 4.2)* | delta / CI / p | Percentage-point gain between two systems, its paired bootstrap 95% confidence interval, and the Holm-Bonferroni p-value adjusted across all 6 comparisons (`p_holm < 0.05` = statistically confirmed). |
 
 All numbers below are taken verbatim from `artifacts/dev45_v4_summary.csv`, `artifacts/holdout_a_v4_summary.csv`, `artifacts/holdout_b_v4_summary.csv`, and their corresponding `*_v4_significance.csv` files (evaluated with solo `batch_size=1` query encoding on Apple Silicon MLX; cross-backend PyTorch parity is verified in Audit 7).
 

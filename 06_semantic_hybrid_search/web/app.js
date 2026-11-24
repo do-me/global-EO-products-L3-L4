@@ -57,7 +57,14 @@ const dom = {
   btnSearchLabel: document.getElementById('btn-search-label'),
 
   optMode: document.getElementById('opt-mode'),
-  optPool: document.getElementById('opt-pool'),
+  poolWrap: document.getElementById('pool-wrap'),
+  btnPool: document.getElementById('btn-pool'),
+  poolLabel: document.getElementById('pool-label'),
+  poolMenu: document.getElementById('pool-menu'),
+  btnPoolAll: document.getElementById('btn-pool-all'),
+  btnSourcesClear: document.getElementById('btn-sources-clear'),
+  poolChecks: Array.from(document.querySelectorAll('.pool-chk')),
+  sourceOptions: document.getElementById('source-options'),
   optGeo: document.getElementById('opt-geo'),
   optGrid: document.getElementById('opt-grid'),
   optLevel: document.getElementById('opt-level'),
@@ -148,14 +155,81 @@ function formatSpan(r) {
   return '—';
 }
 
+function getSelectedPools() {
+  return dom.poolChecks.filter((c) => c.checked).map((c) => c.value);
+}
+
+function getSelectedSources() {
+  if (!dom.sourceOptions) return [];
+  return Array.from(dom.sourceOptions.querySelectorAll('.source-chk:checked')).map((c) => c.value);
+}
+
+function setPoolMenuOpen(open) {
+  if (!dom.poolMenu || !dom.btnPool) return;
+  dom.poolMenu.classList.toggle('hidden', !open);
+  dom.btnPool.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function updatePoolLabel() {
+  if (!dom.poolLabel) return;
+  const pools = getSelectedPools();
+  const sources = getSelectedSources();
+  if (dom.btnSourcesClear) {
+    dom.btnSourcesClear.classList.toggle('hidden', sources.length === 0);
+  }
+  const parts = [];
+  if (pools.length > 0 && pools.length < dom.poolChecks.length) {
+    if (pools.length === 1) {
+      parts.push(POOL_META[pools[0]]?.label || pools[0]);
+    } else {
+      parts.push(`${pools.length} Pools`);
+    }
+  }
+  if (sources.length === 1) {
+    parts.push(sources[0]);
+  } else if (sources.length > 1) {
+    parts.push(`${sources.length} Sources`);
+  }
+  dom.poolLabel.textContent = parts.length ? parts.join(' · ') : 'All Pools';
+}
+
+function renderSourceOptions(sourceCounts) {
+  if (!dom.sourceOptions) return;
+  const entries = Object.entries(sourceCounts || {}).sort(([a], [b]) => {
+    const na = Number.parseInt(String(a).match(/^(\d+)/)?.[1] ?? '9999', 10);
+    const nb = Number.parseInt(String(b).match(/^(\d+)/)?.[1] ?? '9999', 10);
+    return na !== nb ? na - nb : String(a).localeCompare(String(b));
+  });
+  dom.sourceOptions.innerHTML = entries.map(([src, cnt]) => `
+    <label class="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-50 cursor-pointer text-xs text-slate-700 select-none">
+      <span class="flex items-center gap-2 min-w-0">
+        <input type="checkbox" value="${esc(src)}" class="source-chk rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+        <span class="font-mono text-[11px] truncate" title="${esc(src)}">${esc(src)}</span>
+      </span>
+      <span class="text-[10px] font-mono text-slate-400 tabular-nums shrink-0">${Number(cnt).toLocaleString()}</span>
+    </label>
+  `).join('');
+  dom.sourceOptions.querySelectorAll('.source-chk').forEach((chk) => {
+    chk.addEventListener('change', () => {
+      updatePoolLabel();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  });
+}
+
 function buildSearchPayload() {
   const geoVal = dom.optGeo.value;
   const levelVal = dom.optLevel.value;
   const gridVal = dom.optGrid.value;
+  const pools = getSelectedPools();
+  const sources = getSelectedSources();
+  const activePools = pools.length > 0 && pools.length < dom.poolChecks.length ? pools : null;
   return {
     query: dom.queryInput.value.trim(),
     mode: dom.optMode.value,
-    pool: dom.optPool.value || null,
+    pool: activePools && activePools.length === 1 ? activePools[0] : null,
+    pools: activePools,
+    sources: sources.length ? sources : null,
     geo: geoVal === 'global' || geoVal === 'europe' ? geoVal : null,
     exclude_local: geoVal === 'exclude_local',
     max_grid_m: gridVal ? Number(gridVal) : null,
@@ -175,7 +249,14 @@ function syncUrlFromControls() {
   if (dom.optMode.value && state.status && dom.optMode.value !== state.status.default_mode) {
     params.set('mode', dom.optMode.value);
   }
-  if (dom.optPool.value) params.set('pool', dom.optPool.value);
+  const pools = getSelectedPools();
+  if (pools.length > 0 && pools.length < dom.poolChecks.length) {
+    params.set('pools', pools.join(','));
+  }
+  const sources = getSelectedSources();
+  if (sources.length > 0) {
+    params.set('sources', sources.join(','));
+  }
   if (dom.optGeo.value) params.set('geo', dom.optGeo.value);
   if (dom.optGrid.value) params.set('grid', dom.optGrid.value);
   if (dom.optLevel.value) params.set('level', dom.optLevel.value);
@@ -197,7 +278,17 @@ function applyUrlToControls() {
       dom.optMode.value = m;
     }
   }
-  if (params.has('pool')) dom.optPool.value = params.get('pool') || '';
+  const rawPools = params.get('pools') || params.get('pool') || '';
+  if (rawPools) {
+    const wanted = new Set(rawPools.split(',').map((s) => s.trim()).filter(Boolean));
+    dom.poolChecks.forEach((c) => { c.checked = wanted.has(c.value); });
+  }
+  const rawSources = params.get('sources') || '';
+  if (rawSources && dom.sourceOptions) {
+    const wantedSrc = new Set(rawSources.split(',').map((s) => s.trim()).filter(Boolean));
+    dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = wantedSrc.has(c.value); });
+  }
+  updatePoolLabel();
   if (params.has('geo')) dom.optGeo.value = params.get('geo') || '';
   if (params.has('grid')) dom.optGrid.value = params.get('grid') || '';
   if (params.has('level')) dom.optLevel.value = params.get('level') || '';
@@ -228,6 +319,16 @@ async function loadStatus() {
       opt.disabled = !allowed.has(opt.value);
     });
     dom.optMode.value = st.default_mode;
+
+    if (st.pool_counts) {
+      document.querySelectorAll('[data-pool-count]').forEach((el) => {
+        const cnt = st.pool_counts[el.dataset.poolCount];
+        el.textContent = cnt !== undefined ? Number(cnt).toLocaleString() : '';
+      });
+    }
+    if (st.source_counts) {
+      renderSourceOptions(st.source_counts);
+    }
 
     if (st.fallback_reason) {
       dom.modeBanner.textContent = st.fallback_reason;
@@ -746,15 +847,45 @@ function wireEvents() {
     });
   });
 
-  [dom.optMode, dom.optPool, dom.optGeo, dom.optGrid, dom.optLevel, dom.optTopK,
+  [dom.optMode, dom.optGeo, dom.optGrid, dom.optLevel, dom.optTopK,
     dom.optStrictEo, dom.optNullSafe, dom.optCollapse, dom.optPure].forEach((el) => {
     el.addEventListener('change', () => {
       if (dom.queryInput.value.trim()) runSearch();
     });
   });
 
+  if (dom.btnPool) {
+    dom.btnPool.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setPoolMenuOpen(dom.poolMenu.classList.contains('hidden'));
+    });
+  }
+  dom.poolChecks.forEach((chk) => {
+    chk.addEventListener('change', () => {
+      updatePoolLabel();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  });
+  if (dom.btnPoolAll) {
+    dom.btnPoolAll.addEventListener('click', () => {
+      dom.poolChecks.forEach((c) => { c.checked = false; });
+      if (dom.sourceOptions) dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+      updatePoolLabel();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  }
+  if (dom.btnSourcesClear) {
+    dom.btnSourcesClear.addEventListener('click', () => {
+      if (dom.sourceOptions) dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+      updatePoolLabel();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  }
+
   dom.btnReset.addEventListener('click', () => {
-    dom.optPool.value = '';
+    dom.poolChecks.forEach((c) => { c.checked = false; });
+    if (dom.sourceOptions) dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+    updatePoolLabel();
     dom.optGeo.value = '';
     dom.optGrid.value = '';
     dom.optLevel.value = '';
@@ -802,6 +933,9 @@ function wireEvents() {
     if (dom.downloadWrap && !dom.downloadWrap.contains(e.target)) {
       setDownloadMenuOpen(false);
     }
+    if (dom.poolWrap && !dom.poolWrap.contains(e.target)) {
+      setPoolMenuOpen(false);
+    }
   });
 
   dom.drawerClose.addEventListener('click', closeDetailDrawer);
@@ -822,7 +956,8 @@ function wireEvents() {
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      if (dom.downloadMenu && !dom.downloadMenu.classList.contains('hidden')) setDownloadMenuOpen(false);
+      if (dom.poolMenu && !dom.poolMenu.classList.contains('hidden')) setPoolMenuOpen(false);
+      else if (dom.downloadMenu && !dom.downloadMenu.classList.contains('hidden')) setDownloadMenuOpen(false);
       else if (!dom.infoModal.classList.contains('hidden')) closeInfo();
       else if (!dom.drawer.classList.contains('translate-x-full')) closeDetailDrawer();
       return;
