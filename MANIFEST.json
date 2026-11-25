@@ -1,10 +1,10 @@
 {
   "catalogue_title": "Global Harmonized L3/L4 Earth Observation Product Catalogue",
-  "generated_at_utc": "2026-11-25T14:47:08Z",
+  "generated_at_utc": "2026-11-25T16:07:25Z",
   "total_raw_sources": 35,
   "total_raw_records_retrieved": 52612,
   "total_files_hashed": 363,
-  "total_bytes": 1206207919,
+  "total_bytes": 1206208028,
   "sources": [
     {
       "source_id": "01_copernicus_cmems",
@@ -2277,8 +2277,8 @@
     {
       "path": "05_external_policy_validation/03_validate_against_catalogue.py",
       "stage": "05_external_policy_validation",
-      "bytes": 46147,
-      "sha256": "3cf6c3f3ed0f8b7843da4910b4ce51fe0e59c1af408821374c72cf5df1bbecce"
+      "bytes": 46263,
+      "sha256": "4c42fe9003b75ae36eeb25ccfa6423dd7ef6376101849b5c9ef879e516b4862d"
     },
     {
       "path": "05_external_policy_validation/README.md",
@@ -2577,8 +2577,8 @@
     {
       "path": "05_external_policy_validation/results/validation_matches.csv",
       "stage": "05_external_policy_validation",
-      "bytes": 318583,
-      "sha256": "94d003a1fd2365acfdaca93ba7c9b8f8afcec0f5903de24a8edd0b90a2fae172"
+      "bytes": 318576,
+      "sha256": "841ae52b45e4773112178bf1dae6d3999641caa712e0a73c8bc7f0a6f283161f"
     },
     {
       "path": "05_external_policy_validation/results/validation_summary.csv",

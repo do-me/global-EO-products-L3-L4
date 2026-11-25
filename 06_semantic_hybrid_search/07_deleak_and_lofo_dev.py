@@ -272,14 +272,18 @@ def main() -> None:
     print(f"\n--- [2] ORTHOGONAL NULL-SAFE vs NAIVE-STRICT ABLATION ON DEV-45 (cos={chosen_cos}, grid_tol=1.25 BOTH) ---")
     print(df_filt_sum.to_string(index=False))
 
-    # 3. Freeze Immutable v4.2-standalone Manifest (locking all benchmark JSONs, code, semantic index hashes & model revisions)
-    jina_model_id = "jinaai/jina-reranker-v3.5-mlx" if device == "mlx" else "jinaai/jina-reranker-v3.5"
-    qwen_model_id = "Qwen/Qwen3-Reranker-0.6B"
-    locked_model_revisions = {
-        resolved_embed_model: resolve_hf_model_revision(resolved_embed_model),
-        jina_model_id: resolve_hf_model_revision(jina_model_id),
-        qwen_model_id: resolve_hf_model_revision(qwen_model_id),
+    # 3. Freeze Immutable v4.3-standalone Manifest (locking all benchmark JSONs, code, semantic index hashes & all MLX + PyTorch model revisions)
+    _PINNED_FALLBACK_REVS = {
+        DEFAULT_MODEL_BF16: "1a4ffddb7905d3f63486748deabe091a01fb6201",
+        DEFAULT_PT_EMBED_MODEL: "f9972ac22e696a105c482202646979e33e4b5a1e",
+        "jinaai/jina-reranker-v3.5-mlx": "3dd4ac901ccdcac85abe3815df0a0aaaf44e4a21",
+        "jinaai/jina-reranker-v3.5": "e8a93f33f0b22108f8c2364f8484ce3422552fbc",
+        "Qwen/Qwen3-Reranker-0.6B": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
     }
+    locked_model_revisions = {}
+    for mid, fb_rev in _PINNED_FALLBACK_REVS.items():
+        got = resolve_hf_model_revision(mid)
+        locked_model_revisions[mid] = got if (got and got != "unresolved") else fb_rev
     locked_hashes = {
         "eo_search_lib.py": sha256_file(SCRIPT_DIR / "eo_search_lib.py"),
         "02_build_policy_benchmark.py": sha256_file(SCRIPT_DIR / "02_build_policy_benchmark.py"),

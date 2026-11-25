@@ -53,7 +53,9 @@
   },
   "locked_model_revisions": {
     "mlx-community/embeddinggemma-2-bf16": "1a4ffddb7905d3f63486748deabe091a01fb6201",
+    "google/embeddinggemma-2": "f9972ac22e696a105c482202646979e33e4b5a1e",
     "jinaai/jina-reranker-v3.5-mlx": "3dd4ac901ccdcac85abe3815df0a0aaaf44e4a21",
+    "jinaai/jina-reranker-v3.5": "e8a93f33f0b22108f8c2364f8484ce3422552fbc",
     "Qwen/Qwen3-Reranker-0.6B": "e61197ed45024b0ed8a2d74b80b4d909f1255473"
   },
   "stage1": {
