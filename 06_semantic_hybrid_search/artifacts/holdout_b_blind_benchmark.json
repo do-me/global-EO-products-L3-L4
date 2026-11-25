@@ -1,9 +1,9 @@
 {
-  "benchmark_name": "Retrospectively_Audited_Holdout_B_v4_2_standalone",
+  "benchmark_name": "Retrospectively_Audited_Holdout_B_v4_3_standalone",
   "blind_status": "retrospectively_audited_holdout",
   "n_queries": 60,
   "n_total_families": 80,
-  "n_unique_active_record_ids": 687,
+  "n_unique_active_record_ids": 686,
   "disjoint_from_dev_45": true,
   "disjoint_from_holdout_a": true,
   "disjoint_across_all_holdout_b_queries": true,
@@ -159,15 +159,13 @@
       "expected_families": [
         {
           "family_id": "tree_species_maps",
-          "n_matches": 2,
-          "n_reachable_under_filter": 2,
+          "n_matches": 1,
+          "n_reachable_under_filter": 1,
           "sample_titles": [
-            "Canada Long Term Tree Species (1984-2022)",
-            "Leading tree species 2019"
+            "Canada Long Term Tree Species (1984-2022)"
           ],
           "record_ids": [
-            "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/SPECIES-1984-2022",
-            "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/LEAD_TREE_SPECIES"
+            "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/SPECIES-1984-2022"
           ]
         }
       ]

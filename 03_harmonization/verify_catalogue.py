@@ -629,6 +629,9 @@ def main() -> None:
     wekeo_utci_u = df_all[df_all["record_id"] == "09_wekeo_dias::EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL"]
     noaa_mesa_u = df_all[df_all["record_id"] == "20_noaa_onestop::6dc622ed-8446-4bc0-af4c-0b6b15bcacdd"]
     usgs_glccd_u = df_all[df_all["record_id"] == "16_nasa_cmr::C1220566586-USGS_LTA"]
+    tellus_gr_u = df_all[df_all["record_id"] == "16_nasa_cmr::C3206299308-POCLOUD"]
+    tellus_oc_u = df_all[df_all["record_id"] == "16_nasa_cmr::C3206302778-POCLOUD"]
+    cmems_omi_u = df_all[df_all["record_id"] == "01_copernicus_cmems::OMI_CLIMATE_THSL_GLOBAL_area_averaged_anomalies_0_700"]
     url_bare_amp_u = int(df_all["access_url"].fillna("").str.contains(r"&[A-Za-z0-9_]+$", regex=True).sum())
     u_ok = (
         len(jrc_u) == 1 and bool(jrc_u.iloc[0]["uses_sentinel_data"]) and "<2010 and 2019" in str(jrc_u.iloc[0]["description"])
@@ -639,6 +642,9 @@ def main() -> None:
         and len(gpcp_u) == 1 and gpcp_u.iloc[0]["temporal_output_cadences"] == "monthly_or_seasonal" and float(gpcp_u.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0
         and len(gpcp_day_u) == 1 and float(gpcp_day_u.iloc[0]["adjudicated_output_grid_meters"]) == 55660.0 and gpcp_day_u.iloc[0]["adjudicated_spatial_resolution_source"] == "prose_delivered_output_grid"
         and len(ce1_u) == 1 and ce1_u.iloc[0]["geographic_coverage_class"] == "global"
+        and len(tellus_gr_u) == 1 and tellus_gr_u.iloc[0]["geographic_coverage_class"] == "regional_or_local" and pd.isna(tellus_gr_u.iloc[0]["adjudicated_output_grid_meters"]) and tellus_gr_u.iloc[0]["prose_spatial_role"] == "parent_input_grid_for_aggregate_time_series"
+        and len(tellus_oc_u) == 1 and pd.isna(tellus_oc_u.iloc[0]["adjudicated_output_grid_meters"]) and tellus_oc_u.iloc[0]["prose_spatial_role"] == "parent_input_grid_for_aggregate_time_series"
+        and len(cmems_omi_u) == 1 and pd.isna(cmems_omi_u.iloc[0]["adjudicated_output_grid_meters"])
         and len(wekeo_utci_u) == 1 and "&dataset=EO:ECMWF:DAT:DERIVED_UTCI_HISTORICAL" in str(wekeo_utci_u.iloc[0]["access_url"])
         and len(noaa_mesa_u) == 1 and "&view=getDataView&header=none" in str(noaa_mesa_u.iloc[0]["access_url"])
         and len(usgs_glccd_u) == 1 and "&full_datasource=" in str(usgs_glccd_u.iloc[0]["access_url"])

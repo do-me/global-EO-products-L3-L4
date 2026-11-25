@@ -40,7 +40,7 @@ DEFAULT_MODEL_8BIT = "mlx-community/embeddinggemma-2-8bit"
 DEFAULT_PT_EMBED_MODEL = "google/embeddinggemma-2"
 QUERY_PROMPT_PREFIX = "task: search result | query: "
 GITHUB_REPO = "do-me/global-EO-products-L3-L4"
-DEFAULT_INDEX_RELEASE_TAG = "v4.2.0-indexes"
+DEFAULT_INDEX_RELEASE_TAG = "v4.3.0-indexes"
 INDEX_ASSET_NAMES = ("full_bm25.duckdb", "full_embeddings_bf16.npz", "full_index_manifest.json")
 
 _CATALOGUE_CONTENT_HASH_COLS = (
@@ -98,6 +98,9 @@ def compute_catalogue_content_sha256(df: pd.DataFrame) -> str:
 
 def resolve_hf_model_revision(model_id: str) -> str:
     """Resolve the exact 40-char HuggingFace snapshot commit SHA from local cache when available."""
+    p = Path(model_id)
+    if p.exists() and re.fullmatch(r"[0-9a-f]{40}", p.name):
+        return p.name
     hf_home = Path(os.environ.get("HF_HOME", Path.home() / ".cache" / "huggingface"))
     hub_dir = Path(os.environ.get("HF_HUB_CACHE", hf_home / "hub"))
     repo_dir = hub_dir / ("models--" + model_id.replace("/", "--"))
@@ -112,6 +115,24 @@ def resolve_hf_model_revision(model_id: str) -> str:
         if dirs:
             return dirs[-1]
     return "unresolved"
+
+
+def ensure_hf_model_snapshot(model_id: str, revision: Optional[str] = None) -> tuple[Path, str]:
+    """Download/locate an exact HuggingFace model snapshot (works on empty cold caches too)."""
+    p = Path(model_id)
+    if p.exists():
+        rev = p.name if re.fullmatch(r"[0-9a-f]{40}", p.name) else (revision or "local")
+        return p, rev
+    from huggingface_hub import snapshot_download
+
+    target_rev = revision if (revision and revision != "unresolved") else None
+    snap_dir = Path(snapshot_download(model_id, revision=target_rev))
+    resolved_rev = (
+        snap_dir.name
+        if re.fullmatch(r"[0-9a-f]{40}", snap_dir.name)
+        else (target_rev or resolve_hf_model_revision(model_id))
+    )
+    return snap_dir, resolved_rev
 
 
 def _download_release_asset(
@@ -778,7 +799,7 @@ class MLXEmbeddingGemma2:
       a handful of shapes instead of recompiling on every dynamic length.
     """
 
-    def __init__(self, model_id: str = DEFAULT_MODEL_BF16):
+    def __init__(self, model_id: str = DEFAULT_MODEL_BF16, revision: Optional[str] = None):
         import mlx.core as mx
         from mlx_vlm.embedding_loader import load_embedding_model
         from mlx_vlm.models.embedding_gemma2.embedding_gemma2 import (
@@ -793,7 +814,12 @@ class MLXEmbeddingGemma2:
         self._mean_pooling = mean_pooling
         self._normalize_embeddings = normalize_embeddings
         t0 = time.perf_counter()
-        self.model_path = get_model_path(model_id)
+        if Path(model_id).exists():
+            self.model_path = Path(model_id)
+        elif revision and revision != "unresolved":
+            self.model_path, _ = ensure_hf_model_snapshot(model_id, revision=revision)
+        else:
+            self.model_path = get_model_path(model_id)
         self.model = load_embedding_model(self.model_path)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         self.pad_token_id = int(self.tokenizer.pad_token_id or 0)
@@ -1120,7 +1146,7 @@ class PyTorchEmbeddingGemma2:
     over `last_hidden_state` and float32 L2 normalization (cosine > 0.9999 vs MLX BF16).
     """
 
-    def __init__(self, model_id: str = DEFAULT_PT_EMBED_MODEL, device: str = "cpu"):
+    def __init__(self, model_id: str = DEFAULT_PT_EMBED_MODEL, device: str = "cpu", revision: Optional[str] = None):
         import torch
         from transformers import AutoModel, AutoTokenizer
 
@@ -1138,8 +1164,12 @@ class PyTorchEmbeddingGemma2:
             # MPS: use float32 to avoid bfloat16/float16 kernel edge cases
             self.dtype = torch.float32
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
-        self.model = AutoModel.from_pretrained(model_id, dtype=self.dtype)
+        load_src = model_id
+        if not Path(model_id).exists() and revision and revision != "unresolved":
+            snap_dir, _ = ensure_hf_model_snapshot(model_id, revision=revision)
+            load_src = str(snap_dir)
+        self.tokenizer = AutoTokenizer.from_pretrained(load_src)
+        self.model = AutoModel.from_pretrained(load_src, dtype=self.dtype)
         self.model.to(device)
         self.model.eval()
         self.load_seconds = time.perf_counter() - t0
@@ -1235,14 +1265,15 @@ class PyTorchEmbeddingGemma2:
 def load_dense_embedder(
     device: str = "auto",
     model_id: Optional[str] = None,
+    revision: Optional[str] = None,
 ) -> tuple[MLXEmbeddingGemma2 | PyTorchEmbeddingGemma2, str, str]:
     """Auto-select and load the best EmbeddingGemma 2 backend (MLX on Apple Silicon, else CUDA/MPS/CPU PyTorch)."""
     dev = resolve_device(device)
     if dev == "mlx":
         mid = model_id or DEFAULT_MODEL_BF16
-        return MLXEmbeddingGemma2(mid), "mlx", mid
+        return MLXEmbeddingGemma2(mid, revision=revision), "mlx", mid
     mid = model_id or DEFAULT_PT_EMBED_MODEL
-    return PyTorchEmbeddingGemma2(mid, device=dev), dev, mid
+    return PyTorchEmbeddingGemma2(mid, device=dev, revision=revision), dev, mid
 
 
 def maxsim_chunk_scores(
@@ -1650,10 +1681,16 @@ _VERIFIED_OUTPUT_GRID_SOURCES = {
 _DISCOVERY_CURRENT_YEAR = 2026
 
 _BENCHMARK_AUX_LAYER_RE = re.compile(
-    r"\b(?:distance[- ]to[- ]second|quality\s+flag|qa\s+(?:brdf|local|validobs|snow|uncertainty|pixel)|"
+    r"\b(?:distance[- ]to[- ]second|quality\s+flag|input\s*quality|qa\s+(?:brdf|local|validobs|snow|uncertainty|pixel)|"
     r"confidence\s+in\s+classification|landcover\s+confidence|land\s+cover\s+confidence|"
     r"(?:data|static)\s+mask|land/sea\s+static\s+mask|impervious\s+descriptor|"
     r"spectral\s+change\s+doy|error\s+(?:map|layer))\b",
+    re.IGNORECASE,
+)
+
+_BENCHMARK_SINGLE_YEAR_TITLE_RE = re.compile(r"\b(?:19[789]\d|20[0-2]\d)\b")
+_BENCHMARK_MULTI_YEAR_RANGE_RE = re.compile(
+    r"\b(?:19[789]\d|20[0-2]\d)\s*[-–/to]+\s*(?:19[789]\d|20[0-2]\d|present|ongoing)\b",
     re.IGNORECASE,
 )
 
@@ -1749,20 +1786,43 @@ def filter_benchmark_family_mask(
         has_g = ~np.isnan(g)
         out &= ~has_g | (g <= float(max_g) * 1.25)
 
-    # 4. Global geographic scope guard
+    # 4. Global geographic scope guard (use observation_domain_class where hemisphere restrictions are stored)
     scope = str(qf.get("geo_scope") or "").lower()
     if scope == "global":
         if "geographic_coverage_class" in df.columns:
             gc = df["geographic_coverage_class"].fillna("").to_numpy()
             out &= gc != "regional_or_local"
-        if "observation_domain_mask" in df.columns:
-            odm = df["observation_domain_mask"].fillna("").to_numpy()
-            out &= ~np.isin(odm, ["northern_hemisphere_only", "southern_hemisphere_only"])
+        if "observation_domain_class" in df.columns:
+            odc = df["observation_domain_class"].fillna("").to_numpy()
+            out &= ~np.isin(
+                odc,
+                ["northern_hemisphere_only", "southern_hemisphere_only", "geostationary_disk_or_sector"],
+            )
         if "bbox_south" in df.columns and "bbox_north" in df.columns:
             bs = pd.to_numeric(df["bbox_south"], errors="coerce").to_numpy(dtype=np.float64)
             bn = pd.to_numeric(df["bbox_north"], errors="coerce").to_numpy(dtype=np.float64)
             has_lat = ~(np.isnan(bs) | np.isnan(bn))
             out &= ~has_lat | ((bn - bs) >= 90.0)
+
+    # 5. Multi-decadal temporal scope guard: withhold credit from single-year snapshots on multi-decadal queries
+    if re.search(r"\bmulti[- ]?decadal\b", query_text or "", re.IGNORECASE):
+        if "temporal_start_year" in df.columns and "temporal_end_year" in df.columns:
+            sy = pd.to_numeric(df["temporal_start_year"], errors="coerce").to_numpy(dtype=np.float64)
+            ey = pd.to_numeric(df["temporal_end_year"], errors="coerce").to_numpy(dtype=np.float64)
+            ong = (
+                df["is_ongoing_archive"].fillna(False).to_numpy(dtype=bool, copy=True)
+                if "is_ongoing_archive" in df.columns
+                else np.zeros(len(df), dtype=bool)
+            )
+            has_span = ~(np.isnan(sy) | np.isnan(ey))
+            is_short_closed = has_span & ((ey - sy) <= 1.0) & (~ong)
+            out &= ~is_short_closed
+            if "title" in df.columns:
+                t_ser = df["title"].fillna("").astype(str)
+                has_single_yr = t_ser.str.contains(_BENCHMARK_SINGLE_YEAR_TITLE_RE, regex=True).to_numpy(dtype=bool)
+                has_yr_range = t_ser.str.contains(_BENCHMARK_MULTI_YEAR_RANGE_RE, regex=True).to_numpy(dtype=bool)
+                # Undated record whose title specifies only a single epoch year (e.g. 'Leading tree species 2019')
+                out &= ~(np.isnan(sy) & has_single_yr & (~has_yr_range) & (~ong))
     return out
 
 
@@ -1858,10 +1918,16 @@ def apply_filters_mask(df: pd.DataFrame, flt: SearchFilters) -> np.ndarray:
                     ok = gc == "global"
                     if "observation_domain_class" in df.columns:
                         od = df["observation_domain_class"].fillna("").to_numpy()
-                        ok &= ~np.isin(od, ["hemispheric_or_pantropical", "regional_or_local"])
-                    if "observation_domain_mask" in df.columns:
-                        odm = df["observation_domain_mask"].fillna("").to_numpy()
-                        ok &= ~np.isin(odm, ["northern_hemisphere_only", "southern_hemisphere_only"])
+                        ok &= ~np.isin(
+                            od,
+                            [
+                                "hemispheric_or_pantropical",
+                                "regional_or_local",
+                                "northern_hemisphere_only",
+                                "southern_hemisphere_only",
+                                "geostationary_disk_or_sector",
+                            ],
+                        )
                     if "bbox_south" in df.columns and "bbox_north" in df.columns:
                         bs = pd.to_numeric(df["bbox_south"], errors="coerce").to_numpy(dtype=np.float64)
                         bn = pd.to_numeric(df["bbox_north"], errors="coerce").to_numpy(dtype=np.float64)

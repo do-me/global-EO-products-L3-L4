@@ -253,6 +253,7 @@ def parse_resolution_meters(res_str: str | None) -> float | None:
 def parse_title_token_resolution_meters(raw_id: str | None, title: str | None) -> float | None:
     """Extracts horizontal pixel resolution tokens from title/ID after masking vertical depths and non-GSD codes."""
     txt = f"{raw_id or ''} {title or ''}"
+    txt = re.sub(r"\b0\s*[-–]\s*\d+(?:\.\d+)?\s*(?:m|meters?|metres?)\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"sensor depth:\s*[\d.]+\s*(?:m|meters?|metres?)\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"\bat\s+(?:the\s+surface\s+and\s+)?\d+(?:\.\d+)?\s*(?:m|meters?|metres?)\b", " ", txt, flags=re.IGNORECASE)
     txt = re.sub(r"\b\d+(?:\.\d+)?\s*(?:m|meters?|metres?)\s+(?:above|below|depth|height|altitude|elevation|(?:surface\s+)?winds?)\b", " ", txt, flags=re.IGNORECASE)
@@ -530,7 +531,7 @@ _EXPLICIT_EUROPE_SCOPE_RE = re.compile(
 
 _EXPLICIT_REGIONAL_SCOPE_RE = re.compile(
     r"\b(?:regional\b|north america\b|contiguous u\.?s\.?|conterminous united states|\bconus\b|"
-    r"united states and alaska|alaska|hawaii|puerto rico|for africa\b|in africa\b|sub-saharan africa|"
+    r"united states and alaska|alaska|hawaii|puerto rico|greenland|for africa\b|in africa\b|sub-saharan africa|"
     r"of canada\b|for canada\b|in canada\b|canadian wetland|canada's landmass|of japan\b|"
     r"south america|central america|southeast asia|east asia|south asia|middle east|"
     r"australia|new zealand|great lakes|gulf of mexico|chesapeake bay)\b",
@@ -638,7 +639,7 @@ def classify_geographic_coverage(
     has_global_in_title = bool(re.search(r"\b(?:global(?:ly)?|world|worldwide|quasi-global|near-global)\b", title_for_global_chk, re.IGNORECASE))
     has_both_hemispheres = bool(
         re.search(
-            r"\bnorthern\s+(?:hemisphere\s+)?and\s+southern\s+hemispheres?\b|\b(?:arctic.*antarctic|antarctic.*arctic)\b",
+            r"\bnorthern\s+(?:hemisphere\s+)?and\s+southern\s+hemispheres?\b|\b(?:arctic\b.*\bantarctic|antarctic\b.*\barctic)\b",
             title_str,
             re.IGNORECASE,
         )
@@ -2411,13 +2412,26 @@ def main() -> None:
                 re.search(r"\b(?:gedi[_ -]?l?(?:2a|2b|4a)|footprint\s+level|laser\s+footprint)\b", head_txt, re.IGNORECASE)
                 and not re.search(r"\bgridded\b|\bgedi04_b\b|\bgedi\s+l4b\b|\bl4b\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE)
             )
+            is_aggregate_time_series = bool(
+                re.search(
+                    r"\b(?:mass\s+(?:anomaly|variability)\s+time\s+series|"
+                    r"area[- ]averaged\s+(?:anomalies|time\s+series)|"
+                    r"volume[- ]mean)\b",
+                    f"{(raw_id or '').replace('_', ' ')} {title or ''}",
+                    re.IGNORECASE,
+                )
+            )
             spatial_footprint_m = 25.0 if (is_discrete_footprint and re.search(r"\bgedi\b", f"{raw_id or ''} {title or ''}", re.IGNORECASE)) else None
-            raw_spat_m = None if is_discrete_footprint else parse_resolution_meters(spat_raw)
+            if is_aggregate_time_series and spat_raw and not prose_spat_role:
+                prose_spat_role = "parent_input_grid_for_aggregate_time_series"
+                if not prose_spat_cand:
+                    prose_spat_cand = str(spat_raw)
+            raw_spat_m = None if (is_discrete_footprint or is_aggregate_time_series) else parse_resolution_meters(spat_raw)
             spat_m = raw_spat_m
-            title_spat_m = None if is_discrete_footprint else parse_title_token_resolution_meters(raw_id, title)
+            title_spat_m = None if (is_discrete_footprint or is_aggregate_time_series) else parse_title_token_resolution_meters(raw_id, title)
             prose_spat_m = (
                 parse_resolution_meters(prose_spat_cand)
-                if (not is_discrete_footprint and prose_spat_role == "delivered_output_grid" and prose_spat_cand)
+                if (not is_discrete_footprint and not is_aggregate_time_series and prose_spat_role == "delivered_output_grid" and prose_spat_cand)
                 else None
             )
             spat_conflict = False

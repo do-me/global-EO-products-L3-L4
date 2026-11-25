@@ -225,6 +225,52 @@
     ]
   },
   {
+    "query_id": "Q40_GBF_SNOW_COVER_EXTENT",
+    "fam_r_10": 0.0,
+    "fam_r_20": 0.0,
+    "mrr_10": 0.0,
+    "missed_families_in_top50": [
+      "nsidc_snow_extent"
+    ],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:6571168",
+        "title": "A temporally consistent 8-day 0.05\u00b0 gap-free snow cover extent dataset over the Northern H",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:8083230",
+        "title": "Snow cover and snow water equivalent for: How do tradeoffs in satellite spatial and tempor",
+        "source": "26_fao_unep_and_thematic_benchmarks",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 3,
+        "record_id": "19_dlr_eoc_stac::GSP_SCE_P1D",
+        "title": "Global SnowPack - Snow Cover Extent (SCE) - Daily",
+        "source": "19_dlr_eoc_stac",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "16_nasa_cmr::C2784896919-ORNL_CLOUD",
+        "title": "snow_cover_xdeg_982: ISLSCP II Northern Hemisphere Monthly Snow Cover Extent",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 5,
+        "record_id": "02_copernicus_clms::b0c7ef8d552d4234bb172a692c4342a7",
+        "title": "Snow Water Equivalent 2024-present (raster 5 km), Northern Hemisphere, daily \u2013 version 2",
+        "source": "02_copernicus_clms",
+        "siblings_collapsed": 2
+      }
+    ]
+  },
+  {
     "query_id": "Q44_SNWG_SEA_SURFACE_SALINITY",
     "fam_r_10": 0.0,
     "fam_r_20": 0.0,
@@ -265,52 +311,6 @@
         "title": "AQUARIUS_L3_SSS_SMIA_ANNUAL_V5: Aquarius Official Release Level 3 Sea Surface Salinity Sta",
         "source": "16_nasa_cmr",
         "siblings_collapsed": 0
-      }
-    ]
-  },
-  {
-    "query_id": "Q26_GST_GLOBAL_LAND_COVER_MULTIDECADAL",
-    "fam_r_10": 0.25,
-    "fam_r_20": 0.5,
-    "mrr_10": 0.2,
-    "missed_families_in_top50": [
-      "esa_worldcover"
-    ],
-    "top5_returned": [
-      {
-        "rank": 1,
-        "record_id": "20_noaa_onestop::4974e4c4-3cce-4a54-a49d-2d356690da3d",
-        "title": "Historical Land-Cover Change and Land-Use Conversions Global Dataset",
-        "source": "20_noaa_onestop",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 2,
-        "record_id": "24_openlandmap_stac::lc_glad.glcluc.change",
-        "title": "UMD GLAD annual land cover and land use change (GLCLUC)",
-        "source": "24_openlandmap_stac",
-        "siblings_collapsed": 1
-      },
-      {
-        "rank": 3,
-        "record_id": "16_nasa_cmr::C2784888644-ORNL_CLOUD",
-        "title": "historic_landcover_xdeg_967: ISLSCP II Historical Land Cover and Land Use, 1700-1990",
-        "source": "16_nasa_cmr",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 4,
-        "record_id": "23_wri_gfw_and_resourcewatch::GFW:umd_land_cover_2000_2020",
-        "title": "Land Cover 2000-2020",
-        "source": "23_wri_gfw_and_resourcewatch",
-        "siblings_collapsed": 1
-      },
-      {
-        "rank": 5,
-        "record_id": "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11520",
-        "title": "ESA Land Cover Climate Change Initiative (Land_Cover_cci): Global Land Cover Maps, Version",
-        "source": "12_ceos_cgms_wgclimate_ecv",
-        "siblings_collapsed": 2
       }
     ]
   },
@@ -357,6 +357,50 @@
         "title": "Protected Area Connectivity",
         "source": "23_wri_gfw_and_resourcewatch",
         "siblings_collapsed": 0
+      }
+    ]
+  },
+  {
+    "query_id": "Q26_GST_GLOBAL_LAND_COVER_MULTIDECADAL",
+    "fam_r_10": 0.333,
+    "fam_r_20": 0.667,
+    "mrr_10": 0.2,
+    "missed_families_in_top50": [],
+    "top5_returned": [
+      {
+        "rank": 1,
+        "record_id": "20_noaa_onestop::4974e4c4-3cce-4a54-a49d-2d356690da3d",
+        "title": "Historical Land-Cover Change and Land-Use Conversions Global Dataset",
+        "source": "20_noaa_onestop",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 2,
+        "record_id": "24_openlandmap_stac::lc_glad.glcluc.change",
+        "title": "UMD GLAD annual land cover and land use change (GLCLUC)",
+        "source": "24_openlandmap_stac",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 3,
+        "record_id": "16_nasa_cmr::C2784888644-ORNL_CLOUD",
+        "title": "historic_landcover_xdeg_967: ISLSCP II Historical Land Cover and Land Use, 1700-1990",
+        "source": "16_nasa_cmr",
+        "siblings_collapsed": 0
+      },
+      {
+        "rank": 4,
+        "record_id": "23_wri_gfw_and_resourcewatch::GFW:umd_land_cover_2000_2020",
+        "title": "Land Cover 2000-2020",
+        "source": "23_wri_gfw_and_resourcewatch",
+        "siblings_collapsed": 1
+      },
+      {
+        "rank": 5,
+        "record_id": "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11520",
+        "title": "ESA Land Cover Climate Change Initiative (Land_Cover_cci): Global Land Cover Maps, Version",
+        "source": "12_ceos_cgms_wgclimate_ecv",
+        "siblings_collapsed": 2
       }
     ]
   },
@@ -581,50 +625,6 @@
         "title": "NISAR_DEM: Modified Copernicus Digital Elevation Models used by the NASA-ISRO Synthetic Ap",
         "source": "16_nasa_cmr",
         "siblings_collapsed": 0
-      }
-    ]
-  },
-  {
-    "query_id": "Q40_GBF_SNOW_COVER_EXTENT",
-    "fam_r_10": 0.5,
-    "fam_r_20": 1.0,
-    "mrr_10": 0.143,
-    "missed_families_in_top50": [],
-    "top5_returned": [
-      {
-        "rank": 1,
-        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:6571168",
-        "title": "A temporally consistent 8-day 0.05\u00b0 gap-free snow cover extent dataset over the Northern H",
-        "source": "26_fao_unep_and_thematic_benchmarks",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 2,
-        "record_id": "26_fao_unep_and_thematic_benchmarks::ZENODO:8083230",
-        "title": "Snow cover and snow water equivalent for: How do tradeoffs in satellite spatial and tempor",
-        "source": "26_fao_unep_and_thematic_benchmarks",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 3,
-        "record_id": "19_dlr_eoc_stac::GSP_SCE_P1D",
-        "title": "Global SnowPack - Snow Cover Extent (SCE) - Daily",
-        "source": "19_dlr_eoc_stac",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 4,
-        "record_id": "16_nasa_cmr::C2784896919-ORNL_CLOUD",
-        "title": "snow_cover_xdeg_982: ISLSCP II Northern Hemisphere Monthly Snow Cover Extent",
-        "source": "16_nasa_cmr",
-        "siblings_collapsed": 0
-      },
-      {
-        "rank": 5,
-        "record_id": "02_copernicus_clms::b0c7ef8d552d4234bb172a692c4342a7",
-        "title": "Snow Water Equivalent 2024-present (raster 5 km), Northern Hemisphere, daily \u2013 version 2",
-        "source": "02_copernicus_clms",
-        "siblings_collapsed": 2
       }
     ]
   },

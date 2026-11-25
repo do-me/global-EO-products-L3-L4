@@ -900,6 +900,9 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
     gpcp_day_n = df_all[df_all["record_id"] == "20_noaa_onestop::07090ac2-b1fa-4335-b195-745b22b68398"]
     ce1 = df_all[df_all["record_id"] == "16_nasa_cmr::C3880496704-LARC_CLOUD"]
     ce2 = df_all[df_all["record_id"] == "16_nasa_cmr::C3880497643-LARC_CLOUD"]
+    tellus_gr = df_all[df_all["record_id"] == "16_nasa_cmr::C3206299308-POCLOUD"]
+    tellus_oc = df_all[df_all["record_id"] == "16_nasa_cmr::C3206302778-POCLOUD"]
+    cmems_omi = df_all[df_all["record_id"] == "01_copernicus_cmems::OMI_CLIMATE_THSL_GLOBAL_area_averaged_anomalies_0_700"]
     spot_panel_ok = (
         len(gpcp_n) == 1
         and gpcp_n.iloc[0]["temporal_output_cadences"] == "monthly_or_seasonal"
@@ -912,6 +915,12 @@ def run_internal_qa(df_all: pd.DataFrame, df_canon: pd.DataFrame) -> list[tuple[
         and ce1.iloc[0]["geographic_coverage_provenance"] == "provider_documented_specification"
         and len(ce2) == 1 and ce2.iloc[0]["geographic_coverage_class"] == "global"
         and ce2.iloc[0]["geographic_coverage_provenance"] == "provider_documented_specification"
+        and len(tellus_gr) == 1 and tellus_gr.iloc[0]["geographic_coverage_class"] == "regional_or_local"
+        and pd.isna(tellus_gr.iloc[0]["adjudicated_output_grid_meters"])
+        and tellus_gr.iloc[0]["prose_spatial_role"] == "parent_input_grid_for_aggregate_time_series"
+        and len(tellus_oc) == 1 and pd.isna(tellus_oc.iloc[0]["adjudicated_output_grid_meters"])
+        and tellus_oc.iloc[0]["prose_spatial_role"] == "parent_input_grid_for_aggregate_time_series"
+        and len(cmems_omi) == 1 and pd.isna(cmems_omi.iloc[0]["adjudicated_output_grid_meters"])
     )
 
     qa.append((

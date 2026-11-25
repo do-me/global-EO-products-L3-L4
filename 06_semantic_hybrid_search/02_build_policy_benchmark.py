@@ -340,7 +340,6 @@ BENCHMARK_SPECS: list[dict[str, Any]] = [
             {"family_id": "esa_cci_lc", "regex": r"land\s+cover\s+classification\s+gridded\s+maps\s+from\s+1992|\besa\s+cci.*land\s+cover\b|\besa\s+land\s+cover\s+climate\s+change\s+initiative\b|\besa\s+climate\s+change\s+initiative\s+land\s+cover\b"},
             {"family_id": "clms_lc100", "regex": r"\bland\s+cover\s+2015[-–]2019\b.*100\s*m"},
             {"family_id": "hilda_plus", "regex": r"(?<![a-z0-9])hilda\+?(?![a-z0-9])"},
-            {"family_id": "esa_worldcover", "regex": r"(?<![a-z0-9])esa[_\s]worldcover(?![a-z0-9])"},
         ],
     },
 

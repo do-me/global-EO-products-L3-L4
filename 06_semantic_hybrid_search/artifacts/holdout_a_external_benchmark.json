@@ -224,7 +224,7 @@
       "expected_families": [
         {
           "family_id": "era5_drought",
-          "n_matches": 75,
+          "n_matches": 74,
           "sample_titles": [
             "LDEO_SPI: Standardized Precipitation Index (SPI) Analyses of Multiple Global Precipitation Datasets at LDEO/IRI Climate Data Library",
             "Monthly drought indices from 1940 to present derived from ERA5 reanalysis",
@@ -247,7 +247,6 @@
             "07_ec_jrc_data_catalogue::dca55d34-9151-419d-9366-5d64c28a4e07",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:18985819",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:18987211",
-            "07_ec_jrc_data_catalogue::29fdaa3d-c7ba-4a47-a130-dda7c26a0fe1",
             "07_ec_jrc_data_catalogue::3e0368e9-e55a-4d6e-bcbf-296de8e43578",
             "07_ec_jrc_data_catalogue::922267ae-6faf-475e-a97b-2974c6596277",
             "07_ec_jrc_data_catalogue::ca9f628f-8595-4539-863a-fc9285499496",
@@ -1579,7 +1578,7 @@
       "expected_families": [
         {
           "family_id": "grace_tws",
-          "n_matches": 28,
+          "n_matches": 26,
           "sample_titles": [
             "Terrestrial water storage anomaly data from 2002 to present derived from satellite gravimetry observations",
             "TELLUS_GRAC_L3_CSR_RL06_LND_v04: CSR TELLUS GRACE Level-3 Monthly Land Water-Equivalent-Thickness Surface Mass Anomaly Release 6.0 version 04",
@@ -1593,7 +1592,6 @@
             "16_nasa_cmr::C3195502222-POCLOUD",
             "16_nasa_cmr::C3195527175-POCLOUD",
             "16_nasa_cmr::C3206284786-POCLOUD",
-            "16_nasa_cmr::C3206299308-POCLOUD",
             "16_nasa_cmr::C3206302778-POCLOUD",
             "16_nasa_cmr::C3215150173-POCLOUD",
             "16_nasa_cmr::C3215162709-POCLOUD",
@@ -1604,7 +1602,6 @@
             "26_fao_unep_and_thematic_benchmarks::ZENODO:19368157",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:20653776",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11946",
-            "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11951",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5880/g3p.2023.001",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5880/g3p.2024.001",
             "26_fao_unep_and_thematic_benchmarks::DATACITE:10.5880/icgem.2020.001",

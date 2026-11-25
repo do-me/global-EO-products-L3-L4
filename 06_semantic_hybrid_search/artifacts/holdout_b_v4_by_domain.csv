@@ -14,10 +14,10 @@ Cryosphere & Polar,04_Dense_768d_GenericCollapse,100.0,100.0,100.0,76.39,82.18
 Cryosphere & Polar,06_Stage1_HybridRRF_GenericCollapse,83.33,100.0,100.0,65.97,73.45
 Cryosphere & Polar,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,83.33,88.74
 Cryosphere & Polar,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,70.83,79.07
-Forests & Biomass,02_BM25_PreFilter_GenericCollapse,83.33,100.0,100.0,71.85,78.13
+Forests & Biomass,02_BM25_PreFilter_GenericCollapse,66.67,100.0,100.0,57.57,67.02
 Forests & Biomass,04_Dense_768d_GenericCollapse,66.67,66.67,66.67,54.17,57.18
 Forests & Biomass,06_Stage1_HybridRRF_GenericCollapse,100.0,100.0,100.0,70.83,78.21
-Forests & Biomass,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,75.0,81.55
+Forests & Biomass,08_Frozen_Best_JinaV35_Top50_RRFBlend,100.0,100.0,100.0,72.22,79.36
 Forests & Biomass,10_Frozen_Apache2_Qwen3_Top50_RRFBlend,100.0,100.0,100.0,63.89,73.21
 Greenhouse Gases & Carbon,02_BM25_PreFilter_GenericCollapse,66.67,83.33,75.0,49.31,50.99
 Greenhouse Gases & Carbon,04_Dense_768d_GenericCollapse,83.33,100.0,91.67,77.08,75.99

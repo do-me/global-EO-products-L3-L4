@@ -179,9 +179,18 @@ def blend_rrf_and_rerank(
 
 
 class JinaV35MLXReranker:
-    def __init__(self, max_doc_length: int = 420):
+    def __init__(
+        self,
+        model_id: str = DEFAULT_MLX_JINA_MODEL,
+        max_doc_length: int = 420,
+        revision: str | None = None,
+    ):
         t0 = time.perf_counter()
-        self.repo_dir = Path(snapshot_download("jinaai/jina-reranker-v3.5-mlx"))
+        if Path(model_id).exists():
+            self.repo_dir = Path(model_id)
+        else:
+            rev = revision if (revision and revision != "unresolved") else None
+            self.repo_dir = Path(snapshot_download(model_id, revision=rev))
         if str(self.repo_dir) not in sys.path:
             sys.path.insert(0, str(self.repo_dir))
         import rerank as jina_rerank  # type: ignore
@@ -217,13 +226,17 @@ class Qwen3MLXReranker:
         model_id: str = "Qwen/Qwen3-Reranker-0.6B",
         instruction: str = EO_RERANK_INSTRUCTION,
         verify_exactness: bool = True,
+        revision: str | None = None,
     ):
         from mlx_lm import load as mlx_lm_load
 
         t0 = time.perf_counter()
         self.model_id = model_id
         self.instruction = instruction
-        self.model, self.tokenizer = mlx_lm_load(model_id)
+        load_src = model_id
+        if not Path(model_id).exists() and revision and revision != "unresolved":
+            load_src = str(Path(snapshot_download(model_id, revision=revision)))
+        self.model, self.tokenizer = mlx_lm_load(load_src)
         self.model.eval()
         self.pad_id = int(self.tokenizer.pad_token_id or self.tokenizer.eos_token_id or 0)
         self.yes_id = int(self.tokenizer.convert_tokens_to_ids("yes"))
@@ -446,17 +459,26 @@ def load_reranker(
     device: str = "auto",
     max_doc_length: int = 420,
     verify_exactness: bool = False,
+    model_id: str | None = None,
+    revision: str | None = None,
 ) -> tuple[Any, str, str]:
     """Auto-select and load a Stage-2 reranker across MLX (Apple Silicon), CUDA, MPS, or CPU."""
     dev = resolve_device(device)
     if reranker_name == "jina-v3.5":
         if dev == "mlx":
-            return JinaV35MLXReranker(max_doc_length=max_doc_length), "mlx", DEFAULT_MLX_JINA_MODEL
-        return JinaV35PyTorchReranker(DEFAULT_PT_JINA_MODEL, device=dev, max_doc_length=max_doc_length), dev, DEFAULT_PT_JINA_MODEL
+            mid = model_id or DEFAULT_MLX_JINA_MODEL
+            return JinaV35MLXReranker(model_id=mid, max_doc_length=max_doc_length, revision=revision), "mlx", mid
+        mid = model_id or DEFAULT_PT_JINA_MODEL
+        if not Path(mid).exists() and revision and revision != "unresolved":
+            mid = str(Path(snapshot_download(mid, revision=revision)))
+        return JinaV35PyTorchReranker(mid, device=dev, max_doc_length=max_doc_length), dev, mid
     if reranker_name == "qwen3-0.6b":
+        mid = model_id or DEFAULT_QWEN_RERANK_MODEL
         if dev == "mlx":
-            return Qwen3MLXReranker(DEFAULT_QWEN_RERANK_MODEL, verify_exactness=verify_exactness), "mlx", DEFAULT_QWEN_RERANK_MODEL
-        return Qwen3PyTorchReranker(DEFAULT_QWEN_RERANK_MODEL, device=dev), dev, DEFAULT_QWEN_RERANK_MODEL
+            return Qwen3MLXReranker(mid, verify_exactness=verify_exactness, revision=revision), "mlx", mid
+        if not Path(mid).exists() and revision and revision != "unresolved":
+            mid = str(Path(snapshot_download(mid, revision=revision)))
+        return Qwen3PyTorchReranker(mid, device=dev), dev, mid
     raise ValueError(f"Unsupported reranker '{reranker_name}'. Choose 'jina-v3.5' or 'qwen3-0.6b'.")
 
 

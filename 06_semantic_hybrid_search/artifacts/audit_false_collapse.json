@@ -5,9 +5,9 @@
     "scan_limit": 200,
     "gt_families_present_in_scan200": 98,
     "gt_families_reached_top50_or_swallowed": 90,
-    "gt_families_falsely_swallowed": 1,
-    "false_collapse_rate_scan200_pct": 1.02,
-    "false_collapse_rate_active_top50_pct": 1.11,
+    "gt_families_falsely_swallowed": 2,
+    "false_collapse_rate_scan200_pct": 2.04,
+    "false_collapse_rate_active_top50_pct": 2.22,
     "cases": [
       {
         "item_id": "Q06_EU_SEABED_HABITATS",
@@ -18,6 +18,16 @@
         "swallowed_title": "Light at the seabed - EUSeaMap 2016 input",
         "collapse_mechanism": "cosine",
         "cosine_sim": 0.9608
+      },
+      {
+        "item_id": "Q40_GBF_SNOW_COVER_EXTENT",
+        "family_id": "nsidc_snow_extent",
+        "kept_title": "MODIS Aqua Snow Cover 8-Day L3 Global 500m",
+        "kept_rid": "10_cdse_stac::modis-aqua-myd10a2",
+        "swallowed_rid": "10_cdse_stac::modis-terra-mod10a2",
+        "swallowed_title": "MODIS Terra Snow Cover 8-Day L3 Global 500m",
+        "collapse_mechanism": "cosine",
+        "cosine_sim": 0.9593
       }
     ]
   },

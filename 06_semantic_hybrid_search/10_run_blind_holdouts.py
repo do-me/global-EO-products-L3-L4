@@ -60,6 +60,7 @@ from eo_search_lib import (  # noqa: E402
     collapse_product_families,
     compute_catalogue_content_sha256,
     deterministic_topk,
+    ensure_hf_model_snapshot,
     ensure_search_indexes,
     filter_benchmark_family_mask,
     holm_bonferroni_adjust,
@@ -499,12 +500,25 @@ def main() -> None:
         actual = sha256_file(p)
         assert actual == expected_sha[k], f"SHA-256 mismatch for {k}: {actual} vs {expected_sha[k]}"
 
-    # Verify locked HuggingFace model revisions when recorded
+    # Resolve & download exact locked HuggingFace snapshots for the active backend (works on cold caches too)
     locked_revs = cfg.get("locked_model_revisions") or {}
-    for mid, exp_rev in locked_revs.items():
-        if exp_rev and exp_rev != "unresolved":
-            got_rev = resolve_hf_model_revision(mid)
-            assert got_rev == exp_rev, f"Model revision mismatch for {mid}: {got_rev} vs {exp_rev}"
+    s1_cfg = cfg["stage1"]
+    s2_best = cfg["stage2_frozen_systems"]["primary_best_quality"]
+    s2_fast = cfg["stage2_frozen_systems"]["fast_sweet_spot"]
+    s2_qwen = cfg["stage2_frozen_systems"]["permissive_apache2"]
+    active_embed_mid = s1_cfg["dense_model_mlx"] if device == "mlx" else s1_cfg["dense_model_pytorch"]
+    active_jina_mid = s2_best["model_mlx"] if device == "mlx" else s2_best["model_pytorch"]
+    active_qwen_mid = s2_qwen["model_mlx"] if device == "mlx" else s2_qwen["model_pytorch"]
+    resolved_snapshots: dict[str, str] = {}
+    verified_model_revisions: dict[str, str] = {}
+    for mid in (active_embed_mid, active_jina_mid, active_qwen_mid):
+        exp_rev = locked_revs.get(mid)
+        target_rev = exp_rev if (exp_rev and exp_rev != "unresolved") else None
+        snap_dir, got_rev = ensure_hf_model_snapshot(mid, revision=target_rev)
+        if target_rev:
+            assert got_rev == target_rev, f"Model revision mismatch for {mid}: {got_rev} vs {target_rev}"
+        resolved_snapshots[mid] = str(snap_dir)
+        verified_model_revisions[mid] = got_rev
 
     df = pd.read_parquet(cat_pq)
     rid_by_idx = df["record_id"].tolist()
@@ -551,8 +565,8 @@ def main() -> None:
         flush=True,
     )
 
-    # Stage 0: Solo batch_size=1 query encoding
-    enc, _, _ = load_dense_embedder(device=device)
+    # Stage 0: Solo batch_size=1 query encoding (loaded directly from verified snapshot path)
+    enc, _, _ = load_dense_embedder(device=device, model_id=resolved_snapshots[active_embed_mid])
     _ = enc.encode_queries(["warmup satellite query"], max_length=256)
     dev_qv, dev_qms = encode_queries_solo_timed(enc, [x["query"] for x in dev_items])
     ha_qv, ha_qms = encode_queries_solo_timed(enc, [x["query"] for x in ha_items])
@@ -576,12 +590,15 @@ def main() -> None:
         flush=True,
     )
 
-    # SEQUENTIAL STAGE 2A: Load ONLY Jina v3.5, score all 3 suites, then free
+    # SEQUENTIAL STAGE 2A: Load ONLY Jina v3.5 from verified snapshot path, score all 3 suites, then free
     print(f"\n[Stage 2A] Loading ONLY Jina v3.5 ({device}, sequential lifecycle)...", flush=True)
-    s2_best = cfg["stage2_frozen_systems"]["primary_best_quality"]
-    s2_fast = cfg["stage2_frozen_systems"]["fast_sweet_spot"]
     fast_k = int(s2_fast["pool_k"])
-    jina, _, _ = load_reranker("jina-v3.5", device=device, max_doc_length=int(s2_best["max_doc_length"]))
+    jina, _, _ = load_reranker(
+        "jina-v3.5",
+        device=device,
+        max_doc_length=int(s2_best["max_doc_length"]),
+        model_id=resolved_snapshots[active_jina_mid],
+    )
     _ = jina.score_candidates("warmup", ["warmup 1", "warmup 2"])
 
     def _run_jina_suite(label: str, items: list[dict[str, Any]], s1_pack: dict[str, Any]):
@@ -617,10 +634,14 @@ def main() -> None:
     del jina
     clear_device_cache(device)
 
-    # SEQUENTIAL STAGE 2B: Load ONLY Qwen3-Reranker-0.6B (Apache-2.0, log-odds margin + stable sort)
+    # SEQUENTIAL STAGE 2B: Load ONLY Qwen3-Reranker-0.6B from verified snapshot path (Apache-2.0, log-odds margin + stable sort)
     print(f"\n[Stage 2B] Loading ONLY Qwen3-Reranker-0.6B ({device}, sequential lifecycle)...", flush=True)
-    s2_qwen = cfg["stage2_frozen_systems"]["permissive_apache2"]
-    qwen, _, _ = load_reranker("qwen3-0.6b", device=device, verify_exactness=(device == "mlx"))
+    qwen, _, _ = load_reranker(
+        "qwen3-0.6b",
+        device=device,
+        verify_exactness=(device == "mlx"),
+        model_id=resolved_snapshots[active_qwen_mid],
+    )
     _ = qwen.score_candidates("warmup", ["warmup 1"], batch_size=1, max_length=128)
 
     def _run_qwen_suite(label: str, items: list[dict[str, Any]], s1_pack: dict[str, Any]):
@@ -749,6 +770,7 @@ def main() -> None:
         "completed_at_utc": completed_utc,
         "config_frozen_before_eval_run": cfg["frozen_at_utc"] < completed_utc,
         "locked_model_revisions": cfg.get("locked_model_revisions") or {},
+        "verified_active_model_revisions": verified_model_revisions,
         "total_queries_encoded_solo": len(all_qms),
         "single_query_encode_ms_mean": round(mean_q_ms, 2),
         "single_query_encode_ms_p50": round(float(np.median(all_qms)), 2),

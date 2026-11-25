@@ -295,12 +295,13 @@ def main() -> None:
         "holdout_b_blind_benchmark.json": sha256_file(ARTIFACTS_DIR / "holdout_b_blind_benchmark.json"),
     }
     frozen_v4 = {
-        "protocol_version": "v4.2-standalone",
+        "protocol_version": "v4.3-standalone",
         "frozen_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "device_used_for_freeze": device,
         "rule": (
-            "IMMUTABLE v4.2-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + record_id- & content-hash-bound DuckDB BM25 + "
-            "Variable/Layer-Role/Cadence/Grid/Geo-Aware Collapser + Verified Hard-Limits Mode + Locked Benchmark JSONs & Model Revisions). "
+            "IMMUTABLE v4.3-standalone SPEC (Device-Agnostic MLX/CUDA/CPU + Cold-Cache Snapshot-Pinned Replay + "
+            "record_id- & content-hash-bound DuckDB BM25 + Variable/Layer-Role/Cadence/Grid/Geo-Aware Collapser + "
+            "Verified Hard-Limits Mode + Locked Benchmark JSONs & Model Revisions). "
             "Strictly self-contained standalone catalogue evaluation: Dev-45 (development, N=45), "
             "Holdout A (retrospectively audited external domains, N=35), and "
             "Holdout B (retrospectively audited 60-query cross-domain holdout, disjoint from Dev-45 & Holdout A, G=G_eff=60)."
@@ -397,7 +398,7 @@ def main() -> None:
         man["updated_at_utc"] = frozen_v4["frozen_at_utc"]
         man_path.write_text(json.dumps(man, indent=2), encoding="utf-8")
     lex.con.close()
-    print(f"\n[FROZEN] Wrote immutable v4.2-standalone artifact SHA-256 manifest -> {out_cfg}")
+    print(f"\n[FROZEN] Wrote immutable v4.3-standalone artifact SHA-256 manifest -> {out_cfg}")
 
 
 if __name__ == "__main__":

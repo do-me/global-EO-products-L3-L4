@@ -120,6 +120,7 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"G-REALM|Global Reservoir and Lake Monitor", r"G-?REALM|Global Reservoir and Lake Monitor", None, "EXACT_PRODUCT"),
     (r"WorldWater", r"ESA.*WorldWater|\bWorldWater\b.*Surface Water", None, "EXACT_PRODUCT"),
     (r"SDG 14\.1\.1a Indicator Maps EEZ", r"SDG\s*14\.1\.1a.*EEZ|14\.1\.1a.*Chlorophyll", None, "EXACT_PRODUCT"),
+    (r"(?:Ocean Colour CCI|OC-CCI).*Chlorophyll", r"(?:Ocean Colour Climate Change Initiative|Ocean_Colour_cci|OC[-_ ]?CCI).*chlorophyll", None, "EXACT_PRODUCT"),
     (r"Ocean Colour CCI|OC-CCI", r"Ocean Colour Climate Change Initiative|Ocean_Colour_cci|OC[-_ ]?CCI", None, "EXACT_PRODUCT"),
     (r"NOAA VIIRS.*Chlorophyll", r"VIIRS.*Chlorophyll", None, "EXACT_PRODUCT"),
     (r"EUSeaMap", r"EUSeaMap.*Broad-Scale Predictive Habitat", "src:11_eea_and_emodnet", "COMPATIBLE_EDITION_OR_COLLECTION"),
@@ -213,7 +214,7 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"Greenland Ice Mapping Project.*DEM|DB_GIMP_DEM", r"NSIDC-0645|NSIDC-0715|Greenland Ice Mapping Project.*DEM", None, "EXACT_PRODUCT"),
     (r"Radarsat Antarctic Mapping Project.*DEM|DB_RAMP_DEM", r"NSIDC-0082|Radarsat Antarctic Mapping Project Digital Elevation", None, "EXACT_PRODUCT"),
     (r"GMTED2010", r"GMTED2010", None, "EXACT_PRODUCT"),
-    (r"GTOPO30", r"GTOPO30", None, "EXACT_PRODUCT"),
+    (r"GTOPO30", r"USGS/GTOPO30|GTOPO30:\s*Global 30 Arc-Second Elevation", None, "EXACT_PRODUCT"),
     (r"Canadian Digital Elevation Model|DB_CDEM", r"Canadian Digital Elevation Model|\bcdem\b", None, "EXACT_PRODUCT"),
     (r"Global Land One-kilometer Base Elevation|DB_GLOBE_NCEI", r"Global Land One-kilometer Base Elevation", None, "EXACT_PRODUCT"),
     (r"Global Climate Model DEM", r"Global Climate Model DEM", None, "EXACT_PRODUCT"),
@@ -221,7 +222,8 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     # --- USGEO EOA 2023 Specific Products ---
     (r"OSISAF Global Daily Sea Ice|DB_SeaIce_METSAT_NCEI", r"Global Sea Ice Concentration Climate Data Record|OSI\s*SAF.*Sea Ice Concentration", None, "EXACT_PRODUCT"),
     (r"NLCD.*Tree Canopy", r"NLCD_RELEASES/.*/TCC|USFS Tree Canopy Cover", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
-    (r"National Land Cover Data(?:base|set)|\bNLCD\b", r"National Land Cover Database|\bNLCD\b", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
+    (r"NLCD\s*2006|DB_NLCD2006", r"nlcd_2006|NLCD2006", None, "EXACT_PRODUCT"),
+    (r"National Land Cover Data(?:base|set)|\bNLCD\b", r"Annual National Land Cover Database|NLCD_RELEASES/2021_REL/NLCD", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"LANDFIRE.*EVT|Existing Vegetation Type", r"LANDFIRE.*(?:EVT|Existing Vegetation Type)", None, "EXACT_PRODUCT"),
     (r"LANDFIRE.*ExistVegCover|Existing Vegetation Cover", r"LANDFIRE.*(?:EVC|Existing Vegetation Cover)", None, "EXACT_PRODUCT"),
     (r"LANDFIRE.*ExstVegHght|Existing Vegetation Height", r"LANDFIRE.*(?:EVH|Existing Vegetation Height)", None, "EXACT_PRODUCT"),
@@ -233,7 +235,9 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"MIrAD-US|MODIS Irrigated Agriculture", r"\bMIrAD\b|MODIS Irrigated Agriculture", None, "EXACT_PRODUCT"),
     (r"eMODIS", r"\beMODIS\d*\b", None, "EXACT_PRODUCT"),
     (r"MERRA.*Aerosol|MERRAero|MERRA-AOT", r"MERRA-?2.*(?:aer|Aerosol)|MERRA.*Aerosol", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
-    (r"MERRA.*Precip|MERRA-Land|MERRA-Temp|MERRA", r"MERRA-?2", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
+    (r"MERRA.*Precip", r"MERRA-?2.*(?:flx|Surface Flux Diagnostics)", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
+    (r"MERRA.*Temp", r"MERRA-?2.*(?:slv|Single-Level Diagnostics|Temperature Tendencies)", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
+    (r"MERRA-Land|MERRA", r"MERRA-?2", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"GLIMS", r"NSIDC-0272|\bGLIMS\b", None, "EXACT_PRODUCT"),
     (r"NLDAS-2 Forcings", r"NLDAS.*Primary Forcing", None, "EXACT_PRODUCT"),
     (r"NLDAS Noah", r"NLDAS\s+Noah", None, "EXACT_PRODUCT"),
@@ -245,10 +249,10 @@ SIGNATURE_RULES: list[tuple[str, str, str | None, str]] = [
     (r"GLEAM.*Soil Moisture", r"^GLEAM4$|GLEAM4-HR|GLEAM.*v[34].*(?:Evaporation|Soil Moisture)", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"Copernicus Marine Environment Monitoring Service|DB_CMEMS_EU", r"GLOBAL_.*_001_", "src:01_copernicus_cmems", "RELATED_PROXY_OR_SUBSET"),
     (r"VIIRS Land Cover", r"VNP12|VIIRS.*(?:Land Cover|Surface Type)", None, "EXACT_PRODUCT"),
-    (r"GAP Land Cover", r"USGS GAP|GAP/LANDFIRE", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
+    (r"GAP Land Cover", r"USGS Gap Land Cover|USGS/GAP/CONUS|GAP/LANDFIRE", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"GridSat-GOES|DB_GVAR_NCEI", r"GridSat-GOES|10\.7289/V5HM56GM", "src:20_noaa_onestop", "EXACT_PRODUCT"),
     (r"GHRSST.*Level 4", r"GHRSST Level 4|MUR-JPL-L4", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
-    (r"AVHRR Pathfinder.*Aerosol|DB_AerosolOD_AVHRR_NCEI", r"CDR.*AVHRR.*Aerosol Optical Thickness|PATMOS-x", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
+    (r"AVHRR Pathfinder.*Aerosol|DB_AerosolOD_AVHRR_NCEI", r"CDR.*AVHRR.*Aerosol Optical Thickness", None, "COMPATIBLE_EDITION_OR_COLLECTION"),
     (r"Pathfinder.*Sea Surface Temperature|DB_SST_AVHRR_NCEI", r"AVHRR Pathfinder.*Sea Surface Temperature", None, "EXACT_PRODUCT"),
     (r"Global Ocean Heat and Salt Content|Global Ocean Heat Content", r"Ocean Heat.*Content|World Ocean Atlas", None, "EXACT_PRODUCT"),
     (r"WFDEI|WATCH Forcing Data", r"\bWFDEI\b|WATCH Forcing Data", None, "EXACT_PRODUCT"),
@@ -315,6 +319,19 @@ _AUX_LAYER_TITLE_RE = re.compile(
 )
 
 
+def _extract_requested_epoch_years(text: str) -> set[str]:
+    """Extract explicitly requested single-epoch product years, ignoring citations and brand tokens."""
+    cleaned = re.sub(r"\bet\s+al\.?,?\s*(?:19|20)\d{2}\b", " ", text or "", flags=re.IGNORECASE)
+    cleaned = re.sub(
+        r"\b(?:natura\s*2000|mirca\s*2000|gmted\s*2010|nbcd\s*2000|ecoregions\s*2017)\b",
+        " ",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    cleaned = re.sub(r"\b(?:19|20)\d{2}\s*[-–/]\s*(?:19|20)\d{2}\b", " ", cleaned)
+    return set(re.findall(r"\b(19[789]\d|20[0-3]\d)\b", cleaned))
+
+
 def classify_match_specificity_tier(
     pname: str,
     matched_can: pd.Series | None,
@@ -343,6 +360,10 @@ def classify_match_specificity_tier(
         return "RELATED_PROXY_OR_SUBSET"
     if re.search(r"\balaska\b", pname, re.IGNORECASE) and not re.search(r"\balaska\b", m_title, re.IGNORECASE):
         return "RELATED_PROXY_OR_SUBSET"
+    req_yrs = _extract_requested_epoch_years(pname)
+    mat_yrs = _extract_requested_epoch_years(m_title)
+    if tier == "EXACT_PRODUCT" and req_yrs and mat_yrs and req_yrs.isdisjoint(mat_yrs):
+        return "COMPATIBLE_EDITION_OR_COLLECTION"
     if tier == "EXACT_PRODUCT" and m_is_dep:
         return "COMPATIBLE_EDITION_OR_COLLECTION"
     return tier
@@ -402,6 +423,13 @@ def main() -> None:
             sort_cols.append("_is_aux")
         if re.search(r"\bglobal\b", pname_hint, re.IGNORECASE):
             sort_cols.append("_is_non_global")
+        req_yrs = _extract_requested_epoch_years(pname_hint)
+        if req_yrs:
+            sub["_yr_miss"] = [
+                0 if any(y in str(h) for y in req_yrs) else 1
+                for h in sub["_head"].tolist()
+            ]
+            sort_cols.append("_yr_miss")
         sort_cols.append("source_authority_rank")
         sub = sub.sort_values(sort_cols)
         ckeys = list(dict.fromkeys(sub["canonical_product_key"].tolist()))

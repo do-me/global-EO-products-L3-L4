@@ -1,14 +1,14 @@
 {
   "benchmark_name": "EO_L3_L4_Policy_Requirement_Retrieval_Benchmark_v1",
   "n_queries": 45,
-  "n_total_expected_families": 101,
+  "n_total_expected_families": 100,
   "subset_size": 3500,
   "subset_sources_covered": 34,
-  "subset_gt_records": 937,
+  "subset_gt_records": 918,
   "subset_null_rates": {
-    "adjudicated_output_grid_meters_null_pct": 56.3,
+    "adjudicated_output_grid_meters_null_pct": 57.3,
     "processing_level_null_pct": 68.5,
-    "temporal_cadence_class_null_pct": 57.8,
+    "temporal_cadence_class_null_pct": 58.0,
     "geographic_coverage_class_null_pct": 15.9
   },
   "queries": [
@@ -110,13 +110,11 @@
             "11_eea_and_emodnet::1203e3a4-e067-4656-bbd9-42d0c22f964c",
             "11_eea_and_emodnet::3de1ca12-d9a2-40bf-ae55-5c5026b8b90e",
             "11_eea_and_emodnet::1f438d68-b984-4d36-81f7-2b9684116caa",
-            "11_eea_and_emodnet::f6628606-6552-4d3b-8d3a-df19f827ac56",
             "11_eea_and_emodnet::3bf542bd-eebd-4d73-b53c-a0243f2ed862",
             "11_eea_and_emodnet::2c559f1f-2df0-49cf-ba92-a04dd3ed02f4",
-            "11_eea_and_emodnet::b862001d-6635-44c3-8448-d9e793188e8a",
             "11_eea_and_emodnet::34ef6334-d432-4041-a3da-67e156d6501d"
           ],
-          "subset_matches": 27
+          "subset_matches": 25
         },
         {
           "family_id": "clms_urban_atlas",
@@ -214,7 +212,7 @@
         }
       ],
       "total_relevant_in_full_catalogue": 86,
-      "total_relevant_in_subset": 60
+      "total_relevant_in_subset": 58
     },
     {
       "query_id": "Q02_EU_URBAN_GREEN_CANOPY",
@@ -1220,31 +1218,38 @@
             "02_copernicus_clms::a5ee71470be04d66bcff498f94ceb5dc",
             "02_copernicus_clms::0407d497d3c44bcd93ce8fd5bf78596a",
             "11_eea_and_emodnet::0827ac40-6a01-4ae7-84fe-7f88180c3e2b",
-            "11_eea_and_emodnet::c62bb056-5ac3-4512-b642-7f484175d951",
-            "11_eea_and_emodnet::d6ebe92d-4f4e-4ac3-b4e3-7f10d1ca155b",
+            "11_eea_and_emodnet::c89324ef-7729-4477-9f1b-623f5f88eaa1",
+            "11_eea_and_emodnet::e4bb8352-4e94-439b-aa45-43f5c99cb38a",
             "11_eea_and_emodnet::09aa9012-0125-46a4-b142-17ac387c0492",
             "11_eea_and_emodnet::192170a9-7a9a-404d-a120-2d267f7e8ce1",
+            "11_eea_and_emodnet::4aa6ef54-ab38-4f4c-a946-2915ebe99e31",
             "11_eea_and_emodnet::023fb29e-b295-40ba-bddb-473d4c165cfb",
             "11_eea_and_emodnet::1dcfa016-e904-410d-ab57-1ba1607a4587",
             "11_eea_and_emodnet::22ee6af6-1d47-4335-b495-5da4f4159fe2",
             "11_eea_and_emodnet::2c26ccc9-0ae2-4b42-bd83-7e1b68dfe6e4",
             "11_eea_and_emodnet::2d6f67b9-c912-4ba5-94ee-1af821a24729",
-            "11_eea_and_emodnet::59f2acf3-4e1e-48ca-8234-0aeb5ff8295d",
-            "11_eea_and_emodnet::97eed728-309d-47cf-9411-7171be9842a9",
+            "11_eea_and_emodnet::2f5fa250-ff66-4990-9e1d-55f29a1a1902",
+            "11_eea_and_emodnet::5ac1edb6-0d64-40cc-af26-44f85b10123a",
+            "11_eea_and_emodnet::a55d9224-a326-4cb1-9b9c-3a324520341a",
+            "11_eea_and_emodnet::c03d5339-1dbc-4824-ad82-7133ad403def",
+            "11_eea_and_emodnet::d815c410-609d-4fb9-9062-94c3f0c14227",
+            "11_eea_and_emodnet::fa9bd2f5-8006-42e7-8090-7b9f9b09bf29",
             "11_eea_and_emodnet::08560441-2fd5-4eb9-bf4c-9ef16725726a",
-            "11_eea_and_emodnet::32883574-90dd-4021-843f-f9ea6b22bfce",
+            "11_eea_and_emodnet::665eca9a-f502-44cb-8a6d-53b267ea9856",
             "07_ec_jrc_data_catalogue::jrc-luisa-corine-land-cover-refined-2006",
             "11_eea_and_emodnet::1fed8a7e-5fa3-4f47-8e16-373d64dd9ec6",
-            "11_eea_and_emodnet::d1a4d3f8-c362-4730-a97c-b00acffd501e",
+            "11_eea_and_emodnet::87a1e572-e9fa-4090-803a-eb576ddff644",
             "11_eea_and_emodnet::1676cc24-1ead-42cb-9fc2-0c742741c7d3",
-            "11_eea_and_emodnet::6f6abc04-cedc-463d-8536-6f459c26293d",
-            "11_eea_and_emodnet::ff21ade0-a714-4725-86bb-279ee7a8a73e",
+            "11_eea_and_emodnet::a84ae124-c5c5-4577-8e10-511bfe55cc0d",
             "11_eea_and_emodnet::08c0e074-4a98-4545-bd85-f58fe3f74d82",
             "11_eea_and_emodnet::0f878901-6c51-41ae-b54d-52e794870e9c",
             "11_eea_and_emodnet::1ae48a16-89b7-4568-aae8-2308f254e2cf",
-            "11_eea_and_emodnet::4c1baca3-6494-4463-9958-dc4d8d15bbab"
+            "11_eea_and_emodnet::4c1baca3-6494-4463-9958-dc4d8d15bbab",
+            "11_eea_and_emodnet::b95f9c1f-00b2-4eb6-b890-3f5e11bc8c7b",
+            "11_eea_and_emodnet::f68623ca-c1ff-44b6-a582-14872f43fc93",
+            "11_eea_and_emodnet::fee1dd1a-b65b-4d01-9f54-00c080f9e151"
           ],
-          "subset_matches": 34
+          "subset_matches": 41
         },
         {
           "family_id": "clms_clc_plus",
@@ -1292,7 +1297,7 @@
         }
       ],
       "total_relevant_in_full_catalogue": 122,
-      "total_relevant_in_subset": 54
+      "total_relevant_in_subset": 61
     },
     {
       "query_id": "Q14_EU_WILDFIRE_BURNT_AREA",
@@ -2246,7 +2251,7 @@
         "geo_scope": "global",
         "strict_eo_only": false
       },
-      "n_expected_families": 4,
+      "n_expected_families": 3,
       "expected_families": [
         {
           "family_id": "esa_cci_lc",
@@ -2323,54 +2328,10 @@
             "24_openlandmap_stac::land.use.land.cover_hilda.plus"
           ],
           "subset_matches": 1
-        },
-        {
-          "family_id": "esa_worldcover",
-          "full_catalogue_matches": 15,
-          "sample_titles": [
-            "ESA WorldCover Global Land Cover Map for 2020, at 10 meter resolution in COG format",
-            "ESA WorldCover Sentinel-2 yearly NDVI percentiles composite 2020, 10 meter COG format",
-            "ESA WorldCover Sentinel-1 GAMMA0 median composite 2020, 10 meter COG format"
-          ],
-          "record_ids": [
-            "14_ceos_fedeo_agencies::esa-worldcover-map-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-ndvi-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-s1vvvhratio-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-s2rgbnir-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-swir-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-map-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-ndvi-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-s1vvvhratio-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-s2rgbnir-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-swir-10m-2021-v2",
-            "23_wri_gfw_and_resourcewatch::RW:7a127670-c73e-4151-a530-1df29640e147",
-            "27_gee_official_stac::ESA/WorldCover/v100",
-            "28_planetary_computer_stac::esa-worldcover",
-            "27_gee_official_stac::ESA/WorldCover/v200",
-            "29_awesome_gee_community::projects/sat-io/open-datasets/ESA_WorldCover_Input_Quality"
-          ],
-          "subset_record_ids": [
-            "14_ceos_fedeo_agencies::esa-worldcover-map-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-ndvi-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-s1vvvhratio-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-s2rgbnir-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-swir-10m-2020-v1",
-            "14_ceos_fedeo_agencies::esa-worldcover-map-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-ndvi-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-s1vvvhratio-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-s2rgbnir-10m-2021-v2",
-            "14_ceos_fedeo_agencies::esa-worldcover-swir-10m-2021-v2",
-            "23_wri_gfw_and_resourcewatch::RW:7a127670-c73e-4151-a530-1df29640e147",
-            "27_gee_official_stac::ESA/WorldCover/v100",
-            "28_planetary_computer_stac::esa-worldcover",
-            "27_gee_official_stac::ESA/WorldCover/v200",
-            "29_awesome_gee_community::projects/sat-io/open-datasets/ESA_WorldCover_Input_Quality"
-          ],
-          "subset_matches": 15
         }
       ],
-      "total_relevant_in_full_catalogue": 33,
-      "total_relevant_in_subset": 33
+      "total_relevant_in_full_catalogue": 18,
+      "total_relevant_in_subset": 18
     },
     {
       "query_id": "Q27_SDG661_SURFACE_WATER_EXTENT",
@@ -2728,7 +2689,6 @@
             "16_nasa_cmr::C3540930077-ESDIS",
             "16_nasa_cmr::C3540931246-ESDIS",
             "16_nasa_cmr::C3540931688-ESDIS",
-            "16_nasa_cmr::C3552508526-ESDIS",
             "16_nasa_cmr::C3540930618-ESDIS",
             "16_nasa_cmr::C3540910877-ESDIS",
             "16_nasa_cmr::C3540911087-ESDIS",
@@ -2741,11 +2701,11 @@
             "16_nasa_cmr::C3540931486-ESDIS",
             "27_gee_official_stac::CIESIN/GPWv411/GPW_Data_Context"
           ],
-          "subset_matches": 27
+          "subset_matches": 26
         }
       ],
       "total_relevant_in_full_catalogue": 56,
-      "total_relevant_in_subset": 43
+      "total_relevant_in_subset": 42
     },
     {
       "query_id": "Q30_SDG1411A_COASTAL_CHLOROPHYLL",
@@ -3731,14 +3691,15 @@
             "26_fao_unep_and_thematic_benchmarks::ZENODO:16788564",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:16788879",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:16791107",
+            "26_fao_unep_and_thematic_benchmarks::ZENODO:20115386",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:23463271",
             "26_fao_unep_and_thematic_benchmarks::ZENODO:3883434"
           ],
-          "subset_matches": 28
+          "subset_matches": 29
         }
       ],
       "total_relevant_in_full_catalogue": 46,
-      "total_relevant_in_subset": 28
+      "total_relevant_in_subset": 29
     },
     {
       "query_id": "Q39_GBF_TERRESTRIAL_LEAF_CHLOROPHYLL",
@@ -3782,24 +3743,20 @@
       "expected_families": [
         {
           "family_id": "esa_cci_snow",
-          "full_catalogue_matches": 26,
+          "full_catalogue_matches": 22,
           "sample_titles": [
-            "edf8abd23f4a40aabd4d52e48dec06ea: ESA Snow Climate Change Initiative (Snow_cci): Snow Water Equivalent (SWE) level 3C daily global climate research data package (CRDP) (1979 - 2023), version 4.0",
             "3c71c04cf08a410fac2c680cbf88cfd7: ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - viewable (SCFV) from AVHRR (1979 - 2023), version 4.0",
-            "80d96e3a14854420b6f742d70877c431: ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from AVHRR (1979 - 2023), version 4.0"
+            "80d96e3a14854420b6f742d70877c431: ESA Snow Climate Change Initiative (Snow_cci): Daily global Snow Cover Fraction - snow on ground (SCFG) from AVHRR (1979 - 2023), version 4.0",
+            "f4654030223445b0bac63a23aaa60620: ESA Snow Climate Change Initiative (Snow_cci): Fractional Snow Cover in CryoClim, v1.0"
           ],
           "record_ids": [
-            "16_nasa_cmr::C4017534264-FEDEO",
             "16_nasa_cmr::C4017534711-FEDEO",
             "16_nasa_cmr::C4017534900-FEDEO",
             "16_nasa_cmr::C3327359735-FEDEO",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12736",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12737",
-            "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12738",
-            "14_ceos_fedeo_agencies::4647cc9ad3c044439d6c643208d3c494",
             "14_ceos_fedeo_agencies::56ff07acabab42888afe2d20b488ec49",
             "14_ceos_fedeo_agencies::7491427f8c3442ce825ba5472c224322",
-            "14_ceos_fedeo_agencies::9d9bfc488ec54b1297eca2c9662f9c81",
             "14_ceos_fedeo_agencies::3f034f4a08854eb59d58e1fa92d207b6",
             "14_ceos_fedeo_agencies::763eb87e0682446cafa8c74488dd5fb8",
             "14_ceos_fedeo_agencies::f4654030223445b0bac63a23aaa60620",
@@ -3817,19 +3774,16 @@
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12735"
           ],
           "subset_record_ids": [
-            "16_nasa_cmr::C4017534264-FEDEO",
             "16_nasa_cmr::C4017534711-FEDEO",
             "16_nasa_cmr::C4017534900-FEDEO",
             "16_nasa_cmr::C3327359735-FEDEO",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12736",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12737",
-            "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12738",
-            "14_ceos_fedeo_agencies::4647cc9ad3c044439d6c643208d3c494",
             "14_ceos_fedeo_agencies::56ff07acabab42888afe2d20b488ec49",
             "14_ceos_fedeo_agencies::7491427f8c3442ce825ba5472c224322",
-            "14_ceos_fedeo_agencies::9d9bfc488ec54b1297eca2c9662f9c81",
             "14_ceos_fedeo_agencies::3f034f4a08854eb59d58e1fa92d207b6",
             "14_ceos_fedeo_agencies::763eb87e0682446cafa8c74488dd5fb8",
+            "14_ceos_fedeo_agencies::f4654030223445b0bac63a23aaa60620",
             "14_ceos_fedeo_agencies::0aeba0c203c2447b9553a78f99d3a276",
             "14_ceos_fedeo_agencies::70061acca284432ca31fd8a5cbd604d0",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12732",
@@ -3843,18 +3797,17 @@
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12734",
             "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_12735"
           ],
-          "subset_matches": 25
+          "subset_matches": 22
         },
         {
           "family_id": "nsidc_snow_extent",
-          "full_catalogue_matches": 11,
+          "full_catalogue_matches": 10,
           "sample_titles": [
-            "NSIDC-0046: Northern Hemisphere EASE-Grid 2.0 Weekly Snow Cover and Sea Ice Extent, Version 4",
             "MOD10A1: MODIS/Terra Snow Cover Daily L3 Global 500m SIN Grid V061",
-            "MOD10A1F: MODIS/Terra CGF Snow Cover Daily L3 Global 500m SIN Grid V061"
+            "MOD10A1F: MODIS/Terra CGF Snow Cover Daily L3 Global 500m SIN Grid V061",
+            "MOD10A2: MODIS/Terra Snow Cover 8-Day L3 Global 500m SIN Grid V061"
           ],
           "record_ids": [
-            "16_nasa_cmr::C1386246980-NSIDCV0",
             "16_nasa_cmr::C2565093311-NSIDC_CPRD",
             "16_nasa_cmr::C3028765772-NSIDC_CPRD",
             "16_nasa_cmr::C3044685923-NSIDC_CPRD",
@@ -3867,7 +3820,6 @@
             "29_awesome_gee_community::projects/sat-io/open-datasets/MODIS/MOD10A261"
           ],
           "subset_record_ids": [
-            "16_nasa_cmr::C1386246980-NSIDCV0",
             "16_nasa_cmr::C2565093311-NSIDC_CPRD",
             "16_nasa_cmr::C3028765772-NSIDC_CPRD",
             "16_nasa_cmr::C3044685923-NSIDC_CPRD",
@@ -3879,11 +3831,11 @@
             "10_cdse_stac::modis-terra-mod10a2",
             "29_awesome_gee_community::projects/sat-io/open-datasets/MODIS/MOD10A261"
           ],
-          "subset_matches": 11
+          "subset_matches": 10
         }
       ],
-      "total_relevant_in_full_catalogue": 37,
-      "total_relevant_in_subset": 36
+      "total_relevant_in_full_catalogue": 32,
+      "total_relevant_in_subset": 32
     },
     {
       "query_id": "Q41_EOA_IRRIGATED_CROPLAND",

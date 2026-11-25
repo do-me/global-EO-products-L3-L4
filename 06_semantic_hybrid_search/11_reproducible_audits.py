@@ -229,8 +229,48 @@ def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex, cfg: dic
     otd_excluded = "12_ceos_cgms_wgclimate_ecv::WGCLIMATE_CDR_11956" not in set(sub_grid12k["record_id"])
     gcmd_excluded = "gcmd_coarse_resolution_band" not in set(sub_grid12k["adjudicated_spatial_resolution_source"].fillna(""))
     ecv_excluded = "ecv_inventory_horizontal_resolution" not in set(sub_grid12k["adjudicated_spatial_resolution_source"].fillna(""))
-    hard_grid_ok = bool(otd_excluded and gcmd_excluded and ecv_excluded)
-    assert hard_grid_ok, f"Hard grid filter failed: otd={otd_excluded}, gcmd={gcmd_excluded}, ecv={ecv_excluded}"
+    cmems_omi_excluded = "01_copernicus_cmems::OMI_CLIMATE_THSL_GLOBAL_area_averaged_anomalies_0_700" not in set(sub_grid12k["record_id"])
+    hard_grid_ok = bool(otd_excluded and gcmd_excluded and ecv_excluded and cmems_omi_excluded)
+    assert hard_grid_ok, f"Hard grid filter failed: otd={otd_excluded}, gcmd={gcmd_excluded}, ecv={ecv_excluded}, omi={cmems_omi_excluded}"
+
+    # Verify global L4 <=60 km hard-limits search excludes scalar Tellus Greenland/Ocean mass anomaly time series
+    m_l4_60k = apply_filters_mask(
+        df,
+        SearchFilters(geo_scope="global", processing_levels=["L4"], max_grid_m=60000, hard_limits=True),
+    )
+    rids_l4_60k = set(df.loc[m_l4_60k, "record_id"])
+    tellus_ts_excluded = (
+        "16_nasa_cmr::C3206299308-POCLOUD" not in rids_l4_60k
+        and "16_nasa_cmr::C3206302778-POCLOUD" not in rids_l4_60k
+        and "16_nasa_cmr::C3206284786-POCLOUD" not in rids_l4_60k
+    )
+    assert tellus_ts_excluded, "Tellus scalar mass anomaly time series leaked into Verified global L4 <=60 km!"
+
+    # Verify locked benchmark JSONs have 0 northern/southern hemisphere leaks on global queries & HB06 excludes 2019 single-year map
+    df_idx_check = df.set_index("record_id")
+    hemi_leak_count = 0
+    for bname in ("policy_retrieval_benchmark.json", "holdout_a_external_benchmark.json", "holdout_b_blind_benchmark.json"):
+        bj = json.loads((ARTIFACTS_DIR / bname).read_text(encoding="utf-8"))
+        for q in bj["queries"]:
+            if str((q.get("filters") or {}).get("geo_scope") or "").lower() == "global":
+                for fam in q["expected_families"]:
+                    for rid in fam["record_ids"]:
+                        if rid in df_idx_check.index and str(df_idx_check.loc[rid, "observation_domain_class"]) in (
+                            "northern_hemisphere_only",
+                            "southern_hemisphere_only",
+                            "geostationary_disk_or_sector",
+                        ):
+                            hemi_leak_count += 1
+    hb_j = json.loads((ARTIFACTS_DIR / "holdout_b_blind_benchmark.json").read_text(encoding="utf-8"))
+    hb06_rids = {
+        rid
+        for q in hb_j["queries"] if q["query_id"].startswith("HB06")
+        for fam in q["expected_families"]
+        for rid in fam["record_ids"]
+    }
+    hb06_no_2019 = "29_awesome_gee_community::projects/sat-io/open-datasets/CA_FOREST/LEAD_TREE_SPECIES" not in hb06_rids
+    bench_scope_ok = bool(hemi_leak_count == 0 and hb06_no_2019)
+    assert bench_scope_ok, f"Benchmark scope leak: hemi_leaks={hemi_leak_count}, hb06_no_2019={hb06_no_2019}"
 
     # Verify Annual NLCD 6 distinct delivered variables & GLC_FCS30D annual vs five-year do not collapse
     nlcd_idxs = df.index[df["raw_id"].fillna("").str.contains("ANNUAL_NLCD/", regex=False)].tolist()
@@ -257,6 +297,8 @@ def audit_0_bm25_determinism(df: pd.DataFrame, lex: DuckDBLexicalIndex, cfg: dic
         "local_rebuild_semantic_preflight_accepted": local_semantic_ok,
         "verified_hard_limits_min_end_year_2035_zero_violations": hard_2035_ok,
         "verified_hard_limits_grid_excludes_otd_and_gcmd": hard_grid_ok,
+        "verified_hard_limits_l4_60km_excludes_tellus_time_series": tellus_ts_excluded,
+        "benchmarks_zero_hemisphere_and_hb06_single_year_leaks": bench_scope_ok,
         "annual_nlcd_distinct_variables_preserved": nlcd_distinct_ok,
         "glc_fcs30d_cadence_variants_preserved": glc_distinct_ok,
         "exact_determinism_passed": True,
