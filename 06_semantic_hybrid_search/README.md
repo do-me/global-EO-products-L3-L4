@@ -84,6 +84,10 @@ uv run 06_semantic_hybrid_search/04_search_cli.py \
 
 Server API endpoints: `GET /api/status`, `POST /api/search` (and `GET /api/search`), `POST /api/export` (`csv`, `json`, `xlsx`, `parquet`), and `GET /api/product/{record_id}`.
 
+### 1.4 Static Browser-Only Advanced Search (`web_search/` & GitHub Pages)
+
+A zero-backend client-side port is deployed automatically to [`https://do-me.github.io/global-EO-products-L3-L4/search.html`](https://do-me.github.io/global-EO-products-L3-L4/search.html) via `.github/workflows/pages.yml` (`pnpm` + Vite + `@huggingface/transformers` v4 WebGPU/WASM). `export_browser_index.py` converts the pinned `v4.3.0-indexes` release into compact gzipped browser shards (`3.1 MB` lossless 3-field EO BM25 with exact `0.00` DuckDB score parity, `15.0 MB` 512-d Matryoshka `int8` embeddings, and `0.4 MB` filter/family metadata) while pulling `onnx-community/embeddinggemma-2-ONNX` (text-only `q4`, `Apache-2.0`) and optional opt-in `onnx-community/Qwen3-Reranker-0.6B-ONNX` (`q4`, `Apache-2.0`) directly from Hugging Face in the user's browser.
+
 ---
 
 ## 2. Methodology

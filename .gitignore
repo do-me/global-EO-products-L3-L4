@@ -9,6 +9,8 @@ venv/
 .ruff_cache/
 .pytest_cache/
 node_modules/
+dist/
+web_search/public/data/search/
 .playwright-cli/
 playwright-report/
 test-results/

@@ -2,9 +2,10 @@
 
 A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **evaluated against curated family rules** achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 85.45% Fam-nDCG@10 (76.67% P@1, 96.39% family Recall@10, 100.00% Hit@10) on a 60-query retrospectively audited cross-domain holdout.
 
-- **Interactive viewer & lightweight full-text and stuctural search:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/)
+- **Interactive catalogue viewer:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/)
+- **In-browser Advanced Search (EO BM25 + 512-d EmbeddingGemma 2 + optional Qwen3-0.6B):** [do-me.github.io/global-EO-products-L3-L4/search.html](https://do-me.github.io/global-EO-products-L3-L4/search.html)
 - **Source registry & ontology:** [`docs/SOURCES.md`](docs/SOURCES.md)
-- **Hybrid search engine quickstart**: [`/06_semantic_hybrid_search#1-quick-start-uv-run`](/06_semantic_hybrid_search#1-quick-start-uv-run) 
+- **Local Python hybrid search quickstart:** [`06_semantic_hybrid_search/`](06_semantic_hybrid_search#1-quick-start-uv-run)
 
 <img width="1963" height="1522" alt="image" src="https://github.com/user-attachments/assets/dfc5aad0-a119-403d-8ce8-e812c3de87e8" />
 
@@ -74,10 +75,15 @@ Full per-source API endpoints, processing-level rules, and attribution logic are
 ├── build_manifest.py                                 # `uv run` script regenerating MANIFEST.json & SHA256SUMS.txt
 ├── docs/
 │   ├── SOURCES.md                                    # Processing-level ontology, 35-source registry & boundaries
-│   ├── index.html & app.js                           # Static Tailwind CSS catalogue viewer (GitHub Pages `/docs`)
+│   ├── index.html & app.js                           # Static Tailwind CSS catalogue viewer
 │   ├── sources.html                                  # HTML / Raw Markdown viewer for docs/SOURCES.md
 │   ├── build_viewer_data.py                          # `uv run` script exporting sharded index & detail chunks
 │   └── data/                                         # Sharded JSON index & detail chunks for the static viewer
+├── web_search/                                       # `pnpm` + Vite static browser-only Advanced Search (`search.html`)
+│   ├── search.html, vite.config.js & package.json    # Client-side EO BM25 + Transformers.js v4 (WebGPU/WASM) UI
+│   ├── src/                                          # search-core.js, search.worker.js, exporters.js, main.js
+│   └── tests/engine.test.mjs                         # Automated BM25, 512-d int8, Hard-Limits & collapse tests
+├── .github/workflows/pages.yml                       # CI: `pnpm` build + release-index export + tests + Pages deploy
 │
 ├── 01_raw/                                           # Native API harvests (mine.py, README.md, last_access.txt, data/)
 │   ├── 01_copernicus_cmems/ .. 29_awesome_gee_community/
@@ -143,11 +149,14 @@ uv run 03_harmonization/verify_catalogue.py
 uv run 04_validation_and_review/validate_catalogue_benchmarks.py
 uv run 05_external_policy_validation/03_validate_against_catalogue.py
 
-# 5. Rebuild the static GitHub Pages viewer assets (`docs/data/`) and preview locally:
+# 5. Rebuild the static GitHub Pages viewer + in-browser Advanced Search locally:
 uv run docs/build_viewer_data.py
-python3 -m http.server 8080 -d docs
+pnpm --dir web_search install --frozen-lockfile && pnpm --dir web_search build
+uv run 06_semantic_hybrid_search/export_browser_index.py --out-dir dist/data/search --dim 512
+pnpm --dir web_search test
+python3 -m http.server 8080 -d dist
 
-# 6. Launch the search UI (auto-downloads & SHA-256-verifies v4.3.0-indexes on first run; or `--rebuild-index` locally):
+# 6. Launch the local Python search server (auto-downloads & SHA-256-verifies v4.3.0-indexes; or `--rebuild-index`):
 uv run 06_semantic_hybrid_search/04_search_server.py --port 8080 --open
 # Optional local index rebuild (auto-selects MLX / CUDA / CPU):
 uv run 06_semantic_hybrid_search/05_index_full_catalogue.py   # or `--bm25-only` (~36 s, zero models)
@@ -157,13 +166,20 @@ uv run build_manifest.py
 ```
 
 > [!IMPORTANT]
-> **Manual Rebuilds & GitHub Pages Sync:** Upstream API harvesting is intentionally manual—external agency endpoints evolve, paginate differently, or experience transient outages, so no GitHub Actions workflows run in this repository. Whenever the catalogue is rebuilt (`prepare_all.py` -> `harmonize_catalogue.py` -> validation -> `build_manifest.py`), also run `uv run docs/build_viewer_data.py` so the GitHub Pages viewer (`docs/data/`) matches the Parquet tables.
+> **Manual Harvesting vs. Automated Pages CI:** Upstream API harvesting is intentionally manual—external agency endpoints evolve, paginate differently, or experience transient outages, so no scheduled harvesting workflows run in this repository. Static site assembly and deployment run automatically in GitHub Actions ([`.github/workflows/pages.yml`](.github/workflows/pages.yml)) using `pnpm` and `uv`: CI builds `web_search/` + `docs/`, fetches the pinned `v4.3.0-indexes` release artifacts to export the compact 512-d browser search index (`dist/data/search/`, keeping `main` free of binary index blobs), runs `pnpm --dir web_search test`, and publishes the artifact via `actions/deploy-pages`. Whenever the catalogue Parquet tables are rebuilt locally, also run `uv run docs/build_viewer_data.py` so `docs/data/` stays synchronized.
 
 ---
 
-## 6. Interactive Static Viewer (`docs/`)
+## 6. Interactive Static Viewer & Browser Advanced Search (`docs/`, `web_search/`)
 
-The `docs/` directory hosts a zero-backend Tailwind CSS viewer published directly from `main` (`/docs` with `.nojekyll`) covering all **39,472 canonical records** across **34 sources** (`docs/data/index_meta.json`, 4 index shards, and 66 on-demand provenance detail chunks). It supports multi-term search, faceted filtering (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, filtered exports in CSV, JSON, Excel (`.xlsx`), and Parquet, an HTML/Markdown toggle for the source registry (`docs/sources.html`), and a slide-over provenance panel with a **MapLibre GL + OpenFreeMap** bounding-box viewer (handling antimeridian crossings).
+The GitHub Pages deployment combines two zero-backend interfaces sharing the same visual design and `docs/data/` provenance shards across all **39,472 canonical records** (`38,850` active non-superseded) and **34 sources**:
+
+- **Catalogue Viewer (`index.html`, `sources.html`):** Fast multi-term filter, full faceted browsing (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, CSV/JSON/Excel/Parquet exports, an HTML/Markdown source registry viewer, and a slide-over provenance drawer with a **MapLibre GL + OpenFreeMap** bounding-box map.
+- **In-Browser Advanced Search (`search.html`):** Runs 100% locally in a browser Web Worker using latest `@huggingface/transformers` (v4, WebGPU with automatic WASM fallback) and compact CI-built search indexes (`3.1 MB` lossless 3-field EO BM25 + `15.0 MB` 512-d Matryoshka `int8` embeddings + `0.4 MB` filter/family metadata):
+  - **Instant 3-field EO BM25** (exact `0.00` score parity with DuckDB FTS),
+  - **Semantic Hybrid (`onnx-community/embeddinggemma-2-ONNX`, text-only `q4`, `Apache-2.0`)** fetched directly from Hugging Face (~175 MB cached once) and fused via RRF (`w_dense=1.0, w_bm25=0.6, k=60`),
+  - **Optional opt-in Stage-2 Reranker (`onnx-community/Qwen3-Reranker-0.6B-ONNX`, `q4`, `Apache-2.0`)** fetched from Hugging Face (~995 MB cached once; slower—especially without WebGPU—in exchange for higher Top-10 precision, with configurable Top-15/25/50 pool and live abort support),
+  - Full **Hard Limits (Verified)** mode, multi-select Provider Pool & numbered Sources (`01`–`35`), guarded family collapsing, MapLibre GL provenance drawer, and CSV/JSON/Excel/Parquet exports.
 
 ---
 

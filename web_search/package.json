@@ -1,0 +1,24 @@
+{
+  "name": "global-eo-catalogue-advanced-search",
+  "private": true,
+  "version": "4.3.0",
+  "type": "module",
+  "description": "100% client-side hybrid semantic + EO BM25 + optional Qwen3-0.6B reranker search app for the Global L3/L4 EO Product Catalogue.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --outDir ../dist --port 4173 --strictPort",
+    "test": "node tests/engine.test.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "hyparquet-writer": "^0.18.0",
+    "maplibre-gl": "^6.19.0",
+    "snowball-stemmers": "^0.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.4.0"
+  }
+}

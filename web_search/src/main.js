@@ -1,0 +1,1234 @@
+import './style.css';
+import { Map as MapLibreMap, NavigationControl, setWorkerUrl } from 'maplibre-gl';
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?url';
+import { exportResults } from './exporters.js';
+
+setWorkerUrl(maplibreWorkerUrl);
+
+const POOL_META = {
+  copernicus_services: { label: 'Copernicus', cls: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20' },
+  eu_non_copernicus: { label: 'EU non-Copernicus', cls: 'bg-sky-50 text-sky-700 ring-sky-600/20' },
+  non_eu: { label: 'Non-EU', cls: 'bg-slate-100 text-slate-700 ring-slate-500/20' },
+};
+
+const MATURITY_META = {
+  operational_ongoing_series: { label: 'Ongoing', cls: 'bg-emerald-50 text-emerald-700 ring-emerald-600/20' },
+  completed_or_mission_bounded_release: { label: 'Completed', cls: 'bg-slate-100 text-slate-700 ring-slate-500/20' },
+  research_or_benchmark_release: { label: 'Research', cls: 'bg-violet-50 text-violet-700 ring-violet-600/20' },
+  planned_or_preoperational: { label: 'Planned', cls: 'bg-amber-50 text-amber-700 ring-amber-600/20' },
+  deprecated_or_superseded: { label: 'Superseded', cls: 'bg-rose-50 text-rose-700 ring-rose-600/20' },
+  unknown: { label: 'Unknown', cls: 'bg-slate-50 text-slate-500 ring-slate-400/20' },
+};
+
+const GEO_LABELS = {
+  global: 'Global',
+  quasi_global: 'Quasi-Global',
+  hemispheric_or_pantropical: 'Hemispheric',
+  europe_regional: 'Europe',
+  regional_or_local: 'Regional / Local',
+};
+
+const MODE_LABELS = {
+  bm25: 'EO BM25 Lexical',
+  hybrid: 'Hybrid RRF (512-d + BM25)',
+  dense: 'Dense 512-d Only',
+  'bm25+qwen3': 'BM25 + Qwen3-0.6B Rerank',
+  'hybrid+qwen3': 'Hybrid 512-d + Qwen3-0.6B Rerank',
+  'dense+qwen3': 'Dense 512-d + Qwen3-0.6B Rerank',
+};
+
+const state = {
+  ready: false,
+  webgpuAvailable: false,
+  manifest: null,
+  semanticReady: false,
+  semanticLoading: false,
+  semanticDevice: null,
+  rerankerReady: false,
+  rerankerLoading: false,
+  rerankerDevice: null,
+  searching: false,
+  reranking: false,
+  exporting: false,
+  lastPayload: null,
+  results: [],
+  activeIdx: null,
+  map: null,
+  mapResizeTimer: null,
+  productCache: new Map(),
+  detailPending: new Map(),
+  detailReqSeq: 0,
+  prevNullSafe: true,
+};
+
+const dom = {
+  statusBadge: document.getElementById('status-badge'),
+  loadProgressWrap: document.getElementById('load-progress-wrap'),
+  loadProgressBar: document.getElementById('load-progress-bar'),
+  errorBanner: document.getElementById('error-banner'),
+
+  toggleSemantic: document.getElementById('toggle-semantic'),
+  semanticPill: document.getElementById('semantic-pill'),
+  devicePill: document.getElementById('device-pill'),
+  semanticProgressWrap: document.getElementById('semantic-progress-wrap'),
+  semanticProgressMsg: document.getElementById('semantic-progress-msg'),
+  semanticProgressPct: document.getElementById('semantic-progress-pct'),
+  semanticProgressBar: document.getElementById('semantic-progress-bar'),
+
+  toggleReranker: document.getElementById('toggle-reranker'),
+  rerankerPill: document.getElementById('reranker-pill'),
+  rerankerOptions: document.getElementById('reranker-options'),
+  rerankerWebgpuNote: document.getElementById('reranker-webgpu-note'),
+  optRerankPool: document.getElementById('opt-rerank-pool'),
+  optPure: document.getElementById('opt-pure'),
+  rerankerProgressWrap: document.getElementById('reranker-progress-wrap'),
+  rerankerProgressMsg: document.getElementById('reranker-progress-msg'),
+  rerankerProgressPct: document.getElementById('reranker-progress-pct'),
+  rerankerProgressBar: document.getElementById('reranker-progress-bar'),
+
+  rerankLiveBanner: document.getElementById('rerank-live-banner'),
+  rerankLiveText: document.getElementById('rerank-live-text'),
+  btnCancelRerank: document.getElementById('btn-cancel-rerank'),
+
+  form: document.getElementById('search-form'),
+  queryInput: document.getElementById('query-input'),
+  btnClearQuery: document.getElementById('btn-clear-query'),
+  btnSearch: document.getElementById('btn-search'),
+  btnSearchLabel: document.getElementById('btn-search-label'),
+
+  optMode: document.getElementById('opt-mode'),
+  poolWrap: document.getElementById('pool-wrap'),
+  btnPool: document.getElementById('btn-pool'),
+  poolLabel: document.getElementById('pool-label'),
+  poolMenu: document.getElementById('pool-menu'),
+  btnPoolAll: document.getElementById('btn-pool-all'),
+  btnSourcesClear: document.getElementById('btn-sources-clear'),
+  poolChecks: Array.from(document.querySelectorAll('.pool-chk')),
+  sourceOptions: document.getElementById('source-options'),
+  optGeo: document.getElementById('opt-geo'),
+  optGrid: document.getElementById('opt-grid'),
+  optLevel: document.getElementById('opt-level'),
+  optTopK: document.getElementById('opt-topk'),
+  optStrictEo: document.getElementById('opt-strict-eo'),
+  optNullSafe: document.getElementById('opt-null-safe'),
+  optHardLimits: document.getElementById('opt-hard-limits'),
+  optCollapse: document.getElementById('opt-collapse'),
+  optMinEndYear: document.getElementById('opt-min-end-year'),
+  btnReset: document.getElementById('btn-reset'),
+  exampleBtns: Array.from(document.querySelectorAll('.example-btn')),
+
+  resultsSummary: document.getElementById('results-summary'),
+  resultsTiming: document.getElementById('results-timing'),
+  resultsBody: document.getElementById('results-body'),
+
+  btnShareUrl: document.getElementById('btn-share-url'),
+  btnShareLabel: document.getElementById('btn-share-label'),
+  downloadWrap: document.getElementById('download-wrap'),
+  btnDownload: document.getElementById('btn-download'),
+  btnDownloadLabel: document.getElementById('btn-download-label'),
+  downloadMenu: document.getElementById('download-menu'),
+  downloadOpts: Array.from(document.querySelectorAll('.download-opt')),
+
+  drawerBackdrop: document.getElementById('drawer-backdrop'),
+  drawer: document.getElementById('detail-drawer'),
+  drawerBadges: document.getElementById('drawer-badges'),
+  drawerTitle: document.getElementById('drawer-title'),
+  drawerSubtitle: document.getElementById('drawer-subtitle'),
+  drawerBody: document.getElementById('drawer-body'),
+  drawerClose: document.getElementById('drawer-close'),
+  drawerPrev: document.getElementById('drawer-prev'),
+  drawerNext: document.getElementById('drawer-next'),
+
+  btnInfo: document.getElementById('btn-info'),
+  infoModal: document.getElementById('info-modal'),
+  infoClose: document.getElementById('info-close'),
+  infoOk: document.getElementById('info-ok'),
+};
+
+const worker = new Worker(new URL('./search.worker.js', import.meta.url), { type: 'module' });
+
+function esc(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function safeHref(url) {
+  if (!url || typeof url !== 'string') return null;
+  const trimmed = url.trim();
+  if (/^(https?|ftp):\/\//i.test(trimmed)) return trimmed;
+  return null;
+}
+
+function badge(text, cls = 'bg-slate-100 text-slate-700 ring-slate-500/20') {
+  return `<span class="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset ${cls}">${esc(text)}</span>`;
+}
+
+function kvItem(label, value, isMono = false) {
+  const valStr = value === null || value === undefined || value === ''
+    ? '<span class="text-slate-400 italic font-sans">null</span>'
+    : `<span class="${isMono ? 'font-mono text-[11px]' : ''}" style="overflow-wrap:anywhere">${esc(value)}</span>`;
+  return `<div class="min-w-0"><dt class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">${esc(label)}</dt><dd class="mt-0.5 text-slate-800 min-w-0" style="overflow-wrap:anywhere">${valStr}</dd></div>`;
+}
+
+function showError(msg) {
+  if (!msg) {
+    dom.errorBanner.classList.add('hidden');
+    dom.errorBanner.textContent = '';
+  } else {
+    dom.errorBanner.textContent = msg;
+    dom.errorBanner.classList.remove('hidden');
+  }
+}
+
+function setActivityBusy(isBusy, label = 'Searching…') {
+  state.searching = isBusy;
+  dom.btnSearch.disabled = !state.ready || isBusy;
+  dom.btnSearchLabel.textContent = !state.ready ? 'Loading…' : isBusy ? label : 'Search';
+  if (isBusy) {
+    dom.loadProgressBar.classList.add('bar-indeterminate');
+    dom.loadProgressBar.style.width = '';
+    dom.loadProgressWrap.classList.remove('opacity-0');
+  } else if (state.ready) {
+    dom.loadProgressBar.classList.remove('bar-indeterminate');
+    dom.loadProgressBar.style.width = '100%';
+    dom.loadProgressWrap.classList.add('opacity-0');
+  }
+}
+
+function updateHeaderBadge() {
+  if (!state.manifest) return;
+  const nActive = Number(state.manifest.active_docs || 0).toLocaleString();
+  const parts = [`${nActive} active`];
+  if (state.semanticReady) {
+    parts.push(`Hybrid 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`);
+  } else {
+    parts.push('EO BM25 Ready');
+  }
+  if (dom.toggleReranker.checked && state.rerankerReady) {
+    parts.push('+ Qwen3-0.6B');
+  }
+  dom.statusBadge.textContent = parts.join(' · ');
+  dom.statusBadge.className = state.semanticReady
+    ? 'inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-800 ring-1 ring-inset ring-emerald-600/20 tabular-nums'
+    : 'inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-800 ring-1 ring-inset ring-indigo-600/20 tabular-nums';
+}
+
+function formatSpan(r) {
+  if (r.t0 && r.t1) return `${r.t0}–${r.t1}`;
+  if (r.t0) return `${r.t0}–present`;
+  if (r.t1) return `–${r.t1}`;
+  return '—';
+}
+
+function getSelectedPools() {
+  return dom.poolChecks.filter((c) => c.checked).map((c) => c.value);
+}
+
+function getSelectedSources() {
+  if (!dom.sourceOptions) return [];
+  return Array.from(dom.sourceOptions.querySelectorAll('.source-chk:checked')).map((c) => c.value);
+}
+
+function setPoolMenuOpen(open) {
+  dom.poolMenu.classList.toggle('hidden', !open);
+  dom.btnPool.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function updatePoolLabel() {
+  const pools = getSelectedPools();
+  const sources = getSelectedSources();
+  dom.btnSourcesClear.classList.toggle('hidden', sources.length === 0);
+  const parts = [];
+  if (pools.length > 0 && pools.length < dom.poolChecks.length) {
+    parts.push(pools.length === 1 ? (POOL_META[pools[0]]?.label || pools[0]) : `${pools.length} Pools`);
+  }
+  if (sources.length === 1) parts.push(sources[0]);
+  else if (sources.length > 1) parts.push(`${sources.length} Sources`);
+  dom.poolLabel.textContent = parts.length ? parts.join(' · ') : 'All Pools';
+}
+
+function renderSourceOptions(sourceCounts) {
+  const entries = Object.entries(sourceCounts || {}).sort(([a], [b]) => {
+    const na = Number.parseInt(String(a).match(/^(\d+)/)?.[1] ?? '9999', 10);
+    const nb = Number.parseInt(String(b).match(/^(\d+)/)?.[1] ?? '9999', 10);
+    return na !== nb ? na - nb : String(a).localeCompare(String(b));
+  });
+  dom.sourceOptions.innerHTML = entries
+    .map(
+      ([src, cnt]) => `
+    <label class="flex items-center justify-between gap-2 px-2 py-1 rounded-lg hover:bg-slate-50 cursor-pointer text-xs text-slate-700 select-none">
+      <span class="flex items-center gap-2 min-w-0">
+        <input type="checkbox" value="${esc(src)}" class="source-chk rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+        <span class="font-mono text-[11px] truncate" title="${esc(src)}">${esc(src)}</span>
+      </span>
+      <span class="text-[10px] font-mono text-slate-400 tabular-nums shrink-0">${Number(cnt).toLocaleString()}</span>
+    </label>`,
+    )
+    .join('');
+  dom.sourceOptions.querySelectorAll('.source-chk').forEach((chk) => {
+    chk.addEventListener('change', () => {
+      updatePoolLabel();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  });
+}
+
+function syncHardLimitsToggle(fromUserToggle = false) {
+  const hard = dom.optHardLimits.checked;
+  if (hard) {
+    if (fromUserToggle) state.prevNullSafe = dom.optNullSafe.checked;
+    dom.optNullSafe.checked = false;
+  } else if (fromUserToggle) {
+    dom.optNullSafe.checked = state.prevNullSafe;
+  }
+  dom.optNullSafe.disabled = hard;
+  dom.optNullSafe.parentElement?.classList.toggle('opacity-50', hard);
+}
+
+function buildSearchPayload() {
+  const geoVal = dom.optGeo.value;
+  const levelVal = dom.optLevel.value;
+  const gridVal = dom.optGrid.value;
+  const minEndVal = dom.optMinEndYear.value.trim();
+  const pools = getSelectedPools();
+  const sources = getSelectedSources();
+  const activePools = pools.length > 0 && pools.length < dom.poolChecks.length ? pools : null;
+  return {
+    query: dom.queryInput.value.trim(),
+    mode: dom.optMode.value,
+    use_reranker: dom.toggleReranker.checked,
+    rerank_top_n: Number(dom.optRerankPool.value || 25),
+    rerank_pure: dom.optPure.checked,
+    pools: activePools,
+    sources: sources.length ? sources : null,
+    geo: geoVal && geoVal !== 'exclude_local' ? geoVal : null,
+    exclude_local: geoVal === 'exclude_local',
+    max_grid_m: gridVal ? Number(gridVal) : null,
+    min_end_year: minEndVal ? Number(minEndVal) : null,
+    eo_scope: dom.optStrictEo.checked ? 'strict_eo' : 'all',
+    levels: levelVal ? levelVal.split(',') : null,
+    null_safe: dom.optHardLimits.checked ? false : dom.optNullSafe.checked,
+    hard_limits: dom.optHardLimits.checked,
+    collapse: dom.optCollapse.checked,
+    top_k: Number(dom.optTopK.value || 20),
+  };
+}
+
+function syncUrlFromControls() {
+  const params = new URLSearchParams();
+  const q = dom.queryInput.value.trim();
+  if (q) params.set('q', q);
+  if (dom.optMode.value !== 'bm25') params.set('mode', dom.optMode.value);
+  if (dom.toggleReranker.checked) params.set('rerank', '1');
+  if (dom.optRerankPool.value !== '25') params.set('rpool', dom.optRerankPool.value);
+  if (dom.optPure.checked) params.set('pure', '1');
+  const pools = getSelectedPools();
+  if (pools.length > 0 && pools.length < dom.poolChecks.length) params.set('pools', pools.join(','));
+  const sources = getSelectedSources();
+  if (sources.length > 0) params.set('sources', sources.join(','));
+  if (dom.optGeo.value) params.set('geo', dom.optGeo.value);
+  if (dom.optGrid.value) params.set('grid', dom.optGrid.value);
+  if (dom.optLevel.value) params.set('level', dom.optLevel.value);
+  if (dom.optTopK.value !== '20') params.set('k', dom.optTopK.value);
+  if (dom.optMinEndYear.value.trim()) params.set('min_end', dom.optMinEndYear.value.trim());
+  if (dom.optStrictEo.checked) params.set('strict_eo', '1');
+  if (dom.optHardLimits.checked) params.set('hard', '1');
+  else if (!dom.optNullSafe.checked) params.set('null_safe', '0');
+  if (!dom.optCollapse.checked) params.set('collapse', '0');
+  const qs = params.toString();
+  window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+}
+
+function applyUrlToControls() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('q')) dom.queryInput.value = params.get('q') || '';
+  if (params.has('mode')) {
+    const m = params.get('mode');
+    if (['bm25', 'hybrid', 'dense'].includes(m)) {
+      dom.optMode.value = m;
+      if (m !== 'bm25') dom.toggleSemantic.checked = true;
+    }
+  }
+  if (params.get('rerank') === '1') {
+    dom.toggleReranker.checked = true;
+    dom.rerankerOptions.classList.remove('hidden');
+  }
+  if (params.has('rpool') && ['15', '25', '50'].includes(params.get('rpool'))) {
+    dom.optRerankPool.value = params.get('rpool');
+  }
+  if (params.get('pure') === '1') dom.optPure.checked = true;
+
+  const rawPools = params.get('pools') || params.get('pool') || '';
+  if (rawPools) {
+    const wanted = new Set(rawPools.split(',').map((s) => s.trim()).filter(Boolean));
+    dom.poolChecks.forEach((c) => { c.checked = wanted.has(c.value); });
+  }
+  const rawSources = params.get('sources') || '';
+  if (rawSources) {
+    const wantedSrc = new Set(rawSources.split(',').map((s) => s.trim()).filter(Boolean));
+    dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = wantedSrc.has(c.value); });
+  }
+  updatePoolLabel();
+
+  if (params.has('geo')) dom.optGeo.value = params.get('geo') || '';
+  if (params.has('grid')) dom.optGrid.value = params.get('grid') || '';
+  if (params.has('level')) dom.optLevel.value = params.get('level') || '';
+  if (params.has('k')) dom.optTopK.value = params.get('k') || '20';
+  if (params.has('min_end')) dom.optMinEndYear.value = params.get('min_end') || '';
+  if (params.get('strict_eo') === '1') dom.optStrictEo.checked = true;
+  if (params.get('hard') === '1') dom.optHardLimits.checked = true;
+  if (params.get('null_safe') === '0') dom.optNullSafe.checked = false;
+  syncHardLimitsToggle();
+  if (params.get('collapse') === '0') dom.optCollapse.checked = false;
+  dom.btnClearQuery.classList.toggle('hidden', !dom.queryInput.value);
+}
+
+function triggerEnableSemantic() {
+  if (state.semanticReady || state.semanticLoading) return;
+  state.semanticLoading = true;
+  dom.toggleSemantic.checked = true;
+  dom.semanticPill.textContent = 'Downloading…';
+  dom.semanticPill.className =
+    'inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20';
+  dom.semanticProgressWrap.classList.remove('hidden');
+  worker.postMessage({ type: 'enableSemantic' });
+}
+
+function triggerEnableReranker() {
+  if (state.rerankerReady || state.rerankerLoading) return;
+  state.rerankerLoading = true;
+  dom.rerankerPill.textContent = 'Downloading…';
+  dom.rerankerPill.className =
+    'inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-800 ring-1 ring-inset ring-amber-600/20';
+  dom.rerankerProgressWrap.classList.remove('hidden');
+  worker.postMessage({ type: 'enableReranker' });
+}
+
+function runSearch() {
+  if (!state.ready) return;
+  const payload = buildSearchPayload();
+  if (!payload.query) {
+    dom.queryInput.focus();
+    return;
+  }
+  showError('');
+  syncUrlFromControls();
+
+  if ((payload.mode === 'hybrid' || payload.mode === 'dense') && !state.semanticReady) {
+    triggerEnableSemantic();
+  }
+  if (payload.use_reranker && !state.rerankerReady) {
+    triggerEnableReranker();
+  }
+
+  dom.rerankLiveBanner.classList.add('hidden');
+  const busyLabel =
+    (payload.mode !== 'bm25' && !state.semanticReady)
+      ? 'Loading model…'
+      : 'Searching…';
+  setActivityBusy(true, busyLabel);
+  worker.postMessage({ type: 'search', payload });
+}
+
+function renderResults(data) {
+  const rows = data.results || [];
+  dom.btnDownload.disabled = rows.length === 0 || state.exporting;
+
+  const modeName = MODE_LABELS[data.mode_used] || data.mode_used;
+  const colNote = data.total_collapsed_in_results > 0
+    ? ` · ${data.total_collapsed_in_results} mirrors collapsed`
+    : '';
+  let hardNote = '';
+  if (data.hard_limits && data.unknown_metadata_counts) {
+    const u = data.unknown_metadata_counts;
+    hardNote = ` · Hard limits verified (excluded unknown: grid ${Number(u.grid_meters || 0).toLocaleString()}, unverified-grid ${Number(u.unverified_grid_source || 0).toLocaleString()}, level ${Number(u.processing_level || 0).toLocaleString()}, geo ${Number(u.geographic_coverage || 0).toLocaleString()}, end-year ${Number(u.temporal_end_year || 0).toLocaleString()})`;
+  } else if (!data.null_safe_filter) {
+    hardNote = ' · Strict NULL-dropping active';
+  }
+  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} eligible active products (${modeName}${colNote}${hardNote})`;
+
+  const timingParts = [`Stage 1: ${Number(data.stage1_ms || 0).toFixed(0)} ms`];
+  if (data.rerank_ms > 0) timingParts.push(`Qwen3 rerank: ${(data.rerank_ms / 1000).toFixed(1)} s`);
+  if (data.rerank_load_ms > 0) timingParts.push(`Warm-up: ${(data.rerank_load_ms / 1000).toFixed(1)} s`);
+  dom.resultsTiming.textContent = timingParts.join(' · ');
+
+  if (rows.length === 0) {
+    dom.resultsBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
+          No matching active products found under the current filters. Try relaxing filters or enabling null-safe mode.
+        </td>
+      </tr>`;
+    return;
+  }
+
+  dom.resultsBody.innerHTML = rows
+    .map((r, idx) => {
+      const poolMeta = POOL_META[r.provider_pool] || { label: r.provider_pool || '—', cls: 'bg-slate-100 text-slate-600 ring-slate-400/20' };
+      const matMeta = MATURITY_META[r.operational_maturity_class];
+      const geoLabel = GEO_LABELS[r.geographic_coverage] || (r.geographic_coverage ? r.geographic_coverage : 'null');
+      const url = safeHref(r.access_url);
+      const doiHref = r.doi ? safeHref(r.doi.startsWith('http') ? r.doi : `https://doi.org/${r.doi}`) : null;
+
+      let rankShift = '';
+      if (r.rerank_rank !== null && r.rerank_rank !== undefined && r.stage1_rank) {
+        const diff = r.stage1_rank - r.rank;
+        if (diff > 0) {
+          rankShift = `<div class="text-[10px] font-medium text-emerald-700 tabular-nums" title="Moved up from Stage-1 rank #${r.stage1_rank}">&uarr;${diff} <span class="text-slate-400">S1 #${r.stage1_rank}</span></div>`;
+        } else if (diff < 0) {
+          rankShift = `<div class="text-[10px] font-medium text-slate-400 tabular-nums" title="Moved down from Stage-1 rank #${r.stage1_rank}">&darr;${Math.abs(diff)} S1 #${r.stage1_rank}</div>`;
+        } else {
+          rankShift = `<div class="text-[10px] text-slate-400 tabular-nums">S1 #${r.stage1_rank}</div>`;
+        }
+      }
+
+      const sentinelCell = r.uses_sentinel
+        ? `<div class="font-medium text-emerald-700">${esc(r.sentinel_missions || 'Sentinel')}</div>`
+        : '<span class="text-slate-400">—</span>';
+
+      const mirrorsBadge = r.collapsed_siblings > 0
+        ? `<span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">+${r.collapsed_siblings} mirror${r.collapsed_siblings === 1 ? '' : 's'}</span>`
+        : '';
+
+      return `
+        <tr data-idx="${idx}" class="result-row hover:bg-indigo-50/40 cursor-pointer transition-colors">
+          <td class="py-3 pl-4 pr-2 align-top whitespace-nowrap">
+            <div class="text-sm font-semibold text-slate-900 tabular-nums">#${r.rank}</div>
+            ${rankShift}
+          </td>
+          <td class="px-3 py-3 align-top">
+            <div class="flex items-start gap-2 flex-wrap">
+              <span class="font-semibold text-slate-900 leading-snug">${esc(r.title)}</span>
+              ${mirrorsBadge}
+            </div>
+            <div class="mt-0.5 text-[11px] text-slate-500">
+              ${esc(r.producing_institution || r.source_catalogue)}
+              <span class="text-slate-300 mx-1">·</span>
+              <span class="font-mono text-[10px] text-slate-400">${esc(r.source_catalogue)}</span>
+            </div>
+            ${r.snippet ? `<p class="mt-1 text-[11px] text-slate-600 leading-relaxed line-clamp-2">${esc(r.snippet)}</p>` : ''}
+          </td>
+          <td class="px-3 py-3 align-top whitespace-nowrap">
+            ${r.processing_level ? badge(r.processing_level, 'bg-slate-100 text-slate-800 ring-slate-500/20 font-mono') : '<span class="text-slate-400 italic">null</span>'}
+          </td>
+          <td class="px-3 py-3 align-top whitespace-nowrap">
+            ${badge(poolMeta.label, poolMeta.cls)}
+            ${r.copernicus_service ? `<div class="mt-1 text-[10px] font-mono text-slate-500">${esc(r.copernicus_service)}</div>` : ''}
+          </td>
+          <td class="px-3 py-3 align-top whitespace-nowrap">${sentinelCell}</td>
+          <td class="px-3 py-3 align-top whitespace-nowrap">
+            <div class="font-medium text-slate-800 tabular-nums">${r.grid ? esc(r.grid) : '<span class="text-slate-400 italic font-normal">null</span>'}</div>
+            <div class="text-[11px] text-slate-500">${esc(r.cadence || '—')}</div>
+          </td>
+          <td class="px-3 py-3 align-top whitespace-nowrap">
+            <div class="text-slate-800">${esc(geoLabel)}</div>
+            <div class="mt-0.5 flex items-center gap-1.5">
+              <span class="text-[11px] text-slate-500 tabular-nums">${esc(formatSpan(r))}</span>
+              ${matMeta ? badge(matMeta.label, matMeta.cls) : ''}
+            </div>
+          </td>
+          <td class="py-3 pl-3 pr-4 align-top text-right whitespace-nowrap space-x-1.5">
+            ${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center rounded-md bg-white px-2 py-1 text-[11px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200 hover:bg-indigo-50">Access</a>` : ''}
+            ${doiHref ? `<a href="${esc(doiHref)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center rounded-md bg-white px-2 py-1 text-[11px] font-medium text-slate-700 ring-1 ring-inset ring-slate-200 hover:bg-slate-50">DOI</a>` : ''}
+          </td>
+        </tr>`;
+    })
+    .join('');
+
+  dom.resultsBody.querySelectorAll('.result-row').forEach((tr) => {
+    tr.addEventListener('click', () => openDetailForResult(Number(tr.dataset.idx)));
+  });
+}
+
+function destroyBboxMap() {
+  if (state.mapResizeTimer) {
+    clearTimeout(state.mapResizeTimer);
+    state.mapResizeTimer = null;
+  }
+  if (state.map) {
+    try { state.map.remove(); } catch { /* ignore */ }
+    state.map = null;
+  }
+}
+
+function mountBboxMap(bbox, crossesAntimeridian) {
+  destroyBboxMap();
+  const container = document.getElementById('drawer-bbox-map');
+  if (!container) return;
+  if (!bbox || bbox.length !== 4 || bbox.some((v) => v === null || Number.isNaN(Number(v)))) {
+    container.innerHTML = '<div class="h-full flex items-center justify-center text-[11px] text-slate-400 italic">No bounding box provided by upstream API.</div>';
+    return;
+  }
+
+  const [wRaw, sRaw, eRaw, nRaw] = bbox.map(Number);
+  const clampLat = (lat) => Math.max(-85, Math.min(85, lat));
+  const clampLon = (lon) => Math.max(-180, Math.min(180, lon));
+  const w = clampLon(wRaw);
+  const e = clampLon(eRaw);
+  const s = clampLat(Math.min(sRaw, nRaw));
+  const n = clampLat(Math.max(sRaw, nRaw));
+  const isAntim = Boolean(crossesAntimeridian || w > e);
+  const isPointLike = !isAntim && Math.abs(e - w) < 0.05 && Math.abs(n - s) < 0.05;
+  const isNearGlobal = !isAntim && (e - w) >= 350 && (n - s) >= 150;
+
+  let geom;
+  if (isAntim) {
+    geom = {
+      type: 'MultiPolygon',
+      coordinates: [
+        [[[w, s], [180, s], [180, n], [w, n], [w, s]]],
+        [[[-180, s], [e, s], [e, n], [-180, n], [-180, s]]],
+      ],
+    };
+  } else {
+    const pw = isPointLike ? Math.max(-180, w - 0.15) : w;
+    const pe = isPointLike ? Math.min(180, e + 0.15) : e;
+    const ps = isPointLike ? clampLat(s - 0.15) : s;
+    const pn = isPointLike ? clampLat(n + 0.15) : n;
+    geom = {
+      type: 'Polygon',
+      coordinates: [[[pw, ps], [pe, ps], [pe, pn], [pw, pn], [pw, ps]]],
+    };
+  }
+
+  try {
+    const map = new MapLibreMap({
+      container,
+      style: 'https://tiles.openfreemap.org/styles/positron',
+      center: isAntim ? [(w + (e + 360)) / 2 - 360, (s + n) / 2] : [(w + e) / 2, isNearGlobal ? 14 : (s + n) / 2],
+      zoom: isNearGlobal ? 0.55 : 1.5,
+      scrollZoom: false,
+      attributionControl: { compact: true },
+    });
+    state.map = map;
+    map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
+
+    map.on('load', () => {
+      if (state.map !== map) return;
+      map.addSource('product-bbox', {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: geom, properties: {} }] },
+      });
+      map.addLayer({
+        id: 'product-bbox-fill',
+        type: 'fill',
+        source: 'product-bbox',
+        paint: { 'fill-color': '#4f46e5', 'fill-opacity': 0.18 },
+      });
+      map.addLayer({
+        id: 'product-bbox-line',
+        type: 'line',
+        source: 'product-bbox',
+        paint: { 'line-color': '#4338ca', 'line-width': 2 },
+      });
+      if (isAntim) {
+        map.fitBounds([[w, s], [e + 360, n]], { padding: 28, maxZoom: 6, duration: 0 });
+      } else if (!isNearGlobal) {
+        map.fitBounds([[w, s], [e, n]], { padding: 32, maxZoom: 7, duration: 0 });
+      } else {
+        map.jumpTo({ center: [0, 14], zoom: 0.45 });
+      }
+      map.resize();
+    });
+    state.mapResizeTimer = setTimeout(() => {
+      if (state.map === map) map.resize();
+    }, 220);
+  } catch (err) {
+    container.innerHTML = `<div class="h-full flex items-center justify-center text-[11px] text-slate-500 px-3 text-center">Map unavailable (${esc(err.message)}). Bounds: W ${wRaw}°, S ${sRaw}°, E ${eRaw}°, N ${nRaw}°.</div>`;
+  }
+}
+
+function fetchProductDetail(recordId) {
+  if (state.productCache.has(recordId)) return Promise.resolve(state.productCache.get(recordId));
+  return new Promise((resolve, reject) => {
+    const reqId = ++state.detailReqSeq;
+    state.detailPending.set(reqId, { recordId, resolve, reject });
+    worker.postMessage({ type: 'getProductDetail', recordId, reqId });
+  });
+}
+
+async function openDetailForResult(idx) {
+  const r = state.results[idx];
+  if (!r) return;
+  state.activeIdx = idx;
+  await openDetailById(r.record_id, r);
+}
+
+async function openDetailById(recordId, rankCtx = null) {
+  dom.drawerBackdrop.classList.remove('hidden');
+  dom.drawer.classList.remove('translate-x-full');
+  dom.drawerPrev.disabled = state.activeIdx === null || state.activeIdx <= 0;
+  dom.drawerNext.disabled = state.activeIdx === null || state.activeIdx >= state.results.length - 1;
+
+  dom.drawerBadges.innerHTML = '';
+  dom.drawerTitle.textContent = rankCtx ? rankCtx.title : 'Loading product…';
+  dom.drawerSubtitle.textContent = recordId;
+  dom.drawerBody.innerHTML = '<div class="py-12 text-center text-slate-400">Loading full provenance…</div>';
+
+  try {
+    const det = await fetchProductDetail(recordId);
+    const poolMeta = POOL_META[det.provider_pool] || { label: det.provider_pool || 'Unknown', cls: 'bg-slate-100 text-slate-700 ring-slate-500/20' };
+    const matMeta = MATURITY_META[det.operational_maturity_class];
+
+    const badges = [
+      rankCtx ? badge(`Rank #${rankCtx.rank}`, 'bg-slate-900 text-white ring-slate-900') : '',
+      det.processing_level ? badge(det.processing_level, 'bg-slate-100 text-slate-800 ring-slate-500/20 font-mono') : '',
+      badge(poolMeta.label, poolMeta.cls),
+      matMeta ? badge(matMeta.label, matMeta.cls) : '',
+      det.strict_eo_c1_eligible ? badge('Strict EO', 'bg-emerald-50 text-emerald-700 ring-emerald-600/20') : badge('Sensitivity / Hybrid', 'bg-amber-50 text-amber-800 ring-amber-600/20'),
+    ].filter(Boolean);
+
+    dom.drawerBadges.innerHTML = badges.join('');
+    dom.drawerTitle.textContent = det.title || recordId;
+    dom.drawerSubtitle.textContent = det.record_id || recordId;
+
+    const accessHref = safeHref(det.access_url);
+    const doiHref = det.doi ? safeHref(det.doi.startsWith('http') ? det.doi : `https://doi.org/${det.doi}`) : null;
+    const kwList = Array.from(
+      new Set(
+        String(det.keywords || '')
+          .split(/[;|,]/)
+          .map((s) => s.trim())
+          .filter((s) => s.length >= 2 && s.length <= 60),
+      ),
+    );
+
+    const rankingBlock = rankCtx
+      ? `
+      <section class="space-y-2">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Retrieval Scoring Signals</h3>
+        <dl class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
+          ${kvItem('Final Score', rankCtx.score, true)}
+          ${kvItem('Stage-1 Rank', rankCtx.stage1_rank ? `#${rankCtx.stage1_rank}` : '—', true)}
+          ${kvItem('Dense 512-d Cos / Rank', rankCtx.dense_score !== null && rankCtx.dense_score !== undefined ? `${rankCtx.dense_score} (#${rankCtx.dense_rank})` : '—', true)}
+          ${kvItem('BM25 Score / Rank', rankCtx.bm25_rank ? `${rankCtx.bm25_score} (#${rankCtx.bm25_rank})` : '—', true)}
+          ${rankCtx.rerank_score !== null && rankCtx.rerank_score !== undefined ? kvItem('Qwen3 Margin / Prob', `${rankCtx.rerank_score} (${Math.round((rankCtx.rerank_prob || 0) * 100)}%, #${rankCtx.rerank_rank})`, true) : ''}
+        </dl>
+      </section>`
+      : '';
+
+    const collapsedBlock =
+      rankCtx && rankCtx.collapsed_items && rankCtx.collapsed_items.length > 0
+        ? `
+      <section class="space-y-2">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Collapsed Mirrors &amp; Editions (${rankCtx.collapsed_siblings})</h3>
+        <div class="divide-y divide-slate-100 rounded-lg border border-slate-200/80 bg-slate-50/50">
+          ${rankCtx.collapsed_items
+            .map(
+              (s) => `
+            <button type="button" data-sib-id="${esc(s.record_id)}" class="sib-btn w-full text-left px-3 py-2 hover:bg-indigo-50/70 transition flex items-center justify-between gap-2">
+              <div class="min-w-0">
+                <div class="text-xs font-medium text-slate-800 truncate">${esc(s.title)}</div>
+                <div class="text-[10px] font-mono text-slate-400 truncate">${esc(s.source_catalogue)} · ${esc(s.record_id)}</div>
+              </div>
+              <span class="text-[11px] text-indigo-600 shrink-0">Inspect &rarr;</span>
+            </button>`,
+            )
+            .join('')}
+        </div>
+      </section>`
+        : '';
+
+    dom.drawerBody.innerHTML = `
+      <div class="flex flex-wrap items-center gap-2">
+        ${accessHref ? `<a href="${esc(accessHref)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white hover:bg-slate-800 transition">Open Access URL &nearr;</a>` : ''}
+        ${doiHref ? `<a href="${esc(doiHref)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 hover:bg-indigo-100 transition">DOI: ${esc(det.doi)}</a>` : ''}
+        <button id="btn-copy-id" type="button" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition">Copy Record ID</button>
+      </div>
+
+      ${rankingBlock}
+
+      <section class="space-y-1.5">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Description</h3>
+        <p class="text-xs text-slate-700 leading-relaxed whitespace-pre-line bg-slate-50/70 rounded-lg p-3 border border-slate-200/60">${esc(det.description || det.desc_snippet || 'No description provided by upstream catalogue.')}</p>
+      </section>
+
+      ${collapsedBlock}
+
+      <section class="space-y-2">
+        <div class="flex items-center justify-between">
+          <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Spatial Extent &amp; Resolution</h3>
+          ${det.bbox ? `<span class="text-[10px] font-mono text-slate-400 tabular-nums">W ${det.bbox[0]}°, S ${det.bbox[1]}°, E ${det.bbox[2]}°, N ${det.bbox[3]}°</span>` : ''}
+        </div>
+        <div id="drawer-bbox-map" class="h-48 w-full rounded-lg border border-slate-200 bg-slate-100 overflow-hidden"></div>
+        <dl class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-50/70 rounded-lg p-3 border border-slate-200/60">
+          ${kvItem('Geographic Class', det.geographic_coverage_class)}
+          ${kvItem('Observation Domain', det.observation_domain_class)}
+          ${kvItem('Adjudicated Grid', det.grid_human)}
+          ${kvItem('Raw Spatial String', det.spatial_resolution_raw)}
+          ${kvItem('Grid Source', det.adjudicated_spatial_resolution_source)}
+          ${kvItem('Footprint (m)', det.spatial_footprint_meters)}
+        </dl>
+      </section>
+
+      <section class="space-y-2">
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Institutional Attribution &amp; Sensors</h3>
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50/70 rounded-lg p-3 border border-slate-200/60">
+          ${kvItem('Producing Institution', det.producing_institution)}
+          ${kvItem('Hosting Platform', det.hosting_platform)}
+          ${kvItem('Jurisdiction Tier', det.provider_jurisdiction_tier)}
+          ${kvItem('Copernicus Service', det.copernicus_service)}
+          ${kvItem('Ontology Class', det.product_ontology_class)}
+          ${kvItem('Output Category', det.product_output_category)}
+          ${kvItem('Sentinel Lineage', det.sentinel_lineage_status)}
+          ${kvItem('Sentinel Missions', det.sentinel_missions)}
+          ${kvItem('Platform / Sensor Raw', det.platform_sensor_raw)}
+          ${kvItem('Temporal Cadence', det.temporal_cadence_class)}
+          ${kvItem('Temporal Window', `${det.temporal_start_raw || 'null'} → ${det.temporal_end_raw || 'null'}`)}
+          ${kvItem('License', det.license)}
+        </dl>
+      </section>
+
+      ${
+        kwList.length > 0
+          ? `<section class="space-y-1.5">
+              <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Keywords (click to search)</h3>
+              <div class="flex flex-wrap gap-1.5">
+                ${kwList.slice(0, 35).map((kw) => `<button type="button" data-kw="${esc(kw)}" class="kw-chip rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] text-slate-700 hover:bg-indigo-100 hover:text-indigo-800 transition">${esc(kw)}</button>`).join('')}
+              </div>
+            </section>`
+          : ''
+      }
+    `;
+
+    mountBboxMap(det.bbox, det.antimeridian);
+
+    const copyBtn = document.getElementById('btn-copy-id');
+    copyBtn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(det.record_id || recordId);
+        copyBtn.textContent = 'Copied';
+        setTimeout(() => { copyBtn.textContent = 'Copy Record ID'; }, 1200);
+      } catch {
+        copyBtn.textContent = 'Clipboard blocked';
+      }
+    });
+
+    dom.drawerBody.querySelectorAll('.sib-btn').forEach((btn) => {
+      btn.addEventListener('click', () => openDetailById(btn.dataset.sibId, null));
+    });
+
+    dom.drawerBody.querySelectorAll('.kw-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        dom.queryInput.value = chip.dataset.kw || '';
+        dom.btnClearQuery.classList.toggle('hidden', !dom.queryInput.value);
+        closeDetailDrawer();
+        runSearch();
+      });
+    });
+  } catch (err) {
+    dom.drawerBody.innerHTML = `<div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-rose-800">Failed to load product details: ${esc(err.message)}</div>`;
+  }
+}
+
+function closeDetailDrawer() {
+  destroyBboxMap();
+  state.activeIdx = null;
+  dom.drawer.classList.add('translate-x-full');
+  dom.drawerBackdrop.classList.add('hidden');
+}
+
+function setDownloadMenuOpen(open) {
+  dom.downloadMenu.classList.toggle('hidden', !open);
+  dom.btnDownload.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+async function handleExportFormat(fmt) {
+  setDownloadMenuOpen(false);
+  if (!state.results.length || state.exporting) return;
+  state.exporting = true;
+  dom.btnDownload.disabled = true;
+  dom.btnDownloadLabel.textContent = 'Exporting…';
+  showError('');
+  try {
+    const metadata = state.lastPayload
+      ? {
+          query: state.lastPayload.query,
+          mode_used: state.lastPayload.mode_used,
+          reranker_used: state.lastPayload.reranker_used,
+          device: state.lastPayload.device,
+          eligible_after_filter: state.lastPayload.eligible_after_filter,
+          stage1_ms: state.lastPayload.stage1_ms,
+          rerank_ms: state.lastPayload.rerank_ms,
+        }
+      : null;
+    exportResults(fmt, state.results, metadata);
+  } catch (err) {
+    showError(`${fmt.toUpperCase()} export failed: ${err.message}`);
+  } finally {
+    state.exporting = false;
+    dom.btnDownload.disabled = state.results.length === 0;
+    dom.btnDownloadLabel.textContent = 'Download';
+  }
+}
+
+// Worker message router
+worker.addEventListener('message', (ev) => {
+  const msg = ev.data || {};
+  if (msg.type === 'initProgress') {
+    dom.loadProgressBar.style.width = `${msg.pct}%`;
+    dom.resultsSummary.textContent = msg.message;
+  } else if (msg.type === 'ready') {
+    state.ready = true;
+    state.webgpuAvailable = Boolean(msg.webgpuAvailable);
+    state.manifest = msg.manifest;
+
+    dom.toggleSemantic.disabled = false;
+    dom.toggleReranker.disabled = false;
+    dom.devicePill.textContent = state.webgpuAvailable ? 'WebGPU' : 'WASM CPU';
+    dom.devicePill.classList.remove('hidden');
+    if (!state.webgpuAvailable) {
+      dom.rerankerWebgpuNote.classList.remove('hidden');
+    }
+
+    if (msg.manifest.pool_counts) {
+      document.querySelectorAll('[data-pool-count]').forEach((el) => {
+        const cnt = msg.manifest.pool_counts[el.dataset.poolCount];
+        el.textContent = cnt !== undefined ? Number(cnt).toLocaleString() : '';
+      });
+    }
+    if (msg.manifest.source_counts) {
+      renderSourceOptions(msg.manifest.source_counts);
+    }
+
+    updateHeaderBadge();
+    setActivityBusy(false);
+    dom.resultsSummary.textContent = `Ready — enter a query or pick an example above to search ${Number(msg.manifest.active_docs).toLocaleString()} active L3/L4 products.`;
+    dom.resultsBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
+          EO BM25 index ready (${(msg.manifest.bm25_gz_bytes / 1e6).toFixed(1)} MB). Toggle <strong>Semantic Hybrid</strong> above to load 512-d EmbeddingGemma 2 in-browser.
+        </td>
+      </tr>`;
+
+    applyUrlToControls();
+    if (dom.toggleSemantic.checked) triggerEnableSemantic();
+    if (dom.toggleReranker.checked) triggerEnableReranker();
+    if (dom.queryInput.value.trim()) runSearch();
+  } else if (msg.type === 'modelProgress') {
+    if (msg.target === 'semantic') {
+      dom.semanticProgressWrap.classList.remove('hidden');
+      dom.semanticProgressMsg.textContent = msg.message;
+      dom.semanticProgressPct.textContent = `${msg.pct}%`;
+      dom.semanticProgressBar.style.width = `${msg.pct}%`;
+    } else if (msg.target === 'reranker') {
+      dom.rerankerProgressWrap.classList.remove('hidden');
+      dom.rerankerProgressMsg.textContent = msg.message;
+      dom.rerankerProgressPct.textContent = `${msg.pct}%`;
+      dom.rerankerProgressBar.style.width = `${msg.pct}%`;
+    }
+  } else if (msg.type === 'semanticReady') {
+    state.semanticReady = true;
+    state.semanticLoading = false;
+    state.semanticDevice = msg.device;
+    dom.toggleSemantic.checked = true;
+    dom.semanticPill.textContent = `Ready · ${String(msg.device).toUpperCase()}`;
+    dom.semanticPill.className =
+      'inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20';
+    dom.semanticProgressWrap.classList.add('hidden');
+    if (dom.optMode.value === 'bm25') {
+      dom.optMode.value = 'hybrid';
+    }
+    updateHeaderBadge();
+    if (dom.queryInput.value.trim() && !state.searching) {
+      runSearch();
+    }
+  } else if (msg.type === 'rerankerReady') {
+    state.rerankerReady = true;
+    state.rerankerLoading = false;
+    state.rerankerDevice = msg.device;
+    dom.rerankerPill.textContent = `Ready · ${String(msg.device).toUpperCase()}`;
+    dom.rerankerPill.className =
+      'inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20';
+    dom.rerankerProgressWrap.classList.add('hidden');
+    updateHeaderBadge();
+  } else if (msg.type === 'rerankProgress') {
+    state.reranking = true;
+    dom.rerankLiveBanner.classList.remove('hidden');
+    dom.rerankLiveText.textContent = `Reranking candidate ${msg.done} / ${msg.total} with Qwen3-Reranker-0.6B (~${msg.etaSec}s left)…`;
+  } else if (msg.type === 'rerankAborted') {
+    state.reranking = false;
+    dom.rerankLiveBanner.classList.add('hidden');
+    setActivityBusy(false);
+  } else if (msg.type === 'searchResult') {
+    state.lastPayload = msg;
+    state.results = msg.results || [];
+    renderResults(msg);
+    if (msg.reranking_pending) {
+      state.reranking = true;
+      dom.rerankLiveBanner.classList.remove('hidden');
+      dom.rerankLiveText.textContent = state.rerankerReady
+        ? `Reranking top ${msg.rerank_pool} Stage-1 candidates with Qwen3-Reranker-0.6B…`
+        : `Stage-1 ready — downloading Qwen3-Reranker-0.6B (~995 MB) to rerank top ${msg.rerank_pool}…`;
+      setActivityBusy(true, 'Reranking…');
+    } else {
+      state.reranking = false;
+      dom.rerankLiveBanner.classList.add('hidden');
+      setActivityBusy(false);
+    }
+  } else if (msg.type === 'productDetail') {
+    const pending = state.detailPending.get(msg.reqId);
+    if (pending) {
+      state.detailPending.delete(msg.reqId);
+      if (msg.error) pending.reject(new Error(msg.error));
+      else {
+        state.productCache.set(pending.recordId, msg.detail);
+        pending.resolve(msg.detail);
+      }
+    }
+  } else if (msg.type === 'error') {
+    if (msg.source === 'getProductDetail' && msg.reqId) {
+      const pending = state.detailPending.get(msg.reqId);
+      if (pending) {
+        state.detailPending.delete(msg.reqId);
+        pending.reject(new Error(msg.message));
+      }
+      return;
+    }
+    if (msg.source === 'enableSemantic') {
+      state.semanticLoading = false;
+      dom.toggleSemantic.checked = false;
+      dom.semanticPill.textContent = 'Load failed';
+      dom.semanticProgressWrap.classList.add('hidden');
+    } else if (msg.source === 'enableReranker') {
+      state.rerankerLoading = false;
+      dom.toggleReranker.checked = false;
+      dom.rerankerOptions.classList.add('hidden');
+      dom.rerankerPill.textContent = 'Load failed';
+      dom.rerankerProgressWrap.classList.add('hidden');
+    }
+    state.reranking = false;
+    dom.rerankLiveBanner.classList.add('hidden');
+    setActivityBusy(false);
+    showError(`Browser engine error (${msg.source || 'worker'}): ${msg.message}`);
+  }
+});
+
+function wireEvents() {
+  dom.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    runSearch();
+  });
+
+  dom.queryInput.addEventListener('input', () => {
+    dom.btnClearQuery.classList.toggle('hidden', !dom.queryInput.value);
+  });
+
+  dom.btnClearQuery.addEventListener('click', () => {
+    dom.queryInput.value = '';
+    dom.btnClearQuery.classList.add('hidden');
+    dom.queryInput.focus();
+  });
+
+  dom.toggleSemantic.addEventListener('change', () => {
+    if (dom.toggleSemantic.checked) {
+      if (dom.optMode.value === 'bm25') dom.optMode.value = 'hybrid';
+      if (!state.semanticReady) triggerEnableSemantic();
+      else if (dom.queryInput.value.trim()) runSearch();
+    } else {
+      dom.optMode.value = 'bm25';
+      if (dom.queryInput.value.trim()) runSearch();
+    }
+  });
+
+  dom.optMode.addEventListener('change', () => {
+    if (dom.optMode.value === 'hybrid' || dom.optMode.value === 'dense') {
+      dom.toggleSemantic.checked = true;
+      if (!state.semanticReady) triggerEnableSemantic();
+    } else {
+      dom.toggleSemantic.checked = false;
+    }
+    if (dom.queryInput.value.trim()) runSearch();
+  });
+
+  dom.toggleReranker.addEventListener('change', () => {
+    const on = dom.toggleReranker.checked;
+    dom.rerankerOptions.classList.toggle('hidden', !on);
+    if (on) {
+      if (!state.rerankerReady) {
+        triggerEnableReranker();
+      } else {
+        dom.rerankerPill.textContent = `Ready · ${(state.rerankerDevice || 'wasm').toUpperCase()}`;
+      }
+      if (dom.queryInput.value.trim()) runSearch();
+    } else {
+      worker.postMessage({ type: 'cancelRerank' });
+      dom.rerankLiveBanner.classList.add('hidden');
+      dom.rerankerPill.textContent = state.rerankerReady ? 'Cached (Off)' : 'Off';
+      dom.rerankerPill.className =
+        'inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600 ring-1 ring-inset ring-slate-200';
+      if (dom.queryInput.value.trim()) runSearch();
+    }
+    updateHeaderBadge();
+  });
+
+  dom.btnCancelRerank.addEventListener('click', () => {
+    worker.postMessage({ type: 'cancelRerank' });
+    dom.rerankLiveBanner.classList.add('hidden');
+    setActivityBusy(false);
+  });
+
+  dom.exampleBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      dom.queryInput.value = btn.dataset.q || '';
+      dom.optGeo.value = btn.dataset.geo || '';
+      dom.optGrid.value = btn.dataset.grid || '';
+      dom.btnClearQuery.classList.remove('hidden');
+      runSearch();
+    });
+  });
+
+  [
+    dom.optGeo,
+    dom.optGrid,
+    dom.optLevel,
+    dom.optTopK,
+    dom.optStrictEo,
+    dom.optNullSafe,
+    dom.optCollapse,
+    dom.optMinEndYear,
+    dom.optRerankPool,
+    dom.optPure,
+  ].forEach((el) => {
+    el.addEventListener('change', () => {
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  });
+
+  dom.optHardLimits.addEventListener('change', () => {
+    syncHardLimitsToggle(true);
+    if (dom.queryInput.value.trim()) runSearch();
+  });
+
+  dom.btnPool.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setPoolMenuOpen(dom.poolMenu.classList.contains('hidden'));
+  });
+  dom.poolChecks.forEach((chk) => {
+    chk.addEventListener('change', () => {
+      updatePoolLabel();
+      if (dom.queryInput.value.trim()) runSearch();
+    });
+  });
+  dom.btnPoolAll.addEventListener('click', () => {
+    dom.poolChecks.forEach((c) => { c.checked = false; });
+    dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+    updatePoolLabel();
+    if (dom.queryInput.value.trim()) runSearch();
+  });
+  dom.btnSourcesClear.addEventListener('click', () => {
+    dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+    updatePoolLabel();
+    if (dom.queryInput.value.trim()) runSearch();
+  });
+
+  dom.btnReset.addEventListener('click', () => {
+    dom.poolChecks.forEach((c) => { c.checked = false; });
+    dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+    updatePoolLabel();
+    dom.optGeo.value = '';
+    dom.optGrid.value = '';
+    dom.optLevel.value = '';
+    dom.optTopK.value = '20';
+    dom.optMinEndYear.value = '';
+    dom.optStrictEo.checked = false;
+    dom.optNullSafe.checked = true;
+    dom.optHardLimits.checked = false;
+    syncHardLimitsToggle();
+    dom.optCollapse.checked = true;
+    dom.optPure.checked = false;
+    dom.optRerankPool.value = '25';
+    dom.optMode.value = state.semanticReady ? 'hybrid' : 'bm25';
+    dom.toggleSemantic.checked = state.semanticReady;
+    if (dom.queryInput.value.trim()) runSearch();
+  });
+
+  dom.btnShareUrl.addEventListener('click', async () => {
+    syncUrlFromControls();
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      dom.btnShareLabel.textContent = 'Copied!';
+      setTimeout(() => { dom.btnShareLabel.textContent = 'Share URL'; }, 1400);
+    } catch {
+      dom.btnShareLabel.textContent = 'Copy failed';
+      setTimeout(() => { dom.btnShareLabel.textContent = 'Share URL'; }, 1400);
+    }
+  });
+
+  dom.btnDownload.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = dom.downloadMenu.classList.contains('hidden');
+    setDownloadMenuOpen(willOpen);
+    if (willOpen && dom.downloadOpts.length) dom.downloadOpts[0].focus();
+  });
+  dom.downloadOpts.forEach((btn, idx) => {
+    btn.addEventListener('click', () => handleExportFormat(btn.dataset.exportFmt));
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        dom.downloadOpts[(idx + 1) % dom.downloadOpts.length].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        dom.downloadOpts[(idx - 1 + dom.downloadOpts.length) % dom.downloadOpts.length].focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        setDownloadMenuOpen(false);
+        dom.btnDownload.focus();
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!dom.downloadWrap.contains(e.target)) setDownloadMenuOpen(false);
+    if (!dom.poolWrap.contains(e.target)) setPoolMenuOpen(false);
+  });
+
+  dom.drawerClose.addEventListener('click', closeDetailDrawer);
+  dom.drawerBackdrop.addEventListener('click', closeDetailDrawer);
+  dom.drawerPrev.addEventListener('click', () => {
+    if (state.activeIdx !== null && state.activeIdx > 0) openDetailForResult(state.activeIdx - 1);
+  });
+  dom.drawerNext.addEventListener('click', () => {
+    if (state.activeIdx !== null && state.activeIdx < state.results.length - 1) openDetailForResult(state.activeIdx + 1);
+  });
+
+  const openInfo = () => dom.infoModal.classList.remove('hidden');
+  const closeInfo = () => dom.infoModal.classList.add('hidden');
+  dom.btnInfo.addEventListener('click', openInfo);
+  dom.infoClose.addEventListener('click', closeInfo);
+  dom.infoOk.addEventListener('click', closeInfo);
+  dom.infoModal.addEventListener('click', (e) => { if (e.target === dom.infoModal) closeInfo(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (!dom.poolMenu.classList.contains('hidden')) setPoolMenuOpen(false);
+      else if (!dom.downloadMenu.classList.contains('hidden')) setDownloadMenuOpen(false);
+      else if (!dom.infoModal.classList.contains('hidden')) closeInfo();
+      else if (!dom.drawer.classList.contains('translate-x-full')) closeDetailDrawer();
+      return;
+    }
+    if (e.key === '/' && document.activeElement !== dom.queryInput && !['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+      e.preventDefault();
+      dom.queryInput.focus();
+      return;
+    }
+    if (!dom.drawer.classList.contains('translate-x-full') && state.activeIdx !== null) {
+      if (e.key === 'ArrowUp' && state.activeIdx > 0) {
+        e.preventDefault();
+        openDetailForResult(state.activeIdx - 1);
+      } else if (e.key === 'ArrowDown' && state.activeIdx < state.results.length - 1) {
+        e.preventDefault();
+        openDetailForResult(state.activeIdx + 1);
+      }
+    }
+  });
+}
+
+wireEvents();
+const baseDirUrl = new URL('./', window.location.href).href;
+worker.postMessage({ type: 'init', baseUrl: baseDirUrl });
