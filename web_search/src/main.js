@@ -24,8 +24,10 @@ const GEO_LABELS = {
   global: 'Global',
   quasi_global: 'Quasi-Global',
   hemispheric_or_pantropical: 'Hemispheric',
-  europe_regional: 'Europe',
+  europe_regional: 'Europe Regional',
+  europe: 'Europe (Global/BBox)',
   regional_or_local: 'Regional / Local',
+  exclude_local: 'Excl. Regional/Local',
 };
 
 const MODE_LABELS = {
@@ -50,6 +52,8 @@ const state = {
   searching: false,
   reranking: false,
   exporting: false,
+  moreOpen: false,
+  latestSearchSeq: 0,
   lastPayload: null,
   results: [],
   activeIdx: null,
@@ -66,6 +70,13 @@ const dom = {
   loadProgressWrap: document.getElementById('load-progress-wrap'),
   loadProgressBar: document.getElementById('load-progress-bar'),
   errorBanner: document.getElementById('error-banner'),
+
+  pipeStage1: document.getElementById('pipe-stage-1'),
+  pipeDot2: document.getElementById('pipe-dot-2'),
+  pipeLabel2: document.getElementById('pipe-label-2'),
+  pipeStage3: document.getElementById('pipe-stage-3'),
+  pipeDot3: document.getElementById('pipe-dot-3'),
+  pipeLabel3: document.getElementById('pipe-label-3'),
 
   toggleSemantic: document.getElementById('toggle-semantic'),
   semanticPill: document.getElementById('semantic-pill'),
@@ -97,6 +108,9 @@ const dom = {
   btnSearchLabel: document.getElementById('btn-search-label'),
 
   optMode: document.getElementById('opt-mode'),
+  optTopK: document.getElementById('opt-topk'),
+
+  // Exact docs/index.html filter controls
   poolWrap: document.getElementById('pool-wrap'),
   btnPool: document.getElementById('btn-pool'),
   poolLabel: document.getElementById('pool-label'),
@@ -105,16 +119,35 @@ const dom = {
   btnSourcesClear: document.getElementById('btn-sources-clear'),
   poolChecks: Array.from(document.querySelectorAll('.pool-chk')),
   sourceOptions: document.getElementById('source-options'),
-  optGeo: document.getElementById('opt-geo'),
-  optGrid: document.getElementById('opt-grid'),
-  optLevel: document.getElementById('opt-level'),
-  optTopK: document.getElementById('opt-topk'),
-  optStrictEo: document.getElementById('opt-strict-eo'),
+
+  level: document.getElementById('filter-level'),
+  sentinel: document.getElementById('filter-sentinel'),
+  geo: document.getElementById('filter-geo'),
+  strictEo: document.getElementById('filter-strict-eo'),
+  hasDoi: document.getElementById('filter-has-doi'),
+
+  btnToggleMore: document.getElementById('btn-toggle-more'),
+  morePanel: document.getElementById('more-filters-panel'),
+  moreBadge: document.getElementById('more-filters-badge'),
+
+  source: document.getElementById('filter-source'),
+  tier: document.getElementById('filter-tier'),
+  category: document.getElementById('filter-category'),
+  cadence: document.getElementById('filter-cadence'),
+  maturity: document.getElementById('filter-maturity'),
+  ontology: document.getElementById('filter-ontology'),
+  grid: document.getElementById('filter-grid'),
+  year: document.getElementById('filter-year'),
+  minEndYear: document.getElementById('filter-min-end-year'),
+  hasUrl: document.getElementById('filter-has-url'),
+  exclDeprecated: document.getElementById('filter-exclude-deprecated'),
+
   optNullSafe: document.getElementById('opt-null-safe'),
   optHardLimits: document.getElementById('opt-hard-limits'),
   optCollapse: document.getElementById('opt-collapse'),
-  optMinEndYear: document.getElementById('opt-min-end-year'),
   btnReset: document.getElementById('btn-reset'),
+  activeChipsRow: document.getElementById('active-chips-row'),
+  activeChips: document.getElementById('active-chips'),
   exampleBtns: Array.from(document.querySelectorAll('.example-btn')),
 
   resultsSummary: document.getElementById('results-summary'),
@@ -164,6 +197,20 @@ function safeHref(url) {
   return null;
 }
 
+function formatEnumLabel(val) {
+  if (!val) return '';
+  return String(val)
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .replace(/\bEo\b/g, 'EO')
+    .replace(/\bEu\b/g, 'EU')
+    .replace(/\bEu27\b/g, 'EU-27')
+    .replace(/\bIgo\b/g, 'IGO')
+    .replace(/\bUn\b/g, 'UN')
+    .replace(/\bArd\b/g, 'ARD')
+    .replace(/\bEsa\b/g, 'ESA');
+}
+
 function badge(text, cls = 'bg-slate-100 text-slate-700 ring-slate-500/20') {
   return `<span class="inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium ring-1 ring-inset ${cls}">${esc(text)}</span>`;
 }
@@ -200,10 +247,40 @@ function setActivityBusy(isBusy, label = 'Searching…') {
   }
 }
 
+function updatePipelineStrip() {
+  const mode = dom.optMode.value;
+  if (mode === 'hybrid') {
+    dom.pipeLabel2.textContent = state.semanticReady
+      ? `2. Hybrid RRF 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`
+      : '2. Hybrid RRF 512-d (Loading…)';
+    dom.pipeDot2.className = `h-1.5 w-1.5 rounded-full ${state.semanticReady ? 'bg-emerald-400' : 'bg-cyan-400 animate-pulse'}`;
+  } else if (mode === 'dense') {
+    dom.pipeLabel2.textContent = state.semanticReady
+      ? `2. Dense 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`
+      : '2. Dense 512-d (Loading…)';
+    dom.pipeDot2.className = `h-1.5 w-1.5 rounded-full ${state.semanticReady ? 'bg-emerald-400' : 'bg-cyan-400 animate-pulse'}`;
+  } else {
+    dom.pipeLabel2.textContent = '2. EO BM25 (Instant)';
+    dom.pipeDot2.className = 'h-1.5 w-1.5 rounded-full bg-indigo-400';
+  }
+
+  if (dom.toggleReranker.checked) {
+    dom.pipeStage3.className = 'inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-2.5 py-0.5 font-medium text-amber-100 ring-1 ring-inset ring-amber-300/30';
+    dom.pipeDot3.className = `h-1.5 w-1.5 rounded-full ${state.rerankerReady ? 'bg-amber-400' : 'bg-amber-300 animate-pulse'}`;
+    dom.pipeLabel3.textContent = state.rerankerReady
+      ? `3. Qwen3-0.6B Top-${dom.optRerankPool.value} (${(state.rerankerDevice || 'wasm').toUpperCase()})`
+      : '3. Qwen3-0.6B (Loading…)';
+  } else {
+    dom.pipeStage3.className = 'inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-0.5 font-medium text-slate-300 ring-1 ring-inset ring-white/10';
+    dom.pipeDot3.className = 'h-1.5 w-1.5 rounded-full bg-slate-500';
+    dom.pipeLabel3.textContent = '3. Qwen3-0.6B Rerank (Off)';
+  }
+}
+
 function updateHeaderBadge() {
   if (!state.manifest) return;
-  const nActive = Number(state.manifest.active_docs || 0).toLocaleString();
-  const parts = [`${nActive} active`];
+  const nTotal = Number(state.manifest.n_docs || 0).toLocaleString();
+  const parts = [`${nTotal} canonical`];
   if (state.semanticReady) {
     parts.push(`Hybrid 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`);
   } else {
@@ -216,6 +293,7 @@ function updateHeaderBadge() {
   dom.statusBadge.className = state.semanticReady
     ? 'inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-800 ring-1 ring-inset ring-emerald-600/20 tabular-nums'
     : 'inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-800 ring-1 ring-inset ring-indigo-600/20 tabular-nums';
+  updatePipelineStrip();
 }
 
 function formatSpan(r) {
@@ -225,18 +303,50 @@ function formatSpan(r) {
   return '—';
 }
 
+function sortByNumericPrefix(a, b) {
+  const na = Number.parseInt(String(a).match(/^(\d+)/)?.[1] ?? '9999', 10);
+  const nb = Number.parseInt(String(b).match(/^(\d+)/)?.[1] ?? '9999', 10);
+  return na !== nb ? na - nb : String(a).localeCompare(String(b));
+}
+
+function populateSelectOptions(selectEl, values, formatter = formatEnumLabel, addNullOption = false) {
+  const frag = document.createDocumentFragment();
+  values.forEach((v) => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = formatter(v);
+    frag.appendChild(opt);
+  });
+  if (addNullOption) {
+    const opt = document.createElement('option');
+    opt.value = '__NULL__';
+    opt.textContent = 'Unlabelled (null)';
+    frag.appendChild(opt);
+  }
+  selectEl.appendChild(frag);
+}
+
 function getSelectedPools() {
   return dom.poolChecks.filter((c) => c.checked).map((c) => c.value);
 }
 
 function getSelectedSources() {
-  if (!dom.sourceOptions) return [];
-  return Array.from(dom.sourceOptions.querySelectorAll('.source-chk:checked')).map((c) => c.value);
+  const checked = Array.from(dom.sourceOptions.querySelectorAll('.source-chk:checked')).map((c) => c.value);
+  if (dom.source.value && !checked.includes(dom.source.value)) {
+    checked.push(dom.source.value);
+  }
+  return checked;
 }
 
 function setPoolMenuOpen(open) {
   dom.poolMenu.classList.toggle('hidden', !open);
   dom.btnPool.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function setMorePanelOpen(open) {
+  state.moreOpen = Boolean(open);
+  dom.morePanel.classList.toggle('hidden', !state.moreOpen);
+  dom.btnToggleMore.setAttribute('aria-expanded', String(state.moreOpen));
 }
 
 function updatePoolLabel() {
@@ -253,11 +363,7 @@ function updatePoolLabel() {
 }
 
 function renderSourceOptions(sourceCounts) {
-  const entries = Object.entries(sourceCounts || {}).sort(([a], [b]) => {
-    const na = Number.parseInt(String(a).match(/^(\d+)/)?.[1] ?? '9999', 10);
-    const nb = Number.parseInt(String(b).match(/^(\d+)/)?.[1] ?? '9999', 10);
-    return na !== nb ? na - nb : String(a).localeCompare(String(b));
-  });
+  const entries = Object.entries(sourceCounts || {}).sort(([a], [b]) => sortByNumericPrefix(a, b));
   dom.sourceOptions.innerHTML = entries
     .map(
       ([src, cnt]) => `
@@ -272,7 +378,11 @@ function renderSourceOptions(sourceCounts) {
     .join('');
   dom.sourceOptions.querySelectorAll('.source-chk').forEach((chk) => {
     chk.addEventListener('change', () => {
+      if (dom.source.value && !chk.checked && dom.source.value === chk.value) {
+        dom.source.value = '';
+      }
       updatePoolLabel();
+      updateBadgesAndChips();
       if (dom.queryInput.value.trim()) runSearch();
     });
   });
@@ -290,14 +400,24 @@ function syncHardLimitsToggle(fromUserToggle = false) {
   dom.optNullSafe.parentElement?.classList.toggle('opacity-50', hard);
 }
 
+function parseOptionalInt(raw, min, max) {
+  const s = String(raw || '').trim();
+  if (!s) return null;
+  const n = Number.parseInt(s, 10);
+  if (!Number.isFinite(n) || n < min || n > max) return null;
+  return n;
+}
+
 function buildSearchPayload() {
-  const geoVal = dom.optGeo.value;
-  const levelVal = dom.optLevel.value;
-  const gridVal = dom.optGrid.value;
-  const minEndVal = dom.optMinEndYear.value.trim();
+  const geoVal = dom.geo.value;
+  const levelVal = dom.level.value;
   const pools = getSelectedPools();
   const sources = getSelectedSources();
   const activePools = pools.length > 0 && pools.length < dom.poolChecks.length ? pools : null;
+  const levels = levelVal
+    ? (levelVal.includes(',') ? levelVal.split(',').map((s) => s.trim()) : [levelVal])
+    : null;
+
   return {
     query: dom.queryInput.value.trim(),
     mode: dom.optMode.value,
@@ -306,17 +426,115 @@ function buildSearchPayload() {
     rerank_pure: dom.optPure.checked,
     pools: activePools,
     sources: sources.length ? sources : null,
+    levels,
+    sentinel: dom.sentinel.value || null,
     geo: geoVal && geoVal !== 'exclude_local' ? geoVal : null,
     exclude_local: geoVal === 'exclude_local',
-    max_grid_m: gridVal ? Number(gridVal) : null,
-    min_end_year: minEndVal ? Number(minEndVal) : null,
-    eo_scope: dom.optStrictEo.checked ? 'strict_eo' : 'all',
-    levels: levelVal ? levelVal.split(',') : null,
+    strict_eo: dom.strictEo.checked,
+    has_doi: dom.hasDoi.checked,
+    tier: dom.tier.value || null,
+    category: dom.category.value || null,
+    cadence: dom.cadence.value || null,
+    maturity: dom.maturity.value || null,
+    ontology: dom.ontology.value || null,
+    grid_rule: dom.grid.value || null,
+    covers_year: parseOptionalInt(dom.year.value, 1950, 2035),
+    min_end_year: parseOptionalInt(dom.minEndYear.value, 1970, 2040),
+    has_url: dom.hasUrl.checked,
+    exclude_superseded: dom.exclDeprecated.checked,
     null_safe: dom.optHardLimits.checked ? false : dom.optNullSafe.checked,
     hard_limits: dom.optHardLimits.checked,
     collapse: dom.optCollapse.checked,
     top_k: Number(dom.optTopK.value || 20),
   };
+}
+
+function updateBadgesAndChips() {
+  const p = buildSearchPayload();
+  const advCount = [
+    dom.source.value,
+    p.tier,
+    p.category,
+    p.cadence,
+    p.maturity,
+    p.ontology,
+    p.grid_rule,
+    p.covers_year !== null,
+    p.min_end_year !== null,
+    p.has_url,
+    p.exclude_superseded,
+  ].filter(Boolean).length;
+  dom.moreBadge.textContent = String(advCount);
+  dom.moreBadge.classList.toggle('hidden', advCount === 0);
+
+  const chips = [];
+  const addChip = (label, valText, clearFn) => chips.push({ label, valText, clearFn });
+
+  if (p.pools) {
+    addChip(
+      'Pool',
+      p.pools.map((x) => POOL_META[x]?.label || x).join(', '),
+      () => {
+        dom.poolChecks.forEach((c) => { c.checked = false; });
+        updatePoolLabel();
+      },
+    );
+  }
+  if (p.sources) {
+    addChip(
+      'Source',
+      p.sources.length === 1 ? p.sources[0] : `${p.sources.length} sources`,
+      () => {
+        dom.source.value = '';
+        dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
+        updatePoolLabel();
+      },
+    );
+  }
+  if (dom.level.value) {
+    addChip('Level', dom.level.value === '__NULL__' ? 'Null' : dom.level.value, () => { dom.level.value = ''; });
+  }
+  if (p.sentinel) addChip('Sentinel', p.sentinel, () => { dom.sentinel.value = ''; });
+  if (dom.geo.value) {
+    addChip('Geo', dom.geo.value === '__NULL__' ? 'Null' : (GEO_LABELS[dom.geo.value] || dom.geo.value), () => { dom.geo.value = ''; });
+  }
+  if (p.strict_eo) addChip('Scope', 'Strict EO', () => { dom.strictEo.checked = false; });
+  if (p.has_doi) addChip('DOI', 'Has DOI', () => { dom.hasDoi.checked = false; });
+  if (p.tier) addChip('Tier', formatEnumLabel(p.tier), () => { dom.tier.value = ''; });
+  if (p.category) addChip('Domain', formatEnumLabel(p.category), () => { dom.category.value = ''; });
+  if (p.cadence) addChip('Cadence', p.cadence === '__NULL__' ? 'Null' : formatEnumLabel(p.cadence), () => { dom.cadence.value = ''; });
+  if (p.maturity) addChip('Maturity', MATURITY_META[p.maturity]?.label || p.maturity, () => { dom.maturity.value = ''; });
+  if (p.ontology) addChip('Ontology', formatEnumLabel(p.ontology), () => { dom.ontology.value = ''; });
+  if (p.grid_rule) addChip('Grid', dom.grid.selectedOptions[0]?.textContent || p.grid_rule, () => { dom.grid.value = ''; });
+  if (p.covers_year !== null) addChip('Year', String(p.covers_year), () => { dom.year.value = ''; });
+  if (p.min_end_year !== null) addChip('Min End', `>= ${p.min_end_year}`, () => { dom.minEndYear.value = ''; });
+  if (p.has_url) addChip('URL', 'Has Access URL', () => { dom.hasUrl.checked = false; });
+  if (p.exclude_superseded) addChip('Filter', 'Hide Superseded (622)', () => { dom.exclDeprecated.checked = false; });
+  if (p.hard_limits) {
+    addChip('Mode', 'Hard Limits Verified', () => {
+      dom.optHardLimits.checked = false;
+      syncHardLimitsToggle(true);
+    });
+  }
+
+  dom.activeChips.innerHTML = '';
+  if (chips.length > 0) {
+    dom.activeChipsRow.classList.remove('hidden');
+    chips.forEach((ch) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 hover:bg-indigo-100 transition';
+      btn.innerHTML = `<span class="text-indigo-500">${esc(ch.label)}:</span><span>${esc(ch.valText)}</span><span aria-hidden="true" class="ml-0.5 text-indigo-400 font-bold">&times;</span>`;
+      btn.addEventListener('click', () => {
+        ch.clearFn();
+        updateBadgesAndChips();
+        if (dom.queryInput.value.trim()) runSearch();
+      });
+      dom.activeChips.appendChild(btn);
+    });
+  } else {
+    dom.activeChipsRow.classList.add('hidden');
+  }
 }
 
 function syncUrlFromControls() {
@@ -327,21 +545,44 @@ function syncUrlFromControls() {
   if (dom.toggleReranker.checked) params.set('rerank', '1');
   if (dom.optRerankPool.value !== '25') params.set('rpool', dom.optRerankPool.value);
   if (dom.optPure.checked) params.set('pure', '1');
+
   const pools = getSelectedPools();
   if (pools.length > 0 && pools.length < dom.poolChecks.length) params.set('pools', pools.join(','));
   const sources = getSelectedSources();
   if (sources.length > 0) params.set('sources', sources.join(','));
-  if (dom.optGeo.value) params.set('geo', dom.optGeo.value);
-  if (dom.optGrid.value) params.set('grid', dom.optGrid.value);
-  if (dom.optLevel.value) params.set('level', dom.optLevel.value);
+
+  if (dom.level.value) params.set('level', dom.level.value);
+  if (dom.sentinel.value) params.set('sentinel', dom.sentinel.value);
+  if (dom.geo.value) params.set('geo', dom.geo.value);
+  if (dom.strictEo.checked) params.set('strict', '1');
+  if (dom.hasDoi.checked) params.set('doi', '1');
+  if (dom.tier.value) params.set('tier', dom.tier.value);
+  if (dom.category.value) params.set('cat', dom.category.value);
+  if (dom.cadence.value) params.set('cad', dom.cadence.value);
+  if (dom.maturity.value) params.set('mat', dom.maturity.value);
+  if (dom.ontology.value) params.set('ont', dom.ontology.value);
+  if (dom.grid.value) params.set('grid', dom.grid.value);
+  if (dom.year.value.trim()) params.set('year', dom.year.value.trim());
+  if (dom.minEndYear.value.trim()) params.set('min_end', dom.minEndYear.value.trim());
+  if (dom.hasUrl.checked) params.set('url', '1');
+  if (dom.exclDeprecated.checked) params.set('no_dep', '1');
   if (dom.optTopK.value !== '20') params.set('k', dom.optTopK.value);
-  if (dom.optMinEndYear.value.trim()) params.set('min_end', dom.optMinEndYear.value.trim());
-  if (dom.optStrictEo.checked) params.set('strict_eo', '1');
   if (dom.optHardLimits.checked) params.set('hard', '1');
   else if (!dom.optNullSafe.checked) params.set('null_safe', '0');
   if (!dom.optCollapse.checked) params.set('collapse', '0');
+  if (state.moreOpen) params.set('adv', '1');
+
   const qs = params.toString();
   window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+}
+
+function setValidSelect(selectEl, val) {
+  if (!val) {
+    selectEl.value = '';
+    return;
+  }
+  const ok = Array.from(selectEl.options).some((o) => o.value === val);
+  if (ok) selectEl.value = val;
 }
 
 function applyUrlToControls() {
@@ -368,24 +609,53 @@ function applyUrlToControls() {
     const wanted = new Set(rawPools.split(',').map((s) => s.trim()).filter(Boolean));
     dom.poolChecks.forEach((c) => { c.checked = wanted.has(c.value); });
   }
-  const rawSources = params.get('sources') || '';
+  const rawSources = params.get('sources') || params.get('source') || '';
   if (rawSources) {
     const wantedSrc = new Set(rawSources.split(',').map((s) => s.trim()).filter(Boolean));
     dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = wantedSrc.has(c.value); });
+    if (wantedSrc.size === 1) setValidSelect(dom.source, Array.from(wantedSrc)[0]);
   }
   updatePoolLabel();
 
-  if (params.has('geo')) dom.optGeo.value = params.get('geo') || '';
-  if (params.has('grid')) dom.optGrid.value = params.get('grid') || '';
-  if (params.has('level')) dom.optLevel.value = params.get('level') || '';
-  if (params.has('k')) dom.optTopK.value = params.get('k') || '20';
-  if (params.has('min_end')) dom.optMinEndYear.value = params.get('min_end') || '';
-  if (params.get('strict_eo') === '1') dom.optStrictEo.checked = true;
+  setValidSelect(dom.level, params.get('level') || '');
+  setValidSelect(dom.sentinel, params.get('sentinel') || '');
+  setValidSelect(dom.geo, params.get('geo') || '');
+  dom.strictEo.checked = params.get('strict') === '1' || params.get('strict_eo') === '1';
+  dom.hasDoi.checked = params.get('doi') === '1';
+
+  setValidSelect(dom.tier, params.get('tier') || '');
+  setValidSelect(dom.category, params.get('cat') || '');
+  setValidSelect(dom.cadence, params.get('cad') || '');
+  setValidSelect(dom.maturity, params.get('mat') || '');
+  setValidSelect(dom.ontology, params.get('ont') || '');
+
+  const rawGrid = params.get('grid') || '';
+  if (rawGrid) {
+    const normalizedGrid = /^\d+$/.test(rawGrid) ? `le${rawGrid}` : rawGrid;
+    setValidSelect(dom.grid, normalizedGrid);
+  }
+  const yr = parseOptionalInt(params.get('year'), 1950, 2035);
+  if (yr !== null) dom.year.value = String(yr);
+  const mey = parseOptionalInt(params.get('min_end'), 1970, 2040);
+  if (mey !== null) dom.minEndYear.value = String(mey);
+
+  dom.hasUrl.checked = params.get('url') === '1';
+  dom.exclDeprecated.checked = params.get('no_dep') === '1';
+  setValidSelect(dom.optTopK, params.get('k') || '20');
   if (params.get('hard') === '1') dom.optHardLimits.checked = true;
-  if (params.get('null_safe') === '0') dom.optNullSafe.checked = false;
-  syncHardLimitsToggle();
+  if (params.get('null_safe') === '0') {
+    dom.optNullSafe.checked = false;
+    state.prevNullSafe = false;
+  }
+  syncHardLimitsToggle(false);
   if (params.get('collapse') === '0') dom.optCollapse.checked = false;
+
+  const hasAdv = params.get('adv') === '1' || ['source', 'tier', 'cat', 'cad', 'mat', 'ont', 'grid', 'year', 'min_end', 'url', 'no_dep'].some((k) => params.has(k));
+  setMorePanelOpen(hasAdv);
+
   dom.btnClearQuery.classList.toggle('hidden', !dom.queryInput.value);
+  updateBadgesAndChips();
+  updatePipelineStrip();
 }
 
 function triggerEnableSemantic() {
@@ -394,8 +664,9 @@ function triggerEnableSemantic() {
   dom.toggleSemantic.checked = true;
   dom.semanticPill.textContent = 'Downloading…';
   dom.semanticPill.className =
-    'inline-flex items-center rounded-full bg-indigo-50 px-2 py-0.5 text-[10px] font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20';
+    'inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-0.5 text-[10px] font-medium text-cyan-200 ring-1 ring-inset ring-cyan-300/30';
   dom.semanticProgressWrap.classList.remove('hidden');
+  updatePipelineStrip();
   worker.postMessage({ type: 'enableSemantic' });
 }
 
@@ -404,14 +675,17 @@ function triggerEnableReranker() {
   state.rerankerLoading = true;
   dom.rerankerPill.textContent = 'Downloading…';
   dom.rerankerPill.className =
-    'inline-flex items-center rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-800 ring-1 ring-inset ring-amber-600/20';
+    'inline-flex items-center rounded-full bg-amber-400/20 px-2 py-0.5 text-[10px] font-medium text-amber-200 ring-1 ring-inset ring-amber-300/30';
   dom.rerankerProgressWrap.classList.remove('hidden');
+  updatePipelineStrip();
   worker.postMessage({ type: 'enableReranker' });
 }
 
 function runSearch() {
   if (!state.ready) return;
   const payload = buildSearchPayload();
+  updateBadgesAndChips();
+  updatePipelineStrip();
   if (!payload.query) {
     dom.queryInput.focus();
     return;
@@ -427,10 +701,7 @@ function runSearch() {
   }
 
   dom.rerankLiveBanner.classList.add('hidden');
-  const busyLabel =
-    (payload.mode !== 'bm25' && !state.semanticReady)
-      ? 'Loading model…'
-      : 'Searching…';
+  const busyLabel = payload.mode !== 'bm25' && !state.semanticReady ? 'Loading model…' : 'Searching…';
   setActivityBusy(true, busyLabel);
   worker.postMessage({ type: 'search', payload });
 }
@@ -450,7 +721,12 @@ function renderResults(data) {
   } else if (!data.null_safe_filter) {
     hardNote = ' · Strict NULL-dropping active';
   }
-  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} eligible active products (${modeName}${colNote}${hardNote})`;
+  const supLabel = data.exclude_superseded ? 'active canonical' : 'canonical';
+  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} eligible ${supLabel} products (${modeName}${colNote}${hardNote})`;
+
+  if (dom.pipeStage1) {
+    dom.pipeStage1.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>1. Facets (${data.eligible_after_filter.toLocaleString()} / ${Number(data.total_canonical || 39472).toLocaleString()})`;
+  }
 
   const timingParts = [`Stage 1: ${Number(data.stage1_ms || 0).toFixed(0)} ms`];
   if (data.rerank_ms > 0) timingParts.push(`Qwen3 rerank: ${(data.rerank_ms / 1000).toFixed(1)} s`);
@@ -461,11 +737,13 @@ function renderResults(data) {
     dom.resultsBody.innerHTML = `
       <tr>
         <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
-          No matching active products found under the current filters. Try relaxing filters or enabling null-safe mode.
+          No matching products found under the current query and filters. Try broadening terms, enabling Semantic Hybrid, or relaxing filters.
         </td>
       </tr>`;
     return;
   }
+
+  const maxScore = Math.max(...rows.map((r) => (typeof r.score === 'number' && r.score > 0 ? r.score : 0)), 1e-9);
 
   dom.resultsBody.innerHTML = rows
     .map((r, idx) => {
@@ -487,6 +765,8 @@ function renderResults(data) {
         }
       }
 
+      const relPct = Math.max(8, Math.min(100, Math.round(((r.score > 0 ? r.score : 0) / maxScore) * 100)));
+
       const sentinelCell = r.uses_sentinel
         ? `<div class="font-medium text-emerald-700">${esc(r.sentinel_missions || 'Sentinel')}</div>`
         : '<span class="text-slate-400">—</span>';
@@ -499,6 +779,9 @@ function renderResults(data) {
         <tr data-idx="${idx}" class="result-row hover:bg-indigo-50/40 cursor-pointer transition-colors">
           <td class="py-3 pl-4 pr-2 align-top whitespace-nowrap">
             <div class="text-sm font-semibold text-slate-900 tabular-nums">#${r.rank}</div>
+            <div class="mt-1 h-1 w-10 rounded-full bg-slate-100 overflow-hidden" title="Relative score ${esc(r.score)}">
+              <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500" style="width: ${relPct}%;"></div>
+            </div>
             ${rankShift}
           </td>
           <td class="px-3 py-3 align-top">
@@ -523,7 +806,7 @@ function renderResults(data) {
           <td class="px-3 py-3 align-top whitespace-nowrap">${sentinelCell}</td>
           <td class="px-3 py-3 align-top whitespace-nowrap">
             <div class="font-medium text-slate-800 tabular-nums">${r.grid ? esc(r.grid) : '<span class="text-slate-400 italic font-normal">null</span>'}</div>
-            <div class="text-[11px] text-slate-500">${esc(r.cadence || '—')}</div>
+            <div class="text-[11px] text-slate-500">${esc(r.cadence ? formatEnumLabel(r.cadence) : '—')}</div>
           </td>
           <td class="px-3 py-3 align-top whitespace-nowrap">
             <div class="text-slate-800">${esc(geoLabel)}</div>
@@ -634,6 +917,9 @@ function mountBboxMap(bbox, crossesAntimeridian) {
         map.jumpTo({ center: [0, 14], zoom: 0.45 });
       }
       map.resize();
+    });
+    map.on('error', () => {
+      // Non-fatal tile/network error; keep container intact
     });
     state.mapResizeTimer = setTimeout(() => {
       if (state.map === map) map.resize();
@@ -867,6 +1153,22 @@ async function handleExportFormat(fmt) {
   }
 }
 
+// Worker crash / deserialization hardening
+worker.addEventListener('error', (ev) => {
+  state.searching = false;
+  state.reranking = false;
+  state.semanticLoading = false;
+  state.rerankerLoading = false;
+  dom.rerankLiveBanner.classList.add('hidden');
+  setActivityBusy(false);
+  showError(`Search worker failed: ${ev.message || 'unexpected runtime error'}. Reload the page to reinitialize.`);
+});
+
+worker.addEventListener('messageerror', () => {
+  setActivityBusy(false);
+  showError('Search worker message deserialization error.');
+});
+
 // Worker message router
 worker.addEventListener('message', (ev) => {
   const msg = ev.data || {};
@@ -880,10 +1182,20 @@ worker.addEventListener('message', (ev) => {
 
     dom.toggleSemantic.disabled = false;
     dom.toggleReranker.disabled = false;
-    dom.devicePill.textContent = state.webgpuAvailable ? 'WebGPU' : 'WASM CPU';
+    dom.devicePill.textContent = state.webgpuAvailable ? 'WebGPU Ready' : 'WASM CPU';
     dom.devicePill.classList.remove('hidden');
     if (!state.webgpuAvailable) {
       dom.rerankerWebgpuNote.classList.remove('hidden');
+    }
+
+    if (msg.enums) {
+      const sortedSources = [...(msg.enums.source_catalogue || [])].sort(sortByNumericPrefix);
+      populateSelectOptions(dom.source, sortedSources, (v) => v, false);
+      populateSelectOptions(dom.tier, msg.enums.provider_jurisdiction_tier || [], formatEnumLabel, false);
+      populateSelectOptions(dom.category, msg.enums.product_output_category || [], formatEnumLabel, false);
+      populateSelectOptions(dom.cadence, msg.enums.temporal_cadence_class || [], formatEnumLabel, true);
+      populateSelectOptions(dom.maturity, msg.enums.operational_maturity_class || [], (v) => MATURITY_META[v]?.label || formatEnumLabel(v), false);
+      populateSelectOptions(dom.ontology, msg.enums.product_ontology_class || [], formatEnumLabel, false);
     }
 
     if (msg.manifest.pool_counts) {
@@ -898,11 +1210,12 @@ worker.addEventListener('message', (ev) => {
 
     updateHeaderBadge();
     setActivityBusy(false);
-    dom.resultsSummary.textContent = `Ready — enter a query or pick an example above to search ${Number(msg.manifest.active_docs).toLocaleString()} active L3/L4 products.`;
+    const totalStr = Number(msg.manifest.n_docs).toLocaleString();
+    dom.resultsSummary.textContent = `Ready — enter a query or pick an example above to search all ${totalStr} canonical L3/L4 products.`;
     dom.resultsBody.innerHTML = `
       <tr>
         <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
-          EO BM25 index ready (${(msg.manifest.bm25_gz_bytes / 1e6).toFixed(1)} MB). Toggle <strong>Semantic Hybrid</strong> above to load 512-d EmbeddingGemma 2 in-browser.
+          EO BM25 index ready across all ${totalStr} canonical products (${(msg.manifest.bm25_gz_bytes / 1e6).toFixed(1)} MB). Enable <strong>Semantic Hybrid</strong> above to load 512-d EmbeddingGemma 2 in-browser.
         </td>
       </tr>`;
 
@@ -929,7 +1242,7 @@ worker.addEventListener('message', (ev) => {
     dom.toggleSemantic.checked = true;
     dom.semanticPill.textContent = `Ready · ${String(msg.device).toUpperCase()}`;
     dom.semanticPill.className =
-      'inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20';
+      'inline-flex items-center rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-300/30';
     dom.semanticProgressWrap.classList.add('hidden');
     if (dom.optMode.value === 'bm25') {
       dom.optMode.value = 'hybrid';
@@ -944,18 +1257,22 @@ worker.addEventListener('message', (ev) => {
     state.rerankerDevice = msg.device;
     dom.rerankerPill.textContent = `Ready · ${String(msg.device).toUpperCase()}`;
     dom.rerankerPill.className =
-      'inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20';
+      'inline-flex items-center rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-300/30';
     dom.rerankerProgressWrap.classList.add('hidden');
     updateHeaderBadge();
   } else if (msg.type === 'rerankProgress') {
+    if (msg.searchSeq < state.latestSearchSeq) return;
     state.reranking = true;
     dom.rerankLiveBanner.classList.remove('hidden');
     dom.rerankLiveText.textContent = `Reranking candidate ${msg.done} / ${msg.total} with Qwen3-Reranker-0.6B (~${msg.etaSec}s left)…`;
   } else if (msg.type === 'rerankAborted') {
+    if (msg.searchSeq < state.latestSearchSeq) return;
     state.reranking = false;
     dom.rerankLiveBanner.classList.add('hidden');
     setActivityBusy(false);
   } else if (msg.type === 'searchResult') {
+    if (msg.searchSeq < state.latestSearchSeq) return;
+    state.latestSearchSeq = msg.searchSeq;
     state.lastPayload = msg;
     state.results = msg.results || [];
     renderResults(msg);
@@ -1005,6 +1322,7 @@ worker.addEventListener('message', (ev) => {
     state.reranking = false;
     dom.rerankLiveBanner.classList.add('hidden');
     setActivityBusy(false);
+    updatePipelineStrip();
     showError(`Browser engine error (${msg.source || 'worker'}): ${msg.message}`);
   }
 });
@@ -1034,6 +1352,7 @@ function wireEvents() {
       dom.optMode.value = 'bm25';
       if (dom.queryInput.value.trim()) runSearch();
     }
+    updatePipelineStrip();
   });
 
   dom.optMode.addEventListener('change', () => {
@@ -1043,6 +1362,7 @@ function wireEvents() {
     } else {
       dom.toggleSemantic.checked = false;
     }
+    updatePipelineStrip();
     if (dom.queryInput.value.trim()) runSearch();
   });
 
@@ -1054,6 +1374,8 @@ function wireEvents() {
         triggerEnableReranker();
       } else {
         dom.rerankerPill.textContent = `Ready · ${(state.rerankerDevice || 'wasm').toUpperCase()}`;
+        dom.rerankerPill.className =
+          'inline-flex items-center rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-300/30';
       }
       if (dom.queryInput.value.trim()) runSearch();
     } else {
@@ -1061,7 +1383,7 @@ function wireEvents() {
       dom.rerankLiveBanner.classList.add('hidden');
       dom.rerankerPill.textContent = state.rerankerReady ? 'Cached (Off)' : 'Off';
       dom.rerankerPill.className =
-        'inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600 ring-1 ring-inset ring-slate-200';
+        'inline-flex items-center rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-indigo-100 ring-1 ring-inset ring-white/15';
       if (dom.queryInput.value.trim()) runSearch();
     }
     updateHeaderBadge();
@@ -1073,35 +1395,63 @@ function wireEvents() {
     setActivityBusy(false);
   });
 
+  dom.btnToggleMore.addEventListener('click', () => {
+    setMorePanelOpen(!state.moreOpen);
+    syncUrlFromControls();
+  });
+
   dom.exampleBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       dom.queryInput.value = btn.dataset.q || '';
-      dom.optGeo.value = btn.dataset.geo || '';
-      dom.optGrid.value = btn.dataset.grid || '';
+      setValidSelect(dom.geo, btn.dataset.geo || '');
+      setValidSelect(dom.grid, btn.dataset.grid || '');
       dom.btnClearQuery.classList.remove('hidden');
       runSearch();
     });
   });
 
+  dom.source.addEventListener('change', () => {
+    const val = dom.source.value;
+    dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => {
+      c.checked = val !== '' && c.value === val;
+    });
+    updatePoolLabel();
+    updateBadgesAndChips();
+    if (dom.queryInput.value.trim()) runSearch();
+  });
+
   [
-    dom.optGeo,
-    dom.optGrid,
-    dom.optLevel,
+    dom.level,
+    dom.sentinel,
+    dom.geo,
+    dom.strictEo,
+    dom.hasDoi,
+    dom.tier,
+    dom.category,
+    dom.cadence,
+    dom.maturity,
+    dom.ontology,
+    dom.grid,
+    dom.year,
+    dom.minEndYear,
+    dom.hasUrl,
+    dom.exclDeprecated,
     dom.optTopK,
-    dom.optStrictEo,
     dom.optNullSafe,
     dom.optCollapse,
-    dom.optMinEndYear,
     dom.optRerankPool,
     dom.optPure,
   ].forEach((el) => {
     el.addEventListener('change', () => {
+      updateBadgesAndChips();
+      updatePipelineStrip();
       if (dom.queryInput.value.trim()) runSearch();
     });
   });
 
   dom.optHardLimits.addEventListener('change', () => {
     syncHardLimitsToggle(true);
+    updateBadgesAndChips();
     if (dom.queryInput.value.trim()) runSearch();
   });
 
@@ -1112,39 +1462,58 @@ function wireEvents() {
   dom.poolChecks.forEach((chk) => {
     chk.addEventListener('change', () => {
       updatePoolLabel();
+      updateBadgesAndChips();
       if (dom.queryInput.value.trim()) runSearch();
     });
   });
   dom.btnPoolAll.addEventListener('click', () => {
     dom.poolChecks.forEach((c) => { c.checked = false; });
+    dom.source.value = '';
     dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
     updatePoolLabel();
+    updateBadgesAndChips();
     if (dom.queryInput.value.trim()) runSearch();
   });
   dom.btnSourcesClear.addEventListener('click', () => {
+    dom.source.value = '';
     dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
     updatePoolLabel();
+    updateBadgesAndChips();
     if (dom.queryInput.value.trim()) runSearch();
   });
 
   dom.btnReset.addEventListener('click', () => {
     dom.poolChecks.forEach((c) => { c.checked = false; });
+    dom.source.value = '';
     dom.sourceOptions.querySelectorAll('.source-chk').forEach((c) => { c.checked = false; });
     updatePoolLabel();
-    dom.optGeo.value = '';
-    dom.optGrid.value = '';
-    dom.optLevel.value = '';
+    dom.level.value = '';
+    dom.sentinel.value = '';
+    dom.geo.value = '';
+    dom.strictEo.checked = false;
+    dom.hasDoi.checked = false;
+    dom.tier.value = '';
+    dom.category.value = '';
+    dom.cadence.value = '';
+    dom.maturity.value = '';
+    dom.ontology.value = '';
+    dom.grid.value = '';
+    dom.year.value = '';
+    dom.minEndYear.value = '';
+    dom.hasUrl.checked = false;
+    dom.exclDeprecated.checked = false;
     dom.optTopK.value = '20';
-    dom.optMinEndYear.value = '';
-    dom.optStrictEo.checked = false;
+    state.prevNullSafe = true;
     dom.optNullSafe.checked = true;
     dom.optHardLimits.checked = false;
-    syncHardLimitsToggle();
+    syncHardLimitsToggle(false);
     dom.optCollapse.checked = true;
     dom.optPure.checked = false;
     dom.optRerankPool.value = '25';
     dom.optMode.value = state.semanticReady ? 'hybrid' : 'bm25';
     dom.toggleSemantic.checked = state.semanticReady;
+    updateBadgesAndChips();
+    updatePipelineStrip();
     if (dom.queryInput.value.trim()) runSearch();
   });
 
@@ -1230,5 +1599,11 @@ function wireEvents() {
 }
 
 wireEvents();
-const baseDirUrl = new URL('./', window.location.href).href;
+
+// Resolve parent root cleanly whether visited at /search/, /search, or /search/index.html
+const normalizedPageUrl =
+  window.location.pathname.endsWith('/') || window.location.pathname.endsWith('.html')
+    ? window.location.href
+    : `${window.location.origin}${window.location.pathname}/${window.location.search}${window.location.hash}`;
+const baseDirUrl = new URL('../', normalizedPageUrl).href;
 worker.postMessage({ type: 'init', baseUrl: baseDirUrl });

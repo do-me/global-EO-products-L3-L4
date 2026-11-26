@@ -69,6 +69,7 @@ jobs:
       - name: Verify Pages artifact structure
         run: |
           test -f dist/index.html
+          test -f dist/search/index.html
           test -f dist/search.html
           test -f dist/sources.html
           test -f dist/.nojekyll

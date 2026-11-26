@@ -82,6 +82,7 @@ const GEO_LABELS = {
 };
 
 const LEVEL_ORDER = { L1: 1, L2: 2, L3: 3, 'L3; L4': 4, L4: 5 };
+const OBSOLETE_TITLE_RE = /\b(?:obsolete\s+release|superseded|deprecated)\b/i;
 
 const dom = {
   metaBadge: document.getElementById('meta-badge'),
@@ -442,7 +443,7 @@ function applyFiltersAndSort(resetPage = true, historyMode = 'push') {
       if (effEnd < f.year) continue;
     }
     if (f.hasUrl && !r.access_url) continue;
-    if (f.exclDeprecated && r.operational_maturity_class === 'deprecated_or_superseded') continue;
+    if (f.exclDeprecated && (r.operational_maturity_class === 'deprecated_or_superseded' || OBSOLETE_TITLE_RE.test(r.title))) continue;
 
     if (qTerms.length > 0) {
       let ok = true;

@@ -373,18 +373,18 @@ def export_search_meta(df: pd.DataFrame, out_path: Path) -> tuple[dict[str, Any]
     vtag_masks: list[int] = []
     sensor_masks: list[int] = []
 
-    active_pool_counts: dict[str, int] = {}
-    active_source_counts: dict[str, int] = {}
+    all_pool_counts: dict[str, int] = {}
+    all_source_counts: dict[str, int] = {}
     active_docs = 0
 
     for i in range(n_docs):
         is_sup = bool(sup_col[i] or obs_col[i])
         if not is_sup:
             active_docs += 1
-            if pools[i]:
-                active_pool_counts[pools[i]] = active_pool_counts.get(pools[i], 0) + 1
-            if sources[i]:
-                active_source_counts[sources[i]] = active_source_counts.get(sources[i], 0) + 1
+        if pools[i]:
+            all_pool_counts[pools[i]] = all_pool_counts.get(pools[i], 0) + 1
+        if sources[i]:
+            all_source_counts[sources[i]] = all_source_counts.get(sources[i], 0) + 1
 
         grid_ver = grid_srcs[i] in _VERIFIED_OUTPUT_GRID_SOURCES
         sp_conf = bool(conflict_col[i])
@@ -444,14 +444,15 @@ def export_search_meta(df: pd.DataFrame, out_path: Path) -> tuple[dict[str, Any]
             sm |= _SENSOR_BIT[sn]
         sensor_masks.append(sm)
 
-    unknown_counts = compute_unknown_metadata_counts(df, active_only=True)
+    unknown_counts = compute_unknown_metadata_counts(df, active_only=False)
     payload = {
         "n_docs": n_docs,
         "active_docs": active_docs,
+        "deprecated_docs": n_docs - active_docs,
         "record_ids_sha256": compute_record_ids_sha256(rids),
         "unknown_metadata_counts": unknown_counts,
-        "pool_counts": active_pool_counts,
-        "source_counts": active_source_counts,
+        "pool_counts": all_pool_counts,
+        "source_counts": all_source_counts,
         "flags": flags,
         "adj_grid_m": adj_grid_m,
         "sig_table": sig_table,
@@ -468,7 +469,7 @@ def export_search_meta(df: pd.DataFrame, out_path: Path) -> tuple[dict[str, Any]
     gz_bytes = out_path.stat().st_size
     elapsed = time.perf_counter() - t0
     print(
-        f"[export-browser] Search metadata: {n_docs:,} docs ({active_docs:,} active), "
+        f"[export-browser] Search metadata: {n_docs:,} docs ({active_docs:,} non-superseded, {n_docs - active_docs:,} deprecated/superseded), "
         f"{len(sig_table):,} family sigs -> {len(raw_bytes)/1e6:.2f} MB raw / {gz_bytes/1e6:.2f} MB gz ({elapsed:.2f}s)",
         flush=True,
     )
@@ -480,8 +481,8 @@ def export_search_meta(df: pd.DataFrame, out_path: Path) -> tuple[dict[str, Any]
             "sha256": compute_file_sha256(out_path),
             "n_family_sigs": len(sig_table),
             "unknown_metadata_counts": unknown_counts,
-            "pool_counts": active_pool_counts,
-            "source_counts": active_source_counts,
+            "pool_counts": all_pool_counts,
+            "source_counts": all_source_counts,
         },
         active_docs,
     )

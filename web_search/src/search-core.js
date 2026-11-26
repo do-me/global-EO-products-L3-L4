@@ -73,6 +73,13 @@ const HARD_GLOBAL_EXCLUDED_DOMAINS = new Set([
   'geostationary_disk_or_sector',
 ]);
 
+const EXACT_GEO_CLASSES = new Set([
+  'quasi_global',
+  'hemispheric_or_pantropical',
+  'europe_regional',
+  'regional_or_local',
+]);
+
 const ONTOLOGY_LABELS = {
   eo_thematic_or_biophysical: 'satellite biophysical/thematic EO product',
   eo_reanalysis_or_model: 'EO climate reanalysis/model product',
@@ -155,6 +162,9 @@ export async function decompressGzip(arrayBuffer) {
 }
 
 export function parseBm25Binary(arrayBuffer) {
+  if (!arrayBuffer || arrayBuffer.byteLength < 48) {
+    throw new Error('Truncated BM25 binary payload.');
+  }
   const dv = new DataView(arrayBuffer);
   const magic = dv.getUint32(0, true);
   if (magic !== 0x424d3235) {
@@ -172,20 +182,32 @@ export function parseBm25Binary(arrayBuffer) {
     dv.getFloat64(32, true),
   ];
 
+  const totalBytes = arrayBuffer.byteLength;
+  const checkRange = (off, len, label) => {
+    if (off < 0 || len < 0 || off + len > totalBytes) {
+      throw new Error(`BM25 binary out-of-bounds at ${label} (off=${off}, len=${len}, total=${totalBytes})`);
+    }
+  };
+
   let off = 40;
   const fieldLensBytes = nDocs * 3 * 2;
+  checkRange(off, fieldLensBytes, 'fieldLens');
   const fieldLens = new Uint16Array(arrayBuffer.slice(off, off + fieldLensBytes));
   off += fieldLensBytes;
 
+  checkRange(off, 4, 'swLen');
   const swLen = dv.getUint32(off, true);
   off += 4;
+  checkRange(off, swLen, 'stopwords');
   const dec = new TextDecoder('utf-8');
   const swStr = dec.decode(new Uint8Array(arrayBuffer, off, swLen));
   const stopwords = new Set(swStr ? swStr.split('\n') : []);
   off += swLen;
 
+  checkRange(off, 4, 'vocabLen');
   const vocabLen = dv.getUint32(off, true);
   off += 4;
+  checkRange(off, vocabLen, 'vocab');
   const vocabStr = dec.decode(new Uint8Array(arrayBuffer, off, vocabLen));
   const vocabList = vocabStr ? vocabStr.split('\n') : [];
   if (vocabList.length !== nTerms) {
@@ -198,14 +220,19 @@ export function parseBm25Binary(arrayBuffer) {
   off += vocabLen;
 
   const termDfBytes = nTerms * 4;
+  checkRange(off, termDfBytes, 'termDf');
   const termDf = new Uint32Array(arrayBuffer.slice(off, off + termDfBytes));
   off += termDfBytes;
 
   const termOffsetsBytes = (nTerms + 1) * 4;
+  checkRange(off, termOffsetsBytes, 'termOffsets');
   const termOffsets = new Uint32Array(arrayBuffer.slice(off, off + termOffsetsBytes));
   off += termOffsetsBytes;
 
   const postings = new Uint8Array(arrayBuffer, off);
+  if (termOffsets[nTerms] > postings.byteLength) {
+    throw new Error(`BM25 postings truncated: expected ${termOffsets[nTerms]} bytes, got ${postings.byteLength}`);
+  }
 
   return {
     nDocs,
@@ -254,16 +281,16 @@ export function searchBm25(bm25, query, eligibleMask, recordIds, opts = {}) {
     let docId = 0;
 
     while (pos < end) {
-      // Decode varint docid_delta
       let delta = 0;
       let shift = 0;
-      while (true) {
+      while (pos < end) {
         const byte = postings[pos++];
         delta |= (byte & 0x7f) << shift;
         if ((byte & 0x80) === 0) break;
         shift += 7;
       }
       docId += delta;
+      if (docId >= nDocs || pos >= end) break;
 
       const flags = postings[pos++];
       let tf0 = (flags & 0x01) ? 1 : 0;
@@ -273,7 +300,7 @@ export function searchBm25(bm25, query, eligibleMask, recordIds, opts = {}) {
       if (flags & 0x08) {
         tf0 = 0;
         let sh = 0;
-        while (true) {
+        while (pos < end) {
           const bt = postings[pos++];
           tf0 |= (bt & 0x7f) << sh;
           if ((bt & 0x80) === 0) break;
@@ -283,7 +310,7 @@ export function searchBm25(bm25, query, eligibleMask, recordIds, opts = {}) {
       if (flags & 0x10) {
         tf1 = 0;
         let sh = 0;
-        while (true) {
+        while (pos < end) {
           const bt = postings[pos++];
           tf1 |= (bt & 0x7f) << sh;
           if ((bt & 0x80) === 0) break;
@@ -293,7 +320,7 @@ export function searchBm25(bm25, query, eligibleMask, recordIds, opts = {}) {
       if (flags & 0x20) {
         tf2 = 0;
         let sh = 0;
-        while (true) {
+        while (pos < end) {
           const bt = postings[pos++];
           tf2 |= (bt & 0x7f) << sh;
           if ((bt & 0x80) === 0) break;
@@ -327,7 +354,6 @@ export function searchBm25(bm25, query, eligibleMask, recordIds, opts = {}) {
 
   if (touched.length === 0) return [];
 
-  // Match DuckDB exact tie-breaking: ORDER BY ROUND(score, 10) DESC, record_id ASC
   const ranked = new Array(touched.length);
   for (let i = 0; i < touched.length; i++) {
     const idx = touched[i];
@@ -353,6 +379,9 @@ export function searchBm25(bm25, query, eligibleMask, recordIds, opts = {}) {
 }
 
 export function parseEmbChunkBinary(arrayBuffer) {
+  if (!arrayBuffer || arrayBuffer.byteLength < 20) {
+    throw new Error('Truncated EMB8 binary payload.');
+  }
   const dv = new DataView(arrayBuffer);
   const magic = dv.getUint32(0, true);
   if (magic !== 0x454d4238) {
@@ -367,29 +396,44 @@ export function parseEmbChunkBinary(arrayBuffer) {
   const dim = dv.getUint32(16, true);
   const scalesOffset = 20;
   const scalesBytes = nRows * 4;
+  const quantBytes = nRows * dim;
+  if (scalesOffset + scalesBytes + quantBytes > arrayBuffer.byteLength) {
+    throw new Error(`EMB8 chunk truncated (need ${scalesOffset + scalesBytes + quantBytes}, got ${arrayBuffer.byteLength})`);
+  }
   const scales = new Float32Array(arrayBuffer.slice(scalesOffset, scalesOffset + scalesBytes));
-  const quant = new Int8Array(arrayBuffer, scalesOffset + scalesBytes, nRows * dim);
+  const quant = new Int8Array(arrayBuffer, scalesOffset + scalesBytes, quantBytes);
   return { startRow, nRows, dim, scales, quant };
 }
 
 export function assembleEmbStore(chunks, totalDocs, dim) {
   const scales = new Float32Array(totalDocs);
   const quant = new Int8Array(totalDocs * dim);
+  let rowsFilled = 0;
   for (const ch of chunks) {
     if (ch.dim !== dim) throw new Error(`Embedding dim mismatch: ${ch.dim} != ${dim}`);
+    if (ch.startRow + ch.nRows > totalDocs) {
+      throw new Error(`Embedding chunk out of bounds: ${ch.startRow}+${ch.nRows} > ${totalDocs}`);
+    }
     scales.set(ch.scales, ch.startRow);
     quant.set(ch.quant, ch.startRow * dim);
+    rowsFilled += ch.nRows;
+  }
+  if (rowsFilled !== totalDocs) {
+    throw new Error(`Incomplete embedding shards: loaded ${rowsFilled} rows, expected ${totalDocs}`);
   }
   return { nDocs: totalDocs, dim, scales, quant };
 }
 
 export function truncateAndNormalizeQuery(rawVec, dim) {
+  if (!rawVec || rawVec.length < dim) {
+    throw new Error(`Query vector too short: got ${rawVec ? rawVec.length : 0}, need ${dim}`);
+  }
   const q = new Float32Array(dim);
   let normSq = 0.0;
   for (let i = 0; i < dim; i++) {
     const v = rawVec[i];
-    q[i] = v;
-    normSq += v * v;
+    q[i] = Number.isFinite(v) ? v : 0.0;
+    normSq += q[i] * q[i];
   }
   const invNorm = 1.0 / Math.max(Math.sqrt(normSq), 1e-12);
   for (let i = 0; i < dim; i++) {
@@ -427,7 +471,6 @@ export function scoreDenseInt8(embStore, queryVecRaw, eligibleMask, topK = 300) 
     eligibleIdx.push(i);
   }
 
-  // Deterministic top-K breaking score ties strictly by ascending docIdx
   eligibleIdx.sort((a, bItem) => {
     const diff = scores[bItem] - scores[a];
     if (diff !== 0) return diff;
@@ -470,13 +513,24 @@ function normLon(lon) {
   return lon;
 }
 
+function parseGridRule(rule) {
+  if (!rule) return { maxM: null, minM: null, wantNull: false };
+  if (rule === '__NULL__') return { maxM: null, minM: null, wantNull: true };
+  if (rule === 'gt50000') return { maxM: null, minM: 50000.0001, wantNull: false };
+  const m = String(rule).match(/^le(\d+(?:\.\d+)?)$/);
+  if (m) return { maxM: Number(m[1]), minM: null, wantNull: false };
+  const n = Number(rule);
+  if (Number.isFinite(n) && n > 0) return { maxM: n, minM: null, wantNull: false };
+  return { maxM: null, minM: null, wantNull: false };
+}
+
 export function applyFiltersMask(records, searchMeta, flt = {}) {
   const n = records.length;
   const mask = new Uint8Array(n);
   const hardLimits = Boolean(flt.hard_limits);
   const effNullSafe = hardLimits ? false : flt.null_safe !== false;
   const effGridTol = hardLimits ? 1.0 : (flt.grid_tolerance ?? 1.25);
-  const excludeSuperseded = flt.exclude_superseded !== false;
+  const excludeSuperseded = Boolean(flt.exclude_superseded);
 
   const flags = searchMeta.flags;
   const adjGrid = searchMeta.adj_grid_m;
@@ -487,20 +541,51 @@ export function applyFiltersMask(records, searchMeta, flt = {}) {
       ? new Set([flt.provider_pool])
       : null;
   const sourceSet = flt.sources && flt.sources.length > 0 ? new Set(flt.sources) : null;
-  const levelSet = flt.processing_levels && flt.processing_levels.length > 0
-    ? new Set(flt.processing_levels)
-    : null;
+
+  const rawLevels = flt.processing_levels && flt.processing_levels.length > 0 ? flt.processing_levels : null;
+  const wantNullLevel = Boolean(rawLevels && rawLevels.includes('__NULL__'));
+  const levelSet = rawLevels && !wantNullLevel ? new Set(rawLevels) : null;
+  const exactMultiLevel = Boolean(levelSet && levelSet.size === 1 && levelSet.has('L3; L4'));
   const allowsL1L2 = Boolean(levelSet && (levelSet.has('L1') || levelSet.has('L2')));
-  const cadSet = flt.cadence_classes && flt.cadence_classes.length > 0
-    ? new Set(flt.cadence_classes)
+
+  const sentinelFilter = flt.sentinel ? String(flt.sentinel) : null;
+  const sentinelMission = sentinelFilter && sentinelFilter.startsWith('mission:') ? sentinelFilter.slice(8) : null;
+
+  const tierFilter = flt.provider_jurisdiction_tier || null;
+  const categoryFilter = flt.product_output_category || null;
+  const maturityFilter = flt.operational_maturity_class || null;
+  const ontologyFilter = flt.product_ontology_class || null;
+  const hasDoi = Boolean(flt.has_doi);
+  const hasUrl = Boolean(flt.has_url);
+
+  const rawCadences = flt.cadence_classes && flt.cadence_classes.length > 0 ? flt.cadence_classes : null;
+  const wantNullCadence = Boolean(rawCadences && rawCadences.includes('__NULL__'));
+  const cadSet = rawCadences && !wantNullCadence ? new Set(rawCadences) : null;
+
+  const parsedRule = parseGridRule(flt.grid_rule);
+  const wantNullGrid = parsedRule.wantNull;
+  const maxGridM =
+    flt.max_grid_m !== null && flt.max_grid_m !== undefined
+      ? Number(flt.max_grid_m)
+      : parsedRule.maxM;
+  const minGridM =
+    flt.min_grid_m !== null && flt.min_grid_m !== undefined
+      ? Number(flt.min_grid_m)
+      : parsedRule.minM;
+
+  const coversYear = flt.covers_year !== null && flt.covers_year !== undefined && Number.isFinite(Number(flt.covers_year))
+    ? Number(flt.covers_year)
+    : null;
+  const minEndYear = flt.min_end_year !== null && flt.min_end_year !== undefined && Number.isFinite(Number(flt.min_end_year))
+    ? Number(flt.min_end_year)
+    : null;
+  const maxStartYear = flt.max_start_year !== null && flt.max_start_year !== undefined && Number.isFinite(Number(flt.max_start_year))
+    ? Number(flt.max_start_year)
     : null;
 
-  const maxGridM = flt.max_grid_m !== null && flt.max_grid_m !== undefined ? Number(flt.max_grid_m) : null;
-  const minGridM = flt.min_grid_m !== null && flt.min_grid_m !== undefined ? Number(flt.min_grid_m) : null;
-  const minEndYear = flt.min_end_year !== null && flt.min_end_year !== undefined ? Number(flt.min_end_year) : null;
-  const maxStartYear = flt.max_start_year !== null && flt.max_start_year !== undefined ? Number(flt.max_start_year) : null;
-  const geoScope = flt.geo_scope ? String(flt.geo_scope).toLowerCase() : null;
-  const excludeLocal = Boolean(flt.exclude_local);
+  const geoScopeRaw = flt.geo_scope ? String(flt.geo_scope) : null;
+  const geoScope = geoScopeRaw && geoScopeRaw !== '__NULL__' ? geoScopeRaw.toLowerCase() : geoScopeRaw;
+  const excludeLocal = Boolean(flt.exclude_local || geoScope === 'exclude_local');
   const strictEo = Boolean(flt.strict_eo_only || flt.ontology_mode === 'strict_eo');
   const eoAndHybrid = !strictEo && flt.ontology_mode === 'eo_and_hybrid';
 
@@ -515,11 +600,35 @@ export function applyFiltersMask(records, searchMeta, flt = {}) {
     const r = records[i];
     if (poolSet && !poolSet.has(r.provider_pool)) continue;
     if (sourceSet && !sourceSet.has(r.source_catalogue)) continue;
+    if (hasDoi && !r.doi) continue;
+    if (hasUrl && !r.access_url) continue;
+    if (tierFilter && r.provider_jurisdiction_tier !== tierFilter) continue;
+    if (categoryFilter && r.product_output_category !== categoryFilter) continue;
+    if (maturityFilter && r.operational_maturity_class !== maturityFilter) continue;
+    if (ontologyFilter && r.product_ontology_class !== ontologyFilter) continue;
 
-    if (levelSet) {
+    if (sentinelFilter) {
+      if (sentinelFilter === 'yes') {
+        if (!r.uses_sentinel) continue;
+      } else if (sentinelFilter === 'no_explicit') {
+        if (r.uses_sentinel || r.sentinel_lineage_status !== 'explicit_non_sentinel') continue;
+      } else if (sentinelFilter === 'unassessed') {
+        if (r.sentinel_lineage_status !== 'unassessed_no_platform_metadata') continue;
+      } else if (sentinelMission) {
+        if (!r.uses_sentinel || !r.sentinel_missions) continue;
+        const toks = r.sentinel_missions.split(/;\s*/);
+        if (!toks.includes(sentinelMission)) continue;
+      }
+    }
+
+    if (wantNullLevel) {
+      if (r.processing_level !== null && r.processing_level !== '') continue;
+    } else if (levelSet) {
       const pl = r.processing_level;
       if (!pl) {
         if (!effNullSafe) continue;
+      } else if (exactMultiLevel) {
+        if (pl !== 'L3; L4') continue;
       } else {
         const toks = pl.split(';');
         let hit = false;
@@ -533,34 +642,41 @@ export function applyFiltersMask(records, searchMeta, flt = {}) {
       }
     }
 
-    if (maxGridM !== null) {
-      const g = adjGrid[i];
-      if (g === null || g === undefined || !Number.isFinite(g)) {
-        if (!effNullSafe) continue;
-      } else if (g > maxGridM * effGridTol) {
-        continue;
+    if (wantNullGrid) {
+      const g = hardLimits ? adjGrid[i] : (adjGrid[i] ?? r.grid_m);
+      if (g !== null && g !== undefined && Number.isFinite(g)) continue;
+    } else {
+      if (maxGridM !== null) {
+        const g = adjGrid[i];
+        if (g === null || g === undefined || !Number.isFinite(g)) {
+          if (!effNullSafe) continue;
+        } else if (g > maxGridM * effGridTol) {
+          continue;
+        }
+        if (hardLimits) {
+          if (!(f & 2)) continue;
+          if (f & 4) continue;
+          if (!allowsL1L2 && (r.processing_level === 'L1' || r.processing_level === 'L2')) continue;
+        }
       }
-      if (hardLimits) {
-        if (!(f & 2)) continue; // must have verified output grid source
-        if (f & 4) continue;    // no spatial resolution conflict
-        if (!allowsL1L2 && (r.processing_level === 'L1' || r.processing_level === 'L2')) continue;
+
+      if (minGridM !== null) {
+        const g = adjGrid[i];
+        if (g === null || g === undefined || !Number.isFinite(g)) {
+          if (!effNullSafe) continue;
+        } else if (g < minGridM) {
+          continue;
+        }
+        if (hardLimits) {
+          if (!(f & 2)) continue;
+          if (f & 4) continue;
+        }
       }
     }
 
-    if (minGridM !== null) {
-      const g = adjGrid[i];
-      if (g === null || g === undefined || !Number.isFinite(g)) {
-        if (!effNullSafe) continue;
-      } else if (g < minGridM) {
-        continue;
-      }
-      if (hardLimits) {
-        if (!(f & 2)) continue;
-        if (f & 4) continue;
-      }
-    }
-
-    if (cadSet) {
+    if (wantNullCadence) {
+      if (r.temporal_cadence_class !== null && r.temporal_cadence_class !== '') continue;
+    } else if (cadSet) {
       const cad = r.temporal_cadence_class;
       if (!cad) {
         if (!effNullSafe) continue;
@@ -583,8 +699,16 @@ export function applyFiltersMask(records, searchMeta, flt = {}) {
       }
     }
 
-    if (geoScope) {
-      if (geoScope === 'global') {
+    if (geoScope && geoScope !== 'exclude_local') {
+      if (geoScope === '__NULL__') {
+        if (gc !== '') continue;
+      } else if (EXACT_GEO_CLASSES.has(geoScope)) {
+        if (!gc) {
+          if (!effNullSafe) continue;
+        } else if (gc !== geoScope) {
+          continue;
+        }
+      } else if (geoScope === 'global') {
         if (hardLimits) {
           if (gc !== 'global') continue;
           const od = r.observation_domain_class || '';
@@ -630,6 +754,17 @@ export function applyFiltersMask(records, searchMeta, flt = {}) {
           if (!ok) continue;
         }
       }
+    }
+
+    if (coversYear !== null) {
+      const sy = r.t0;
+      const ey = r.t1;
+      const hasSy = sy !== null && sy !== undefined && Number.isFinite(sy);
+      const hasEy = ey !== null && ey !== undefined && Number.isFinite(ey);
+      if (!hasSy) continue;
+      if (sy > coversYear) continue;
+      const effEnd = hasEy ? ey : ((f & 8) !== 0 && !hardLimits ? DISCOVERY_CURRENT_YEAR : sy);
+      if (effEnd < coversYear) continue;
     }
 
     if (minEndYear !== null) {
@@ -830,7 +965,6 @@ export function collapseProductFamilies(rankedItems, records, searchMeta, opts =
 
     let matchedPos = -1;
 
-    // 1. Exact generic stem match with variable/role/DOI/cadence/geo/grid/sensor guards
     const sigPositions = seenSigToPositions.get(sigId);
     if (sigPositions) {
       for (let j = 0; j < sigPositions.length; j++) {
@@ -841,7 +975,6 @@ export function collapseProductFamilies(rankedItems, records, searchMeta, opts =
       }
     }
 
-    // 2. High-cosine mirror catch (when embeddings loaded)
     if (matchedPos === -1 && embStore && kept.length > 0 && nearDupCos < 1.0) {
       const above = [];
       for (let cpos = 0; cpos < kept.length; cpos++) {
@@ -952,7 +1085,7 @@ export function blendRrfAndRerank(candidates, rerankScores, opts = {}) {
   order.sort((a, bItem) => {
     const diff = rerankScores[bItem] - rerankScores[a];
     if (diff !== 0) return diff;
-    return a - bItem; // stable tie-break preserving Stage-1 order
+    return a - bItem;
   });
   const rerankRank = new Int32Array(candidates.length);
   for (let rk = 0; rk < order.length; rk++) {

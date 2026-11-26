@@ -11,6 +11,23 @@ const distDir = path.resolve(repoRoot, 'dist');
 
 const DOCS_COPY_ITEMS = ['index.html', 'app.js', 'sources.html', 'SOURCES.md', 'data'];
 
+const LEGACY_REDIRECT_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Redirecting to Advanced Search…</title>
+  <meta http-equiv="refresh" content="0; url=./search/" />
+  <link rel="canonical" href="./search/" />
+  <script>
+    window.location.replace('./search/' + window.location.search + window.location.hash);
+  </script>
+</head>
+<body>
+  <p>Redirecting to <a href="./search/">Advanced Search</a>…</p>
+</body>
+</html>
+`;
+
 function copyStaticDocsPlugin() {
   return {
     name: 'copy-static-catalogue-docs',
@@ -22,12 +39,20 @@ function copyStaticDocsPlugin() {
         if (!fs.existsSync(src)) continue;
         fs.cpSync(src, dst, { recursive: true, force: true });
       }
+      // Clean redirect for legacy /search.html links -> /search/
+      fs.writeFileSync(path.join(distDir, 'search.html'), LEGACY_REDIRECT_HTML, 'utf8');
       // Prevent GitHub Pages Jekyll processing when serving static assets
       fs.writeFileSync(path.join(distDir, '.nojekyll'), '');
     },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const cleanUrl = (req.url || '/').split('?')[0];
+        if (cleanUrl === '/search') {
+          res.statusCode = 302;
+          res.setHeader('Location', '/search/');
+          res.end();
+          return;
+        }
         const candidates = [
           path.join(distDir, cleanUrl.replace(/^\/+/, '')),
           path.join(docsDir, cleanUrl.replace(/^\/+/, '')),
@@ -65,7 +90,7 @@ export default defineConfig({
     target: 'es2022',
     rollupOptions: {
       input: {
-        search: path.resolve(__dirname, 'search.html'),
+        search: path.resolve(__dirname, 'search/index.html'),
       },
     },
   },

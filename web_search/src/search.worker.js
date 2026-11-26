@@ -26,13 +26,12 @@ import {
   searchBm25,
 } from './search-core.js';
 
-// Always fetch neural weights directly from Hugging Face Hub and cache locally in browser Cache API
 env.allowLocalModels = false;
 env.allowRemoteModels = true;
 env.useBrowserCache = true;
 
 const state = {
-  baseUrl: './',
+  baseUrl: '../',
   manifest: null,
   catalogueMeta: null,
   records: [],
@@ -112,6 +111,26 @@ async function fetchGzipBuffer(relPath, onProgress = null) {
   return decompressGzip(joined.buffer);
 }
 
+async function disposeNested(obj) {
+  if (!obj) return;
+  if (typeof obj.dispose === 'function') {
+    await obj.dispose();
+    return;
+  }
+  if (typeof obj === 'object') {
+    for (const val of Object.values(obj)) {
+      if (!val) continue;
+      if (typeof val.dispose === 'function') {
+        await val.dispose();
+      } else if (typeof val === 'object') {
+        for (const sub of Object.values(val)) {
+          if (sub && typeof sub.dispose === 'function') await sub.dispose();
+        }
+      }
+    }
+  }
+}
+
 function hydrateCatalogueRows(partRows, enums) {
   const decode = (col, idx) => (idx === null || idx === undefined || idx < 0 ? null : enums[col]?.[idx] ?? null);
   const out = new Array(partRows.length);
@@ -162,7 +181,7 @@ function hydrateCatalogueRows(partRows, enums) {
 }
 
 async function initEngine(baseUrl) {
-  state.baseUrl = baseUrl || './';
+  state.baseUrl = baseUrl || '../';
   state.webgpuAvailable = await detectWebGpu();
   post('initProgress', { pct: 8, message: 'Loading search manifest & catalogue metadata…' });
 
@@ -185,7 +204,7 @@ async function initEngine(baseUrl) {
     metaPromise,
   ]);
 
-  post('initProgress', { pct: 76, message: 'Hydrating 39,472 products & decoding 3-field BM25 index…' });
+  post('initProgress', { pct: 76, message: 'Hydrating 39,472 products & verifying index alignment…' });
 
   const allRecords = [];
   for (const part of parts) {
@@ -202,19 +221,39 @@ async function initEngine(baseUrl) {
   state.bm25 = parseBm25Binary(bm25Raw);
   state.searchMeta = JSON.parse(new TextDecoder('utf-8').decode(metaRaw));
 
-  if (state.records.length !== state.bm25.nDocs || state.records.length !== state.searchMeta.n_docs) {
+  if (
+    state.records.length !== state.bm25.nDocs ||
+    state.records.length !== state.searchMeta.n_docs ||
+    state.records.length !== manifest.n_docs
+  ) {
     throw new Error(
-      `Index length mismatch: catalogue=${state.records.length}, bm25=${state.bm25.nDocs}, meta=${state.searchMeta.n_docs}`,
+      `Index length mismatch: catalogue=${state.records.length}, bm25=${state.bm25.nDocs}, meta=${state.searchMeta.n_docs}, manifest=${manifest.n_docs}`,
     );
+  }
+  if (
+    manifest.alignment?.record_ids_sha256 &&
+    state.searchMeta.record_ids_sha256 &&
+    manifest.alignment.record_ids_sha256 !== state.searchMeta.record_ids_sha256
+  ) {
+    throw new Error('Search index record_ids_sha256 mismatch between manifest and search_meta.');
   }
 
   post('initProgress', { pct: 100, message: 'Ready' });
   post('ready', {
     webgpuAvailable: state.webgpuAvailable,
+    enums: {
+      source_catalogue: catMeta.enums.source_catalogue || [],
+      provider_jurisdiction_tier: catMeta.enums.provider_jurisdiction_tier || [],
+      product_output_category: catMeta.enums.product_output_category || [],
+      temporal_cadence_class: catMeta.enums.temporal_cadence_class || [],
+      operational_maturity_class: catMeta.enums.operational_maturity_class || [],
+      product_ontology_class: catMeta.enums.product_ontology_class || [],
+    },
     manifest: {
       release_tag: manifest.release_tag,
       n_docs: manifest.n_docs,
       active_docs: manifest.active_docs,
+      deprecated_docs: manifest.n_docs - manifest.active_docs,
       emb_dim: manifest.emb_dim,
       models: manifest.models,
       bm25_gz_bytes: manifest.bm25.gz_bytes,
@@ -313,14 +352,12 @@ async function ensureEmbedderLoaded() {
       });
     };
 
-    // Load vector index and tokenizer/config in parallel!
     const [, config, tokenizer] = await Promise.all([
       ensureEmbeddingsLoaded(),
       AutoConfig.from_pretrained(modelId),
       AutoTokenizer.from_pretrained(modelId, { progress_callback: progressCallback }),
     ]);
 
-    // Selective text-only encoder loading (drops 170M vision + 300M audio encoders)
     config.vision_config = null;
     config.audio_config = null;
 
@@ -382,22 +419,26 @@ async function encodeQuery(query) {
     return state.queryVecCache.get(prompt);
   }
   const { model, tokenizer } = await ensureEmbedderLoaded();
-  const inputs = await tokenizer([prompt], { padding: true, truncation: true, max_length: 256 });
-  const outputs = await model(inputs);
-  const embTensor = outputs.sentence_embedding || outputs.pooler_output || outputs.last_hidden_state;
-  const vec = new Float32Array(embTensor.data);
-  for (const val of Object.values(outputs)) {
-    if (val && typeof val.dispose === 'function') val.dispose();
+  let inputs = null;
+  let outputs = null;
+  try {
+    inputs = await tokenizer([prompt], { padding: true, truncation: true, max_length: 256 });
+    outputs = await model(inputs);
+    const embTensor = outputs.sentence_embedding || outputs.pooler_output || outputs.last_hidden_state;
+    if (!embTensor || !embTensor.data || embTensor.data.length < state.manifest.emb_dim) {
+      throw new Error('EmbeddingGemma 2 returned empty or unexpected embedding tensor.');
+    }
+    const vec = new Float32Array(embTensor.data);
+    if (state.queryVecCache.size > 64) {
+      const firstKey = state.queryVecCache.keys().next().value;
+      state.queryVecCache.delete(firstKey);
+    }
+    state.queryVecCache.set(prompt, vec);
+    return vec;
+  } finally {
+    await disposeNested(outputs);
+    await disposeNested(inputs);
   }
-  for (const val of Object.values(inputs)) {
-    if (val && typeof val.dispose === 'function') val.dispose();
-  }
-  if (state.queryVecCache.size > 64) {
-    const firstKey = state.queryVecCache.keys().next().value;
-    state.queryVecCache.delete(firstKey);
-  }
-  state.queryVecCache.set(prompt, vec);
-  return vec;
 }
 
 async function ensureRerankerLoaded() {
@@ -476,8 +517,14 @@ async function ensureRerankerLoaded() {
     const noTok = typeof tokenizer.convert_tokens_to_ids === 'function'
       ? tokenizer.convert_tokens_to_ids('no')
       : tokenizer.encode('no', { add_special_tokens: false })[0];
-    state.rerankerYesId = Number(Array.isArray(yesTok) ? yesTok[0] : yesTok);
-    state.rerankerNoId = Number(Array.isArray(noTok) ? noTok[0] : noTok);
+    const yesId = Number(Array.isArray(yesTok) ? yesTok[0] : yesTok);
+    const noId = Number(Array.isArray(noTok) ? noTok[0] : noTok);
+    if (!Number.isInteger(yesId) || yesId < 0 || !Number.isInteger(noId) || noId < 0) {
+      throw new Error(`Invalid Qwen3 yes/no token IDs: yes=${yesId}, no=${noId}`);
+    }
+
+    state.rerankerYesId = yesId;
+    state.rerankerNoId = noId;
     state.rerankerPrefixIds = tokenizer.encode(QWEN3_PROMPT_PREFIX, { add_special_tokens: false }).map(Number);
     state.rerankerSuffixIds = tokenizer.encode(QWEN3_PROMPT_SUFFIX, { add_special_tokens: false }).map(Number);
     state.reranker = model;
@@ -566,34 +613,29 @@ async function scoreWithQwen3(query, docTexts, searchSeq, maxLength = 512) {
     const seqLen = fullIds.length;
     const attnMask = new BigInt64Array(seqLen).fill(1n);
 
-    const inputIdsTensor = new Tensor('int64', fullIds, [1, seqLen]);
-    const attnTensor = new Tensor('int64', attnMask, [1, seqLen]);
+    let inputIdsTensor = null;
+    let attnTensor = null;
+    let output = null;
+    try {
+      inputIdsTensor = new Tensor('int64', fullIds, [1, seqLen]);
+      attnTensor = new Tensor('int64', attnMask, [1, seqLen]);
+      output = await model({
+        input_ids: inputIdsTensor,
+        attention_mask: attnTensor,
+      });
 
-    const output = await model({
-      input_ids: inputIdsTensor,
-      attention_mask: attnTensor,
-    });
-
-    const logits = output.logits;
-    const vocabSize = logits.dims[logits.dims.length - 1];
-    const lastOffset = (logits.dims[1] - 1) * vocabSize;
-    const yesLogit = Number(logits.data[lastOffset + yesId]);
-    const noLogit = Number(logits.data[lastOffset + noId]);
-    // Un-squashed log-odds margin matching Python Qwen3MLXReranker
-    scores[i] = yesLogit - noLogit;
-
-    for (const val of Object.values(output)) {
-      if (!val) continue;
-      if (typeof val.dispose === 'function') {
-        await val.dispose();
-      } else if (typeof val === 'object') {
-        for (const sub of Object.values(val)) {
-          if (sub && typeof sub.dispose === 'function') await sub.dispose();
-        }
-      }
+      const logits = output.logits;
+      const vocabSize = logits.dims[logits.dims.length - 1];
+      const lastOffset = (logits.dims[1] - 1) * vocabSize;
+      const yesLogit = Number(logits.data[lastOffset + yesId]);
+      const noLogit = Number(logits.data[lastOffset + noId]);
+      const margin = yesLogit - noLogit;
+      scores[i] = Number.isFinite(margin) ? margin : 0.0;
+    } finally {
+      await disposeNested(output);
+      inputIdsTensor?.dispose?.();
+      attnTensor?.dispose?.();
     }
-    inputIdsTensor.dispose?.();
-    attnTensor.dispose?.();
 
     const elapsedSec = (performance.now() - t0) / 1000;
     const rate = (i + 1) / Math.max(elapsedSec, 0.05);
@@ -676,14 +718,24 @@ async function runSearch(payload) {
     sources: payload.sources || null,
     geo_scope: payload.geo || null,
     exclude_local: Boolean(payload.exclude_local),
+    grid_rule: payload.grid_rule || null,
     max_grid_m: payload.max_grid_m ?? null,
     processing_levels: payload.levels || null,
-    strict_eo_only: payload.eo_scope === 'strict_eo',
+    sentinel: payload.sentinel || null,
+    provider_jurisdiction_tier: payload.tier || null,
+    product_output_category: payload.category || null,
+    cadence_classes: payload.cadence ? [payload.cadence] : null,
+    operational_maturity_class: payload.maturity || null,
+    product_ontology_class: payload.ontology || null,
+    covers_year: payload.covers_year ?? null,
+    min_end_year: payload.min_end_year ?? null,
+    has_doi: Boolean(payload.has_doi),
+    has_url: Boolean(payload.has_url),
+    strict_eo_only: Boolean(payload.strict_eo || payload.eo_scope === 'strict_eo'),
     ontology_mode: payload.eo_scope || 'all',
     null_safe: payload.null_safe !== false,
     hard_limits: Boolean(payload.hard_limits),
-    min_end_year: payload.min_end_year ?? null,
-    exclude_superseded: true,
+    exclude_superseded: Boolean(payload.exclude_superseded),
   };
 
   const tStage1Start = performance.now();
@@ -695,8 +747,10 @@ async function runSearch(payload) {
       query,
       mode_used: requestedMode,
       reranker_used: 'none',
-      device: state.embedderDevice || 'cpu',
+      device: state.embedderDevice || 'bm25',
       eligible_after_filter: 0,
+      total_canonical: state.records.length,
+      exclude_superseded: flt.exclude_superseded,
       hard_limits: flt.hard_limits,
       null_safe_filter: !flt.hard_limits && flt.null_safe,
       unknown_metadata_counts: state.searchMeta.unknown_metadata_counts,
@@ -708,7 +762,6 @@ async function runSearch(payload) {
     return;
   }
 
-  let modeUsed = requestedMode;
   let stage1Ranked = [];
   const needDense = requestedMode === 'hybrid' || requestedMode === 'dense';
   const needBm25 = requestedMode === 'hybrid' || requestedMode === 'bm25';
@@ -768,16 +821,17 @@ async function runSearch(payload) {
   const stage1Results = buildResultObjects(stage1Display, stage1RankMap, null);
   const stage1CollapsedCount = stage1Results.reduce((a, r) => a + r.collapsed_siblings, 0);
 
-  // Immediately emit Stage-1 results so the user sees answers in milliseconds even when Qwen3 reranker is enabled!
   post('searchResult', {
     searchSeq,
     query,
-    mode_used: modeUsed,
+    mode_used: requestedMode,
     reranker_used: 'none',
     reranking_pending: useReranker && collapsedStage1.length > 1,
     rerank_pool: Math.min(rerankTopN, collapsedStage1.length),
     device: state.embedderDevice || 'bm25',
     eligible_after_filter: eligibleCount,
+    total_canonical: state.records.length,
+    exclude_superseded: flt.exclude_superseded,
     hard_limits: flt.hard_limits,
     null_safe_filter: !flt.hard_limits && flt.null_safe,
     unknown_metadata_counts: state.searchMeta.unknown_metadata_counts,
@@ -789,7 +843,6 @@ async function runSearch(payload) {
 
   if (!useReranker || collapsedStage1.length <= 1) return;
 
-  // Stage-2 optional Qwen3-Reranker-0.6B-ONNX
   const poolEntries = collapsedStage1.slice(0, rerankTopN);
   const candidateIdx = poolEntries.map(([dIdx]) => dIdx);
   const tRerankLoadStart = performance.now();
@@ -815,7 +868,6 @@ async function runSearch(payload) {
 
   let finalRanked;
   const rerankInfoMap = new Map();
-
   const tailEntries = collapsedStage1.slice(poolEntries.length, topK);
 
   if (rerankPure) {
@@ -850,13 +902,15 @@ async function runSearch(payload) {
   post('searchResult', {
     searchSeq,
     query,
-    mode_used: `${modeUsed}+qwen3`,
+    mode_used: `${requestedMode}+qwen3`,
     reranker_used: state.manifest.models.reranker,
     reranking_pending: false,
     rerank_pool: candidateIdx.length,
     rerank_pure: rerankPure,
     device: state.rerankerDevice || state.embedderDevice || 'wasm',
     eligible_after_filter: eligibleCount,
+    total_canonical: state.records.length,
+    exclude_superseded: flt.exclude_superseded,
     hard_limits: flt.hard_limits,
     null_safe_filter: !flt.hard_limits && flt.null_safe,
     unknown_metadata_counts: state.searchMeta.unknown_metadata_counts,

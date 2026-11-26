@@ -3,7 +3,7 @@
 A fully reproducible, deterministic **global Level-3 and Level-4 Earth Observation (EO) product discovery catalogue** harvested directly from **34 public space-agency, European Union, United Nations, and cloud metadata APIs** (plus the WMO OSCAR/Space variable and satellite taxonomy). Includes a hybrid search engine **evaluated against curated family rules** achieving in best hybrid config (EmbeddingGemma 2 + DuckDB BM25 + Jina v3.5): 85.45% Fam-nDCG@10 (76.67% P@1, 96.39% family Recall@10, 100.00% Hit@10) on a 60-query retrospectively audited cross-domain holdout.
 
 - **Interactive catalogue viewer:** [do-me.github.io/global-EO-products-L3-L4](https://do-me.github.io/global-EO-products-L3-L4/)
-- **In-browser Advanced Search (EO BM25 + 512-d EmbeddingGemma 2 + optional Qwen3-0.6B):** [do-me.github.io/global-EO-products-L3-L4/search.html](https://do-me.github.io/global-EO-products-L3-L4/search.html)
+- **In-browser Advanced Search (EO BM25 + 512-d EmbeddingGemma 2 + optional Qwen3-0.6B):** [do-me.github.io/global-EO-products-L3-L4/search/](https://do-me.github.io/global-EO-products-L3-L4/search/)
 - **Source registry & ontology:** [`docs/SOURCES.md`](docs/SOURCES.md)
 - **Local Python hybrid search quickstart:** [`06_semantic_hybrid_search/`](06_semantic_hybrid_search#1-quick-start-uv-run)
 
@@ -79,8 +79,8 @@ Full per-source API endpoints, processing-level rules, and attribution logic are
 │   ├── sources.html                                  # HTML / Raw Markdown viewer for docs/SOURCES.md
 │   ├── build_viewer_data.py                          # `uv run` script exporting sharded index & detail chunks
 │   └── data/                                         # Sharded JSON index & detail chunks for the static viewer
-├── web_search/                                       # `pnpm` + Vite static browser-only Advanced Search (`search.html`)
-│   ├── search.html, vite.config.js & package.json    # Client-side EO BM25 + Transformers.js v4 (WebGPU/WASM) UI
+├── web_search/                                       # `pnpm` + Vite static browser-only Advanced Search (`/search/`)
+│   ├── search/index.html, vite.config.js & package.json  # Client-side EO BM25 + Transformers.js v4 (WebGPU/WASM) UI
 │   ├── src/                                          # search-core.js, search.worker.js, exporters.js, main.js
 │   └── tests/engine.test.mjs                         # Automated BM25, 512-d int8, Hard-Limits & collapse tests
 ├── .github/workflows/pages.yml                       # CI: `pnpm` build + release-index export + tests + Pages deploy
@@ -170,16 +170,15 @@ uv run build_manifest.py
 
 ---
 
-## 6. Interactive Static Viewer & Browser Advanced Search (`docs/`, `web_search/`)
+## 6. Interactive Catalogue Viewer & Browser Advanced Search (`docs/`, `web_search/`)
 
-The GitHub Pages deployment combines two zero-backend interfaces sharing the same visual design and `docs/data/` provenance shards across all **39,472 canonical records** (`38,850` active non-superseded) and **34 sources**:
+The GitHub Pages site serves two zero-backend apps sharing the exact same **39,472 canonical products** (`34` sources), structured filter criteria (including the reconciled `Hide Deprecated / Superseded` toggle removing `622` superseded/obsolete editions), MapLibre GL bounding-box provenance drawer, and CSV/JSON/Excel/Parquet exports:
 
-- **Catalogue Viewer (`index.html`, `sources.html`):** Fast multi-term filter, full faceted browsing (provider pool, jurisdiction tier, processing level, Sentinel mission/lineage, output domain, grid spacing, temporal coverage year, cadence, maturity, strict EO, DOI presence), column sorting, shareable URL state, CSV/JSON/Excel/Parquet exports, an HTML/Markdown source registry viewer, and a slide-over provenance drawer with a **MapLibre GL + OpenFreeMap** bounding-box map.
-- **In-Browser Advanced Search (`search.html`):** Runs 100% locally in a browser Web Worker using latest `@huggingface/transformers` (v4, WebGPU with automatic WASM fallback) and compact CI-built search indexes (`3.1 MB` lossless 3-field EO BM25 + `15.0 MB` 512-d Matryoshka `int8` embeddings + `0.4 MB` filter/family metadata):
-  - **Instant 3-field EO BM25** (exact `0.00` score parity with DuckDB FTS),
-  - **Semantic Hybrid (`onnx-community/embeddinggemma-2-ONNX`, text-only `q4`, `Apache-2.0`)** fetched directly from Hugging Face (~175 MB cached once) and fused via RRF (`w_dense=1.0, w_bm25=0.6, k=60`),
-  - **Optional opt-in Stage-2 Reranker (`onnx-community/Qwen3-Reranker-0.6B-ONNX`, `q4`, `Apache-2.0`)** fetched from Hugging Face (~995 MB cached once; slower—especially without WebGPU—in exchange for higher Top-10 precision, with configurable Top-15/25/50 pool and live abort support),
-  - Full **Hard Limits (Verified)** mode, multi-select Provider Pool & numbered Sources (`01`–`35`), guarded family collapsing, MapLibre GL provenance drawer, and CSV/JSON/Excel/Parquet exports.
+- **Catalogue Viewer ([`/`](https://do-me.github.io/global-EO-products-L3-L4/)):** Fast multi-term string filter, faceted browsing, sortable columns, and HTML/Markdown source registry ([`sources.html`](https://do-me.github.io/global-EO-products-L3-L4/sources.html)).
+- **In-Browser Advanced Search ([`/search/`](https://do-me.github.io/global-EO-products-L3-L4/search/)):** Replaces plain substring matching with client-side hybrid retrieval inside a Web Worker (`@huggingface/transformers` v4, WebGPU with WASM fallback) backed by CI-exported indexes (`3.1 MB` lossless 3-field EO BM25 with `0.00` DuckDB divergence, `15.0 MB` 512-d Matryoshka `int8` vectors, `0.4 MB` filter/family metadata):
+  - **EO BM25 Lexical** runs immediately (`~14 ms`);
+  - **Semantic Hybrid** fetches text-only `onnx-community/embeddinggemma-2-ONNX` (`q4`, ~175 MB, `Apache-2.0`) directly from Hugging Face and fuses 512-d vectors with BM25 via RRF;
+  - **Optional Stage-2 Reranker** (off by default) pulls `onnx-community/Qwen3-Reranker-0.6B-ONNX` (`q4`, ~995 MB, `Apache-2.0`) for higher Top-10 precision at slower per-query latency, with Verified Hard-Limits and guarded family collapsing.
 
 ---
 
