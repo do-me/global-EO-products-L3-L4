@@ -4,15 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Advanced Search — Global L3/L4 EO Product Catalogue</title>
-  <meta name="description" content="100% client-side hybrid semantic + EO BM25 + optional Qwen3-0.6B reranker search across all 39,472 harmonized Level-3 and Level-4 Earth Observation products." />
+  <meta name="description" content="In-browser hybrid semantic and keyword search across all 39,472 harmonized Level-3 and Level-4 Earth Observation products." />
 </head>
 <body class="min-h-full text-slate-800 flex flex-col">
 
   <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-indigo-200/70">
+  <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200/80">
     <div class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3 min-w-0">
-        <a href="../" class="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-500 text-white flex items-center justify-center shrink-0 shadow-sm ring-1 ring-indigo-500/30 hover:opacity-95 transition" title="Back to Catalogue Viewer">
+        <a href="../" class="h-9 w-9 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-slate-800 transition" title="Back to Catalogue Viewer">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a14.5 14.5 0 010 18M12 3a14.5 14.5 0 000 18" />
@@ -23,7 +23,7 @@
             <h1 class="text-base sm:text-lg font-semibold tracking-tight text-slate-900 truncate">
               Global L3/L4 EO Product Catalogue
             </h1>
-            <span class="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-xs">
+            <span class="inline-flex items-center rounded-md bg-slate-900 px-2 py-0.5 text-[11px] font-medium text-white">
               Advanced Search
             </span>
             <span id="status-badge" class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 tabular-nums">
@@ -31,7 +31,7 @@
             </span>
           </div>
           <p class="text-xs text-slate-500 truncate">
-            In-browser EO BM25 + 512-d EmbeddingGemma 2 + optional Qwen3-0.6B reranker across all 39,472 canonical products
+            In-browser keyword and semantic search across 39,472 products, with models downloaded from Hugging Face on demand
           </p>
         </div>
       </div>
@@ -53,7 +53,7 @@
           <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Method &amp; Models
+          How Search Works
         </button>
         <a href="https://github.com/do-me/global-EO-products-L3-L4" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-600 transition">
           <svg class="w-3.5 h-3.5 text-slate-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -90,9 +90,9 @@
         </div>
       </div>
     </div>
-    <!-- Subtle Progress / Activity Bar -->
+    <!-- Subtle Progress Bar -->
     <div id="load-progress-wrap" class="h-0.5 w-full bg-slate-100 overflow-hidden">
-      <div id="load-progress-bar" class="h-full bg-gradient-to-r from-indigo-600 via-violet-500 to-cyan-400 transition-all duration-200" style="width: 8%;"></div>
+      <div id="load-progress-bar" class="h-full bg-indigo-600 transition-all duration-200" style="width: 8%;"></div>
     </div>
   </header>
 
@@ -101,180 +101,131 @@
     <!-- Error Banner -->
     <div id="error-banner" class="hidden rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-800"></div>
 
-    <!-- Distinctive Atmospheric Neural Search Hero Banner -->
-    <section aria-label="Hybrid semantic search command center" class="orbital-hero relative overflow-hidden rounded-2xl border border-indigo-500/30 shadow-lg text-white p-4 sm:p-5 space-y-3.5">
-      <!-- Subtle Orbital Vector Backdrop -->
-      <svg class="pointer-events-none absolute -right-12 -top-16 w-[440px] h-[240px] opacity-20 text-cyan-300" viewBox="0 0 440 240" fill="none" aria-hidden="true">
-        <ellipse cx="260" cy="120" rx="210" ry="62" stroke="currentColor" stroke-width="1" stroke-dasharray="4 6" transform="rotate(-14 260 120)" />
-        <ellipse cx="260" cy="120" rx="150" ry="42" stroke="#818cf8" stroke-width="1" transform="rotate(11 260 120)" />
-        <circle cx="260" cy="120" r="88" stroke="currentColor" stroke-width="0.75" stroke-opacity="0.6" />
-        <circle cx="116" cy="94" r="3.5" fill="#22d3ee" />
-        <circle cx="384" cy="76" r="3" fill="#a5b4fc" />
-        <circle cx="322" cy="172" r="2.5" fill="#c4b5fd" />
-      </svg>
-
-      <!-- Live Pipeline Stage Strip -->
-      <div class="relative flex flex-wrap items-center justify-between gap-2 text-[11px]">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <span id="pipe-stage-1" class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-0.5 font-medium text-indigo-100 ring-1 ring-inset ring-white/15 tabular-nums">
-            <span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
-            1. Facets (39,472)
-          </span>
-          <span class="text-indigo-300/60">&rarr;</span>
-          <span id="pipe-stage-2" class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-0.5 font-medium text-indigo-100 ring-1 ring-inset ring-white/15">
-            <span id="pipe-dot-2" class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-            <span id="pipe-label-2">2. EO BM25 (Instant)</span>
-          </span>
-          <span class="text-indigo-300/60">&rarr;</span>
-          <span id="pipe-stage-3" class="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-0.5 font-medium text-slate-300 ring-1 ring-inset ring-white/10">
-            <span id="pipe-dot-3" class="h-1.5 w-1.5 rounded-full bg-slate-500"></span>
-            <span id="pipe-label-3">3. Qwen3-0.6B Rerank (Off)</span>
-          </span>
-        </div>
-        <div class="flex items-center gap-2 text-[11px] text-indigo-200/80">
-          <span id="device-pill" class="hidden inline-flex items-center rounded-full bg-cyan-400/15 px-2 py-0.5 text-[10px] font-semibold text-cyan-200 ring-1 ring-inset ring-cyan-400/30"></span>
-          <span class="hidden sm:inline">100% client-side &middot; weights cached from Hugging Face</span>
-        </div>
-      </div>
-
-      <!-- Primary Semantic Query Bar -->
-      <form id="search-form" class="relative flex flex-col lg:flex-row gap-2.5 items-stretch lg:items-center">
+    <!-- Clean Dark Grey Advanced Search Panel -->
+    <section aria-label="Advanced search bar and model controls" class="rounded-xl bg-slate-900 border border-slate-800 shadow-sm text-white p-4 sm:p-5 space-y-4">
+      <!-- Primary Query Bar -->
+      <form id="search-form" class="flex flex-col sm:flex-row gap-2.5 items-stretch sm:items-center">
         <div class="relative flex-1">
-          <svg class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
           </svg>
           <input id="query-input" type="search" autocomplete="off" spellcheck="false"
-            placeholder="Describe an EO policy need, biophysical variable, or indicator… (press / to focus, Enter to rank)"
-            class="w-full rounded-xl border border-white/20 bg-white pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/40 transition" />
+            placeholder="Describe an EO policy need, biophysical variable, or indicator… (press / to focus)"
+            class="w-full rounded-lg border border-slate-700 bg-white pl-10 pr-10 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition" />
           <button id="btn-clear-query" type="button" title="Clear query" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-0.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
-
-        <div class="flex items-center gap-2 shrink-0">
-          <select id="opt-mode" aria-label="Stage-1 Retrieval Mode" class="rounded-xl border border-white/15 bg-white/10 px-3 py-2.5 text-xs font-medium text-white backdrop-blur focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30">
-            <option value="bm25" class="text-slate-900">EO BM25 Lexical (Instant)</option>
-            <option value="hybrid" class="text-slate-900">Hybrid RRF (512-d + BM25)</option>
-            <option value="dense" class="text-slate-900">Dense 512-d Only</option>
-          </select>
-          <select id="opt-topk" aria-label="Results Top-K" class="rounded-xl border border-white/15 bg-white/10 px-3 py-2.5 text-xs font-medium text-white backdrop-blur focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30 tabular-nums">
-            <option value="10" class="text-slate-900">Top 10</option>
-            <option value="20" selected class="text-slate-900">Top 20</option>
-            <option value="50" class="text-slate-900">Top 50</option>
-          </select>
-          <button id="btn-search" type="submit" disabled class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white shadow-md hover:brightness-110 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300 transition shrink-0">
-            <span id="btn-search-label">Loading…</span>
-          </button>
-        </div>
+        <button id="btn-search" type="submit" disabled class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-indigo-500 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-400 transition shrink-0">
+          <span id="btn-search-label">Loading…</span>
+        </button>
       </form>
 
-      <!-- Example Policy Queries -->
-      <div class="relative flex items-center gap-1.5 flex-wrap">
-        <span class="text-[11px] font-medium text-indigo-200/80 mr-1">Example queries:</span>
-        <button type="button" class="example-btn rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-medium text-indigo-50 hover:bg-white/20 hover:border-cyan-300/40 transition"
+      <!-- Example Queries -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-xs text-slate-400">Try:</span>
+        <button type="button" class="example-btn rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700 hover:text-white transition"
           data-q="Global 30 meter multitemporal inland surface water occurrence, seasonality, and dynamic surface water extent" data-geo="global" data-grid="le300">
-          Surface Water (30 m)
+          Surface water (30 m)
         </button>
-        <button type="button" class="example-btn rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-medium text-indigo-50 hover:bg-white/20 hover:border-cyan-300/40 transition"
+        <button type="button" class="example-btn rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700 hover:text-white transition"
           data-q="High-resolution pan-European tree cover density, forest type, and canopy height for EU Biodiversity Strategy" data-geo="europe" data-grid="le100">
-          EU Forest &amp; Tree Cover
+          EU forest cover
         </button>
-        <button type="button" class="example-btn rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-medium text-indigo-50 hover:bg-white/20 hover:border-cyan-300/40 transition"
+        <button type="button" class="example-btn rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700 hover:text-white transition"
           data-q="Global atmospheric methane CH4 column concentrations and top-down surface flux inversions for Paris Agreement" data-geo="global" data-grid="">
-          Global CH4 Fluxes
+          Global methane fluxes
         </button>
-        <button type="button" class="example-btn rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-xs font-medium text-indigo-50 hover:bg-white/20 hover:border-cyan-300/40 transition"
+        <button type="button" class="example-btn rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-700 hover:text-white transition"
           data-q="Global sea surface temperature anomaly and ocean chlorophyll-a concentration for marine eutrophication monitoring" data-geo="global" data-grid="">
-          Ocean SST &amp; Chlorophyll-a
+          Ocean SST and chlorophyll-a
         </button>
       </div>
 
-      <!-- In-Browser Neural Model Toggles (Glass Cards) -->
-      <div class="relative grid grid-cols-1 lg:grid-cols-2 gap-3 pt-1">
-        <!-- Semantic Hybrid Card -->
-        <div class="rounded-xl border border-white/15 bg-white/[0.07] backdrop-blur-sm px-3.5 py-2.5 flex flex-col justify-between gap-2">
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs font-semibold text-white">Semantic Hybrid (EmbeddingGemma 2 &middot; 512-d)</span>
-                <span id="semantic-pill" class="inline-flex items-center rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-indigo-100 ring-1 ring-inset ring-white/15">
-                  Not loaded
-                </span>
-              </div>
-              <p class="mt-0.5 text-[11px] text-indigo-200/80 leading-snug">
-                512-d Matryoshka vectors (15 MB) + text-only ONNX <code class="font-mono text-cyan-200">q4</code> (~175 MB from Hugging Face, cached once), fused with BM25 via RRF.
-              </p>
+      <!-- Streamlined Search Mode & Optional Reranker Controls -->
+      <div class="pt-3 border-t border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <!-- Single Source of Truth: 3-way Search Mode Segmented Control -->
+        <div class="space-y-1">
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <span class="text-xs font-medium text-slate-300">Search mode</span>
+            <div role="group" aria-label="Search ranking mode" class="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700">
+              <button type="button" data-mode="bm25" aria-pressed="true" class="mode-tab rounded-md px-3 py-1 text-xs font-medium transition">
+                Keyword (BM25)
+              </button>
+              <button type="button" data-mode="hybrid" aria-pressed="false" class="mode-tab rounded-md px-3 py-1 text-xs font-medium transition">
+                Hybrid (Semantic + BM25)
+              </button>
+              <button type="button" data-mode="dense" aria-pressed="false" class="mode-tab rounded-md px-3 py-1 text-xs font-medium transition">
+                Semantic only
+              </button>
             </div>
-            <label class="inline-flex items-center gap-2 shrink-0 cursor-pointer select-none pt-0.5">
-              <input id="toggle-semantic" type="checkbox" class="sr-only peer" disabled />
-              <div class="relative w-9 h-5 bg-white/20 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-400/40 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-cyan-500 peer-disabled:opacity-40"></div>
-            </label>
+            <span id="semantic-status" class="text-[11px] text-slate-400"></span>
           </div>
-          <div id="semantic-progress-wrap" class="hidden space-y-1">
-            <div class="flex items-center justify-between text-[10px] text-indigo-100 tabular-nums">
-              <span id="semantic-progress-msg" class="truncate">Downloading…</span>
-              <span id="semantic-progress-pct" class="font-mono shrink-0 ml-2">0%</span>
-            </div>
-            <div class="h-1.5 w-full rounded-full bg-white/15 overflow-hidden">
-              <div id="semantic-progress-bar" class="h-full bg-cyan-400 transition-all duration-150" style="width: 0%;"></div>
-            </div>
-          </div>
+          <p id="mode-helper" class="text-[11px] text-slate-400">
+            Instant keyword search across title, keywords, and description. Switch to Hybrid for EmbeddingGemma 2 with 512 dimensions (~175 MB cached once from Hugging Face).
+          </p>
         </div>
 
-        <!-- Optional Stage-2 Qwen3 Reranker Card -->
-        <div class="rounded-xl border border-white/15 bg-white/[0.07] backdrop-blur-sm px-3.5 py-2.5 flex flex-col justify-between gap-2">
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="text-xs font-semibold text-white">Stage-2 Reranker (Qwen3-Reranker-0.6B)</span>
-                <span class="inline-flex items-center rounded-full bg-amber-400/20 px-2 py-0.5 text-[10px] font-semibold text-amber-200 ring-1 ring-inset ring-amber-300/30">
-                  Optional &middot; Slower, Better Top-10
-                </span>
-                <span id="reranker-pill" class="inline-flex items-center rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-indigo-100 ring-1 ring-inset ring-white/15">
-                  Off
-                </span>
-              </div>
-              <p class="mt-0.5 text-[11px] text-indigo-200/80 leading-snug">
-                Downloads <code class="font-mono text-amber-200">~995 MB</code> once from Hugging Face (<span class="font-mono">Apache-2.0</span>) and scores top candidates sequentially &mdash; slower (especially on CPU/WASM), but delivers stronger Top-10 ranking quality.
-              </p>
-            </div>
-            <label class="inline-flex items-center gap-2 shrink-0 cursor-pointer select-none pt-0.5">
+        <!-- Optional Stage-2 Reranker Toggle -->
+        <div class="flex flex-col lg:items-end gap-1 shrink-0">
+          <div class="flex items-center gap-2.5 flex-wrap">
+            <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
               <input id="toggle-reranker" type="checkbox" class="sr-only peer" disabled />
-              <div class="relative w-9 h-5 bg-white/20 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-amber-400/40 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500 peer-disabled:opacity-40"></div>
+              <div class="relative w-9 h-5 bg-slate-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-400 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-500 peer-disabled:opacity-40"></div>
+              <span class="text-xs font-medium text-slate-200 whitespace-nowrap">Rerank with Qwen3-0.6B</span>
             </label>
+            <span class="inline-flex items-center rounded-md bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-amber-300 border border-slate-700 whitespace-nowrap">
+              Slower but better top-10
+            </span>
           </div>
+          <p class="text-[11px] text-slate-400 lg:text-right">
+            Optional (~995 MB cached once from Hugging Face, Apache-2.0)<span id="device-pill" class="hidden text-slate-500"></span>
+          </p>
+        </div>
+      </div>
 
-          <div id="reranker-options" class="hidden pt-1.5 border-t border-white/10 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-indigo-100">
-            <label class="inline-flex items-center gap-1.5">
-              <span>Rerank pool:</span>
-              <select id="opt-rerank-pool" class="rounded border border-white/20 bg-slate-900/70 px-2 py-0.5 text-[11px] text-white focus:border-amber-400 focus:outline-none tabular-nums">
-                <option value="15">Top 15 (Faster)</option>
-                <option value="25" selected>Top 25 (Balanced)</option>
-                <option value="50">Top 50 (Thorough)</option>
-              </select>
-            </label>
-            <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Use pure Qwen3 reranker ordering instead of blending Stage-1 RRF + Qwen3 ranks (0.4 / 1.0)">
-              <input id="opt-pure" type="checkbox" class="rounded border-white/30 bg-white/10 text-amber-500 focus:ring-amber-400" />
-              <span>Pure rerank (no blend)</span>
-            </label>
-            <span id="reranker-webgpu-note" class="hidden text-amber-300 font-medium">WebGPU unavailable: WASM fallback will be slow (~2–5 s/doc).</span>
-          </div>
+      <!-- Progressive Disclosure: Qwen3 Reranker Options (visible only when enabled) -->
+      <div id="reranker-options" class="hidden pt-2.5 border-t border-slate-800 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-300">
+        <label class="inline-flex items-center gap-2">
+          <span class="text-slate-400">Rerank pool:</span>
+          <select id="opt-rerank-pool" class="rounded-md border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs text-white focus:border-indigo-500 focus:outline-none tabular-nums">
+            <option value="15">Top 15 (faster)</option>
+            <option value="25" selected>Top 25 (balanced)</option>
+            <option value="50">Top 50 (thorough)</option>
+          </select>
+        </label>
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Order strictly by Qwen3 scores instead of blending with first-stage ranking">
+          <input id="opt-pure" type="checkbox" class="rounded border-slate-600 bg-slate-800 text-indigo-500 focus:ring-indigo-500" />
+          <span>Use reranker order only</span>
+        </label>
+        <span id="reranker-status" class="text-[11px] text-slate-400"></span>
+        <span id="reranker-webgpu-note" class="hidden text-[11px] text-amber-300">WebGPU is unavailable in this browser, so CPU reranking will take several seconds per candidate.</span>
+      </div>
 
-          <div id="reranker-progress-wrap" class="hidden space-y-1">
-            <div class="flex items-center justify-between text-[10px] text-amber-100 tabular-nums">
-              <span id="reranker-progress-msg" class="truncate">Downloading Qwen3-Reranker-0.6B…</span>
-              <span id="reranker-progress-pct" class="font-mono shrink-0 ml-2">0%</span>
-            </div>
-            <div class="h-1.5 w-full rounded-full bg-white/15 overflow-hidden">
-              <div id="reranker-progress-bar" class="h-full bg-amber-400 transition-all duration-150" style="width: 0%;"></div>
-            </div>
-          </div>
+      <!-- Model Download Progress Bars (hidden unless actively downloading) -->
+      <div id="semantic-progress-wrap" class="hidden space-y-1 pt-1">
+        <div class="flex items-center justify-between text-[11px] text-slate-300 tabular-nums">
+          <span id="semantic-progress-msg" class="truncate">Downloading EmbeddingGemma 2…</span>
+          <span id="semantic-progress-pct" class="font-mono shrink-0 ml-2">0%</span>
+        </div>
+        <div class="h-1.5 w-full rounded-full bg-slate-800 overflow-hidden">
+          <div id="semantic-progress-bar" class="h-full bg-indigo-500 transition-all duration-150" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <div id="reranker-progress-wrap" class="hidden space-y-1 pt-1">
+        <div class="flex items-center justify-between text-[11px] text-amber-200 tabular-nums">
+          <span id="reranker-progress-msg" class="truncate">Downloading Qwen3-0.6B reranker…</span>
+          <span id="reranker-progress-pct" class="font-mono shrink-0 ml-2">0%</span>
+        </div>
+        <div class="h-1.5 w-full rounded-full bg-slate-800 overflow-hidden">
+          <div id="reranker-progress-bar" class="h-full bg-amber-500 transition-all duration-150" style="width: 0%;"></div>
         </div>
       </div>
     </section>
 
-    <!-- Full Catalogue Facet Filter Card (Exact filter criteria parity with docs/index.html) -->
-    <section aria-label="Faceted filter controls" class="bg-white rounded-xl border border-slate-200/80 shadow-sm p-4 space-y-3">
+    <!-- Facet Filter Card (Exact filter criteria parity with Catalogue Viewer) -->
+    <section aria-label="Filter controls" class="bg-white rounded-xl border border-slate-200/80 shadow-sm p-4 space-y-3">
       <!-- Primary Facet Row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2.5 items-end">
         <div id="pool-wrap" class="relative">
@@ -390,113 +341,114 @@
         </div>
       </div>
 
-      <!-- Expandable More Filters (Exact parity with docs/index.html + Min End Year) -->
-      <div id="more-filters-panel" class="hidden pt-3 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 items-end">
-        <div>
-          <label for="filter-source" class="block text-[11px] font-medium text-slate-500 mb-1">Source Catalogue (34)</label>
-          <select id="filter-source" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">All Sources</option>
-          </select>
-        </div>
+      <!-- Expandable More Filters (Exact parity with Catalogue Viewer + search guards) -->
+      <div id="more-filters-panel" class="hidden pt-3 border-t border-slate-200/80 space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2.5 items-end">
+          <div>
+            <label for="filter-source" class="block text-[11px] font-medium text-slate-500 mb-1">Source Catalogue (34)</label>
+            <select id="filter-source" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">All Sources</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-tier" class="block text-[11px] font-medium text-slate-500 mb-1">Jurisdiction Tier</label>
-          <select id="filter-tier" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">All Tiers</option>
-          </select>
-        </div>
+          <div>
+            <label for="filter-tier" class="block text-[11px] font-medium text-slate-500 mb-1">Jurisdiction Tier</label>
+            <select id="filter-tier" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">All Tiers</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-category" class="block text-[11px] font-medium text-slate-500 mb-1">Output Domain</label>
-          <select id="filter-category" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">All Domains</option>
-          </select>
-        </div>
+          <div>
+            <label for="filter-category" class="block text-[11px] font-medium text-slate-500 mb-1">Output Domain</label>
+            <select id="filter-category" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">All Domains</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-cadence" class="block text-[11px] font-medium text-slate-500 mb-1">Temporal Cadence</label>
-          <select id="filter-cadence" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">All Cadences</option>
-          </select>
-        </div>
+          <div>
+            <label for="filter-cadence" class="block text-[11px] font-medium text-slate-500 mb-1">Temporal Cadence</label>
+            <select id="filter-cadence" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">All Cadences</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-maturity" class="block text-[11px] font-medium text-slate-500 mb-1">Operational Maturity</label>
-          <select id="filter-maturity" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">All Statuses</option>
-          </select>
-        </div>
+          <div>
+            <label for="filter-maturity" class="block text-[11px] font-medium text-slate-500 mb-1">Operational Maturity</label>
+            <select id="filter-maturity" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">All Statuses</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-ontology" class="block text-[11px] font-medium text-slate-500 mb-1">Ontology Class</label>
-          <select id="filter-ontology" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">All Classes</option>
-          </select>
-        </div>
+          <div>
+            <label for="filter-ontology" class="block text-[11px] font-medium text-slate-500 mb-1">Ontology Class</label>
+            <select id="filter-ontology" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">All Classes</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-grid" class="block text-[11px] font-medium text-slate-500 mb-1">Adjudicated / Grid Spacing</label>
-          <select id="filter-grid" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
-            <option value="">Any Grid</option>
-            <option value="le10">&le; 10 m (Very High Res)</option>
-            <option value="le30">&le; 30 m (High Res)</option>
-            <option value="le100">&le; 100 m</option>
-            <option value="le250">&le; 250 m</option>
-            <option value="le300">&le; 300 m</option>
-            <option value="le1000">&le; 1 km</option>
-            <option value="le10000">&le; 10 km</option>
-            <option value="le50000">&le; 50 km</option>
-            <option value="le60000">&le; 60 km</option>
-            <option value="gt50000">&gt; 50 km (Coarse Global)</option>
-            <option value="__NULL__">Unlabelled Grid (null)</option>
-          </select>
-        </div>
+          <div>
+            <label for="filter-grid" class="block text-[11px] font-medium text-slate-500 mb-1">Adjudicated / Grid Spacing</label>
+            <select id="filter-grid" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 focus:border-indigo-500 focus:outline-none">
+              <option value="">Any Grid</option>
+              <option value="le10">&le; 10 m (Very High Res)</option>
+              <option value="le30">&le; 30 m (High Res)</option>
+              <option value="le100">&le; 100 m</option>
+              <option value="le250">&le; 250 m</option>
+              <option value="le300">&le; 300 m</option>
+              <option value="le1000">&le; 1 km</option>
+              <option value="le10000">&le; 10 km</option>
+              <option value="le50000">&le; 50 km</option>
+              <option value="le60000">&le; 60 km</option>
+              <option value="gt50000">&gt; 50 km (Coarse Global)</option>
+              <option value="__NULL__">Unlabelled Grid (null)</option>
+            </select>
+          </div>
 
-        <div>
-          <label for="filter-year" class="block text-[11px] font-medium text-slate-500 mb-1">Covers Year (e.g. 2022)</label>
-          <input id="filter-year" type="number" min="1950" max="2035" placeholder="Any year"
-            class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none tabular-nums" />
-        </div>
+          <div>
+            <label for="filter-year" class="block text-[11px] font-medium text-slate-500 mb-1">Covers Year (e.g. 2022)</label>
+            <input id="filter-year" type="number" min="1950" max="2035" placeholder="Any year"
+              class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none tabular-nums" />
+          </div>
 
-        <div>
-          <label for="filter-min-end-year" class="block text-[11px] font-medium text-slate-500 mb-1">Min End Year (Verified)</label>
-          <input id="filter-min-end-year" type="number" min="1970" max="2040" placeholder="Any end year"
-            class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none tabular-nums" />
-        </div>
+          <div>
+            <label for="filter-min-end-year" class="block text-[11px] font-medium text-slate-500 mb-1">Min End Year (Verified)</label>
+            <input id="filter-min-end-year" type="number" min="1970" max="2040" placeholder="Any end year"
+              class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none tabular-nums" />
+          </div>
 
-        <div class="flex items-center gap-4 pb-1.5 flex-wrap">
-          <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer select-none">
-            <input id="filter-has-url" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-            <span>Has Access URL</span>
-          </label>
-          <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer select-none" title="Exclude 622 deprecated, superseded, or obsolete-titled editions (matching the Catalogue Viewer)">
-            <input id="filter-exclude-deprecated" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-            <span>Hide Deprecated / Superseded</span>
-          </label>
+          <div class="flex items-center gap-4 pb-1.5 flex-wrap">
+            <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer select-none">
+              <input id="filter-has-url" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              <span>Has Access URL</span>
+            </label>
+            <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer select-none" title="Exclude 622 deprecated, superseded, or obsolete-titled editions (matching the Catalogue Viewer)">
+              <input id="filter-exclude-deprecated" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              <span>Hide Deprecated / Superseded</span>
+            </label>
+          </div>
         </div>
       </div>
 
-      <!-- Retrieval Behavior Controls -->
+      <!-- Compact Ranking Behavior Options -->
       <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-700">
-        <span class="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Retrieval guards:</span>
-        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Preserve products whose upstream API omitted grid/level/geo/cadence metadata (~70% null rate); uncheck for strict NULL-dropping">
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Keep products whose upstream API omitted grid, level, geography, or cadence metadata">
           <input id="opt-null-safe" type="checkbox" checked class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-          <span>Null-safe filters</span>
+          <span>Keep missing metadata (null-safe)</span>
         </label>
-        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Verified mode: drop unknown metadata (NULLs), require documented output-grid provenance, exact 1.0x grid cutoff, full-global footprints, and documented end-years">
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Strict scientific mode: drop missing metadata, require documented output grid provenance, exact 1.0x grid cutoff, full-global footprints, and documented end-years">
           <input id="opt-hard-limits" type="checkbox" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
           <span>Hard limits (verified)</span>
         </label>
-        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Collapse cross-platform mirrors and multi-year editions of the same product family (with sensor, variable, layer-role, cadence &amp; DOI guards)">
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none" title="Group cross-platform mirrors and multi-year editions of the same product family">
           <input id="opt-collapse" type="checkbox" checked class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
-          <span>Collapse mirrors &amp; editions</span>
+          <span>Group mirrors and editions</span>
         </label>
         <button id="btn-reset" type="button" class="ml-auto text-xs font-medium text-indigo-600 hover:text-indigo-800 px-2 py-0.5 rounded hover:bg-indigo-50 transition">
           Reset all filters
         </button>
       </div>
 
-      <!-- Active Filter Chips (Exact parity with docs/index.html) -->
+      <!-- Active Filter Chips -->
       <div id="active-chips-row" class="hidden pt-2 flex items-center gap-1.5 flex-wrap border-t border-slate-100">
         <span class="text-[11px] font-medium text-slate-400 mr-1">Active:</span>
         <div id="active-chips" class="flex items-center gap-1.5 flex-wrap"></div>
@@ -504,21 +456,31 @@
     </section>
 
     <!-- Live Reranking Banner -->
-    <div id="rerank-live-banner" class="hidden rounded-xl border border-amber-200 bg-amber-50/90 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs text-amber-900">
+    <div id="rerank-live-banner" class="hidden rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs text-amber-900">
       <div class="flex items-center gap-2.5 min-w-0">
         <span class="inline-block h-2 w-2 rounded-full bg-amber-500 animate-pulse shrink-0"></span>
-        <span id="rerank-live-text" class="truncate font-medium tabular-nums">Reranking Stage-1 candidates with Qwen3-Reranker-0.6B…</span>
+        <span id="rerank-live-text" class="truncate font-medium tabular-nums">Reranking top candidates with Qwen3-0.6B…</span>
       </div>
       <button id="btn-cancel-rerank" type="button" class="rounded-lg bg-white px-2.5 py-1 text-[11px] font-medium text-amber-900 ring-1 ring-inset ring-amber-300 hover:bg-amber-100 transition shrink-0">
-        Skip rerank (keep Stage-1)
+        Skip reranking
       </button>
     </div>
 
     <!-- Results Card -->
     <section aria-label="Search results" class="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col">
       <div class="px-4 py-2.5 border-b border-slate-200/80 bg-slate-50/70 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
-        <div id="results-summary" class="tabular-nums font-medium">Loading EO BM25 index &amp; catalogue shards…</div>
-        <div id="results-timing" class="tabular-nums text-slate-500"></div>
+        <div id="results-summary" class="tabular-nums font-medium">Loading EO BM25 index and catalogue shards…</div>
+        <div class="flex items-center gap-3">
+          <div id="results-timing" class="tabular-nums text-slate-500"></div>
+          <label class="inline-flex items-center gap-1.5">
+            <span class="text-slate-500">Show:</span>
+            <select id="opt-topk" aria-label="Results limit" class="rounded border border-slate-300 bg-white px-2 py-1 text-xs text-slate-700 focus:border-indigo-500 focus:outline-none tabular-nums">
+              <option value="10">Top 10</option>
+              <option value="20" selected>Top 20</option>
+              <option value="50">Top 50</option>
+            </select>
+          </label>
+        </div>
       </div>
 
       <div class="overflow-x-auto">
@@ -538,7 +500,7 @@
           <tbody id="results-body" class="divide-y divide-slate-100 bg-white">
             <tr>
               <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
-                Initializing 39,472 canonical L3/L4 EO products in browser…
+                Initializing 39,472 canonical L3/L4 EO products in your browser…
               </td>
             </tr>
           </tbody>
@@ -547,16 +509,16 @@
     </section>
   </main>
 
-  <footer class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-500 flex flex-wrap items-center justify-between gap-2 border-t border-slate-200/70">
-    <div>
-      <a href="../" class="underline hover:text-slate-700 font-medium">Catalogue Viewer</a> ·
-      <a href="../sources.html" class="underline hover:text-slate-700 font-medium">Sources Registry</a> ·
-      Code: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">MIT</a> ·
-      Data: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE-DATA" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">CC-BY-4.0</a> ·
-      Browser Models: <span class="font-mono">Apache-2.0</span> (EmbeddingGemma 2 &amp; Qwen3-0.6B ONNX).
+  <footer class="max-w-[1840px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 text-xs text-slate-500 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200/70">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+      <a href="../" class="underline hover:text-slate-700 font-medium">Catalogue Viewer</a>
+      <a href="../sources.html" class="underline hover:text-slate-700 font-medium">Sources Registry</a>
+      <span>Code: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">MIT</a></span>
+      <span>Data: <a href="https://github.com/do-me/global-EO-products-L3-L4/blob/main/LICENSE-DATA" target="_blank" rel="noopener noreferrer" class="underline hover:text-slate-700">CC-BY-4.0</a></span>
+      <span>Browser models: <span class="font-mono">Apache-2.0</span></span>
     </div>
     <div>
-      Click any row to inspect full provenance, collapsed mirrors &amp; OpenFreeMap bounding box.
+      Click any row to inspect full provenance, grouped mirrors, and OpenFreeMap bounding box.
     </div>
   </footer>
 
@@ -589,20 +551,20 @@
   <div id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[1px]">
     <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-xl w-full p-6 space-y-4">
       <div class="flex items-start justify-between gap-3">
-        <h2 id="info-modal-title" class="text-base font-semibold text-slate-900">In-Browser Search Architecture &amp; Models</h2>
+        <h2 id="info-modal-title" class="text-base font-semibold text-slate-900">How In-Browser Search Works</h2>
         <button id="info-close" type="button" class="rounded-lg p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
       <div class="space-y-2.5 text-xs text-slate-600 leading-relaxed">
         <p>
-          Everything runs <strong>100% locally inside your browser</strong> (Web Worker + WebGPU / WASM via <code class="font-mono text-slate-800">@huggingface/transformers</code> v4) across all <strong>39,472 canonical products</strong> (with an optional <em>Hide Deprecated / Superseded</em> filter in <em>More Filters</em> removing 622 superseded/obsolete editions, matching the Catalogue Viewer).
+          Everything runs <strong>100% locally in your browser</strong> using WebGPU (with automatic CPU WebAssembly fallback) via <code class="font-mono text-slate-800">@huggingface/transformers</code> v4 across all <strong>39,472 canonical products</strong>. Enable <em>Hide Deprecated / Superseded</em> under <em>More Filters</em> to exclude the 622 superseded or obsolete editions, matching the Catalogue Viewer.
         </p>
         <ul class="list-disc pl-4 space-y-1.5">
-          <li><strong>Instant 3-Field EO BM25 (3.1 MB):</strong> Exact lossless port of the DuckDB FTS BM25 engine (title 2.5&times;, keywords 1.5&times;, body 1.0&times;, EO chemistry/orthography normalization, Snowball Porter stemmer, exact 571 stopwords) &mdash; verified 0.00 score divergence against Python.</li>
-          <li><strong>Semantic Hybrid (EmbeddingGemma 2 &middot; 512-d &middot; Apache-2.0):</strong> Loads only the 270M text encoder (<code class="font-mono text-slate-800">q4</code>, ~175 MB) from <code class="font-mono text-slate-800">onnx-community/embeddinggemma-2-ONNX</code> plus 512-d Matryoshka per-row <code class="font-mono text-slate-800">int8</code> document vectors (15 MB), fused with BM25 via RRF (<code class="font-mono text-slate-800">w_dense=1.0, w_bm25=0.6, k=60</code>).</li>
-          <li><strong>Optional Stage-2 Reranker (Qwen3-Reranker-0.6B-ONNX &middot; Apache-2.0):</strong> Strictly opt-in (~995 MB <code class="font-mono text-slate-800">q4</code> from Hugging Face). Scores Stage-1 candidates sequentially using log-odds margins (<code class="font-mono text-slate-800">yes - no</code>) blended with Stage-1 RRF (<code class="font-mono text-slate-800">0.4 / 1.0, k=30</code>). Slower (especially without WebGPU), but yields stronger Top-10 ranking precision (78.12% Fam-nDCG@10 / 100% Hit@10 on the 60-query policy holdout).</li>
-          <li><strong>Verified Hard Limits &amp; Family Collapse:</strong> Mirrors exact Python guards &mdash; verified output-grid sources, exact 1.0&times; grid cutoffs, full-global footprints, documented end-years, and sensor/variable/layer-role/cadence/DOI family collapsing.</li>
+          <li><strong>Keyword (BM25) (3.1 MB):</strong> Exact lossless port of the DuckDB 3-field EO BM25 index (title 2.5&times;, keywords 1.5&times;, body 1.0&times;, EO term normalization, Porter stemmer, 571 stopwords) with zero score divergence from Python.</li>
+          <li><strong>Hybrid and Semantic modes (EmbeddingGemma 2 with 512 dimensions, Apache-2.0):</strong> Downloads the text-only 270M encoder (<code class="font-mono text-slate-800">q4</code>, ~175 MB cached once) from <code class="font-mono text-slate-800">onnx-community/embeddinggemma-2-ONNX</code> plus 15 MB of 512-dimension document vectors, fused with BM25 via reciprocal rank fusion.</li>
+          <li><strong>Optional Qwen3-0.6B reranker (Apache-2.0):</strong> Off by default (~995 MB <code class="font-mono text-slate-800">q4</code> cached once from Hugging Face). Scores top candidates sequentially for stronger top-10 precision (78.12% Fam-nDCG@10 and 100% Hit@10 on the 60-query policy holdout) at slower per-query latency.</li>
+          <li><strong>Verified Hard Limits and Family Grouping:</strong> Enforces verified output-grid sources, exact 1.0&times; grid cutoffs, full-global footprints, documented end years, and sensor, variable, layer-role, cadence, and DOI guards when grouping mirrors.</li>
         </ul>
       </div>
       <div class="flex justify-end pt-2 border-t border-slate-100">

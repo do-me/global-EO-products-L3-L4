@@ -75,7 +75,12 @@ function loadCatalogueRecords() {
   return records;
 }
 
-// 1. Text normalization & binary parser hardening tests
+// 1. Text normalization, UI style guards & binary parser hardening tests
+for (const rel of ['search/index.html', 'src/main.js', 'src/style.css']) {
+  const txt = fs.readFileSync(path.join(repoRoot, 'web_search', rel), 'utf8');
+  assert.ok(!txt.includes('\u00b7') && !txt.includes('&middot;'), `Found middle-dot separator in web_search/${rel}`);
+  assert.ok(!txt.includes('bg-gradient-') && !txt.includes('linear-gradient') && !txt.includes('radial-gradient'), `Found color gradient in web_search/${rel}`);
+}
 assert.equal(normalizeEoText('CO₂_flux & CH₄ burnt colour'), 'co2 carbon dioxide flux & ch4 methane burned color');
 assert.equal(normalizeEoText('chlorophyll-a sea-surface temperature'), 'chlorophyll a chla sea-surface temperature');
 assert.equal(normalizeEoText('sea surface temperature PM2.5'), 'sea surface temperature sst pm25 pm2.5 fine particulate');

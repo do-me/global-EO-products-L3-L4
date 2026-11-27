@@ -31,18 +31,25 @@ const GEO_LABELS = {
 };
 
 const MODE_LABELS = {
-  bm25: 'EO BM25 Lexical',
-  hybrid: 'Hybrid RRF (512-d + BM25)',
-  dense: 'Dense 512-d Only',
-  'bm25+qwen3': 'BM25 + Qwen3-0.6B Rerank',
-  'hybrid+qwen3': 'Hybrid 512-d + Qwen3-0.6B Rerank',
-  'dense+qwen3': 'Dense 512-d + Qwen3-0.6B Rerank',
+  bm25: 'Keyword (BM25)',
+  hybrid: 'Hybrid (512 dimensions + BM25)',
+  dense: 'Semantic only (512 dimensions)',
+  'bm25+qwen3': 'Keyword + Qwen3-0.6B rerank',
+  'hybrid+qwen3': 'Hybrid + Qwen3-0.6B rerank',
+  'dense+qwen3': 'Semantic + Qwen3-0.6B rerank',
+};
+
+const MODE_HELPERS = {
+  bm25: 'Instant keyword search across title, keywords, and description. Switch to Hybrid for EmbeddingGemma 2 with 512 dimensions (~175 MB cached once from Hugging Face).',
+  hybrid: 'Combines EmbeddingGemma 2 with 512 dimensions (15 MB vectors plus ~175 MB model cached once from Hugging Face) and keyword BM25.',
+  dense: 'Ranks strictly by semantic similarity using EmbeddingGemma 2 with 512 dimensions (~175 MB cached once from Hugging Face).',
 };
 
 const state = {
   ready: false,
   webgpuAvailable: false,
   manifest: null,
+  mode: 'bm25',
   semanticReady: false,
   semanticLoading: false,
   semanticDevice: null,
@@ -71,15 +78,9 @@ const dom = {
   loadProgressBar: document.getElementById('load-progress-bar'),
   errorBanner: document.getElementById('error-banner'),
 
-  pipeStage1: document.getElementById('pipe-stage-1'),
-  pipeDot2: document.getElementById('pipe-dot-2'),
-  pipeLabel2: document.getElementById('pipe-label-2'),
-  pipeStage3: document.getElementById('pipe-stage-3'),
-  pipeDot3: document.getElementById('pipe-dot-3'),
-  pipeLabel3: document.getElementById('pipe-label-3'),
-
-  toggleSemantic: document.getElementById('toggle-semantic'),
-  semanticPill: document.getElementById('semantic-pill'),
+  modeTabs: Array.from(document.querySelectorAll('.mode-tab')),
+  modeHelper: document.getElementById('mode-helper'),
+  semanticStatus: document.getElementById('semantic-status'),
   devicePill: document.getElementById('device-pill'),
   semanticProgressWrap: document.getElementById('semantic-progress-wrap'),
   semanticProgressMsg: document.getElementById('semantic-progress-msg'),
@@ -87,8 +88,8 @@ const dom = {
   semanticProgressBar: document.getElementById('semantic-progress-bar'),
 
   toggleReranker: document.getElementById('toggle-reranker'),
-  rerankerPill: document.getElementById('reranker-pill'),
   rerankerOptions: document.getElementById('reranker-options'),
+  rerankerStatus: document.getElementById('reranker-status'),
   rerankerWebgpuNote: document.getElementById('reranker-webgpu-note'),
   optRerankPool: document.getElementById('opt-rerank-pool'),
   optPure: document.getElementById('opt-pure'),
@@ -107,10 +108,8 @@ const dom = {
   btnSearch: document.getElementById('btn-search'),
   btnSearchLabel: document.getElementById('btn-search-label'),
 
-  optMode: document.getElementById('opt-mode'),
   optTopK: document.getElementById('opt-topk'),
 
-  // Exact docs/index.html filter controls
   poolWrap: document.getElementById('pool-wrap'),
   btnPool: document.getElementById('btn-pool'),
   poolLabel: document.getElementById('pool-label'),
@@ -247,53 +246,30 @@ function setActivityBusy(isBusy, label = 'Searching…') {
   }
 }
 
-function updatePipelineStrip() {
-  const mode = dom.optMode.value;
-  if (mode === 'hybrid') {
-    dom.pipeLabel2.textContent = state.semanticReady
-      ? `2. Hybrid RRF 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`
-      : '2. Hybrid RRF 512-d (Loading…)';
-    dom.pipeDot2.className = `h-1.5 w-1.5 rounded-full ${state.semanticReady ? 'bg-emerald-400' : 'bg-cyan-400 animate-pulse'}`;
-  } else if (mode === 'dense') {
-    dom.pipeLabel2.textContent = state.semanticReady
-      ? `2. Dense 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`
-      : '2. Dense 512-d (Loading…)';
-    dom.pipeDot2.className = `h-1.5 w-1.5 rounded-full ${state.semanticReady ? 'bg-emerald-400' : 'bg-cyan-400 animate-pulse'}`;
-  } else {
-    dom.pipeLabel2.textContent = '2. EO BM25 (Instant)';
-    dom.pipeDot2.className = 'h-1.5 w-1.5 rounded-full bg-indigo-400';
-  }
-
-  if (dom.toggleReranker.checked) {
-    dom.pipeStage3.className = 'inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-2.5 py-0.5 font-medium text-amber-100 ring-1 ring-inset ring-amber-300/30';
-    dom.pipeDot3.className = `h-1.5 w-1.5 rounded-full ${state.rerankerReady ? 'bg-amber-400' : 'bg-amber-300 animate-pulse'}`;
-    dom.pipeLabel3.textContent = state.rerankerReady
-      ? `3. Qwen3-0.6B Top-${dom.optRerankPool.value} (${(state.rerankerDevice || 'wasm').toUpperCase()})`
-      : '3. Qwen3-0.6B (Loading…)';
-  } else {
-    dom.pipeStage3.className = 'inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-0.5 font-medium text-slate-300 ring-1 ring-inset ring-white/10';
-    dom.pipeDot3.className = 'h-1.5 w-1.5 rounded-full bg-slate-500';
-    dom.pipeLabel3.textContent = '3. Qwen3-0.6B Rerank (Off)';
-  }
+function setModeUI(mode) {
+  state.mode = ['bm25', 'hybrid', 'dense'].includes(mode) ? mode : 'bm25';
+  dom.modeTabs.forEach((btn) => {
+    btn.setAttribute('aria-pressed', btn.dataset.mode === state.mode ? 'true' : 'false');
+  });
+  dom.modeHelper.textContent = MODE_HELPERS[state.mode] || MODE_HELPERS.bm25;
+  updateHeaderBadge();
 }
 
 function updateHeaderBadge() {
   if (!state.manifest) return;
   const nTotal = Number(state.manifest.n_docs || 0).toLocaleString();
-  const parts = [`${nTotal} canonical`];
+  let modeDesc = 'BM25 ready';
   if (state.semanticReady) {
-    parts.push(`Hybrid 512-d (${(state.semanticDevice || 'wasm').toUpperCase()})`);
-  } else {
-    parts.push('EO BM25 Ready');
+    const dev = state.semanticDevice === 'webgpu' ? 'WebGPU' : 'CPU';
+    modeDesc = state.mode === 'bm25' ? `BM25 active, Hybrid ready (${dev})` : `Hybrid ready (${dev})`;
   }
   if (dom.toggleReranker.checked && state.rerankerReady) {
-    parts.push('+ Qwen3-0.6B');
+    modeDesc += ' + Qwen3';
   }
-  dom.statusBadge.textContent = parts.join(' · ');
+  dom.statusBadge.textContent = `${nTotal} products (${modeDesc})`;
   dom.statusBadge.className = state.semanticReady
     ? 'inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-800 ring-1 ring-inset ring-emerald-600/20 tabular-nums'
-    : 'inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-800 ring-1 ring-inset ring-indigo-600/20 tabular-nums';
-  updatePipelineStrip();
+    : 'inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 tabular-nums';
 }
 
 function formatSpan(r) {
@@ -359,7 +335,7 @@ function updatePoolLabel() {
   }
   if (sources.length === 1) parts.push(sources[0]);
   else if (sources.length > 1) parts.push(`${sources.length} Sources`);
-  dom.poolLabel.textContent = parts.length ? parts.join(' · ') : 'All Pools';
+  dom.poolLabel.textContent = parts.length ? parts.join(', ') : 'All Pools';
 }
 
 function renderSourceOptions(sourceCounts) {
@@ -420,7 +396,7 @@ function buildSearchPayload() {
 
   return {
     query: dom.queryInput.value.trim(),
-    mode: dom.optMode.value,
+    mode: state.mode,
     use_reranker: dom.toggleReranker.checked,
     rerank_top_n: Number(dom.optRerankPool.value || 25),
     rerank_pure: dom.optPure.checked,
@@ -541,7 +517,7 @@ function syncUrlFromControls() {
   const params = new URLSearchParams();
   const q = dom.queryInput.value.trim();
   if (q) params.set('q', q);
-  if (dom.optMode.value !== 'bm25') params.set('mode', dom.optMode.value);
+  if (state.mode !== 'bm25') params.set('mode', state.mode);
   if (dom.toggleReranker.checked) params.set('rerank', '1');
   if (dom.optRerankPool.value !== '25') params.set('rpool', dom.optRerankPool.value);
   if (dom.optPure.checked) params.set('pure', '1');
@@ -590,10 +566,7 @@ function applyUrlToControls() {
   if (params.has('q')) dom.queryInput.value = params.get('q') || '';
   if (params.has('mode')) {
     const m = params.get('mode');
-    if (['bm25', 'hybrid', 'dense'].includes(m)) {
-      dom.optMode.value = m;
-      if (m !== 'bm25') dom.toggleSemantic.checked = true;
-    }
+    if (['bm25', 'hybrid', 'dense'].includes(m)) setModeUI(m);
   }
   if (params.get('rerank') === '1') {
     dom.toggleReranker.checked = true;
@@ -655,29 +628,21 @@ function applyUrlToControls() {
 
   dom.btnClearQuery.classList.toggle('hidden', !dom.queryInput.value);
   updateBadgesAndChips();
-  updatePipelineStrip();
 }
 
 function triggerEnableSemantic() {
   if (state.semanticReady || state.semanticLoading) return;
   state.semanticLoading = true;
-  dom.toggleSemantic.checked = true;
-  dom.semanticPill.textContent = 'Downloading…';
-  dom.semanticPill.className =
-    'inline-flex items-center rounded-full bg-cyan-400/20 px-2 py-0.5 text-[10px] font-medium text-cyan-200 ring-1 ring-inset ring-cyan-300/30';
+  dom.semanticStatus.textContent = 'Loading EmbeddingGemma 2…';
   dom.semanticProgressWrap.classList.remove('hidden');
-  updatePipelineStrip();
   worker.postMessage({ type: 'enableSemantic' });
 }
 
 function triggerEnableReranker() {
   if (state.rerankerReady || state.rerankerLoading) return;
   state.rerankerLoading = true;
-  dom.rerankerPill.textContent = 'Downloading…';
-  dom.rerankerPill.className =
-    'inline-flex items-center rounded-full bg-amber-400/20 px-2 py-0.5 text-[10px] font-medium text-amber-200 ring-1 ring-inset ring-amber-300/30';
+  dom.rerankerStatus.textContent = 'Downloading model…';
   dom.rerankerProgressWrap.classList.remove('hidden');
-  updatePipelineStrip();
   worker.postMessage({ type: 'enableReranker' });
 }
 
@@ -685,7 +650,6 @@ function runSearch() {
   if (!state.ready) return;
   const payload = buildSearchPayload();
   updateBadgesAndChips();
-  updatePipelineStrip();
   if (!payload.query) {
     dom.queryInput.focus();
     return;
@@ -711,33 +675,32 @@ function renderResults(data) {
   dom.btnDownload.disabled = rows.length === 0 || state.exporting;
 
   const modeName = MODE_LABELS[data.mode_used] || data.mode_used;
-  const colNote = data.total_collapsed_in_results > 0
-    ? ` · ${data.total_collapsed_in_results} mirrors collapsed`
-    : '';
-  let hardNote = '';
+  const details = [modeName];
+  if (data.total_collapsed_in_results > 0) {
+    details.push(`${data.total_collapsed_in_results} mirrors grouped`);
+  }
   if (data.hard_limits && data.unknown_metadata_counts) {
     const u = data.unknown_metadata_counts;
-    hardNote = ` · Hard limits verified (excluded unknown: grid ${Number(u.grid_meters || 0).toLocaleString()}, unverified-grid ${Number(u.unverified_grid_source || 0).toLocaleString()}, level ${Number(u.processing_level || 0).toLocaleString()}, geo ${Number(u.geographic_coverage || 0).toLocaleString()}, end-year ${Number(u.temporal_end_year || 0).toLocaleString()})`;
+    details.push(
+      `hard limits verified (excluded unknown: grid ${Number(u.grid_meters || 0).toLocaleString()}, unverified grid ${Number(u.unverified_grid_source || 0).toLocaleString()}, level ${Number(u.processing_level || 0).toLocaleString()}, geo ${Number(u.geographic_coverage || 0).toLocaleString()}, end year ${Number(u.temporal_end_year || 0).toLocaleString()})`,
+    );
   } else if (!data.null_safe_filter) {
-    hardNote = ' · Strict NULL-dropping active';
+    details.push('missing metadata excluded');
   }
+
   const supLabel = data.exclude_superseded ? 'active canonical' : 'canonical';
-  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} eligible ${supLabel} products (${modeName}${colNote}${hardNote})`;
+  dom.resultsSummary.textContent = `Showing ${rows.length} of ${data.eligible_after_filter.toLocaleString()} matching ${supLabel} products (${details.join(', ')})`;
 
-  if (dom.pipeStage1) {
-    dom.pipeStage1.innerHTML = `<span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>1. Facets (${data.eligible_after_filter.toLocaleString()} / ${Number(data.total_canonical || 39472).toLocaleString()})`;
-  }
-
-  const timingParts = [`Stage 1: ${Number(data.stage1_ms || 0).toFixed(0)} ms`];
-  if (data.rerank_ms > 0) timingParts.push(`Qwen3 rerank: ${(data.rerank_ms / 1000).toFixed(1)} s`);
+  const timingParts = [`Search: ${Number(data.stage1_ms || 0).toFixed(0)} ms`];
+  if (data.rerank_ms > 0) timingParts.push(`Rerank: ${(data.rerank_ms / 1000).toFixed(1)} s`);
   if (data.rerank_load_ms > 0) timingParts.push(`Warm-up: ${(data.rerank_load_ms / 1000).toFixed(1)} s`);
-  dom.resultsTiming.textContent = timingParts.join(' · ');
+  dom.resultsTiming.textContent = timingParts.join(', ');
 
   if (rows.length === 0) {
     dom.resultsBody.innerHTML = `
       <tr>
         <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
-          No matching products found under the current query and filters. Try broadening terms, enabling Semantic Hybrid, or relaxing filters.
+          No matching products found under the current query and filters. Try broadening terms, switching to Hybrid mode, or relaxing filters.
         </td>
       </tr>`;
     return;
@@ -757,11 +720,11 @@ function renderResults(data) {
       if (r.rerank_rank !== null && r.rerank_rank !== undefined && r.stage1_rank) {
         const diff = r.stage1_rank - r.rank;
         if (diff > 0) {
-          rankShift = `<div class="text-[10px] font-medium text-emerald-700 tabular-nums" title="Moved up from Stage-1 rank #${r.stage1_rank}">&uarr;${diff} <span class="text-slate-400">S1 #${r.stage1_rank}</span></div>`;
+          rankShift = `<div class="text-[10px] font-medium text-emerald-700 tabular-nums" title="Moved up from initial rank #${r.stage1_rank}">&uarr;${diff} <span class="text-slate-400">was #${r.stage1_rank}</span></div>`;
         } else if (diff < 0) {
-          rankShift = `<div class="text-[10px] font-medium text-slate-400 tabular-nums" title="Moved down from Stage-1 rank #${r.stage1_rank}">&darr;${Math.abs(diff)} S1 #${r.stage1_rank}</div>`;
+          rankShift = `<div class="text-[10px] font-medium text-slate-400 tabular-nums" title="Moved down from initial rank #${r.stage1_rank}">&darr;${Math.abs(diff)} was #${r.stage1_rank}</div>`;
         } else {
-          rankShift = `<div class="text-[10px] text-slate-400 tabular-nums">S1 #${r.stage1_rank}</div>`;
+          rankShift = `<div class="text-[10px] text-slate-400 tabular-nums">unchanged</div>`;
         }
       }
 
@@ -780,7 +743,7 @@ function renderResults(data) {
           <td class="py-3 pl-4 pr-2 align-top whitespace-nowrap">
             <div class="text-sm font-semibold text-slate-900 tabular-nums">#${r.rank}</div>
             <div class="mt-1 h-1 w-10 rounded-full bg-slate-100 overflow-hidden" title="Relative score ${esc(r.score)}">
-              <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500" style="width: ${relPct}%;"></div>
+              <div class="h-full rounded-full bg-indigo-600" style="width: ${relPct}%;"></div>
             </div>
             ${rankShift}
           </td>
@@ -789,9 +752,8 @@ function renderResults(data) {
               <span class="font-semibold text-slate-900 leading-snug">${esc(r.title)}</span>
               ${mirrorsBadge}
             </div>
-            <div class="mt-0.5 text-[11px] text-slate-500">
-              ${esc(r.producing_institution || r.source_catalogue)}
-              <span class="text-slate-300 mx-1">·</span>
+            <div class="mt-0.5 text-[11px] text-slate-500 flex items-center flex-wrap gap-x-2">
+              <span>${esc(r.producing_institution || r.source_catalogue)}</span>
               <span class="font-mono text-[10px] text-slate-400">${esc(r.source_catalogue)}</span>
             </div>
             ${r.snippet ? `<p class="mt-1 text-[11px] text-slate-600 leading-relaxed line-clamp-2">${esc(r.snippet)}</p>` : ''}
@@ -919,7 +881,7 @@ function mountBboxMap(bbox, crossesAntimeridian) {
       map.resize();
     });
     map.on('error', () => {
-      // Non-fatal tile/network error; keep container intact
+      // Non-fatal tile/network error
     });
     state.mapResizeTimer = setTimeout(() => {
       if (state.map === map) map.resize();
@@ -990,8 +952,8 @@ async function openDetailById(recordId, rankCtx = null) {
         <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Retrieval Scoring Signals</h3>
         <dl class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
           ${kvItem('Final Score', rankCtx.score, true)}
-          ${kvItem('Stage-1 Rank', rankCtx.stage1_rank ? `#${rankCtx.stage1_rank}` : '—', true)}
-          ${kvItem('Dense 512-d Cos / Rank', rankCtx.dense_score !== null && rankCtx.dense_score !== undefined ? `${rankCtx.dense_score} (#${rankCtx.dense_rank})` : '—', true)}
+          ${kvItem('Initial Rank', rankCtx.stage1_rank ? `#${rankCtx.stage1_rank}` : '—', true)}
+          ${kvItem('Semantic Cosine / Rank', rankCtx.dense_score !== null && rankCtx.dense_score !== undefined ? `${rankCtx.dense_score} (#${rankCtx.dense_rank})` : '—', true)}
           ${kvItem('BM25 Score / Rank', rankCtx.bm25_rank ? `${rankCtx.bm25_score} (#${rankCtx.bm25_rank})` : '—', true)}
           ${rankCtx.rerank_score !== null && rankCtx.rerank_score !== undefined ? kvItem('Qwen3 Margin / Prob', `${rankCtx.rerank_score} (${Math.round((rankCtx.rerank_prob || 0) * 100)}%, #${rankCtx.rerank_rank})`, true) : ''}
         </dl>
@@ -1002,7 +964,7 @@ async function openDetailById(recordId, rankCtx = null) {
       rankCtx && rankCtx.collapsed_items && rankCtx.collapsed_items.length > 0
         ? `
       <section class="space-y-2">
-        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Collapsed Mirrors &amp; Editions (${rankCtx.collapsed_siblings})</h3>
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Grouped Mirrors and Editions (${rankCtx.collapsed_siblings})</h3>
         <div class="divide-y divide-slate-100 rounded-lg border border-slate-200/80 bg-slate-50/50">
           ${rankCtx.collapsed_items
             .map(
@@ -1010,7 +972,7 @@ async function openDetailById(recordId, rankCtx = null) {
             <button type="button" data-sib-id="${esc(s.record_id)}" class="sib-btn w-full text-left px-3 py-2 hover:bg-indigo-50/70 transition flex items-center justify-between gap-2">
               <div class="min-w-0">
                 <div class="text-xs font-medium text-slate-800 truncate">${esc(s.title)}</div>
-                <div class="text-[10px] font-mono text-slate-400 truncate">${esc(s.source_catalogue)} · ${esc(s.record_id)}</div>
+                <div class="text-[10px] font-mono text-slate-400 truncate">${esc(s.source_catalogue)} (${esc(s.record_id)})</div>
               </div>
               <span class="text-[11px] text-indigo-600 shrink-0">Inspect &rarr;</span>
             </button>`,
@@ -1038,7 +1000,7 @@ async function openDetailById(recordId, rankCtx = null) {
 
       <section class="space-y-2">
         <div class="flex items-center justify-between">
-          <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Spatial Extent &amp; Resolution</h3>
+          <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Spatial Extent and Resolution</h3>
           ${det.bbox ? `<span class="text-[10px] font-mono text-slate-400 tabular-nums">W ${det.bbox[0]}°, S ${det.bbox[1]}°, E ${det.bbox[2]}°, N ${det.bbox[3]}°</span>` : ''}
         </div>
         <div id="drawer-bbox-map" class="h-48 w-full rounded-lg border border-slate-200 bg-slate-100 overflow-hidden"></div>
@@ -1053,7 +1015,7 @@ async function openDetailById(recordId, rankCtx = null) {
       </section>
 
       <section class="space-y-2">
-        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Institutional Attribution &amp; Sensors</h3>
+        <h3 class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Institutional Attribution and Sensors</h3>
         <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50/70 rounded-lg p-3 border border-slate-200/60">
           ${kvItem('Producing Institution', det.producing_institution)}
           ${kvItem('Hosting Platform', det.hosting_platform)}
@@ -1065,7 +1027,7 @@ async function openDetailById(recordId, rankCtx = null) {
           ${kvItem('Sentinel Missions', det.sentinel_missions)}
           ${kvItem('Platform / Sensor Raw', det.platform_sensor_raw)}
           ${kvItem('Temporal Cadence', det.temporal_cadence_class)}
-          ${kvItem('Temporal Window', `${det.temporal_start_raw || 'null'} → ${det.temporal_end_raw || 'null'}`)}
+          ${kvItem('Temporal Window', `${det.temporal_start_raw || 'null'} to ${det.temporal_end_raw || 'null'}`)}
           ${kvItem('License', det.license)}
         </dl>
       </section>
@@ -1153,7 +1115,6 @@ async function handleExportFormat(fmt) {
   }
 }
 
-// Worker crash / deserialization hardening
 worker.addEventListener('error', (ev) => {
   state.searching = false;
   state.reranking = false;
@@ -1169,7 +1130,6 @@ worker.addEventListener('messageerror', () => {
   showError('Search worker message deserialization error.');
 });
 
-// Worker message router
 worker.addEventListener('message', (ev) => {
   const msg = ev.data || {};
   if (msg.type === 'initProgress') {
@@ -1180,9 +1140,8 @@ worker.addEventListener('message', (ev) => {
     state.webgpuAvailable = Boolean(msg.webgpuAvailable);
     state.manifest = msg.manifest;
 
-    dom.toggleSemantic.disabled = false;
     dom.toggleReranker.disabled = false;
-    dom.devicePill.textContent = state.webgpuAvailable ? 'WebGPU Ready' : 'WASM CPU';
+    dom.devicePill.textContent = state.webgpuAvailable ? ' using WebGPU' : ' using CPU';
     dom.devicePill.classList.remove('hidden');
     if (!state.webgpuAvailable) {
       dom.rerankerWebgpuNote.classList.remove('hidden');
@@ -1211,16 +1170,16 @@ worker.addEventListener('message', (ev) => {
     updateHeaderBadge();
     setActivityBusy(false);
     const totalStr = Number(msg.manifest.n_docs).toLocaleString();
-    dom.resultsSummary.textContent = `Ready — enter a query or pick an example above to search all ${totalStr} canonical L3/L4 products.`;
+    dom.resultsSummary.textContent = `Ready to search all ${totalStr} canonical L3/L4 products.`;
     dom.resultsBody.innerHTML = `
       <tr>
         <td colspan="8" class="px-4 py-14 text-center text-sm text-slate-400">
-          EO BM25 index ready across all ${totalStr} canonical products (${(msg.manifest.bm25_gz_bytes / 1e6).toFixed(1)} MB). Enable <strong>Semantic Hybrid</strong> above to load 512-d EmbeddingGemma 2 in-browser.
+          Keyword index ready across all ${totalStr} products (${(msg.manifest.bm25_gz_bytes / 1e6).toFixed(1)} MB). Enter a query above or switch to <strong>Hybrid</strong> for semantic ranking.
         </td>
       </tr>`;
 
     applyUrlToControls();
-    if (dom.toggleSemantic.checked) triggerEnableSemantic();
+    if (state.mode !== 'bm25') triggerEnableSemantic();
     if (dom.toggleReranker.checked) triggerEnableReranker();
     if (dom.queryInput.value.trim()) runSearch();
   } else if (msg.type === 'modelProgress') {
@@ -1230,6 +1189,7 @@ worker.addEventListener('message', (ev) => {
       dom.semanticProgressPct.textContent = `${msg.pct}%`;
       dom.semanticProgressBar.style.width = `${msg.pct}%`;
     } else if (msg.target === 'reranker') {
+      if (!dom.toggleReranker.checked) return;
       dom.rerankerProgressWrap.classList.remove('hidden');
       dom.rerankerProgressMsg.textContent = msg.message;
       dom.rerankerProgressPct.textContent = `${msg.pct}%`;
@@ -1239,14 +1199,10 @@ worker.addEventListener('message', (ev) => {
     state.semanticReady = true;
     state.semanticLoading = false;
     state.semanticDevice = msg.device;
-    dom.toggleSemantic.checked = true;
-    dom.semanticPill.textContent = `Ready · ${String(msg.device).toUpperCase()}`;
-    dom.semanticPill.className =
-      'inline-flex items-center rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-300/30';
+    const devLabel = msg.device === 'webgpu' ? 'WebGPU' : 'CPU';
+    dom.semanticStatus.textContent = `EmbeddingGemma 2 loaded (${devLabel})`;
+    dom.semanticStatus.className = 'text-[11px] text-emerald-400';
     dom.semanticProgressWrap.classList.add('hidden');
-    if (dom.optMode.value === 'bm25') {
-      dom.optMode.value = 'hybrid';
-    }
     updateHeaderBadge();
     if (dom.queryInput.value.trim() && !state.searching) {
       runSearch();
@@ -1255,16 +1211,16 @@ worker.addEventListener('message', (ev) => {
     state.rerankerReady = true;
     state.rerankerLoading = false;
     state.rerankerDevice = msg.device;
-    dom.rerankerPill.textContent = `Ready · ${String(msg.device).toUpperCase()}`;
-    dom.rerankerPill.className =
-      'inline-flex items-center rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-300/30';
+    const devLabel = msg.device === 'webgpu' ? 'WebGPU' : 'CPU';
+    dom.rerankerStatus.textContent = `Qwen3-0.6B loaded (${devLabel})`;
+    dom.rerankerStatus.className = 'text-[11px] text-emerald-400';
     dom.rerankerProgressWrap.classList.add('hidden');
     updateHeaderBadge();
   } else if (msg.type === 'rerankProgress') {
     if (msg.searchSeq < state.latestSearchSeq) return;
     state.reranking = true;
     dom.rerankLiveBanner.classList.remove('hidden');
-    dom.rerankLiveText.textContent = `Reranking candidate ${msg.done} / ${msg.total} with Qwen3-Reranker-0.6B (~${msg.etaSec}s left)…`;
+    dom.rerankLiveText.textContent = `Reranking candidate ${msg.done} of ${msg.total} with Qwen3-0.6B (~${msg.etaSec}s remaining)…`;
   } else if (msg.type === 'rerankAborted') {
     if (msg.searchSeq < state.latestSearchSeq) return;
     state.reranking = false;
@@ -1280,8 +1236,8 @@ worker.addEventListener('message', (ev) => {
       state.reranking = true;
       dom.rerankLiveBanner.classList.remove('hidden');
       dom.rerankLiveText.textContent = state.rerankerReady
-        ? `Reranking top ${msg.rerank_pool} Stage-1 candidates with Qwen3-Reranker-0.6B…`
-        : `Stage-1 ready — downloading Qwen3-Reranker-0.6B (~995 MB) to rerank top ${msg.rerank_pool}…`;
+        ? `Reranking top ${msg.rerank_pool} candidates with Qwen3-0.6B…`
+        : `Initial results ready; downloading Qwen3-0.6B (~995 MB) to rerank top ${msg.rerank_pool}…`;
       setActivityBusy(true, 'Reranking…');
     } else {
       state.reranking = false;
@@ -1309,21 +1265,21 @@ worker.addEventListener('message', (ev) => {
     }
     if (msg.source === 'enableSemantic') {
       state.semanticLoading = false;
-      dom.toggleSemantic.checked = false;
-      dom.semanticPill.textContent = 'Load failed';
+      dom.semanticStatus.textContent = 'Model download failed';
+      dom.semanticStatus.className = 'text-[11px] text-rose-300';
       dom.semanticProgressWrap.classList.add('hidden');
+      setModeUI('bm25');
     } else if (msg.source === 'enableReranker') {
       state.rerankerLoading = false;
       dom.toggleReranker.checked = false;
       dom.rerankerOptions.classList.add('hidden');
-      dom.rerankerPill.textContent = 'Load failed';
+      dom.rerankerStatus.textContent = 'Model download failed';
       dom.rerankerProgressWrap.classList.add('hidden');
     }
     state.reranking = false;
     dom.rerankLiveBanner.classList.add('hidden');
     setActivityBusy(false);
-    updatePipelineStrip();
-    showError(`Browser engine error (${msg.source || 'worker'}): ${msg.message}`);
+    showError(`Browser search error (${msg.source || 'worker'}): ${msg.message}`);
   }
 });
 
@@ -1343,27 +1299,17 @@ function wireEvents() {
     dom.queryInput.focus();
   });
 
-  dom.toggleSemantic.addEventListener('change', () => {
-    if (dom.toggleSemantic.checked) {
-      if (dom.optMode.value === 'bm25') dom.optMode.value = 'hybrid';
-      if (!state.semanticReady) triggerEnableSemantic();
-      else if (dom.queryInput.value.trim()) runSearch();
-    } else {
-      dom.optMode.value = 'bm25';
+  dom.modeTabs.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const nextMode = btn.dataset.mode;
+      if (!nextMode || nextMode === state.mode) return;
+      setModeUI(nextMode);
+      if ((nextMode === 'hybrid' || nextMode === 'dense') && !state.semanticReady) {
+        triggerEnableSemantic();
+      }
       if (dom.queryInput.value.trim()) runSearch();
-    }
-    updatePipelineStrip();
-  });
-
-  dom.optMode.addEventListener('change', () => {
-    if (dom.optMode.value === 'hybrid' || dom.optMode.value === 'dense') {
-      dom.toggleSemantic.checked = true;
-      if (!state.semanticReady) triggerEnableSemantic();
-    } else {
-      dom.toggleSemantic.checked = false;
-    }
-    updatePipelineStrip();
-    if (dom.queryInput.value.trim()) runSearch();
+      else syncUrlFromControls();
+    });
   });
 
   dom.toggleReranker.addEventListener('change', () => {
@@ -1372,18 +1318,12 @@ function wireEvents() {
     if (on) {
       if (!state.rerankerReady) {
         triggerEnableReranker();
-      } else {
-        dom.rerankerPill.textContent = `Ready · ${(state.rerankerDevice || 'wasm').toUpperCase()}`;
-        dom.rerankerPill.className =
-          'inline-flex items-center rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-300/30';
       }
       if (dom.queryInput.value.trim()) runSearch();
     } else {
       worker.postMessage({ type: 'cancelRerank' });
       dom.rerankLiveBanner.classList.add('hidden');
-      dom.rerankerPill.textContent = state.rerankerReady ? 'Cached (Off)' : 'Off';
-      dom.rerankerPill.className =
-        'inline-flex items-center rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-indigo-100 ring-1 ring-inset ring-white/15';
+      dom.rerankerProgressWrap.classList.add('hidden');
       if (dom.queryInput.value.trim()) runSearch();
     }
     updateHeaderBadge();
@@ -1444,7 +1384,6 @@ function wireEvents() {
   ].forEach((el) => {
     el.addEventListener('change', () => {
       updateBadgesAndChips();
-      updatePipelineStrip();
       if (dom.queryInput.value.trim()) runSearch();
     });
   });
@@ -1510,10 +1449,8 @@ function wireEvents() {
     dom.optCollapse.checked = true;
     dom.optPure.checked = false;
     dom.optRerankPool.value = '25';
-    dom.optMode.value = state.semanticReady ? 'hybrid' : 'bm25';
-    dom.toggleSemantic.checked = state.semanticReady;
+    setModeUI(state.semanticReady ? 'hybrid' : 'bm25');
     updateBadgesAndChips();
-    updatePipelineStrip();
     if (dom.queryInput.value.trim()) runSearch();
   });
 
@@ -1600,7 +1537,6 @@ function wireEvents() {
 
 wireEvents();
 
-// Resolve parent root cleanly whether visited at /search/, /search, or /search/index.html
 const normalizedPageUrl =
   window.location.pathname.endsWith('/') || window.location.pathname.endsWith('.html')
     ? window.location.href
